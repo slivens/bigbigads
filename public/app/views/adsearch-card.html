@@ -7,9 +7,9 @@
             <i class="fa fa-eye font-yellow fa-fw"></i><span>{{card.see_date}}</span>
             <p/>
             <div>
-                <i class="fa fa-share-alt fa-3x font-yellow" ng-show="mother.getAdsType(card, mother.ADS_TYPE.timeline)"></i>
-                <i class="fa fa-columns fa-3x font-yellow" ng-show="mother.getAdsType(card, mother.ADS_TYPE.rightcolumn)"></i>
-                <i class="fa fa-mobile font-yellow fa-3x" ng-show="mother.getAdsType(card, mother.ADS_TYPE.mobile)"></i>
+                <i class="fa fa-share-alt fa-3x font-yellow" ng-show="mother.adSearcher.getAdsType(card, mother.adSearcher.ADS_TYPE.timeline)"></i>
+                <i class="fa fa-columns fa-3x font-yellow" ng-show="mother.adSearcher.getAdsType(card, mother.adSearcher.ADS_TYPE.rightcolumn)"></i>
+                <i class="fa fa-mobile font-yellow fa-3x" ng-show="mother.adSearcher.getAdsType(card, mother.adSearcher.ADS_TYPE.mobile)"></i>
             </div>
         </div>
 
@@ -19,7 +19,7 @@
                 <img src="{{mother.settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded">
             </div>
             <div class="col-md-10">
-                <div class="margin-bottom-5">{{card.adser_name}}</div>
+                <div class="margin-bottom-5"><span ng-bind-html="card.adser_name | toHtml"></span></div>
                 <div class="pull-left">
                 Sponsored
                 </div>
@@ -43,6 +43,13 @@
                 </div>
             </div>
             <div ng-if="card.type == 'Carousel'">
+				<h2>Carousel</h2>
+            </div>
+            <div ng-if="card.type == 'Canvas'">
+                <h2>Canvas</h2>
+            </div>
+            <div ng-if="card.type == 'SingleVideo'">
+                <h2>SingleVideo</h2>
             </div>
         </div>
         <!-- end description -->

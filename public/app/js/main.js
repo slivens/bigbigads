@@ -83,11 +83,17 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         remoteurl: '', //根目录
         imgRemoteBase:'http://image1.bigbigads.com:88',
         searchSetting:{
+            pageCount:10,//每一页的数据量
             orderBy:[{key:'first_view_date', value:'first_view'},
                      {key:'last_view_date', value:'last_view'},
-                     {key:'description', value:'description'},
+                     {key:'description', value:'content'},
                      {key:'adser_name', value:'advertiser'},
-                     {key:'engement', value:'engagement'}]
+                     {key:'engement', value:'engagement'},
+                     {key:'see_date', value:'view_count'},
+                     {key:'duration_days', value:'duration'}],
+            adsTypes:[{key:'timeline', value:'timeline'},
+                        {key:'rightcolumn', value:'rightcolumn'},
+                        {key:'phone', value:'phone'}]
         }
     };
 
@@ -95,7 +101,11 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
 
     return settings;
 }]);
-
+MetronicApp.filter('toHtml', ['$sce', function ($sce) {
+　　return function (text) {
+    　　return $sce.trustAsHtml(text);
+　　};
+}]);
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {
@@ -215,7 +225,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         insertBefore: ' #ng_load_plugins_before',
                         files: [
                             'js/adsearch/AdsearchController.js',
-                            '/bower_components/angular-deckgrid/angular-deckgrid.js'
+                            '/bower_components/angular-deckgrid/angular-deckgrid.js',
+                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
+                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
+                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
+                            '../assets/pages/scripts/components-bootstrap-select.min.js'
                         ]
                     });
                 }]

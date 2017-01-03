@@ -30,14 +30,15 @@
                 <div class="row">
                     <div class="col-md-6">
                         <!-- BEGIN HEADER SEARCH BOX -->
-                        <form class="search-form" action="extra_search.html" method="GET">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search" name="query">
-                                <span class="input-group-btn">
-						<a href="javascript:;" class="btn submit">
+                        <form class="search-form form-inline" ng-submit="search()">
+                            <div class="">
+                                <input type="text" class="form-control" placeholder="Search" ng-model="adSearcher.searchOption.text">
+                                <select class="form-control" ng-model="adSearcher.searchOption.type" ng-options="item.key as item.value for item in settings.searchSetting.adsTypes">
+                                    <option value="">ALL</option>
+                                </select>
+						<button type="submit" class="btn blue btn-outline">
 							<i class="icon-magnifier"></i>
-						</a>
-					</span>
+						</button>
                             </div>
                         </form>
                 <!-- END HEADER SEARCH BOX -->
@@ -52,15 +53,29 @@
         </div>
         <div class="clearfix">
             <div class="pull-right">
-                <select class="form-control" ng-model="searchOptions.orderBy" ng-options="item.key as item.value for item in settings.searchSetting.orderBy">
-                    <option value="">Sort By</option>
-                </select>
+                <form class="form-inline">
+                <div class="form-group">
+                    <button class="btn btn-warning btn-sm" ng-class="{'active':!adSearcher.params.sort.order}" ng-click="reverseSort()">Reverse</button>
+
+                    <select class="form-control bs-select" ng-model="adSearcher.params.sort.field" ng-options="item.key as item.value for item in settings.searchSetting.orderBy" ng-change="adSearcher.filter()">
+                        <option value="">Sort By</option>
+                    </select>
+                </div>
+                </form>
             </div>
             <div>
-                <span>About {{ads.total_count}} results</span>
+                <span>About {{adSearcher.ads.total_count}} results</span>
             </div>
         </div>
-        <div deckgrid source="ads.ads_info" class="deckgrid" cardTemplate="views/adsearch-card.html">
+        <div infinite-scroll="adSearcher.getMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
+            <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid" cardTemplate="views/adsearch-card.html">
+            </div>
+            <div class="clearfix">
+            </div>
+			<div class="text-center" ng-show="adSearcher.busy">
+				<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+				<span class="sr-only">Loading...</span>
+			</div>
         </div>
     </div>
 </div>
