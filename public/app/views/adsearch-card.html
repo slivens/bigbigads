@@ -1,0 +1,20 @@
+<div class="a-card">
+    <div class="portlet light aditem">
+        <div class="portlet-title">
+            <span class="font-yellow ">ads_id:{{card.event_id}}</span><br/>
+            <i class="fa fa-calendar font-yellow fa-fw"></i><span>{{card.first_see}}~{{card.last_see}}</span>
+            <i class="fa fa-clock-o font-yellow fa-fw"></i><span>{{card.duration_days}}</span>
+            <i class="fa fa-eye font-yellow fa-fw"></i><span>{{card.see_date}}</span>
+            <p/>
+            <div>
+                <i class="fa fa-share-alt fa-3x font-yellow"></i>
+                <i class="fa fa-columns fa-3x font-yellow" ng-show="(card.show_way & 4) > 0"></i>
+                <i class="fa fa-mobile font-yellow fa-3x"></i>
+                <i class="fa fa-laptop font-yellow fa-3x"></i>
+            </div>
+        </div>
+        <div class="aditem-ader">
+            <img src="{{mother.settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded">
+        </div>
+    </div>
+</div>

@@ -79,6 +79,9 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         assetsPath: '../assets',
         globalPath: '../assets/global',
         layoutPath: '../assets/layouts/layout3',
+        baseurl: '/app/',
+        remoteurl: '', //根目录
+        imgRemoteBase:'http://image1.bigbigads.com:88'
     };
 
     $rootScope.settings = settings;
@@ -119,7 +122,7 @@ MetronicApp.controller('QuickSidebarController', ['$scope', function($scope) {
     $scope.$on('$includeContentLoaded', function() {
        setTimeout(function(){
             QuickSidebar.init(); // init quick sidebar        
-        }, 2000)
+        }, 2000);
     });
 }]);
 
@@ -190,6 +193,23 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         files: [
                             'js/controllers/BlankController.js'
                         ] 
+                    });
+                }]
+            }
+        })
+        .state('adsearch', {
+            url:'/adsearch',
+            templateUrl:"views/adsearch.html",
+            data:{pageTitle:'Advertise Search'},
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: ' #ng_load_plugins_before',
+                        files: [
+                            'js/adsearch/AdsearchController.js',
+                            '/bower_components/angular-deckgrid/angular-deckgrid.js'
+                        ]
                     });
                 }]
             }
@@ -512,7 +532,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     });
                 }]
             }
-        })
+        });
 
 }]);
 

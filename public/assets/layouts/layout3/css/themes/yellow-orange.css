@@ -35,13 +35,13 @@ General
 Page Header 
 ******/
 .page-header {
-  background-color: #fff;
+  background-color: #444d58;
   /* Page Header Top */
   /* Page Header Menu */ }
   .page-header .page-header-top {
     /* Top menu */ }
     .page-header .page-header-top.fixed {
-      background: #fff !important;
+      background: #444d58 !important;
       box-shadow: 0px 1px 10px 0px rgba(50, 50, 50, 0.2); }
     .page-header .page-header-top .top-menu .navbar-nav {
       /* Top Links */
@@ -468,7 +468,7 @@ Page Footer
     .page-header .top-menu {
       background-color: #fff; }
       .page-header-fixed-mobile .page-header .top-menu {
-        background-color: #fff; }
+        background-color: #444d58; }
       .page-header .top-menu .navbar-nav > li.dropdown-user .dropdown-toggle {
         background-color: white; }
         .page-header-fixed-mobile .page-header .top-menu .navbar-nav > li.dropdown-user .dropdown-toggle {

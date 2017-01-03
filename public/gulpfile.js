@@ -9,7 +9,7 @@ var rename = require("gulp-rename");
 var uglify = require("gulp-uglify");
 var rtlcss = require("gulp-rtlcss");  
 var connect = require('gulp-connect');
-
+const jshint = require('gulp-jshint');
 //*** Localhost server tast
 gulp.task('localhost', function() {
   connect.server();
@@ -129,4 +129,14 @@ gulp.task('prettify', function() {
     		unformatted: ['pre', 'code']
    		})).
    		pipe(gulp.dest('./'));
+});
+
+gulp.task('lint', function()  {
+    gulp.src('./app/js/**/*.js')
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
+});
+
+gulp.task('lint:watch', function() {
+    gulp.watch('./app/js/**/*.js', ['lint']);
 });

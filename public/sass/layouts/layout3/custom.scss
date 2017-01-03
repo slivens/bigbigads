@@ -1,1 +1,26 @@
 /* here you can put your own css to customize and override the theme */
+
+.deckgrid   {
+}
+.deckgrid[deckgrid]::before {
+    /* Specifies that the grid should have a maximum of 4 columns. Each column will have the classes 'column' and 'column-1-4' */
+    content: '3 .column.column-1-4';
+    font-size: 0; /* See https://github.com/akoenig/angular-deckgrid/issues/14#issuecomment-35728861 */
+    visibility: hidden;
+}
+
+.deckgrid .column {
+    float: left;
+}
+
+.deckgrid .column-1-4 {
+    width: 33.33333%;
+}
+
+.aditem {
+    margin:16px;
+    i {
+        // display:inline-block;
+        // margin-right:3px;
+    }
+}

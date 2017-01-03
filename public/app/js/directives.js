@@ -40,7 +40,7 @@ MetronicApp.directive('ngSpinnerBar', ['$rootScope', '$state',
             }
         };
     }
-])
+]);
 
 // Handle global LINK click
 MetronicApp.directive('a',

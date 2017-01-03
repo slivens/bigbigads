@@ -393,9 +393,10 @@ Page Header
         opacity: 1 ;
         filter: alpha(opacity=100) ; }
   .page-header .page-header-menu {
-    display: block;
+    float: left;
+    margin: 13px 0 0;
+    padding: 0;
     height: 51px;
-    clear: both;
     /* Mega menu */
     /* Search box */ }
     .page-header .page-header-menu .hor-menu {

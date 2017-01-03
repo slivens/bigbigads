@@ -4,10 +4,279 @@
         <!-- BEGIN LOGO -->
         <div class="page-logo">
             <a ui-sref="dashboard">
-                <img src="{{settings.layoutPath}}/img/logo-default.jpg" alt="logo" class="logo-default"> </a>
+                <img src="{{settings.layoutPath}}/img/logo.png" alt="logo" class="logo-default"> </a>
         </div>
         <!-- END LOGO -->
-        <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+  <!-- BEGIN HEADER MENU -->
+        <div class="page-header-menu">
+        <!-- BEGIN MEGA MENU -->
+        <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
+        <!-- DOC: Remove dropdown-menu-hover and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
+        <div class="hor-menu">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a ui-sref="adsearch">Facebook</a>
+                </li>
+                <li class="menu-dropdown mega-menu-dropdown ">
+                    <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="#" class="dropdown-toggle"> AngularJS
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu" style="min-width: 410px">
+                        <li>
+                            <div class="mega-menu-content">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul class="mega-menu-submenu">
+                                            <li>
+                                                <h3>AngularJS Features</h3>
+                                            </li>
+                                            <li>
+                                                <a ui-sref="uibootstrap" class="iconify">
+                                                    <i class="icon-puzzle"></i> UI Bootstrap </a>
+                                            </li>
+                                            <li>
+                                                <a ui-sref="fileupload" class="iconify">
+                                                    <i class="icon-paper-clip"></i> File Upload </a>
+                                            </li>
+                                            <li>
+                                                <a ui-sref="uiselect" class="iconify">
+                                                    <i class="icon-check"></i> UI Select </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="mega-menu-submenu">
+                                            <li>
+                                                <h3>Sample Column</h3>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="iconify">
+                                                    <i class="icon-cursor-move"></i> Sample Section 1 </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="iconify">
+                                                    <i class="icon-pin"></i> Sample Section 1 </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="iconify">
+                                                    <i class="icon-bar-chart"></i> Sample Section 1 </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-dropdown mega-menu-dropdown mega-menu-full ">
+                    <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle"> jQuery
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <div class="mega-menu-content">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <ul class="mega-menu-submenu">
+                                            <li>
+                                                <h3>jQuery Integration</h3>
+                                            </li>
+                                            <li>
+                                                <a ui-sref="formtools">
+                                                    <i class="icon-puzzle"></i> Form Tools </a>
+                                            </li>
+                                            <li>
+                                                <a ui-sref="pickers">
+                                                    <i class="icon-calendar"></i> Date & Time Pickers </a>
+                                            </li>
+                                            <li>
+                                                <a ui-sref="dropdowns">
+                                                    <i class="icon-refresh"></i> Custom Dropdowns </a>
+                                            </li>
+                                            <li>
+                                                <a ui-sref="tree">
+                                                    <i class="icon-share"></i> Tree View </a>
+                                            </li>
+                                            <li>
+                                                <a ui-sref="datatablesmanaged">
+                                                    <i class="icon-tag"></i> Managed Datatables </a>
+                                            </li>
+                                            <li>
+                                                <a ui-sref="datatablesajax">
+                                                    <i class="icon-refresh"></i> Ajax Datatables </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <ul class="mega-menu-submenu">
+                                            <li>
+                                                <h3>Sample Column</h3>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link
+                                                    <span class="badge badge-roundless badge-danger">new</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <ul class="mega-menu-submenu">
+                                            <li>
+                                                <h3>Sample Column</h3>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link
+                                                    <span class="badge badge-roundless badge-success">new</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <ul class="mega-menu-submenu">
+                                            <li>
+                                                <h3>Sample Column</h3>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-dropdown classic-menu-dropdown ">
+                    <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;"> Pages
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-left">
+                        <li>
+                            <a ui-sref="profile.dashboard" id="sidebar_menu_link_profile">
+                                <i class="icon-user"></i> User Profile </a>
+                        </li>
+                        <li>
+                            <a ui-sref="todo">
+                                <i class="icon-check"></i> Task & Todo </a>
+                        </li>
+                        <li class=" dropdown-submenu">
+                            <a href="javascript:;">
+                                <i class="icon-puzzle"></i> Multi Level </a>
+                            <ul class="dropdown-menu">
+                                <li class=" ">
+                                    <a href="javascript:;">
+                                        <i class="icon-settings"></i> Item 1 </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="javascript:;">
+                                        <i class="icon-user"></i> Item 2 </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="javascript:;">
+                                        <i class="icon-globe"></i> Item 3 </a>
+                                </li>
+                                <li class=" dropdown-submenu">
+                                    <a href="#">
+                                        <i class="icon-folder"></i> Sub Items </a>
+                                    <ul class="dropdown-menu">
+                                        <li class=" ">
+                                            <a href="javascript:;"> Item 1 </a>
+                                        </li>
+                                        <li class=" ">
+                                            <a href="javascript:;"> Item 2 </a>
+                                        </li>
+                                        <li class=" ">
+                                            <a href="javascript:;"> Item 3 </a>
+                                        </li>
+                                        <li class=" ">
+                                            <a href="javascript:;"> Item 4 </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class=" ">
+                                    <a href="javascript:;">
+                                        <i class="icon-share"></i> Item 4 </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="javascript:;">
+                                        <i class="icon-bar-chart"></i> Item 5 </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a ui-sref="blank">
+                                <i class="icon-refresh"></i>
+                                <span class="title">Blank Page</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- END MEGA MENU -->
+</div>
+<!-- END HEADER MENU -->
+
+              <!-- BEGIN RESPONSIVE MENU TOGGLER -->
         <a href="javascript:;" class="menu-toggler"></a>
         <!-- END RESPONSIVE MENU TOGGLER -->
         <!-- BEGIN TOP NAVIGATION MENU -->
@@ -348,288 +617,8 @@
             </ul>
         </div>
         <!-- END TOP NAVIGATION MENU -->
+
     </div>
 </div>
 <!-- END HEADER TOP -->
-<!-- BEGIN HEADER MENU -->
-<div class="page-header-menu">
-    <div class="container">
-        <!-- BEGIN HEADER SEARCH BOX -->
-        <form class="search-form" action="extra_search.html" method="GET">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search" name="query">
-                <span class="input-group-btn">
-                    <a href="javascript:;" class="btn submit">
-                        <i class="icon-magnifier"></i>
-                    </a>
-                </span>
-            </div>
-        </form>
-        <!-- END HEADER SEARCH BOX -->
-        <!-- BEGIN MEGA MENU -->
-        <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
-        <!-- DOC: Remove dropdown-menu-hover and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
-        <div class="hor-menu">
-            <ul class="nav navbar-nav">
-                <li class="active">
-                    <a ui-sref="dashboard">Dashboard</a>
-                </li>
-                <li class="menu-dropdown mega-menu-dropdown ">
-                    <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="#" class="dropdown-toggle"> AngularJS
-                        <i class="fa fa-angle-down"></i>
-                    </a>
-                    <ul class="dropdown-menu" style="min-width: 410px">
-                        <li>
-                            <div class="mega-menu-content">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <ul class="mega-menu-submenu">
-                                            <li>
-                                                <h3>AngularJS Features</h3>
-                                            </li>
-                                            <li>
-                                                <a ui-sref="uibootstrap" class="iconify">
-                                                    <i class="icon-puzzle"></i> UI Bootstrap </a>
-                                            </li>
-                                            <li>
-                                                <a ui-sref="fileupload" class="iconify">
-                                                    <i class="icon-paper-clip"></i> File Upload </a>
-                                            </li>
-                                            <li>
-                                                <a ui-sref="uiselect" class="iconify">
-                                                    <i class="icon-check"></i> UI Select </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <ul class="mega-menu-submenu">
-                                            <li>
-                                                <h3>Sample Column</h3>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="iconify">
-                                                    <i class="icon-cursor-move"></i> Sample Section 1 </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="iconify">
-                                                    <i class="icon-pin"></i> Sample Section 1 </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="iconify">
-                                                    <i class="icon-bar-chart"></i> Sample Section 1 </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu-dropdown mega-menu-dropdown mega-menu-full ">
-                    <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle"> jQuery
-                        <i class="fa fa-angle-down"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <div class="mega-menu-content">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <ul class="mega-menu-submenu">
-                                            <li>
-                                                <h3>jQuery Integration</h3>
-                                            </li>
-                                            <li>
-                                                <a ui-sref="formtools">
-                                                    <i class="icon-puzzle"></i> Form Tools </a>
-                                            </li>
-                                            <li>
-                                                <a ui-sref="pickers">
-                                                    <i class="icon-calendar"></i> Date & Time Pickers </a>
-                                            </li>
-                                            <li>
-                                                <a ui-sref="dropdowns">
-                                                    <i class="icon-refresh"></i> Custom Dropdowns </a>
-                                            </li>
-                                            <li>
-                                                <a ui-sref="tree">
-                                                    <i class="icon-share"></i> Tree View </a>
-                                            </li>
-                                            <li>
-                                                <a ui-sref="datatablesmanaged">
-                                                    <i class="icon-tag"></i> Managed Datatables </a>
-                                            </li>
-                                            <li>
-                                                <a ui-sref="datatablesajax">
-                                                    <i class="icon-refresh"></i> Ajax Datatables </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <ul class="mega-menu-submenu">
-                                            <li>
-                                                <h3>Sample Column</h3>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link
-                                                    <span class="badge badge-roundless badge-danger">new</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <ul class="mega-menu-submenu">
-                                            <li>
-                                                <h3>Sample Column</h3>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link
-                                                    <span class="badge badge-roundless badge-success">new</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <ul class="mega-menu-submenu">
-                                            <li>
-                                                <h3>Sample Column</h3>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu-dropdown classic-menu-dropdown ">
-                    <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;"> Pages
-                        <i class="fa fa-angle-down"></i>
-                    </a>
-                    <ul class="dropdown-menu pull-left">
-                        <li>
-                            <a ui-sref="profile.dashboard" id="sidebar_menu_link_profile">
-                                <i class="icon-user"></i> User Profile </a>
-                        </li>
-                        <li>
-                            <a ui-sref="todo">
-                                <i class="icon-check"></i> Task & Todo </a>
-                        </li>
-                        <li class=" dropdown-submenu">
-                            <a href="javascript:;">
-                                <i class="icon-puzzle"></i> Multi Level </a>
-                            <ul class="dropdown-menu">
-                                <li class=" ">
-                                    <a href="javascript:;">
-                                        <i class="icon-settings"></i> Item 1 </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="javascript:;">
-                                        <i class="icon-user"></i> Item 2 </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="javascript:;">
-                                        <i class="icon-globe"></i> Item 3 </a>
-                                </li>
-                                <li class=" dropdown-submenu">
-                                    <a href="#">
-                                        <i class="icon-folder"></i> Sub Items </a>
-                                    <ul class="dropdown-menu">
-                                        <li class=" ">
-                                            <a href="javascript:;"> Item 1 </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="javascript:;"> Item 2 </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="javascript:;"> Item 3 </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="javascript:;"> Item 4 </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class=" ">
-                                    <a href="javascript:;">
-                                        <i class="icon-share"></i> Item 4 </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="javascript:;">
-                                        <i class="icon-bar-chart"></i> Item 5 </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a ui-sref="blank">
-                                <i class="icon-refresh"></i>
-                                <span class="title">Blank Page</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <!-- END MEGA MENU -->
-    </div>
-</div>
-<!-- END HEADER MENU -->
+

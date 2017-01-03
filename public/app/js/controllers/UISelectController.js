@@ -350,7 +350,7 @@ angular.module('MetronicApp').controller('UISelectController', function($scope, 
             delete item.isTag;
             vm.people.push(item);
         }
-    }
+    };
 
     vm.country = {};
     vm.countries = [ // Taken from https://gist.github.com/unceus/6501985

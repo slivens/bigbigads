@@ -6,7 +6,7 @@ var TableAjax = function () {
             rtl: App.isRTL(),
             autoclose: true
         });
-    }
+    };
 
     var handleRecords = function () {
 
@@ -72,7 +72,7 @@ var TableAjax = function () {
                 });
             }
         });
-    }
+    };
 
     return {
 
