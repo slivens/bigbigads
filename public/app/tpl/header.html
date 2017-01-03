@@ -1,13 +1,13 @@
 <!-- BEGIN HEADER TOP -->
 <div class="page-header-top">
-    <div class="container">
+    <div class="container-fluid">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
             <a ui-sref="dashboard">
                 <img src="{{settings.layoutPath}}/img/logo.png" alt="logo" class="logo-default"> </a>
         </div>
         <!-- END LOGO -->
-  <!-- BEGIN HEADER MENU -->
+        <!-- BEGIN HEADER MENU -->
         <div class="page-header-menu">
         <!-- BEGIN MEGA MENU -->
         <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
@@ -17,15 +17,17 @@
                 <li class="active">
                     <a ui-sref="adsearch">Facebook</a>
                 </li>
+                <li class="disabled" >
+                    <a href="#">Instgram</a>
+                </li>
+
                 <li class="menu-dropdown mega-menu-dropdown ">
                     <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="#" class="dropdown-toggle"> AngularJS
                         <i class="fa fa-angle-down"></i>
                     </a>
-                    <ul class="dropdown-menu" style="min-width: 410px">
+                    <ul class="dropdown-menu dropdown-menu-fw" style="min-width: 410px">
                         <li>
                             <div class="mega-menu-content">
-                                <div class="row">
-                                    <div class="col-md-6">
                                         <ul class="mega-menu-submenu">
                                             <li>
                                                 <h3>AngularJS Features</h3>
@@ -43,27 +45,6 @@
                                                     <i class="icon-check"></i> UI Select </a>
                                             </li>
                                         </ul>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <ul class="mega-menu-submenu">
-                                            <li>
-                                                <h3>Sample Column</h3>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="iconify">
-                                                    <i class="icon-cursor-move"></i> Sample Section 1 </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="iconify">
-                                                    <i class="icon-pin"></i> Sample Section 1 </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="iconify">
-                                                    <i class="icon-bar-chart"></i> Sample Section 1 </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                         </li>
                     </ul>
@@ -104,99 +85,6 @@
                                             <li>
                                                 <a ui-sref="datatablesajax">
                                                     <i class="icon-refresh"></i> Ajax Datatables </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <ul class="mega-menu-submenu">
-                                            <li>
-                                                <h3>Sample Column</h3>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link
-                                                    <span class="badge badge-roundless badge-danger">new</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <ul class="mega-menu-submenu">
-                                            <li>
-                                                <h3>Sample Column</h3>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link
-                                                    <span class="badge badge-roundless badge-success">new</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <ul class="mega-menu-submenu">
-                                            <li>
-                                                <h3>Sample Column</h3>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-angle-right"></i> Sample Link</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -621,4 +509,34 @@
     </div>
 </div>
 <!-- END HEADER TOP -->
+<!-- BEGIN TAB MENU -->
+<div class="page-tab-menu">
+    <div class="container">
+    <!-- BEGIN MEGA MENU -->
+    <div class="hor-menu">
+        <ul class="nav navbar-nav">
+            <li class="active">
+                <a ui-sref="adsearch">AD Search</a>
+            </li>
+            <li>
+                <a ui-sref="adserSearch">Advertiser Search</a>
+            </li>
+            <li>
+                <a ui-sref="adserSearch">Ad Analysis</a>
+            </li>
+            <li>
+                <a ui-sref="adserSearch">Ranking</a>
+            </li>
+            <li>
+                <a ui-sref="adserSearch">Bookmark</a>
+            </li>
+            <li class="disabled">
+                <a href="#">Moniter</a>
+            </li>
+        </ul>
+    </div>
+    <!-- END MEGA MENU -->
+    </div>
+</div>
+<!-- END TAB MENU -->
 

@@ -526,8 +526,11 @@ Page Header
 
     /* Page Header Menu */
     .page-header-menu {
-        float:left;
         margin: 13px 0 0;
+    }
+
+    .page-header-menu, .page-tab-menu {
+        float:left;
         padding: 0;
 
         // width:600px;
@@ -784,7 +787,7 @@ Page Header
 @media (min-width: $screen-md-min) { /* 992px */    
     .page-header {
         /* Page Header Menu */
-        .page-header-menu {
+        .page-header-menu,.page-tab-menu {
             &.fixed {
                 width: 100%;
                 position: fixed;
@@ -858,7 +861,7 @@ Page Header
             }
         }
 
-        .page-header-menu {
+        .page-header-menu,.page-tab-menu {
             background: $page-content-bg-color;
             padding: 20px 0 0 0;
             height: auto;

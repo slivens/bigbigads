@@ -65,8 +65,8 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
 /********************************************
  END: BREAKING CHANGE in AngularJS v1.3.x:
 *********************************************/
-
 /* Setup global settings */
+MetronicApp.constant('ADS_TYPE', {timeline:1, rightcolumn:4, mobile:2});
 MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
     // supported languages
     var settings = {
@@ -81,7 +81,14 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         layoutPath: '../assets/layouts/layout3',
         baseurl: '/app/',
         remoteurl: '', //根目录
-        imgRemoteBase:'http://image1.bigbigads.com:88'
+        imgRemoteBase:'http://image1.bigbigads.com:88',
+        searchSetting:{
+            orderBy:[{key:'first_view_date', value:'first_view'},
+                     {key:'last_view_date', value:'last_view'},
+                     {key:'description', value:'description'},
+                     {key:'adser_name', value:'advertiser'},
+                     {key:'engement', value:'engagement'}]
+        }
     };
 
     $rootScope.settings = settings;

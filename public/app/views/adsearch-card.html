@@ -1,4 +1,4 @@
-<div class="a-card">
+<div class="a-card fade-in-up">
     <div class="portlet light aditem">
         <div class="portlet-title">
             <span class="font-yellow ">ads_id:{{card.event_id}}</span><br/>
@@ -7,14 +7,55 @@
             <i class="fa fa-eye font-yellow fa-fw"></i><span>{{card.see_date}}</span>
             <p/>
             <div>
-                <i class="fa fa-share-alt fa-3x font-yellow"></i>
-                <i class="fa fa-columns fa-3x font-yellow" ng-show="(card.show_way & 4) > 0"></i>
-                <i class="fa fa-mobile font-yellow fa-3x"></i>
-                <i class="fa fa-laptop font-yellow fa-3x"></i>
+                <i class="fa fa-share-alt fa-3x font-yellow" ng-show="mother.getAdsType(card, mother.ADS_TYPE.timeline)"></i>
+                <i class="fa fa-columns fa-3x font-yellow" ng-show="mother.getAdsType(card, mother.ADS_TYPE.rightcolumn)"></i>
+                <i class="fa fa-mobile font-yellow fa-3x" ng-show="mother.getAdsType(card, mother.ADS_TYPE.mobile)"></i>
             </div>
         </div>
-        <div class="aditem-ader">
-            <img src="{{mother.settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded">
+
+        <!-- avatar and adser info -->
+        <div class="aditem-ader row margin-bottom-10">
+            <div class="col-md-2 text-center ">
+                <img src="{{mother.settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded">
+            </div>
+            <div class="col-md-10">
+                <div class="margin-bottom-5">{{card.adser_name}}</div>
+                <div class="pull-left">
+                Sponsored
+                </div>
+                <div class="pull-right">
+                    <a href="https://www.facebook.com/{{card.adser_username}}" class="label label-sm label-success " ng-hide="empty(card.likepage)"> <i class="fa fa-thumbs-up blue"></i>Like Page</a>
+                </div>
+            </div>
+        </div>
+        <!-- end avatar and adser info -->
+        <!-- begin ad description -->
+        <div class="aditem-desc">
+            <div>{{card.message}}</div>
+            <div ng-if="card.type == 'SingleImage'">
+                <img src="{{mother.settings.imgRemoteBase + card.watermark}}" alt="">
+                <div>
+                    <span>{{card.name}}</span>
+                    <!-- <a href="#" class="label label-sm label-default">Learn more</a> -->
+                </div>
+                <div>
+                    {{card.description}}
+                </div>
+            </div>
+            <div ng-if="card.type == 'Carousel'">
+            </div>
+        </div>
+        <!-- end description -->
+        <hr>
+        <div class="aditem-footer">
+            <i class="fa fa-link fa-fw"></i>
+            <a href="#">www.baidu.com</a>
+            <i class="fa fa-comment fa-fw"></i>
+            <span>{{card.comments}}</span>
+            <i class="fa fa-heart fa-fw"></i>
+            <span>{{card.likes}}</span>
+            <i class="fa fa-share-alt fa-fw"></i>
+            <span>{{card.shares}}</span>
         </div>
     </div>
 </div>

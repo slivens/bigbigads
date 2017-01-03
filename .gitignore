@@ -6,3 +6,8 @@ Homestead.json
 Homestead.yaml
 .env
 *.swp
+.DS_Store
+tags
+bower_components/
+node_modules/
+

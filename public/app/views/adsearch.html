@@ -50,7 +50,17 @@
                 </div>
             </div>
         </div>
-        <div deckgrid source="ads" class="deckgrid" cardTemplate="views/adsearch-card.html">
+        <div class="clearfix">
+            <div class="pull-right">
+                <select class="form-control" ng-model="searchOptions.orderBy" ng-options="item.key as item.value for item in settings.searchSetting.orderBy">
+                    <option value="">Sort By</option>
+                </select>
+            </div>
+            <div>
+                <span>About {{ads.total_count}} results</span>
+            </div>
+        </div>
+        <div deckgrid source="ads.ads_info" class="deckgrid" cardTemplate="views/adsearch-card.html">
         </div>
     </div>
 </div>
