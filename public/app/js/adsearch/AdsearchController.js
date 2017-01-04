@@ -1,6 +1,6 @@
 /* Setup blank page controller */
-angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE',
-	function($http, $timeout, settings, ADS_TYPE) {
+angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', 
+	function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE) {
 		var searcher = function() {
 			var vm = this;
 			vm.defparams = {
@@ -22,6 +22,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
 			vm.params = angular.copy(vm.defparams);
             vm.oldParams = null;
 			vm.ADS_TYPE = ADS_TYPE;
+            vm.ADS_CONT_TYPE = ADS_CONT_TYPE;
 			vm.pageCount = settings.searchSetting.pageCount;
 			vm.ads = {
 				total_count: 0
@@ -44,6 +45,12 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
 				).then(function(res) {
                     vm.isend = res.data.is_end;
 					if (res.data.count) {
+                        angular.forEach(res.data.ads_info, function(value, key) {
+                            if (value.type == vm.ADS_CONT_TYPE.CAROUSEL) {
+                                value.watermark = JSON.parse(value.watermark);
+                                console.log('wa', value.watermark);
+                            }
+                        });
 						if (clear) {
 							vm.ads = res.data;
 						} else {

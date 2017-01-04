@@ -67,6 +67,7 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
 *********************************************/
 /* Setup global settings */
 MetronicApp.constant('ADS_TYPE', {timeline:1, rightcolumn:4, mobile:2});
+MetronicApp.constant('ADS_CONT_TYPE', {SINGLE_IMAGE:"SingleImage", CANVAS:"Canvas", CAROUSEL:"Carousel", SINGLE_VIDEO:"SingleVideo"});
 MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
     // supported languages
     var settings = {
@@ -93,7 +94,8 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                      {key:'duration_days', value:'duration'}],
             adsTypes:[{key:'timeline', value:'timeline'},
                         {key:'rightcolumn', value:'rightcolumn'},
-                        {key:'phone', value:'phone'}]
+                        {key:'phone', value:'phone'}],
+            
         }
     };
 
