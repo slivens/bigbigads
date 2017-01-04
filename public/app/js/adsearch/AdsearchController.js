@@ -51,7 +51,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                                 console.log('wa', value.watermark);
                             }
                         });
-						if (clear) {
+						if (clear || vm.ads.total_count === 0) {
 							vm.ads = res.data;
 						} else {
 							vm.ads.ads_info = vm.ads.ads_info.concat(res.data.ads_info);
@@ -130,6 +130,10 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             console.log($scope.adSearcher.params);
         };
 
+        $scope.filterOption = {
+            date:{startDate:null,endDate:null}
+        };
+
 		$scope.$on('$viewContentLoaded', function() {
 			// initialize core components
 			App.initAjax();
@@ -138,7 +142,14 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
 			$rootScope.settings.layout.pageContentWhite = true;
 			$rootScope.settings.layout.pageBodySolid = false;
 			$rootScope.settings.layout.pageSidebarClosed = false;
-
 		});
+
+
+        $scope.$on('$includeContentLoaded', function() {
+            console.log("load quick sidebar");
+           setTimeout(function(){
+                QuickSidebar.init(); // init quick sidebar        
+            }, 1000);
+        });
 	}
 ]);

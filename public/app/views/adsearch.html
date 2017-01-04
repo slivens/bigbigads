@@ -1,10 +1,18 @@
 <!-- BEGIN PAGE BREADCRUMB -->
+
+ <button type="button" class="btn-circle quick-sidebar-toggler" data-toggle="collapse">
+			<span class="sr-only">Toggle Filter Sidebar</span>
+			<i class="icon-grid"></i>
+ </button>
+
+ <div data-ng-include="'tpl/quick-sidebar.html'" data-ng-controller="QuickSidebarController" class="page-quick-sidebar-wrapper"></div>
 <ul class="page-breadcrumb breadcrumb">
     <li>
         <a ui-sref="dashboard">Blank Page</a>
         <i class="fa fa-circle"></i>
     </li>
 </ul>
+
 <!-- END PAGE BREADCRUMB -->
 <!-- BEGIN MAIN CONTENT -->
 <div class="row" ng-controller="AdsearchController">
@@ -32,8 +40,8 @@
                         <!-- BEGIN HEADER SEARCH BOX -->
                         <form class="search-form form-inline" ng-submit="search()">
                             <div class="">
-                                <input type="text" class="form-control" placeholder="Search" ng-model="adSearcher.searchOption.text">
-                                <select class="form-control" ng-model="adSearcher.searchOption.type" ng-options="item.key as item.value for item in settings.searchSetting.adsTypes">
+                                <input type="text" class="form-control input-inline" placeholder="Search" ng-model="adSearcher.searchOption.text">
+                                <select class="form-control input-inline" ng-model="adSearcher.searchOption.type" ng-options="item.key as item.value for item in settings.searchSetting.adsTypes">
                                     <option value="">ALL</option>
                                 </select>
 						<button type="submit" class="btn btn-circle btn-icon-only btn-default">
@@ -79,6 +87,8 @@
         </div>
     </div>
 </div>
+
+
 <!-- END MAIN CONTENT -->
 <!-- BEGIN MAIN JS-->
 <script>

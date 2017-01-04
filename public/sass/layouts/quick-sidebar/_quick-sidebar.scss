@@ -2,8 +2,8 @@
 $quick-sidebar-width:                                                   320px !default;  // quick sidebar width. default: 245px;  
 $quick-sidebar-tab-item-padding:										15px 15px;       // quick sidebar item padding. default: 15px 15px;
 
-$quick-sidebar-bg-color:												#21282e; 
-$quick-sidebar-font-color:												lighten($quick-sidebar-bg-color, 40%);
+$quick-sidebar-bg-color:												white; 
+$quick-sidebar-font-color:											    black;
 
 /* Page Portlet Fullscreen */
 
@@ -24,7 +24,7 @@ $quick-sidebar-font-color:												lighten($quick-sidebar-bg-color, 40%);
 	height: 27px;
 	position: fixed;
 	top: 10px; 
-	right: 15px;
+	left: 200px;
 	text-align: center;
 	padding-top: 6px;
 
@@ -57,24 +57,26 @@ $quick-sidebar-font-color:												lighten($quick-sidebar-bg-color, 40%);
 /* Quick sidebar wrapper */
 
 .page-quick-sidebar-wrapper {
-	transition: right 0.3s;	
+	transition: left 0.3s;	
 	z-index: $zindex-quick-sidebar;
 	position: fixed;
 	top: 0;
 	bottom: 0;
 	width: $quick-sidebar-width;  
-	right: -$quick-sidebar-width;
+	left: -$quick-sidebar-width;
 	overflow: hidden;
 	color: lighten($quick-sidebar-font-color, 10%);
 	background: $quick-sidebar-bg-color;
+    border:1px solid #eee;
 
 	.page-quick-sidebar-open & {
-		transition: right 0.3s;	
-		right: 0;
+		transition: left 0.3s;	
+		left: 0;
 	}
 
 	.page-quick-sidebar {
 		background: $quick-sidebar-bg-color;
+        margin:16px;
 
 		.nav-tabs {
 			margin: 0;

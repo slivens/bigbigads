@@ -9,6 +9,7 @@ var QuickSidebar = function () {
         $('.dropdown-quick-sidebar-toggler a, .page-quick-sidebar-toggler, .quick-sidebar-toggler').click(function (e) {
             $('body').toggleClass('page-quick-sidebar-open'); 
         });
+        console.log("init sidebar");
     };
 
     // Handles quick sidebar chats

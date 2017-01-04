@@ -1085,6 +1085,42 @@ Theme Panel
     .theme-panel .theme-settings .form-control {
       width: 105px !important; } }
 
+/******************
+Page Quick Sidebar
+******************/
+/***
+Quick Sidebar Layout
+***/
+/* Quick Sidebar Notification */
+.quick-sidebar-notification {
+  position: relative; }
+  .quick-sidebar-notification .badge {
+    top: -40px;
+    left: -5px;
+    position: absolute; }
+
+/* Quick sidebar toggler */
+.quick-sidebar-toggler {
+  top: 50%;
+  left: 0;
+  padding: 0;
+  z-index: 99;
+  border: none;
+  outline: none;
+  position: fixed;
+  margin-top: -30px;
+  background: #36c6d3;
+  width: 56px;
+  height: 56px; }
+  .quick-sidebar-toggler i {
+    padding: 5px;
+    font-size: 20px;
+    color: white; }
+    .quick-sidebar-toggler i:before {
+      content: ""/*rtl:""*/; }
+    .page-quick-sidebar-open .quick-sidebar-toggler i:before {
+      content: ""/*rtl:""*/; }
+
 /* Page Portlet Fullscreen */
 .page-portlet-fullscreen .page-quick-sidebar-wrapper,
 .page-portlet-fullscreen .page-quick-sidebar-toggler {
@@ -1099,17 +1135,17 @@ Theme Panel
   height: 27px;
   position: fixed;
   top: 10px;
-  right: 15px;
+  left: 200px;
   text-align: center;
   padding-top: 6px; }
   .page-quick-sidebar-toggler:hover {
-    background: #303a43; }
+    background: #f7f7f7; }
   .page-quick-sidebar-open .page-quick-sidebar-toggler {
     display: inline-block; }
     .page-quick-sidebar-open .page-quick-sidebar-toggler:hover {
       background: none; }
   .page-quick-sidebar-toggler > i {
-    color: #99a8b5;
+    color: #1a1a1a;
     font-size: 17px; }
     .page-quick-sidebar-toggler > i:hover {
       color: #fff !important; }
@@ -1118,21 +1154,23 @@ Theme Panel
 
 /* Quick sidebar wrapper */
 .page-quick-sidebar-wrapper {
-  transition: right 0.3s;
+  transition: left 0.3s;
   z-index: 9999;
   position: fixed;
   top: 0;
   bottom: 0;
   width: 320px;
-  right: -320px;
+  left: -320px;
   overflow: hidden;
-  color: #99a8b5;
-  background: #21282e; }
+  color: #1a1a1a;
+  background: white;
+  border: 1px solid #eee; }
   .page-quick-sidebar-open .page-quick-sidebar-wrapper {
-    transition: right 0.3s;
-    right: 0; }
+    transition: left 0.3s;
+    left: 0; }
   .page-quick-sidebar-wrapper .page-quick-sidebar {
-    background: #21282e;
+    background: white;
+    margin: 16px;
     /* Quick sidebar tabs content */
     /* Quick sidebar general list heading */
     /* Quick sidebar general list-items */
@@ -1164,7 +1202,7 @@ Theme Panel
           text-transform: uppercase;
           background: none;
           margin-right: 0;
-          color: #90a1af;
+          color: #121212;
           border: 0;
           border-bottom: 3px solid rgba(243, 86, 93, 0.3);
           -webkit-border-radius: 0;
@@ -1185,8 +1223,8 @@ Theme Panel
           text-decoration: none; }
         .page-quick-sidebar-wrapper .page-quick-sidebar .nav-tabs > li .dropdown-menu {
           border: 0;
-          background: #36424c;
-          box-shadow: 5px 5px rgba(97, 117, 135, 0.1);
+          background: white;
+          box-shadow: 5px 5px rgba(255, 255, 255, 0.1);
           margin-top: 8px;
           margin-right: 20px; }
           .page-quick-sidebar-wrapper .page-quick-sidebar .nav-tabs > li .dropdown-menu:before {
@@ -1196,7 +1234,7 @@ Theme Panel
             display: inline-block !important;
             border-right: 7px solid transparent;
             border-left: 7px solid transparent;
-            border-bottom: 7px solid #36424c;
+            border-bottom: 7px solid white;
             content: ''; }
           .page-quick-sidebar-wrapper .page-quick-sidebar .nav-tabs > li .dropdown-menu:after {
             position: absolute;
@@ -1205,35 +1243,35 @@ Theme Panel
             display: inline-block !important;
             border-right: 6px solid transparent;
             border-left: 6px solid transparent;
-            border-bottom: 7px solid #36424c;
+            border-bottom: 7px solid white;
             content: ''; }
           .page-quick-sidebar-wrapper .page-quick-sidebar .nav-tabs > li .dropdown-menu > li > a {
             padding: 10px 15px;
-            color: #99a8b5; }
+            color: #1a1a1a; }
             .page-quick-sidebar-wrapper .page-quick-sidebar .nav-tabs > li .dropdown-menu > li > a > i {
-              color: #93a3b1; }
+              color: #141414; }
           .page-quick-sidebar-wrapper .page-quick-sidebar .nav-tabs > li .dropdown-menu > li:hover > a {
-            background: #3d4a55;
-            color: #99a8b5; }
+            background: white;
+            color: #1a1a1a; }
             .page-quick-sidebar-wrapper .page-quick-sidebar .nav-tabs > li .dropdown-menu > li:hover > a > i {
-              color: #9babb8; }
+              color: #1c1c1c; }
           .page-quick-sidebar-wrapper .page-quick-sidebar .nav-tabs > li .dropdown-menu > li.active > a {
-            background: #38444f;
-            color: #99a8b5; }
+            background: white;
+            color: #1a1a1a; }
           .page-quick-sidebar-wrapper .page-quick-sidebar .nav-tabs > li .dropdown-menu > li.divider {
-            background-color: #3d4a55; }
+            background-color: white; }
         .page-quick-sidebar-wrapper .page-quick-sidebar .nav-tabs > li.open > a.dropdown-toggle {
           border-bottom: 3px solid #f3565d;
           background: none;
           text-decoration: none;
-          color: #90a1af; }
+          color: #121212; }
     .page-quick-sidebar-wrapper .page-quick-sidebar .tab-content {
       margin: 0;
       padding: 0; }
     .page-quick-sidebar-wrapper .page-quick-sidebar .list-heading {
       font-size: 16px;
       margin: 10px 10px;
-      color: #6c8296; }
+      color: black; }
     .page-quick-sidebar-wrapper .page-quick-sidebar .list-items {
       margin: 0;
       padding: 0;
@@ -1244,9 +1282,9 @@ Theme Panel
         background: none;
         border-bottom-width: 1px;
         border-bottom-style: solid;
-        border-bottom-color: #273037; }
+        border-bottom-color: white; }
         .page-quick-sidebar-wrapper .page-quick-sidebar .list-items > li:hover {
-          background: #273037; }
+          background: white; }
         .page-quick-sidebar-wrapper .page-quick-sidebar .list-items > li:last-child {
           border-bottom: 0; }
       .page-quick-sidebar-wrapper .page-quick-sidebar .list-items.borderless li {
@@ -1269,7 +1307,7 @@ Theme Panel
           vertical-align: middle;
           display: inline-block;
           font-size: 14px;
-          color: #90a1af; }
+          color: #121212; }
           .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-item .page-quick-sidebar-nav .page-quick-sidebar-back-to-list:hover {
             text-decoration: none; }
           .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-item .page-quick-sidebar-nav .page-quick-sidebar-back-to-list > i {
@@ -1314,10 +1352,10 @@ Theme Panel
         .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-chat .page-quick-sidebar-chat-users .media-list .media .media-body .media-heading-sub {
           font-size: 11px;
           text-transform: uppercase;
-          color: #657b8d; }
+          color: black; }
         .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-chat .page-quick-sidebar-chat-users .media-list .media .media-body .media-heading-small {
           font-size: 10px;
-          color: #5d7081; }
+          color: black; }
         .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-chat .page-quick-sidebar-chat-users .media-list .media .media-status {
           margin-top: 10px;
           right: 10px;
@@ -1346,17 +1384,17 @@ Theme Panel
         .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-chat .page-quick-sidebar-chat-user .page-quick-sidebar-chat-user-messages .post .name {
           font-size: 12px;
           font-weight: 300;
-          color: #8496a7; }
+          color: #080808; }
         .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-chat .page-quick-sidebar-chat-user .page-quick-sidebar-chat-user-messages .post .datetime {
           font-size: 12px;
           font-weight: 300;
-          color: #8496a7; }
+          color: #080808; }
         .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-chat .page-quick-sidebar-chat-user .page-quick-sidebar-chat-user-messages .post .message {
           display: block;
           padding: 5px;
           position: relative;
-          color: #90a1af;
-          background: #36424c; }
+          color: #121212;
+          background: white; }
         .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-chat .page-quick-sidebar-chat-user .page-quick-sidebar-chat-user-messages .post.in .message {
           text-align: left;
           margin-left: 55px; }
@@ -1371,7 +1409,7 @@ Theme Panel
             border-bottom: 6px solid transparent;
             border-right-width: 6px;
             border-right-style: solid;
-            border-right-color: #36424c; }
+            border-right-color: white; }
         .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-chat .page-quick-sidebar-chat-user .page-quick-sidebar-chat-user-messages .post.out .message {
           margin-right: 55px;
           text-align: right; }
@@ -1384,7 +1422,7 @@ Theme Panel
             border-bottom: 6px solid transparent;
             border-left-width: 6px;
             border-left-style: solid;
-            border-left-color: #36424c; }
+            border-left-color: white; }
         .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-chat .page-quick-sidebar-chat-user .page-quick-sidebar-chat-user-messages .post.out .name,
         .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-chat .page-quick-sidebar-chat-user .page-quick-sidebar-chat-user-messages .post.out .datetime {
           text-align: right; }
@@ -1394,15 +1432,15 @@ Theme Panel
       padding: 10px 0;
       position: relative; }
       .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-alerts .page-quick-sidebar-alerts-list .feeds li a {
-        color: #7e91a2; }
+        color: #030303; }
         .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-alerts .page-quick-sidebar-alerts-list .feeds li a .label {
           margin-top: 5px; }
         .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-alerts .page-quick-sidebar-alerts-list .feeds li a .desc {
           text-decoration: underline;
           padding: 0;
-          color: #788c9e; }
+          color: black; }
         .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-alerts .page-quick-sidebar-alerts-list .feeds li a .date {
-          color: #5d7081; }
+          color: black; }
     .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-settings .page-quick-sidebar-settings-list {
       padding: 10px 0;
       position: relative; }

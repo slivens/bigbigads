@@ -28,3 +28,7 @@
     }
 }
 
+//在过滤器上填出日志范围选择时，z-index太小会被盖住
+.daterangepicker {
+    z-index:20000;
+}

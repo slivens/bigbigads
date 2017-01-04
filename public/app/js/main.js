@@ -231,7 +231,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
                             '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
                             '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            '../assets/pages/scripts/components-bootstrap-select.min.js'
+                            '../assets/pages/scripts/components-bootstrap-select.min.js',
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
+                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js'
                         ]
                     });
                 }]
