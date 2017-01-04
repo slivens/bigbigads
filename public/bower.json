@@ -1,0 +1,25 @@
+{
+  "name": "bigbigads",
+  "authors": [
+    "liuwc <95496875@qq.com>"
+  ],
+  "description": "bigbigads",
+  "main": "index.htm",
+  "keywords": [
+    "angularjs"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-deckgrid": "^0.5.0"
+  }
+}
