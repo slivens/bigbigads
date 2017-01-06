@@ -6,10 +6,10 @@ var QuickSidebar = function () {
     // Handles quick sidebar toggler
     var handleQuickSidebarToggler = function () {
         // quick sidebar toggler
-        $('.dropdown-quick-sidebar-toggler a, .page-quick-sidebar-toggler, .quick-sidebar-toggler').click(function (e) {
+        $('.dropdown-quick-sidebar-toggler a, .page-quick-sidebar-toggler, .quick-sidebar-toggler,.filterbar-toggler').click(function (e) {
             $('body').toggleClass('page-quick-sidebar-open'); 
         });
-        console.log("init sidebar");
+       // console.log("init sidebar");
     };
 
     // Handles quick sidebar chats

@@ -46,7 +46,7 @@ gulp.task('sass', function () {
 
 //*** SASS watch(realtime) compiler task
 gulp.task('sass:watch', function () {
-	gulp.watch('./sass/**/*.scss', ['sass']);
+	gulp.watch('./sass/**/*.scss', ['sass', 'minify']);
 });
 
 //*** CSS & JS minify task

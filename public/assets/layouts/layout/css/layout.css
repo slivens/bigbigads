@@ -1994,8 +1994,9 @@ Page Quick Sidebar
     transition: left 0.3s;
     left: 0; }
   .page-quick-sidebar-wrapper .page-quick-sidebar {
-    background: white;
-    margin: 16px;
+    max-height: 100%;
+    overflow-y: scroll;
+    padding: 8px;
     /* Quick sidebar tabs content */
     /* Quick sidebar general list heading */
     /* Quick sidebar general list-items */

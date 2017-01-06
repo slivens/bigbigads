@@ -10,4 +10,5 @@ Homestead.yaml
 tags
 bower_components/
 node_modules/
+*.map
 

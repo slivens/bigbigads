@@ -60,7 +60,7 @@ $quick-sidebar-font-color:											    black;
 	transition: left 0.3s;	
 	z-index: $zindex-quick-sidebar;
 	position: fixed;
-	top: 0;
+	top: 0;//$header-height;
 	bottom: 0;
 	width: $quick-sidebar-width;  
 	left: -$quick-sidebar-width;
@@ -75,9 +75,10 @@ $quick-sidebar-font-color:											    black;
 	}
 
 	.page-quick-sidebar {
-		background: $quick-sidebar-bg-color;
-        margin:16px;
-
+		//background: $quick-sidebar-bg-color;
+        max-height:100%;
+        overflow-y:scroll;
+        padding:8px;
 		.nav-tabs {
 			margin: 0;
 			padding: 0;

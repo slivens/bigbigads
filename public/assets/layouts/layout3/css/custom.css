@@ -17,8 +17,14 @@
 
 .aditem {
   margin: 16px; }
+  .aditem .avatar {
+    max-width: 100%; }
 
-.daterangepicker {
-  z-index: 20000; }
+.daterangepicker.dropdown-menu {
+  z-index: 20000 !important; }
+
+.collapse-panel {
+  height: 300px;
+  overflow-y: hidden; }
 
 /*# sourceMappingURL=custom.css.map */

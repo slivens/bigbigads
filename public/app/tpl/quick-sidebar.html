@@ -1,24 +1,139 @@
 <div class="page-quick-sidebar">
-    <form role="form">
+    <div class="portlet light">
+        <div class="portlet-title">
+            <a href="javascript:;" class="filterbar-toggler">
+                <i class="icon-logout font-yellow-gold"></i>
+            </a>
+        </div>
+        <div class="portlet-body form"> 
+    <form role="form" ng-submit="$parent.search()">
         <div class="form-group">
             <label>Filter By Date:</label>
-            <input date-range-picker type="text" class="form-control date-picker" ng-model="$parent.filterOption.date" />
+            <input date-range-picker type="text" class="form-control date-picker" ng-model="$parent.filterOption.date" options="daterangeOption"/>
         </div>
         <div class="form-group">
             <label>
                 Language:
             </label>
-            <input type="text" class="form-control" ng-model="$parent.filterOption.language" placeholder="E.g French">
+            <div>
+                <input type="text" class="form-control" ng-model="$parent.filterOption.lang" placeholder="E.g Engllish">
+            </div>
+
         </div>
         <div class="form-group">
             <label>Country:</label>
-            <input type="text" class="form-control" ng-model="$parent.filterOption.country" placeholder="E.g country">
+            <div>
+                <input type="text" class="form-control" ng-model="$parent.filterOption.state" placeholder="E.g country">
+            </div>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn red">
-        <i class="fa fa-check"></i>
-        Filter
-        </button>
+            <label>Domain:</label>
+
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="$parent.searchOption.domain.text" placeholder="E.g nike.com">
+               <span class="input-group-addon">
+                    <input type="checkbox" class="text" ng-model="$parent.searchOption.domain.exclude" name="">Exclude
+                </span>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Audience:</label>
+
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="$parent.searchOption.audience.text" placeholder="E.g women">
+                <span class="input-group-addon">
+                    <input type="checkbox" class="text" ng-model="$parent.searchOption.audience.exclude" name="">Exclude
+                </span>
+            </div>
+        </div>
+        <hr>
+        <!-- Begin Category -->
+        <h4>Category:</h4>
+        <div class="form-group" ng-repeat="item in $parent.filterOption.category"  ng-hide="$index >= categoryOpt.defnum && categoryOpt.collapse">
+            <label class="mt-checkbox mt-checkbox-outline"> {{item.value}}
+                <input type="checkbox" name="category" ng-model="item.selected">
+                <span></span>
+            </label>
+        </div>
+        <div>
+        <div class="pull-right">
+            <a ng-click="categoryOpt.collapse = !categoryOpt.collapse" class="font-yellow-gold"> 
+                <i class="fa fa-angle-double-down fa-2x" ng-show="categoryOpt.collapse"></i>
+                <i class="fa fa-angle-double-up fa-2x" ng-show="!categoryOpt.collapse"></i>
+            </a>
+        </div>
+        <div class="pull-left font-yellow-gold">
+            <label class="mt-checkbox mt-checkbox-outline">
+            &nbsp;
+            <input type="checkbox"  ng-model="categoryOpt.all"  ng-change="toggleCateogry()">
+            <span></span>
+            </label>
+
+            <span ng-show="!categoryOpt.all">All</span>
+            <span ng-show="categoryOpt.all">All Not</span>
+        </div>
+        <div class="clearfix"></div>
+        </div>
+        <hr>
+        <!-- end Category -->
+        <h4>Format:</h4>
+        <div class="form-group" ng-repeat="item in $parent.filterOption.format">
+            <label class="mt-checkbox mt-checkbox-outline"> {{item.value}}
+                <input type="checkbox" name="format" ng-model="item.selected">
+                <span></span>
+            </label>
+        </div>
+        <hr>
+
+        <h4>Search Range:</h4>
+        <div class="form-group" ng-repeat="item in $parent.searchOption.range">
+            <label class="mt-checkbox mt-checkbox-outline"> {{item.value}}
+                <input type="checkbox" name="range" ng-model="item.selected">
+                <span></span>
+            </label>
+        </div>   
+        <!-- Begin buttondesc-->
+        <h4>Button Description:</h4>
+        <div class="form-group" ng-repeat="item in buttondescOpt.items"  ng-hide="$index >= buttondescOpt.defnum && buttondescOpt.collapse">
+            <label class="mt-checkbox mt-checkbox-outline"> {{item.value}}
+                <input type="checkbox"  ng-model="item.selected">
+                <span></span>
+            </label>
+        </div>
+        <div>
+        <div class="pull-right">
+            <a ng-click="buttondescOpt.collapse = !buttondescOpt.collapse" class="font-yellow-gold"> 
+                <i class="fa fa-angle-double-down fa-2x" ng-show="buttondescOpt.collapse"></i>
+                <i class="fa fa-angle-double-up fa-2x" ng-show="!buttondescOpt.collapse"></i>
+            </a>
+        </div>
+        <div class="pull-left font-yellow-gold">
+            <label class="mt-checkbox mt-checkbox-outline">
+            &nbsp;
+            <input type="checkbox"  ng-model="buttondescOpt.all"  ng-change="buttondescOpt.toggle()">
+            <span></span>
+            </label>
+
+            <span ng-show="!buttondescOpt.all">All</span>
+            <span ng-show="buttondescOpt.all">All Not</span>
+        </div>
+        <div class="clearfix"></div>
+        </div>
+        <hr>
+        <!-- end Category -->
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-lg yellow-gold filterbar-toggler">
+                <i class="fa fa-check"></i>
+                Filter
+            </button>
+            <!-- <button type="reset" class="btn btn-lg default filterbar-toggler" ng-click="reset()"> -->
+            <!--     Reset -->
+            <!-- </button> -->
+
         </div>
     </form>
+        </div>
+    </div>
 </div>

@@ -3,9 +3,9 @@
 Boby
 ****/
 body {
-  background-color: #fff; }
+  background-color: #ffc; }
   body.page-md {
-    background: white; }
+    background: #ffffe6; }
 
 /******
 General 
@@ -492,7 +492,7 @@ Page Footer
   .page-header {
     /* Top menu */ }
     .page-header .top-menu {
-      background-color: #fff; }
+      background-color: #ffc; }
       .page-header-fixed-mobile .page-header .top-menu {
         background-color: #444d58; }
       .page-header .top-menu .navbar-nav > li.dropdown-user .dropdown-toggle {
