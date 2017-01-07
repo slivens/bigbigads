@@ -2,7 +2,7 @@
         <div class="aditem-desc">
             <!-- begin SingleImage -->
             <div>
-                <div>{{card.message}}</div>
+                <div><span ng-bind-html="card.message | toHtml"></span></div>
                 <div class="text-center">
                     <img ng-src="{{settings.imgRemoteBase + card.watermark}}" alt="">
                 </div>
@@ -11,12 +11,12 @@
                         <a href="{{card.buttonlink}}" class="label label-sm label-warning">{{card.buttondesc}}</a>
                     </div>
                     <div>
-                        <span>{{card.name}}</span>
+                        <span ng-bind-html="card.name | toHtml"></span>
                     </div>
                 </div>
 
                 <p>
-                    {{card.description}}
+                    <span ng-bind-html="card.description | toHtml"></span>
                 </p>
                 <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
                     <label class="label label-sm label-success">{{card.caption}}</label>
@@ -36,4 +36,3 @@
             <i class="fa fa-share-alt fa-fw" ng-show="card.shares"></i>
             <span>{{card.shares}}</span>
         </div>
-    </div>

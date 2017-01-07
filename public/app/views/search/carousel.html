@@ -1,29 +1,40 @@
 <!-- begin ad description -->
 <div class="aditem-desc">
     <!-- begin Carousel -->
-    <div class="clearfix" style="height:300px">
-        <div>{{card.message}}</div>
+    <div class="clearfix">
+
+		<div><span ng-bind-html="card.message | toHtml"></span></div>
         <uib-carousel active="card.active" no-wrap="true">
             <uib-slide ng-repeat="slide in card.watermark track by $index" index="$index">
                 <div class="text-center">
                     <img ng-src="{{settings.imgRemoteBase + slide.source}}" alt="">
-                </div>
-                <div class="carousel-caption">
-                </div>
+
+                    </div>
             </uib-slide>
         </uib-carousel>
-
-        <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
-            <label class="label label-sm label-warning">{{card.caption}}</label>
+        <div class="h5">
+            <div class="pull-right" ng-if="card.buttondesc">
+                <a href="{{card.buttonlink[card.active]}}" class="label label-sm label-warning">{{card.buttondesc[card.active]}}</a>
+            </div>
+            <div>
+                <span ng-bind-html="card.name[card.active] | toHtml"></span>
+            </div>
         </div>
-    </div>
+		<p>
+			<span ng-bind-html="card.description[card.active] | toHtml"></span>
+		</p>
+      </div>
     <!-- End Carousel -->
+    <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
+        <label class="label label-sm label-warning">{{card.caption}}</label>
+    </div>
 </div>
 <!-- end description -->
+
 <hr>
 <div class="aditem-footer">
     <i class="fa fa-link fa-fw"></i>
-    <a href="#">{{card.link}}</a>
+    <a href="{{card.link[card.active]}}" class="adlink">{{card.link[card.active]}}</a>
     <i class="fa fa-comment fa-fw"></i>
     <span>{{card.comments}}</span>
     <i class="fa fa-heart fa-fw"></i>
@@ -31,4 +42,8 @@
     <i class="fa fa-share-alt fa-fw"></i>
     <span>{{card.shares}}</span>
 </div>
+
+<div class="carousel-caption">
+    {{card.caption}}
 </div>
+

@@ -1,5 +1,24 @@
 /* adsearch controller */
 angular.module('MetronicApp')
+.directive('fancybox',function($compile, $timeout){
+    return {
+        link: function($scope, element, attrs) {
+            element.fancybox({
+                hideOnOverlayClick:false,
+                hideOnContentClick:false,
+                enableEscapeButton:false,
+                showNavArrows:false,
+                onComplete: function(){
+                    $timeout(function(){
+                        $compile($("#fancybox-content"))($scope);
+                        $scope.$apply();
+                        $.fancybox.resize();
+                    })
+                }
+            });
+        }
+    }
+})
 .directive('singleImage', function() {
     return {
         restrict:'E',
@@ -132,7 +151,11 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                         angular.forEach(res.data.ads_info, function(value, key) {
                             if (value.type == vm.ADS_CONT_TYPE.CAROUSEL) {
                                 value.watermark = JSON.parse(value.watermark);
-                                console.log('watermark', value.watermark);
+                                value.link = JSON.parse(value.link);
+                                value.buttonlink = JSON.parse(value.buttonlink);
+                                value.buttondesc = JSON.parse(value.buttondesc);
+                                value.name = JSON.parse(value.name);
+                                value.description = JSON.parse(value.description);
                             }
                         });
                         if (clear || vm.ads.total_count === 0) {
