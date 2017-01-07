@@ -19,6 +19,13 @@
   margin: 16px; }
   .aditem .avatar {
     max-width: 100%; }
+  .aditem .adlink {
+    display: inline-block;
+    max-width: 60%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: middle; }
 
 .daterangepicker.dropdown-menu {
   z-index: 20000 !important; }

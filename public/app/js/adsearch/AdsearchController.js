@@ -1,4 +1,58 @@
-/* Setup blank page controller */
+/* adsearch controller */
+angular.module('MetronicApp')
+.directive('singleImage', function() {
+    return {
+        restrict:'E',
+        templateUrl:'views/search/single-image.html',
+        replace:false,
+        scope:{
+            card: '='
+        },
+        controller:['$scope', 'settings', function($scope, settings) {
+            $scope.settings = settings;
+        }]
+    };
+})
+.directive('singleVideo', function() {
+    return {
+        restrict:'E',
+        templateUrl:'views/search/single-video.html',
+        replace:false,
+        scope:{
+            card: '='
+        },
+        controller:['$scope', 'settings', function($scope, settings) {
+            $scope.settings = settings;
+        }]
+    };
+})
+.directive('canvas', function() {
+    return {
+        restrict:'E',
+        templateUrl:'views/search/canvas.html',
+        replace:false,
+        scope:{
+            card: '='
+        },
+        controller:['$scope', 'settings', function($scope, settings) {
+            $scope.settings = settings;
+        }]
+    };
+})
+.directive('carousel', function() {
+    return {
+        restrict:'E',
+        templateUrl:'views/search/carousel.html',
+        replace:false,
+        scope:{
+            card: '='
+        },
+        controller:['$scope', 'settings', function($scope, settings) {
+            $scope.settings = settings;
+        }]
+    };
+});
+
 angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE',
     function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE) {
         var searcher = function() {
@@ -142,8 +196,11 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
         return searcher;
     }
 ]);
-angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$scope', 'settings', '$http', 'Searcher', '$filter',
-    function($rootScope, $scope, settings, $http, Searcher, $filter) {
+angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$scope', 'settings', '$http', 'Searcher', '$filter', 'SweetAlert',
+    function($rootScope, $scope, settings, $http, Searcher, $filter, SweetAlert) {
+        $scope.swal = function(msg) {
+            SweetAlert.swal(msg);
+        };
         $scope.adSearcher = new Searcher();
         $scope.adSearcher.search($scope.adSearcher.defparams, true);
         $scope.reverseSort = function() {
@@ -164,12 +221,12 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
         };
         $scope.resetSearch = function() {
             angular.forEach($scope.filterOption.category, function(value, key) {
-                value.selected = false
+                value.selected = false;
             });
             angular.forEach($scope.filterOption.format, function(value, key) {
                 value.format = false;
             });
-        }
+        };
         $scope.initSearch();
 
         $scope.currSearchOption = {};

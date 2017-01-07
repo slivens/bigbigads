@@ -21,6 +21,7 @@
   ],
   "dependencies": {
     "angular-deckgrid": "^0.5.0",
-    "angular-daterangepicker": "^0.2.2"
+    "angular-daterangepicker": "^0.2.2",
+    "angular-sweetalert": "latest" 
   }
 }

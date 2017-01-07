@@ -1,0 +1,39 @@
+        <!-- begin ad description -->
+        <div class="aditem-desc">
+            <!-- begin SingleImage -->
+            <div>
+                <div>{{card.message}}</div>
+                <div class="text-center">
+                    <img ng-src="{{settings.imgRemoteBase + card.watermark}}" alt="">
+                </div>
+                <div class="h5">
+                    <div class="pull-right" ng-if="card.buttondesc">
+                        <a href="{{card.buttonlink}}" class="label label-sm label-warning">{{card.buttondesc}}</a>
+                    </div>
+                    <div>
+                        <span>{{card.name}}</span>
+                    </div>
+                </div>
+
+                <p>
+                    {{card.description}}
+                </p>
+                <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
+                    <label class="label label-sm label-success">{{card.caption}}</label>
+                </div>
+            </div>
+            <!-- end SingleImage -->
+        </div>
+        <!-- end description -->
+        <hr>
+        <div class="aditem-footer">
+            <i class="fa fa-link fa-fw"></i>
+            <a href="{{card.link}}" class="adlink">{{card.link}}</a>
+            <i class="fa fa-comment fa-fw" ng-show="card.comments"></i>
+            <span>{{card.comments}}</span>
+            <i class="fa fa-heart fa-fw" ng-show="card.likes"></i>
+            <span>{{card.likes}}</span>
+            <i class="fa fa-share-alt fa-fw" ng-show="card.shares"></i>
+            <span>{{card.shares}}</span>
+        </div>
+    </div>

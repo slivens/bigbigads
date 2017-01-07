@@ -1,6 +1,11 @@
 <div class="a-card fade-in-up">
     <div class="portlet light aditem">
         <div class="portlet-title">
+            <div class="pull-right">
+                <button ng-if="card.whyseeads_all || card.whyseeads" ng-click="mother.swal(card.whyseeads ? card.whyseeads : card.whyseeads_all)">
+                    <i class="fa fa-users font-yellow-gold"></i>
+                </button>
+            </div>
             <span class="font-yellow-gold ">ads_id:{{card.event_id}}</span><br/>
             <i class="fa fa-calendar font-yellow-gold fa-fw"></i><span>{{card.first_see}}~{{card.last_see}}</span>
             <i class="fa fa-clock-o font-yellow-gold fa-fw"></i><span>{{card.duration_days}}</span>
@@ -24,82 +29,16 @@
                 Sponsored
                 </div>
                 <div class="pull-right">
-                    <a href="https://www.facebook.com/{{card.adser_username}}" class="label label-sm label-success " ng-hide="empty(card.likepage)"> <i class="fa fa-thumbs-up blue"></i>Like Page</a>
+                    <a href="https://www.facebook.com/{{card.adser_username}}" class="label label-sm label-warning" ng-hide="empty(card.likepage)"> <i class="fa fa-thumbs-up blue"></i>Like Page</a>
                 </div>
             </div>
         </div>
         <!-- end avatar and adser info -->
-        <!-- begin ad description -->
-        <div class="aditem-desc">
-            <!-- begin SingleImage -->
-            <div ng-if="card.type == 'SingleImage'">
-                <div>{{card.message}}</div>
-                <div class="text-center">
-                    <img ng-src="{{mother.settings.imgRemoteBase + card.watermark}}" alt="">
-                </div>
-                <div>
-                    <span>{{card.name}}</span>
-                    <!-- <a href="#" class="label label-sm label-default">Learn more</a> -->
-                </div>
-                <div>
-                    {{card.description}}
-                </div>
-
-                <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
-                    <label class="label label-sm label-warning">{{card.caption}}</label>
-                </div>
-            </div>
-            <!-- end SingleImage -->
-            <!-- begin Carousel -->
-            <div ng-if="card.type == 'Carousel'" class="clearfix" style="height:300px">
-                <div>{{card.message}}</div>
-                <uib-carousel active="card.active" no-wrap="true"  >
-                    <uib-slide ng-repeat="slide in card.watermark track by $index" index="$index">
-                        <div class="text-center">
-                            <img ng-src="{{mother.settings.imgRemoteBase + slide.source}}" alt="">
-                        </div>
-                        <div class="carousel-caption">
-                        </div>
-                    </uib-slide>
-                </uib-carousel>
-
-                <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
-                    <label class="label label-sm label-warning">{{card.caption}}</label>
-                </div>
-            </div>
-            <!-- End Carousel -->
-            <!-- Begin Canvas -->
-            <div ng-if="card.type == 'Canvas'">
-                <div>{{card.message}}</div>
-                <h2>Canvas</h2>
-
-                <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
-                <label class="label label-sm label-warning">{{card.caption}}</label>
-            </div>
-            </div>
-            <!-- End Canvas -->
-            <!-- Begin SingleVideo -->
-            <div ng-if="card.type == 'SingleVideo'">
-                <div>{{card.message}}</div>
-                <h2>SingleVideo</h2>
-
-                <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
-                <label class="label label-sm label-warning">{{card.caption}}</label>
-            </div>
-            </div>
-            <!-- End SingleVideo -->
-        </div>
-        <!-- end description -->
-        <hr>
-        <div class="aditem-footer">
-            <i class="fa fa-link fa-fw"></i>
-            <a href="#">{{card.link}}</a>
-            <i class="fa fa-comment fa-fw"></i>
-            <span>{{card.comments}}</span>
-            <i class="fa fa-heart fa-fw"></i>
-            <span>{{card.likes}}</span>
-            <i class="fa fa-share-alt fa-fw"></i>
-            <span>{{card.shares}}</span>
-        </div>
+        <single-image ng-if="card.type == 'SingleImage'" card="card">
+        </single-image>
+        <single-video ng-if="card.type == 'SingleVideo'" card="card"></single-video>
+        <carousel ng-if="card.type == 'Carousel'" card="card">
+        </carousel>
+        <canvas ng-if="card.type == 'Canvas'" card="card"></canvas>
     </div>
 </div>

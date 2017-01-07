@@ -1,0 +1,36 @@
+<!-- begin ad description -->
+<div class="aditem-desc">
+    <!-- Begin Canvas -->
+    <div ng-if="card.type == 'Canvas'">
+        <div>{{card.message}}</div>
+        <h2>Canvas</h2>
+
+        <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
+            <label class="label label-sm label-warning">{{card.caption}}</label>
+        </div>
+    </div>
+    <!-- End Canvas -->
+    <!-- Begin SingleVideo -->
+    <div ng-if="card.type == 'SingleVideo'">
+        <div>{{card.message}}</div>
+        <h2>SingleVideo</h2>
+
+        <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
+            <label class="label label-sm label-warning">{{card.caption}}</label>
+        </div>
+    </div>
+    <!-- End SingleVideo -->
+</div>
+<!-- end description -->
+<hr>
+<div class="aditem-footer">
+    <i class="fa fa-link fa-fw"></i>
+    <a href="#">{{card.link}}</a>
+    <i class="fa fa-comment fa-fw"></i>
+    <span>{{card.comments}}</span>
+    <i class="fa fa-heart fa-fw"></i>
+    <span>{{card.likes}}</span>
+    <i class="fa fa-share-alt fa-fw"></i>
+    <span>{{card.shares}}</span>
+</div>
+</div>

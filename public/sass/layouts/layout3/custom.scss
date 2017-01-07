@@ -29,6 +29,14 @@
     .avatar {
         max-width:100%;
     }
+    .adlink {
+        display:inline-block;
+        max-width:60%;
+        overflow:hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
+        vertical-align:middle;
+    }
 }
 
 //在过滤器上填出日志范围选择时，z-index太小会被盖住

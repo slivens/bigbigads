@@ -7,7 +7,8 @@ var MetronicApp = angular.module("MetronicApp", [
     "ui.router",
     "ui.bootstrap",
     "oc.lazyLoad",
-    "ngSanitize"
+    "ngSanitize",
+    "oitozero.ngSweetAlert"
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -1083,4 +1084,5 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
+    $rootScope.swal = swal;
 }]);
