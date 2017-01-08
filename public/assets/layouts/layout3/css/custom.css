@@ -26,6 +26,21 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     vertical-align: middle; }
+  .aditem .aditem-footer {
+    font-size: small; }
+  .aditem .video {
+    position: relative; }
+    .aditem .video .playbtn {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-top: -50px;
+      margin-left: -50px;
+      width: 100px;
+      height: 100px;
+      line-height: 100px; }
+  .aditem video {
+    max-width: 100%; }
 
 .daterangepicker.dropdown-menu {
   z-index: 20000 !important; }

@@ -548,6 +548,11 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
     return function(text) {　　
         return $sce.trustAsHtml(text);　　
     };
+}])
+.filter('trusted', ['$sce', function($sce) {
+    return function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
 }]);
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {

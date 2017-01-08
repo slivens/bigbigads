@@ -1,6 +1,6 @@
 /* adsearch controller */
 angular.module('MetronicApp')
-.directive('fancybox',function($compile, $timeout){
+.directive('fancybox',['$compile', '$timeout', function($compile, $timeout){
     return {
         link: function($scope, element, attrs) {
             element.fancybox({
@@ -18,7 +18,31 @@ angular.module('MetronicApp')
             });
         }
     };
-})
+}])
+.directive('advideo', ['$compile', '$timeout',function($compile, $timeout) {
+    return {
+        link: function(scope, element, attrs) {
+            var poster = $('<div></div>');
+            var img = $('<img/>');
+            img.attr('src', attrs.preview);
+            poster.addClass('video');
+            poster.html('<a class="playbtn"><i class="fa fa-play-circle-o fa-4x font-yellow-gold"></i></a>');
+            poster.append(img);
+            element.before(poster);
+            element.hide();
+
+            poster.find('.playbtn').click(function() {
+                element.trigger('play');
+                poster.hide();
+                element.show();
+            });
+            // $timeout(function() {
+            //     $compile(element)(scope);
+            //     scope.$apply();
+            // });
+        }
+    };
+}])
 .directive('singleImage', function() {
     return {
         restrict:'E',
@@ -165,6 +189,8 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                                 if (vm.getAdsType(value, vm.ADS_TYPE.rightcolumn)) {
                                     value.watermark = JSON.parse(value.watermark);
                                 }
+                            } else if (value.type == vm.ADS_CONT_TYPE.SINGLE_VIDEO) {
+                                value.local_picture = JSON.parse(value.local_picture);
                             }
                         });
                         if (clear || vm.ads.total_count === 0) {

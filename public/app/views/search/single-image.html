@@ -1,40 +1,47 @@
-        <!-- begin ad description -->
-        <div class="aditem-desc">
-            <!-- begin SingleImage -->
-            <div>
-                <div><span ng-bind-html="card.message | toHtml"></span></div>
-                <div class="text-center">
-                    <a fancybox ng-href="{{settings.imgRemoteBase + card.local_picture}}">
-                        <img ng-src="{{settings.imgRemoteBase + card.watermark}}" alt="">
-                    </a>
-                </div>
-                <div class="h5">
-                    <div class="pull-right" ng-if="card.buttondesc">
-                        <a href="{{card.buttonlink}}" class="label label-sm label-warning">{{card.buttondesc}}</a>
-                    </div>
-                    <div>
-                        <span ng-bind-html="card.name | toHtml"></span>
-                    </div>
-                </div>
-
-                <p>
-                    <span ng-bind-html="card.description | toHtml"></span>
-                </p>
-                <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
-                    <label class="label label-sm label-success">{{card.caption}}</label>
-                </div>
+<!-- begin ad description -->
+<div class="aditem-desc">
+    <!-- begin SingleImage -->
+    <div>
+        <div><span ng-bind-html="card.message | toHtml"></span></div>
+        <div class="text-center">
+            <a fancybox ng-href="{{settings.imgRemoteBase + card.local_picture}}">
+                <img ng-src="{{settings.imgRemoteBase + card.watermark}}" alt="">
+            </a>
+        </div>
+        <div class="h5">
+            <div class="pull-right" ng-if="card.buttondesc">
+                <a href="{{card.buttonlink}}" class="label label-sm label-warning" target="_blank">{{card.buttondesc}}</a>
             </div>
-            <!-- end SingleImage -->
+            <div>
+                <span ng-bind-html="card.name | toHtml"></span>
+            </div>
         </div>
-        <!-- end description -->
-        <hr>
-        <div class="aditem-footer">
-            <i class="fa fa-link fa-fw"></i>
-            <a href="{{card.link}}" class="adlink">{{card.link}}</a>
-            <i class="fa fa-comment fa-fw" ng-show="card.comments"></i>
-            <span>{{card.comments}}</span>
-            <i class="fa fa-heart fa-fw" ng-show="card.likes"></i>
-            <span>{{card.likes}}</span>
-            <i class="fa fa-share-alt fa-fw" ng-show="card.shares"></i>
-            <span>{{card.shares}}</span>
+
+        <p>
+            <span ng-bind-html="card.description | toHtml"></span>
+        </p>
+        <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
+            <label class="label label-sm label-success">{{card.caption}}</label>
         </div>
+    </div>
+    <!-- end SingleImage -->
+</div>
+<!-- end description -->
+<hr>
+<div class="aditem-footer">
+    <i class="fa fa-link fa-fw"></i>
+    <a href="{{card.link}}" class="adlink">{{card.link}}</a>
+    <span ng-show="card.comments">
+        <i class="fa fa-comment"></i>
+        {{card.comments}}
+    </span>
+    <span ng-show="card.likes">
+        <i class="fa fa-heart" ></i>
+        {{card.likes}}
+    </span>
+    <span ng-show="card.shares">
+        <i class="fa fa-share-alt"></i>
+        {{card.shares}}
+    </span>
+
+</div>
