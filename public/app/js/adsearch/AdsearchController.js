@@ -426,7 +426,8 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
 
             $scope.currSearchOption.range = range.join(',');
             $scope.filter($scope.filterOption);
-
+            if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 0)
+                $scope.currSearchOption.isdirty = true;
         };
         $scope.$on('$viewContentLoaded', function() {
             // initialize core components

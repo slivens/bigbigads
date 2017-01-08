@@ -52,8 +52,9 @@
                         <button class="btn default btn-outline btn-md " disabled="disabled">Subscribe</button>
                     </div>
                 </div>
-                <div class="alert alert-warning" ng-show="currSearchOption">
+                <div class="alert alert-warning" ng-show="currSearchOption.isdirty">
                     <div ng-if="currSearchOption.search.text">Search Text:{{currSearchOption.search.text}}</div>
+                    <div ng-if="currSearchOption.filter.type">Media Type:{{currSearchOption.filter.type}}</div>
                     <div ng-if="currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Date:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}}</div>
                     <div ng-if="currSearchOption.filter.lang">Language:{{currSearchOption.filter.lang}}</div>
                     <div ng-if="currSearchOption.filter.state">Country:{{currSearchOption.filter.state}}</div>
