@@ -1,26 +1,55 @@
 <!-- begin ad description -->
 <div class="aditem-desc">
-    <!-- Begin Canvas -->
-    <div ng-if="card.type == 'Canvas'">
-        <div>{{card.message}}</div>
-        <h2>Canvas</h2>
+    <!-- begin SingleImage -->
+    <div>
+        <div><span ng-bind-html="card.message | toHtml"></span></div>
+        <!-- timeline and rightcolumn are diffrent view -->
+        <div class="text-center" ng-if="Searcher.getAdsType(card, Searcher.ADS_TYPE.timeline)">
+           <a fancybox ng-href="{{settings.imgRemoteBase + card.local_picture}}">
+               <img ng-src="{{settings.imgRemoteBase + card.watermark}}" alt="">
+           </a>
+        </div>
+        <div class="text-center" ng-if="Searcher.getAdsType(card, Searcher.ADS_TYPE.rightcolumn)">
+            <div ng-repeat="item in card.watermark">
+                <a fancybox ng-href="{{settings.imgRemoteBase + card.local_picture[$index]}}">
+                    <img ng-src="{{settings.imgRemoteBase + card.watermark[$index]}}" alt="">
+                </a>
+            </div>
+        </div>
 
+        <div class="h5">
+            <div class="pull-right" ng-if="card.buttondesc">
+                <a href="{{card.buttonlink}}" class="label label-sm label-warning">{{card.buttondesc}}</a>
+            </div>
+            <div>
+                <span ng-bind-html="card.name | toHtml"></span>
+            </div>
+        </div>
+
+        <p>
+            <span ng-bind-html="card.description | toHtml"></span>
+        </p>
         <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
-            <label class="label label-sm label-warning">{{card.caption}}</label>
+            <label class="label label-sm label-success">{{card.caption}}</label>
         </div>
     </div>
-    <!-- End Canvas -->
+    <!-- end SingleImage -->
 </div>
 <!-- end description -->
 <hr>
 <div class="aditem-footer">
     <i class="fa fa-link fa-fw"></i>
-    <a href="#">{{card.link}}</a>
-    <i class="fa fa-comment fa-fw"></i>
-    <span>{{card.comments}}</span>
-    <i class="fa fa-heart fa-fw"></i>
-    <span>{{card.likes}}</span>
-    <i class="fa fa-share-alt fa-fw"></i>
-    <span>{{card.shares}}</span>
-</div>
+    <a href="{{card.link[0]}}" class="adlink">{{card.link[0]}}</a>
+    <span ng-show="card.comments" >
+        <i class="fa fa-comment"></i>
+        {{card.comments}}
+    </span>
+    <span ng-show="card.likes" >
+        <i class="fa fa-heart" ></i>
+        {{card.likes}}
+    </span>
+    <span ng-show="card.shares" >
+        <i class="fa fa-share-alt"></i>
+        {{card.shares}}
+    </span>
 </div>

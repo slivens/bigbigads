@@ -578,7 +578,7 @@ MetronicApp.controller('SidebarController', ['$scope', function($scope) {
 }]);
 
 /* Setup Layout Part - Quick Sidebar */
-//这个控制器与广告是强绑定的
+//这个控制器与广告是强绑定的，这里直接指向$parent的这个方式是非常不友好的，加大了耦合
 MetronicApp.controller('QuickSidebarController', ['$scope', function($scope) {
     $scope.$on('$includeContentLoaded', function() {
         $scope.filterOption = $scope.$parent.filterOption;
@@ -724,7 +724,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             '../assets/pages/scripts/components-bootstrap-select.min.js',
                             '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
                             '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
-                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js'
+                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
+                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
+                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js'
                         ]
                     });
                 }]

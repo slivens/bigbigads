@@ -7,17 +7,17 @@ angular.module('MetronicApp')
                 hideOnOverlayClick:false,
                 hideOnContentClick:false,
                 enableEscapeButton:false,
-                showNavArrows:false,
+                showNavArrows:true,
                 onComplete: function(){
-                    $timeout(function(){
+            $timeout(function(){
                         $compile($("#fancybox-content"))($scope);
                         $scope.$apply();
                         $.fancybox.resize();
-                    })
+                    });
                 }
             });
         }
-    }
+    };
 })
 .directive('singleImage', function() {
     return {
@@ -27,7 +27,7 @@ angular.module('MetronicApp')
         scope:{
             card: '='
         },
-        controller:['$scope', 'settings', function($scope, settings) {
+        controller:['$scope', 'settings', 'Searcher', function($scope, settings, Searcher) {
             $scope.settings = settings;
         }]
     };
@@ -40,12 +40,13 @@ angular.module('MetronicApp')
         scope:{
             card: '='
         },
-        controller:['$scope', 'settings', function($scope, settings) {
+        controller:['$scope', 'settings', 'Searcher', function($scope, settings, Searcher) {
             $scope.settings = settings;
+            $scope.Searcher = Searcher;
         }]
     };
 })
-.directive('canvas', function() {
+.directive('adcanvas', function() {
     return {
         restrict:'E',
         templateUrl:'views/search/canvas.html',
@@ -53,8 +54,9 @@ angular.module('MetronicApp')
         scope:{
             card: '='
         },
-        controller:['$scope', 'settings', function($scope, settings) {
+        controller:['$scope', 'settings', 'Searcher', function($scope, settings, Searcher) {
             $scope.settings = settings;
+            $scope.Searcher = Searcher;
         }]
     };
 })
@@ -120,21 +122,21 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
             };
             vm.params = angular.copy(vm.defparams);
             vm.oldParams = null;
-            vm.ADS_TYPE = ADS_TYPE;
+            searcher.ADS_TYPE = searcher.prototype.ADS_TYPE = ADS_TYPE;
             vm.ADS_CONT_TYPE = ADS_CONT_TYPE;
             vm.pageCount = settings.searchSetting.pageCount;
             vm.ads = {
                 total_count: 0
             };
             vm.isend = false;
-
-            vm.getAdsType = function(item, type) {
+            //函数的静态方法以及对象的方法
+            searcher.getAdsType = searcher.prototype.getAdsType = function(item, type) {
                 // console.log(type, item.show_way, item.show_way & type);
                 if (item.show_way & type)
                     return true;
                 return false;
             };
-            vm.search = function(params, clear) {
+            searcher.prototype.search = function(params, clear) {
                 //获取广告搜索信息
                 var searchurl = settings.remoteurl + '/api/forward/adsearch';
                 vm.busy = true;
@@ -156,6 +158,13 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                                 value.buttondesc = JSON.parse(value.buttondesc);
                                 value.name = JSON.parse(value.name);
                                 value.description = JSON.parse(value.description);
+                                value.local_picture = JSON.parse(value.local_picture);
+                            } else if (value.type == vm.ADS_CONT_TYPE.CANVAS) {
+                                value.link = JSON.parse(value.link);
+                                value.local_picture = JSON.parse(value.local_picture);
+                                if (vm.getAdsType(value, vm.ADS_TYPE.rightcolumn)) {
+                                    value.watermark = JSON.parse(value.watermark);
+                                }
                             }
                         });
                         if (clear || vm.ads.total_count === 0) {

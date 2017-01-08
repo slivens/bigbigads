@@ -21,7 +21,7 @@
     max-width: 100%; }
   .aditem .adlink {
     display: inline-block;
-    max-width: 60%;
+    max-width: 50%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

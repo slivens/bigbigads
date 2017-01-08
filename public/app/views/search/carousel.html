@@ -7,9 +7,10 @@
         <uib-carousel active="card.active" no-wrap="true">
             <uib-slide ng-repeat="slide in card.watermark track by $index" index="$index">
                 <div class="text-center">
-                    <img ng-src="{{settings.imgRemoteBase + slide.source}}" alt="">
-
-                    </div>
+                    <a fancybox ng-href="{{settings.imgRemoteBase + card.local_picture[$index].source}}" rel="group{{card.event_id}}">
+                        <img ng-src="{{settings.imgRemoteBase + slide.source}}" alt="">
+                    </a>
+                </div>
             </uib-slide>
         </uib-carousel>
         <div class="h5">

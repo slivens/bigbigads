@@ -4,7 +4,9 @@
             <div>
                 <div><span ng-bind-html="card.message | toHtml"></span></div>
                 <div class="text-center">
-                    <img ng-src="{{settings.imgRemoteBase + card.watermark}}" alt="">
+                    <a fancybox ng-href="{{settings.imgRemoteBase + card.local_picture}}">
+                        <img ng-src="{{settings.imgRemoteBase + card.watermark}}" alt="">
+                    </a>
                 </div>
                 <div class="h5">
                     <div class="pull-right" ng-if="card.buttondesc">
