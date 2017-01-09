@@ -254,8 +254,8 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
         return searcher;
     }
 ]);
-angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$scope', 'settings', '$http', 'Searcher', '$filter', 'SweetAlert',
-    function($rootScope, $scope, settings, $http, Searcher, $filter, SweetAlert) {
+angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$scope', 'settings', '$http', 'Searcher', '$filter', 'SweetAlert', '$state', 
+    function($rootScope, $scope, settings, $http, Searcher, $filter, SweetAlert, $state) {
         $scope.swal = function(msg) {
             SweetAlert.swal(msg);
         };
@@ -428,6 +428,10 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             $scope.filter($scope.filterOption);
             if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 0)
                 $scope.currSearchOption.isdirty = true;
+        };
+
+        $scope.clearSearch = function() {
+            $state.reload();     
         };
         $scope.$on('$viewContentLoaded', function() {
             // initialize core components
