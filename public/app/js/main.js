@@ -656,7 +656,7 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 }]);
 
 /* Setup Rounting For All Pages */
-MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
     // Redirect any unmatched url
     $urlRouterProvider.otherwise("/dashboard.html");
 
@@ -1084,12 +1084,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     });
-
+    $locationProvider.html5Mode(true);
 }]);
 
 /* Init global settings and run the app */
 MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
-    $rootScope.swal = swal;
+    
 }]);
