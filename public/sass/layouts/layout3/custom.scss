@@ -70,3 +70,6 @@ $play-btn-size:100px;
     overflow-y:hidden;
 }
 
+.select2-dropdown {
+    z-index:99999 !important;
+}

@@ -19,6 +19,13 @@ angular.module('MetronicApp')
         }
     };
 }])
+.directive('select2', function() {
+    return {
+        link:function(scope, element, attrs) {
+            element.select2();
+        }
+    };
+})
 .directive('advideo', ['$compile', '$timeout',function($compile, $timeout) {
     return {
         link: function(scope, element, attrs) {
@@ -96,6 +103,20 @@ angular.module('MetronicApp')
             $scope.settings = settings;
         }]
     };
+})
+.factory('Util', function() {
+    return {
+        matchkey:function(origstr, destArr) {
+            var orig = origstr.split(',');
+            angular.forEach(orig, function(item1) {
+                for (i = 0; i < destArr.length;i++){
+                      if (item1 == destArr[i].key) {
+                          destArr[i].selected = true;
+                      }
+                }
+            });
+        }
+    };
 });
 
 angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE',
@@ -117,7 +138,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 "topN": 10,
                 "is_stat": 0
             };
-            vm.defSearchFields = "message,name,description,caption,link,adser_username,adser_name,dest_site,buttonlink";
+            searcher.defSearchFields = searcher.prototype.defSearchFields = "message,name,description,caption,link,adser_username,adser_name,dest_site,buttonlink";
             vm.defFilterOption = {
                 type:"",
                 date: {
@@ -132,7 +153,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
             range: settings.searchSetting.rangeList,
             search: {
                 text: null,
-                fields: vm.defSearchFields
+                fields: searcher.defSearchFields
             },
             domain: {
                 text: null,
@@ -254,17 +275,106 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
         return searcher;
     }
 ]);
-angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$scope', 'settings', '$http', 'Searcher', '$filter', 'SweetAlert', '$state', 
-    function($rootScope, $scope, settings, $http, Searcher, $filter, SweetAlert, $state) {
+angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$scope', 'settings', '$http', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util',
+    function($rootScope, $scope, settings, $http, Searcher, $filter, SweetAlert, $state, $location, Util) {
+        //搜索流程:location.search->searchOption->adSearcher.params
+        
+        //将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
+        function searchToQuery(option, searcher) {
+            var query = {};
+            if (option.search.text)
+                query.searchText = option.search.text;
+            if (option.search.fields != searcher.defSearchFields)
+                query.searchFields =  option.search.fields;
+            if (option.filter.date.startDate && option.filter.date.endDate) {
+                query.startDate =  option.filter.date.startDate.format('YYYY-MM-DD');
+                query.endDate =  option.filter.date.endDate.format('YYYY-MM-DD');
+            }
+            if (option.filter.type)  {
+                query.type =  option.filter.type;
+            }
+            if (option.filter.lang) {
+                query.lang =  option.filter.lang;
+            }
+            if (option.filter.state) {
+                query.state =  option.filter.state;
+            }
+            if (option.domain.text) {
+                query.domain =  JSON.stringify(option.domain);
+            }
+            if (option.audience.text) {
+                query.audience = JSON.stringify(option.audience);
+            }
+
+            //category, format, buttondesc
+            if (option.filter.categoryString) {
+                query.category =  option.filter.categoryString;
+            }
+            if (option.filter.formatString) {
+                query.format = option.filter.formatString;
+            }
+            if (option.filter.buttondescString) {
+                query.buttondesc = option.filter.buttondescString;
+            }
+            $location.search(query);
+        }
+        //将query转化成搜索参数
+        function queryToSearch(option, searcher) {
+            var i;
+            var search = $location.search();
+            if (search.searchText) {
+                option.search.text = search.searchText;
+            }
+            if (search.searchFields && search.searchFields != searcher.defSearchFields) {
+                var range = search.searchFields.split(',');
+                angular.forEach(range, function(item1) {
+                    for (i = 0; i < option.range.length;i++){
+                        if (item1 == option.range[i].key) {
+                            option.range[i].selected = true;
+                        }
+                    }
+                });
+            }
+            if (search.startDate && search.endDate) {
+                option.filter.date.startDate = moment(search.startDate, 'YYYY-MM-DD');
+                option.filter.date.endDate = moment(search.endDate, 'YYYY-MM-DD');
+            }
+            if (search.type) {
+                option.filter.type = search.type;
+            }
+            if (search.lang) {
+                option.filter.lang = search.lang;
+            }
+            if (search.state) {
+                option.filter.state = search.state;
+            }
+            if (search.domain) {
+                option.domain = JSON.parse(search.domain);
+            }
+            if (search.audience) {
+                option.audience = JSON.parse(search.audience);
+            }
+            if (search.category) {
+                Util.matchkey(search.category, option.filter.category);
+            }
+            if (search.format) {
+                Util.matchkey(search.format, option.filter.format);
+            }
+            if (search.buttondesc) {
+                Util.matchkey(search.buttondesc, option.filter.buttondesc);
+            }
+        }
         $scope.swal = function(msg) {
             SweetAlert.swal(msg);
         };
         $scope.adSearcher = new Searcher();
-        $scope.adSearcher.search($scope.adSearcher.defparams, true);
+        // $scope.adSearcher.search($scope.adSearcher.defparams, true);
         $scope.reverseSort = function() {
             $scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;
             $scope.adSearcher.filter();
+            
         };
+        
      
         // $scope.filterOption = {
         //     date: {
@@ -274,17 +384,18 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
         // };
         //text为空时就表示没有这个搜索项了
         $scope.initSearch = function() {
-            $scope.searchOption = $scope.adSearcher.searchOption = angular.copy($scope.adSearcher.defSearchOption);
+            var option = $scope.searchOption = $scope.adSearcher.searchOption = angular.copy($scope.adSearcher.defSearchOption);
             $scope.filterOption = $scope.searchOption.filter;
+            queryToSearch(option, $scope.adSearcher);
         };
-        $scope.resetSearch = function() {
-            angular.forEach($scope.filterOption.category, function(value, key) {
-                value.selected = false;
-            });
-            angular.forEach($scope.filterOption.format, function(value, key) {
-                value.format = false;
-            });
-        };
+        // $scope.resetSearch = function() {
+        //     angular.forEach($scope.filterOption.category, function(value, key) {
+        //         value.selected = false;
+        //     });
+        //     angular.forEach($scope.filterOption.format, function(value, key) {
+        //         value.format = false;
+        //     });
+        // };
         $scope.initSearch();
 
         $scope.currSearchOption = {};
@@ -342,6 +453,8 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     category.push(item.key);
                 }
             });
+            $scope.filterOption.categoryString = category.join(',');
+
             if (category.length) {
                 $scope.adSearcher.addFilter({
                     field: 'category',
@@ -357,6 +470,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     format.push(item.key);
                 }
             });
+            $scope.filterOption.formatString = format.join(',');
             if (format.length) {
                 $scope.adSearcher.addFilter({
                     field: 'media_type',
@@ -372,6 +486,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     buttondesc.push(item.key);
                 }
             });
+            $scope.filterOption.buttondescString = buttondesc.join(',');
             if (buttondesc.length) {
                 $scope.adSearcher.addFilter({
                     field: 'buttondesc',
@@ -394,7 +509,8 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             var keys;
             var range = [];
             keys = $scope.adSearcher.params.keys = [];
-
+            
+            //字符串和域
             $scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
             if (option.search.text) {
                 angular.forEach(option.range, function(item, key) {
@@ -402,13 +518,14 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                         range.push(item.key);
                     }
                 });
-
+                option.search.fields = range.length ? range.join(',') : option.search.fields;
                 keys.push({
                     string: option.search.text,
-                    search_fields: range.length ? range.join(',') : option.search.fields,
+                    search_fields: option.search.fields,
                     relation: "Must"
                 });
             }
+            //域名
             if (option.domain.text) {
                 keys.push({
                     string: option.domain.text,
@@ -416,6 +533,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     relation: option.domain.exclude ? 'Not' : 'Must'
                 });
             }
+            //受众
             if (option.audience.text) {
                 keys.push({
                     string: option.audience.text,
@@ -426,13 +544,20 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
 
             $scope.currSearchOption.range = range.join(',');
             $scope.filter($scope.filterOption);
-            if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 0)
+            if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 0) {
                 $scope.currSearchOption.isdirty = true;
+            }
+            searchToQuery(option, $scope.adSearcher);
         };
 
         $scope.clearSearch = function() {
+            $location.search({});
             $state.reload();     
         };
+        
+        //根据search参数页面初始化
+
+        $scope.search();
         $scope.$on('$viewContentLoaded', function() {
             // initialize core components
             App.initAjax();
@@ -445,4 +570,58 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
 
 
     }
-]);
+])
+.controller('QuickSidebarController', ['$scope', function($scope) {
+
+/* Setup Layout Part - Quick Sidebar */
+//这个控制器与广告是强绑定的，这里直接指向$parent的这个方式是非常不友好的，加大了耦合
+    $scope.$on('$includeContentLoaded', function() {
+        $scope.filterOption = $scope.$parent.filterOption;
+        $scope.daterangeOption = {
+            ranges: {
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'Last 90 Days': [moment().subtract(89, 'days'), moment()],
+                'Last 180 Days': [moment().subtract(179, 'days'), moment()]
+            }
+        };
+        $scope.categoryOpt = {
+            items:$scope.$parent.filterOption.category,
+            all: false,
+            collapse:true,
+            defnum:5,
+            toggle:function() {
+            angular.forEach($scope.$parent.filterOption.category, function(value, key) {
+                if ($scope.categoryOpt.all)
+                    value.selected = true;
+                else
+                    value.selected = false;
+            });
+            }
+        };
+        $scope.buttondescOpt = {
+            items:$scope.$parent.filterOption.buttondesc,
+            all: false,
+            collapse:true,
+            defnum:5,
+            toggle:function() {
+                var vm = this;
+                angular.forEach(this.items, function(value, key) {
+                    if (vm.all)
+                        value.selected = true;
+                    else
+                        value.selected = false;
+                });
+            }
+        };
+
+        $scope.reset = function() {
+            $scope.$parent.initSearch();
+            $scope.$parent.search();
+            console.log($scope.$parent.filterOption);
+        };
+        setTimeout(function() {
+            QuickSidebar.init(); // init quick sidebar        
+        }, 100);
+    });
+}]);

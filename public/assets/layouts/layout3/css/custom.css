@@ -49,4 +49,7 @@
   height: 300px;
   overflow-y: hidden; }
 
+.select2-dropdown {
+  z-index: 99999 !important; }
+
 /*# sourceMappingURL=custom.css.map */

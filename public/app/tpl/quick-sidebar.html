@@ -16,7 +16,11 @@
                 Language:
             </label>
             <div>
-                <input type="text" class="form-control" ng-model="$parent.filterOption.lang" placeholder="E.g Engllish">
+                <!-- <input type="text" class="form-control" ng-model="$parent.filterOption.lang" placeholder="E.g Engllish"> -->
+                <select select2 class="form-control" data-placeholder="E.g English" ng-model="$parent.filterOption.lang" ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" >
+                    <option value=""></option>
+                </select>
+
             </div>
 
         </div>
@@ -66,7 +70,7 @@
         <div class="pull-left font-yellow-gold">
             <label class="mt-checkbox mt-checkbox-outline">
             &nbsp;
-            <input type="checkbox"  ng-model="categoryOpt.all"  ng-change="toggleCateogry()">
+            <input type="checkbox"  ng-model="categoryOpt.all"  ng-change="categoryOpt.toggle()">
             <span></span>
             </label>
 

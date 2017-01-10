@@ -535,8 +535,470 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
             }, {
                 key: "description",
                 value: "Content"
+            }],
+            langList: [{
+                key: "af",
+                value: "af"
+            }, {
+                key: "ar",
+                value: "ar"
+            }, {
+                key: "bg",
+                value: "bg"
+            }, {
+                key: "bn",
+                value: "bn"
+            }, {
+                key: "ca",
+                value: "ca"
+            }, {
+                key: "cs",
+                value: "cs"
+            }, {
+                key: "cy",
+                value: "cy"
+            }, {
+                key: "da",
+                value: "da"
+            }, {
+                key: "de",
+                value: "de"
+            }, {
+                key: "el",
+                value: "el"
+            }, {
+                key: "en",
+                value: "en"
+            }, {
+                key: "es",
+                value: "es"
+            }, {
+                key: "et",
+                value: "et"
+            }, {
+                key: "fa",
+                value: "fa"
+            }, {
+                key: "fi",
+                value: "fi"
+            }, {
+                key: "fr",
+                value: "fr"
+            }, {
+                key: "gu",
+                value: "gu"
+            }, {
+                key: "he",
+                value: "he"
+            }, {
+                key: "hi",
+                value: "hi"
+            }, {
+                key: "hr",
+                value: "hr"
+            }, {
+                key: "hu",
+                value: "hu"
+            }, {
+                key: "id",
+                value: "id"
+            }, {
+                key: "it",
+                value: "it"
+            }, {
+                key: "ja",
+                value: "ja"
+            }, {
+                key: "kn",
+                value: "kn"
+            }, {
+                key: "ko",
+                value: "ko"
+            }, {
+                key: "lt",
+                value: "lt"
+            }, {
+                key: "lv",
+                value: "lv"
+            }, {
+                key: "mk",
+                value: "mk"
+            }, {
+                key: "ml",
+                value: "ml"
+            }, {
+                key: "mr",
+                value: "mr"
+            }, {
+                key: "ne",
+                value: "ne"
+            }, {
+                key: "nl",
+                value: "nl"
+            }, {
+                key: "no",
+                value: "no"
+            }, {
+                key: "pa",
+                value: "pa"
+            }, {
+                key: "pl",
+                value: "pl"
+            }, {
+                key: "pt",
+                value: "pt"
+            }, {
+                key: "ro",
+                value: "ro"
+            }, {
+                key: "ru",
+                value: "ru"
+            }, {
+                key: "sk",
+                value: "sk"
+            }, {
+                key: "sl",
+                value: "sl"
+            }, {
+                key: "so",
+                value: "so"
+            }, {
+                key: "sq",
+                value: "sq"
+            }, {
+                key: "sv",
+                value: "sv"
+            }, {
+                key: "sw",
+                value: "sw"
+            }, {
+                key: "ta",
+                value: "ta"
+            }, {
+                key: "te",
+                value: "te"
+            }, {
+                key: "th",
+                value: "th"
+            }, {
+                key: "tl",
+                value: "tl"
+            }, {
+                key: "tr",
+                value: "tr"
+            }, {
+                key: "uk",
+                value: "uk"
+            }, {
+                key: "ur",
+                value: "ur"
+            }, {
+                key: "vi",
+                value: "vi"
+            }, {
+                key: "zh-cn",
+                value: "zh-cn"
+            }, {
+                key: "zh-tw",
+                value: "zh-tw"
+            }, {
+                key: "af",
+                value: "Afrikaans"
+            }, {
+                key: "am",
+                value: "Amharic"
+            }, {
+                key: "an",
+                value: "Aragonese"
+            }, {
+                key: "ar",
+                value: "Arabic"
+            }, {
+                key: "as",
+                value: "Assamese"
+            }, {
+                key: "az",
+                value: "Azerbaijani"
+            }, {
+                key: "be",
+                value: "Belarusian"
+            }, {
+                key: "bg",
+                value: "Bulgarian"
+            }, {
+                key: "bn",
+                value: "Bengali"
+            }, {
+                key: "br",
+                value: "Breton"
+            }, {
+                key: "bs",
+                value: "Bosnian"
+            }, {
+                key: "ca",
+                value: "Catalan"
+            }, {
+                key: "cs",
+                value: "Czech"
+            }, {
+                key: "cy",
+                value: "Welsh"
+            }, {
+                key: "da",
+                value: "Danish"
+            }, {
+                key: "de",
+                value: "German"
+            }, {
+                key: "dz",
+                value: "Dzongkha"
+            }, {
+                key: "el",
+                value: "Modern Greek (1453-)"
+            }, {
+                key: "en",
+                value: "English"
+            }, {
+                key: "eo",
+                value: "Esperanto"
+            }, {
+                key: "es",
+                value: "Spanish"
+            }, {
+                key: "et",
+                value: "Estonian"
+            }, {
+                key: "eu",
+                value: "Basque"
+            }, {
+                key: "fa",
+                value: "Persian"
+            }, {
+                key: "fi",
+                value: "Finnish"
+            }, {
+                key: "fo",
+                value: "Faroese"
+            }, {
+                key: "fr",
+                value: "French"
+            }, {
+                key: "ga",
+                value: "Irish"
+            }, {
+                key: "gl",
+                value: "Galician"
+            }, {
+                key: "gu",
+                value: "Gujarati"
+            }, {
+                key: "he",
+                value: "Hebrew"
+            }, {
+                key: "hi",
+                value: "Hindi"
+            }, {
+                key: "hr",
+                value: "Croatian"
+            }, {
+                key: "ht",
+                value: "Haitian"
+            }, {
+                key: "hu",
+                value: "Hungarian"
+            }, {
+                key: "hy",
+                value: "Armenian"
+            }, {
+                key: "id",
+                value: "Indonesian"
+            }, {
+                key: "is",
+                value: "Icelandic"
+            }, {
+                key: "it",
+                value: "Italian"
+            }, {
+                key: "ja",
+                value: "Japanese"
+            }, {
+                key: "jv",
+                value: "Javanese"
+            }, {
+                key: "ka",
+                value: "Georgian"
+            }, {
+                key: "kk",
+                value: "Kazakh"
+            }, {
+                key: "km",
+                value: "Central Khmer"
+            }, {
+                key: "kn",
+                value: "Kannada"
+            }, {
+                key: "ko",
+                value: "Korean"
+            }, {
+                key: "ku",
+                value: "Kurdish"
+            }, {
+                key: "ky",
+                value: "Kirghiz"
+            }, {
+                key: "la",
+                value: "Latin"
+            }, {
+                key: "lb",
+                value: "Luxembourgish"
+            }, {
+                key: "lo",
+                value: "Lao"
+            }, {
+                key: "lt",
+                value: "Lithuanian"
+            }, {
+                key: "lv",
+                value: "Latvian"
+            }, {
+                key: "mg",
+                value: "Malagasy"
+            }, {
+                key: "mk",
+                value: "Macedonian"
+            }, {
+                key: "ml",
+                value: "Malayalam"
+            }, {
+                key: "mn",
+                value: "Mongolian"
+            }, {
+                key: "mr",
+                value: "Marathi"
+            }, {
+                key: "ms",
+                value: "Malay (macrolanguage)"
+            }, {
+                key: "mt",
+                value: "Maltese"
+            }, {
+                key: "nb",
+                value: "Norwegian Bokmål"
+            }, {
+                key: "ne",
+                value: "Nepali (macrolanguage)"
+            }, {
+                key: "nl",
+                value: "Dutch"
+            }, {
+                key: "nn",
+                value: "Norwegian Nynorsk"
+            }, {
+                key: "no",
+                value: "Norwegian"
+            }, {
+                key: "oc",
+                value: "Occitan (post 1500)"
+            }, {
+                key: "or",
+                value: "Oriya (macrolanguage)"
+            }, {
+                key: "pa",
+                value: "Panjabi"
+            }, {
+                key: "pl",
+                value: "Polish"
+            }, {
+                key: "ps",
+                value: "Pushto"
+            }, {
+                key: "pt",
+                value: "Portuguese"
+            }, {
+                key: "qu",
+                value: "Quechua"
+            }, {
+                key: "ro",
+                value: "Romanian"
+            }, {
+                key: "ru",
+                value: "Russian"
+            }, {
+                key: "rw",
+                value: "Kinyarwanda"
+            }, {
+                key: "se",
+                value: "Northern Sami"
+            }, {
+                key: "si",
+                value: "Sinhala"
+            }, {
+                key: "sk",
+                value: "Slovak"
+            }, {
+                key: "sl",
+                value: "Slovenian"
+            }, {
+                key: "sq",
+                value: "Albanian"
+            }, {
+                key: "sr",
+                value: "Serbian"
+            }, {
+                key: "sv",
+                value: "Swedish"
+            }, {
+                key: "sw",
+                value: "Swahili (macrolanguage)"
+            }, {
+                key: "ta",
+                value: "Tamil"
+            }, {
+                key: "te",
+                value: "Telugu"
+            }, {
+                key: "th",
+                value: "Thai"
+            }, {
+                key: "tl",
+                value: "Tagalog"
+            }, {
+                key: "tr",
+                value: "Turkish"
+            }, {
+                key: "ug",
+                value: "Uighur"
+            }, {
+                key: "uk",
+                value: "Ukrainian"
+            }, {
+                key: "ur",
+                value: "Urdu"
+            }, {
+                key: "vi",
+                value: "Vietnamese"
+            }, {
+                key: "vo",
+                value: "Volapük"
+            }, {
+                key: "wa",
+                value: "Walloon"
+            }, {
+                key: "xh",
+                value: "Xhosa"
+            }, {
+                key: "unknown_none",
+                value: "Yaghan"
+            }, {
+                key: "unknown",
+                value: "Yutes"
+            }, {
+                key: "zh",
+                value: "Chinese"
+            }, {
+                key: "zu",
+                value: "Zulu"
             }]
-
         }
     };
 
@@ -545,15 +1007,15 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
     return settings;
 }]);
 MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
-    return function(text) {　　
-        return $sce.trustAsHtml(text);　　
-    };
-}])
-.filter('trusted', ['$sce', function($sce) {
-    return function(url) {
-        return $sce.trustAsResourceUrl(url);
-    };
-}]);
+        return function(text) {　　
+            return $sce.trustAsHtml(text);　　
+        };
+    }])
+    .filter('trusted', ['$sce', function($sce) {
+        return function(url) {
+            return $sce.trustAsResourceUrl(url);
+        };
+    }]);
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {
@@ -579,58 +1041,6 @@ MetronicApp.controller('HeaderController', ['$scope', function($scope) {
 MetronicApp.controller('SidebarController', ['$scope', function($scope) {
     $scope.$on('$includeContentLoaded', function() {
         Layout.initSidebar($state); // init sidebar
-    });
-}]);
-
-/* Setup Layout Part - Quick Sidebar */
-//这个控制器与广告是强绑定的，这里直接指向$parent的这个方式是非常不友好的，加大了耦合
-MetronicApp.controller('QuickSidebarController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
-        $scope.filterOption = $scope.$parent.filterOption;
-        $scope.daterangeOption = {
-            ranges: {
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                'Last 90 Days': [moment().subtract(89, 'days'), moment()],
-                'Last 180 Days': [moment().subtract(179, 'days'), moment()]
-            }
-        };
-        $scope.categoryOpt = {
-            all: false,
-            collapse:true,
-            defnum:5
-        };
-        $scope.buttondescOpt = {
-            items:$scope.$parent.filterOption.buttondesc,
-            all: false,
-            collapse:true,
-            defnum:5,
-            toggle:function() {
-                var vm = this;
-                angular.forEach(this.items, function(value, key) {
-                    if (vm.all)
-                        value.selected = true;
-                    else
-                        value.selected = false;
-                });
-            }
-        };
-        $scope.toggleCateogry = function() {
-            angular.forEach($scope.$parent.filterOption.category, function(value, key) {
-                if ($scope.categoryOpt.all)
-                    value.selected = true;
-                else
-                    value.selected = false;
-            });
-        };
-        $scope.reset = function() {
-            $scope.$parent.initSearch();
-            $scope.$parent.search();
-            console.log($scope.$parent.filterOption);
-        };
-        setTimeout(function() {
-            QuickSidebar.init(); // init quick sidebar        
-        }, 100);
     });
 }]);
 
@@ -721,17 +1131,22 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                         name: 'MetronicApp',
                         insertBefore: ' #ng_load_plugins_before',
                         files: [
-                            'js/adsearch/AdsearchController.js',
                             '/bower_components/angular-deckgrid/angular-deckgrid.js',
                             '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
                             '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
+                            '../assets/global/plugins/select2/css/select2.min.css',
+                            '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
                             '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
+                            '../assets/global/plugins/select2/js/select2.full.min.js',
                             '../assets/pages/scripts/components-bootstrap-select.min.js',
+                            '../assets/pages/scripts/components-select2.min.js',
+
                             '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
                             '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
-                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js'
+                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
+                            'js/adsearch/AdsearchController.js'
                         ]
                     });
                 }]
@@ -1091,5 +1506,5 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
 MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
-    
+
 }]);
