@@ -126,7 +126,19 @@
         </div>
         <hr>
         <!-- end Category -->
+        <div class="form-group">
+            <label>duration:</label>
+            <div>
+                <input ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.duration.from" ng-to="$parent.filterOption.duration.to" ng-min="settings.searchSetting.durationRange[0]" ng-max="settings.searchSetting.durationRange[1]" >
+            </div>
+        </div>
 
+        <div class="form-group">
+            <label>see times:</label>
+            <div>
+                <input ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" >
+            </div>
+        </div>
         <div class="form-group">
             <button type="submit" class="btn btn-lg yellow-gold filterbar-toggler">
                 <i class="fa fa-check"></i>

@@ -95,6 +95,8 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         imgRemoteBase: 'http://image1.bigbigads.com:88',
         searchSetting: {
             pageCount: 10, //每一页的数据量
+            durationRange:[0, 365],
+            seeTimesRange:[0, 365],
             orderBy: [{
                 key: 'first_view_date',
                 value: 'first_view'
@@ -1146,6 +1148,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
+                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
+                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
+                            '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             'js/adsearch/AdsearchController.js'
                         ]
                     });

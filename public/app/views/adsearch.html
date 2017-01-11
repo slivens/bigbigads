@@ -64,6 +64,8 @@
                     <div ng-if="currSearchOption.format">Format:{{currSearchOption.format}}</div>
                     <div ng-if="currSearchOption.buttondesc">Button Description:{{currSearchOption.buttondesc}}</div>
                     <div ng-if="currSearchOption.range">Range:{{currSearchOption.range}}</div>
+                    <div ng-if="currSearchOption.filter.isDurationDirty()">Duration Range:{{currSearchOption.filter.duration.from}}~{{currSearchOption.filter.duration.to}}</div>
+                    <div ng-if="currSearchOption.filter.isSeeTimesDirty()">See Times Range:{{currSearchOption.filter.seeTimes.from}}~{{currSearchOption.filter.seeTimes.to}}</div>
                 </div>
             </div>
         </div>

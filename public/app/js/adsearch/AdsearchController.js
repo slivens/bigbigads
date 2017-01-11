@@ -26,6 +26,43 @@ angular.module('MetronicApp')
         }
     };
 })
+.directive('ionRangeSlider', function() {
+    return {
+        scope:{
+            ngFrom:'=',
+            ngTo:'=',
+            ngMax:'=',
+            ngMin:'='
+        },
+        link: function(scope, element, attrs) {
+            var slider;
+            element.ionRangeSlider({
+                type:"double",
+                from:scope.ngForm,
+                to:scope.ngTo,
+                max:scope.ngMax,
+                min:scope.ngMin,
+                onChange:function(data) {
+                    if (data.from != scope.ngForm)
+                        scope.ngFrom = data.from;
+                    if (data.to != scope.ngTo)
+                        scope.ngTo = data.to;
+                }
+            });
+            slider = element.data('ionRangeSlider');
+            scope.$watch('ngFrom', function(newValue, oldValue) {
+                slider.update({
+                    from:newValue
+                });
+            });
+            scope.$watch('ngTo', function(newValue, oldValue) {
+                slider.update({
+                    to:newValue
+                });
+            });
+        }
+    };
+})
 .directive('advideo', ['$compile', '$timeout',function($compile, $timeout) {
     return {
         link: function(scope, element, attrs) {
@@ -139,7 +176,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 "is_stat": 0
             };
             searcher.defSearchFields = searcher.prototype.defSearchFields = "message,name,description,caption,link,adser_username,adser_name,dest_site,buttonlink";
-            vm.defFilterOption = {
+            searcher.defFilterOption = searcher.prototype.defFilterOption = {
                 type:"",
                 date: {
                     startDate: null,
@@ -147,7 +184,29 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 },
                 category:settings.searchSetting.categoryList,
                 format:settings.searchSetting.formatList,
-                buttondesc:settings.searchSetting.buttondescList
+                buttondesc:settings.searchSetting.buttondescList,
+                duration:{
+                    from:settings.searchSetting.durationRange[0],
+                    to:settings.searchSetting.durationRange[1]
+                },
+                seeTimes:{
+                    from:settings.searchSetting.seeTimesRange[0],
+                    to:settings.searchSetting.seeTimesRange[1]
+                },
+                isDurationDirty:function() {
+                    //这里引用this,关键是要对this这个指针有透彻的理解，this是会变的。当函数作为对象的属性时，this就是对象，即当以obj.isDurationDirty()，this就是obj。如果fn=obj.isDurationDirty();fn();那么this就是window。当函数出问题时一定要检查下this。
+                    if (this.duration.from == searcher.defFilterOption.duration.from && 
+                        this.duration.to == searcher.defFilterOption.duration.to)
+                        return false;
+                    return true;
+                },
+                isSeeTimesDirty:function() {
+                    if (this.seeTimes.from == searcher.defFilterOption.seeTimes.from && 
+                        this.seeTimes.to == searcher.defFilterOption.seeTimes.to)
+                        return false;
+                    return true;
+                }
+
             };
             vm.defSearchOption = {
             range: settings.searchSetting.rangeList,
@@ -163,7 +222,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 text: null,
                 exclude: false
             },
-            filter: vm.defFilterOption
+            filter: searcher.defFilterOption
             };
             vm.params = angular.copy(vm.defparams);
             vm.oldParams = null;
@@ -236,7 +295,6 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                     return;
                 vm.params.limit[0] += settings.searchSetting.pageCount;
                 vm.search(vm.params, false);
-                console.log("read more", vm.params.limit);
             };
             vm.filter = function() {
                 if (vm.params == vm.oldParams)
@@ -316,6 +374,12 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             if (option.filter.buttondescString) {
                 query.buttondesc = option.filter.buttondescString;
             }
+            if (option.filter.isDurationDirty()) {
+                query.duration = JSON.stringify(option.filter.duration);
+            }
+            if (option.filter.isSeeTimesDirty()) {
+                query.seeTimes = JSON.stringify(option.filter.seeTimes);
+            }
             $location.search(query);
         }
         //将query转化成搜索参数
@@ -362,6 +426,12 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             }
             if (search.buttondesc) {
                 Util.matchkey(search.buttondesc, option.filter.buttondesc);
+            }
+            if (search.duration) {
+                option.filter.duration = JSON.parse(search.duration);
+            }
+            if (search.seeTimes) {
+                option.filter.seeTimes = JSON.parse(search.seeTimes);
             }
         }
         $scope.swal = function(msg) {
@@ -486,7 +556,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     buttondesc.push(item.key);
                 }
             });
-            $scope.filterOption.buttondescString = buttondesc.join(',');
+            option.buttondescString = buttondesc.join(',');
             if (buttondesc.length) {
                 $scope.adSearcher.addFilter({
                     field: 'buttondesc',
@@ -495,7 +565,20 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             } else {
                 $scope.adSearcher.removeFilter('buttondesc');
             }
-            
+
+            //Duration Filter
+            if (!option.isDurationDirty()) {
+                $scope.adSearcher.removeFilter('duration_days');
+            } else {
+                $scope.adSearcher.addFilter({field:'duration_days', min:option.duration.from, max:option.duration.to});
+            }
+
+            //see times Filter
+            if (!option.isSeeTimesDirty()) {
+                $scope.adSearcher.removeFilter('see_times');
+            } else {
+                $scope.adSearcher.addFilter({field:'see_times', min:option.seeTimes.from, max:option.seeTimes.to});
+            }     
             $scope.currSearchOption.category = category.join(',');
             $scope.currSearchOption.format = format.join(',');
             $scope.currSearchOption.buttondesc = buttondesc.join(',');
@@ -541,7 +624,6 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     relation: option.audience.exclude ? 'Not' : 'Must'
                 });
             }
-
             $scope.currSearchOption.range = range.join(',');
             $scope.filter($scope.filterOption);
             if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 0) {
@@ -571,11 +653,12 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
 
     }
 ])
-.controller('QuickSidebarController', ['$scope', function($scope) {
+.controller('QuickSidebarController', ['$scope', 'settings', function($scope, settings) {
 
 /* Setup Layout Part - Quick Sidebar */
 //这个控制器与广告是强绑定的，这里直接指向$parent的这个方式是非常不友好的，加大了耦合
     $scope.$on('$includeContentLoaded', function() {
+        $scope.settings = settings;
         $scope.filterOption = $scope.$parent.filterOption;
         $scope.daterangeOption = {
             ranges: {
