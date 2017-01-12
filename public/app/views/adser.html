@@ -1,0 +1,47 @@
+<!-- BEGIN PAGE BREADCRUMB -->
+<div ng-controller="AdserController">
+<ul class="page-breadcrumb breadcrumb">
+    <li>
+        <a ui-sref="adsearch">ad search</a>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li>
+        <a  ui-sref="adser({adser:adser.username})">{{adser.name}}</a>
+    </li>
+</ul>
+
+<!-- END PAGE BREADCRUMB -->
+<!-- BEGIN MAIN CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN: ACCORDION DEMO -->
+        <div class="clearfix">
+            <div class="pull-right">
+                <form class="form-inline">
+                <div class="form-group">
+                    <button class="btn yellow-gold btn-sm" ng-class="{'active':!adSearcher.params.sort.order}" ng-click="reverseSort()">Reverse</button>
+
+                    <select class="form-control bs-select" ng-model="adSearcher.params.sort.field" ng-options="item.key as item.value for item in settings.searchSetting.orderBy" ng-change="adSearcher.filter()">
+                        <option value="">Sort By</option>
+                    </select>
+                </div>
+                </form>
+            </div>
+            <div>
+                <span>About {{adSearcher.ads.total_count}} results</span>
+            </div>
+        </div>
+        <div infinite-scroll="adSearcher.getMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
+            <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid" cardTemplate="views/adsearch-card.html">
+            </div>
+            <div class="clearfix">
+            </div>
+			<div class="text-center" ng-show="adSearcher.busy">
+				<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+				<span class="sr-only">Loading...</span>
+			</div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT -->
+

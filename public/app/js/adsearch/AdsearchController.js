@@ -333,10 +333,9 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
         return searcher;
     }
 ]);
-angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$scope', 'settings', '$http', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util',
-    function($rootScope, $scope, settings, $http, Searcher, $filter, SweetAlert, $state, $location, Util) {
+angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams',
+    function($rootScope, $scope, settings,  Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams) {
         //搜索流程:location.search->searchOption->adSearcher.params
-        
         //将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
         function searchToQuery(option, searcher) {
             var query = {};
@@ -456,6 +455,8 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
         $scope.initSearch = function() {
             var option = $scope.searchOption = $scope.adSearcher.searchOption = angular.copy($scope.adSearcher.defSearchOption);
             $scope.filterOption = $scope.searchOption.filter;
+            
+            //存在广告主的情况下，直接搜广告主，去掉所有搜索条件，否则就按标准的搜索流程
             queryToSearch(option, $scope.adSearcher);
         };
         // $scope.resetSearch = function() {
@@ -652,6 +653,25 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
 
 
     }
+])
+.controller('AdserController', ['$rootScope', '$scope', 'settings', '$http', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', function($rootScope, $scope, settings, $http, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams) {
+        $scope.swal = function(msg) {
+            SweetAlert.swal(msg);
+        };
+        $scope.adser = {name: $stateParams.name, username:$stateParams.adser};
+        $scope.adSearcher = new Searcher();
+        // $scope.adSearcher.search($scope.adSearcher.defparams, true);
+        $scope.reverseSort = function() {
+            $scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;
+            $scope.adSearcher.filter();
+
+        };
+        $scope.adSearcher.params.where.push({
+            field:'adser_username',
+            value:$stateParams.adser
+        });
+        $scope.adSearcher.filter();
+}
 ])
 .controller('QuickSidebarController', ['$scope', 'settings', function($scope, settings) {
 

@@ -21,10 +21,16 @@
         <!-- avatar and adser info -->
         <div class="aditem-ader row margin-bottom-10">
             <div class="col-md-3 text-center ">
-                <img src="{{mother.settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded avatar">
+                <a  ui-sref="adser({name:card.adser_name,adser:card.adser_username})">
+                    <img src="{{mother.settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded avatar">
+                </a>
             </div>
             <div class="col-md-9">
-                <div class="margin-bottom-5"><span ng-bind-html="card.adser_name | toHtml"></span></div>
+                <div class="margin-bottom-5">
+                    <a ui-sref="adser({name:card.adser_name, adser:card.adser_username})">
+                        <span ng-bind-html="card.adser_name | toHtml"></span>
+                    </a>
+                </div>
                 <div class="pull-left">
                 Sponsored
                 </div>

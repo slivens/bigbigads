@@ -1068,8 +1068,9 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 }]);
 
 /* Setup Rounting For All Pages */
-MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
+MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
     // Redirect any unmatched url
+    $urlMatcherFactoryProvider.strictMode(false);
     $urlRouterProvider.otherwise("/dashboard.html");
 
     $stateProvider
@@ -1156,6 +1157,40 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                     });
                 }]
             }
+        })
+        .state('adser', {
+            url: '/adsearch/{name}.{adser}',
+            templateUrl:"views/adser.html",
+            data: {
+                pageTitle: 'Specific Advertise'
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: ' #ng_load_plugins_before',
+                        files: [
+                            '/bower_components/angular-deckgrid/angular-deckgrid.js',
+                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
+                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
+                            '../assets/global/plugins/select2/css/select2.min.css',
+                            '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
+                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
+                            '../assets/global/plugins/select2/js/select2.full.min.js',
+                            '../assets/pages/scripts/components-bootstrap-select.min.js',
+                            '../assets/pages/scripts/components-select2.min.js',
+
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
+                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
+                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
+                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
+                            'js/adsearch/AdsearchController.js'
+                        ]
+                    });
+                }]
+            }
+
         })
 
     // AngularJS plugins
