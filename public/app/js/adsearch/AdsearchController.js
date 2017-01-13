@@ -156,8 +156,8 @@ angular.module('MetronicApp')
     };
 });
 
-angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE',
-    function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE) {
+angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q',
+    function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q) {
         //opt = {searchType:'adser', url:'/api/forward/adserSearch'}
         var searcher = function(opt) {
             var vm = this;
@@ -243,6 +243,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 return false;
             };
             searcher.prototype.search = function(params, clear) {
+                var defer = $q.defer(); 
                 //获取广告搜索信息
                 var searchurl = settings.remoteurl + (opt && opt.url ? opt.url : '/api/forward/adsearch');
                 vm.busy = true;
@@ -283,6 +284,9 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                             else
                                 vm.ads.ads_info = vm.ads.ads_info.concat(res.data.ads_info);
                         }
+                        defer.resolve(vm.ads);
+                    } else {
+                        defer.reject(vm.ads);
                     }
                     console.log(res.data);
                     $timeout(function() {
@@ -293,7 +297,8 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                     vm.busy = false;
                     // console.log(res);
                 });
-            };
+                return defer.promise;
+            };      
 
             vm.getMore = function() {
                 if (vm.busy)
@@ -302,11 +307,13 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 vm.search(vm.params, false);
             };
             vm.filter = function() {
+                var promise;
                 if (vm.params == vm.oldParams)
                     return;
                 vm.params.limit[0] = 0;
-                vm.search(vm.params, true);
+                promise = vm.search(vm.params, true);
                 vm.oldParams = angular.copy(vm.params);
+                return promise;
             };
             vm.addFilter = function(obj) {
                 var i;
@@ -677,6 +684,41 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
         });
         $scope.adSearcher.filter();
 }
+])
+.controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window', 
+    function($rootScope, $scope, settings,  Searcher, $filter, SweetAlert, $state, $location,  $stateParams, $window) {
+        $scope.swal = function(msg) {
+            SweetAlert.swal(msg);
+        };
+        $scope.adSearcher = new Searcher();
+        // $scope.adSearcher.search($scope.adSearcher.defparams, true);
+        $scope.reverseSort = function() {
+            $scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;
+            $scope.adSearcher.filter();
+        };
+        
+        $scope.id = $stateParams.id;
+        $scope.adSearcher.addFilter({field:'ads_id', value:$scope.id});
+        $scope.adSearcher.filter().then(function(ads) {
+            //只取首条消息
+            $scope.card = $scope.ad = ads.ads_info[0];
+        });
+        
+        $scope.goback = function() {
+             $window.history.back();
+        };
+        $scope.$on('$viewContentLoaded', function() {
+            // initialize core components
+            App.initAjax();
+
+            // set default layout mode
+            $rootScope.settings.layout.pageContentWhite = true;
+            $rootScope.settings.layout.pageBodySolid = false;
+            $rootScope.settings.layout.pageSidebarClosed = false;
+        });
+
+
+    }
 ])
 
 .controller('QuickSidebarController', ['$scope', 'settings', function($scope, settings) {

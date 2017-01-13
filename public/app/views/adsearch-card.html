@@ -6,7 +6,7 @@
                     <i class="fa fa-users font-yellow-gold"></i>
                 </button>
             </div>
-            <span class="font-yellow-gold ">ads_id:{{card.event_id}}</span><br/>
+            <span class="font-yellow_gold">ads_id:</span> <a ui-sref="adAnalysis({id:card.event_id})"  ui-sref-opts="{reload:false}"class="font-yellow-gold ">{{card.event_id}}</a><br/>
             <i class="fa fa-calendar font-yellow-gold fa-fw"></i><span>{{card.first_see}}~{{card.last_see}}</span>
             <i class="fa fa-clock-o font-yellow-gold fa-fw"></i><span>{{card.duration_days}}</span>
             <i class="fa fa-eye font-yellow-gold  fa-fw"></i><span>{{card.see_date}}</span>

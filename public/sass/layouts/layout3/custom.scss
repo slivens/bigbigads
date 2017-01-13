@@ -1,6 +1,9 @@
 
 /* here you can put your own css to customize and override the theme */ 
 $play-btn-size:100px;
+.inline {
+    display:inline-block;
+}
 .deckgrid   {
 }
 .deckgrid[deckgrid]::before {
@@ -73,3 +76,16 @@ $play-btn-size:100px;
 .select2-dropdown {
     z-index:99999 !important;
 }
+
+//广告分析的类
+#ad {
+    .avatar {
+        max-width:250px;
+        margin:16px;
+    }
+    .dashboard-stat2 {
+        padding-bottom:15px !important;
+    }
+}
+
+
