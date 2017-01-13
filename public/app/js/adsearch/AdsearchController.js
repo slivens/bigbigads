@@ -158,10 +158,12 @@ angular.module('MetronicApp')
 
 angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE',
     function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE) {
-        var searcher = function() {
+        //opt = {searchType:'adser', url:'/api/forward/adserSearch'}
+        var searcher = function(opt) {
             var vm = this;
+            vm.opt = opt;
             vm.defparams = {
-                "search_result": "ads",
+                "search_result": opt && opt.searchType ? opt.searchType : "ads",
                 "sort": {
                     "field": "last_view_date",
                     "order": 1
@@ -242,7 +244,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
             };
             searcher.prototype.search = function(params, clear) {
                 //获取广告搜索信息
-                var searchurl = settings.remoteurl + '/api/forward/adsearch';
+                var searchurl = settings.remoteurl + (opt && opt.url ? opt.url : '/api/forward/adsearch');
                 vm.busy = true;
                 $http.post(
                     searchurl,
@@ -276,7 +278,10 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                         if (clear || vm.ads.total_count === 0) {
                             vm.ads = res.data;
                         } else {
-                            vm.ads.ads_info = vm.ads.ads_info.concat(res.data.ads_info);
+                            if (opt && opt.searchType == "adser")
+                                vm.ads.adser = vm.ads.adser.concat(res.data.adser);
+                            else
+                                vm.ads.ads_info = vm.ads.ads_info.concat(res.data.ads_info);
                         }
                     }
                     console.log(res.data);
@@ -654,7 +659,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
 
     }
 ])
-.controller('AdserController', ['$rootScope', '$scope', 'settings', '$http', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', function($rootScope, $scope, settings, $http, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams) {
+.controller('AdserController', ['$rootScope', '$scope', 'settings', '$http', 'Searcher', '$filter', 'SweetAlert', '$state',  'Util', '$stateParams', function($rootScope, $scope, settings, $http, Searcher, $filter, SweetAlert, $state,  Util, $stateParams) {
         $scope.swal = function(msg) {
             SweetAlert.swal(msg);
         };
@@ -673,6 +678,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
         $scope.adSearcher.filter();
 }
 ])
+
 .controller('QuickSidebarController', ['$scope', 'settings', function($scope, settings) {
 
 /* Setup Layout Part - Quick Sidebar */
@@ -728,3 +734,325 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
         }, 100);
     });
 }]);
+
+angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams',
+    function($rootScope, $scope, settings,  Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams) {
+        //搜索流程:location.search->searchOption->adSearcher.params
+        //将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
+        function searchToQuery(option, searcher) {
+            var query = {};
+            if (option.search.text)
+                query.searchText = option.search.text;
+            if (option.search.fields != searcher.defSearchFields)
+                query.searchFields =  option.search.fields;
+            if (option.filter.date.startDate && option.filter.date.endDate) {
+                query.startDate =  option.filter.date.startDate.format('YYYY-MM-DD');
+                query.endDate =  option.filter.date.endDate.format('YYYY-MM-DD');
+            }
+            if (option.filter.type)  {
+                query.type =  option.filter.type;
+            }
+            if (option.filter.lang) {
+                query.lang =  option.filter.lang;
+            }
+            if (option.filter.state) {
+                query.state =  option.filter.state;
+            }
+            if (option.domain.text) {
+                query.domain =  JSON.stringify(option.domain);
+            }
+            if (option.audience.text) {
+                query.audience = JSON.stringify(option.audience);
+            }
+
+            //category, format, buttondesc
+            if (option.filter.categoryString) {
+                query.category =  option.filter.categoryString;
+            }
+            if (option.filter.formatString) {
+                query.format = option.filter.formatString;
+            }
+            if (option.filter.buttondescString) {
+                query.buttondesc = option.filter.buttondescString;
+            }
+            if (option.filter.isDurationDirty()) {
+                query.duration = JSON.stringify(option.filter.duration);
+            }
+            if (option.filter.isSeeTimesDirty()) {
+                query.seeTimes = JSON.stringify(option.filter.seeTimes);
+            }
+            $location.search(query);
+        }
+        //将query转化成搜索参数
+        function queryToSearch(option, searcher) {
+            var i;
+            var search = $location.search();
+            if (search.searchText) {
+                option.search.text = search.searchText;
+            }
+            if (search.searchFields && search.searchFields != searcher.defSearchFields) {
+                var range = search.searchFields.split(',');
+                angular.forEach(range, function(item1) {
+                    for (i = 0; i < option.range.length;i++){
+                        if (item1 == option.range[i].key) {
+                            option.range[i].selected = true;
+                        }
+                    }
+                });
+            }
+            if (search.startDate && search.endDate) {
+                option.filter.date.startDate = moment(search.startDate, 'YYYY-MM-DD');
+                option.filter.date.endDate = moment(search.endDate, 'YYYY-MM-DD');
+            }
+            if (search.type) {
+                option.filter.type = search.type;
+            }
+            if (search.lang) {
+                option.filter.lang = search.lang;
+            }
+            if (search.state) {
+                option.filter.state = search.state;
+            }
+            if (search.domain) {
+                option.domain = JSON.parse(search.domain);
+            }
+            if (search.audience) {
+                option.audience = JSON.parse(search.audience);
+            }
+            if (search.category) {
+                Util.matchkey(search.category, option.filter.category);
+            }
+            if (search.format) {
+                Util.matchkey(search.format, option.filter.format);
+            }
+            if (search.buttondesc) {
+                Util.matchkey(search.buttondesc, option.filter.buttondesc);
+            }
+            if (search.duration) {
+                option.filter.duration = JSON.parse(search.duration);
+            }
+            if (search.seeTimes) {
+                option.filter.seeTimes = JSON.parse(search.seeTimes);
+            }
+        }
+        $scope.swal = function(msg) {
+            SweetAlert.swal(msg);
+        };
+        $scope.adSearcher = new Searcher({searchType:'adser', url:'/api/forward/adserSearch'});
+        // $scope.adSearcher.search($scope.adSearcher.defparams, true);
+        $scope.reverseSort = function() {
+            $scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;
+            $scope.adSearcher.filter();
+            
+        };
+        
+     
+        // $scope.filterOption = {
+        //     date: {
+        //         startDate: null,
+        //         endDate: null
+        //     },
+        // };
+        //text为空时就表示没有这个搜索项了
+        $scope.initSearch = function() {
+            var option = $scope.searchOption = $scope.adSearcher.searchOption = angular.copy($scope.adSearcher.defSearchOption);
+            $scope.filterOption = $scope.searchOption.filter;
+            
+            //存在广告主的情况下，直接搜广告主，去掉所有搜索条件，否则就按标准的搜索流程
+            queryToSearch(option, $scope.adSearcher);
+        };
+        // $scope.resetSearch = function() {
+        //     angular.forEach($scope.filterOption.category, function(value, key) {
+        //         value.selected = false;
+        //     });
+        //     angular.forEach($scope.filterOption.format, function(value, key) {
+        //         value.format = false;
+        //     });
+        // };
+        $scope.initSearch();
+
+        $scope.currSearchOption = {};
+        // $scope.filterOption.category = angular.copy(settings.searchSetting.categoryList);
+        // $scope.filterOption.format = angular.copy(settings.searchSetting.formatList);
+        // $scope.filterOption.buttondesc = angular.copy(settings.searchSetting.buttondescList);
+
+        $scope.filter = function(option) {
+            var category = [],
+                format = [],
+                buttondesc = [];
+            //广告类型
+            if (!$scope.filterOption.type)
+                $scope.adSearcher.removeFilter("ads_type");
+            else
+                $scope.adSearcher.addFilter({
+                    field: 'ads_type',
+                    value: $scope.filterOption.type
+                });
+            //日期范围
+            if (!option.date.startDate || !option.date.endDate) {
+                $scope.adSearcher.removeFilter('time');
+            } else {
+                var startDate = option.date.startDate.format('YYYY-MM-DD');
+                var endDate = option.date.endDate.format('YYYY-MM-DD');
+                $scope.adSearcher.addFilter({
+                    field: "time",
+                    min: startDate,
+                    max: endDate
+                });
+            }
+            //语言
+            if (option.lang) {
+                $scope.adSearcher.addFilter({
+                    field: 'ad_lang',
+                    value: option.lang
+                });
+            } else {
+                $scope.adSearcher.removeFilter('ad_lang');
+            }
+            //国家
+            if (option.state) {
+                $scope.adSearcher.addFilter({
+                    field: 'state',
+                    value: option.state
+                });
+            } else {
+                $scope.adSearcher.removeFilter('state');
+            }
+
+
+            //支持多项搜索，以","隔开
+            angular.forEach($scope.filterOption.category, function(item, key) {
+                if (item.selected) {
+                    category.push(item.key);
+                }
+            });
+            $scope.filterOption.categoryString = category.join(',');
+
+            if (category.length) {
+                $scope.adSearcher.addFilter({
+                    field: 'category',
+                    value: category.join(",")
+                });
+            } else {
+                $scope.adSearcher.removeFilter('category');
+            }
+
+            //内容格式 
+            angular.forEach($scope.filterOption.format, function(item, key) {
+                if (item.selected) {
+                    format.push(item.key);
+                }
+            });
+            $scope.filterOption.formatString = format.join(',');
+            if (format.length) {
+                $scope.adSearcher.addFilter({
+                    field: 'media_type',
+                    value: format.join(",")
+                });
+            } else {
+                $scope.adSearcher.removeFilter('media_type');
+            }
+
+            //Button Description
+            angular.forEach($scope.filterOption.buttondesc, function(item, key) {
+                if (item.selected) {
+                    buttondesc.push(item.key);
+                }
+            });
+            option.buttondescString = buttondesc.join(',');
+            if (buttondesc.length) {
+                $scope.adSearcher.addFilter({
+                    field: 'buttondesc',
+                    value: buttondesc.join(",")
+                });
+            } else {
+                $scope.adSearcher.removeFilter('buttondesc');
+            }
+
+            //Duration Filter
+            if (!option.isDurationDirty()) {
+                $scope.adSearcher.removeFilter('duration_days');
+            } else {
+                $scope.adSearcher.addFilter({field:'duration_days', min:option.duration.from, max:option.duration.to});
+            }
+
+            //see times Filter
+            if (!option.isSeeTimesDirty()) {
+                $scope.adSearcher.removeFilter('see_times');
+            } else {
+                $scope.adSearcher.addFilter({field:'see_times', min:option.seeTimes.from, max:option.seeTimes.to});
+            }     
+            $scope.currSearchOption.category = category.join(',');
+            $scope.currSearchOption.format = format.join(',');
+            $scope.currSearchOption.buttondesc = buttondesc.join(',');
+            $scope.adSearcher.filter();
+            console.log("params", $scope.adSearcher.params);
+        };
+
+        $scope.search = function() {
+            var i;
+            var option = $scope.adSearcher.searchOption;
+            var keys;
+            var range = [];
+            keys = $scope.adSearcher.params.keys = [];
+            
+            //字符串和域
+            $scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
+            if (option.search.text) {
+                angular.forEach(option.range, function(item, key) {
+                    if (item.selected) {
+                        range.push(item.key);
+                    }
+                });
+                option.search.fields = range.length ? range.join(',') : option.search.fields;
+                keys.push({
+                    string: option.search.text,
+                    search_fields: option.search.fields,
+                    relation: "Must"
+                });
+            }
+            //域名
+            if (option.domain.text) {
+                keys.push({
+                    string: option.domain.text,
+                    search_fields: 'caption,link,dest_site,buttonlink',
+                    relation: option.domain.exclude ? 'Not' : 'Must'
+                });
+            }
+            //受众
+            if (option.audience.text) {
+                keys.push({
+                    string: option.audience.text,
+                    search_fields: 'whyseeads,whyseeads_all',
+                    relation: option.audience.exclude ? 'Not' : 'Must'
+                });
+            }
+            $scope.currSearchOption.range = range.join(',');
+            $scope.filter($scope.filterOption);
+            if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 0) {
+                $scope.currSearchOption.isdirty = true;
+            }
+            searchToQuery(option, $scope.adSearcher);
+        };
+
+        $scope.clearSearch = function() {
+            $location.search({});
+            $state.reload();     
+        };
+        
+        //根据search参数页面初始化
+
+        $scope.search();
+        $scope.$on('$viewContentLoaded', function() {
+            // initialize core components
+            App.initAjax();
+
+            // set default layout mode
+            $rootScope.settings.layout.pageContentWhite = true;
+            $rootScope.settings.layout.pageBodySolid = false;
+            $rootScope.settings.layout.pageSidebarClosed = false;
+        });
+
+
+    }
+]);

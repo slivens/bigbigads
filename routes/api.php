@@ -19,8 +19,14 @@ Route::get('/user', function (Request $request) {
 
 Route::any('/forward/{action}', function(Request $req, $action) {
     $json_data = json_encode($req->all());
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, 'http://121.41.107.126:8080/search');
+    $ch = curl_init();
+    if ($action == 'adsearch') {
+        curl_setopt($ch, CURLOPT_URL, 'http://121.41.107.126:8080/search');
+    } else if ($action == "adserSearch") {
+        curl_setopt($ch, CURLOPT_URL, 'http://121.41.107.126:8080/adser_search');
+    } else {
+        return '{"status":-1}';
+    }
 	/* curl_setopt($ch, CURLOPT_POST, TRUE); */
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);

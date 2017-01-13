@@ -1,0 +1,42 @@
+<div class="a-card fade-in-up">
+    <div class="portlet light aditem">
+        <div class="aditem-ader row margin-bottom-10">
+            <!-- avatar and adser info -->
+            <div class="col-md-3 text-center ">
+                <a  ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
+                    <img src="{{mother.settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded avatar">
+                </a>
+            </div>
+            <!-- end avatar and adser info -->
+            <div class="col-md-9">
+                <div class="margin-bottom-5">
+                    <a ui-sref="adser({name:card.adser_name, adser:card.adser_username})">
+                        <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
+                        <span ng-show="!card.adser_name">{{card.adser_username}}</span>
+                        <i class="fa fa-check-circle fa-2x font-yellow-gold" ng-show="card.page_verified"></i>
+                    </a>
+                </div>
+                <div class="pull-left">
+                    <a ng-href="{{card.page_website}}">{{card.page_website}}</a>
+                </div>
+                <!-- <div class="pull-right"> -->
+                <!--     <a href="https://www.facebook.com/{{card.adser_username}}" class="label label-sm label-warning" ng-hide="empty(card.likepage)"> <i class="fa fa-thumbs-up blue"></i>Like Page</a> -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <hr>
+        
+        <div>
+            
+        <div>
+            Category:{{card.page_category}}
+        </div>
+            <div>Page Like:{{card.page_like_count}}</div>
+            <div>Global Rank:{{card.global_rank}}</div>
+            <div>Minimum Advertise Number:{{card.min_ads_number}}</div>
+        </div>
+        <p>
+        <a ui-sref="adserAnalysis({username:card.adser_username})" class="btn btn-block yellow-gold"><i class="fa fa-line-chart"></i>Anylysis</a>
+        </p>
+    </div>
+</div>
