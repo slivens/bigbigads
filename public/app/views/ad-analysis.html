@@ -66,7 +66,7 @@
                                     </a>
                         </div>
 
-                                        <!-- Begin date, duration, see_date -->
+                            <!-- Begin date, duration, see_date -->
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="dashboard-stat2 bordered">
@@ -115,6 +115,55 @@
                             </div>
                         </div>
                         <!-- end date, duration, see_date-->
+                        <!-- Begin comments, likes, shares-->
+                        <div class="row">
+                            <div class="col-md-4" ng-if="card.comments">
+                                <div class="dashboard-stat2 bordered">
+                                    <div class="display">
+                                        <div class="number">
+                                            <h4 class="font-yellow-gold">{{card.comments}}</h4>
+                                            <small>Comments</small>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-comment font-yellow-gold fa-fw"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4" ng-if="card.likes">
+                                <div class="dashboard-stat2 bordered">
+                                    <div class="display">
+                                        <div class="number">
+                                            <h4 class="font-yellow-gold">
+                                            {{card.likes}}
+                                            </h4>
+                                            <small>Likes</small>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-heart font-yellow-gold fa-fw"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4" ng-if="card.shares">
+                                <div class="dashboard-stat2 bordered">
+                                    <div class="display">
+                                        <div class="number">
+                                            <h4 class="font-yellow-gold">
+                                                {{card.shares}}
+                                            </h4>
+                                            <small>Shares</small>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-share-alt font-yellow-gold fa-fw"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end comments, likes, shares-->
                     </div>
                     <div id="detail">
                     <h4 class="font-yellow-gold">Detail</h4>
@@ -127,9 +176,18 @@
                         <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
                     </div>
                     </div>
+                    <!-- begin link-->
                     <div id="link">
-                    <h4 class="font-yellow-gold">Link</h4>
+                        <h4 class="font-yellow-gold">Link</h4>
+                        <div ng-if="card.type == 'Carousel'">
+
+                        </div>
+                        <div ng-if="card.type != 'Carousel'">
+                            <h5><a href="{{card.link}}" >{{card.link}}</a></h5>
+                            <img ng-src="{{settings.imgRemoteBase + card.snapshot}}"  class="img-responsive" ng-if="card.snapshot" />
+                        </div>
                     </div>
+                    <!-- end link -->
                     <div id="interactive">
                     <h4 class="font-yellow-gold">Interactive</h4>
                     </div>

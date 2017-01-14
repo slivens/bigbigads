@@ -27,10 +27,10 @@
     <!-- end SingleImage -->
 </div>
 <!-- end description -->
-<hr>
-<div class="aditem-footer">
+<div class="aditem-footer" ng-show="!card.indetail">
+    <hr>
     <i class="fa fa-link fa-fw"></i>
-    <a href="{{card.link}}" class="adlink">{{card.link}}</a>
+    <a href="{{card.link}}" class="adlink" uib-popover-template="'popupover1.html'" popover-placement="top" popover-title="Snapshot" popover-is-open="card.popup" ng-mouseenter="card.popup=true" ng-mouseleave="card.popup=false" >{{card.link}}</a>
     <span ng-show="card.comments">
         <i class="fa fa-comment"></i>
         {{card.comments}}
@@ -43,5 +43,4 @@
         <i class="fa fa-share-alt"></i>
         {{card.shares}}
     </span>
-
 </div>

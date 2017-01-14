@@ -56,8 +56,8 @@
   z-index: 99999 !important; }
 
 #ad .avatar {
-  max-width: 250px;
-  margin: 16px; }
+  max-width: 80px;
+  padding: 16px; }
 
 #ad .dashboard-stat2 {
   padding-bottom: 15px !important; }

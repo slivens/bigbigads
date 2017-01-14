@@ -49,3 +49,12 @@
         <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
     </div>
 </div>
+
+
+<script type="text/ng-template" id="popupover1.html">
+<div>
+    <img ng-src="{{$parent.settings.imgRemoteBase + $parent.card.snapshot[$parent.card.active]}}"  class="img-responsive" ng-if="$parent.card.snapshot && $parent.card.active >= 0" />
+    <img ng-src="{{$parent.settings.imgRemoteBase + $parent.card.snapshot}}"  class="img-responsive" ng-if="$parent.card.snapshot" />
+    <h3 ng-if="!$parent.card.snapshot">No snashot</h3>
+</div>
+</script>

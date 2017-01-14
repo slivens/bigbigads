@@ -95,7 +95,7 @@ angular.module('MetronicApp')
         scope:{
             card: '='
         },
-        controller:['$scope', 'settings', 'Searcher', function($scope, settings, Searcher) {
+        controller:['$scope', 'settings', 'Searcher', function($scope, settings, Searcher ) {
             $scope.settings = settings;
         }]
     };
@@ -266,6 +266,8 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                                 value.name = JSON.parse(value.name);
                                 value.description = JSON.parse(value.description);
                                 value.local_picture = JSON.parse(value.local_picture);
+                                // if (value.snapshot && value.snapshot != "")
+                                //      value.snapshot = JSON.parse(value.snapshot);
                             } else if (value.type == vm.ADS_CONT_TYPE.CANVAS) {
                                 value.link = JSON.parse(value.link);
                                 value.local_picture = JSON.parse(value.local_picture);
@@ -702,6 +704,8 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
         $scope.adSearcher.filter().then(function(ads) {
             //只取首条消息
             $scope.card = $scope.ad = ads.ads_info[0];
+            //表示广告在分析模式下，view根据这个字段区别不同的显示
+            $scope.card.indetail = true;
         });
         
         $scope.goback = function() {

@@ -1159,7 +1159,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             }
         })
         .state('adser', {
-            url: '/adsearch/{name}.{adser}',
+            url: '/adsearch/{adser}?n={name}',
             templateUrl:"views/adser.html",
             data: {
                 pageTitle: 'Specific Advertise'

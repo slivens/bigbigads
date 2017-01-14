@@ -32,10 +32,10 @@
 </div>
 <!-- end description -->
 
-<hr>
-<div class="aditem-footer">
+<div class="aditem-footer" ng-show="!card.indetail">
+    <hr>
     <i class="fa fa-link fa-fw"></i>
-    <a href="{{card.link[card.active]}}" class="adlink">{{card.link[card.active]}}</a>
+    <a href="{{card.link[card.active]}}" class="adlink" uib-popover-template="'popupover1.html'" popover-placement="top" popover-title="Snapshot" popover-is-open="card.popup" ng-mouseenter="card.popup=true" ng-mouseleave="card.popup=false" >{{card.link[card.active]}}</a>
     <span ng-show="card.comments" >
         <i class="fa fa-comment"></i>
         {{card.comments}}
