@@ -8,7 +8,7 @@
             <uib-slide ng-repeat="slide in card.watermark track by $index" index="$index">
                 <div class="text-center">
                     <a fancybox ng-href="{{settings.imgRemoteBase + card.local_picture[$index].source}}" rel="group{{card.event_id}}">
-                        <img ng-src="{{settings.imgRemoteBase + slide.source}}" alt="">
+                        <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + slide.source}}" alt="">
                     </a>
                 </div>
             </uib-slide>

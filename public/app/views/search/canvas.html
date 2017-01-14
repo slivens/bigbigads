@@ -12,7 +12,7 @@
         <div class="text-center" ng-if="Searcher.getAdsType(card, Searcher.ADS_TYPE.rightcolumn)">
             <div ng-repeat="item in card.watermark">
                 <a fancybox ng-href="{{settings.imgRemoteBase + card.local_picture[$index]}}">
-                    <img ng-src="{{settings.imgRemoteBase + card.watermark[$index]}}" alt="">
+                    <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.watermark[$index]}}" alt="">
                 </a>
             </div>
         </div>

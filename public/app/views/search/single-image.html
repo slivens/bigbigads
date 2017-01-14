@@ -5,7 +5,7 @@
         <div><span ng-bind-html="card.message | toHtml"></span></div>
         <div class="text-center">
             <a fancybox ng-href="{{settings.imgRemoteBase + card.local_picture}}">
-                <img ng-src="{{settings.imgRemoteBase + card.watermark}}" alt="">
+                <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.watermark}}" alt="">
             </a>
         </div>
         <div class="h5">

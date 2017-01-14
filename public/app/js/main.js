@@ -8,7 +8,8 @@ var MetronicApp = angular.module("MetronicApp", [
     "ui.bootstrap",
     "oc.lazyLoad",
     "ngSanitize",
-    "oitozero.ngSweetAlert"
+    "oitozero.ngSweetAlert",
+    "angularLazyImg"
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -1613,7 +1614,18 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         }
     });
     $locationProvider.html5Mode(true);
+
 }]);
+MetronicApp.config(['lazyImgConfigProvider', function(lazyImgConfigProvider) {
+    // var scrollable = document.querySelector('#scrollable');
+    lazyImgConfigProvider.setOptions({
+      offset: 100, // how early you want to load image (default = 100)
+      errorClass: 'error', // in case of loading image failure what class should be added (default = null)
+      successClass: 'success', // in case of loading image success what class should be added (default = null)
+      onError: function(image){}, // function fired on loading error
+      onSuccess: function(image){} //function fired on loading success
+    });
+  }]);
 
 /* Init global settings and run the app */
 MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
