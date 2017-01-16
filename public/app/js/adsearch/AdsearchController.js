@@ -240,20 +240,12 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
 			};
 			vm.params = angular.copy(vm.defparams);
 			vm.oldParams = null;
-			searcher.ADS_TYPE = searcher.prototype.ADS_TYPE = ADS_TYPE;
 			vm.ADS_CONT_TYPE = ADS_CONT_TYPE;
 			vm.pageCount = settings.searchSetting.pageCount;
 			vm.ads = {
 				total_count: 0
 			};
 			vm.isend = false;
-			//函数的静态方法以及对象的方法
-			searcher.getAdsType = searcher.prototype.getAdsType = function(item, type) {
-				// console.log(type, item.show_way, item.show_way & type);
-				if (item.show_way & type)
-					return true;
-				return false;
-			};
 			searcher.prototype.search = function(params, clear) {
 				var defer = $q.defer();
 				//获取广告搜索信息
@@ -356,6 +348,13 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
 				}
 			};
 		};
+        searcher.ADS_TYPE = searcher.prototype.ADS_TYPE = ADS_TYPE;
+        //函数的静态方法以及对象的方法
+        searcher.getAdsType = searcher.prototype.getAdsType = function(item, type) {
+            if (item.show_way & type)
+                return true;
+            return false;
+        };
 		return searcher;
 	}
 ]);
@@ -1140,9 +1139,8 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
 	])
 	.controller('AdserAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$http',
 		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $http) {
-            var vm = this;
 
-			vm.getAdserAnalysis = function(username) {
+			function getAdserAnalysis(username) {
 				var params = {
 					"search_result": "adser_analysis",
 					"where": [{
@@ -1153,9 +1151,10 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
 				return $http.post(settings.remoteurl + '/api/forward/adserAnalysis',
 					params);
 			}
-
+            $scope.card = {};//card必须先赋值，否则调用Searcher的getAdsType时会提前生成自己的card,scope出错。
+            $scope.Searcher = Searcher;
 			$scope.username = $stateParams.username;
-            vm.getAdserAnalysis($scope.username).then(function(res) {
+            getAdserAnalysis($scope.username).then(function(res) {
                 $scope.card = res.data;
                 console.log("obj:", res.data);
             });

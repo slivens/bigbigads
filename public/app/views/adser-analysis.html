@@ -68,37 +68,17 @@
                                     Category:{{card.page_category}}
                                 </p>
                                 <p>
+                                Showway:{{Searcher.getAdsType(card, Searcher.ADS_TYPE.timeline) ? 'Timeline':""}} {{Searcher.getAdsType(card, Searcher.ADS_TYPE.rightcolumn) ? 'rightcolumn':""}} {{Searcher.getAdsType(card, Searcher.ADS_TYPE.mobile) ? 'mobile':""}}
+                                </p>
+                                <p>
                                     <a ng-href="{{card.compasslink}}" class="label label-default"><i class="fa fa-facebook-official font-blue fa-2x bg-white vmiddle margin-right-5"></i>Facebook</a>
                                     <i class="fa fa-check-circle fa-2x vmiddle" ng-class="{'font-blue':card.page_verified=='blue_verified','font-gray':card.page_verified=='grey_verified'}" ng-show="card.page_verified"></i>
                                 </p>
                                 <p ng-if="card.page_website">
                                     Website:<a ng-href="{{card.page_website}}">{{card.page_website}}</a>
                                 </p>
-                                <!-- rank-->
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <rank-board title="Global Rank">
-                                            <h5 class="pull-left">{{card.adser_name}}</h5>
-                                            <h5 class="font-yellow-gold pull-right">{{card.global_rank}}</h5>
-                                        </rank-board>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <rank-board title="Country Rank">
-                                            <h5 class="pull-left">{{card.adser_name}}</h5>
-                                            <h5 class="font-yellow-gold pull-right">{{card.country_rank}}</h5>
-                                        </rank-board>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <rank-board title="Category Rank">
-                                            <h5 class="pull-left">{{card.adser_name}}</h5>
-                                            <h5 class="font-yellow-gold pull-right">{{card.category_rank}}</h5>
-                                        </rank-board>
-                                    </div>
-                                </div>
-                                <!-- end rank-->
                                 <!-- rank2 -->
+                                <h4>Summary</h4>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <rank-board title="Likes">
@@ -158,20 +138,46 @@
                                             <h5 class="font-yellow-gold pull-right">{{card.landpage_num}}</h5>
                                         </rank-board>
                                     </div>
-                                    <div class="col-md-4">
-                                        <rank-board title="Rightcolumn Ads">
-                                            <h5 class="pull-left">{{card.adser_name}}</h5>
-                                            <h5 class="font-yellow-gold pull-right">{{card.rc_ad_total}}</h5>
-                                        </rank-board>
-                                    </div>
                                </div>
                                <!-- end rank4 -->
-                               <!-- rank5 -->
+                                <!-- top rank-->
+                                <h4>Rank</h4>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <rank-board title="Global Rank">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.global_rank}}</h5>
+                                        </rank-board>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <rank-board title="Country Rank">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.country_rank}}</h5>
+                                        </rank-board>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <rank-board title="Category Rank">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.category_rank}}</h5>
+                                        </rank-board>
+                                    </div>
+                                </div>
+                                <!-- end rank-->
+                               <h4>Advertise Summary:</h4>
+                               <!-- ads statics -->
                                 <div class="row">
                                     <div class="col-md-4">
                                         <rank-board title="Timeline Ads">
                                             <h5 class="pull-left">{{card.adser_name}}</h5>
                                             <h5 class="font-yellow-gold pull-right">{{card.tl_ad_total}}</h5>
+                                        </rank-board>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <rank-board title="Rightcolumn Ads">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.rc_ad_total}}</h5>
                                         </rank-board>
                                     </div>
                                </div>
