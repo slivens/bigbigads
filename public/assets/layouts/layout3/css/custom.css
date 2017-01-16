@@ -48,6 +48,9 @@
   .aditem video {
     max-width: 100%; }
 
+.advideo {
+  min-height: 200px; }
+
 .daterangepicker.dropdown-menu {
   z-index: 20000 !important; }
 

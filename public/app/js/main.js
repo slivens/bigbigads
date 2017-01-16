@@ -1197,7 +1197,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             url: '/adserSearch',
             templateUrl: "views/adser-search.html",
             data: {
-                pageTitle: 'Adser Search'
+                pageTitle: 'Advertiser Search'
             },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -1233,7 +1233,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             url: '/adserAnalysis/{username}',
             templateUrl:"views/adser-analysis.html",
             data: {
-                pageTitle: 'Adser Analysis'
+                pageTitle: 'Advertiser Analysis'
             },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -1250,6 +1250,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/pages/scripts/components-select2.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
+                            'http://code.highcharts.com/highcharts.js',
+                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
                             'js/adsearch/AdsearchController.js'
                         ]
                     });
