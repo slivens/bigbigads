@@ -24,6 +24,8 @@ Route::any('/forward/{action}', function(Request $req, $action) {
         curl_setopt($ch, CURLOPT_URL, 'http://121.41.107.126:8080/search');
     } else if ($action == "adserSearch") {
         curl_setopt($ch, CURLOPT_URL, 'http://121.41.107.126:8080/adser_search');
+    } else if ($action == "adserAnalysis") {
+        curl_setopt($ch, CURLOPT_URL, 'http://121.41.107.126:8080/adser_analysis');
     } else {
         return '{"status":-1}';
     }

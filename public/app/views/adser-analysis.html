@@ -1,0 +1,187 @@
+<div ng-controller="AdserAnalysisController">
+    <!-- BEGIN MAIN CONTENT -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN: ACCORDION DEMO -->
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-yellow-gold">
+                        <i class="icon-badge font-green-sharp"></i>
+                        <span class="caption-subject bold"> Adser:{{username}}</span>
+                        <span class="caption-helper hide"></span>
+                    </div>
+                    <div class="actions">
+                        <a class="btn btn-circle btn-icon-only btn-default" ui-sref="adsearch">
+                            <i class="icon-action-undo"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <ul role="tablist" class="nav nav-pills nav-stacked text-center">
+                                <li>
+                                    <a href="#overview">
+                                        <i class="fa fa-bar-chart fa-2x font-yellow-gold"></i>
+                                        <div>Overview</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#audience">
+                                        <i class="fa fa-eye fa-2x font-yellow-gold"></i>
+                                        <div>Audience</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#curve">
+                                        <i class="fa fa-envelope fa-2x font-yellow-gold"></i>
+                                        <div>Curve</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#tops">
+                                        <i class="fa fa-link fa-2x font-yellow-gold"></i>
+                                        <div>Top</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#related">
+                                        <i class="fa fa-feed fa-2x font-yellow-gold"></i>
+                                        <div>Related</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-10" id="ad">
+                            <div id="overview">
+                                <h4 class="font-yellow-gold">Overview</h4>
+                                <div>
+                                    <a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
+                                        <img src="{{settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded avatar">
+                                    </a>
+                                    <a ui-sref="adser({name:card.adser_name, adser:card.adser_username})">
+                                        <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
+                                        <span ng-show="!card.adser_name">{{card.adser_username}}</span>
+                                    </a>
+                                </div>
+                                <p>
+                                    Category:{{card.page_category}}
+                                </p>
+                                <p>
+                                    <a ng-href="{{card.compasslink}}" class="label label-default"><i class="fa fa-facebook-official font-blue fa-2x bg-white vmiddle margin-right-5"></i>Facebook</a>
+                                    <i class="fa fa-check-circle fa-2x vmiddle" ng-class="{'font-blue':card.page_verified=='blue_verified','font-gray':card.page_verified=='grey_verified'}" ng-show="card.page_verified"></i>
+                                </p>
+                                <p ng-if="card.page_website">
+                                    Website:<a ng-href="{{card.page_website}}">{{card.page_website}}</a>
+                                </p>
+                                <!-- rank-->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <rank-board title="Global Rank">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.global_rank}}</h5>
+                                        </rank-board>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <rank-board title="Country Rank">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.country_rank}}</h5>
+                                        </rank-board>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <rank-board title="Category Rank">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.category_rank}}</h5>
+                                        </rank-board>
+                                    </div>
+                                </div>
+                                <!-- end rank-->
+                                <!-- rank2 -->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <rank-board title="Likes">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.page_like_count}}</h5>
+                                        </rank-board>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <rank-board title="Average Duration">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.avg_duration}}</h5>
+                                        </rank-board>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <rank-board title="Total Views">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.sum_view_count}}</h5>
+                                        </rank-board>
+                                    </div>
+                                </div>
+                                <!-- end rank2 -->
+                                <!-- rank3 -->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <rank-board title="Audience">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.audience_all_num}}, {{card.audience_num}}</h5>
+                                        </rank-board>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <rank-board title="Destsite Number">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.destsite_num}}</h5>
+                                        </rank-board>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <rank-board title="TotalAds">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.total_ads}}</h5>
+                                        </rank-board>
+                                    </div>
+                               </div>
+                               <!-- end rank3 -->
+                               <!-- rank4 -->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <rank-board title="View">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.first_see}}~{{card.last_see}}</h5>
+                                        </rank-board>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <rank-board title="Landpage Number">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.landpage_num}}</h5>
+                                        </rank-board>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <rank-board title="Rightcolumn Ads">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.rc_ad_total}}</h5>
+                                        </rank-board>
+                                    </div>
+                               </div>
+                               <!-- end rank4 -->
+                               <!-- rank5 -->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <rank-board title="Timeline Ads">
+                                            <h5 class="pull-left">{{card.adser_name}}</h5>
+                                            <h5 class="font-yellow-gold pull-right">{{card.tl_ad_total}}</h5>
+                                        </rank-board>
+                                    </div>
+                               </div>
+                               <!-- end rank4 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT -->

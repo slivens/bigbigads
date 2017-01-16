@@ -36,7 +36,7 @@
             <div>Minimum Advertise Number:{{card.min_ads_number}}</div>
         </div>
         <p>
-        <a ui-sref="adserAnalysis({username:card.adser_username})" class="btn btn-block yellow-gold"><i class="fa fa-line-chart"></i>Anylysis</a>
+        <a ui-sref="adserAnalysis({username:card.adser_username})" class="btn btn-block yellow-gold" ng-if="card.adser_username"><i class="fa fa-line-chart"></i>Anylysis</a>
         </p>
     </div>
 </div>

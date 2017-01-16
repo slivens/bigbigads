@@ -2,6 +2,9 @@
 .inline {
   display: inline-block; }
 
+.vmiddle {
+  vertical-align: middle; }
+
 .deckgrid[deckgrid]::before {
   /* Specifies that the grid should have a maximum of 4 columns. Each column will have the classes 'column' and 'column-1-4' */
   content: '3 .column.column-1-4';
@@ -61,5 +64,12 @@
 
 #ad .dashboard-stat2 {
   padding-bottom: 15px !important; }
+
+.rank-title {
+  margin-bottom: 5px;
+  border-bottom: 1px solid #eee; }
+  .rank-title h4 {
+    font-weight: 600;
+    color: #AAB5BC; }
 
 /*# sourceMappingURL=custom.css.map */

@@ -1230,8 +1230,31 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             }
         })
         .state('adserAnalysis', {
-             url: '/adserAnalysis/{username}',
-             template:'<h2>anylisis</h2>'
+            url: '/adserAnalysis/{username}',
+            templateUrl:"views/adser-analysis.html",
+            data: {
+                pageTitle: 'Adser Analysis'
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: ' #ng_load_plugins_before',
+                        files: [
+                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
+                            '../assets/global/plugins/select2/css/select2.min.css',
+                            '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
+                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
+                            '../assets/global/plugins/select2/js/select2.full.min.js',
+                            '../assets/pages/scripts/components-bootstrap-select.min.js',
+                            '../assets/pages/scripts/components-select2.min.js',
+                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
+                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
+                            'js/adsearch/AdsearchController.js'
+                        ]
+                    });
+                }]
+            }
         })
         .state('adAnalysis', {
             url:'/adAnalysis/{id}',

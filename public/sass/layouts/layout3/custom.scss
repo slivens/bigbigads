@@ -4,6 +4,9 @@ $play-btn-size:100px;
 .inline {
     display:inline-block;
 }
+.vmiddle {
+    vertical-align:middle;
+}
 .deckgrid   {
 }
 .deckgrid[deckgrid]::before {
@@ -88,5 +91,13 @@ $play-btn-size:100px;
     }
 
 }
-
-
+.rank-title {
+    margin-bottom:5px;
+    border-bottom:1px solid #eee;
+    h4 {
+        font-weight:600;
+        color:#AAB5BC
+    }
+}
+.rankboard {
+}
