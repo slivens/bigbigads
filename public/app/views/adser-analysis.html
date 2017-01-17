@@ -235,24 +235,45 @@
                                     </table>
                                 </div>
                                 <h4>Top Advertise Analysis</h4>
+                                <div class="row">
                                 <div class="col-md-6">
                                     <h5 class="text-center">Top Duration</h5>
-                                <table class="table table-hover">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>id</th>
-                                        <th>Duration</th>
-                                        <th>See Date</th>
-                                        <th>Type</th>
-                                    </tr>
-                                    <tr ng-repeat="item in card.top_duration"> 
-                                        <td>{{$index+1}}</td>
-                                        <td><a ng-click="openAd(item.event_id)">{{item.event_id}}</a></td>
-                                        <td>{{item.duration_days}}</td>
-                                        <td>{{item.see_date}}</td>
-                                        <td>{{item.type}}</td>
-                                    </tr>
-                                </table>
+                                    <table class="table table-hover">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>id</th>
+                                            <th>Duration</th>
+                                            <th>See Date</th>
+                                            <th>Type</th>
+                                        </tr>
+                                        <tr ng-repeat="item in card.top_duration"> 
+                                            <td>{{$index+1}}</td>
+                                            <td><a ng-click="openAd(item.event_id)">{{item.event_id}}</a></td>
+                                            <td>{{item.duration_days}}</td>
+                                            <td>{{item.see_date}}</td>
+                                            <td>{{item.type}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="text-center">Top Engagements</h5>
+                                    <table class="table table-hover">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>id</th>
+                                            <th>Engagements</th>
+                                            <th>See Date</th>
+                                            <th>Type</th>
+                                        </tr>
+                                        <tr ng-repeat="item in card.top_engagements"> 
+                                            <td>{{$index+1}}</td>
+                                            <td><a ng-click="openAd(item.event_id)">{{item.event_id}}</a></td>
+                                            <td>{{item.engagements}}</td>
+                                            <td>{{item.see_date}}</td>
+                                            <td>{{item.type}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
                                 </div>
                             </div>
                             <!-- end top list-->

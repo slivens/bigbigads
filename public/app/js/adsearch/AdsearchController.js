@@ -726,21 +726,21 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                 $scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;
                 $scope.adSearcher.filter();
             };
-
+            $scope.card = {end:true};
             $scope.id = $stateParams.id;
             $scope.adSearcher.addFilter({
                 field: 'ads_id',
                 value: $scope.id
             });
             $scope.adSearcher.filter().then(function(ads) {
-                if (!ads.ads_info) {
-                    $scope.card.end = true;      
-                } else {
-                    //只取首条消息
-                    $scope.card = $scope.ad = ads.ads_info[0];
-                    //表示广告在分析模式下，view根据这个字段区别不同的显示
-                    $scope.card.indetail = true;
-                }
+                //只取首条消息
+                $scope.card = $scope.ad = ads.ads_info[0];
+                //表示广告在分析模式下，view根据这个字段区别不同的显示
+                $scope.card.indetail = true;
+                $scope.card.end = false;
+            }, function(res) {
+                $scope.card.end = true;
+                console.log($scope.card);
             });
 
             $scope.goback = function() {
@@ -1216,6 +1216,7 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                 return $uibModal.open({
                     templateUrl:'views/ad-analysis.html',
                     size:'lg',
+                    animation:true,
                     resolve:{
                         $stateParams:function() {
                             $stateParams.id = id;
@@ -1247,7 +1248,7 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                     $scope.card.top_all_audience = $scope.card.top_all_audience.replace(/'/g, '\"');
                     $scope.card.top_all_audience = JSON.parse($scope.card.top_all_audience);
                 }
-                //duration
+                //top duration
                try {
                     $scope.card.top_duration = JSON.parse($scope.card.top_duration);
                 } catch(e) {
@@ -1255,6 +1256,13 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                     $scope.card.top_duration = JSON.parse($scope.card.top_duration);
                 }
 
+                //top engagement
+               try {
+                    $scope.card.top_engagements = JSON.parse($scope.card.top_engagements);
+                } catch(e) {
+                    $scope.card.top_engagements = $scope.card.top_engagements.replace(/'/g, '\"');
+                    $scope.card.top_engagements = JSON.parse($scope.card.top_engagements);
+                }
             });
             
 
