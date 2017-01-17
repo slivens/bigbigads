@@ -733,10 +733,14 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                 value: $scope.id
             });
             $scope.adSearcher.filter().then(function(ads) {
-                //只取首条消息
-                $scope.card = $scope.ad = ads.ads_info[0];
-                //表示广告在分析模式下，view根据这个字段区别不同的显示
-                $scope.card.indetail = true;
+                if (!ads.ads_info) {
+                    $scope.card.end = true;      
+                } else {
+                    //只取首条消息
+                    $scope.card = $scope.ad = ads.ads_info[0];
+                    //表示广告在分析模式下，view根据这个字段区别不同的显示
+                    $scope.card.indetail = true;
+                }
             });
 
             $scope.goback = function() {
@@ -1144,8 +1148,8 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
 
         }
     ])
-    .controller('AdserAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$http',
-        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $http) {
+    .controller('AdserAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$http','$uibModal',
+        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $http, $uibModal) {
 
             function getAdserAnalysis(username) {
                 var params = {
@@ -1173,7 +1177,7 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                     src = jsonSrc.replace(/'/g, '\"');
                     src = JSON.parse(src);
                 }
-                for (key in src) {
+                for (var key in src) {
                     if (labels)
                         data.push([labels[key], src[key]]);
                     else
@@ -1208,6 +1212,20 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                 card.adLangConfig = initPie(card.ad_lang_groupby, 'Advertise Language');
                 card.showwayConfig = initPie(card.showway_groupby, 'Show Way', {"1":"timeline", "2":"mobile", "4":"rightcolumn"});
             }
+            function openAd(id) {
+                return $uibModal.open({
+                    templateUrl:'views/ad-analysis.html',
+                    size:'lg',
+                    resolve:{
+                        $stateParams:function() {
+                            $stateParams.id = id;
+                            return $stateParams;
+                        }
+                    }
+                }
+                );
+            }
+            $scope.openAd = openAd;
             $scope.card = {}; //card必须先赋值，否则调用Searcher的getAdsType时会提前生成自己的card,scope出错。
             $scope.Searcher = Searcher;
             $scope.username = $stateParams.username;
@@ -1238,6 +1256,7 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                 }
 
             });
+            
 
             $scope.$on('$viewContentLoaded', function() {
                 // initialize core components

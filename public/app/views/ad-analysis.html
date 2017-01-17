@@ -1,209 +1,209 @@
 <div ng-controller="AdAnalysisController">
-<!-- BEGIN MAIN CONTENT -->
-<div class="row">
-    <div class="col-md-12">
-        <!-- BEGIN: ACCORDION DEMO -->
-        <div class="portlet light bordered">
-            <div class="portlet-title">
-                <div class="caption font-yellow-gold">
-                    <i class="icon-badge font-green-sharp"></i>
-                    <span class="caption-subject bold"> AD:{{id}}</span>
-                    <span class="caption-helper hide"></span>
+    <!-- BEGIN MAIN CONTENT -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN: ACCORDION DEMO -->
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-yellow-gold">
+                        <i class="icon-badge font-green-sharp"></i>
+                        <span class="caption-subject bold"> AD:{{id}}</span>
+                        <span class="caption-helper hide"></span>
+                    </div>
+                    <div class="actions" ng-hide="true">
+                        <a class="btn btn-circle btn-icon-only btn-default" ui-sref="adsearch">
+                            <i class="icon-action-undo"></i>
+                        </a>
+                    </div>
                 </div>
-                <div class="actions">
-                    <a class="btn btn-circle btn-icon-only btn-default" ui-sref="adsearch">
-                        <i class="icon-action-undo"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="portlet-body">
-                <div class="row">
-                <div class="col-xs-2">
-                <ul role="tablist" class="nav nav-pills nav-stacked text-center">
-                    <li>
-                        <a href="#overview">
-                            <i class="fa fa-bar-chart fa-2x font-yellow-gold"></i>
-                            <div>Overview</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#detail">
-                            <i class="fa fa-envelope fa-2x font-yellow-gold"></i>
-                            <div>Detail</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#link">
-                            <i class="fa fa-link fa-2x font-yellow-gold"></i>
-                            <div>Link</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#interactive">
-                            <i class="fa fa-feed fa-2x font-yellow-gold"></i>
-                            <div>Interactive</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#audience">
-                            <i class="fa fa-eye fa-2x font-yellow-gold"></i>
-                            <div>Audience</div>
-                        </a>
-                    </li>
-                </ul>
-                </div>
-                <div class="col-xs-10" id="ad">
-                    <div id="overview">
-                        <h3>ID:{{ad.event_id}}</h3>
-                        <h4 class="font-yellow-gold">Overview</h4>
-                        <div>
-                                <a  ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
-                                    <img src="{{settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded avatar">
-                                </a>
+                <div class="portlet-body">
+                    <div class="alert alert-error" ng-show="card.end">AD {{id}} Not found!</div>
+                    <div class="row" ng-show="!card.end">
+                        <div class="col-xs-2">
+                            <ul role="tablist" class="nav nav-pills nav-stacked text-center">
+                                <li>
+                                    <a href="#overview">
+                                        <i class="fa fa-bar-chart fa-2x font-yellow-gold"></i>
+                                        <div>Overview</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#detail">
+                                        <i class="fa fa-envelope fa-2x font-yellow-gold"></i>
+                                        <div>Detail</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#link">
+                                        <i class="fa fa-link fa-2x font-yellow-gold"></i>
+                                        <div>Link</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#interactive">
+                                        <i class="fa fa-feed fa-2x font-yellow-gold"></i>
+                                        <div>Interactive</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#audience">
+                                        <i class="fa fa-eye fa-2x font-yellow-gold"></i>
+                                        <div>Audience</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-10" id="ad">
+                            <div id="overview">
+                                <h3>ID:{{ad.event_id}}</h3>
+                                <h4 class="font-yellow-gold">Overview</h4>
+                                <div>
+                                    <a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
+                                        <img src="{{settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded avatar">
+                                    </a>
                                     <a ui-sref="adser({name:card.adser_name, adser:card.adser_username})">
                                         <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
                                         <span ng-show="!card.adser_name">{{card.adser_username}}</span>
                                     </a>
-                        </div>
+                                </div>
 
-                            <!-- Begin date, duration, see_date -->
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="dashboard-stat2 bordered">
-                                    <div class="display">
-                                        <div class="number">
-                                            <h4 class="font-yellow-gold">{{card.first_see}}~{{card.last_see}}</h4>
-                                            <small>Date</small>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="fa fa-calendar font-yellow-gold fa-fw"></i>
+                                <!-- Begin date, duration, see_date -->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="dashboard-stat2 bordered">
+                                            <div class="display">
+                                                <div class="number">
+                                                    <h4 class="font-yellow-gold">{{card.first_see}}~{{card.last_see}}</h4>
+                                                    <small>Date</small>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="fa fa-calendar font-yellow-gold fa-fw"></i>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="col-md-4">
-                                <div class="dashboard-stat2 bordered">
-                                    <div class="display">
-                                        <div class="number">
-                                            <h4 class="font-yellow-gold">
+                                    <div class="col-md-4">
+                                        <div class="dashboard-stat2 bordered">
+                                            <div class="display">
+                                                <div class="number">
+                                                    <h4 class="font-yellow-gold">
                                             {{card.duration_days}}
                                             </h4>
-                                            <small>Duration</small>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="fa fa-clock-o font-yellow-gold fa-fw"></i>
+                                                    <small>Duration</small>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="fa fa-clock-o font-yellow-gold fa-fw"></i>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="col-md-4">
-                                <div class="dashboard-stat2 bordered">
-                                    <div class="display">
-                                        <div class="number">
-                                            <h4 class="font-yellow-gold">
+                                    <div class="col-md-4">
+                                        <div class="dashboard-stat2 bordered">
+                                            <div class="display">
+                                                <div class="number">
+                                                    <h4 class="font-yellow-gold">
                                                 {{card.see_date}}
                                             </h4>
-                                            <small>View Count</small>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="fa fa-eye font-yellow-gold fa-fw"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end date, duration, see_date-->
-                        <!-- Begin comments, likes, shares-->
-                        <div class="row">
-                            <div class="col-md-4" ng-if="card.comments">
-                                <div class="dashboard-stat2 bordered">
-                                    <div class="display">
-                                        <div class="number">
-                                            <h4 class="font-yellow-gold">{{card.comments}}</h4>
-                                            <small>Comments</small>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="fa fa-comment font-yellow-gold fa-fw"></i>
+                                                    <small>View Count</small>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="fa fa-eye font-yellow-gold fa-fw"></i>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <!-- end date, duration, see_date-->
+                                <!-- Begin comments, likes, shares-->
+                                <div class="row">
+                                    <div class="col-md-4" ng-if="card.comments">
+                                        <div class="dashboard-stat2 bordered">
+                                            <div class="display">
+                                                <div class="number">
+                                                    <h4 class="font-yellow-gold">{{card.comments}}</h4>
+                                                    <small>Comments</small>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="fa fa-comment font-yellow-gold fa-fw"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                            <div class="col-md-4" ng-if="card.likes">
-                                <div class="dashboard-stat2 bordered">
-                                    <div class="display">
-                                        <div class="number">
-                                            <h4 class="font-yellow-gold">
+                                    <div class="col-md-4" ng-if="card.likes">
+                                        <div class="dashboard-stat2 bordered">
+                                            <div class="display">
+                                                <div class="number">
+                                                    <h4 class="font-yellow-gold">
                                             {{card.likes}}
                                             </h4>
-                                            <small>Likes</small>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="fa fa-heart font-yellow-gold fa-fw"></i>
+                                                    <small>Likes</small>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="fa fa-heart font-yellow-gold fa-fw"></i>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="col-md-4" ng-if="card.shares">
-                                <div class="dashboard-stat2 bordered">
-                                    <div class="display">
-                                        <div class="number">
-                                            <h4 class="font-yellow-gold">
+                                    <div class="col-md-4" ng-if="card.shares">
+                                        <div class="dashboard-stat2 bordered">
+                                            <div class="display">
+                                                <div class="number">
+                                                    <h4 class="font-yellow-gold">
                                                 {{card.shares}}
                                             </h4>
-                                            <small>Shares</small>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="fa fa-share-alt font-yellow-gold fa-fw"></i>
+                                                    <small>Shares</small>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="fa fa-share-alt font-yellow-gold fa-fw"></i>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- end comments, likes, shares-->
+                            </div>
+                            <div id="detail">
+                                <h4 class="font-yellow-gold">Detail</h4>
+                                <div class="portlet light bordered">
+                                    <single-image ng-if="card.type == 'SingleImage'" card="card">
+                                    </single-image>
+                                    <single-video ng-if="card.type == 'SingleVideo'" card="card"></single-video>
+                                    <carousel ng-if="card.type == 'Carousel'" card="card">
+                                    </carousel>
+                                    <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
+                                </div>
+                            </div>
+                            <!-- begin link-->
+                            <div id="link">
+                                <h4 class="font-yellow-gold">Link</h4>
+                                <div ng-if="card.type == 'Carousel'">
+
+                                </div>
+                                <div ng-if="card.type != 'Carousel'">
+                                    <h5><a href="{{card.link}}" >{{card.link}}</a></h5>
+                                    <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.snapshot}}" class="img-responsive" ng-if="card.snapshot" />
+                                </div>
+                            </div>
+                            <!-- end link -->
+                            <div id="interactive">
+                                <h4 class="font-yellow-gold">Interactive</h4>
+                            </div>
+                            <div id="audience">
+                                <h4 class="font-yellow-gold">Audience</h4>
+                                <p ng-if="card.whyseeads_all || card.whyseeads">
+                                    {{card.whyseeads ? card.whyseeads : card.whyseeads_all}}
+                                </p>
+
                             </div>
                         </div>
-                        <!-- end comments, likes, shares-->
                     </div>
-                    <div id="detail">
-                    <h4 class="font-yellow-gold">Detail</h4>
-                    <div class="portlet light bordered">
-                        <single-image ng-if="card.type == 'SingleImage'" card="card">
-                        </single-image>
-                        <single-video ng-if="card.type == 'SingleVideo'" card="card"></single-video>
-                        <carousel ng-if="card.type == 'Carousel'" card="card">
-                        </carousel>
-                        <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
-                    </div>
-                    </div>
-                    <!-- begin link-->
-                    <div id="link">
-                        <h4 class="font-yellow-gold">Link</h4>
-                        <div ng-if="card.type == 'Carousel'">
-
-                        </div>
-                        <div ng-if="card.type != 'Carousel'">
-                            <h5><a href="{{card.link}}" >{{card.link}}</a></h5>
-                            <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.snapshot}}"  class="img-responsive" ng-if="card.snapshot" />
-                        </div>
-                    </div>
-                    <!-- end link -->
-                    <div id="interactive">
-                    <h4 class="font-yellow-gold">Interactive</h4>
-                    </div>
-                    <div id="audience">
-                    <h4 class="font-yellow-gold">Audience</h4>
-                    <p ng-if="card.whyseeads_all || card.whyseeads" >
-                    {{card.whyseeads ? card.whyseeads : card.whyseeads_all}}
-                    </p>
-
-                    </div>
-                </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-</div>
 <!-- END MAIN CONTENT -->
-
