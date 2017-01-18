@@ -194,10 +194,26 @@
                             </div>
                             <div id="audience">
                                 <h4 class="font-yellow-gold">Audience</h4>
-                                <p ng-if="card.whyseeads_all || card.whyseeads">
-                                    {{card.whyseeads ? card.whyseeads : card.whyseeads_all}}
-                                </p>
-
+                                <table ng-if="card.whyseeads_all" class="table table-hover">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Audience</th>
+                                    </tr>
+                                    <tr ng-repeat="item in card.whyseeads_all">
+                                        <td>{{$index}}</td>
+                                        <td>{{item}}</td>
+                                    </tr>
+                                </table>
+                                <table ng-if="card.whyseeads" class="table table-hover">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Audience</th>
+                                    </tr>
+                                    <tr ng-repeat="item in card.whyseeads">
+                                        <td>{{$index}}</td>
+                                        <td>{{item}}</td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>

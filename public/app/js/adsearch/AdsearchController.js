@@ -743,9 +743,12 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                 //表示广告在分析模式下，view根据这个字段区别不同的显示
                 $scope.card.indetail = true;
                 $scope.card.end = false;
+                if ($scope.card.whyseeads_all)
+                    $scope.card.whyseeads_all = $scope.card.whyseeads_all.split('\n');
+                if ($scope.card.whyseeads)
+                    $scope.card.whyseeads = $scope.card.whyseeads.split('\n');
             }, function(res) {
                 $scope.card.end = true;
-                console.log($scope.card);
             });
 
             $scope.goback = function() {
@@ -1247,8 +1250,6 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                     }
                     series.push({name:nameArr[i], data:seriesData});
                 }
-                console.log("category:", categories.length, categories);
-                console.log("series:", series[1]);
                 opt = {
                     chart: {
                         type: 'column'
