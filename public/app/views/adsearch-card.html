@@ -22,7 +22,7 @@
         <div class="aditem-ader row margin-bottom-10">
             <div class="col-md-3 text-center ">
                 <a  ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
-                    <img src="{{mother.settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded avatar">
+                    <img src="../assets/global/img/input-spinner.gif" lazy-img="{{mother.settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded avatar">
                 </a>
             </div>
             <div class="col-md-9">
@@ -36,7 +36,7 @@
                 Sponsored
                 </div>
                 <div class="pull-right">
-                    <a href="https://www.facebook.com/{{card.adser_username}}" class="label label-sm label-warning" ng-hide="empty(card.likepage)"> <i class="fa fa-thumbs-up blue"></i>Like Page</a>
+                    <a href="https://www.facebook.com/{{card.adser_username}}" class="label label-sm label-warning" ng-hide="empty(card.likepage)" target="_blank"> <i class="fa fa-thumbs-up blue"></i>Like Page</a>
                 </div>
             </div>
         </div>

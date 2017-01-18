@@ -530,7 +530,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 value: "Watch Video"
             }],
             rangeList: [{
-                key: "adser_name",
+                key: "adser_name,adser_username",
                 value: "Advertiser"
             }, {
                 key: "dest_site",
@@ -538,6 +538,9 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
             }, {
                 key: "description",
                 value: "Content"
+            }, {
+                key:"whyseeads,whyseeads_all",
+                value:"Audience"
             }],
             langList: [{
                 key: "af",
