@@ -1377,28 +1377,7 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                 
                 console.log(competitorQuery);
             }
-            initFromQuery();
-            
-            $scope.competitors = [];
-            $scope.competitorPopover = false;
-            $scope.competitorsChart = {};
-            $scope.$on('competitor', function(event, data) {
-                event.stopPropagation();
-                $scope.competitorPopover = false;
-                promises.push(getAdserAnalysis(data.adser_username));
-                promises[promises.length - 1].then(addCompetitor);
-                competitorQuery.push(data.adser_username);
-                $location.search('competitor', competitorQuery.join(','));
-            });
-
-            $scope.remove = function(idx) {
-                $scope.competitors.splice(idx, 1);
-                competitorQuery.splice(idx, 1);
-                $location.search('competitor', competitorQuery.join(','));
-            };
-                
-            //所有广告主分析数据加载完成才处理图表
-            $q.all(promises).then(function() {
+            function initCompetitorCharts() {
                 var langGroup = [$scope.card.ad_lang_groupby];
                 var mediaTypeGroup = [$scope.card.media_type_groupby];
                 var showwayGroup = [$scope.card.showway_groupby];
@@ -1411,7 +1390,7 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                 }
                 console.log("nameArr:", nameArr);
                 $scope.competitorsChart.langOpt = initCompareBar(langGroup, nameArr, "Language");
-                $scope.competitorsChart.mediaTypeOpt = initCompareBar(mediaTypeGroup, nameArr, "MediaType");
+                $scope.competitorsChart.mediaTypeOpt = initCompareBar(mediaTypeGroup, nameArr, "Media Type");
                 $scope.competitorsChart.showwayOpt = initCompareBar(showwayGroup, nameArr, "Show way", {
                     "1": "timeline",
                     "2": "mobile",
@@ -1419,7 +1398,32 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                     "4": "rightcolumn"
                 });
                 console.log($scope.competitorsChart);
+            }
+            initFromQuery();
+            
+            $scope.competitors = [];
+            $scope.competitorPopover = false;
+            $scope.competitorsChart = {};
+            $scope.$on('competitor', function(event, data) {
+                var p;
+                event.stopPropagation();
+                $scope.competitorPopover = false;
+                p = getAdserAnalysis(data.adser_username);
+                p.then(addCompetitor).then(initCompetitorCharts);
+                competitorQuery.push(data.adser_username);
+                $location.search('competitor', competitorQuery.join(','));
             });
+
+            $scope.remove = function(idx) {
+                $scope.competitors.splice(idx, 1);
+                competitorQuery.splice(idx, 1);
+                $location.search('competitor', competitorQuery.join(','));
+                initCompetitorCharts();
+            };
+              
+
+            //所有广告主分析数据加载完成才处理图表
+            $q.all(promises).then(initCompetitorCharts);
 
             $scope.$on('$viewContentLoaded', function() {
                 // initialize core components
