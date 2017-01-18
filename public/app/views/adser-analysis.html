@@ -275,17 +275,30 @@
                             <!-- begin curve-->
                             <div id="curve" class="clearfix">
                                 <h4 class="font-yellow-gold">Curve</h4>
-                                <div class="col-md-offset-2 col-md-8" ng-if="card.mediaTypeConfig">
-                                    <highchart id="mediaTypeChart" config="card.mediaTypeConfig"></highchart>
-                                </div>
+                                <div ng-hide="competitors.length > 0">
+                                    <div class="col-md-offset-2 col-md-8" ng-if="card.mediaTypeConfig">
+                                        <highchart id="mediaTypeChart" config="card.mediaTypeConfig"></highchart>
+                                    </div>
 
-                                <div class="col-md-offset-2 col-md-8" ng-if="card.adLangConfig">
-                                    <highchart id="mediaTypeChart" config="card.adLangConfig"></highchart>
+                                    <div class="col-md-offset-2 col-md-8" ng-if="card.adLangConfig">
+                                        <highchart id="mediaTypeChart" config="card.adLangConfig"></highchart>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-8" ng-if="card.showwayConfig">
+                                        <highchart id="mediaTypeChart" config="card.showwayConfig"></highchart>
+                                    </div>
                                 </div>
-                                <div class="col-md-offset-2 col-md-8" ng-if="card.showwayConfig">
-                                    <highchart id="mediaTypeChart" config="card.showwayConfig"></highchart>
-                                </div>
+                                <div ng-show="competitors.length > 0">
+                                    <div class="col-md-offset-2 col-md-8" ng-if="competitorsChart.mediaTypeOpt">
+                                        <highchart id="mediaTypeChart" config="competitorsChart.mediaTypeOpt"></highchart>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-8" ng-if="competitorsChart.langOpt">
+                                        <highchart id="mediaTypeChart" config="competitorsChart.langOpt"></highchart>
+                                    </div>
 
+                                    <div class="col-md-offset-2 col-md-8" ng-if="competitorsChart.showwayOpt">
+                                        <highchart id="mediaTypeChart" config="competitorsChart.showwayOpt"></highchart>
+                                    </div>
+                                </div>
                             </div>
                             <!-- end curve-->
                             <!-- top list -->

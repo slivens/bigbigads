@@ -1153,8 +1153,8 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
 
         }
     ])
-    .controller('AdserAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$http', '$uibModal',
-        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $http, $uibModal) {
+    .controller('AdserAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$http', '$uibModal', '$q',
+        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $http, $uibModal, $q) {
 
             function getAdserAnalysis(username) {
                 var params = {
@@ -1205,8 +1205,10 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                     }]
                 };
             }
-
-
+            
+            /**
+             * 初始化单个广告主的图表
+             */
             function initChart(card) {
                 card.mediaTypeConfig = initPie(card.media_type_groupby, "Media Type");
                 card.adLangConfig = initPie(card.ad_lang_groupby, 'Advertise Language');
@@ -1218,7 +1220,51 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                 });
             }
 
-            function initCompareBar() {
+            function initCompareBar(dataArr, nameArr, title, labels) {
+                var opt, i, key;
+                var categories = [], map = [];
+                var series = [], seriesData;
+                //合并分类，去重
+                for (i = 0 ;i < dataArr.length; ++i) {
+                   for (key in dataArr[i]) {
+                        if (!map[key]) {
+                            if (labels)
+                                categories.push(labels[key]);
+                            else
+                                categories.push(key);
+                            map[key] = categories.length;
+                        }
+                   }
+                }
+                //插补数据
+                for (i = 0; i < dataArr.length; ++i) {
+                    seriesData = new Array(categories.length);
+                    for (key = 0; key < categories.length; ++key) {
+                        seriesData[key] = 0;
+                    }
+                    for (key in dataArr[i]) {
+                        seriesData[map[key] - 1] = dataArr[i][key];
+                    }
+                    series.push({name:nameArr[i], data:seriesData});
+                }
+                console.log("category:", categories.length, categories);
+                console.log("series:", series[1]);
+                opt = {
+                    chart: {
+                        type: 'column'
+                    },
+                    title:{
+                        text:title
+                    },
+                    xAxis:{
+                        categories:categories
+                    },
+                    yAxis:{
+                        min:0
+                    },
+                    series:series
+                };
+                return opt;
             }
 
             function openAd(id) {
@@ -1234,15 +1280,16 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                     }
                 });
             }
-            function formatAdser(item) {
 
+            function formatAdser(item) {
+                if (!item)
+                    return;
                 try {
                     item.media_type_groupby = JSON.parse(item.media_type_groupby);
                 } catch (e) {
                     item.media_type_groupby = item.media_type_groupby.replace(/'/g, '\"');
                     item.media_type_groupby = JSON.parse(item.media_type_groupby);
                 }
-
 
                 try {
                     item.ad_lang_groupby = JSON.parse(item.ad_lang_groupby);
@@ -1300,48 +1347,80 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                     item.top_last_see = JSON.parse(item.top_last_see);
                 }
             }
+
+            var competitorQuery = [];
+            var promises = [];
             $scope.openAd = openAd;
             $scope.card = {}; //card必须先赋值，否则调用Searcher的getAdsType时会提前生成自己的card,scope出错。
             $scope.Searcher = Searcher;
             $scope.username = $stateParams.username;
-            getAdserAnalysis($scope.username).then(function(res) {
-
+            promises[0] = getAdserAnalysis($scope.username);
+            promises[0].then(function(res) {
                 console.log("obj:", res.data);
                 $scope.card = res.data;
                 formatAdser($scope.card);
                 initChart($scope.card);
             });
-            var competitorQuery = [];
 
             function addCompetitor(res) {
+                formatAdser(res.data);
                 $scope.competitors.push(res.data);
             }
+
             function initFromQuery() {
                 if ($location.search().competitor)
                     competitorQuery = $location.search().competitor.split(',');
-                console.log(competitorQuery);
                 for(var key in competitorQuery) {
-                    getAdserAnalysis(competitorQuery[key]).then(addCompetitor);
+                    promises.push(getAdserAnalysis(competitorQuery[key]));
+                    promises[promises.length - 1].then(addCompetitor);
                 }
+                
+                console.log(competitorQuery);
             }
             initFromQuery();
             
             $scope.competitors = [];
             $scope.competitorPopover = false;
+            $scope.competitorsChart = {};
             $scope.$on('competitor', function(event, data) {
                 event.stopPropagation();
                 $scope.competitorPopover = false;
-                getAdserAnalysis(data.adser_username).then(function(res) {
-                    formatAdser(res.data);
-                    $scope.competitors.push(res.data);
-                });
+                promises.push(getAdserAnalysis(data.adser_username));
+                promises[promises.length - 1].then(addCompetitor);
                 competitorQuery.push(data.adser_username);
                 $location.search('competitor', competitorQuery.join(','));
             });
 
             $scope.remove = function(idx) {
                 $scope.competitors.splice(idx, 1);
+                competitorQuery.splice(idx, 1);
+                $location.search('competitor', competitorQuery.join(','));
             };
+                
+            //所有广告主分析数据加载完成才处理图表
+            $q.all(promises).then(function() {
+                var langGroup = [$scope.card.ad_lang_groupby];
+                var mediaTypeGroup = [$scope.card.media_type_groupby];
+                var showwayGroup = [$scope.card.showway_groupby];
+                var nameArr = [$scope.card.adser_name];
+                for (var key in $scope.competitors) {
+                    langGroup.push($scope.competitors[key].ad_lang_groupby);
+                    mediaTypeGroup.push($scope.competitors[key].media_type_groupby);
+                    showwayGroup.push($scope.competitors[key].showway_groupby);
+                    nameArr.push($scope.competitors[key].adser_name);
+                }
+                console.log("nameArr:", nameArr);
+                $scope.competitorsChart.langOpt = initCompareBar(langGroup, nameArr, "Language");
+                $scope.competitorsChart.mediaTypeOpt = initCompareBar(mediaTypeGroup, nameArr, "MediaType");
+                $scope.competitorsChart.showwayOpt = initCompareBar(showwayGroup, nameArr, "Show way", {
+                    "1": "timeline",
+                    "2": "mobile",
+                    "3": "timeline&mobile",
+                    "4": "rightcolumn"
+                });
+                console.log($scope.competitorsChart);
+            });
+
             $scope.$on('$viewContentLoaded', function() {
                 // initialize core components
                 App.initAjax();
@@ -1375,11 +1454,12 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
         $scope.promise = searcher.filter();
         $scope.promise.then(function(data) {
             $scope.searchOpt.items = data.adser;
-            $scope.searchOpt.inprogress = false;
+            // $scope.searchOpt.inprogress = false;
             $scope.searchOpt.error = null;
         }, function(data) {
             $scope.searchOpt.error = "No Data";
             $scope.searchOpt.items = null;
+        }).finally(function(){
             $scope.searchOpt.inprogress = false;
         });
     };
