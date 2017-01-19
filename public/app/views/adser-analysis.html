@@ -259,12 +259,12 @@
                             <div id="audience" ng-hide="competitors.length > 0">
                                 <h4 class="font-yellow-gold">Audience(Total:{{card.audience_all_num}})</h4>
                                 <div>
-                                    <table class="table table-hover" ng-if="card.all_audience">
+                                    <table class="table table-hover" ng-if="card.audience_all">
                                         <tr>
                                             <th>#</th>
                                             <th>Audience</th>
                                         </tr>
-                                        <tr ng-repeat="item in card.all_audience">
+                                        <tr ng-repeat="item in card.audience_all">
                                             <td>{{$index + 1}}</td>
                                             <td>{{item}}</td>
                                         </tr>
