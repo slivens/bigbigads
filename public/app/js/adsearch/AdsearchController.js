@@ -1285,68 +1285,6 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
             function formatAdser(item) {
                 if (!item)
                     return;
-                try {
-                    item.media_type_groupby = JSON.parse(item.media_type_groupby);
-                } catch (e) {
-                    item.media_type_groupby = item.media_type_groupby.replace(/'/g, '\"');
-                    item.media_type_groupby = JSON.parse(item.media_type_groupby);
-                }
-
-                try {
-                    item.ad_lang_groupby = JSON.parse(item.ad_lang_groupby);
-                } catch (e) {
-                    item.ad_lang_groupby = item.ad_lang_groupby.replace(/'/g, '\"');
-                    item.ad_lang_groupby = JSON.parse(item.ad_lang_groupby);
-                }
-
-                try {
-                    item.showway_groupby = JSON.parse(item.showway_groupby);
-                } catch (e) {
-                    item.showway_groupby = item.showway_groupby.replace(/'/g, '\"');
-                    item.showway_groupby = JSON.parse(item.showway_groupby);
-                }
-                //land_page有问题
-                // try {
-                //    item.land_page = JSON.parse(item.land_page);
-                // } catch(e) {
-                //    item.land_page = item.land_page.replace(/'/g, '\"');
-                //    item.land_page = JSON.parse(item.land_page);
-                // }
-                try {
-                    item.top_all_audience = JSON.parse(item.top_all_audience);
-                } catch (e) {
-                    item.top_all_audience = item.top_all_audience.replace(/'/g, '\"');
-                    item.top_all_audience = JSON.parse(item.top_all_audience);
-                }
-                //top duration
-                try {
-                    item.top_duration = JSON.parse(item.top_duration);
-                } catch (e) {
-                    item.top_duration = item.top_duration.replace(/'/g, '\"');
-                    item.top_duration = JSON.parse(item.top_duration);
-                }
-
-                //top engagement
-                try {
-                    item.top_engagements = JSON.parse(item.top_engagements);
-                } catch (e) {
-                    item.top_engagements = item.top_engagements.replace(/'/g, '\"');
-                    item.top_engagements = JSON.parse(item.top_engagements);
-                }
-                //top first see
-                try {
-                    item.top_first_see = JSON.parse(item.top_first_see);
-                } catch (e) {
-                    item.top_first_see = item.top_first_see.replace(/'/g, '\"');
-                    item.top_first_see = JSON.parse(item.top_first_see);
-                }
-                //top last see
-                try {
-                    item.top_last_see = JSON.parse(item.top_last_see);
-                } catch (e) {
-                    item.top_last_see = item.top_last_see.replace(/'/g, '\"');
-                    item.top_last_see = JSON.parse(item.top_last_see);
-                }
             }
 
             var competitorQuery = [];

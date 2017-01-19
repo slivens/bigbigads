@@ -224,33 +224,34 @@
                                 </div>
                                 <!-- end rank-->
                                 <div class="row" ng-hide="competitors.length >  0">
-                                    <div class="col-md-6">
-                                        <h4 class="text-center">Land Page(Total:{{card.landpage_num}})</h4>
+                                        <h4>Land Page(Total:{{card.landpage_num}})</h4>
                                         <table class="table table-hover">
                                             <tr>
                                                 <th>#</th>
                                                 <th>Link</th>
                                             </tr>
-                                            <!-- <tr ng-repeat="item in card.land_page"> -->
-                                            <!--     <td>{{$index + 1}}</td> -->
-                                            <!--     <td>{{item.link}}</td> -->
-                                            <!-- </tr> -->
-                                        </table>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h4 class="text-center">Dest Site(Total:{{card.destsite_num}})</h4>
-                                        <table class="table table-hover">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Link</th>
+                                            <tr ng-repeat="item in card.land_page">
+                                                <td>{{$index + 1}} 
+                                                    <label class="label label-success" ng-show="item.flag=='redirect'">R</label>
+                                                    <label class="label label-primary" ng-show="item.flag=='facebook'">F</label>
+                                                </td>
+                                                <td><a ng-href="{{item.link}}">{{item.link}}</a></td>
                                             </tr>
-                                            <!-- <tr ng-repeat="item in card.land_page"> -->
-                                            <!--     <td>{{$index + 1}}</td> -->
-                                            <!--     <td>{{item.link}}</td> -->
-                                            <!-- </tr> -->
                                         </table>
-                                    </div>
+                                </div>
 
+                                <div class="row" ng-hide="competitors.length > 0">
+                                    <h4>Dest Site(Total:{{card.destsite_num}})</h4>
+                                    <table class="table table-hover">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Link</th>
+                                        </tr>
+                                        <tr ng-repeat="item in card.dest_site">
+                                            <td>{{$index + 1}}</td>
+                                            <td><a ng-href="{{item}}">{{item}}</a></td>
+                                        </tr>
+                                    </table>
                                 </div>
 
                             </div>
@@ -258,12 +259,12 @@
                             <div id="audience" ng-hide="competitors.length > 0">
                                 <h4 class="font-yellow-gold">Audience(Total:{{card.audience_all_num}})</h4>
                                 <div>
-                                    <table class="table table-hover" ng-if="card.top_all_audience">
+                                    <table class="table table-hover" ng-if="card.all_audience">
                                         <tr>
                                             <th>#</th>
                                             <th>Audience</th>
                                         </tr>
-                                        <tr ng-repeat="item in card.top_all_audience">
+                                        <tr ng-repeat="item in card.all_audience">
                                             <td>{{$index + 1}}</td>
                                             <td>{{item}}</td>
                                         </tr>

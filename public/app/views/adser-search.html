@@ -22,7 +22,7 @@
                         <!-- BEGIN HEADER SEARCH BOX -->
                         <form class="search-form form-inline" ng-submit="search()">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search" ng-model="adSearcher.searchOption.search.text">
+                                    <input type="text" class="form-control input-lg" placeholder="Search" ng-model="adSearcher.searchOption.search.text">
                                     <span class="input-group-addon">
                                         <select ng-model="filterOption.type" ng-options="item.key as item.value for item in settings.searchSetting.adsTypes">
                                             <option value="">ALL</option>
@@ -40,7 +40,7 @@
                         <button class="btn default btn-outline btn-md " disabled="disabled">Subscribe</button>
                     </div>
                 </div>
-                <div class="alert alert-warning" ng-show="currSearchOption.isdirty">
+                <div class="alert alert-warning margin-top-10" ng-show="currSearchOption.isdirty">
                     <div>
                         <h4><a ng-click="clearSearch()">Clear Search</a></h4>
                     </div>
