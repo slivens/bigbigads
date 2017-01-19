@@ -108,6 +108,10 @@
                                     <p ng-if="card.page_website">
                                     Website:<a ng-href="{{card.page_website}}">{{card.page_website}}</a>
                                     </p>
+                                    <p>
+                                    <span>Buttons:</span>
+                                    <span ng-repeat="item in card.button_desc" ><button class="btn btn-outline yellow-gold disabled "  ng-show="item">{{item}}</button> </span>
+                                    </p>
                                 </div>
                                 <!-- rank2 -->
                                 <h4>Summary</h4>
