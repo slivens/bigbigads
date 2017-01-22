@@ -1075,7 +1075,8 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
     // Redirect any unmatched url
     $urlMatcherFactoryProvider.strictMode(false);
-    $urlRouterProvider.otherwise("/dashboard.html");
+    $urlRouterProvider.when("/", "/adsearch");
+    $urlRouterProvider.otherwise("/404.html");
 
     $stateProvider
 
