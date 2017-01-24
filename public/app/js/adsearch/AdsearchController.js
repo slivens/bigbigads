@@ -169,7 +169,7 @@ var app = angular.module('MetronicApp');
         };
     });
 
-angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q',
+app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q',
     function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q) {
         //opt = {searchType:'adser', url:'/api/forward/adserSearch'}
         var searcher = function(opt) {
@@ -367,8 +367,58 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
         };
         return searcher;
     }
-]);
-angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams',
+])
+.factory('Bookmark', ['$resource', 'settings', 'SweetAlert', function($resource, settings, SweetAlert) {
+    var url = settings.remoteurl + '/bookmark/:id';
+    var r = $resource(url, {id:'@id'}, {
+                update: {method:'PUT'}
+            });
+    var bookmark = {
+        error:true,
+        items:[],
+        get:function(id) {
+            var params;
+            if (id) {
+                params = {id:id};
+            }
+            var promise = r.query(params).$promise;
+            promise.then(function(items) {
+                bookmark.items = items;
+                bookmark.error = false;
+            }, function(res) {
+                bookmark.error = true;
+                console.log(res);
+            });
+            
+            return promise;
+        },
+        del:function(item) {
+            var promise = item.$delete();
+            promise.then(function(item) {
+                bookmark.items.splice($.inArray(item, bookmark.items), 1);
+            }, bookmark.handleError);
+            return promise;
+        },
+        save:function(item) {
+            var promise = r.save(item).$promise;
+            promise.then(function(item) {
+                console.log(item);
+                bookmark.items.push(item);
+            }, bookmark.handleError);
+            return promise;
+        },
+        handleError:function(res) {
+            console.log(res);
+            if (res.data instanceof Object) {
+                SweetAlert.swal(res.data.desc);
+            } else {
+                SweetAlert.swal(res.statusText);
+            }
+        }
+    };
+    return bookmark;
+}]);
+app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams',
         function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams) {
             //搜索流程:location.search->searchOption->adSearcher.params
             //将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
@@ -824,7 +874,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
     });
 }]);
 
-angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams',
+app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams',
         function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams) {
             //搜索流程:location.search->searchOption->adSearcher.params
             //将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
@@ -1411,3 +1461,45 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
         $scope.$emit('competitor', item);
     };
 }]);
+
+app.controller('RankingController', ['$scope', 'settings', '$http', function($scope, settings, $http) {
+    function get(rankList) {
+        $http.get(rankurl).then(function(res) {
+            rankList.items = res.data;
+        }, function(res) {
+            console.log(res);
+        });
+    }
+
+    var rankurl = settings.remoteurl + '/ranking';
+    $scope.rankList = {items:null};
+    get($scope.rankList);
+}]);
+app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Bookmark', '$uibModal', 'User', function($scope, settings, $http,  Bookmark, $uibModal, User) {
+
+    $scope.Bookmark = Bookmark;
+    $scope.addBookmark = function() {
+        return $uibModal.open({
+            templateUrl: 'bookmark-add-dialog.html',
+            size: 'sm',
+            animation: true,
+            controller:['$scope', 'Bookmark', '$uibModalInstance', function($scope, Bookmark, $uibModalInstance) {
+                $scope.item = {name:""};
+                $scope.Bookmark = Bookmark;
+                $scope.cancel = function() {
+                    $uibModalInstance.dismiss('cancel');
+                };
+                $scope.save = function(item) {
+                    $scope.promise = Bookmark.save(item);
+                    $uibModalInstance.dismiss('success');
+                }
+            }]
+        });
+    };
+    Bookmark.get();
+    
+    setTimeout(function() {
+        QuickSidebar.init(); // init quick sidebar        
+    }, 200);
+}]);
+

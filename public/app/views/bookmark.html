@@ -1,0 +1,80 @@
+<div ng-controller="BookmarkController">
+    <!-- BEGIN MAIN CONTENT -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div class="alert alert-danger" ng-if="Bookmark.error">
+                        You have not authroized!
+                    </div>
+                    <div ng-if="!Bookmark.error">
+                        <uib-tabset active="active">
+                            <uib-tab index="0" heading="Timeline">
+                                For test
+                            </uib-tab>
+                            <uib-tab index="1" heading="Rightcolumn"> Nothing
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+
+
+    <button type="button" class="btn-circle quick-sidebar-toggler" data-toggle="collapse" ng-show="!Bookmark.error">
+    <span class="sr-only">Toggle Filter Sidebar</span>
+    <i class="icon-grid"></i>
+</button>
+
+
+    <div class="page-quick-sidebar-wrapper">
+        <div class="page-quick-sidebar">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <a href="javascript:;" class="filterbar-toggler">
+                        <i class="icon-logout font-yellow-gold"></i>
+                    </a>
+                </div>
+                <div class="portlet-body">
+                    <p>
+                        <button class="btn btn-block yellow-gold" ng-click="addBookmark()">
+                        <i class="fa fa-plus"></i>
+                        Create New List
+                        </button>
+                    </p>
+                    <ul class="list-group">
+                        <li ng-repeat="item in Bookmark.items" class="list-group-item clearfix" ng-click="Bookmark.show(item.id)">
+                            <div class="pull-left">{{item.name}}</div>
+                            <div class="pull-right">
+                                <a href="#" class=""><i class="fa fa-pencil"></i></a> &nbsp;
+                                <a ng-click="Bookmark.del(item)"><i class="fa fa-trash text-danger"></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- dialogs -->
+<script type="text/ng-template" id="bookmark-add-dialog.html">
+
+    <form role="form" ng-submit="save(item)">
+    <div class="modal-header">
+        <h3 class="modal-title">Add bookmark</h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Name:</label>
+            <input type="text" class="form-control" ng-model="item.name" required>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">Create</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+    </form>
+</script>

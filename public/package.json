@@ -23,7 +23,9 @@
     "jshint": "^2.9.4"
   },
   "dependencies": {
+    "angular": "^1.5.8",
     "angular-daterangepicker": "^0.2.3-alpha1",
+    "angular-resource": "^1.5.8",
     "fancybox": "^3.0.0",
     "highcharts-ng": "^1.0.0",
     "ng-infinite-scroll": "^1.3.0"

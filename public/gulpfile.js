@@ -130,3 +130,4 @@ gulp.task('lint', function()  {
 gulp.task('lint:watch', function() {
     gulp.watch('./app/js/**/*.js', ['lint']);
 });
+gulp.task('watch', ['sass:watch', 'lint:watch']);

@@ -212,7 +212,7 @@ Page Header
                                     text-shadow: none;
                                     
                                     &:hover {
-                                      @include opacity(1);
+                                      //@include opacity(1);
                                       text-decoration: none;
                                     }
                                 }
@@ -519,7 +519,7 @@ Page Header
             @include opacity(0.7);
 
             &:hover { 
-                @include opacity(1);
+            //    @include opacity(1);
             }
         }
     }

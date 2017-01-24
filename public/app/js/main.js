@@ -9,7 +9,8 @@ var MetronicApp = angular.module("MetronicApp", [
     "oc.lazyLoad",
     "ngSanitize",
     "oitozero.ngSweetAlert",
-    "angularLazyImg"
+    "angularLazyImg",
+    'ngResource'
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -1296,6 +1297,73 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             }
 
         })
+        .state('ranking', {
+            url:'/ranking',
+            templateUrl:"views/ranking.html",
+            data: {
+                pageTitle: 'Ranking'
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: ' #ng_load_plugins_before',
+                        files: [
+                            '/bower_components/angular-deckgrid/angular-deckgrid.js',
+                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
+                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
+                            '../assets/global/plugins/select2/css/select2.min.css',
+                            '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
+                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
+                            '../assets/global/plugins/select2/js/select2.full.min.js',
+                            '../assets/pages/scripts/components-bootstrap-select.min.js',
+                            '../assets/pages/scripts/components-select2.min.js',
+
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
+                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
+                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
+                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
+                            'js/adsearch/AdsearchController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+        .state('bookmark', {
+            url:'/bookmark',
+            templateUrl:"views/bookmark.html",
+            data: {
+                pageTitle: 'Bookmark'
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: ' #ng_load_plugins_before',
+                        files: [
+                            '/bower_components/angular-deckgrid/angular-deckgrid.js',
+                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
+                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
+                            '../assets/global/plugins/select2/css/select2.min.css',
+                            '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
+                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
+                            '../assets/global/plugins/select2/js/select2.full.min.js',
+                            '../assets/pages/scripts/components-bootstrap-select.min.js',
+                            '../assets/pages/scripts/components-select2.min.js',
+
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
+                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
+                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
+                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
+                            'js/adsearch/AdsearchController.js'
+                        ]
+                    });
+                }]
+            }
+
+        })
     // AngularJS plugins
     .state('fileupload', {
         url: "/file_upload.html",
@@ -1661,4 +1729,33 @@ MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settin
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
 
+}]);
+
+
+MetronicApp.factory('User', ['$http', '$q', '$location', 'settings', function($http, $q, $location, settings) {
+    //获取信息完成后应该广播消息，然后其他需要在获取用户信息才能继续的操作就放到接收到广播后处理
+    var infourl = settings.remoteurl  + "/userinfo";
+    var user = {
+        info:{},
+        getInfo:function(refresh) {
+           var promise = $http.get(infourl);
+           promise.then(function(res) {
+                user.info = res.data;
+           }, function(res) {
+                user.info = {};
+           });
+           return promise;
+        },
+        login:function() {
+            $location.url("/login");
+        }
+    };
+    return user;
+}]);
+
+MetronicApp.controller('UserController', ['$scope', 'User', function($scope, User) {
+    User.getInfo().then(function(res) {
+        console.log(User.info);
+    });
+    $scope.User = User;
 }]);
