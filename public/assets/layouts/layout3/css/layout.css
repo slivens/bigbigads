@@ -1103,7 +1103,6 @@ Quick Sidebar Layout
   border: none;
   outline: none;
   position: fixed;
-  margin-top: -30px;
   width: 56px;
   height: 56px; }
   .quick-sidebar-toggler i {
@@ -1149,7 +1148,7 @@ Quick Sidebar Layout
 /* Quick sidebar wrapper */
 .page-quick-sidebar-wrapper {
   transition: left 0.3s;
-  z-index: 9999;
+  z-index: 999;
   position: fixed;
   top: 0;
   bottom: 0;

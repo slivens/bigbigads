@@ -42,7 +42,7 @@ class BookmarkPolicy
      */
     public function update(User $user, bookmark $bookmark)
     {
-        //
+        return $user->id == $bookmark->uid;
     }
 
     /**

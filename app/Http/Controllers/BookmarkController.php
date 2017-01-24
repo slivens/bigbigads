@@ -17,9 +17,9 @@ class BookmarkController extends Controller
     /*
      * 显示收藏目录
      */
-    public function index()
+    public function index(Request $req)
     {
-        return Bookmark::all();
+        return Bookmark::where("uid", $req->uid)->get();
     }
 
     /**
@@ -51,9 +51,21 @@ class BookmarkController extends Controller
     /**
      * 编辑指定收藏
      */
-    public function edit($id)
+    public function update(Request $req, $id)
     {
-
+        $bookmark = Bookmark::where("id", $id)->first();
+        if (!Auth::user()->can('update', $bookmark)) {
+            return response(["code"=>-1, "desc"=>"No Permission"], 501);
+        }
+        $update = false;
+        foreach($req->all() as $key=>$value) {
+            if (isset($bookmark[$key]) && $value != $bookmark->$key) {
+               $bookmark->$key = $value;
+               $update = true;
+            }
+        }
+        $bookmark->save();
+        return $bookmark;
     }
 
     /**

@@ -368,43 +368,49 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
         return searcher;
     }
 ])
-.factory('Bookmark', ['$resource', 'settings', 'SweetAlert', function($resource, settings, SweetAlert) {
-    var url = settings.remoteurl + '/bookmark/:id';
-    var r = $resource(url, {id:'@id'}, {
+.service('Resource', ['$resource', 'settings', 'SweetAlert', function($resource, settings, SweetAlert) {
+    function f(name) {
+        var vm = this;
+        var url = settings.remoteurl + '/' + name + '/:id';
+        var r = $resource(url, {id:'@id'}, {
                 update: {method:'PUT'}
             });
-    var bookmark = {
+        angular.extend(vm, {
         error:true,
         items:[],
-        get:function(id) {
-            var params;
-            if (id) {
-                params = {id:id};
-            }
+        get:function(params) {
             var promise = r.query(params).$promise;
             promise.then(function(items) {
-                bookmark.items = items;
-                bookmark.error = false;
+                vm.items = items;
+                vm.error = false;
             }, function(res) {
-                bookmark.error = true;
+                vm.error = true;
                 console.log(res);
             });
-            
+
             return promise;
         },
         del:function(item) {
             var promise = item.$delete();
             promise.then(function(item) {
-                bookmark.items.splice($.inArray(item, bookmark.items), 1);
-            }, bookmark.handleError);
+                vm.items.splice($.inArray(item, vm.items), 1);
+            }, vm.handleError);
             return promise;
         },
         save:function(item) {
-            var promise = r.save(item).$promise;
-            promise.then(function(item) {
-                console.log(item);
-                bookmark.items.push(item);
-            }, bookmark.handleError);
+            var promise;
+            var update = false;
+            if (item.$save) {
+               promise = item.$update();
+               update = true;
+            } else
+               promise = r.save(item).$promise;
+            promise.then(function(newItem) {
+                if (update)
+                    vm.items.splice($.inArray(item, vm.items), 1, newItem);
+                else
+                    vm.items.push(newItem);
+            }, vm.handleError);
             return promise;
         },
         handleError:function(res) {
@@ -415,6 +421,50 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
                 SweetAlert.swal(res.statusText);
             }
         }
+    });
+    }
+    return f;
+}]);
+app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', function(Resource, $uibModal, SweetAlert) {
+    var bookmark = new Resource('bookmark');
+    
+    bookmark.addBookmark = function(item) {
+        return $uibModal.open({
+            templateUrl: 'views/bookmark-add-dialog.html',
+            size: 'sm',
+            animation: true,
+            controller:['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+                if (item)
+                    $scope.item = angular.copy(item);
+                else
+                    $scope.item = {name:""};
+                $scope.bookmark = bookmark;
+                $scope.cancel = function() {
+                    $uibModalInstance.dismiss('cancel');
+                };
+                $scope.save = function(item) {
+                    $scope.promise = bookmark.save(item);
+                    $uibModalInstance.dismiss('success');
+                };
+            }]
+        });
+    };
+    bookmark.delBookmark = function(item) {
+			SweetAlert.swal({   
+              title: 'Are you sure?',   
+              text: 'All the bookmark will be removed also',   
+              type: 'warning',   
+              showCancelButton: true,   
+              // confirmButtonColor: '#DD6B55',   
+              confirmButtonText: 'Yes',   
+              cancelButtonText: 'Cancel',   
+              closeOnConfirm: true,   
+              closeOnCancel: true 
+            }, function(isConfirm){  
+              if (isConfirm) {     
+				bookmark.del(item);
+              } 
+            });
     };
     return bookmark;
 }]);
@@ -1475,28 +1525,12 @@ app.controller('RankingController', ['$scope', 'settings', '$http', function($sc
     $scope.rankList = {items:null};
     get($scope.rankList);
 }]);
-app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Bookmark', '$uibModal', 'User', function($scope, settings, $http,  Bookmark, $uibModal, User) {
-
-    $scope.Bookmark = Bookmark;
-    $scope.addBookmark = function() {
-        return $uibModal.open({
-            templateUrl: 'bookmark-add-dialog.html',
-            size: 'sm',
-            animation: true,
-            controller:['$scope', 'Bookmark', '$uibModalInstance', function($scope, Bookmark, $uibModalInstance) {
-                $scope.item = {name:""};
-                $scope.Bookmark = Bookmark;
-                $scope.cancel = function() {
-                    $uibModalInstance.dismiss('cancel');
-                };
-                $scope.save = function(item) {
-                    $scope.promise = Bookmark.save(item);
-                    $uibModalInstance.dismiss('success');
-                }
-            }]
-        });
-    };
-    Bookmark.get();
+app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource', '$uibModal', 'User', 'Bookmark', function($scope, settings, $http,  Resource, $uibModal, User, Bookmark) {
+    $scope.bookmark = Bookmark;
+    User.getInfo().then(function() {
+        if (User.info.login)
+            Bookmark.get({uid:User.info.user.id});
+    });
     
     setTimeout(function() {
         QuickSidebar.init(); // init quick sidebar        

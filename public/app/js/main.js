@@ -1736,19 +1736,24 @@ MetronicApp.factory('User', ['$http', '$q', '$location', 'settings', function($h
     //获取信息完成后应该广播消息，然后其他需要在获取用户信息才能继续的操作就放到接收到广播后处理
     var infourl = settings.remoteurl  + "/userinfo";
     var user = {
+        retreived:false,
         info:{},
         getInfo:function(refresh) {
-           var promise = $http.get(infourl);
-           promise.then(function(res) {
+            if (!refresh && user.retreived)
+                return user.promise;
+           user.promise = $http.get(infourl);
+           user.promise.then(function(res) {
                 user.info = res.data;
            }, function(res) {
                 user.info = {};
            });
-           return promise;
+           user.retreived = true;
+           return user.promise;
         },
         login:function() {
             $location.url("/login");
         }
+
     };
     return user;
 }]);
