@@ -1580,11 +1580,11 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
             angular.forEach(items, function(item) {
                 if (Number(item.type) === 0 && item.bid == bid) {
                     wanted.push(item.ident);
-                } else if (Number(item.type) === 0 && item.bid == bid) {
+                } 
+                if (Number(item.type) === 1 && item.bid == bid) {
                     wantedAdsers.push(item.ident);
                 }
             });
-            console.log(type, bid, wanted, wantedAdsers);
         
             //获取广告
             adSearcher.addFilter({
@@ -1595,7 +1595,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                 $scope.ads = data;
                 $scope.ads.bookmark = true;
             }, function() {
-                $scope.ads = [];
+                $scope.ads = {};
             });
             //获取广告主
             adserSearcher.addFilter({
@@ -1606,7 +1606,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                 $scope.adsers = data;
                 $scope.adsers.bookmark = true;
             }, function() {
-                $scope.adsers = [];
+                $scope.adsers = {};
             });
         });
     }
@@ -1618,16 +1618,22 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
     function init() {
         var search = $location.search();
         if(search.bid) {
+           $scope.bookmark.type = Number(search.type);
            loadAds(search.type, search.bid);
         } else {
+            if (search.type) 
+                $scope.bookmark.type = Number(search.type);
+            else
+                $scope.bookmark.type = 0;
             if (Bookmark.items.length) {
-                loadAds(0, Bookmark.items[0].id);
+                loadAds($scope.bookmark.type, Bookmark.items[0].id);
             }
         }
+
     }
     $scope.Searcher = Searcher;
     $scope.bookmark = Bookmark;
-    $scope.bookmark.type = 0;//当前显示类型
+    //$scope.bookmark.type = 0;//当前显示类型
     $scope.load = load;
     $scope.ads = {};//广告列表
     $scope.adsers = {};//广告主列表
@@ -1645,7 +1651,6 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
         }, function(isConfirm) {
             if (!isConfirm)
                 return;
-            console.log("ident",card.event_id);
             console.log(Bookmark.subItems);
             angular.forEach(Bookmark.subItems, function(item) {
                 if (type != item.type)
@@ -1654,7 +1659,6 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                     BookmarkItem.del(item).then(function() {
                         for (var i = 0; i < $scope.ads.ads_info.length; ++i) {
                             if ($scope.ads.ads_info[i] == card) {
-                                console.log("idx", i);
                                 $scope.ads.ads_info.splice(i, 1);
                                 break;
                             }
@@ -1664,6 +1668,12 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
             });
         });
     };
+    $scope.$watch('bookmark.type', function(newValue, oldValue) {
+        if (newValue != oldValue) {
+            $location.search("type", newValue);
+        }
+    });
+
     User.getInfo().then(function() {
         if (User.info.login)
             Bookmark.get({uid:User.info.user.id}).then(function() {

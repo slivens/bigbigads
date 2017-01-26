@@ -6,17 +6,21 @@
                 You have not authroized!
             </div>
             <div ng-if="!bookmark.error">
-                <uib-tabset active="active">
+                <uib-tabset active="bookmark.type">
                     <uib-tab index="0" heading="Ads">
-                        <div class="alert alert-info" ng-if="!bookmark.error && data.ads_info.length == 0">
-                            No bookmarks yet!
+                        <div class="alert alert-info" ng-if="!ads.ads_info">
+                            No ads yet!
                         </div>
                         <div deckgrid source="ads.ads_info" class="deckgrid" cardTemplate="views/adsearch-card.html">
                         </div>
 
                         <div class="clearfix"></div>
                     </uib-tab>
-                    <uib-tab index="1" heading="Advertisers"> Nothing
+                    <uib-tab index="1" heading="Advertisers"> 
+                        <div class="alert alert-info" ng-if="!adsers.adser">
+                            No advertisers yet!
+                        </div>
+                        <div deckgrid source="adsers.adser" class="deckgrid" cardTemplate="views/adser-search-card.html">
                     </uib-tab>
                 </uib-tabset>
             </div>

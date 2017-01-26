@@ -1,4 +1,13 @@
-<div class="a-card fade-in-up">
+<div class="a-card fade-in-up mt-element-ribbon">
+    <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning" uib-popover-template="'views/bookmark-popover.html'" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.ads.bookmark">
+        <div class="ribbon-sub ribbon-bookmark"></div>
+        <i class="fa fa-star font-white"></i>
+    </div>
+    <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning"  ng-if="mother.ads.bookmark" ng-click="mother.cancelBookmark(1, card)">
+        <div class="ribbon-sub ribbon-bookmark"></div>
+        <i class="fa fa-star"></i>
+    </div>
+
     <div class="portlet light aditem">
         <div class="aditem-ader row margin-bottom-10">
             <!-- avatar and adser info -->
