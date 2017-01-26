@@ -25,8 +25,9 @@ class BookmarkItemController extends Controller
         $obj = new $class;
 
         if (isset($req->where)) {
-            $obj->where(json_decode($req->where))->where('uid', '=', Auth::user()->id);
+            $obj = $obj->where(json_decode($req->where));
         }
+        $obj = $obj->where('uid', '=', Auth::user()->id);
         $items = $obj->get();
         return $items;
     }
@@ -55,10 +56,9 @@ class BookmarkItemController extends Controller
      */
     public function show($id)
     {
-        $routeNames = explode(".", Route::currentRouteName());
-        $class = "App\\" . $routeNames[0];
+        $class = $this->class;
         $item = $class::where("id", $id)->first();
-        dd($item);
+        return $item;
     }
 
     /**
@@ -82,15 +82,16 @@ class BookmarkItemController extends Controller
     }
 
     /**
-     * 删除指定收藏
+     * 删除指定项
      */
     public function destroy($id)
     {
-        $bookmark = Bookmark::where("id", $id)->first();
-        if (!Auth::user()->can('delete', $bookmark)) {
+        $class = $this->class;
+        $item = $class::where("id", $id)->first();
+        if (!Auth::user()->can('delete', $item)) {
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
         }
-        $bookmark->delete();
+        $item->delete();
         return ["code"=>0, "desc"=>"Success"];
     }
 

@@ -20,7 +20,9 @@
 		margin: 10px 0 0 -2px;
 		clear:left;
 		position: relative;
-
+        &:hover {
+            cursor:pointer;
+        }
 		// POSITION CONTROL
 		&.ribbon-right{
 			float:right;

@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
         BookmarkItem::creating(function($newItem) {
             $count = BookmarkItem::where('bid', $newItem->bid)->where('type', $newItem->type)->where('ident', $newItem->ident)->count();
             if ($count > 0) {
-                Log::info("$count:" . $newItem);
+                Log::debug("$count:" . $newItem);
                 return false;
             }
             return true;

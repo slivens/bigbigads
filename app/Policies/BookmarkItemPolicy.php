@@ -54,6 +54,8 @@ class BookmarkItemPolicy
      */
     public function delete(User $user, BookmarkItem $bookmarkItem)
     {
+        //Log::debug("user:" . $user->id . ":" . $bookmarkItem->uid);
+        return $user->id == $bookmarkItem->uid;
         //
     }
 }

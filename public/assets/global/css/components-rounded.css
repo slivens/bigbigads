@@ -18609,6 +18609,8 @@ body.stop-scrolling {
     position: relative;
     background-color: #bac3d0;
     color: #384353; }
+    .mt-element-ribbon .ribbon:hover {
+      cursor: pointer; }
     .mt-element-ribbon .ribbon.ribbon-right {
       float: right;
       clear: right;

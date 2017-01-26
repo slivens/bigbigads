@@ -1,12 +1,16 @@
 <div class="a-card fade-in-up mt-element-ribbon">
-        <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning" uib-popover-template="'bookmark-popover.html'" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark">
+        <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning" uib-popover-template="'views/bookmark-popover.html'" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.ads.bookmark">
+            <div class="ribbon-sub ribbon-bookmark"></div>
+            <i class="fa fa-star font-white"></i>
+        </div>
+        <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning"  ng-if="mother.ads.bookmark" ng-click="mother.cancelBookmark(0, card)">
             <div class="ribbon-sub ribbon-bookmark"></div>
             <i class="fa fa-star"></i>
         </div>
     <div class="portlet light aditem">
         <div class="portlet-title">
             <div class="pull-right margin-right-10">
-                <button ng-if="card.whyseeads_all || card.whyseeads" ng-click="mother.swal(card.whyseeads ? card.whyseeads : card.whyseeads_all)">
+                <button ng-if="card.whyseeads_all || card.whyseeads" sweetalert title="{{card.whyseeads ? card.whyseeads : card.whyseeads_all}}">
                     <i class="fa fa-users font-yellow-gold"></i>
                 </button>
             </div>
@@ -16,9 +20,9 @@
             <i class="fa fa-eye font-yellow-gold  fa-fw"></i><span>{{card.see_date}}</span>
             <p/>
             <div>
-                <i class="fa fa-share-alt fa-3x font-yellow-gold"  ng-show="mother.adSearcher.getAdsType(card, mother.adSearcher.ADS_TYPE.timeline)"></i>
-                <i class="fa fa-columns fa-3x font-yellow-gold"  ng-show="mother.adSearcher.getAdsType(card, mother.adSearcher.ADS_TYPE.rightcolumn)"></i>
-                <i class="fa fa-mobile font-yellow-gold  fa-3x" ng-show="mother.adSearcher.getAdsType(card, mother.adSearcher.ADS_TYPE.mobile)"></i>
+                <i class="fa fa-share-alt fa-3x font-yellow-gold"  ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.timeline)"></i>
+                <i class="fa fa-columns fa-3x font-yellow-gold"  ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.rightcolumn)"></i>
+                <i class="fa fa-mobile font-yellow-gold  fa-3x" ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.mobile)"></i>
             </div>
         </div>
 
@@ -53,34 +57,3 @@
         <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
     </div>
 </div>
-
-
-<script type="text/ng-template" id="popupover1.html">
-<div>
-    <img ng-src="{{$parent.settings.imgRemoteBase + $parent.card.snapshot[$parent.card.active]}}"  class="img-responsive" ng-if="$parent.card.snapshot && $parent.card.active >= 0" />
-    <img ng-src="{{$parent.settings.imgRemoteBase + $parent.card.snapshot}}"  class="img-responsive" ng-if="$parent.card.snapshot" />
-    <h3 ng-if="!$parent.card.snapshot">No snashot</h3>
-</div>
-</script>
-
-<script type="text/ng-template" id="bookmark-popover.html">
-<div ng-controller="BookmarkAddController" ng-init="card=$parent.card" cg-busy="queryPromise">
-    <div ng-show="bookmark.items.length == 0">No Bookmark Yet!</div>
-    <form ng-submit="add(card)">
-    <ul class="nav nav-pills nav-stacked">
-        <li ng-repeat="item in bookmark.items" >
-            <div class="form-group">
-                <label class="mt-checkbox mt-checkbox-outline"> {{item.name}}
-                    <input type="checkbox" ng-model="select[$index]">
-                    <span></span>
-                </label>
-            </div>
-        </li>
-    </ul>
-    <button type="submit" class="btn btn-block yellow-gold" cg-busy="addPromise" ng-show="bookmark.items.length > 0">
-    <i class="fa fa-plus fa-fw"></i>
-    Add
-    </button>
-    </form>
-</div>
-</script>

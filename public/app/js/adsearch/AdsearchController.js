@@ -1,5 +1,14 @@
 /* adsearch controller */
 var app = angular.module('MetronicApp');
+    app.directive('sweetalert', ['SweetAlert', function(SweetAlert) {
+        return {
+            link: function(scope, element, attrs) {
+                element.bind('click', function() {
+                    SweetAlert.swal(attrs.title);
+                });
+            }
+        };
+    }]);
     app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) {
         return {
             link: function($scope, element, attrs) {
@@ -250,7 +259,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
                 total_count: 0
             };
             vm.isend = false;
-            searcher.prototype.search = function(params, clear) {
+            vm.search = function(params, clear) {
                 var defer = $q.defer();
                 //获取广告搜索信息
                 var searchurl = settings.remoteurl + (opt && opt.url ? opt.url : '/api/forward/adsearch');
@@ -393,6 +402,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
             return promise;
         },
         del:function(item) {
+            console.log('ondeleting', item);
             var promise = item.$delete();
             promise.then(function(item) {
                 vm.items.splice($.inArray(item, vm.items), 1);
@@ -463,7 +473,7 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
     bookmark.delBookmark = function(item) {
 			SweetAlert.swal({   
               title: 'Are you sure?',   
-              text: 'All the bookmark will be removed also',   
+              text: 'All the bookmarks will be removed,too?',   
               type: 'warning',   
               showCancelButton: true,   
               // confirmButtonColor: '#DD6B55',   
@@ -1551,39 +1561,52 @@ app.controller('RankingController', ['$scope', 'settings', '$http', function($sc
 }]);
 app.factory('BookmarkItem', ['Resource', '$uibModal', 'SweetAlert', function(Resource, $uibModal, SweetAlert) {
     var bookmarkItem = new Resource('BookmarkItem');
+
     return bookmarkItem;
 }]);
 
-app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource', '$uibModal', 'User', 'Bookmark', '$location', 'Searcher', function($scope, settings, $http,  Resource, $uibModal, User, Bookmark, $location, Searcher) {
+app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource', '$uibModal', 'User', 'Bookmark', 'BookmarkItem', '$location', 'Searcher', 'SweetAlert', function($scope, settings, $http,  Resource, $uibModal, User, Bookmark, BookmarkItem, $location, Searcher, SweetAlert) {
     
 
     function loadAds(type, bid) {
         Bookmark.showDetail(bid).then(function(items) {
             var wanted = [];
-            var searcher;
-            if (Number(type) === 0) {
-                searcher = new Searcher();
-            } else {
-                searcher = new Searcher({
+            var wantedAdsers = [];
+            var adSearcher = new Searcher();
+            var adserSearcher = new Searcher({
                     searchType: 'adser',
                     url: '/api/forward/adserSearch'
                 });
-            }
             angular.forEach(items, function(item) {
-                if (item.type == type && item.bid == bid) {
+                if (Number(item.type) === 0 && item.bid == bid) {
                     wanted.push(item.ident);
+                } else if (Number(item.type) === 0 && item.bid == bid) {
+                    wantedAdsers.push(item.ident);
                 }
             });
-            console.log(type, bid, wanted);
-
-            searcher.addFilter({
+            console.log(type, bid, wanted, wantedAdsers);
+        
+            //获取广告
+            adSearcher.addFilter({
                 field: 'ads_id',
                 value: wanted.join(',')
             });
-            searcher.filter().then(function(data) {
-                $scope.data = data;
+            adSearcher.filter().then(function(data) {
+                $scope.ads = data;
+                $scope.ads.bookmark = true;
             }, function() {
-                $scope.data = [];
+                $scope.ads = [];
+            });
+            //获取广告主
+            adserSearcher.addFilter({
+                field:'adser_username',
+                value:wantedAdsers.join(',')
+            });
+            adserSearcher.filter().then(function(data) {
+                $scope.adsers = data;
+                $scope.adsers.bookmark = true;
+            }, function() {
+                $scope.adsers = [];
             });
         });
     }
@@ -1602,11 +1625,45 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
             }
         }
     }
+    $scope.Searcher = Searcher;
     $scope.bookmark = Bookmark;
-    $scope.bookmark.type = 0;
+    $scope.bookmark.type = 0;//当前显示类型
     $scope.load = load;
-    $scope.data = [];
-
+    $scope.ads = {};//广告列表
+    $scope.adsers = {};//广告主列表
+    $scope.cancelBookmark = function(type, card) {
+        SweetAlert.swal({
+            title:'Are you sure?',
+            text:'Cancel the ' + type > 0 ? card.adser_username : card.event_id,
+            type:'warning',
+              showCancelButton: true,   
+              // confirmButtonColor: '#DD6B55',   
+              confirmButtonText: 'Yes',   
+              cancelButtonText: 'Cancel',   
+              closeOnConfirm: true,   
+              closeOnCancel: true 
+        }, function(isConfirm) {
+            if (!isConfirm)
+                return;
+            console.log("ident",card.event_id);
+            console.log(Bookmark.subItems);
+            angular.forEach(Bookmark.subItems, function(item) {
+                if (type != item.type)
+                    return;
+                if (type === 0 && card.event_id == item.ident) {
+                    BookmarkItem.del(item).then(function() {
+                        for (var i = 0; i < $scope.ads.ads_info.length; ++i) {
+                            if ($scope.ads.ads_info[i] == card) {
+                                console.log("idx", i);
+                                $scope.ads.ads_info.splice(i, 1);
+                                break;
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    };
     User.getInfo().then(function() {
         if (User.info.login)
             Bookmark.get({uid:User.info.user.id}).then(function() {
@@ -1642,7 +1699,7 @@ app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', '
         $scope.addPromise.finally(function() {
             card.showBookmark = false;//耦合
         });
-    }
+    };
     if (!Bookmark.queried) {
         User.getInfo().then(function() {
             if (User.info.login) {

@@ -2,23 +2,23 @@
     <!-- BEGIN MAIN CONTENT -->
     <div class="row">
         <div class="col-md-12">
-            <div class="portlet light bordered">
-                <div class="portlet-body">
-                    <div class="alert alert-danger" ng-if="bookmark.error">
-                        You have not authroized!
-                    </div>
-                    <div ng-if="!bookmark.error">
-                        <uib-tabset active="active">
-                            <uib-tab index="0" heading="Timeline">
-                                <ul>
-                                    <li ng-repeat="item in data.ads_info">{{item.event_id}}</li>
-                                </ul>
-                            </uib-tab>
-                            <uib-tab index="1" heading="Rightcolumn"> Nothing
-                            </uib-tab>
-                        </uib-tabset>
-                    </div>
-                </div>
+            <div class="alert alert-danger" ng-if="bookmark.error">
+                You have not authroized!
+            </div>
+            <div ng-if="!bookmark.error">
+                <uib-tabset active="active">
+                    <uib-tab index="0" heading="Ads">
+                        <div class="alert alert-info" ng-if="!bookmark.error && data.ads_info.length == 0">
+                            No bookmarks yet!
+                        </div>
+                        <div deckgrid source="ads.ads_info" class="deckgrid" cardTemplate="views/adsearch-card.html">
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </uib-tab>
+                    <uib-tab index="1" heading="Advertisers"> Nothing
+                    </uib-tab>
+                </uib-tabset>
             </div>
         </div>
     </div>
@@ -50,7 +50,7 @@
                         <button type="button" ng-repeat="item in bookmark.items" class="list-group-item clearfix filterbar-toggler " ng-class='{"active":item.id==bookmark.bid}' ng-click="load(bookmark.type, item.id)">
                             <div class="pull-left ">{{item.name}}</div>
                             <div class="pull-right">
-                                <a ng-click="bookmark.addBookmark(item)" class=""><i class="fa fa-pencil fa-fw"></i></a> 
+                                <a ng-click="bookmark.addBookmark(item)" class=""><i class="fa fa-pencil fa-fw text-success"></i></a> 
                                 <a ng-click="bookmark.delBookmark(item)"><i class="fa fa-trash fa-fw text-danger"></i></a>
                             </div>
                         </button>
