@@ -10,7 +10,8 @@ var MetronicApp = angular.module("MetronicApp", [
     "ngSanitize",
     "oitozero.ngSweetAlert",
     "angularLazyImg",
-    'ngResource'
+    'ngResource',
+    'cgBusy'
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */

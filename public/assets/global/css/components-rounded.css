@@ -18593,8 +18593,7 @@ body.stop-scrolling {
   background: #8877a9; }
 
 .mt-element-ribbon {
-  position: relative;
-  margin-bottom: 30px; }
+  position: relative; }
   .mt-element-ribbon .ribbon-content {
     margin: 0;
     padding: 25px;
@@ -18624,7 +18623,7 @@ body.stop-scrolling {
     .mt-element-ribbon .ribbon.ribbon-vertical-right {
       clear: none;
       float: right;
-      margin: -2px 10px 0 0;
+      margin: -10px 10px 0 0;
       padding-top: 1em;
       padding-bottom: 1em;
       width: 41px;
@@ -18758,6 +18757,8 @@ body.stop-scrolling {
         left: 0;
         position: absolute;
         width: 0; }
+      .mt-element-ribbon .ribbon > .ribbon-sub.ribbon-bookmark:hover {
+        cursor: pointer; }
     .mt-element-ribbon .ribbon:after {
       border-color: #62748f; }
     .mt-element-ribbon .ribbon > .ribbon-sub {

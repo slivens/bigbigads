@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use TCG\Voyager\Models\Permission;
 use App\Bookmark;
-
+use App\BookmarkItem;
 class BigbigadsSeeder extends Seeder
 {
     /**
@@ -72,11 +72,16 @@ class BigbigadsSeeder extends Seeder
                 'table_name' => 'monitor',
             ]);
         }
-        echo 'insert permission data\n';
+        echo "insert permission data\n";
     
 
         //收藏夹测试项
         Bookmark::firstOrCreate(['uid'=>1, 'name'=>'Sport']);
         Bookmark::firstOrCreate(['uid'=>1, 'name'=>'Technology']);
+
+        //添加收藏项
+        BookmarkItem::firstOrCreate(['uid'=>1, 'bid'=>1, 'type'=>0, 'ident'=> '23842544524540050']);
+        BookmarkItem::firstOrCreate(['uid'=>1, 'bid'=>1, 'type'=>1, 'ident'=> 'coxcommunications']);
+        echo "insert bookmarks\n";
     }
 }

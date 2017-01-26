@@ -1,7 +1,11 @@
-<div class="a-card fade-in-up">
+<div class="a-card fade-in-up mt-element-ribbon">
+        <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning" uib-popover-template="'bookmark-popover.html'" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark">
+            <div class="ribbon-sub ribbon-bookmark"></div>
+            <i class="fa fa-star"></i>
+        </div>
     <div class="portlet light aditem">
         <div class="portlet-title">
-            <div class="pull-right">
+            <div class="pull-right margin-right-10">
                 <button ng-if="card.whyseeads_all || card.whyseeads" ng-click="mother.swal(card.whyseeads ? card.whyseeads : card.whyseeads_all)">
                     <i class="fa fa-users font-yellow-gold"></i>
                 </button>
@@ -56,5 +60,27 @@
     <img ng-src="{{$parent.settings.imgRemoteBase + $parent.card.snapshot[$parent.card.active]}}"  class="img-responsive" ng-if="$parent.card.snapshot && $parent.card.active >= 0" />
     <img ng-src="{{$parent.settings.imgRemoteBase + $parent.card.snapshot}}"  class="img-responsive" ng-if="$parent.card.snapshot" />
     <h3 ng-if="!$parent.card.snapshot">No snashot</h3>
+</div>
+</script>
+
+<script type="text/ng-template" id="bookmark-popover.html">
+<div ng-controller="BookmarkAddController" ng-init="card=$parent.card" cg-busy="queryPromise">
+    <div ng-show="bookmark.items.length == 0">No Bookmark Yet!</div>
+    <form ng-submit="add(card)">
+    <ul class="nav nav-pills nav-stacked">
+        <li ng-repeat="item in bookmark.items" >
+            <div class="form-group">
+                <label class="mt-checkbox mt-checkbox-outline"> {{item.name}}
+                    <input type="checkbox" ng-model="select[$index]">
+                    <span></span>
+                </label>
+            </div>
+        </li>
+    </ul>
+    <button type="submit" class="btn btn-block yellow-gold" cg-busy="addPromise" ng-show="bookmark.items.length > 0">
+    <i class="fa fa-plus fa-fw"></i>
+    Add
+    </button>
+    </form>
 </div>
 </script>

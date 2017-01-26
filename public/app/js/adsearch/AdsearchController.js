@@ -375,9 +375,10 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
         var r = $resource(url, {id:'@id'}, {
                 update: {method:'PUT'}
             });
+        vm.error = true;
+        vm.queried = false;
+        vm.items = [];
         angular.extend(vm, {
-        error:true,
-        items:[],
         get:function(params) {
             var promise = r.query(params).$promise;
             promise.then(function(items) {
@@ -386,8 +387,9 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
             }, function(res) {
                 vm.error = true;
                 console.log(res);
+            }).finally(function() {
+                vm.queried = true;
             });
-
             return promise;
         },
         del:function(item) {
@@ -406,9 +408,14 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
             } else
                promise = r.save(item).$promise;
             promise.then(function(newItem) {
-                if (update)
-                    vm.items.splice($.inArray(item, vm.items), 1, newItem);
-                else
+                if (update) {
+                    for (var i = 0; i < vm.items.length; ++i) {
+                        if (vm.items[i].id == item.id) {
+                            vm.items.splice(i, 1, newItem);
+                            break;
+                        }
+                    }
+                } else
                     vm.items.push(newItem);
             }, vm.handleError);
             return promise;
@@ -425,9 +432,9 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
     }
     return f;
 }]);
-app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', function(Resource, $uibModal, SweetAlert) {
+app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', function(Resource, $uibModal, SweetAlert, BookmarkItem) {
     var bookmark = new Resource('bookmark');
-    
+    bookmark.subItems = [];
     bookmark.addBookmark = function(item) {
         return $uibModal.open({
             templateUrl: 'views/bookmark-add-dialog.html',
@@ -438,13 +445,17 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', function(Resourc
                     $scope.item = angular.copy(item);
                 else
                     $scope.item = {name:""};
+                console.log(item);
                 $scope.bookmark = bookmark;
                 $scope.cancel = function() {
                     $uibModalInstance.dismiss('cancel');
                 };
                 $scope.save = function(item) {
                     $scope.promise = bookmark.save(item);
-                    $uibModalInstance.dismiss('success');
+                    $scope.promise.then(function() {
+                        $uibModalInstance.dismiss('success');
+                    });
+
                 };
             }]
         });
@@ -465,6 +476,20 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', function(Resourc
 				bookmark.del(item);
               } 
             });
+    };
+    //添加收藏
+    bookmark.collect = function(type, item) {
+        
+    };
+    bookmark.showDetail = function(bid) {
+        var promise = BookmarkItem.get({
+            where:JSON.stringify([["bid", "=", bid]])
+        });
+        promise.then(function(items) {
+            bookmark.subItems = items;
+            bookmark.bid = bid;
+        });
+        return promise;
     };
     return bookmark;
 }]);
@@ -1035,7 +1060,6 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
             $scope.reverseSort = function() {
                 $scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;
                 $scope.adSearcher.filter();
-
             };
 
 
@@ -1525,15 +1549,106 @@ app.controller('RankingController', ['$scope', 'settings', '$http', function($sc
     $scope.rankList = {items:null};
     get($scope.rankList);
 }]);
-app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource', '$uibModal', 'User', 'Bookmark', function($scope, settings, $http,  Resource, $uibModal, User, Bookmark) {
+app.factory('BookmarkItem', ['Resource', '$uibModal', 'SweetAlert', function(Resource, $uibModal, SweetAlert) {
+    var bookmarkItem = new Resource('BookmarkItem');
+    return bookmarkItem;
+}]);
+
+app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource', '$uibModal', 'User', 'Bookmark', '$location', 'Searcher', function($scope, settings, $http,  Resource, $uibModal, User, Bookmark, $location, Searcher) {
+    
+
+    function loadAds(type, bid) {
+        Bookmark.showDetail(bid).then(function(items) {
+            var wanted = [];
+            var searcher;
+            if (Number(type) === 0) {
+                searcher = new Searcher();
+            } else {
+                searcher = new Searcher({
+                    searchType: 'adser',
+                    url: '/api/forward/adserSearch'
+                });
+            }
+            angular.forEach(items, function(item) {
+                if (item.type == type && item.bid == bid) {
+                    wanted.push(item.ident);
+                }
+            });
+            console.log(type, bid, wanted);
+
+            searcher.addFilter({
+                field: 'ads_id',
+                value: wanted.join(',')
+            });
+            searcher.filter().then(function(data) {
+                $scope.data = data;
+            }, function() {
+                $scope.data = [];
+            });
+        });
+    }
+    function load(type, bid) {
+        loadAds(type, bid);
+        $location.search('bid', bid);
+        $location.search('type', type);
+    }
+    function init() {
+        var search = $location.search();
+        if(search.bid) {
+           loadAds(search.type, search.bid);
+        } else {
+            if (Bookmark.items.length) {
+                loadAds(0, Bookmark.items[0].id);
+            }
+        }
+    }
     $scope.bookmark = Bookmark;
+    $scope.bookmark.type = 0;
+    $scope.load = load;
+    $scope.data = [];
+
     User.getInfo().then(function() {
         if (User.info.login)
-            Bookmark.get({uid:User.info.user.id});
+            Bookmark.get({uid:User.info.user.id}).then(function() {
+                init();    
+            });
     });
+
     
     setTimeout(function() {
         QuickSidebar.init(); // init quick sidebar        
     }, 200);
+}]);
+app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', 'User', '$q', function($scope, Bookmark, BookmarkItem, User, $q) {
+    $scope.select = [];
+    $scope.bookmark = Bookmark;
+    $scope.add = function(card) {
+        var promises = [];
+        for(var i = 0; i < $scope.select.length; i++) {
+            if ($scope.select[i]) {
+                var subItem = {uid:User.info.user.id, bid:Bookmark.items[i].id};
+                if (card.event_id) {
+                    subItem.type = 0;
+                    subItem.ident = card.event_id;
+                } else if(card.adser_username) {
+                    subItem.type = 1;
+                    subItem.ident = card.adser_username;
+                }
+                promises.push(BookmarkItem.save(subItem));
+                console.log(subItem);
+            }
+        }
+        $scope.addPromise = $q.all(promises);
+        $scope.addPromise.finally(function() {
+            card.showBookmark = false;//耦合
+        });
+    }
+    if (!Bookmark.queried) {
+        User.getInfo().then(function() {
+            if (User.info.login) {
+                $scope.queryPromise = Bookmark.get({uid:User.info.user.id});
+            }
+        });
+    }
 }]);
 

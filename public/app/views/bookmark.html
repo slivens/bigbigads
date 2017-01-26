@@ -10,7 +10,9 @@
                     <div ng-if="!bookmark.error">
                         <uib-tabset active="active">
                             <uib-tab index="0" heading="Timeline">
-                                For test
+                                <ul>
+                                    <li ng-repeat="item in data.ads_info">{{item.event_id}}</li>
+                                </ul>
                             </uib-tab>
                             <uib-tab index="1" heading="Rightcolumn"> Nothing
                             </uib-tab>
@@ -44,15 +46,15 @@
                         Create New List
                         </button>
                     </p>
-                    <ul class="list-group">
-                        <li ng-repeat="item in bookmark.items" class="list-group-item clearfix" ng-click="bookmark.show(item.id)">
-                            <div class="pull-left">{{item.name}}</div>
+                    <div class="list-group">
+                        <button type="button" ng-repeat="item in bookmark.items" class="list-group-item clearfix filterbar-toggler " ng-class='{"active":item.id==bookmark.bid}' ng-click="load(bookmark.type, item.id)">
+                            <div class="pull-left ">{{item.name}}</div>
                             <div class="pull-right">
-                                <a ng-click="bookmark.delBookmark(item)"><i class="fa fa-trash text-danger"></i></a>
-                                <a ng-click="bookmark.addBookmark(item)" class=""><i class="fa fa-pencil"></i></a> &nbsp;
+                                <a ng-click="bookmark.addBookmark(item)" class=""><i class="fa fa-pencil fa-fw"></i></a> 
+                                <a ng-click="bookmark.delBookmark(item)"><i class="fa fa-trash fa-fw text-danger"></i></a>
                             </div>
-                        </li>
-                    </ul>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -45,3 +45,4 @@ Route::get('/userinfo', function() {
 Route::get('logout', 'Auth\LoginController@logout');
 
 Route::resource('bookmark', 'BookmarkController');
+Route::resource('BookmarkItem', 'BookmarkItemController');
