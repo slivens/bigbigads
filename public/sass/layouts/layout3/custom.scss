@@ -7,6 +7,8 @@ $play-btn-size:100px;
 .vmiddle {
     vertical-align:middle;
 }
+
+//sortable指令的
 .deckgrid   {
 }
 .deckgrid[deckgrid]::before {
@@ -104,3 +106,14 @@ $play-btn-size:100px;
 }
 .rankboard {
 }
+
+//排名相关类
+.ranking {
+    .avatar {
+        max-width:50px;
+    }
+    th[data-field]:hover {
+       cursor:pointer;
+    }
+}
+

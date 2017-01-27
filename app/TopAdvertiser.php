@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class TopAdvertiser extends Model
 {
-    protected $table = "view_top_advertiser";
+    protected $table = "ads_analysis.view_top_advertiser";
     protected $connection = "rankdb";
 }

@@ -72,6 +72,42 @@ var app = angular.module('MetronicApp');
             }
         };
     })
+    .directive('sorttable', function($timeout, $compile) {
+        return {
+            scope:{
+                sort:'='
+            },
+            link:function(scope, element, attrs) {
+                // scope.$table = {$data:scope.$eval(attrs.source)};
+                function init() {
+                    element.find(".sort").remove();
+                    element.find('th[data-field]').each(function() {
+                        if ($(this).data('field') != scope.sort.field) {
+                            $(this).append('<i class="fa fa-sort fa-fw sort"></i>');
+                        } else {
+                            if (!scope.sort.reverse) 
+                                $(this).append('<i class="fa fa-sort-asc fa-fw sort"></i>');
+                            else
+                                $(this).append('<i class="fa fa-sort-desc fa-fw sort"></i>');
+                        }
+                    });
+                }
+                init();
+                element.find('th[data-field]').bind('click', function() {
+                    var flipSort = ["asc", "desc"];
+                    var sort = $(this).data('sort');
+                    $(this).data('sort',  flipSort[1 - flipSort.indexOf(sort)]);
+                    scope.sort.field = $(this).data('field');
+                    scope.sort.reverse = (sort == flipSort[1]);
+                    init();
+                    $timeout(function() {
+                        scope.$apply();
+                    });
+                    console.log("sort:", scope.sort);
+                });
+            }
+        };
+    })
     .directive('rankBoard', ['$compile', '$timeout', function($compile, $timeout) {
         return {
             scope: {
@@ -431,7 +467,6 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
             return promise;
         },
         handleError:function(res) {
-            console.log(res);
             if (res.data instanceof Object) {
                 SweetAlert.swal(res.data.desc);
             } else {
@@ -1546,18 +1581,66 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
     };
 }]);
 
-app.controller('RankingController', ['$scope', 'settings', '$http', function($scope, settings, $http) {
-    function get(rankList) {
-        $http.get(rankurl).then(function(res) {
-            rankList.items = res.data;
-        }, function(res) {
-            console.log(res);
-        });
+app.controller('RankingController', ['$scope', 'settings', '$http', 'SweetAlert', '$location', function($scope, settings, $http, SweetAlert, $location) {
+    var ranking = {
+        active:0,
+        sort:{field:null, reverse:true},
+        adsers:[], 
+        ads:[], 
+        keywords:[],
+        categoryList:angular.copy(settings.searchSetting.categoryList),
+        getTopAdsers:function(category) {
+            var rankurl = settings.remoteurl + '/ranking';
+            var params = null;
+            if (category) {
+                params = {category:category};
+            }
+            console.log(params);
+
+            $http.get(rankurl, {params:params}).then(function(res) {
+                ranking.adsers = res.data;
+                angular.forEach(ranking.adsers, function(item) {
+                    if (item.page_website && !item.page_website.match("^http")) {
+                        item.page_website = "http://"  + item.page_website;
+                    }
+                });
+            }, function(res) {
+                if (res.data instanceof Object) {
+                    SweetAlert.swal(res.data.desc);
+                } else {
+                    SweetAlert.swal(res.statusText);
+                }
+            });
+        }
+    };
+
+    function init() {
+        var search = $location.search();
+        if (search.active)
+            ranking.active = search.active;
+        switch(ranking.active) {
+            case 0:
+                ranking.getTopAdsers();
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+        }
     }
 
-    var rankurl = settings.remoteurl + '/ranking';
-    $scope.rankList = {items:null};
-    get($scope.rankList);
+    init();
+    $scope.settings = settings;
+    $scope.ranking = ranking;
+    $scope.changeRanking = function() {
+        console.log(ranking.category);
+       ranking.getTopAdsers(ranking.category);
+    };
+    $scope.$watch('ranking.active', function(newValue, oldValue) {
+        if (newValue != oldValue) {
+            $location.search("active", newValue);
+        }
+    });
 }]);
 app.factory('BookmarkItem', ['Resource', '$uibModal', 'SweetAlert', function(Resource, $uibModal, SweetAlert) {
     var bookmarkItem = new Resource('BookmarkItem');
@@ -1572,10 +1655,13 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
         Bookmark.showDetail(bid).then(function(items) {
             var wanted = [];
             var wantedAdsers = [];
-            var adSearcher = new Searcher();
+            var adSearcher = new Searcher({
+                limit:[0, -1]
+            });
             var adserSearcher = new Searcher({
                     searchType: 'adser',
-                    url: '/api/forward/adserSearch'
+                    url: '/api/forward/adserSearch',
+                    limit:[0, -1]
                 });
             angular.forEach(items, function(item) {
                 if (Number(item.type) === 0 && item.bid == bid) {

@@ -1,21 +1,74 @@
 <div ng-controller="RankingController">
     <!-- BEGIN MAIN CONTENT -->
-    <div class="row">
+   <div class="row">
         <div class="col-md-12">
-            <!-- BEGIN: ACCORDION DEMO -->
-            <div class="portlet light bordered">
-                <div class="portlet-title">
-                    <div class="caption font-yellow-gold">
-                        <i class="icon-badge font-green-sharp"></i>
-                        <span class="caption-subject bold"> Ranking</span>
-                        <span class="caption-helper hide"></span>
-                    </div>
-                </div>
-                <div class="portlet-body">
-                   
-                </div>
+            <div class="ranking">
+                <uib-tabset active="ranking.active">
+                    <uib-tab index="0" heading="Top advertisers">
+                        <div class="portlet box red">
+                            
+                            <div class="portlet-title">
+                                <div class="caption">Top {{ranking.adsers.length}} Advertisers</div>
+                            </div>
+                            <div class="portlet-body">
+                                <p>
+                                    <form class="form-inline" ng-submit="changeRanking()">
+                                        <div class="form-group">
+                                            <label class="control-label">Category:</label>
+                                            <select select2 class="form-control input-medium" data-placeholder="E.g App Page" ng-model="ranking.category" ng-options="item.key as item.value for item in ranking.categoryList" >
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">SELECT</button>
+                                        </div>
+                                    </form>
+                                </p>
+                                <div class="table-responsive">
+                                    <table sorttable class="table table-hover" sort="ranking.sort">
+                                        <tr class="warning">
+                                            <th>#</th>
+                                            <th>Avatar</th>
+                                            <th>Name</th>
+                                            <th data-field="ads_all" data-sort="asc">Ads</th>
+                                            <th data-field="ads_timeline" data-sort="asc">Timeline Ads</th>
+                                            <th data-field="ads_rc" data-sort="asc">Rightcolumn Ads</th>
+                                            <th>Category</th>
+                                            <!-- <th>Website</th> -->
+                                        </tr>
+                                        <tr ng-repeat="item in ranking.adsers | orderBy:ranking.sort.field:ranking.sort.reverse">
+                                            <td>{{$index+1}}</td>
+                                            <td class="text-center">
+                                                <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + item.local_photo}}" alt="" class="rounded avatar">
+                                            </td>
+                                            <td>
+                                                <a ng-href="{{item.page_website}}" target="_blank">{{item.adser_name}}</a>
+                                                <i class="fa fa-check-circle fa-2x vmiddle" ng-class="{'font-blue':item.page_verified=='blue_verified','font-gray':item.page_verified=='grey_verified'}" ng-show="card.page_verified"></i>
+                                            </td>
+                                            <td>{{item.ads_all}}</td>
+                                            <td>{{item.ads_timeline}}</td>
+                                            <td>{{item.ads_rc}}</td>
+                                            <td>{{item.page_category}}</td>
+                                            <!-- <td class="url">{{item.page_website}}</td> -->
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <uib-tab index="1" heading="Top ads"> 
+                        <div class="alert alert-info">
+                            Not opened yet!
+                        </div>
+                    </uib-tab>
+                    <uib-tab index="2" heading="Top keywords"> 
+                        <div class="alert alert-info">
+                            Not opened yet!
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
             </div>
         </div>
     </div>
+    <!-- END MAIN CONTENT -->
 </div>
-<!-- END MAIN CONTENT -->

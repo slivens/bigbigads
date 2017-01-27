@@ -9,8 +9,8 @@
 | by your application. Just tell Laravel the URIs it should respond
 | to using a Closure or controller method. Build something great!
 |
-*/
-use App\TopAdvertiser;
+ */
+use Illuminate\Http\Request;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -24,9 +24,14 @@ Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
 
-Route::get('/ranking', function() {
-    $items = TopAdvertiser::take(100)->get();
-    return $items->toJson();
+Route::get('/ranking', function(Request $req) {
+    $maxCount = 100;//根据权限去判断
+    if (isset($req->category)) {
+        $items = App\CategoryTopAdvertiser::where('page_category', $req->category)->take($maxCount)->get();
+    } else {
+        $items = App\TopAdvertiser::take($maxCount)->get();
+    }
+    return json_encode($items, JSON_UNESCAPED_UNICODE);
 });
 
 Route::get('/userinfo', function() {

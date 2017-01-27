@@ -75,4 +75,10 @@
     font-weight: 600;
     color: #AAB5BC; }
 
+.ranking .avatar {
+  max-width: 50px; }
+
+.ranking th[data-field]:hover {
+  cursor: pointer; }
+
 /*# sourceMappingURL=custom.css.map */
