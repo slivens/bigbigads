@@ -28,10 +28,21 @@ var app = angular.module('MetronicApp');
             }
         };
     }])
-    .directive('select2', function() {
+    .directive('select2', function($timeout) {
         return {
             link: function(scope, element, attrs) {
-                element.select2();
+                element.select2( {
+                    placeholder:'Select',
+                    allowClear:true
+                });
+                // scope.$watch(attrs.ngModel, function(newValue, oldValue) {
+                //     if (newValue != oldValue) {
+                //         $timeout(function() {
+                //             scope.$apply();
+                //         });
+                //     }
+                // });
+
             }
         };
     })
@@ -1589,6 +1600,7 @@ app.controller('RankingController', ['$scope', 'settings', '$http', 'SweetAlert'
         ads:[], 
         keywords:[],
         categoryList:angular.copy(settings.searchSetting.categoryList),
+        activedTabs:[false,false,false],
         getTopAdsers:function(category) {
             var rankurl = settings.remoteurl + '/ranking';
             var params = null;
@@ -1611,34 +1623,48 @@ app.controller('RankingController', ['$scope', 'settings', '$http', 'SweetAlert'
                     SweetAlert.swal(res.statusText);
                 }
             });
+        },
+        initActiveData:function() {
+            active = ranking.active;
+            if (ranking.activedTabs[active])
+                return;
+            switch(active) {
+                case 0:
+                    ranking.getTopAdsers(ranking.category);
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+            }
+            ranking.activedTabs[active] = true;
         }
     };
 
     function init() {
         var search = $location.search();
         if (search.active)
-            ranking.active = search.active;
-        switch(ranking.active) {
-            case 0:
-                ranking.getTopAdsers();
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-        }
+            ranking.active = Number(search.active);
+        if (search.category)
+            ranking.category = search.category;
+        ranking.initActiveData();
     }
 
     init();
     $scope.settings = settings;
     $scope.ranking = ranking;
     $scope.changeRanking = function() {
-        console.log(ranking.category);
        ranking.getTopAdsers(ranking.category);
+       $location.search('category', ranking.category);
     };
+    $scope.clear = function() {
+        ranking.category = "";
+        $scope.changeRanking();
+    }
     $scope.$watch('ranking.active', function(newValue, oldValue) {
         if (newValue != oldValue) {
             $location.search("active", newValue);
+            ranking.initActiveData();
         }
     });
 }]);

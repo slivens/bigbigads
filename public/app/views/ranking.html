@@ -16,11 +16,13 @@
                                         <div class="form-group">
                                             <label class="control-label">Category:</label>
                                             <select select2 class="form-control input-medium" data-placeholder="E.g App Page" ng-model="ranking.category" ng-options="item.key as item.value for item in ranking.categoryList" >
-                                                <option value=""></option>
+                                                <option value="">
+                                                </option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                         <button type="submit" class="btn btn-primary">SELECT</button>
+                                        <!-- <a ng-click="clear()" ng-show="ranking.category">Clear</a> -->
                                         </div>
                                     </form>
                                 </p>
@@ -42,8 +44,8 @@
                                                 <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + item.local_photo}}" alt="" class="rounded avatar">
                                             </td>
                                             <td>
-                                                <a ng-href="{{item.page_website}}" target="_blank">{{item.adser_name}}</a>
-                                                <i class="fa fa-check-circle fa-2x vmiddle" ng-class="{'font-blue':item.page_verified=='blue_verified','font-gray':item.page_verified=='grey_verified'}" ng-show="card.page_verified"></i>
+                                                <a ng-href="{{item.page_website}}" target="_blank">{{item.adser_name ? item.adser_name:item.adser_username}}</a>
+                                                <i class="fa fa-check-circle fa-2x fa-fw vmiddle" ng-class="{'font-blue':item.page_verified=='blue_verified','font-gray':item.page_verified=='grey_verified'}" ng-show="item.page_verified && item.page_verified != 'not_verified'"></i>
                                             </td>
                                             <td>{{item.ads_all}}</td>
                                             <td>{{item.ads_timeline}}</td>
