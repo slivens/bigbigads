@@ -81,6 +81,7 @@ MetronicApp.constant('ADS_CONT_TYPE', {
     CAROUSEL: "Carousel",
     SINGLE_VIDEO: "SingleVideo"
 });
+MetronicApp.constant('POLICY_TYPE', {PERMANENT:0, MONTH:1, DAY:2, HOUR:3, VALUE:4, DURATION:5, YEAR:6});
 MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
     // supported languages
     var settings = {
@@ -1365,6 +1366,40 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             }
 
         })
+        .state('plans', {
+            url:'/plans',
+            templateUrl:"views/plans.html",
+            data: {
+                pageTitle: 'Plans'
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: ' #ng_load_plugins_before',
+                        files: [
+                            '/bower_components/angular-deckgrid/angular-deckgrid.js',
+                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
+                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
+                            '../assets/global/plugins/select2/css/select2.min.css',
+                            '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
+                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
+                            '../assets/global/plugins/select2/js/select2.full.min.js',
+                            '../assets/pages/scripts/components-bootstrap-select.min.js',
+                            '../assets/pages/scripts/components-select2.min.js',
+
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
+                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
+                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
+                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
+                            'js/adsearch/AdsearchController.js'
+                        ]
+                    });
+                }]
+            }
+
+        })
     // AngularJS plugins
     .state('fileupload', {
         url: "/file_upload.html",
@@ -1745,6 +1780,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', 'settings', function($h
            user.promise = $http.get(infourl);
            user.promise.then(function(res) {
                 user.info = res.data;
+                console.log(user.info);
            }, function(res) {
                 user.info = {};
            });

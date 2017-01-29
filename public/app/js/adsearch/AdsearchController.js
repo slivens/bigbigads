@@ -83,7 +83,8 @@ var app = angular.module('MetronicApp');
             }
         };
     })
-    .directive('sorttable', function($timeout, $compile) {
+    //table增加排序功能
+    .directive('sorttable', ["$timeout", "$compile", function($timeout, $compile) {
         return {
             scope:{
                 sort:'='
@@ -118,7 +119,27 @@ var app = angular.module('MetronicApp');
                 });
             }
         };
-    })
+    }])
+    .directive('policyFormatter', ['POLICY_TYPE', function(POLICY_TYPE) {
+        return {
+            link:function(scope, element, attrs) {
+                var val = scope.$eval(attrs.value);
+                var text;
+                console.log(val);
+                if ((typeof val) == 'boolean') {
+                    if (val)
+                        element.append('<i class="icon-check font-green-jungle"></i>');
+                    else
+                        element.append('<i class="icon-close"></i>');
+                } else {
+                    text = val.value;
+                    if (val.type == POLICY_TYPE.DAY)
+                        text += "/Day";
+                    element.append(text);
+                }
+            }
+        };
+    }])
     .directive('rankBoard', ['$compile', '$timeout', function($compile, $timeout) {
         return {
             scope: {
@@ -1660,7 +1681,7 @@ app.controller('RankingController', ['$scope', 'settings', '$http', 'SweetAlert'
     $scope.clear = function() {
         ranking.category = "";
         $scope.changeRanking();
-    }
+    };
     $scope.$watch('ranking.active', function(newValue, oldValue) {
         if (newValue != oldValue) {
             $location.search("active", newValue);
@@ -1830,4 +1851,35 @@ app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', '
         });
     }
 }]);
+app.controller('PlansController', ['$scope', 'Resource', function($scope, Resource) {
+    var plans = new Resource('plans');
+    plans.get().then(function(items) {
+        console.log(items);
+        if(items.length > 0) {
+            $scope.groupPermissions = items[items.length - 1].groupPermissions;
+        }
+    });
+    plans.getPolicy = function(item, permissionKey, groupKey) {
+        var group = item.groupPermissions[groupKey], policy;
+        var i, finded = false;
+        if (!group)
+            return false;
+        angular.forEach(group, function(groupItem) {
+            if (groupItem.key == permissionKey) {
+                finded = true;   
+            }
+        });
+        if (!finded)
+            return false;
+        for(i = 0;i < item.policies.length; ++i) {
+            policy = item.policies[i];
+            if (policy.key == permissionKey) {
+                return {value:policy.pivot.value, type:policy.type};
+            }
+        }
 
+        return true;
+    };
+    $scope.plans = plans;
+    $scope.groupPermissions = [];
+}]);

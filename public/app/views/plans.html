@@ -1,0 +1,45 @@
+<!-- BEGIN MAIN CONTENT -->
+<div class="row" ng-controller="PlansController">
+    <div class="col-md-12">
+        <!-- BEGIN: ACCORDION DEMO -->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="icon-settings font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase">Plans</span>
+                    <span class="caption-helper hide"></span>
+                </div>
+            </div>
+            <div class="portlet-body"> 
+            <div class="clearfix">
+                <div class="row bg-default">
+                    <div class="col-xs-2"></div>
+                    <div class="col-xs-2" ng-repeat="item in plans.items">
+                        <p>
+                        <h3 class="text-center">{{item.name}}</h3>
+                        <button class="btn btn-block btn-primary">Upgrade</button>
+                        </p>
+                    </div>
+                </div>
+                <div class="row" ng-repeat-start="(key, group) in groupPermissions">
+                    <div class="col-xs-2 bg-default"> 
+                        <h4 class="bold">{{key}}</h4>
+                    </div>
+                </div>
+                <div ng-repeat="permission in group" class="row">
+                    <div class="col-xs-2 bg-default">{{permission.key}}</div>
+                    <div class="col-xs-2" ng-repeat="item in plans.items">
+                        <span policy-formatter value="plans.getPolicy(item, permission.key, key)"></span>
+                    </div>
+                </div>
+                <div ng-repeat-end ng-if="false">
+                </div>
+                <div class="row">
+                    <div class="col-xs-2 bg-default">&nbsp;</div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT -->

@@ -11,6 +11,7 @@
 |
  */
 use Illuminate\Http\Request;
+use TCG\Voyager\Models\Permission;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -38,16 +39,26 @@ Route::get('/userinfo', function() {
     //返回登陆用户的session信息，包含
     //用户基本信息、权限信息
     $res = [];
-    if (Auth::user()) {
+    $user = Auth::user();
+    if ($user) {
+        $user->load('role', 'role.permissions', 'role.policies');
         $res['login'] = true;
-        $res['user'] = Auth::user();
+        $res['user'] = $user;
     } else {
         $res['login'] = false;
     }
     return json_encode($res, JSON_UNESCAPED_UNICODE);
+});
+Route::get('/plans', function() {
+    $items = App\Role::with('permissions', 'policies')->where('id', '>', 2)->get();
+    foreach($items as $key=>$item) {
+        $item->groupPermissions = $item->permissions->groupBy('table_name');
+    }
+    return $items;
 });
 
 Route::get('logout', 'Auth\LoginController@logout');
 
 Route::resource('bookmark', 'BookmarkController');
 Route::resource('BookmarkItem', 'BookmarkItemController');
+
