@@ -1393,6 +1393,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
+                        '/node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+                        '/node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
+                        '/node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
+
                             'js/adsearch/AdsearchController.js'
                         ]
                     });

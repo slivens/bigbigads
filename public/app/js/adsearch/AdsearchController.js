@@ -1851,7 +1851,7 @@ app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', '
         });
     }
 }]);
-app.controller('PlansController', ['$scope', 'Resource', function($scope, Resource) {
+app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope, Resource, User) {
     var plans = new Resource('plans');
     plans.get().then(function(items) {
         console.log(items);
@@ -1880,6 +1880,10 @@ app.controller('PlansController', ['$scope', 'Resource', function($scope, Resour
 
         return true;
     };
+    plans.annually = false;
     $scope.plans = plans;
     $scope.groupPermissions = [];
+    User.getInfo().then(function() {
+        $scope.userInfo = User.info;
+    });
 }]);

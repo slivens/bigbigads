@@ -12,6 +12,8 @@
  */
 use Illuminate\Http\Request;
 use TCG\Voyager\Models\Permission;
+use Braintree\Plan;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -49,11 +51,17 @@ Route::get('/userinfo', function() {
     }
     return json_encode($res, JSON_UNESCAPED_UNICODE);
 });
+
 Route::get('/plans', function() {
     $items = App\Role::with('permissions', 'policies')->where('id', '>', 2)->get();
-    foreach($items as $key=>$item) {
+    foreach ($items as $key=>$item) {
         $item->groupPermissions = $item->permissions->groupBy('table_name');
+        $item->plan;
+        /* $item->monthlyPlan; */
+        /* if ($item->plan instanceof Plan) */
+        /*     echo ($item->plan->id) . '<br/>'; */
     }
+    /* return; */
     return $items;
 });
 

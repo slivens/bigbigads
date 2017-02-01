@@ -12,12 +12,29 @@
             </div>
             <div class="portlet-body"> 
             <div class="clearfix">
+                <p>
+                <input type="checkbox" bs-switch switch-on-text="&nbsp;Annually&nbsp;" switch-off-text="&nbsp;Monthly&nbsp;" ng-model="plans.annually">
+                </p>
                 <div class="row bg-default">
                     <div class="col-xs-2"></div>
                     <div class="col-xs-2" ng-repeat="item in plans.items">
                         <p>
                         <h3 class="text-center">{{item.name}}</h3>
-                        <button class="btn btn-block btn-primary">Upgrade</button>
+                        
+                        <h4 class="text-center">
+                            <span ng-if="!item.plan">
+                                0
+                            </span>
+                            <span ng-if="item.plan && !plans.annually">
+                                ${{item.plan.monthly.price}} / Month
+                            </span>
+                            <span ng-if="item.plan && plans.annually">
+                                ${{item.plan.annually.price}} / Year
+                            </span>
+                        </h4>
+                        <button class="btn btn-block btn-primary" ng-class="{disabled:!userInfo || !userInfo.login}">
+                            Upgrade
+                        </button>
                         </p>
                     </div>
                 </div>
