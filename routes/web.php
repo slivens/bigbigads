@@ -46,6 +46,9 @@ Route::get('/userinfo', function() {
         $user->load('role', 'role.permissions', 'role.policies');
         $res['login'] = true;
         $res['user'] = $user;
+        if ($user->hasBraintreeId()) {
+            $res['subscription'] = $user->subscriptions->first();
+        }
     } else {
         $res['login'] = false;
     }
@@ -57,16 +60,38 @@ Route::get('/plans', function() {
     foreach ($items as $key=>$item) {
         $item->groupPermissions = $item->permissions->groupBy('table_name');
         $item->plan;
-        /* $item->monthlyPlan; */
-        /* if ($item->plan instanceof Plan) */
-        /*     echo ($item->plan->id) . '<br/>'; */
     }
-    /* return; */
     return $items;
 });
-
+Route::group(['middleware'=>'auth'], function() {
+    Route::get('/pay', 'SubscriptionController@form');
+    Route::post('/pay', 'SubscriptionController@pay');
+    Route::get('/billings', 'SubscriptionController@billings');
+	Route::get('/invoice/{invoice}', function (Request $request, $invoiceId) {
+		return Auth::user()->downloadInvoice($invoiceId, [
+			'vendor'  => 'Bigbigads',
+			'product' => 'Bigbigads',
+		], storage_path('invoice'));
+	});
+});
 Route::get('logout', 'Auth\LoginController@logout');
 
 Route::resource('bookmark', 'BookmarkController');
 Route::resource('BookmarkItem', 'BookmarkItemController');
 
+Route::get('/tester', function() {
+    $fields = ["id", "billingPeriodStartDate", "billingPeriodEndDate", "currentBillingCycle", "planId", "price", "status"];
+    $user = Auth::user();
+    $res = [];
+    foreach($user->subscriptions as $item) {
+        $subscription = \Braintree\Subscription::find($item->braintree_id);
+        $resitem = [];
+        foreach($fields as $item2) {
+            $resitem[$item2] = $subscription->$item2;
+        }
+        array_push($res,  $subscription);
+    }
+   // $invoices = $user->invoices();
+    //dd($invoices);
+    dd($res);
+});

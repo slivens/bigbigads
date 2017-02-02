@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
             }
             return true;
         });
+        $this->app['view']->addNamespace('cashier', base_path() . '/vendor/laravel/cashier-braintree/resources/views');
     }
 
     /**

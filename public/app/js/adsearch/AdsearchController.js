@@ -1854,7 +1854,7 @@ app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', '
 app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope, Resource, User) {
     var plans = new Resource('plans');
     plans.get().then(function(items) {
-        console.log(items);
+        // console.log(items);
         if(items.length > 0) {
             $scope.groupPermissions = items[items.length - 1].groupPermissions;
         }
@@ -1880,10 +1880,69 @@ app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope
 
         return true;
     };
+
+    plans.goPlanID = function(item) {
+        var id;
+        if (!item.plan)
+            return "";
+        if (plans.annually) {
+            id = item.plan.annually.id;
+        }  else  {
+            id = item.plan.monthly.id;
+        }
+        // console.log(plans.annually, id);
+        window.open("/pay?plan=" + id);
+    };
+    plans.isCurrentPlan = function(item) {
+        return User.info.subscription.braintree_plan.replace('_Monthly', '') == item.name;
+    }
+
     plans.annually = false;
     $scope.plans = plans;
     $scope.groupPermissions = [];
     User.getInfo().then(function() {
         $scope.userInfo = User.info;
+        if (User.info.login) {
+            $scope.subscription = User.info.subscription;
+            console.log("sub:",$scope.subscription.braintree_plan.replace('_Monthly', ''));
+        }
+    });
+}]);
+app.controller('ProfileController', ['$scope', '$location', 'User', function($scope, $location, User) {
+    var profile = {
+        init:function() {
+            var search = $location.search();
+            if (search.active) {
+                this.active = Number(search.active);
+            }
+        }
+    };
+    profile.init();
+    $scope.profile = profile;
+    $scope.$watch('profile.active', function(newValue, oldValue) {
+        if (newValue == oldValue)
+            return;
+         $location.search('active', newValue);
+    });
+    User.getInfo().then(function() {
+        $scope.userInfo = User.info;
+    });
+}]);
+app.controller('SubscriptionController', ['$scope', 'User', function($scope, User) {
+    User.getInfo().then(function() {
+        $scope.userInfo = User.info;
+        $scope.subscription = User.info.subscription;
+    });
+}]);
+app.controller('BillingsController', ['$scope', 'User', 'Resource', function($scope, User, Resource) {
+    var billings = new Resource('billings');
+    $scope.billings = billings;
+
+    User.getInfo().then(function() {
+        $scope.userInfo = User.info;
+        $scope.subscription = User.info.subscription;
+        if (!User.info.login) 
+            return;
+        $scope.queryPromise = billings.get();
     });
 }]);

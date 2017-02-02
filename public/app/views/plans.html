@@ -32,9 +32,13 @@
                                 ${{item.plan.annually.price}} / Year
                             </span>
                         </h4>
-                        <button class="btn btn-block btn-primary" ng-class="{disabled:!userInfo || !userInfo.login}">
-                            Upgrade
-                        </button>
+                        <div>
+                        <a class="btn btn-block btn-primary" ng-class="{disabled:!userInfo || !userInfo.login}"  ng-click="plans.goPlanID(item, plans.annually)" target="_blank" ng-show="!plans.isCurrentPlan(item)" >
+                                Upgrade
+                        </a>
+                            <a  class="btn btn-block btn-default disabled" ng-show="plans.isCurrentPlan(item)">Current</a>
+                            
+                        </div>
                         </p>
                     </div>
                 </div>

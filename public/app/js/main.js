@@ -1428,79 +1428,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             }]
         }
     })
-
-    // UI Select
-    .state('uiselect', {
-        url: "/ui_select.html",
-        templateUrl: "views/ui_select.html",
-        data: {
-            pageTitle: 'AngularJS Ui Select'
-        },
-        controller: "UISelectController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    name: 'ui.select',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        '../assets/global/plugins/angularjs/plugins/ui-select/select.min.css',
-                        '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js'
-                    ]
-                }, {
-                    name: 'MetronicApp',
-                    files: [
-                        'js/controllers/UISelectController.js'
-                    ]
-                }]);
-            }]
-        }
-    })
-
-    // UI Bootstrap
-    .state('uibootstrap', {
-        url: "/ui_bootstrap.html",
-        templateUrl: "views/ui_bootstrap.html",
-        data: {
-            pageTitle: 'AngularJS UI Bootstrap'
-        },
-        controller: "GeneralPageController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    name: 'MetronicApp',
-                    files: [
-                        'js/controllers/GeneralPageController.js'
-                    ]
-                }]);
-            }]
-        }
-    })
-
-    // Tree View
-    .state('tree', {
-        url: "/tree",
-        templateUrl: "views/tree.html",
-        data: {
-            pageTitle: 'jQuery Tree View'
-        },
-        controller: "GeneralPageController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        '../assets/global/plugins/jstree/dist/themes/default/style.min.css',
-
-                        '../assets/global/plugins/jstree/dist/jstree.min.js',
-                        '../assets/pages/scripts/ui-tree.min.js',
-                        'js/controllers/GeneralPageController.js'
-                    ]
-                }]);
-            }]
-        }
-    })
-
     // Form Tools
     .state('formtools', {
         url: "/form-tools",
@@ -1604,88 +1531,29 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             }]
         }
     })
-
-    // Advanced Datatables
-    .state('datatablesmanaged', {
-        url: "/datatables/managed.html",
-        templateUrl: "views/datatables/managed.html",
-        data: {
-            pageTitle: 'Advanced Datatables'
-        },
-        controller: "GeneralPageController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        '../assets/global/plugins/datatables/datatables.min.css',
-                        '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-
-                        '../assets/global/plugins/datatables/datatables.all.min.js',
-
-                        '../assets/pages/scripts/table-datatables-managed.min.js',
-
-                        'js/controllers/GeneralPageController.js'
-                    ]
-                });
-            }]
-        }
-    })
-
-    // Ajax Datetables
-    .state('datatablesajax', {
-        url: "/datatables/ajax.html",
-        templateUrl: "views/datatables/ajax.html",
-        data: {
-            pageTitle: 'Ajax Datatables'
-        },
-        controller: "GeneralPageController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        '../assets/global/plugins/datatables/datatables.min.css',
-                        '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                        '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-
-                        '../assets/global/plugins/datatables/datatables.all.min.js',
-                        '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                        '../assets/global/scripts/datatable.min.js',
-
-                        'js/scripts/table-ajax.js',
-                        'js/controllers/GeneralPageController.js'
-                    ]
-                });
-            }]
-        }
-    })
-
     // User Profile
     .state("profile", {
         url: "/profile",
         templateUrl: "views/profile/main.html",
         data: {
-            pageTitle: 'User Profile'
+            pageTitle: 'Profile'
         },
-        controller: "UserProfileController",
+        controller: "ProfileController",
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load({
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                     files: [
-                        '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                        '../assets/pages/css/profile.css',
-
-                        '../assets/global/plugins/jquery.sparkline.min.js',
-                        '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
-
-                        '../assets/pages/scripts/profile.min.js',
-
-                        'js/controllers/UserProfileController.js'
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
+                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
+                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
+                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
+                            '/node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+                            '/node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
+                            '/node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
+                            'js/adsearch/AdsearchController.js'
                     ]
                 });
             }]
