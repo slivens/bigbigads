@@ -1,0 +1,33 @@
+<div >
+    <div class="modal-header">
+        <div class="modal-title">Change Password</div>
+    </div>
+    <div class="modal-body">
+        <div class="alert alert-warning" ng-show="info.error">
+            {{info.error}}
+        </div>
+        <form name="form" novalidate class="" ng-submit="submit()">
+            <div class="form-group">
+                <label>Old Password:</label>
+                <input type="password" class="form-control" name="oldpwd" required ng-model="info.oldpwd">
+                 <span ng-show="form.oldpwd.$dirty && form.oldpwd.$error.required" class="text-danger">Should Not Empty</span>
+            </div>
+            <div class="form-group">
+                <label>New Password:</label>
+                <input type="password" class="form-control" name="newpwd" required ng-model="info.newpwd" ng-minlength="8">
+                 <span ng-show="form.newpwd.$dirty && form.newpwd.$error.required" class="text-danger">Should Not Empty</span>
+                 <span ng-show="form.newpwd.$dirty && form.newpwd.$error.minlength" class="text-danger">Minimum Length is 8</span>
+            </div>
+            <div class="form-group">
+                <label>Repeat Password:</label>
+                <input type="password" class="form-control" name="repeatpwd" required ng-model="info.repeatpwd" ng-minlength="8">
+                 <span ng-show="form.repeatpwd.$dirty && form.repeatpwd.$error.required" class="text-danger">Should Not Empty</span>
+                 <span ng-show="form.repeatpwd.$dirty && form.repeatpwd.$error.minlength" class="text-danger">Minimum Length is 8</span>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="!form.$valid">Change</button>
+    </div>
+</div>

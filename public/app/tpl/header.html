@@ -213,16 +213,17 @@
                 <li class="dropdown dropdown-user dropdown-dark" >
                     <a ng-href="/login" ng-if="!User.info.login" >Login</a>
                     <a href="javascript:;" class="dropdown-toggle" dropdown-menu-hover data-toggle="dropdown" data-close-others="true" ng-if="User.info.login">
-                        <img alt="" class="img-circle" src="{{settings.layoutPath}}/img/avatar9.jpg">
-                        <span class="username username-hide-mobile">Nick</span>
+                        <!-- <img alt="" class="img-circle" src="{{settings.layoutPath}}/img/avatar9.jpg"> -->
+                        <i class="icon-user"></i>
+                        <span class="username username-hide-mobile">{{User.info.user.name}}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-default">
                         <li>
-                            <a ui-sref="profile">
+                            <a ui-sref="profile" ui-sref-opts="{reload:true}">
                                 <i class="icon-user"></i>Profile </a>
                         </li>
                         <li>
-                            <a ui-sref="profile.billings">
+                            <a href="/app/profile?active=1" ui-sref-opts="{reload:true}">
                                 <i class="icon-notebook"></i> Billings
                             </a>
                         </li>

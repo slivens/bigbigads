@@ -1,7 +1,7 @@
 <!-- BEGIN PAGE CONTENT-->
 <div ng-controller="ProfileController">
     <div class="portlet light bordered">
-        <div class="portlet-body"> 
+        <div class="portlet-body" cg-busy="userPromise"> 
             <div class="alert alert-danger" ng-if="!userInfo.login">
                 Please Login First!
             </div>
@@ -34,9 +34,9 @@
                         <tr ng-repeat="item in billings.items">
                             <td>{{item.id}}</td>
                             <td>{{item.planId}}</td>
-                            <td>{{item.billingPeriodStartDate.date | date:'yyyy-MM-dd'}}</td>
-                            <td>{{item.billingPeriodEndDate.date | date:'yyyy-MM-dd'}}</td>
-                            <td>{{item.price}}</td>
+                            <td>{{beatifyDate(item.billingPeriodStartDate.date)}}</td>
+                            <td>{{beatifyDate(item.billingPeriodEndDate.date)}}</td>
+                            <td>${{item.price}}</td>
                             <td>{{item.status}}</td>
                             <td>
                                 <a class="btn btn-default" ng-href="/invoice/{{item.invoice}}">Invoice</a>
@@ -46,7 +46,35 @@
                     </div>
                 </uib-tab>
                 <uib-tab index="2" heading="Account Settings">
-                    <div ng-include="views/profile/account.html"></div>
+                    <div class="portlet">
+                    <div class="portlet-title">
+                        <h3> Account Settings <i class="icon-pencil"></i></h3>
+                    </div>
+                    <div class="porlet-body">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                Member Email
+                            </div>
+                            <div class="col-xs-4">
+                                {{user.email}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-3">Member Name</div>
+                            <div class="col-xs-4">{{user.name}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-3">Member since</div>
+                            <div class="col-xs-4">{{user.created_at}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-3">Password</div>
+                            <div class="col-xs-4">
+                                <button class="btn btn-primary" ng-click="changePwd()">Change</button>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                 </uib-tab>
             </uib-tabset>
         </div>

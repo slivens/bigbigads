@@ -72,12 +72,15 @@ Route::group(['middleware'=>'auth'], function() {
 			'vendor'  => 'Bigbigads',
 			'product' => 'Bigbigads',
 		], storage_path('invoice'));
-	});
+    });
+
+    Route::post('changepwd', 'UserController@changepwd');
 });
 Route::get('logout', 'Auth\LoginController@logout');
 
 Route::resource('bookmark', 'BookmarkController');
 Route::resource('BookmarkItem', 'BookmarkItemController');
+
 
 Route::get('/tester', function() {
     $fields = ["id", "billingPeriodStartDate", "billingPeriodEndDate", "currentBillingCycle", "planId", "price", "status"];

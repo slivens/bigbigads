@@ -125,7 +125,7 @@ var app = angular.module('MetronicApp');
             link:function(scope, element, attrs) {
                 var val = scope.$eval(attrs.value);
                 var text;
-                console.log(val);
+                // console.log(val);
                 if ((typeof val) == 'boolean') {
                     if (val)
                         element.append('<i class="icon-check font-green-jungle"></i>');
@@ -1853,12 +1853,6 @@ app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', '
 }]);
 app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope, Resource, User) {
     var plans = new Resource('plans');
-    plans.get().then(function(items) {
-        // console.log(items);
-        if(items.length > 0) {
-            $scope.groupPermissions = items[items.length - 1].groupPermissions;
-        }
-    });
     plans.getPolicy = function(item, permissionKey, groupKey) {
         var group = item.groupPermissions[groupKey], policy;
         var i, finded = false;
@@ -1894,25 +1888,34 @@ app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope
         window.open("/pay?plan=" + id);
     };
     plans.isCurrentPlan = function(item) {
+        if (!User.info.subscription)
+            return false;
         return User.info.subscription.braintree_plan.replace('_Monthly', '') == item.name;
-    }
+    };
 
     plans.annually = false;
+
+    $scope.queryPromise = plans.get();
+    $scope.queryPromise.then(function(items) {
+        // console.log(items);
+        if(items.length > 0) {
+            $scope.groupPermissions = items[items.length - 1].groupPermissions;
+        }
+    });
     $scope.plans = plans;
     $scope.groupPermissions = [];
     User.getInfo().then(function() {
         $scope.userInfo = User.info;
         if (User.info.login) {
             $scope.subscription = User.info.subscription;
-            console.log("sub:",$scope.subscription.braintree_plan.replace('_Monthly', ''));
         }
     });
 }]);
-app.controller('ProfileController', ['$scope', '$location', 'User', function($scope, $location, User) {
+app.controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', function($scope, $location, User, $uibModal) {
     var profile = {
         init:function() {
             var search = $location.search();
-            if (search.active) {
+            if (search.active && search.active != this.active) {
                 this.active = Number(search.active);
             }
         }
@@ -1924,8 +1927,22 @@ app.controller('ProfileController', ['$scope', '$location', 'User', function($sc
             return;
          $location.search('active', newValue);
     });
-    User.getInfo().then(function() {
+    $scope.$on('$locationChangeSuccess', function(ev) {
+        // console.log($location.search());
+        profile.init();
+    });
+    $scope.changePwd = function() {
+        return $uibModal.open({
+            templateUrl:'views/profile/changepwd.html',
+            size:'md',
+            animation:true,
+            controller:'ChangepwdController'
+        });
+    };
+    $scope.userPromise = User.getInfo();
+    $scope.userPromise.then(function() {
         $scope.userInfo = User.info;
+        $scope.user = User.info.user;
     });
 }]);
 app.controller('SubscriptionController', ['$scope', 'User', function($scope, User) {
@@ -1938,6 +1955,9 @@ app.controller('BillingsController', ['$scope', 'User', 'Resource', function($sc
     var billings = new Resource('billings');
     $scope.billings = billings;
 
+    $scope.beatifyDate = function(dateStr) {
+        return dateStr.split(' ')[0];
+    };
     User.getInfo().then(function() {
         $scope.userInfo = User.info;
         $scope.subscription = User.info.subscription;
@@ -1945,4 +1965,38 @@ app.controller('BillingsController', ['$scope', 'User', 'Resource', function($sc
             return;
         $scope.queryPromise = billings.get();
     });
+}]);
+app.controller('ChangepwdController', ['$scope', '$uibModalInstance', '$http', 'settings', function($scope, $uibModalInstance, $http, settings) {
+    var info = {
+        oldpwd:null,
+        newpwd:null,
+        repeatpwd:null
+        };
+    var url = settings.remoteurl + "/changepwd";
+    $scope.info = info;
+    $scope.cancel = function() {
+        $uibModalInstance.dismiss('cancel');
+    };
+    $scope.save = function(item) {
+        console.log($scope.info);
+        // $scope.promise = bookmark.save(item);
+        // $scope.promise.then(function() {
+        //     $uibModalInstance.dismiss('success');
+        // });
+       if (info.newpwd != info.repeatpwd) {
+            info.error = "repeat password is diffrent with new password";
+            return;
+       }
+       $scope.promise = $http.post(url, info);
+       $scope.promise.then(function(res) {
+            var data = res.data;
+            if (Number(data.code) !== 0) {
+                info.error = data.desc;
+                return;
+            }
+            $uibModalInstance.dismiss('save');
+       }, function(res) {
+            info.error = res.statusText;
+       });
+    };
 }]);

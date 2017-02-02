@@ -137,8 +137,11 @@ authorization:"{{$clientToken}}"
         form.addEventListener('submit', function (event) {
             event.preventDefault();
 
+            submit.addAttribute('disabled');
             hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
                 if (tokenizeErr) {
+                    submit.removeAttribute('disabled');
+                    console.log("err", tokenizeErr);
                     // Handle error in Hosted Fields tokenization
                     return;
                 }
