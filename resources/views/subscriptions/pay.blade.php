@@ -137,7 +137,7 @@ authorization:"{{$clientToken}}"
         form.addEventListener('submit', function (event) {
             event.preventDefault();
 
-            submit.addAttribute('disabled');
+            submit.setAttribute('disabled', 'disabled');
             hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
                 if (tokenizeErr) {
                     submit.removeAttribute('disabled');

@@ -6,10 +6,13 @@ use Braintree\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
+use Log;
 
 class SubscriptionController extends Controller
 {
-    //
+    /**
+     * 显示支付表单
+     */
     public function form(Request $req)
     {
         $clientToken = ClientToken::generate();
@@ -22,6 +25,9 @@ class SubscriptionController extends Controller
         return view('subscriptions.pay', ['clientToken'=>$clientToken, 'plan'=>$plan]);
     }
 
+    /**
+     * 支付表单提示的处理
+     */
    public function pay(Request $req)
     {
         //check that we have nonce and plan in the incoming HTTP request
@@ -33,6 +39,10 @@ class SubscriptionController extends Controller
             $subscription = $user->newSubscription('main', $req->plan )->create( Input::get( 'payment-method-nonce' ), [
                 'email' => $user->email
             ]);
+            $role = \App\Role::where('name', substr($req->plan, 0, strpos($req->plan, "_")))->first();
+            $user->role_id = $role->id;
+            $user->save();
+            Log::info($user->name . " change plan to " . $req->plan);
         } catch(\Exception $e) {
             //get message from caught error
             $message = $e->getMessage();
@@ -42,6 +52,9 @@ class SubscriptionController extends Controller
         return redirect('/app/profile?active=0');
     }
 
+    /**
+     * 获取帐单信息(JSON)
+     */
     public function billings()
     {
         $fields = ["id", "billingPeriodStartDate", "billingPeriodEndDate", "currentBillingCycle", "planId", "price", "status"];

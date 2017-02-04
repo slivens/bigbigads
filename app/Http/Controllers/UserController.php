@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     use ResetsPasswords;
-    //
+
+    /**
+     * 更改密码
+     */
     public function changepwd(Request $req) {
         $this->validate($req, [
             'newpwd' => 'required|min:8|max:32',
@@ -24,5 +27,30 @@ class UserController extends Controller
         }
         $this->resetPassword($user, $req->newpwd);
         return ['code' => 0, 'desc' => 'success'];
+    }
+
+    /**
+     * 返回登陆用户信息
+     */
+    public function logInfo()
+    {
+        //返回登陆用户的session信息，包含
+        //用户基本信息、权限信息
+        $res = [];
+        $user = Auth::user();
+        if ($user) {
+            $user->load('role', 'role.permissions', 'role.policies');
+            $res['login'] = true;
+            $res['user'] = $user;
+            //将购买的相关计划也要返回
+            if ($user->hasBraintreeId()) {
+                $res['subscription'] = $user->subscriptions->first();
+            }
+            $res['permissions'] = $user->role->permissions->groupBy('key');
+            $res['groupPermissions'] = $user->role->permissions->groupBy('table_name');
+        } else {
+            $res['login'] = false;
+        }
+        return json_encode($res, JSON_UNESCAPED_UNICODE);
     }
 }

@@ -34,7 +34,7 @@
                         </h4>
                         <div>
                         <a class="btn btn-block btn-primary" ng-class="{disabled:!userInfo || !userInfo.login}"  ng-click="plans.goPlanID(item, plans.annually)" target="_blank" ng-show="!plans.isCurrentPlan(item)" >
-                                Upgrade
+                                Select
                         </a>
                             <a  class="btn btn-block btn-default disabled" ng-show="plans.isCurrentPlan(item)">Current</a>
                             
@@ -50,7 +50,7 @@
                 <div ng-repeat="permission in group" class="row">
                     <div class="col-xs-2 bg-default">{{permission.key}}</div>
                     <div class="col-xs-2" ng-repeat="item in plans.items">
-                        <span policy-formatter value="plans.getPolicy(item, permission.key, key)"></span>
+                        <span policy-formatter value="plans.getPolicy(item, permission.key, key)" data-format="%used / %value"></span>
                     </div>
                 </div>
                 <div ng-repeat-end ng-if="false">

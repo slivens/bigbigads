@@ -81,4 +81,7 @@
 .ranking th[data-field]:hover {
   cursor: pointer; }
 
+.permissions {
+  border: 1px solid #eee; }
+
 /*# sourceMappingURL=custom.css.map */

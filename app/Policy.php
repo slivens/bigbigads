@@ -14,4 +14,8 @@ class Policy extends Model
     const DURATION = 5;
     const YEAR = 6;
     //
+
+    protected $hidden = [
+        'created_at', 'updated_at',
+    ];
 }

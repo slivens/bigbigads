@@ -63,5 +63,41 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function getUsageAttribute($value)
+    {
+        if (is_null($value)) {
+            return $this->role->groupedPolicies();
+        }
+        return json_decode($value, true);
+    }
 
+    public function setUsageAttribute($value)
+    {
+        $this->attributes['usage'] = json_encode($value);
+    }
+
+    public function getUsage($key)
+    {
+        return $this->usage[$key];
+    }
+
+    public function updateUsage($key, $used)
+    {
+        $usage = $this->usage;
+        if (!isset($usage[$key])) 
+            return false;
+        $usage[$key][2] = $used;
+        $this->usage = $usage;
+        $this->save();
+        return true;
+    }
+
+    public function incUsage($key)
+    {
+        $usage = $this->getUsage($key);
+        if (!isset($usage))
+            return false;
+        $this->updateUsage($key, count($usage) > 2 ? $usage[2] + 1 : 1);
+        return true;
+    }
 }

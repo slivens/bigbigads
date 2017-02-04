@@ -1661,8 +1661,29 @@ MetronicApp.factory('User', ['$http', '$q', '$location', 'settings', function($h
         },
         login:function() {
             $location.url("/login");
-        }
+        },
+        can:function(key) {
+            //无登陆时的策略与有登陆需要做策略区分
+            if (!user.info.login)
+                return false;
+            if (!user.info.permissions[key])
+                return false;
+            return true;
+        },
+        getPolicy:function(key) {
+            var usage;
 
+            if (!user.info.login)
+                return false;
+            if (!user.can(key)) //没有权限一定没有策略
+                return false;
+            if (!user.info.user.usage[key])//没有策略不需要策略
+                return true;
+            usage = user.info.user.usage[key];
+            if (usage.length > 2)
+                return {type:usage[0], value:usage[1], used: usage[2]};
+            return {type:usage[0], value:usage[1], used:0};
+        }
     };
     return user;
 }]);

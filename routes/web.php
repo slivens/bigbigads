@@ -37,23 +37,7 @@ Route::get('/ranking', function(Request $req) {
     return json_encode($items, JSON_UNESCAPED_UNICODE);
 });
 
-Route::get('/userinfo', function() {
-    //返回登陆用户的session信息，包含
-    //用户基本信息、权限信息
-    $res = [];
-    $user = Auth::user();
-    if ($user) {
-        $user->load('role', 'role.permissions', 'role.policies');
-        $res['login'] = true;
-        $res['user'] = $user;
-        if ($user->hasBraintreeId()) {
-            $res['subscription'] = $user->subscriptions->first();
-        }
-    } else {
-        $res['login'] = false;
-    }
-    return json_encode($res, JSON_UNESCAPED_UNICODE);
-});
+Route::get('/userinfo', 'UserController@logInfo');
 
 Route::get('/plans', function() {
     $items = App\Role::with('permissions', 'policies')->where('id', '>', 2)->get();
@@ -81,8 +65,13 @@ Route::get('logout', 'Auth\LoginController@logout');
 Route::resource('bookmark', 'BookmarkController');
 Route::resource('BookmarkItem', 'BookmarkItemController');
 
-
+//测试，正式发布后删除
 Route::get('/tester', function() {
+    Auth::user()->incUsage("image_download");
+    //Auth::user()->save();
+    dd(Auth::user()->usage);
+    /* $role = App\Role::where('name', 'Standard')->first(); */
+    /* dd($role->groupedPolicies()); */
     $fields = ["id", "billingPeriodStartDate", "billingPeriodEndDate", "currentBillingCycle", "planId", "price", "status"];
     $user = Auth::user();
     $res = [];

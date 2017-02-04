@@ -120,12 +120,32 @@ var app = angular.module('MetronicApp');
             }
         };
     }])
-    .directive('policyFormatter', ['POLICY_TYPE', function(POLICY_TYPE) {
+    .directive('policyFormatter', ['POLICY_TYPE', 'ADS_TYPE', function(POLICY_TYPE, ADS_TYPE) {
         return {
             link:function(scope, element, attrs) {
+                var defmatch = {
+                    duration:"%val Days",
+                    platform:function(val) {
+                        var text = [];
+                        var num = Number(val.value);
+                        if (num & ADS_TYPE.timeline)
+                            text.push("Timeline");
+                        if (num & ADS_TYPE.rightcolumn)
+                            text.push("Rightcolumn");
+                        if (num & ADS_TYPE.mobile) 
+                            text.push("Mobile");
+                        return text.join(' & ');
+                    },
+                    ad_date:"%val Days",
+                    result_per_search:"%val records",
+                    ranking:"Top %val",
+                    ranking_export:"Top %val"
+                };
+                var key = attrs.key;
+                var usageMode = attrs.mode == "usage" ? true : false;
                 var val = scope.$eval(attrs.value);
                 var text;
-                // console.log(val);
+                console.log(val);
                 if ((typeof val) == 'boolean') {
                     if (val)
                         element.append('<i class="icon-check font-green-jungle"></i>');
@@ -133,8 +153,28 @@ var app = angular.module('MetronicApp');
                         element.append('<i class="icon-close"></i>');
                 } else {
                     text = val.value;
-                    if (val.type == POLICY_TYPE.DAY)
+                    if (val.type == POLICY_TYPE.MONTH) {
+                        text += "/Month";
+                        if (usageMode) {
+                            text = (val.used + "(" + text + ")");
+                        }
+                    }
+                    if (val.type == POLICY_TYPE.DAY) {
                         text += "/Day";
+                        if (usageMode) {
+                            text = (val.used + "(" + text + ")");
+                        }
+                    }
+                    if (val.type == POLICY_TYPE.PERMANENT && usageMode) {
+                        text = (val.used + "/" + val.value);
+                    }
+                    if (defmatch[key]) {
+                        if (typeof(defmatch[key]) == 'function') {
+                            text = defmatch[key](val);
+                        } else {
+                            text = defmatch[key].replace("%val", text);
+                        }
+                    }
                     element.append(text);
                 }
             }
@@ -1943,6 +1983,7 @@ app.controller('ProfileController', ['$scope', '$location', 'User', '$uibModal',
     $scope.userPromise.then(function() {
         $scope.userInfo = User.info;
         $scope.user = User.info.user;
+        $scope.User = User;
     });
 }]);
 app.controller('SubscriptionController', ['$scope', 'User', function($scope, User) {

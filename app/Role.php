@@ -33,6 +33,9 @@ class Role extends Model
         return $this->belongsToMany(Policy::class)->withPivot('value');
     }
 
+    /**
+     * 从Braintree获取该角色的计划
+     */
     public function getPlanAttribute()
     {
         $plans = $this->plans();
@@ -51,15 +54,16 @@ class Role extends Model
         return null;
     }
 
-/*     public function getMonthlyPlanAttribute() */
-/*     { */
-/*         $plans = $this->plans(); */
-/*         for($i=0;$i<count($plans);++$i) { */
-/*             if ($plans[$i]->id == $this->name . "_Monthly") { */
-/*                 $plan = $plans[$i]; */
-/*                 return ["id"=>$plan->id, "price"=>$plan->price, "billingFrequency"=>$plan->billingFrequency]; */
-/*             } */
-/*         } */    
-/*         return null; */ 
-/*     } */
+    /**
+     * 将策略按key组织，只返回必要信息
+     */
+    public function groupedPolicies()
+    {
+        $policies = $this->policies;
+        $grouped = [];
+        foreach($policies as $key=>$policy) {
+            $grouped[$policy->key] =  [$policy->type, $policy->pivot->value];//user会以该结果作参考写入数据库，故使用数组节省空间
+        }
+        return $grouped;
+    }
 }

@@ -8,7 +8,7 @@
             <uib-tabset active="profile.active" ng-if="userInfo.login">
                 <uib-tab index="0" heading="Subscription Plan">
                     <div ng-controller="SubscriptionController">
-                        <h4>Your Plan</h4>
+                        <h3>Your Plan</h3>
                         <div>
                             <p>
                                 You are currently on <span class="text-warning">{{subscription.braintree_plan.replace('_', ' ')}}</span> Plan
@@ -17,6 +17,25 @@
                             <a class="btn btn-primary" ui-sref="plans">Change Plan</a>
                             </p>
                         </div>
+                        <!-- begin permssions & policies -->
+                        <div id="permissions" class="container permissions margin-bottom-10">
+                            <div class="row" ng-repeat-start="(key, group) in userInfo.groupPermissions">
+                                <div class="col-xs-12"> 
+                                    <h4 class="bold">{{key}}</h4>
+                                </div>
+                            </div>
+                            <div ng-repeat="permission in group" class="row">
+                                <div class="col-xs-2" >{{permission.key.replace('_', ' ')}}</div>
+                                <div class="col-xs-4">
+
+                                    <span policy-formatter value="User.getPolicy(permission.key)" key="{{permission.key}}" mode="usage"></span>
+                                    <!-- {{User.getPolicy(permission.key)}} -->
+                                </div>
+                            </div>
+                            <div ng-repeat-end ng-if="false">
+                            </div>
+                        </div>
+                        <!-- end permissions & policies -->
                     </div>
                 </uib-tab>
                 <uib-tab index="1" heading="Billings">
