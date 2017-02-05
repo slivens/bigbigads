@@ -25,7 +25,7 @@
                                 </div>
                             </div>
                             <div ng-repeat="permission in group" class="row">
-                                <div class="col-xs-2" >{{permission.key.replace('_', ' ')}}</div>
+                                <div class="col-xs-2" >{{permission.key}}</div>
                                 <div class="col-xs-4">
 
                                     <span policy-formatter value="User.getPolicy(permission.key)" key="{{permission.key}}" mode="usage"></span>

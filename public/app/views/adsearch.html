@@ -24,8 +24,11 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control input-lg" placeholder="Search" ng-model="adSearcher.searchOption.search.text">
                                     <span class="input-group-addon">
-                                        <select ng-model="filterOption.type" ng-options="item.key as item.value for item in settings.searchSetting.adsTypes">
-                                            <option value="">ALL</option>
+                                        <select class="bs-select" data-width="120px" ng-model="filterOption.type" >
+                                            <option value="" >ALL</option>
+                                            <option policy-lock ng-repeat="item in settings.searchSetting.adsTypes" value="{{item.key}}" key="platform" val="{{item.key}}">
+                                            {{item.value}}
+                                            </option>
                                         </select>
                                     </span>
                                 </div>
@@ -36,7 +39,7 @@
                 <!-- END HEADER SEARCH BOX -->
                     </div>
                     <div class="col-md-6">
-                        <button class="btn blue btn-outline btn-md">Export</button>
+                        <button policy-lock class="btn blue btn-outline btn-md" key="export">Export</button>
                         <button class="btn default btn-outline btn-md " disabled="disabled">Subscribe</button>
                     </div>
                 </div>
@@ -66,7 +69,7 @@
                 <div class="form-group">
                     <button class="btn yellow-gold btn-sm" ng-class="{'active':!adSearcher.params.sort.order}" ng-click="reverseSort()">Reverse</button>
 
-                    <select class="form-control bs-select" ng-model="adSearcher.params.sort.field" ng-options="item.key as item.value for item in settings.searchSetting.orderBy" ng-change="adSearcher.filter()">
+                    <select class="form-control bs-select" data-width="150px" ng-model="adSearcher.params.sort.field" ng-options="item.key as item.value for item in settings.searchSetting.orderBy" ng-change="adSearcher.filter()">
                         <option value="">Sort By</option>
                     </select>
                 </div>

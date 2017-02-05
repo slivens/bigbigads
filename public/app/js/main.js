@@ -1640,7 +1640,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settin
 }]);
 
 
-MetronicApp.factory('User', ['$http', '$q', '$location', 'settings', function($http, $q, $location, settings) {
+MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', function($http, $q, $location, $rootScope, settings, ADS_TYPE) {
     //获取信息完成后应该广播消息，然后其他需要在获取用户信息才能继续的操作就放到接收到广播后处理
     var infourl = settings.remoteurl  + "/userinfo";
     var user = {
@@ -1655,6 +1655,8 @@ MetronicApp.factory('User', ['$http', '$q', '$location', 'settings', function($h
                 console.log(user.info);
            }, function(res) {
                 user.info = {};
+           }).finally(function() {
+                $rootScope.$broadcast('userChanged', user.info);
            });
            user.retreived = true;
            return user.promise;
@@ -1663,18 +1665,35 @@ MetronicApp.factory('User', ['$http', '$q', '$location', 'settings', function($h
             $location.url("/login");
         },
         can:function(key) {
-            //无登陆时的策略与有登陆需要做策略区分
-            if (!user.info.login)
+            //无登陆时的策略与有登陆需要做策略区分(只在服务器端区分是更好的做法)
+            if (!user.info.permissions)
                 return false;
             if (!user.info.permissions[key])
                 return false;
             return true;
         },
+        usable:function(key, val) {
+            //是否满足策略要求
+            var policy = user.getPolicy(key);
+            var type;
+            if (typeof(policy) == 'boolean')
+                return policy;
+            //根据不同情况返回不同的权限值
+            if (key == "platform") {
+                if (!val)
+                    return true;
+                type = ADS_TYPE[val];
+                if ((Number(policy.value) & type) > 0)
+                    return true;
+                return false;
+            }
+            if (policy.used < policy.value)
+                return true;
+            return false;
+        },
         getPolicy:function(key) {
             var usage;
 
-            if (!user.info.login)
-                return false;
             if (!user.can(key)) //没有权限一定没有策略
                 return false;
             if (!user.info.user.usage[key])//没有策略不需要策略

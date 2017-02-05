@@ -100,4 +100,5 @@ class User extends Authenticatable
         $this->updateUsage($key, count($usage) > 2 ? $usage[2] + 1 : 1);
         return true;
     }
+
 }

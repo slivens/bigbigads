@@ -28,7 +28,7 @@ var app = angular.module('MetronicApp');
             }
         };
     }])
-    .directive('select2', function($timeout) {
+    .directive('select2', function() {
         return {
             link: function(scope, element, attrs) {
                 element.select2( {
@@ -46,6 +46,26 @@ var app = angular.module('MetronicApp');
             }
         };
     })
+    .directive('bsSelect', ['$timeout', function($timeout) {
+        return {
+            restrict:'C',
+            link:function(scope, element, attrs) {
+                element.selectpicker({
+                    iconBase: 'fa',
+                    tickIcon: 'fa-check'
+                });
+                $timeout(function() {
+                    element.selectpicker('refresh');
+                });
+
+                scope.$on('userChanged', function() {
+                    $timeout(function() {
+                        element.selectpicker('refresh');
+                    }, 800);
+                });
+            }
+        };
+    }])
     .directive('ionRangeSlider', function() {
         return {
             scope: {
@@ -120,6 +140,28 @@ var app = angular.module('MetronicApp');
             }
         };
     }])
+    //当没有某个操作权限时就会加锁
+    .directive('policyLock', ['User', function(User) {
+        return {
+            link:function(scope, element, attrs) {
+                function check() {
+                    var key = attrs.key;
+                    if (!User.can(key) || !User.usable(key, attrs.val)) {
+                        if (element.find('.lock').length)
+                            return;
+                        element.append('<i class="fa fa-lock font-yellow-gold lock"></i>');
+                    } else {
+                        element.children('.lock').remove();
+                    }
+                }
+                check();
+                scope.$on('userChanged', function() {
+                    check();
+                });
+            }
+        };
+    }])
+    //资源(权限与策略以及使用情况)的显示格式化
     .directive('policyFormatter', ['POLICY_TYPE', 'ADS_TYPE', function(POLICY_TYPE, ADS_TYPE) {
         return {
             link:function(scope, element, attrs) {
@@ -288,7 +330,7 @@ var app = angular.module('MetronicApp');
 
 app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q',
     function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q) {
-        //opt = {searchType:'adser', url:'/api/forward/adserSearch'}
+        //opt = {searchType:'adser', url:'/forward/adserSearch'}
         var searcher = function(opt) {
             var vm = this;
             vm.opt = opt;
@@ -370,7 +412,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
             vm.search = function(params, clear) {
                 var defer = $q.defer();
                 //获取广告搜索信息
-                var searchurl = settings.remoteurl + (opt && opt.url ? opt.url : '/api/forward/adsearch');
+                var searchurl = settings.remoteurl + (opt && opt.url ? opt.url : '/forward/adsearch');
                 vm.busy = true;
                 $http.post(
                     searchurl,
@@ -610,8 +652,8 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
     };
     return bookmark;
 }]);
-app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams',
-        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams) {
+app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', 
+        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE) {
             //搜索流程:location.search->searchOption->adSearcher.params
             //将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
             function searchToQuery(option, searcher) {
@@ -721,13 +763,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 
             };
 
-
-            // $scope.filterOption = {
-            //     date: {
-            //         startDate: null,
-            //         endDate: null
-            //     },
-            // };
             //text为空时就表示没有这个搜索项了
             $scope.initSearch = function() {
                 var option = $scope.searchOption = $scope.adSearcher.searchOption = angular.copy($scope.adSearcher.defSearchOption);
@@ -736,33 +771,24 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 //存在广告主的情况下，直接搜广告主，去掉所有搜索条件，否则就按标准的搜索流程
                 queryToSearch(option, $scope.adSearcher);
             };
-            // $scope.resetSearch = function() {
-            //     angular.forEach($scope.filterOption.category, function(value, key) {
-            //         value.selected = false;
-            //     });
-            //     angular.forEach($scope.filterOption.format, function(value, key) {
-            //         value.format = false;
-            //     });
-            // };
             $scope.initSearch();
 
             $scope.currSearchOption = {};
-            // $scope.filterOption.category = angular.copy(settings.searchSetting.categoryList);
-            // $scope.filterOption.format = angular.copy(settings.searchSetting.formatList);
-            // $scope.filterOption.buttondesc = angular.copy(settings.searchSetting.buttondescList);
 
             $scope.filter = function(option) {
                 var category = [],
                     format = [],
                     buttondesc = [];
+                
                 //广告类型
-                if (!$scope.filterOption.type)
+                if (!$scope.filterOption.type) {
                     $scope.adSearcher.removeFilter("ads_type");
-                else
+                } else {
                     $scope.adSearcher.addFilter({
                         field: 'ads_type',
                         value: $scope.filterOption.type
                     });
+                }
                 //日期范围
                 if (!option.date.startDate || !option.date.endDate) {
                     $scope.adSearcher.removeFilter('time');
@@ -878,7 +904,19 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 var keys;
                 var range = [];
                 keys = $scope.adSearcher.params.keys = [];
-
+                
+                //检查权限，并且应该集中检查权限，才不会搞得逻辑混乱或者状态不一致
+                if (!User.can('result_per_search')) {
+                    SweetAlert.swal("no search permission");
+                    return;
+                }
+                if ($scope.filterOption.type) {
+                    var type = ADS_TYPE[$scope.filterOption.type];
+                    if (!(Number(User.getPolicy('platform').value)  & type)) {
+                        SweetAlert.swal("type '" + $scope.filterOption.type + "' exceed your permission");
+                        return;
+                    }
+                }
                 //字符串和域
                 $scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
                 if (option.search.text) {
@@ -922,10 +960,11 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 $location.search({});
                 $state.reload();
             };
-
-            //根据search参数页面初始化
-
-            $scope.search();
+            //一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
+            User.getInfo().then(function() {
+                //根据search参数页面初始化
+                $scope.search();
+            });
             $scope.$on('$viewContentLoaded', function() {
                 // initialize core components
                 App.initAjax();
@@ -1171,7 +1210,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
             };
             $scope.adSearcher = new Searcher({
                 searchType: 'adser',
-                url: '/api/forward/adserSearch'
+                url: '/forward/adserSearch'
             });
             // $scope.adSearcher.search($scope.adSearcher.defparams, true);
             $scope.reverseSort = function() {
@@ -1408,7 +1447,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
                         "value": username
                     }]
                 };
-                return $http.post(settings.remoteurl + '/api/forward/adserAnalysis',
+                return $http.post(settings.remoteurl + '/forward/adserAnalysis',
                     params);
             }
             /**
@@ -1622,7 +1661,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 .controller('CompetitorSearcherController', ['$scope', 'Searcher', function($scope, Searcher) {
     var searcher = new Searcher({
                 searchType: 'adser',
-                url: '/api/forward/adserSearch',
+                url: '/forward/adserSearch',
                 limit:[0, -1]
             });
     $scope.searchOpt = {text:"", inprogress:false};
@@ -1747,7 +1786,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
             });
             var adserSearcher = new Searcher({
                     searchType: 'adser',
-                    url: '/api/forward/adserSearch',
+                    url: '/forward/adserSearch',
                     limit:[0, -1]
                 });
             angular.forEach(items, function(item) {

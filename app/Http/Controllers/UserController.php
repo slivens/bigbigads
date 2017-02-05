@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use App\Role;
+use Carbon\Carbon;
+use Log;
+use App\Services\AnonymousUser;
 
 class UserController extends Controller
 {
@@ -32,7 +37,7 @@ class UserController extends Controller
     /**
      * 返回登陆用户信息
      */
-    public function logInfo()
+    public function logInfo(Request $req)
     {
         //返回登陆用户的session信息，包含
         //用户基本信息、权限信息
@@ -49,8 +54,13 @@ class UserController extends Controller
             $res['permissions'] = $user->role->permissions->groupBy('key');
             $res['groupPermissions'] = $user->role->permissions->groupBy('table_name');
         } else {
+            $user = AnonymousUser::user($req);
             $res['login'] = false;
+            $res['user'] = $user;
+            $res['permissions'] = $user->role->permissions->groupBy('key');
+            $res['groupPermissions'] = $user->role->permissions->groupBy('table_name');
         }
         return json_encode($res, JSON_UNESCAPED_UNICODE);
     }
+
 }
