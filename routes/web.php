@@ -15,6 +15,7 @@ use TCG\Voyager\Models\Permission;
 use Braintree\Plan;
 use App\Services\AnonymousUser;
 use Illuminate\Support\Facades\Cache;
+use Carbon\Carbon;
 
 Route::get('/', function () {
     return view('welcome');
@@ -76,16 +77,31 @@ Route::any('/forward/{action}', function(Request $req, $action) {
         //检查权限（应该是根据GET的动作参数判断，否则客户端会出现一种情况，当查看收藏时，也会触发搜索资源统计)
         $act = $req->only('action');
         if (in_array($act["action"], ['search'])) {
-            $user = AnonymousUser::user($req);
-            $lastParams = $user->getCache('adsearch.params');
+            if (Auth::check()) {
+                $user = Auth::user();
+            } else {
+                $user = AnonymousUser::user($req);
+            }
+            $lastParams = $user->getCache('adsearch.params', 'today');
             //参数有变化，开始做搜索次数的判定
             if ($lastParams != $json_data) {
                 $usage = $user->getUsage('search_times_perday');
+                if (!$usage) {
+                    return response(["code"=>-1, "desc"=> "no search permission"], 422);
+                }
                 if (count($req->keys) > 0 || count($req->where) > 0) {
+                    if (count($usage) < 4) {
+                        $carbon = Carbon::now();
+                    } else {
+                        $carbon = new Carbon($usage[3]['date'], $usage[3]['timezone']);
+                    }
+                    if (!$carbon->isToday()) {
+                        $usage[2] = 0;
+                    }
                     if ($usage[2] >= intval($usage[1]))
                         return response(["code"=>-1, "desc"=> "you reached search times today, default result will show"], 422);
                     Log::debug("adsearch " . $json_data . json_encode($usage));
-                    $user->incUsage('search_times_perday');
+                    $user->updateUsage('search_times_perday', $usage[2] + 1, Carbon::now());
                 }
                 $user->setCache('adsearch.params', $json_data);
             }

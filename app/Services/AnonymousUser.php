@@ -41,27 +41,32 @@ class AnonymousUser
     /**
      * 更新匿名用户的资源使用
      */
-    public function updateUsage($key, $used)
+    public function updateUsage($key, $used, $extra)
     {
         $usage = &$this->usage;
         if (!isset($usage[$key])) 
             return false;
         $usage[$key][2] = $used;
+        if (!is_null($extra))
+            $usage[$key][3] = $extra;
         Cache::put($this->ip, $this, 1440);
         return true;
     }
 
     public function getUsage($key)
     {
-        return $this->usage[$key];
+        $item = $this->usage[$key];
+        if (!isset($item[2]))
+            $item[2] = 0;
+        return $item;
     }
 
-    public function incUsage($key) 
+    public function incUsage($key, $extra) 
     {
         $usage = &$this->usage;
         if (!isset($usage))
             return false;
-        $this->updateUsage($key, count($usage[$key]) > 2 ? $usage[$key][2] + 1 : 1);
+        $this->updateUsage($key, count($usage[$key]) > 2 ? $usage[$key][2] + 1 : 1, $extra);
         return true;
     }
 

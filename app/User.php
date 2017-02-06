@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use TCG\Voyager\Traits\VoyagerUser;
 use Laravel\Cashier\Billable;
+use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable
 {
@@ -66,7 +67,12 @@ class User extends Authenticatable
     public function getUsageAttribute($value)
     {
         if (is_null($value)) {
-            return $this->role->groupedPolicies();
+            $value = $this->role->groupedPolicies();
+            foreach($value as $key=>$item) {
+                $value[$key][2] = 0;
+            }
+            $this->usage = $value;
+            return $value;
         }
         return json_decode($value, true);
     }
@@ -78,27 +84,41 @@ class User extends Authenticatable
 
     public function getUsage($key)
     {
-        return $this->usage[$key];
+        $item = $this->usage[$key];
+        return $item;
     }
 
-    public function updateUsage($key, $used)
+    public function updateUsage($key, $used, $extra)
     {
         $usage = $this->usage;
         if (!isset($usage[$key])) 
             return false;
         $usage[$key][2] = $used;
+        if (!is_null($extra))
+            $usage[$key][3] = $extra;
         $this->usage = $usage;
         $this->save();
         return true;
     }
 
-    public function incUsage($key)
+    public function incUsage($key, $extra)
     {
-        $usage = $this->getUsage($key);
+        $usage = $this->usage;
         if (!isset($usage))
             return false;
-        $this->updateUsage($key, count($usage) > 2 ? $usage[2] + 1 : 1);
+        $this->updateUsage($key, count($usage[$key]) > 2 ? $usage[$key][2] + 1 : 1, $extra);
         return true;
     }
 
+    public function getCache($key)
+    {
+        $newkey = "{$this->id}:" . $key;
+        return Cache::get($newkey);
+    }
+
+    public function setCache($key, $val)
+    {
+        $newkey = "{$this->id}:" . $key;
+        Cache::put($newkey, $val, 1440);
+    }
 }
