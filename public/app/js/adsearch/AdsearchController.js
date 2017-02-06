@@ -529,6 +529,21 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
                     }
                 }
             };
+            vm.getStatics = function(params, action) {
+                var searchurl = settings.remoteurl + (opt && opt.url ? opt.url : '/forward/adsearch');
+                var promise; 
+                if (action) {
+                    params.action = action;
+                } else {
+                    delete params.action;
+                }
+                params.is_stat = 1;
+                promise = $http.post(searchurl, params);
+                promise.then(function(res) {
+                    console.log(res);
+                });
+                return promise;
+            };
         };
         searcher.ADS_TYPE = searcher.prototype.ADS_TYPE = ADS_TYPE;
         //函数的静态方法以及对象的方法
@@ -665,8 +680,8 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
     };
     return bookmark;
 }]);
-app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', 
-        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE) {
+app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal', 
+        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal) {
             //搜索流程:location.search->searchOption->adSearcher.params
             //将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
             function searchToQuery(option, searcher) {
@@ -765,9 +780,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                     option.filter.seeTimes = JSON.parse(search.seeTimes);
                 }
             }
-            $scope.swal = function(msg) {
-                SweetAlert.swal(msg);
-            };
+            // $scope.swal = function(msg) {
+            //     SweetAlert.swal(msg);
+            // };
             var adSearcher = $scope.adSearcher = new Searcher();
             adSearcher.checkAndGetMore = function() {
                 if (!User.done) {
@@ -811,7 +826,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 
             $scope.currSearchOption = {};
 
-            $scope.filter = function(option) {
+            $scope.filter = function(option, action) {
                 var category = [],
                     format = [],
                     buttondesc = [];
@@ -930,7 +945,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 $scope.currSearchOption.category = category.join(',');
                 $scope.currSearchOption.format = format.join(',');
                 $scope.currSearchOption.buttondesc = buttondesc.join(',');
-                $scope.adSearcher.filter('search').then(function(){}, function(res) {
+                $scope.adSearcher.filter(action ? action : 'search').then(function(){}, function(res) {
                     if (res.data instanceof Object) {
                         SweetAlert.swal(res.data.desc);
                     } else {
@@ -995,7 +1010,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                     });
                 }
                 $scope.currSearchOption.range = range.join(',');
-                $scope.filter($scope.filterOption);
+                $scope.filter($scope.filterOption, action);
                 if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 0) {
                     $scope.currSearchOption.isdirty = true;
                 }
@@ -1005,6 +1020,27 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             $scope.clearSearch = function() {
                 $location.search({});
                 $state.reload();
+            };
+            $scope.showStatics = function() {
+                return $uibModal.open({
+                    templateUrl:'statics-dlg.html',
+                    size:'lg',
+                    animation:true,
+                    controller:['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+                        //使用独立的搜索器，否则可能影响到原来的广告搜索结果
+                        var seacher = new Searcher();
+                        seacher.params = angular.copy(adSearcher.params);
+                        $scope.queryPromise = seacher.getStatics(seacher.params);
+                        $scope.queryPromise.then(function(res) {
+                            console.log(res);
+                        });
+                        $scope.close = function() {
+                            $uibModalInstance.dismiss('cancel');
+                        };
+                        
+                    }]
+
+                });
             };
             $scope.User = User;
             //一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取

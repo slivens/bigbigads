@@ -51,6 +51,15 @@
 .advideo {
   min-height: 200px; }
 
+.statics-btn {
+  position: fixed;
+  right: 0;
+  top: 40%;
+  z-index: 99;
+  width: 56px;
+  height: 56px;
+  border: 0; }
+
 .daterangepicker.dropdown-menu {
   z-index: 20000 !important; }
 

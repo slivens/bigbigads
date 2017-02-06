@@ -29,6 +29,7 @@ $play-btn-size:100px;
 .lh48 {
     line-height:48px;
 }
+//广告搜索相关类
 .aditem {
     margin:16px;
     i {
@@ -70,6 +71,16 @@ $play-btn-size:100px;
 
 .advideo {
     min-height:200px;
+}
+
+.statics-btn {
+    position:fixed;
+    right:0;
+    top:40%;
+    z-index:99;
+    width:56px;
+    height:56px;
+    border:0;
 }
 //在过滤器上填出日志范围选择时，z-index太小会被盖住
 .daterangepicker.dropdown-menu {
@@ -120,3 +131,4 @@ $play-btn-size:100px;
 .permissions {
     border:1px solid #eee;
 }
+
