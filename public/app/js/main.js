@@ -1645,6 +1645,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
     var infourl = settings.remoteurl  + "/userinfo";
     var user = {
         retreived:false,
+        done:false,
         info:{},
         getInfo:function(refresh) {
             if (!refresh && user.retreived)
@@ -1656,6 +1657,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
            }, function(res) {
                 user.info = {};
            }).finally(function() {
+                user.done = true;
                 $rootScope.$broadcast('userChanged', user.info);
            });
            user.retreived = true;
@@ -1708,8 +1710,6 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
 }]);
 
 MetronicApp.controller('UserController', ['$scope', 'User', function($scope, User) {
-    User.getInfo().then(function(res) {
-        console.log(User.info);
-    });
+    User.getInfo();
     $scope.User = User;
 }]);

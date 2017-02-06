@@ -100,6 +100,8 @@ var app = angular.module('MetronicApp');
                         to: newValue
                     });
                 });
+
+
             }
         };
     })
@@ -149,9 +151,15 @@ var app = angular.module('MetronicApp');
                     if (!User.can(key) || !User.usable(key, attrs.val)) {
                         if (element.find('.lock').length)
                             return;
-                        element.append('<i class="fa fa-lock font-yellow-gold lock"></i>');
+                        if (attrs.trigger == "disabled")
+                            element.attr("disabled", "disabled");
+                        else
+                            element.append('<i class="fa fa-lock  lock"></i>');
                     } else {
-                        element.children('.lock').remove();
+                        if (attrs.trigger == "disabled")
+                            element.removeAttr("disabled");
+                        else
+                            element.children('.lock').remove();
                     }
                 }
                 check();
@@ -409,10 +417,15 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
                 total_count: 0
             };
             vm.isend = false;
-            vm.search = function(params, clear) {
+            vm.search = function(params, clear, action) {
                 var defer = $q.defer();
                 //获取广告搜索信息
                 var searchurl = settings.remoteurl + (opt && opt.url ? opt.url : '/forward/adsearch');
+                if (action) {
+                    params.action = action;
+                } else {
+                    delete params.action;
+                }
                 vm.busy = true;
                 $http.post(
                     searchurl,
@@ -464,13 +477,13 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
                         defer.reject(vm.ads);
                     }
                     console.log(res.data);
+                }, function(res) {
+                    defer.reject(res);
+                    // console.log(res);
+                }).finally(function() {
                     $timeout(function() {
                         vm.busy = false;
-                    }, 500);
-
-                }, function(res) {
-                    vm.busy = false;
-                    // console.log(res);
+                    }, 200);
                 });
                 return defer.promise;
             };
@@ -481,12 +494,12 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
                 vm.params.limit[0] += settings.searchSetting.pageCount;
                 vm.search(vm.params, false);
             };
-            vm.filter = function() {
+            vm.filter = function(action) {
                 var promise;
                 if (vm.params == vm.oldParams)
                     return;
                 vm.params.limit[0] = 0;
-                promise = vm.search(vm.params, true);
+                promise = vm.search(vm.params, true, action);
                 vm.oldParams = angular.copy(vm.params);
                 return promise;
             };
@@ -755,9 +768,32 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             $scope.swal = function(msg) {
                 SweetAlert.swal(msg);
             };
-            $scope.adSearcher = new Searcher();
+            var adSearcher = $scope.adSearcher = new Searcher();
+            adSearcher.checkAndGetMore = function() {
+                if (!User.done) {
+                    adSearcher.getMore();
+                    return;
+                }
+                var policy = User.getPolicy('result_per_search');
+                if (!policy) {
+                    SweetAlert.swal("no permission for get more");
+                    adSearcher.isend = true;
+                    return;
+                }
+                // console.log("max search result:", policy.value, adSearcher.params.limit[0] + adSearcher.params.limit[1]);
+                if (adSearcher.params.limit[0] + adSearcher.params.limit[1] >= policy.value) {
+                    SweetAlert.swal("you reached search result limit(" + policy.value + ")");
+                    adSearcher.isend = true;
+                    return;
+                }
+                adSearcher.getMore();
+            };
             // $scope.adSearcher.search($scope.adSearcher.defparams, true);
             $scope.reverseSort = function() {
+                if (!User.can('search_sortby')) {
+                    SweetAlert.swal("no sort permission");
+                    return;
+                }
                 $scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;
                 $scope.adSearcher.filter();
 
@@ -894,11 +930,17 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 $scope.currSearchOption.category = category.join(',');
                 $scope.currSearchOption.format = format.join(',');
                 $scope.currSearchOption.buttondesc = buttondesc.join(',');
-                $scope.adSearcher.filter();
+                $scope.adSearcher.filter('search').then(function(){}, function(res) {
+                    if (res.data instanceof Object) {
+                        SweetAlert.swal(res.data.desc);
+                    } else {
+                        SweetAlert.swal(res.statusText);
+                    }
+                });
                 console.log("params", $scope.adSearcher.params);
             };
 
-            $scope.search = function() {
+            $scope.search = function(action) {
                 var i;
                 var option = $scope.adSearcher.searchOption;
                 var keys;
@@ -908,6 +950,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 //检查权限，并且应该集中检查权限，才不会搞得逻辑混乱或者状态不一致
                 if (!User.can('result_per_search')) {
                     SweetAlert.swal("no search permission");
+                    return;
+                }
+                if (action == 'filter' && !User.can('search_filter')) {
+                    SweetAlert.swal("no filter permission");
                     return;
                 }
                 if ($scope.filterOption.type) {
@@ -960,6 +1006,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 $location.search({});
                 $state.reload();
             };
+            $scope.User = User;
             //一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
             User.getInfo().then(function() {
                 //根据search参数页面初始化
@@ -991,7 +1038,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         $scope.reverseSort = function() {
             $scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;
             $scope.adSearcher.filter();
-
         };
         $scope.adSearcher.params.where.push({
             field: 'adser_username',
@@ -1049,7 +1095,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         }
     ])
 
-.controller('QuickSidebarController', ['$scope', 'settings', function($scope, settings) {
+.controller('QuickSidebarController', ['$scope', 'settings', 'User', function($scope, settings, User) {
 
     /* Setup Layout Part - Quick Sidebar */
     //这个控制器与广告是强绑定的，这里直接指向$parent的这个方式是非常不友好的，加大了耦合
@@ -1099,6 +1145,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             $scope.$parent.search();
             console.log($scope.$parent.filterOption);
         };
+        $scope.User = User;
         setTimeout(function() {
             QuickSidebar.init(); // init quick sidebar        
         }, 100);

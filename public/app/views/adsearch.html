@@ -10,11 +10,11 @@
                     <span class="caption-subject bold uppercase">Search</span>
                     <span class="caption-helper hide"></span>
                 </div>
-                <div class="actions">
-                    <a class="btn btn-circle btn-icon-only btn-default" href="#">
-                        <i class="icon-wrench"></i>
-                    </a>
-                </div>
+                <!-- <div class="actions"> -->
+                <!--     <a class="btn btn-circle btn-icon-only btn-default" href="#"> -->
+                <!--         <i class="icon-wrench"></i> -->
+                <!--     </a> -->
+                <!-- </div> -->
             </div>
             <div class="portlet-body">
                 <div class="row">
@@ -67,10 +67,11 @@
             <div class="pull-right">
                 <form class="form-inline">
                 <div class="form-group">
-                    <button class="btn yellow-gold btn-sm" ng-class="{'active':!adSearcher.params.sort.order}" ng-click="reverseSort()">Reverse</button>
+                    <button policy-lock key="search_sortby" class="btn yellow-gold btn-sm" ng-class="{'active':!adSearcher.params.sort.order}" ng-click="reverseSort()">Reverse</button>
 
-                    <select class="form-control bs-select" data-width="150px" ng-model="adSearcher.params.sort.field" ng-options="item.key as item.value for item in settings.searchSetting.orderBy" ng-change="adSearcher.filter()">
+                    <select class="form-control bs-select" ng-disabled="!User.can('search_sortby')" data-width="150px" ng-model="adSearcher.params.sort.field"  ng-change="adSearcher.filter()">
                         <option value="">Sort By</option>
+                        <option policy-lock key="search_sortby" value="{{item.key}}" ng-repeat="item in settings.searchSetting.orderBy" >{{item.value}}</option>
                     </select>
                 </div>
                 </form>
@@ -79,7 +80,7 @@
                 <span>About {{adSearcher.ads.total_count}} results</span>
             </div>
         </div>
-        <div infinite-scroll="adSearcher.getMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
+        <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
             <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid" cardTemplate="views/adsearch-card.html">
             </div>
             <div class="clearfix">

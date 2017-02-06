@@ -70,28 +70,38 @@ Route::resource('bookmark', 'BookmarkController');
 Route::resource('BookmarkItem', 'BookmarkItemController');
 
 Route::any('/forward/{action}', function(Request $req, $action) {
-    $json_data = json_encode($req->all());
-    $ch = curl_init();
+    $json_data = json_encode($req->except(['action']));
+    $remoteurl = "";
     if ($action == 'adsearch') {
-        curl_setopt($ch, CURLOPT_URL, 'http://121.41.107.126:8080/search');
-        $lastParams = Cache::get('adsearch.params');
-        //参数有变化，开始做搜索次数的判定
-        if ($lastParams != $json_data) {
-            Log::debug("last Param:" . $lastParams);
-            if (count($req->keys) > 0 || count($req->where) > 0) {
-                Log::debug("adsearch " . $json_data);
-                AnonymousUser::user($req)->incUsage('search_times_perday');
+        //检查权限（应该是根据GET的动作参数判断，否则客户端会出现一种情况，当查看收藏时，也会触发搜索资源统计)
+        $act = $req->only('action');
+        if (in_array($act["action"], ['search'])) {
+            $user = AnonymousUser::user($req);
+            $lastParams = $user->getCache('adsearch.params');
+            //参数有变化，开始做搜索次数的判定
+            if ($lastParams != $json_data) {
+                $usage = $user->getUsage('search_times_perday');
+                if (count($req->keys) > 0 || count($req->where) > 0) {
+                    if ($usage[2] >= intval($usage[1]))
+                        return response(["code"=>-1, "desc"=> "you reached search times today, default result will show"], 422);
+                    Log::debug("adsearch " . $json_data . json_encode($usage));
+                    $user->incUsage('search_times_perday');
+                }
+                $user->setCache('adsearch.params', $json_data);
             }
-            Cache::put('adsearch.params', $json_data, 1440);
         }
+
+        $remoteurl = 'http://121.41.107.126:8080/search';
     } else if ($action == "adserSearch") {
-        curl_setopt($ch, CURLOPT_URL, 'http://121.41.107.126:8080/adser_search');
+        $remoteurl = 'http://121.41.107.126:8080/adser_search';
     } else if ($action == "adserAnalysis") {
         //curl_setopt($ch, CURLOPT_URL, 'http://121.41.107.126:8080/adser_analysis');
-        curl_setopt($ch, CURLOPT_URL, 'http://103.71.178.49:5000/adser_analysis');
+        $remoteurl = 'http://103.71.178.49:5000/adser_analysis';
     } else {
-        return '{"status":-1}';
+        return response(["code"=>-1, "desc"=>"unsupported action"], 422);
     }
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $remoteurl);
 	/* curl_setopt($ch, CURLOPT_POST, TRUE); */
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);

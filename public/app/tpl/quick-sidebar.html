@@ -6,10 +6,10 @@
             </a>
         </div>
         <div class="portlet-body form"> 
-    <form role="form" ng-submit="$parent.search()">
+    <form role="form" ng-submit="$parent.search('filter')">
         <div class="form-group">
             <label>Filter By Date:</label>
-            <input date-range-picker type="text" class="form-control date-picker" ng-model="$parent.filterOption.date" options="daterangeOption"/>
+            <input policy-lock key="search_filter" trigger="disabled" date-range-picker type="text" class="form-control date-picker" ng-model="$parent.filterOption.date" options="daterangeOption"/>
         </div>
         <div class="form-group">
             <label>
@@ -17,7 +17,7 @@
             </label>
             <div>
                 <!-- <input type="text" class="form-control" ng-model="$parent.filterOption.lang" placeholder="E.g Engllish"> -->
-                <select select2 class="form-control" data-placeholder="E.g English" ng-model="$parent.filterOption.lang" ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" >
+                <select policy-lock key="search_filter" trigger="disabled" select2 class="form-control" data-placeholder="E.g English" ng-model="$parent.filterOption.lang" ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" >
                     <option value=""></option>
                 </select>
 
@@ -27,16 +27,16 @@
         <div class="form-group">
             <label>Country:</label>
             <div>
-                <input type="text" class="form-control" ng-model="$parent.filterOption.state" placeholder="E.g country">
+                <input policy-lock key="search_filter" trigger="disabled" type="text" class="form-control" ng-model="$parent.filterOption.state" placeholder="E.g country">
             </div>
         </div>
         <div class="form-group">
             <label>Domain:</label>
 
             <div class="input-group">
-                <input type="text" class="form-control" ng-model="$parent.searchOption.domain.text" placeholder="E.g nike.com">
+                <input policy-lock key="search_filter" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.domain.text" placeholder="E.g nike.com">
                <span class="input-group-addon">
-                    <input type="checkbox" class="text" ng-model="$parent.searchOption.domain.exclude" name="">Exclude
+                    <input policy-lock key="search_filter" trigger="disabled"  type="checkbox" class="text" ng-model="$parent.searchOption.domain.exclude" name="">Exclude
                 </span>
 
             </div>
@@ -45,9 +45,9 @@
             <label>Audience:</label>
 
             <div class="input-group">
-                <input type="text" class="form-control" ng-model="$parent.searchOption.audience.text" placeholder="E.g women">
+                <input policy-lock key="search_filter" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.audience.text" placeholder="E.g women">
                 <span class="input-group-addon">
-                    <input type="checkbox" class="text" ng-model="$parent.searchOption.audience.exclude" name="">Exclude
+                    <input policy-lock key="search_filter" trigger="disabled" type="checkbox" class="text" ng-model="$parent.searchOption.audience.exclude" name="">Exclude
                 </span>
             </div>
         </div>
@@ -56,7 +56,7 @@
         <h4>Category:</h4>
         <div class="form-group" ng-repeat="item in $parent.filterOption.category"  ng-hide="$index >= categoryOpt.defnum && categoryOpt.collapse">
             <label class="mt-checkbox mt-checkbox-outline"> {{item.value}}
-                <input type="checkbox" name="category" ng-model="item.selected">
+                <input policy-lock key="search_filter" trigger="disabled" type="checkbox" name="category" ng-model="item.selected">
                 <span></span>
             </label>
         </div>
@@ -70,7 +70,7 @@
         <div class="pull-left font-yellow-gold">
             <label class="mt-checkbox mt-checkbox-outline">
             &nbsp;
-            <input type="checkbox"  ng-model="categoryOpt.all"  ng-change="categoryOpt.toggle()">
+            <input policy-lock key="search_filter" trigger="disabled" type="checkbox"  ng-model="categoryOpt.all"  ng-change="categoryOpt.toggle()">
             <span></span>
             </label>
 
@@ -84,7 +84,7 @@
         <h4>Format:</h4>
         <div class="form-group" ng-repeat="item in $parent.filterOption.format">
             <label class="mt-checkbox mt-checkbox-outline"> {{item.value}}
-                <input type="checkbox" name="format" ng-model="item.selected">
+                <input policy-lock key="search_filter" trigger="disabled" type="checkbox" name="format" ng-model="item.selected">
                 <span></span>
             </label>
         </div>
@@ -93,7 +93,7 @@
         <h4>Search Range:</h4>
         <div class="form-group" ng-repeat="item in $parent.searchOption.range">
             <label class="mt-checkbox mt-checkbox-outline"> {{item.value}}
-                <input type="checkbox" name="range" ng-model="item.selected">
+                <input policy-lock key="search_filter" trigger="disabled" type="checkbox" name="range" ng-model="item.selected">
                 <span></span>
             </label>
         </div>   
@@ -101,7 +101,7 @@
         <h4>Button Description:</h4>
         <div class="form-group" ng-repeat="item in buttondescOpt.items"  ng-hide="$index >= buttondescOpt.defnum && buttondescOpt.collapse">
             <label class="mt-checkbox mt-checkbox-outline"> {{item.value}}
-                <input type="checkbox"  ng-model="item.selected">
+                <input policy-lock key="search_filter" trigger="disabled" type="checkbox"  ng-model="item.selected">
                 <span></span>
             </label>
         </div>
@@ -115,7 +115,7 @@
         <div class="pull-left font-yellow-gold">
             <label class="mt-checkbox mt-checkbox-outline">
             &nbsp;
-            <input type="checkbox"  ng-model="buttondescOpt.all"  ng-change="buttondescOpt.toggle()">
+            <input policy-lock key="search_filter" trigger="disabled" type="checkbox"  ng-model="buttondescOpt.all"  ng-change="buttondescOpt.toggle()">
             <span></span>
             </label>
 
@@ -129,19 +129,19 @@
         <div class="form-group">
             <label>duration:</label>
             <div>
-                <input ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.duration.from" ng-to="$parent.filterOption.duration.to" ng-min="settings.searchSetting.durationRange[0]" ng-max="settings.searchSetting.durationRange[1]" >
+                <input policy-lock key="search_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.duration.from" ng-to="$parent.filterOption.duration.to" ng-min="settings.searchSetting.durationRange[0]" ng-max="settings.searchSetting.durationRange[1]" >
             </div>
         </div>
 
         <div class="form-group">
             <label>see times:</label>
             <div>
-                <input ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" >
+                <input policy-lock key="search_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" >
             </div>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-lg yellow-gold filterbar-toggler">
-                <i class="fa fa-check"></i>
+            <button policy-lock type="submit" class="btn btn-lg yellow-gold filterbar-toggler" key="search_filter">
+                <!-- <i class="fa fa-filter" ></i> -->
                 Filter
             </button>
             <!-- <button type="reset" class="btn btn-lg default filterbar-toggler" ng-click="reset()"> -->

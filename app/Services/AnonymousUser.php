@@ -43,7 +43,7 @@ class AnonymousUser
      */
     public function updateUsage($key, $used)
     {
-        $usage = $this->usage;
+        $usage = &$this->usage;
         if (!isset($usage[$key])) 
             return false;
         $usage[$key][2] = $used;
@@ -51,12 +51,30 @@ class AnonymousUser
         return true;
     }
 
+    public function getUsage($key)
+    {
+        return $this->usage[$key];
+    }
+
     public function incUsage($key) 
     {
-        $usage = $this->usage;
+        $usage = &$this->usage;
         if (!isset($usage))
             return false;
         $this->updateUsage($key, count($usage[$key]) > 2 ? $usage[$key][2] + 1 : 1);
         return true;
     }
+
+    public function getCache($key)
+    {
+        $newkey = $this->ip . $key;
+        return Cache::get($newkey);
+    }
+
+    public function setCache($key, $val)
+    {
+        $newkey = $this->ip . $key;
+        Cache::put($newkey, $val, 1440);
+    }
+
 }
