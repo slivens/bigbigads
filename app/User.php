@@ -66,6 +66,7 @@ class User extends Authenticatable
 
     public function getUsageAttribute($value)
     {
+        
         if (is_null($value)) {
             $value = $this->role->groupedPolicies();
             foreach($value as $key=>$item) {
@@ -80,6 +81,16 @@ class User extends Authenticatable
     public function setUsageAttribute($value)
     {
         $this->attributes['usage'] = json_encode($value);
+    }
+
+    public function initUsageByRole($role)
+    {
+        $items = $role->groupedPolicies();
+        foreach($items as $key=>$item) {
+            $items[$key][2] = 0;
+        }
+        $this->usage = $items;
+        return true;
     }
 
     public function getUsage($key)

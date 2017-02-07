@@ -35,20 +35,21 @@ class SubscriptionController extends Controller
             return redirect()->back()->withErrors(['message' => 'Invalid request']);
         }
         $user = Auth::user();
-        try {
+        /* try { */
             $subscription = $user->newSubscription('main', $req->plan )->create( Input::get( 'payment-method-nonce' ), [
                 'email' => $user->email
             ]);
             $role = \App\Role::where('name', substr($req->plan, 0, strpos($req->plan, "_")))->first();
             $user->role_id = $role->id;
+            $user->initUsageByRole($role);//更改计划时切换资源
             $user->save();
             Log::info($user->name . " change plan to " . $req->plan);
-        } catch(\Exception $e) {
-            //get message from caught error
-            $message = $e->getMessage();
-            //send back error message to view
-            return redirect()->back()->withErrors(['message' => $message]);
-        }
+        /* } catch(\Exception $e) { */
+        /*     //get message from caught error */
+        /*     $message = $e->getMessage(); */
+        /*     //send back error message to view */
+        /*     return redirect()->back()->withErrors(['message' => $message]); */
+        /* } */
         return redirect('/app/profile?active=0');
     }
 

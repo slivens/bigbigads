@@ -73,7 +73,8 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
 MetronicApp.constant('ADS_TYPE', {
     timeline: 1,
     rightcolumn: 4,
-    mobile: 2
+    mobile: 2,
+    phone: 2
 });
 MetronicApp.constant('ADS_CONT_TYPE', {
     SINGLE_IMAGE: "SingleImage",
@@ -1685,6 +1686,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                 if (!val)
                     return true;
                 type = ADS_TYPE[val];
+                // console.log("policy:", policy.value, type, val);
                 if ((Number(policy.value) & type) > 0)
                     return true;
                 return false;
