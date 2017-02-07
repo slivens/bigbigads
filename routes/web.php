@@ -93,7 +93,10 @@ Route::any('/forward/{action}', function(Request $req, $action) {
                     if (count($usage) < 4) {
                         $carbon = Carbon::now();
                     } else {
-                        $carbon = new Carbon($usage[3]['date'], $usage[3]['timezone']);
+                        if ($usage[3] instanceof Carbon)
+                            $carbon = new Carbon($usage[3]->date, $usage[3]->timezone);
+                        else
+                            $carbon = new Carbon($usage[3]['date'], $usage[3]['timezone']);
                     }
                     if (!$carbon->isToday()) {
                         $usage[2] = 0;

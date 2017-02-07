@@ -277,6 +277,7 @@ var app = angular.module('MetronicApp');
             },
             controller: ['$scope', 'settings', 'Searcher', function($scope, settings, Searcher) {
                 $scope.settings = settings;
+                $scope.Searcher = Searcher;
             }]
         };
     })
@@ -544,6 +545,8 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
                 });
                 return promise;
             };
+
+
         };
         searcher.ADS_TYPE = searcher.prototype.ADS_TYPE = ADS_TYPE;
         //函数的静态方法以及对象的方法
@@ -1043,6 +1046,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 });
             };
             $scope.User = User;
+            $scope.Searcher = Searcher;
             //一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
             User.getInfo().then(function() {
                 //根据search参数页面初始化
