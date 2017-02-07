@@ -134,9 +134,9 @@ Route::any('/forward/{action}', function(Request $req, $action) {
 
 //测试，正式发布后删除
 Route::get('/tester', function() {
-    /* $role = App\Role::where('name', 'Pro')->first(); */
-    /* $user = Auth::user(); */
-    /* $user->initUsageByRole($role); */
+    $role = App\Role::where('name', 'Pro')->first();
+    $user = Auth::user();
+    $user->initUsageByRole($role);
     $user->save();
     /* Auth::user()->incUsage("image_download"); */
     //Auth::user()->save();
