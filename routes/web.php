@@ -112,7 +112,7 @@ Route::any('/forward/{action}', function(Request $req, $action) {
         $remoteurl = 'http://121.41.107.126:8080/adser_search';
     } else if ($action == "adserAnalysis") {
         //curl_setopt($ch, CURLOPT_URL, 'http://121.41.107.126:8080/adser_analysis');
-        $remoteurl = 'http://103.71.178.49:5000/adser_analysis';
+        $remoteurl = 'http://xgrit.xicp.net:5000/adser_analysis';
     } else {
         return response(["code"=>-1, "desc"=>"unsupported action"], 422);
     }
