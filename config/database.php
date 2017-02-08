@@ -81,11 +81,11 @@ return [
 
         'rankdb' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_RANKDB', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => env('RANKDB_HOST', 'localhost'),
+            'port' => env('RANKDB_PORT', '3306'),
+            'database' => env('RANKDB_DATABASE', 'forge'),
+            'username' => env('RANKDB_USERNAME', 'forge'),
+            'password' => env('RANKDB_PASSWORD', ''),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',

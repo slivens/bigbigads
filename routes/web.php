@@ -34,6 +34,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::get('/ranking', function(Request $req) {
     $maxCount = 100;//根据权限去判断
+
     if (isset($req->category)) {
         $items = App\CategoryTopAdvertiser::where('page_category', $req->category)->take($maxCount)->get();
     } else {
