@@ -6,7 +6,7 @@
         <i class="fa fa-circle"></i>
     </li>
     <li>
-        <a  ui-sref="adser({adser:adser.username})">{{adser.name}}</a>
+        <a  ui-sref="adser({adser:adser.username})"><span ng-bind-html="adser.name | toHtml"></span></a>
     </li>
 </ul>
 
@@ -18,13 +18,13 @@
         <div class="clearfix">
             <div class="pull-right">
                 <form class="form-inline">
-                <div class="form-group">
-                    <button class="btn yellow-gold btn-sm" ng-class="{'active':!adSearcher.params.sort.order}" ng-click="reverseSort()">Reverse</button>
+                    <div class="form-group">
+                        <button class="btn yellow-gold btn-sm" ng-class="{'active':!adSearcher.params.sort.order}" ng-click="reverseSort()">Reverse</button>
 
-                    <select class="form-control bs-select" ng-model="adSearcher.params.sort.field" ng-options="item.key as item.value for item in settings.searchSetting.orderBy" ng-change="adSearcher.filter()">
-                        <option value="">Sort By</option>
-                    </select>
-                </div>
+                        <select class="form-control" ng-model="adSearcher.params.sort.field" ng-options="item.key as item.value for item in settings.searchSetting.orderBy" ng-change="adSearcher.filter()">
+                            <option value="">Sort By</option>
+                        </select>
+                    </div>
                 </form>
             </div>
             <div>

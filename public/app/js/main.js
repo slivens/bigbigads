@@ -1121,29 +1121,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 });
             }]
         }
-    })
-
-    // Blank Page
-    .state('blank', {
-            url: "/blank",
-            templateUrl: "views/blank.html",
-            data: {
-                pageTitle: 'Blank Page Template'
-            },
-            controller: "BlankController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            'js/controllers/BlankController.js'
-                        ]
-                    });
-                }]
-            }
-        })
-        .state('adsearch', {
+    }).state('adsearch', {
             url: '/adsearch',
             templateUrl: "views/adsearch.html",
             data: {
