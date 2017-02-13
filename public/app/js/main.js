@@ -123,6 +123,18 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
             }, {
                 key: 'duration_days',
                 value: 'duration'
+            }, {
+                key: 'views',
+                value:'views'
+            }, {
+                key:'comments',
+                value:'comments'
+            }, {
+                key:'likes',
+                value:'likes'
+            }, {
+                key:'shares',
+                value:'shares'
             }],
             adsTypes: [{
                 key: 'timeline',

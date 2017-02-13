@@ -43,6 +43,11 @@
     <hr>
     <i class="fa fa-link fa-fw"></i>
     <a href="{{card.link}}" class="adlink" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top" popover-title="Snapshot" popover-is-open="card.popup" ng-mouseenter="card.popup=true" ng-mouseleave="card.popup=false" >{{card.link}}</a>
+
+    <span ng-show="card.views">
+        <i class="fa fa-eye"></i>
+        {{card.views}}
+    </span>
     <span ng-show="card.comments">
         <i class="fa fa-comment"></i>
         {{card.comments}}

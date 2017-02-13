@@ -1063,7 +1063,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 $state.reload();
             };
             $scope.showStatics = function() {
-                if (adSearcher.params.keys.length == 0) {
+                if (adSearcher.params.keys.length === 0) {
                     SweetAlert.swal("you must search first");
                     return;
                 }
