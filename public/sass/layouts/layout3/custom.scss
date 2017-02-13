@@ -96,6 +96,18 @@ $play-btn-size:100px;
     z-index:99999 !important;
 }
 
+.linktable {
+    td {
+        text-overflow:ellipsis;
+        max-width:300px;
+        line-height:1.2em;
+        max-height:2.4em;
+        white-space:normal;
+        word-break:break-all;
+        word-wrap:break-word;
+    }
+}
+
 //广告分析的类
 #ad {
     .avatar {

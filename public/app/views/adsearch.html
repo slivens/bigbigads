@@ -113,7 +113,163 @@
         <h3 class="modal-title" id="modal-title">AD Search Statics</h3>
         </div>
         <div class="modal-body" id="modal-body">
-        <h4>Test</h4>
+
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <rank-board title="Total Count">
+                                <div class="clearfix">
+                                    <h5 class="pull-left"> </h5>
+                                    <h5 class="font-yellow-gold pull-right">{{statics.total_count}}</h5>
+                                </div>
+                            </rank-board>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <rank-board title="Distinct Total Count">
+                                <div class="clearfix">
+                                    <h5 class="pull-left"> </h5>
+                                    <h5 class="font-yellow-gold pull-right">{{statics.distinct_total_count}}</h5>
+                                </div>
+                            </rank-board>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <rank-board title="Summary Views">
+                                <div class="clearfix">
+                                    <h5 class="pull-left"></h5>
+                                    <h5 class="font-yellow-gold pull-right">{{statics.sum_views}}</h5>
+                                </div>
+                            </rank-board>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <rank-board title="Summary Shares">
+                                <div class="clearfix">
+                                    <h5 class="pull-left"></h5>
+                                    <h5 class="font-yellow-gold pull-right">{{statics.sum_shares}}</h5>
+                                </div>
+                            </rank-board>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <rank-board title="Summary Likes">
+                                <div class="clearfix">
+                                    <h5 class="pull-left"></h5>
+                                    <h5 class="font-yellow-gold pull-right">{{statics.sum_likes}}</h5>
+                                </div>
+                            </rank-board>
+                        </div>
+
+
+                        <div class="col-md-4 col-sm-4">
+                            <rank-board title="Summary Engagements">
+                                <div class="clearfix">
+                                    <h5 class="pull-left"></h5>
+                                    <h5 class="font-yellow-gold pull-right">{{statics.sum_engagements}}</h5>
+                                </div>
+                            </rank-board>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <rank-board title="Summary Comments">
+                                <div class="clearfix">
+                                    <h5 class="pull-left"></h5>
+                                    <h5 class="font-yellow-gold pull-right">{{statics.sum_comments}}</h5>
+                                </div>
+                            </rank-board>
+                        </div>
+                    </div>
+             <!-- 图表表示 -->         
+            <div class="row">
+                <div class="col-md-offset-2 col-md-8 col-xs-12" ng-if="statics.adLangConfig">
+                    <highchart id="adLangChart" config="statics.adLangConfig"></highchart>
+                </div>
+                <div class="col-md-offset-2 col-md-8 col-xs-12" ng-if="statics.adserNameConfig">
+                    <highchart id="adserNameChart" config="statics.adserNameConfig"></highchart>
+                </div>
+                <div class="col-md-offset-2 col-md-8 col-xs-12" ng-if="statics.adserUsernameConfig">
+                    <highchart id="adserUsernameChart" config="statics.adserUsernameConfig"></highchart>
+                </div>
+                <div class="col-md-offset-2 col-md-8 col-xs-12" ng-if="statics.categoryConfig">
+                    <highchart id="categoryChart" config="statics.categoryConfig"></highchart>
+                </div>
+                <div class="col-md-offset-2 col-md-8 col-xs-12" ng-if="statics.mediaTypeConfig">
+                    <highchart id="mediaTypeChart" config="statics.mediaTypeConfig"></highchart>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <!-- 内容太长，改以表格表示 -->
+                <div class="row" ng-if="statics.button_link">
+                    <h4 class="font-yellow-gold">Button Link:</h4>
+                    <div>
+                        <table class="table table-hover linktable" >
+                            <tr>
+                                <th>#</th>
+                                <th>Link</th>
+                                <th>Number</th>
+                            </tr>
+                            <tr ng-repeat="(key, val) in statics.button_link">
+                                <td>{{$index + 1}}</td>
+                                <td>{{key}}</td>
+                                <td>{{val}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row" ng-if="statics.link">
+                    <h4 class="font-yellow-gold">Link:</h4>
+                    <div>
+                        <table class="table table-hover linktable" >
+                            <tr>
+                                <th>#</th>
+                                <th>Link</th>
+                                <th>Number</th>
+                            </tr>
+                            <tr ng-repeat="(key, val) in statics.link">
+                                <td>{{$index + 1}}</td>
+                                <td>{{key}}</td>
+                                <td>{{val}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" ng-if="statics.dest_site">
+                    <h4 class="font-yellow-gold">Destsite Link:</h4>
+                    <div>
+                        <table class="table table-hover linktable" >
+                            <tr>
+                                <th>#</th>
+                                <th>Link</th>
+                                <th>Number</th>
+                            </tr>
+                            <tr ng-repeat="(key, val) in statics.dest_site">
+                                <td>{{$index + 1}}</td>
+                                <td>{{key}}</td>
+                                <td>{{val}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row" ng-if="statics.whyseeads">
+                    <h4 class="font-yellow-gold">Audience:</h4>
+                    <div>
+                        <table class="table table-hover linktable" >
+                            <tr>
+                                <th>#</th>
+                                <th>Audience</th>
+                                <th>Number</th>
+                            </tr>
+                            <tr ng-repeat="(key, val) in statics.whyseeads">
+                                <td>{{$index + 1}}</td>
+                                <td>{{key}}</td>
+                                <td>{{val}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-warning" type="button" ng-click="close()">Close</button>

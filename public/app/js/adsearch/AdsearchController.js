@@ -333,6 +333,44 @@ var app = angular.module('MetronicApp');
                         }
                     }
                 });
+            },
+            initPie:function(jsonSrc, title, labels) {
+                /**
+                 * jsonSrc:json字符串
+                 * title:标题
+                 * labels:是否将json的属性映射到labels对应值
+                 */
+                var src = jsonSrc;
+                var data = [];
+                for (var key in src) {
+                    if (labels)
+                        data.push([labels[key], src[key]]);
+                    else
+                        data.push([key, src[key]]);
+                }
+
+                return {
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: title
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>:{point.percentage:.1f}%'
+                            }
+                        }
+                    },
+                    series: [{
+                        name: title,
+                        data: data
+                    }]
+                };
             }
         };
     });
@@ -1025,6 +1063,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 $state.reload();
             };
             $scope.showStatics = function() {
+                if (adSearcher.params.keys.length == 0) {
+                    SweetAlert.swal("you must search first");
+                    return;
+                }
                 return $uibModal.open({
                     templateUrl:'statics-dlg.html',
                     size:'lg',
@@ -1033,8 +1075,18 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                         //使用独立的搜索器，否则可能影响到原来的广告搜索结果
                         var seacher = new Searcher();
                         seacher.params = angular.copy(adSearcher.params);
+                        $scope.statics = {};
                         $scope.queryPromise = seacher.getStatics(seacher.params);
                         $scope.queryPromise.then(function(res) {
+                            var data = $scope.statics = res.data;
+                            //饼图
+                            $scope.statics.adLangConfig = Util.initPie(data.ad_lang, "AD Language");
+                            $scope.statics.adserNameConfig = Util.initPie(data.adser_name, "Adser Names");
+                            $scope.statics.adserUsernameConfig = Util.initPie(data.adser_username, "Adser Usernames");
+                            $scope.statics.categoryConfig = Util.initPie(data.category, "Category");
+                            $scope.statics.mediaTypeConfig = Util.initPie(data.media_type, "Media Type");
+
+                            //button_link, dest_site,link,whyseeads太长，怎么处理？
                             console.log(res);
                         });
                         $scope.close = function() {

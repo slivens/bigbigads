@@ -1161,6 +1161,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
+                            'http://code.highcharts.com/highcharts.js',
+                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
                             'js/adsearch/AdsearchController.js'
                         ]
                     });
