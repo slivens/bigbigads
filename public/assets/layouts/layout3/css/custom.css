@@ -72,7 +72,7 @@
 
 .linktable td {
   text-overflow: ellipsis;
-  max-width: 300px;
+  max-width: 80%;
   line-height: 1.2em;
   max-height: 2.4em;
   white-space: normal;
