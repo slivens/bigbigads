@@ -66,7 +66,7 @@
                 <div class="form-group">
                     <button class="btn yellow-gold btn-sm" ng-class="{'active':!adSearcher.params.sort.order}" ng-click="reverseSort()">Reverse</button>
 
-                    <select class="form-control bs-select" ng-model="adSearcher.params.sort.field" ng-options="item.key as item.value for item in settings.searchSetting.orderBy" ng-change="adSearcher.filter()">
+                    <select class="form-control" ng-model="adSearcher.params.sort.field" ng-options="item.key as item.value for item in settings.searchSetting.orderBy" ng-change="adSearcher.filter()">
                         <option value="">Sort By</option>
                     </select>
                 </div>

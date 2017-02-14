@@ -177,6 +177,13 @@
                                     <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
                                 </div>
                             </div>
+                            <div id="similar" ng-if="card.similars.length > 0">
+                                <h4 class="font-yellow-gold">Similar Ads</h4>
+                                <div ng-repeat="item in card.similars">
+                                    <p><a ui-sref="adAnalysis({id:item.event_id})"  ui-sref-opts="{reload:false}">{{item.event_id}}</a></p>
+                                    <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + item.watermark}}" class="img-responsive" ng-if="item.watermark"/>
+                                </div>
+                            </div>
                             <!-- begin link-->
                             <div id="link">
                                 <h4 class="font-yellow-gold">Link</h4>

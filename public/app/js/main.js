@@ -1153,7 +1153,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             'http://code.highcharts.com/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            'js/adsearch/AdsearchController.js'
+                            'js/bigbigads.js'
                         ]
                     });
                 }]
@@ -1186,7 +1186,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            'js/adsearch/AdsearchController.js'
+                            'js/bigbigads.js'
                         ]
                     });
                 }]
@@ -1223,7 +1223,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            'js/adsearch/AdsearchController.js'
+                            'js/bigbigads.js'
                         ]
                     });
                 }]
@@ -1252,7 +1252,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
                             'http://code.highcharts.com/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            'js/adsearch/AdsearchController.js'
+                            'js/bigbigads.js'
                         ]
                     });
                 }]
@@ -1285,7 +1285,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            'js/adsearch/AdsearchController.js'
+                            'js/bigbigads.js'
                         ]
                     });
                 }]
@@ -1319,7 +1319,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            'js/adsearch/AdsearchController.js'
+                            'js/bigbigads.js'
                         ]
                     });
                 }]
@@ -1352,7 +1352,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            'js/adsearch/AdsearchController.js'
+                            'js/bigbigads.js'
                         ]
                     });
                 }]
@@ -1390,7 +1390,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                         '/node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
                         '/node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
 
-                            'js/adsearch/AdsearchController.js'
+                            'js/bigbigads.js'
                         ]
                     });
                 }]
@@ -1546,7 +1546,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
                             '/node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
                             '/node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
-                            'js/adsearch/AdsearchController.js'
+                            'js/bigbigads.js'
                     ]
                 });
             }]

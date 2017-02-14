@@ -10,6 +10,7 @@ var rename = require("gulp-rename");
 var uglify = require("gulp-uglify");
 var rtlcss = require("gulp-rtlcss");  
 var connect = require('gulp-connect');
+var concat = require('gulp-concat');
 const jshint = require('gulp-jshint');
 //*** Localhost server tast
 gulp.task('localhost', function() {
@@ -69,44 +70,10 @@ gulp.task('minify', function () {
     gulp.src(['./assets/layouts/**/scripts/*.js','!./assets/layouts/**/scripts/*.min.js']).pipe(uglify()).pipe(rename({suffix: '.min'})).pipe(gulp.dest('./assets/layouts/'));
 });
 
-//*** RTL convertor task
-gulp.task('rtlcss', function () {
-
-  gulp
-    .src(['./assets/apps/css/*.css', '!./assets/apps/css/*-rtl.min.css', '!./assets/apps/css/*-rtl.css', '!./assets/apps/css/*.min.css'])
-    .pipe(rtlcss())
-    .pipe(rename({suffix: '-rtl'}))
-    .pipe(gulp.dest('./assets/apps/css'));
-
-  gulp
-    .src(['./assets/pages/css/*.css', '!./assets/pages/css/*-rtl.min.css', '!./assets/pages/css/*-rtl.css', '!./assets/pages/css/*.min.css'])
-    .pipe(rtlcss())
-    .pipe(rename({suffix: '-rtl'}))
-    .pipe(gulp.dest('./assets/pages/css'));
-
-  gulp
-    .src(['./assets/global/css/*.css', '!./assets/global/css/*-rtl.min.css', '!./assets/global/css/*-rtl.css', '!./assets/global/css/*.min.css'])
-    .pipe(rtlcss())
-    .pipe(rename({suffix: '-rtl'}))
-    .pipe(gulp.dest('./assets/global/css'));
-
-  gulp
-    .src(['./assets/layouts/**/css/*.css', '!./assets/layouts/**/css/*-rtl.css', '!./assets/layouts/**/css/*-rtl.min.css', '!./assets/layouts/**/css/*.min.css'])
-    .pipe(rtlcss())
-    .pipe(rename({suffix: '-rtl'}))
-    .pipe(gulp.dest('./assets/layouts'));
-
-  gulp
-    .src(['./assets/layouts/**/css/**/*.css', '!./assets/layouts/**/css/**/*-rtl.css', '!./assets/layouts/**/css/**/*-rtl.min.css', '!./assets/layouts/**/css/**/*.min.css'])
-    .pipe(rtlcss())
-    .pipe(rename({suffix: '-rtl'}))
-    .pipe(gulp.dest('./assets/layouts'));
-
-  gulp
-    .src(['./assets/global/plugins/bootstrap/css/*.css', '!./assets/global/plugins/bootstrap/css/*-rtl.css', '!./assets/global/plugins/bootstrap/css/*.min.css'])
-    .pipe(rtlcss())
-    .pipe(rename({suffix: '-rtl'}))
-    .pipe(gulp.dest('./assets/global/plugins/bootstrap/css')); 
+gulp.task('concat', function() {
+    var target = 'bigbigads.js';
+    gulp.src(['./src/js/**/*.js']).pipe(concat(target)).pipe(gulp.dest('./app/js/'));
+    gulp.src(['./app/js/' + target]).pipe(uglify()).pipe(rename({suffix:'.min'})).pipe(gulp.dest('./app/js/'));
 });
 
 //*** HTML formatter task
@@ -122,13 +89,17 @@ gulp.task('prettify', function() {
 });
 
 gulp.task('lint', function()  {
-    gulp.src('./app/js/**/*.js')
+    gulp.src('./src/js/**/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
+    // gulp.src('./app/js/**/*.js')
+    //     .pipe(jshint())
+    //     .pipe(jshint.reporter('default'));
+
 });
 
 gulp.task('lint:watch', function() {
-    gulp.watch('./app/js/**/*.js', ['lint']);
+    gulp.watch(['./src/js/**/*.js'], ['lint', 'concat']);
 });
 
 gulp.task('watch', ['sass:watch', 'lint:watch']);
