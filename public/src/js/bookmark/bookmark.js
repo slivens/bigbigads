@@ -1,6 +1,71 @@
 
 if (!app)
     var app = angular.module('MetronicApp');
+
+app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', function(Resource, $uibModal, SweetAlert, BookmarkItem) {
+var bookmark = new Resource('bookmark');
+bookmark.subItems = [];
+bookmark.addBookmark = function(item) {
+    return $uibModal.open({
+        templateUrl: 'views/bookmark-add-dialog.html',
+        size: 'sm',
+        animation: true,
+        controller:['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+            if (item)
+                $scope.item = angular.copy(item);
+            else
+                $scope.item = {name:""};
+            $scope.bookmark = bookmark;
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+            $scope.save = function(item) {
+                $scope.promise = bookmark.save(item);
+                $scope.promise.then(function() {
+                    $scope.$emit('bookmarkAdded', item);
+                    $uibModalInstance.dismiss('success');
+                });
+
+            };
+        }]
+    });
+};
+bookmark.delBookmark = function(item) {
+        SweetAlert.swal({   
+          title: 'Are you sure?',   
+          text: 'All the bookmarks will be removed,too?',   
+          type: 'warning',   
+          showCancelButton: true,   
+          // confirmButtonColor: '#DD6B55',   
+          confirmButtonText: 'Yes',   
+          cancelButtonText: 'Cancel',   
+          closeOnConfirm: true,   
+          closeOnCancel: true 
+        }, function(isConfirm){  
+          if (isConfirm) {     
+            bookmark.del(item);
+          } 
+        });
+};
+
+bookmark.showDetail = function(bid) {
+    var promise = BookmarkItem.get({
+        where:JSON.stringify([["bid", "=", bid]])
+    });
+    promise.then(function(items) {
+        bookmark.subItems = items;
+        bookmark.bid = bid;
+        for (var i = 0; i < bookmark.items.length; ++i) {
+            if (bookmark.items[i].id == bid) {
+                bookmark.currItem = bookmark.items[i];
+                break;
+            }
+        }
+    });
+    return promise;
+};
+return bookmark;
+}]);
 app.factory('BookmarkItem', ['Resource', '$uibModal', 'SweetAlert', function(Resource, $uibModal, SweetAlert) {
     var bookmarkItem = new Resource('BookmarkItem');
 
@@ -109,6 +174,15 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                             }
                         }
                     });
+                } else if (type === 1 && card.adser_username == item.ident) {
+                    BookmarkItem.del(item).then(function() {
+                        for (var i = 0; i < $scope.adsers.adser.length; ++i) {
+                            if ($scope.adsers.adser[i] == card) {
+                                $scope.adsers.adser[i].splice(i, 1);
+                                break;
+                            }
+                        }
+                    });
                 }
             });
         });
@@ -130,4 +204,37 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
     setTimeout(function() {
         QuickSidebar.init(); // init quick sidebar        
     }, 200);
+}]);
+
+app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', 'User', '$q', function($scope, Bookmark, BookmarkItem, User, $q) {
+    $scope.select = [];
+    $scope.bookmark = Bookmark;
+    $scope.add = function(card) {
+        var promises = [];
+        for(var i = 0; i < $scope.select.length; i++) {
+            if ($scope.select[i]) {
+                var subItem = {uid:User.info.user.id, bid:Bookmark.items[i].id};
+                if (card.event_id) {
+                    subItem.type = 0;
+                    subItem.ident = card.event_id;
+                } else if(card.adser_username) {
+                    subItem.type = 1;
+                    subItem.ident = card.adser_username;
+                }
+                promises.push(BookmarkItem.save(subItem));
+                console.log(subItem);
+            }
+        }
+        $scope.addPromise = $q.all(promises);
+        $scope.addPromise.finally(function() {
+            card.showBookmark = false;//耦合
+        });
+    };
+    if (!Bookmark.queried) {
+        User.getInfo().then(function() {
+            if (User.info.login) {
+                $scope.queryPromise = Bookmark.get({uid:User.info.user.id});
+            }
+        });
+    }
 }]);

@@ -12,10 +12,11 @@
             </div>
         </li>
     </ul>
-    <button type="submit" class="btn btn-block yellow-gold" cg-busy="addPromise" ng-show="bookmark.items.length > 0">
+    <button type="submit" class="btn btn-sm btn-block yellow-gold" cg-busy="addPromise" ng-show="bookmark.items.length > 0">
     <i class="fa fa-plus fa-fw"></i>
     Add
     </button>
     </form>
-    <button type="button" class="btn btn-block btn-default" >Create Catalog</button>
+    <br/>
+    <a  class="btn btn-sm btn-block btn-link" ng-click="bookmark.addBookmark()">Create List</a>
 </div>

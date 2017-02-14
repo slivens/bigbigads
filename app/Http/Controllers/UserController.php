@@ -47,7 +47,7 @@ class UserController extends Controller
             $user->load('role', 'role.permissions', 'role.policies');
             $res['login'] = true;
             $res['user'] = $user;
-            //将购买的相关计划也要返回
+            //将购买的相关计划也要返回，必须缓存，这一步很慢
             if ($user->hasBraintreeId()) {
                 $res['subscription'] = $user->subscriptions->first();
             }
