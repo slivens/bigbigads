@@ -938,12 +938,15 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
             /**
              */
             function initTrend(json, title) {
+                if (json.trend == null) {
+                    return;
+                }
                 var length = json.trend.length;
                 var endDate = moment(json.day, 'YYYY-MM-DD');
-                var xs = [];
+                var xs = [endDate.format('YYYY-MM-DD')];
                 var i;
-                for (i = 0; i < length; ++i) {
-                    xs.push(endDate.subtract(i, 'days').format('YYYY-MM-DD'));
+                for (i = 1; i < length; ++i) {
+                    xs.push(endDate.subtract(1, 'days').format('YYYY-MM-DD'));
                 }
                 xs = xs.reverse();
                 ys = json.trend.reverse();
