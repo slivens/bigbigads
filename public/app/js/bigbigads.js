@@ -2074,6 +2074,51 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
                     }]
                 };
             }
+            /**
+             */
+            function initTrend(json, title) {
+                var length = json.trend.length;
+                var endDate = moment(json.day, 'YYYY-MM-DD');
+                var xs = [];
+                var i;
+                for (i = 0; i < length; ++i) {
+                    xs.push(endDate.subtract(i, 'days').format('YYYY-MM-DD'));
+                }
+                xs = xs.reverse();
+                ys = json.trend.reverse();
+                console.log("trend", title, xs, length);
+                return {
+                    title: {
+                        text: title
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>:{point.percentage:.1f}%'
+                            }
+                        }
+                    },
+                    xAxis: {
+                        categories:xs
+                    },
+                    yAxis: {
+                        title:{
+                            text:title
+                        },
+                        plotLines:[{
+                            value:0,
+                            width:1,
+                        }]
+                    },
+                    series:[{
+                        name:title,
+                        data:ys
+                    }]
+                };
+            }
             
             /**
              * 初始化单个广告主的图表
@@ -2081,12 +2126,17 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
             function initChart(card) {
                 card.mediaTypeConfig = Util.initPie(card.media_type_groupby, "Media Type");
                 card.adLangConfig = Util.initPie(card.ad_lang_groupby, 'Advertise Language');
-                card.showwayConfig = Util.initPie(card.showway_groupby, 'Show Way', {
+                card.showwayConfig = Util.initPie(card.show_way_groupby, 'Show Way', {
                     "1": "timeline",
                     "2": "mobile",
                     "3": "timeline&mobile",
                     "4": "rightcolumn"
                 });
+                card.likesTrendConfig = initTrend(JSON.parse(card.likes_trend), "Likes Trend");
+                card.sharesTrendConfig = initTrend(JSON.parse(card.shares_trend), "Shares Trend");
+                card.viewsTrendConfig = initTrend(JSON.parse(card.views_trend), "Views Trend");
+                card.newAdsTrendConfig = initTrend(JSON.parse(card.new_ads_trend), "New Ads Trend");
+                console.log(card.likesTrendConfig);
             }
 
             function initCompareBar(dataArr, nameArr, title, labels) {
@@ -2187,12 +2237,12 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
             function initCompetitorCharts() {
                 var langGroup = [$scope.card.ad_lang_groupby];
                 var mediaTypeGroup = [$scope.card.media_type_groupby];
-                var showwayGroup = [$scope.card.showway_groupby];
+                var showwayGroup = [$scope.card.show_way_groupby];
                 var nameArr = [$scope.card.adser_name];
                 for (var key in $scope.competitors) {
                     langGroup.push($scope.competitors[key].ad_lang_groupby);
                     mediaTypeGroup.push($scope.competitors[key].media_type_groupby);
-                    showwayGroup.push($scope.competitors[key].showway_groupby);
+                    showwayGroup.push($scope.competitors[key].show_way_groupby);
                     nameArr.push($scope.competitors[key].adser_name);
                 }
                 console.log("nameArr:", nameArr);

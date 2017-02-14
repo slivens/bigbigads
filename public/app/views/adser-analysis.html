@@ -143,14 +143,14 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <rank-board title="Total Views">
+                                        <rank-board title="Summary Views">
                                             <div class="clearfix">
                                                 <h5 class="pull-left">{{card.adser_name}}</h5>
-                                                <h5 class="font-yellow-gold pull-right">{{card.sum_view_count}}</h5>
+                                                <h5 class="font-yellow-gold pull-right">{{card.sum_views}}</h5>
                                             </div>
                                             <div class="clearfix" ng-repeat="competitor in competitors">
                                                 <h5 class="pull-left">{{competitor.adser_name}}</h5>
-                                                <h5 class="font-yellow-gold pull-right">{{competitor.sum_view_count}}</h5>
+                                                <h5 class="font-yellow-gold pull-right">{{competitor.sum_views}}</h5>
                                             </div>
                                         </rank-board>
                                     </div>
@@ -199,7 +199,7 @@
                                             </div>
                                         </rank-board>
                                     </div>
-
+<!--
                                     <div class="col-md-4">
                                         <rank-board title="Country Rank">
                                             <div class="clearfix">
@@ -225,11 +225,12 @@
                                             </div>
                                         </rank-board>
                                     </div>
+-->
                                 </div>
                                 <!-- end rank-->
                                 <div class="row" ng-hide="competitors.length >  0">
                                         <h4>Land Page(Total:{{card.landpage_num}})</h4>
-                                        <table class="table table-hover">
+                                        <table class="table table-hover linktable">
                                             <tr>
                                                 <th>#</th>
                                                 <th>Link</th>
@@ -289,7 +290,23 @@
                                         <highchart id="mediaTypeChart" config="card.adLangConfig"></highchart>
                                     </div>
                                     <div class="col-md-offset-2 col-md-8" ng-if="card.showwayConfig">
-                                        <highchart id="mediaTypeChart" config="card.showwayConfig"></highchart>
+                                        <highchart config="card.showwayConfig"></highchart>
+                                    </div>
+
+                                    <div class="col-md-offset-2 col-md-8" ng-if="card.likesTrendConfig">
+                                        <highchart  config="card.likesTrendConfig"></highchart>
+                                    </div>
+
+                                    <div class="col-md-offset-2 col-md-8" ng-if="card.sharesTrendConfig">
+                                        <highchart  config="card.sharesTrendConfig"></highchart>
+                                    </div>
+
+                                    <div class="col-md-offset-2 col-md-8" ng-if="card.viewsTrendConfig">
+                                        <highchart  config="card.viewsTrendConfig"></highchart>
+                                    </div>
+
+                                    <div class="col-md-offset-2 col-md-8" ng-if="card.newAdsTrendConfig">
+                                        <highchart  config="card.newAdsTrendConfig"></highchart>
                                     </div>
                                 </div>
                                 <div ng-show="competitors.length > 0">
