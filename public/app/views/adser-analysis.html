@@ -338,6 +338,14 @@
                             <!-- top list -->
                             <div id="tops" class="clearfix" ng-hide="competitors.length > 0">
                                 <h4 class="font-yellow-gold">Tops</h4>
+
+                                <!-- keyword cloud -->
+                                <div id="keywords" class="clearfix" ng-hide="competitors.length > 0 || card.words.length == 0">
+                                    <h5 class="font-yellow-gold text-center">Top Keywords</h5>
+                                    <div>
+                                        <jqcloud words="card.words" width="600" height="350"  steps="10"></jqcloud>
+                                    </div>
+                                </div>
                                 <div class="row">
                                 <div class="col-md-6">
                                     <h5 class="text-center">Top Duration</h5>

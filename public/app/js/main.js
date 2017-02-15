@@ -1252,6 +1252,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
                             'http://code.highcharts.com/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
+                            '/node_modules/jqcloud2/dist/jqcloud.min.css',
+                            '/node_modules/jqcloud2/dist/jqcloud.min.js',
+                            '../assets/global/plugins/angular-jqcloud.js',
                             'js/bigbigads.js'
                         ]
                     });

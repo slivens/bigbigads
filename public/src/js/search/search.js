@@ -1185,7 +1185,6 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
                 var data = getTrendData(json);
                 if (data === null)
                     return;
-                    console.log("data", data);
 				return {
 					title: {
 						text: title
@@ -1335,44 +1334,62 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 			var competitorQuery = [];
 			var promises = [];
 			$scope.openAd = openAd;
-			$scope.card = {}; //card必须先赋值，否则调用Searcher的getAdsType时会提前生成自己的card,scope出错。
+			$scope.card = {words:[]}; //card必须先赋值，否则调用Searcher的getAdsType时会提前生成自己的card,scope出错。
 			$scope.Searcher = Searcher;
 			$scope.username = $stateParams.username;
 			$rootScope.$broadcast("loading");
 			promises[0] = getAdserAnalysis($scope.username, "overview,rank,trend,topkeyword");
 			promises[0].then(function(res) {
-				for (var key in res.data) {
+                var key;
+				for (key in res.data) {
 					if (!$scope.card[key]) {
 						$scope.card[key] = res.data[key];
 					}
 				}
-
 				console.log("first phase", $scope.card);
 				initChart($scope.card);
+                for (key in $scope.card.top_keyword) {
+                    $scope.card.words.push({text:key, weight:$scope.card.top_keyword[key]});
+                }
+
+				$rootScope.$broadcast("jqchange");
+                // console.log("words", $scope.card.words);
 				$rootScope.$broadcast("completed");
 
-				// $timeout(function() {
-				//     $scope.$apply();
-				// }, 0);
-			});
-            $timeout(function() {
                 promises[1] = getAdserAnalysis($scope.username, "summary,audience_all,link,topn,button");
-			promises[1].then(function(res) {
-				// $scope.card = res.data;
-				for (var key in res.data) {
-					if (!$scope.card[key]) {
-						$scope.card[key] = res.data[key];
-					}
-				}
+                promises[1].then(function(res) {
+                    // $scope.card = res.data;
+                    for (var key in res.data) {
+                        if (!$scope.card[key]) {
+                            $scope.card[key] = res.data[key];
+                        }
+                    }
 
-				console.log("second phase", $scope.card);
-				initChart($scope.card);
-				// $timeout(function() {
-				//     $scope.$apply();
-				// }, 0);
+                    console.log("second phase", $scope.card);
+                    initChart($scope.card);
+                    // $timeout(function() {
+                    //     $scope.$apply();
+                    // }, 0);
+                });
 			});
+            // $timeout(function() {
+            //     promises[1] = getAdserAnalysis($scope.username, "summary,audience_all,link,topn,button");
+            //     promises[1].then(function(res) {
+            //         // $scope.card = res.data;
+            //         for (var key in res.data) {
+            //             if (!$scope.card[key]) {
+            //                 $scope.card[key] = res.data[key];
+            //             }
+            //         }
 
-            },0);
+            //         console.log("second phase", $scope.card);
+            //         initChart($scope.card);
+            //         // $timeout(function() {
+            //         //     $scope.$apply();
+            //         // }, 0);
+            //     });
+
+            // },0);
 
 			function addCompetitor(res) {
 				$scope.competitors.push(res.data);
