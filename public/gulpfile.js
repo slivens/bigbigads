@@ -11,6 +11,7 @@ var uglify = require("gulp-uglify");
 var rtlcss = require("gulp-rtlcss");  
 var connect = require('gulp-connect');
 var concat = require('gulp-concat');
+var del = require('del');
 const jshint = require('gulp-jshint');
 //*** Localhost server tast
 gulp.task('localhost', function() {
@@ -72,6 +73,7 @@ gulp.task('minify', function () {
 
 gulp.task('concat', function() {
     var target = 'bigbigads.js';
+    del.sync(['./app/js/' + target]);
     gulp.src(['./src/js/**/*.js']).pipe(concat(target)).pipe(gulp.dest('./app/js/'));
     gulp.src(['./app/js/' + target]).pipe(uglify()).pipe(rename({suffix:'.min'})).pipe(gulp.dest('./app/js/'));
 });

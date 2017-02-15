@@ -65,12 +65,12 @@
                                 <div class="row">
                                     <!-- begin avatar info -->
                                     <div class="inline">
-                                        <a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
+                                        <a ng-href="https://www.facebook.com/{{card.username}}" target="_blank">
                                             <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded avatar">
                                         </a>
-                                        <a ui-sref="adser({name:card.adser_name, adser:card.adser_username})">
-                                            <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
-                                            <span ng-show="!card.adser_name">{{card.adser_username}}</span>
+                                        <a ui-sref="adser({name:card.name, adser:card.username})">
+                                            <span ng-show="card.name">{{card.name}}</span>
+                                            <span ng-show="!card.name">{{card.username}}</span>
                                         </a>
 
                                         <span><i class="fa fa-thumbs-o-up fa-fw font-yellow-gold"></i>{{card.page_like_count}}</span>
@@ -79,12 +79,12 @@
                                     <!-- begin competior info -->
                                     <div class="inline" ng-repeat="competitor in competitors">
                                         <h3 class="inline font-yellow-gold" > Vs.</h3>
-                                        <a ng-href="https://www.facebook.com/{{competitor.adser_username}}" target="_blank">
+                                        <a ng-href="https://www.facebook.com/{{competitor.username}}" target="_blank">
                                             <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + competitor.local_photo}}" alt="" class="rounded avatar">
                                         </a>
-                                        <a ui-sref="adser({name:competitor.adser_name, adser:competitor.adser_username})">
-                                            <span ng-bind-html="competitor.adser_name | toHtml" ng-show="competitor.adser_name"></span>
-                                            <span ng-show="!competitor.adser_name">{{competitor.adser_username}}</span>
+                                        <a ui-sref="adser({name:competitor.name, adser:competitor.username})">
+                                            <span ng-bind-html="competitor.name | toHtml" ng-show="competitor.name"></span>
+                                            <span ng-show="!competitor.name">{{competitor.username}}</span>
                                         </a>
 
                                         <span><i class="fa fa-thumbs-o-up fa-fw font-yellow-gold"></i>{{competitor.page_like_count}}</span>
@@ -97,9 +97,6 @@
                                 <div ng-hide="competitors.length > 0">
                                     <p>
                                     Category:{{card.page_category}}
-                                    </p>
-                                    <p>
-                                    Showway:{{Searcher.getAdsType(card, Searcher.ADS_TYPE.timeline) ? 'Timeline':""}} {{Searcher.getAdsType(card, Searcher.ADS_TYPE.rightcolumn) ? 'rightcolumn':""}} {{Searcher.getAdsType(card, Searcher.ADS_TYPE.mobile) ? 'mobile':""}}
                                     </p>
                                     <p>
                                     <label class="label label-default"><i class="fa fa-facebook-official font-blue fa-2x bg-white vmiddle margin-right-5"></i>Facebook</label>
@@ -120,11 +117,11 @@
                                     <div class="col-md-4">
                                         <rank-board title="TotalAds">
                                             <div class="clearfix">
-                                                <h5 class="pull-left">{{card.adser_name}}</h5>
+                                                <h5 class="pull-left">{{card.name}}</h5>
                                                 <h5 class="font-yellow-gold pull-right">{{card.total_ads}}</h5>
                                             </div>
                                             <div class="clearfix" ng-repeat="competitor in competitors">
-                                                <h5 class="pull-left">{{competitor.adser_name}}</h5>
+                                                <h5 class="pull-left">{{competitor.name}}</h5>
                                                 <h5 class="font-yellow-gold pull-right">{{competitor.total_ads}}</h5>
                                             </div>
                                         </rank-board>
@@ -132,11 +129,11 @@
                                     <div class="col-md-4">
                                         <rank-board title="Average Duration">
                                             <div class="clearfix">
-                                                <h5 class="pull-left">{{card.adser_name}}</h5>
+                                                <h5 class="pull-left">{{card.name}}</h5>
                                                 <h5 class="font-yellow-gold pull-right">{{card.avg_duration}}</h5>
                                             </div>
                                             <div class="clearfix" ng-repeat="competitor in competitors">
-                                                <h5 class="pull-left">{{competitor.adser_name}}</h5>
+                                                <h5 class="pull-left">{{competitor.name}}</h5>
                                                 <h5 class="font-yellow-gold pull-right">{{competitor.avg_duration}}</h5>
                                             </div>
                                         </rank-board>
@@ -145,11 +142,11 @@
                                     <div class="col-md-4">
                                         <rank-board title="Summary Views">
                                             <div class="clearfix">
-                                                <h5 class="pull-left">{{card.adser_name}}</h5>
+                                                <h5 class="pull-left">{{card.name}}</h5>
                                                 <h5 class="font-yellow-gold pull-right">{{card.sum_views}}</h5>
                                             </div>
                                             <div class="clearfix" ng-repeat="competitor in competitors">
-                                                <h5 class="pull-left">{{competitor.adser_name}}</h5>
+                                                <h5 class="pull-left">{{competitor.name}}</h5>
                                                 <h5 class="font-yellow-gold pull-right">{{competitor.sum_views}}</h5>
                                             </div>
                                         </rank-board>
@@ -161,11 +158,11 @@
                                     <div class="col-md-4">
                                         <rank-board title="First See">
                                             <div class="clearfix">
-                                                <h5 class="pull-left">{{card.adser_name}}</h5>
+                                                <h5 class="pull-left">{{card.name}}</h5>
                                                 <h5 class="font-yellow-gold pull-right">{{card.first_see}}</h5>
                                             </div>
                                             <div class="clearfix" ng-repeat="competitor in competitors">
-                                                <h5 class="pull-left">{{competitor.adser_name}}</h5>
+                                                <h5 class="pull-left">{{competitor.name}}</h5>
                                                 <h5 class="font-yellow-gold pull-right">{{competitor.first_see}}</h5>
                                             </div>
                                         </rank-board>
@@ -173,11 +170,11 @@
                                     <div class="col-md-4">
                                         <rank-board title="Last See">
                                             <div class="clearfix">
-                                                <h5 class="pull-left">{{card.adser_name}}</h5>
+                                                <h5 class="pull-left">{{card.name}}</h5>
                                                 <h5 class="font-yellow-gold pull-right">{{card.last_see}}</h5>
                                             </div>
                                             <div class="clearfix" ng-repeat="competitor in competitors">
-                                                <h5 class="pull-left">{{competitor.adser_name}}</h5>
+                                                <h5 class="pull-left">{{competitor.name}}</h5>
                                                 <h5 class="font-yellow-gold pull-right">{{competitor.last_see}}</h5>
                                             </div>
                                         </rank-board>
@@ -190,11 +187,11 @@
                                     <div class="col-md-4">
                                         <rank-board title="Global Rank">
                                             <div class="clearfix">
-                                                <h5 class="pull-left">{{card.adser_name}}</h5>
+                                                <h5 class="pull-left">{{card.name}}</h5>
                                                 <h5 class="font-yellow-gold pull-right">{{card.global_rank}}</h5>
                                             </div>
                                             <div class="clearfix" ng-repeat="competitor in competitors">
-                                                <h5 class="pull-left">{{competitor.adser_name}}</h5>
+                                                <h5 class="pull-left">{{competitor.name}}</h5>
                                                 <h5 class="font-yellow-gold pull-right">{{competitor.global_rank}}</h5>
                                             </div>
                                         </rank-board>
@@ -247,7 +244,7 @@
 
                                 <div class="row" ng-hide="competitors.length > 0">
                                     <h4>Dest Site(Total:{{card.destsite_num}})</h4>
-                                    <table class="table table-hover">
+                                    <table class="table table-hover linktable">
                                         <tr>
                                             <th>#</th>
                                             <th>Link</th>
@@ -319,6 +316,21 @@
 
                                     <div class="col-md-offset-2 col-md-8" ng-if="competitorsChart.showwayOpt">
                                         <highchart id="mediaTypeChart" config="competitorsChart.showwayOpt"></highchart>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-10" ng-if="competitorsChart.likesTrendOpt">
+                                        <highchart  config="competitorsChart.likesTrendOpt"></highchart>
+                                    </div>
+
+                                    <div class="col-md-offset-2 col-md-10" ng-if="competitorsChart.sharesTrendOpt">
+                                        <highchart  config="competitorsChart.sharesTrendOpt"></highchart>
+                                    </div>
+
+                                    <div class="col-md-offset-2 col-md-10" ng-if="competitorsChart.viewsTrendOpt">
+                                        <highchart  config="competitorsChart.viewsTrendOpt"></highchart>
+                                    </div>
+
+                                    <div class="col-md-offset-2 col-md-10" ng-if="competitorsChart.newAdsTrendOpt">
+                                        <highchart  config="competitorsChart.newAdsTrendOpt"></highchart>
                                     </div>
                                 </div>
                             </div>

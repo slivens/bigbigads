@@ -16,6 +16,7 @@
     "vue-resource": "^1.0.3"
   },
   "dependencies": {
-    "angular-ui-grid": "^4.0.2"
+    "angular-ui-grid": "^4.0.2",
+    "del": "^2.2.2"
   }
 }
