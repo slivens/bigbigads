@@ -1,409 +1,3 @@
-if (!app)
-    var app = angular.module('MetronicApp');
-
-app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', function(Resource, $uibModal, SweetAlert, BookmarkItem) {
-    var bookmark = new Resource('bookmark');
-    bookmark.subItems = [];
-    bookmark.addBookmark = function(item) {
-        return $uibModal.open({
-            templateUrl: 'views/bookmark-add-dialog.html',
-            size: 'sm',
-            animation: true,
-            controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
-                if (item)
-                    $scope.item = angular.copy(item);
-                else
-                    $scope.item = {
-                        name: ""
-                    };
-                $scope.bookmark = bookmark;
-                $scope.cancel = function() {
-                    $uibModalInstance.dismiss('cancel');
-                };
-                $scope.save = function(item) {
-                    $scope.promise = bookmark.save(item);
-                    $scope.promise.then(function() {
-                        $scope.$emit('bookmarkAdded', item);
-                        $uibModalInstance.dismiss('success');
-                    });
-
-                };
-            }]
-        });
-    };
-    bookmark.delBookmark = function(item) {
-        SweetAlert.swal({
-            title: 'Are you sure?',
-            text: 'All the bookmarks will be removed,too?',
-            type: 'warning',
-            showCancelButton: true,
-            // confirmButtonColor: '#DD6B55',   
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'Cancel',
-            closeOnConfirm: true,
-            closeOnCancel: true
-        }, function(isConfirm) {
-            if (isConfirm) {
-                bookmark.del(item);
-            }
-        });
-    };
-
-    bookmark.showDetail = function(bid) {
-        var promise = BookmarkItem.get({
-            where: JSON.stringify([
-                ["bid", "=", bid]
-            ])
-        });
-        promise.then(function(items) {
-            bookmark.subItems = items;
-            bookmark.bid = bid;
-            for (var i = 0; i < bookmark.items.length; ++i) {
-                if (bookmark.items[i].id == bid) {
-                    bookmark.currItem = bookmark.items[i];
-                    break;
-                }
-            }
-        });
-        return promise;
-    };
-    return bookmark;
-}]);
-app.factory('BookmarkItem', ['Resource', '$uibModal', 'SweetAlert', function(Resource, $uibModal, SweetAlert) {
-    var bookmarkItem = new Resource('BookmarkItem');
-
-    return bookmarkItem;
-}]);
-
-app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource', '$uibModal', 'User', 'Bookmark', 'BookmarkItem', '$location', 'Searcher', 'SweetAlert', function($scope, settings, $http, Resource, $uibModal, User, Bookmark, BookmarkItem, $location, Searcher, SweetAlert) {
-
-
-    function loadAds(type, bid) {
-        Bookmark.showDetail(bid).then(function(items) {
-            var wanted = [];
-            var wantedAdsers = [];
-            var adSearcher = new Searcher({
-                limit: [0, -1]
-            });
-            var adserSearcher = new Searcher({
-                searchType: 'adser',
-                url: '/forward/adserSearch',
-                limit: [0, -1]
-            });
-            angular.forEach(items, function(item) {
-                if (Number(item.type) === 0 && item.bid == bid) {
-                    wanted.push(item.ident);
-                }
-                if (Number(item.type) === 1 && item.bid == bid) {
-                    wantedAdsers.push(item.ident);
-                }
-            });
-
-            //获取广告
-            adSearcher.addFilter({
-                field: 'ads_id',
-                value: wanted.join(',')
-            });
-            adSearcher.filter().then(function(data) {
-                $scope.ads = data;
-                $scope.ads.bookmark = true;
-            }, function() {
-                $scope.ads = {};
-            });
-            //获取广告主
-            adserSearcher.addFilter({
-                field: 'adser_username',
-                value: wantedAdsers.join(',')
-            });
-            adserSearcher.filter().then(function(data) {
-                $scope.adsers = data;
-                $scope.adsers.bookmark = true;
-            }, function() {
-                $scope.adsers = {};
-            });
-        });
-    }
-
-    function load(type, bid) {
-        loadAds(type, bid);
-        $location.search('bid', bid);
-        $location.search('type', type);
-    }
-
-    function init() {
-        var search = $location.search();
-        if (search.bid) {
-            $scope.bookmark.type = Number(search.type);
-            loadAds(search.type, search.bid);
-        } else {
-            if (search.type)
-                $scope.bookmark.type = Number(search.type);
-            else
-                $scope.bookmark.type = 0;
-            if (Bookmark.items.length) {
-                loadAds($scope.bookmark.type, Bookmark.items[0].id);
-            }
-        }
-
-    }
-    $scope.Searcher = Searcher;
-    $scope.bookmark = Bookmark;
-    //$scope.bookmark.type = 0;//当前显示类型
-    $scope.load = load;
-    $scope.ads = {}; //广告列表
-    $scope.adsers = {}; //广告主列表
-    $scope.cancelBookmark = function(type, card) {
-        SweetAlert.swal({
-            title: 'Are you sure?',
-            text: 'Cancel the ' + type > 0 ? card.adser_username : card.event_id,
-            type: 'warning',
-            showCancelButton: true,
-            // confirmButtonColor: '#DD6B55',   
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'Cancel',
-            closeOnConfirm: true,
-            closeOnCancel: true
-        }, function(isConfirm) {
-            if (!isConfirm)
-                return;
-            console.log(Bookmark.subItems);
-            angular.forEach(Bookmark.subItems, function(item) {
-                if (type != item.type)
-                    return;
-                if (type === 0 && card.event_id == item.ident) {
-                    BookmarkItem.del(item).then(function() {
-                        for (var i = 0; i < $scope.ads.ads_info.length; ++i) {
-                            if ($scope.ads.ads_info[i] == card) {
-                                $scope.ads.ads_info.splice(i, 1);
-                                break;
-                            }
-                        }
-                    });
-                } else if (type === 1 && card.adser_username == item.ident) {
-                    BookmarkItem.del(item).then(function() {
-                        for (var i = 0; i < $scope.adsers.adser.length; ++i) {
-                            if ($scope.adsers.adser[i] == card) {
-                                $scope.adsers.adser[i].splice(i, 1);
-                                break;
-                            }
-                        }
-                    });
-                }
-            });
-        });
-    };
-    $scope.$watch('bookmark.type', function(newValue, oldValue) {
-        if (newValue != oldValue) {
-            $location.search("type", newValue);
-        }
-    });
-
-    User.getInfo().then(function() {
-        if (User.info.login)
-            Bookmark.get({
-                uid: User.info.user.id
-            }).then(function() {
-                init();
-            });
-    });
-
-
-    setTimeout(function() {
-        QuickSidebar.init(); // init quick sidebar        
-    }, 200);
-}]);
-
-app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', 'User', '$q', function($scope, Bookmark, BookmarkItem, User, $q) {
-    $scope.select = [];
-    $scope.bookmark = Bookmark;
-    $scope.add = function(card) {
-        var promises = [];
-        for (var i = 0; i < $scope.select.length; i++) {
-            if ($scope.select[i]) {
-                var subItem = {
-                    uid: User.info.user.id,
-                    bid: Bookmark.items[i].id
-                };
-                if (card.event_id) {
-                    subItem.type = 0;
-                    subItem.ident = card.event_id;
-                } else if (card.adser_username) {
-                    subItem.type = 1;
-                    subItem.ident = card.adser_username;
-                }
-                promises.push(BookmarkItem.save(subItem));
-                console.log(subItem);
-            }
-        }
-        $scope.addPromise = $q.all(promises);
-        $scope.addPromise.finally(function() {
-            card.showBookmark = false; //耦合
-        });
-    };
-    if (!Bookmark.queried) {
-        User.getInfo().then(function() {
-            if (User.info.login) {
-                $scope.queryPromise = Bookmark.get({
-                    uid: User.info.user.id
-                });
-            }
-        });
-    }
-}]);
-
-if (!app)
-    var app = angular.module('MetronicApp');
-app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope, Resource, User) {
-    var plans = new Resource('plans');
-    plans.getPolicy = function(item, permissionKey, groupKey) {
-        var group = item.groupPermissions[groupKey], policy;
-        var i, finded = false;
-        if (!group)
-            return false;
-        angular.forEach(group, function(groupItem) {
-            if (groupItem.key == permissionKey) {
-                finded = true;   
-            }
-        });
-        if (!finded)
-            return false;
-        for(i = 0;i < item.policies.length; ++i) {
-            policy = item.policies[i];
-            if (policy.key == permissionKey) {
-                return {value:policy.pivot.value, type:policy.type};
-            }
-        }
-
-        return true;
-    };
-
-    plans.goPlanID = function(item) {
-        var id;
-        if (!item.plan)
-            return "";
-        if (plans.annually) {
-            id = item.plan.annually.id;
-        }  else  {
-            id = item.plan.monthly.id;
-        }
-        // console.log(plans.annually, id);
-        window.open("/pay?plan=" + id);
-    };
-    plans.isCurrentPlan = function(item) {
-        if (!User.info.subscription)
-            return false;
-        return User.info.subscription.braintree_plan.replace('_Monthly', '') == item.name;
-    };
-
-    plans.annually = false;
-
-    $scope.queryPromise = plans.get();
-    $scope.queryPromise.then(function(items) {
-        // console.log(items);
-        if(items.length > 0) {
-            $scope.groupPermissions = items[items.length - 1].groupPermissions;
-        }
-    });
-    $scope.plans = plans;
-    $scope.groupPermissions = [];
-    User.getInfo().then(function() {
-        $scope.userInfo = User.info;
-        if (User.info.login) {
-            $scope.subscription = User.info.subscription;
-        }
-    });
-}]);
-app.controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', function($scope, $location, User, $uibModal) {
-    var profile = {
-        init:function() {
-            var search = $location.search();
-            if (search.active && search.active != this.active) {
-                this.active = Number(search.active);
-            }
-        }
-    };
-    profile.init();
-    $scope.profile = profile;
-    $scope.$watch('profile.active', function(newValue, oldValue) {
-        if (newValue == oldValue)
-            return;
-         $location.search('active', newValue);
-    });
-    $scope.$on('$locationChangeSuccess', function(ev) {
-        // console.log($location.search());
-        profile.init();
-    });
-    $scope.changePwd = function() {
-        return $uibModal.open({
-            templateUrl:'views/profile/changepwd.html',
-            size:'md',
-            animation:true,
-            controller:'ChangepwdController'
-        });
-    };
-    $scope.userPromise = User.getInfo();
-    $scope.userPromise.then(function() {
-        $scope.userInfo = User.info;
-        $scope.user = User.info.user;
-        $scope.User = User;
-    });
-}]);
-app.controller('SubscriptionController', ['$scope', 'User', function($scope, User) {
-    User.getInfo().then(function() {
-        $scope.userInfo = User.info;
-        $scope.subscription = User.info.subscription;
-    });
-}]);
-app.controller('BillingsController', ['$scope', 'User', 'Resource', function($scope, User, Resource) {
-    var billings = new Resource('billings');
-    $scope.billings = billings;
-
-    $scope.beatifyDate = function(dateStr) {
-        return dateStr.split(' ')[0];
-    };
-    User.getInfo().then(function() {
-        $scope.userInfo = User.info;
-        $scope.subscription = User.info.subscription;
-        if (!User.info.login) 
-            return;
-        $scope.queryPromise = billings.get();
-    });
-}]);
-app.controller('ChangepwdController', ['$scope', '$uibModalInstance', '$http', 'settings', function($scope, $uibModalInstance, $http, settings) {
-    var info = {
-        oldpwd:null,
-        newpwd:null,
-        repeatpwd:null
-        };
-    var url = settings.remoteurl + "/changepwd";
-    $scope.info = info;
-    $scope.cancel = function() {
-        $uibModalInstance.dismiss('cancel');
-    };
-    $scope.save = function(item) {
-        console.log($scope.info);
-        // $scope.promise = bookmark.save(item);
-        // $scope.promise.then(function() {
-        //     $uibModalInstance.dismiss('success');
-        // });
-       if (info.newpwd != info.repeatpwd) {
-            info.error = "repeat password is diffrent with new password";
-            return;
-       }
-       $scope.promise = $http.post(url, info);
-       $scope.promise.then(function(res) {
-            var data = res.data;
-            if (Number(data.code) !== 0) {
-                info.error = data.desc;
-                return;
-            }
-            $uibModalInstance.dismiss('save');
-       }, function(res) {
-            info.error = res.statusText;
-       });
-    };
-}]);
-
 /* common js */
 
 if (!app)
@@ -853,6 +447,264 @@ app.service('Resource', ['$resource', 'settings', 'SweetAlert', function($resour
 
 if (!app)
     var app = angular.module('MetronicApp');
+
+app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', function(Resource, $uibModal, SweetAlert, BookmarkItem) {
+    var bookmark = new Resource('bookmark');
+    bookmark.subItems = [];
+    bookmark.addBookmark = function(item) {
+        return $uibModal.open({
+            templateUrl: 'views/bookmark-add-dialog.html',
+            size: 'sm',
+            animation: true,
+            controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+                if (item)
+                    $scope.item = angular.copy(item);
+                else
+                    $scope.item = {
+                        name: ""
+                    };
+                $scope.bookmark = bookmark;
+                $scope.cancel = function() {
+                    $uibModalInstance.dismiss('cancel');
+                };
+                $scope.save = function(item) {
+                    $scope.promise = bookmark.save(item);
+                    $scope.promise.then(function() {
+                        $scope.$emit('bookmarkAdded', item);
+                        $uibModalInstance.dismiss('success');
+                    });
+
+                };
+            }]
+        });
+    };
+    bookmark.delBookmark = function(item) {
+        SweetAlert.swal({
+            title: 'Are you sure?',
+            text: 'All the bookmarks will be removed,too?',
+            type: 'warning',
+            showCancelButton: true,
+            // confirmButtonColor: '#DD6B55',   
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'Cancel',
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm) {
+            if (isConfirm) {
+                bookmark.del(item);
+            }
+        });
+    };
+
+    bookmark.showDetail = function(bid) {
+        var promise = BookmarkItem.get({
+            where: JSON.stringify([
+                ["bid", "=", bid]
+            ])
+        });
+        promise.then(function(items) {
+            bookmark.subItems = items;
+            bookmark.bid = bid;
+            for (var i = 0; i < bookmark.items.length; ++i) {
+                if (bookmark.items[i].id == bid) {
+                    bookmark.currItem = bookmark.items[i];
+                    break;
+                }
+            }
+        });
+        return promise;
+    };
+    return bookmark;
+}]);
+app.factory('BookmarkItem', ['Resource', '$uibModal', 'SweetAlert', function(Resource, $uibModal, SweetAlert) {
+    var bookmarkItem = new Resource('BookmarkItem');
+
+    return bookmarkItem;
+}]);
+
+app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource', '$uibModal', 'User', 'Bookmark', 'BookmarkItem', '$location', 'Searcher', 'SweetAlert', function($scope, settings, $http, Resource, $uibModal, User, Bookmark, BookmarkItem, $location, Searcher, SweetAlert) {
+
+
+    function loadAds(type, bid) {
+        Bookmark.showDetail(bid).then(function(items) {
+            var wanted = [];
+            var wantedAdsers = [];
+            var adSearcher = new Searcher({
+                limit: [0, -1]
+            });
+            var adserSearcher = new Searcher({
+                searchType: 'adser',
+                url: '/forward/adserSearch',
+                limit: [0, -1]
+            });
+            angular.forEach(items, function(item) {
+                if (Number(item.type) === 0 && item.bid == bid) {
+                    wanted.push(item.ident);
+                }
+                if (Number(item.type) === 1 && item.bid == bid) {
+                    wantedAdsers.push(item.ident);
+                }
+            });
+
+            //获取广告
+            if (wanted.length > 0) {
+                adSearcher.addFilter({
+                    field: 'ads_id',
+                    value: wanted.join(',')
+                });
+                adSearcher.filter().then(function(data) {
+                    $scope.ads = data;
+                    $scope.ads.bookmark = true;
+                }, function() {
+                    $scope.ads = {};
+                });
+            }
+
+            //获取广告主
+            if (wantedAdsers.length > 0) {
+                adserSearcher.addFilter({
+                    field: 'adser_username',
+                    value: wantedAdsers.join(',')
+                });
+                adserSearcher.filter().then(function(data) {
+                    $scope.adsers = data;
+                    $scope.adsers.bookmark = true;
+                }, function() {
+                    $scope.adsers = {};
+                });
+            }
+        });
+    }
+
+    function load(type, bid) {
+        loadAds(type, bid);
+        $location.search('bid', bid);
+        $location.search('type', type);
+    }
+
+    function init() {
+        var search = $location.search();
+        if (search.bid) {
+            $scope.bookmark.type = Number(search.type);
+            loadAds(search.type, search.bid);
+        } else {
+            if (search.type)
+                $scope.bookmark.type = Number(search.type);
+            else
+                $scope.bookmark.type = 0;
+            if (Bookmark.items.length) {
+                loadAds($scope.bookmark.type, Bookmark.items[0].id);
+            }
+        }
+
+    }
+    $scope.Searcher = Searcher;
+    $scope.bookmark = Bookmark;
+    //$scope.bookmark.type = 0;//当前显示类型
+    $scope.load = load;
+    $scope.ads = {}; //广告列表
+    $scope.adsers = {}; //广告主列表
+    $scope.cancelBookmark = function(type, card) {
+        SweetAlert.swal({
+            title: 'Are you sure?',
+            text: 'Cancel the ' + type > 0 ? card.adser_username : card.event_id,
+            type: 'warning',
+            showCancelButton: true,
+            // confirmButtonColor: '#DD6B55',   
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'Cancel',
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm) {
+            if (!isConfirm)
+                return;
+            console.log(Bookmark.subItems);
+            angular.forEach(Bookmark.subItems, function(item) {
+                if (type != item.type)
+                    return;
+                if (type === 0 && card.event_id == item.ident) {
+                    BookmarkItem.del(item).then(function() {
+                        for (var i = 0; i < $scope.ads.ads_info.length; ++i) {
+                            if ($scope.ads.ads_info[i] == card) {
+                                $scope.ads.ads_info.splice(i, 1);
+                                break;
+                            }
+                        }
+                    });
+                } else if (type === 1 && card.adser_username == item.ident) {
+                    BookmarkItem.del(item).then(function() {
+                        for (var i = 0; i < $scope.adsers.adser.length; ++i) {
+                            if ($scope.adsers.adser[i] == card) {
+                                $scope.adsers.adser.splice(i, 1);
+                                break;
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    };
+    $scope.$watch('bookmark.type', function(newValue, oldValue) {
+        if (newValue != oldValue) {
+            $location.search("type", newValue);
+        }
+    });
+
+    User.getInfo().then(function() {
+        if (User.info.login)
+            Bookmark.get({
+                uid: User.info.user.id
+            }).then(function() {
+                init();
+            });
+    });
+
+
+    setTimeout(function() {
+        QuickSidebar.init(); // init quick sidebar        
+    }, 200);
+}]);
+
+app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', 'User', '$q', function($scope, Bookmark, BookmarkItem, User, $q) {
+    $scope.select = [];
+    $scope.bookmark = Bookmark;
+    $scope.add = function(card) {
+        var promises = [];
+        for (var i = 0; i < $scope.select.length; i++) {
+            if ($scope.select[i]) {
+                var subItem = {
+                    uid: User.info.user.id,
+                    bid: Bookmark.items[i].id
+                };
+                if (card.event_id) {
+                    subItem.type = 0;
+                    subItem.ident = card.event_id;
+                } else if (card.adser_username) {
+                    subItem.type = 1;
+                    subItem.ident = card.adser_username;
+                }
+                promises.push(BookmarkItem.save(subItem));
+                console.log(subItem);
+            }
+        }
+        $scope.addPromise = $q.all(promises);
+        $scope.addPromise.finally(function() {
+            card.showBookmark = false; //耦合
+        });
+    };
+    if (!Bookmark.queried) {
+        User.getInfo().then(function() {
+            if (User.info.login) {
+                $scope.queryPromise = Bookmark.get({
+                    uid: User.info.user.id
+                });
+            }
+        });
+    }
+}]);
+
+if (!app)
+    var app = angular.module('MetronicApp');
 app.controller('RankingController', ['$scope', 'settings', '$http', 'SweetAlert', '$location', function($scope, settings, $http, SweetAlert, $location) {
     var ranking = {
         active:0,
@@ -930,6 +782,159 @@ app.controller('RankingController', ['$scope', 'settings', '$http', 'SweetAlert'
     });
 }]);
 
+
+if (!app)
+    var app = angular.module('MetronicApp');
+app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope, Resource, User) {
+    var plans = new Resource('plans');
+    plans.getPolicy = function(item, permissionKey, groupKey) {
+        var group = item.groupPermissions[groupKey], policy;
+        var i, finded = false;
+        if (!group)
+            return false;
+        angular.forEach(group, function(groupItem) {
+            if (groupItem.key == permissionKey) {
+                finded = true;   
+            }
+        });
+        if (!finded)
+            return false;
+        for(i = 0;i < item.policies.length; ++i) {
+            policy = item.policies[i];
+            if (policy.key == permissionKey) {
+                return {value:policy.pivot.value, type:policy.type};
+            }
+        }
+
+        return true;
+    };
+
+    plans.goPlanID = function(item) {
+        var id;
+        if (!item.plan)
+            return "";
+        if (plans.annually) {
+            id = item.plan.annually.id;
+        }  else  {
+            id = item.plan.monthly.id;
+        }
+        // console.log(plans.annually, id);
+        window.open("/pay?plan=" + id);
+    };
+    plans.isCurrentPlan = function(item) {
+        if (!User.info.subscription)
+            return false;
+        return User.info.subscription.braintree_plan.replace('_Monthly', '') == item.name;
+    };
+
+    plans.annually = false;
+
+    $scope.queryPromise = plans.get();
+    $scope.queryPromise.then(function(items) {
+        // console.log(items);
+        if(items.length > 0) {
+            $scope.groupPermissions = items[items.length - 1].groupPermissions;
+        }
+    });
+    $scope.plans = plans;
+    $scope.groupPermissions = [];
+    User.getInfo().then(function() {
+        $scope.userInfo = User.info;
+        if (User.info.login) {
+            $scope.subscription = User.info.subscription;
+        }
+    });
+}]);
+app.controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', function($scope, $location, User, $uibModal) {
+    var profile = {
+        init:function() {
+            var search = $location.search();
+            if (search.active && search.active != this.active) {
+                this.active = Number(search.active);
+            }
+        }
+    };
+    profile.init();
+    $scope.profile = profile;
+    $scope.$watch('profile.active', function(newValue, oldValue) {
+        if (newValue == oldValue)
+            return;
+         $location.search('active', newValue);
+    });
+    $scope.$on('$locationChangeSuccess', function(ev) {
+        // console.log($location.search());
+        profile.init();
+    });
+    $scope.changePwd = function() {
+        return $uibModal.open({
+            templateUrl:'views/profile/changepwd.html',
+            size:'md',
+            animation:true,
+            controller:'ChangepwdController'
+        });
+    };
+    $scope.userPromise = User.getInfo();
+    $scope.userPromise.then(function() {
+        $scope.userInfo = User.info;
+        $scope.user = User.info.user;
+        $scope.User = User;
+    });
+}]);
+app.controller('SubscriptionController', ['$scope', 'User', function($scope, User) {
+    User.getInfo().then(function() {
+        $scope.userInfo = User.info;
+        $scope.subscription = User.info.subscription;
+    });
+}]);
+app.controller('BillingsController', ['$scope', 'User', 'Resource', function($scope, User, Resource) {
+    var billings = new Resource('billings');
+    $scope.billings = billings;
+
+    $scope.beatifyDate = function(dateStr) {
+        return dateStr.split(' ')[0];
+    };
+    User.getInfo().then(function() {
+        $scope.userInfo = User.info;
+        $scope.subscription = User.info.subscription;
+        if (!User.info.login) 
+            return;
+        $scope.queryPromise = billings.get();
+    });
+}]);
+app.controller('ChangepwdController', ['$scope', '$uibModalInstance', '$http', 'settings', function($scope, $uibModalInstance, $http, settings) {
+    var info = {
+        oldpwd:null,
+        newpwd:null,
+        repeatpwd:null
+        };
+    var url = settings.remoteurl + "/changepwd";
+    $scope.info = info;
+    $scope.cancel = function() {
+        $uibModalInstance.dismiss('cancel');
+    };
+    $scope.save = function(item) {
+        console.log($scope.info);
+        // $scope.promise = bookmark.save(item);
+        // $scope.promise.then(function() {
+        //     $uibModalInstance.dismiss('success');
+        // });
+       if (info.newpwd != info.repeatpwd) {
+            info.error = "repeat password is diffrent with new password";
+            return;
+       }
+       $scope.promise = $http.post(url, info);
+       $scope.promise.then(function(res) {
+            var data = res.data;
+            if (Number(data.code) !== 0) {
+                info.error = data.desc;
+                return;
+            }
+            $uibModalInstance.dismiss('save');
+       }, function(res) {
+            info.error = res.statusText;
+       });
+    };
+}]);
 
 if (!app)
 	var app = angular.module('MetronicApp');
@@ -1029,6 +1034,10 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					searchurl,
 					params
 				).then(function(res) {
+                    if (res.error) {
+						defer.reject(res);
+                        return;
+                    }
 					vm.isend = res.data.is_end;
 					if (clear && vm.isend) { //检测到结束就清空搜索结果
 						vm.ads = [];
@@ -2447,3 +2456,5 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 			$scope.$emit('competitor', item);
 		};
 	}]);
+
+//# sourceMappingURL=bigbigads.js.map

@@ -96,6 +96,10 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					searchurl,
 					params
 				).then(function(res) {
+                    if (res.error) {
+						defer.reject(res);
+                        return;
+                    }
 					vm.isend = res.data.is_end;
 					if (clear && vm.isend) { //检测到结束就清空搜索结果
 						vm.ads = [];

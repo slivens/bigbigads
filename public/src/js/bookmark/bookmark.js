@@ -100,27 +100,32 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
             });
 
             //获取广告
-            adSearcher.addFilter({
-                field: 'ads_id',
-                value: wanted.join(',')
-            });
-            adSearcher.filter().then(function(data) {
-                $scope.ads = data;
-                $scope.ads.bookmark = true;
-            }, function() {
-                $scope.ads = {};
-            });
+            if (wanted.length > 0) {
+                adSearcher.addFilter({
+                    field: 'ads_id',
+                    value: wanted.join(',')
+                });
+                adSearcher.filter().then(function(data) {
+                    $scope.ads = data;
+                    $scope.ads.bookmark = true;
+                }, function() {
+                    $scope.ads = {};
+                });
+            }
+
             //获取广告主
-            adserSearcher.addFilter({
-                field: 'adser_username',
-                value: wantedAdsers.join(',')
-            });
-            adserSearcher.filter().then(function(data) {
-                $scope.adsers = data;
-                $scope.adsers.bookmark = true;
-            }, function() {
-                $scope.adsers = {};
-            });
+            if (wantedAdsers.length > 0) {
+                adserSearcher.addFilter({
+                    field: 'adser_username',
+                    value: wantedAdsers.join(',')
+                });
+                adserSearcher.filter().then(function(data) {
+                    $scope.adsers = data;
+                    $scope.adsers.bookmark = true;
+                }, function() {
+                    $scope.adsers = {};
+                });
+            }
         });
     }
 
@@ -183,7 +188,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                     BookmarkItem.del(item).then(function() {
                         for (var i = 0; i < $scope.adsers.adser.length; ++i) {
                             if ($scope.adsers.adser[i] == card) {
-                                $scope.adsers.adser[i].splice(i, 1);
+                                $scope.adsers.adser.splice(i, 1);
                                 break;
                             }
                         }

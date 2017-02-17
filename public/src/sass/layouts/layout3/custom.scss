@@ -1,6 +1,9 @@
 
 /* here you can put your own css to customize and override the theme */ 
 $play-btn-size:100px;
+body {
+    min-width:750px;
+}
 .inline {
     display:inline-block;
 }
