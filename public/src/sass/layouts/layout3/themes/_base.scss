@@ -54,7 +54,7 @@ Page Header
 ******/
 
 .page-header {
-    background-color: $header-bg-color;
+   // background-color: $header-bg-color;
 
     /* Page Header Top */
     .page-header-top {
@@ -342,7 +342,7 @@ Page Header
     }
 
     /* Page Header Menu */
-    .page-header-menu,.page-tab-menu {
+    .page-header-menu {
         background: $header-hor-menu-bg-color;
 
         &.fixed {            
@@ -388,7 +388,7 @@ Page Header
                     > a:focus,
                     > a:active {
                         color: $header-hor-menu-default-link-font-color-on-hover ;      
-                        background: $header-hor-menu-default-link-bg-color-on-hover !important;
+                        //background: $header-hor-menu-default-link-bg-color-on-hover !important;
 
                         > i {
                             color: $header-hor-menu-default-link-icon-color-on-hover;
@@ -400,7 +400,7 @@ Page Header
                         > a,
                         > a:hover {
                             color: $header-hor-menu-default-link-font-color-on-active;
-                            background: $header-hor-menu-default-link-bg-color-on-active; 
+                            //background: $header-hor-menu-default-link-bg-color-on-active; 
 
                             > i {
                                 color: $header-hor-menu-default-link-icon-color;

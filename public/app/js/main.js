@@ -1058,7 +1058,15 @@ MetronicApp.controller('HeaderController', ['$scope', function($scope) {
         Layout.initHeader(); // init header
     });
 }]);
-
+MetronicApp.controller('TabMenuController', ['$scope', '$location', function($scope, $location) {
+    var tabmenu = {
+        name: $location.path()
+    };
+    $scope.tabmenu = tabmenu;
+    $scope.$on('$locationChangeSuccess', function() {
+         tabmenu.name = $location.path();
+    });
+}]);
 /* Setup Layout Part - Sidebar */
 MetronicApp.controller('SidebarController', ['$scope', function($scope) {
     $scope.$on('$includeContentLoaded', function() {

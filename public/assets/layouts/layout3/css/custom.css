@@ -8,8 +8,17 @@
 .response-width {
   width: 100%; }
 
-.jqcloud {
-  width: 100%; }
+.page-tab-menu {
+  background-color: #f2784b; }
+  .page-tab-menu .nav li:hover {
+    background-color: #f59c7b; }
+  .page-tab-menu .nav li a {
+    color: white; }
+  .page-tab-menu .nav li a:hover, .page-tab-menu .nav li a:focus {
+    color: white;
+    background-color: #f59c7b; }
+  .page-tab-menu .nav li.active a {
+    background-color: #f59c7b; }
 
 .deckgrid[deckgrid]::before {
   /* Specifies that the grid should have a maximum of 4 columns. Each column will have the classes 'column' and 'column-1-4' */

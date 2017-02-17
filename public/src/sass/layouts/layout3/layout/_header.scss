@@ -529,7 +529,7 @@ Page Header
         margin: 13px 0 0;
     }
 
-    .page-header-menu, .page-tab-menu {
+    .page-header-menu {
         float:left;
         padding: 0;
 
@@ -555,86 +555,6 @@ Page Header
                     }
                 }
 
-                /* Mega menu */
-                > li.mega-menu-dropdown {
-                    position: static;
-
-                    > .dropdown-menu {
-                        left: auto;
-                        width: auto;   
-
-                        .mega-menu-content {
-                            font-family: $font-family-primary;  
-                            padding: 15px;
-                            margin: 0;
-
-                            &.mega-menu-responsive-content {
-                                padding: 10px 18px 10px 45px;
-                            }
-
-                            .mega-menu-submenu {
-                                padding: 0;
-                                margin: 0;
-
-                                &:last-child {
-                                    border-right: 0;
-                                }
-
-                                li {
-                                    padding: 1px !important;
-                                    margin: 0 !important;
-                                    list-style: none;
-
-                                    > h3 {
-                                        margin-top: 5px;
-                                        padding-left: 5px;                  
-                                        font-size: $header-hor-menu-mega-menu-header-font-size;
-                                        font-weight: $header-hor-menu-mega-menu-header-font-weight;
-                                    }
-
-                                    > a { 
-                                        display: block;
-                                        white-space: normal;
-                                        font-family: $font-family-primary;
-                                        padding: 7px;  
-                                        margin: 0;                 
-                                        font-size:  $header-hor-menu-dropdown-menu-link-font-size;
-                                        font-weight:  $header-hor-menu-dropdown-menu-link-font-weight;
-
-                                        &:focus,
-                                        &:hover {
-                                            text-decoration: none;
-                                        }
-
-                                        &.iconify {
-                                            padding: 7px 7px 7px 30px; 
-
-                                            > i {
-                                                position: absolute;
-                                                top: auto !important;
-                                                margin-left: -24px;
-                                                font-size: 15px;
-                                                margin-top: 3px !important;
-                                            }
-                                        }
-
-                                        .badge,
-                                        .label {
-                                            margin-left: 5px; 
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    &.mega-menu-full {
-                        .dropdown-menu {
-                            left: 15px;
-                            right: 15px;
-                        }
-                    }
-                }
 
                 /* Mega Menu Dropdown */
                 > li.menu-dropdown {
@@ -787,7 +707,7 @@ Page Header
 @media (min-width: $screen-md-min) { /* 992px */    
     .page-header {
         /* Page Header Menu */
-        .page-header-menu,.page-tab-menu {
+        .page-header-menu {
             &.fixed {
                 width: 100%;
                 position: fixed;
@@ -861,7 +781,7 @@ Page Header
             }
         }
 
-        .page-header-menu,.page-tab-menu {
+        .page-header-menu {
             background: $page-content-bg-color;
             padding: 20px 0 0 0;
             height: auto;
@@ -951,22 +871,6 @@ Page Header
                         width: auto;
                         background: #fff;
                         display: none;
-                    }
-
-                    li.mega-menu-dropdown {
-                        &.opened {
-                            > .dropdown-menu {
-                                display: block;         
-                                width: 100%;
-                                min-width: inherit !important;                       
-                            }
-                        }
-
-                        > .dropdown-menu {
-                            .mega-menu-content { 
-                                padding-top: 0;
-                            }
-                        }
                     }
 
                     li.classic-menu-dropdown {   

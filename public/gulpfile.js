@@ -75,7 +75,7 @@ gulp.task('concat', function() {
     var target = 'bigbigads.js';
     del.sync(['./app/js/' + target]);
     gulp.src(['./src/js/**/*.js']).pipe(concat(target)).pipe(gulp.dest('./app/js/'));
-    gulp.src(['./app/js/' + target]).pipe(uglify()).pipe(rename({suffix:'.min'})).pipe(gulp.dest('./app/js/'));
+    // gulp.src(['./app/js/' + target]).pipe(uglify()).pipe(rename({suffix:'.min'})).pipe(gulp.dest('./app/js/'));
 });
 
 //*** HTML formatter task
@@ -94,9 +94,9 @@ gulp.task('lint', function()  {
     gulp.src('./src/js/**/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
-    // gulp.src('./app/js/**/*.js')
-    //     .pipe(jshint())
-    //     .pipe(jshint.reporter('default'));
+    gulp.src('./app/js/main.js')
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
 
 });
 

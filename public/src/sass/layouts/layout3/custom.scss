@@ -10,6 +10,33 @@ $play-btn-size:100px;
 .response-width {
     width:100%;
 }
+//头部样式
+$tabmenu-bg-color: #f2784b;
+$tabmenu-font-color: white;
+.page-tab-menu {
+    background-color: $tabmenu-bg-color;
+    .nav {
+        li {
+            &:hover {
+                background-color:lighten($tabmenu-bg-color, 10%);
+            }
+            a {
+                color:$tabmenu-font-color;
+            }
+
+            a:hover,a:focus {
+                color:$tabmenu-font-color;
+                background-color:lighten($tabmenu-bg-color, 10%);
+            }
+        }
+        li.active {
+            a {
+                background-color:lighten($tabmenu-bg-color, 10%);
+            }
+        }
+    }
+}
+
 //sortable指令的
 .deckgrid   {
 }
