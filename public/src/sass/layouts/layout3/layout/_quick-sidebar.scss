@@ -31,18 +31,19 @@ Quick Sidebar Layout
 	//background: $brand-main-color;
 	width: 56px;
 	height: 56px;
+    border-radius:50%;
 
 	i {
 		padding: 5px;
 		font-size: 20px;
 		color: white;
 
-		&:before {
-			content: "\e065"#{'/*rtl:"\e066"*/'};  				
-		}
+// 		&:before {
+// 			content: "\e065"#{'/*rtl:"\e066"*/'};  				
+// 		}
 
-		.page-quick-sidebar-open &:before {
-			content: "\e066"#{'/*rtl:"\e065"*/'};
-		}
+// 		.page-quick-sidebar-open &:before {
+// 			content: "\e066"#{'/*rtl:"\e065"*/'};
+// 		}
 	}
 }

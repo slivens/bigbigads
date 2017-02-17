@@ -1046,15 +1046,12 @@ Quick Sidebar Layout
   outline: none;
   position: fixed;
   width: 56px;
-  height: 56px; }
+  height: 56px;
+  border-radius: 50%; }
   .quick-sidebar-toggler i {
     padding: 5px;
     font-size: 20px;
     color: white; }
-    .quick-sidebar-toggler i:before {
-      content: ""/*rtl:""*/; }
-    .page-quick-sidebar-open .quick-sidebar-toggler i:before {
-      content: ""/*rtl:""*/; }
 
 /* Page Portlet Fullscreen */
 .page-portlet-fullscreen .page-quick-sidebar-wrapper,
@@ -1092,7 +1089,7 @@ Quick Sidebar Layout
   transition: left 0.3s;
   z-index: 999;
   position: fixed;
-  top: 0;
+  top: 126px;
   bottom: 0;
   width: 320px;
   left: -320px;

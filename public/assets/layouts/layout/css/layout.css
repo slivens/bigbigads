@@ -1982,7 +1982,7 @@ Page Quick Sidebar
   transition: left 0.3s;
   z-index: 10500;
   position: fixed;
-  top: 0;
+  top: 50px;
   bottom: 0;
   width: 320px;
   left: -320px;
