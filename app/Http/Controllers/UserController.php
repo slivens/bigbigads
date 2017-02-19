@@ -49,7 +49,11 @@ class UserController extends Controller
             $res['user'] = $user;
             //将购买的相关计划也要返回，必须缓存，这一步很慢
             if ($user->hasBraintreeId()) {
-                $res['subscription'] = $user->subscriptions->first();
+                $subscription = Cache::get($user->braintree_id, $user->subscriptions->first()->toJson());
+                $res['subscription'] = $subscription;
+                if (!Cache::has($user->braintree_id)) {
+                    Cache::put($user->braintree_id, $subscription);
+                }
             }
             $res['permissions'] = $user->role->permissions->groupBy('key');
             $res['groupPermissions'] = $user->role->permissions->groupBy('table_name');

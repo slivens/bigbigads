@@ -1168,7 +1168,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             }
         })
         .state('adser', {
-            url: '/adsearch/{adser}?n={name}',
+            url: '/adsearch/{adser}/{name}',
             templateUrl:"views/adser.html",
             data: {
                 pageTitle: 'Specific Advertise'
@@ -1194,6 +1194,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
+                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
+                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
+                            '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             'js/bigbigads.js'
                         ]
                     });
