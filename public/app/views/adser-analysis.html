@@ -359,7 +359,7 @@
                                         </tr>
                                         <tr ng-repeat="item in card.top_duration"> 
                                             <td>{{$index+1}}</td>
-                                            <td><a ng-click="openAd(item.event_id)">{{item.event_id}}</a></td>
+                                            <td><button class="btn btn-link" ng-click="openAd(item.event_id)">{{item.event_id}}</button></td>
                                             <td>{{item.duration_days}}</td>
                                             <td>{{item.see_date}}</td>
                                             <td>{{item.type}}</td>
@@ -378,7 +378,7 @@
                                         </tr>
                                         <tr ng-repeat="item in card.top_engagements"> 
                                             <td>{{$index+1}}</td>
-                                            <td><a ng-click="openAd(item.event_id)">{{item.event_id}}</a></td>
+                                            <td><button class="btn btn-link" ng-click="openAd(item.event_id)">{{item.event_id}}</button></td>
                                             <td>{{item.engagements}}</td>
                                             <td>{{item.see_date}}</td>
                                             <td>{{item.type}}</td>
@@ -399,7 +399,7 @@
                                         </tr>
                                         <tr ng-repeat="item in card.top_first_see"> 
                                             <td>{{$index+1}}</td>
-                                            <td><a ng-click="openAd(item.event_id)">{{item.event_id}}</a></td>
+                                            <td><button class="btn btn-link" ng-click="openAd(item.event_id)">{{item.event_id}}</button></td>
                                             <td>{{item.first_see}}</td>
                                             <td>{{item.see_date}}</td>
                                             <td>{{item.type}}</td>
@@ -418,7 +418,7 @@
                                         </tr>
                                         <tr ng-repeat="item in card.top_last_see"> 
                                             <td>{{$index+1}}</td>
-                                            <td><a ng-click="openAd(item.event_id)">{{item.event_id}}</a></td>
+                                            <td><button class="btn btn-link" ng-click="openAd(item.event_id)">{{item.event_id}}</button></td>
                                             <td>{{item.last_see}}</td>
                                             <td>{{item.see_date}}</td>
                                             <td>{{item.type}}</td>
