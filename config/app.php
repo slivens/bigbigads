@@ -166,7 +166,8 @@ return [
         /*
          * Package Service Providers...
          */
-        App\Providers\VoyagerServiceProvider::class,
+        TCG\Voyager\VoyagerServiceProvider::class,
+        /* App\Providers\VoyagerServiceProvider::class, */
         Intervention\Image\ImageServiceProvider::class,
         //
 
