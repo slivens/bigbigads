@@ -2,7 +2,7 @@
 <div class="aditem-desc">
     <!-- begin SingleImage -->
     <div>
-        <div><span ng-bind-html="card.message | toHtml"></span></div>
+        <div class="xg-span-message"><span ng-bind-html="card.message | toHtml"></span></div>
         <div class="text-center mt-element-overlay">
                 <div class="mt-overlay-1">
                     <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.watermark}}" alt="">
@@ -24,16 +24,16 @@
             <div class="pull-right" ng-if="card.buttondesc">
                 <a href="{{card.buttonlink}}" class="label label-sm label-warning" target="_blank">{{card.buttondesc}}</a>
             </div>
-            <div>
+            <div class="xg-span-name">
                 <span ng-bind-html="card.name | toHtml"></span>
             </div>
         </div>
 
-        <p>
+        <p class="xg-span-description">
             <span ng-bind-html="card.description | toHtml"></span>
         </p>
         <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
-            <label class="label label-sm label-success">{{card.caption}}</label>
+            <label class="label-xg-bgcolor label label-sm label-success">{{card.caption}}</label>
         </div>
     </div>
     <!-- end SingleImage -->

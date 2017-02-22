@@ -3,7 +3,7 @@
     <!-- begin Carousel -->
     <div class="clearfix">
 
-		<div><span ng-bind-html="card.message | toHtml"></span></div>
+		<div class="xg-span-message"><span ng-bind-html="card.message | toHtml"></span></div>
         <uib-carousel active="card.active" no-wrap="true">
             <uib-slide ng-repeat="slide in card.watermark track by $index" index="$index">
                 <div class="text-center mt-element-overlay">
@@ -29,17 +29,17 @@
             <div class="pull-right" ng-if="card.buttondesc">
                 <a href="{{card.buttonlink[card.active]}}" class="label label-sm label-warning" target="_blank">{{card.buttondesc[card.active]}}</a>
             </div>
-            <div>
+            <div class="xg-span-name">
                 <span ng-bind-html="card.name[card.active] | toHtml"></span>
             </div>
         </div>
-		<p>
+		<p class="xg-span-description">
 			<span ng-bind-html="card.description[card.active] | toHtml"></span>
 		</p>
       </div>
     <!-- End Carousel -->
     <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
-        <label class="label label-sm label-warning">{{card.caption}}</label>
+        <label class="label-xg-bgcolor label label-sm label-warning">{{card.caption}}</label>
     </div>
 </div>
 <!-- end description -->
