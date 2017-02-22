@@ -485,14 +485,19 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
                                 value.name = JSON.parse(value.name);
                                 value.description = JSON.parse(value.description);
                                 value.local_picture = JSON.parse(value.local_picture);
-                                // if (value.snapshot && value.snapshot != "")
-                                //      value.snapshot = JSON.parse(value.snapshot);
+                                /*if (value.snapshot && value.snapshot != ""){
+                                   value.snapshot = JSON.parse(value.snapshot);
+                                }*/
+                                      
                             } else if (value.type == vm.ADS_CONT_TYPE.CANVAS) {
                                 value.link = JSON.parse(value.link);
                                 value.local_picture = JSON.parse(value.local_picture);
                                 if (vm.getAdsType(value, vm.ADS_TYPE.rightcolumn)) {
                                     value.watermark = JSON.parse(value.watermark);
                                 }
+                                /*if (value.snapshot && value.snapshot != ""){
+                                   value.snapshot = JSON.parse(value.snapshot);
+                                }*/
                             } else if (value.type == vm.ADS_CONT_TYPE.SINGLE_VIDEO) {
                                 value.local_picture = JSON.parse(value.local_picture);
                             }
