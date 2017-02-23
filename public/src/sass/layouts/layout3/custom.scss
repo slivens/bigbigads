@@ -177,3 +177,38 @@ $tabmenu-font-color: white;
     border:1px solid #eee;
 }
 
+//xgrit 卡片样式修改
+//仿fb
+.xg-span-message {
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.38;
+}
+
+.xg-span-name {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 22px;
+    color: #1d2129;
+}
+
+.xg-span-description {
+    line-height: 16px;
+    max-height: 80px;
+    overflow: hidden;
+    color: #1d2129;
+    font-size: 12px;
+}
+
+.xg-label-caption {
+    color: #90949c !important;
+    background-color: #fff !important;
+}
+
+.xg-a-likepage{
+    background-color: #f6f7f9 !important;
+    border-color: #ced0d4; 
+    color: #939393 !important;
+    border: 1px solid;
+    border-radius: 2px;
+}
