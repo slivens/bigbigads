@@ -6,7 +6,7 @@
         <!-- timeline and rightcolumn are diffrent view -->
         <!-- begin timeline canvas-->
         <div class="text-center mt-element-overlay" ng-if="Searcher.getAdsType(card, Searcher.ADS_TYPE.timeline)">
-            <div class="mt-overlay-1">
+            <div class="mt-overlay-1 xg-margin-bottom">
                 <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.watermark}}" alt="">
                 <div class="mt-overlay">
                     <ul class="mt-info">
@@ -47,8 +47,8 @@
         <!-- end rightcolumn canvas -->
 
         <div class="h5">
-            <div class="pull-right" ng-if="card.buttondesc">
-                <a href="{{card.buttonlink}}" class="label label-sm label-warning" target="_blank">{{card.buttondesc}}</a>
+            <div class="xg-label-caption pull-right" ng-if="card.buttondesc">
+                <a href="{{card.buttonlink}}" class="xg-a-likepage label label-sm label-warning" target="_blank">{{card.buttondesc}}</a>
             </div>
             <div class="xg-span-name">
                 <span ng-bind-html="card.name | toHtml"></span>
@@ -66,24 +66,24 @@
 </div>
 <!-- end description -->
 <div class="aditem-footer" ng-show="!card.indetail">
-    <hr>
+    <hr class="xg-p-margin">
     <i class="fa fa-link fa-fw"></i>
     <a href="{{card.link[0]}}" class="adlink" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top" popover-title="Snapshot" popover-is-open="card.popup" ng-mouseenter="card.popup=true" ng-mouseleave="card.popup=false" >{{card.link[0]}}</a>
 
     <span ng-show="card.views">
-        <i class="fa fa-eye"></i>
+        <i class="xg-icon xg-icon-video"></i>
         {{card.views}}
     </span>
-    <span ng-show="card.comments" >
-        <i class="fa fa-comment"></i>
-        {{card.comments}}
-    </span>
     <span ng-show="card.likes" >
-        <i class="fa fa-heart" ></i>
+        <i class="fa fa-thumbs-up" ></i>
         {{card.likes}}
     </span>
+    <span ng-show="card.comments" >
+        <i class="xg-icon xg-icon-comment"></i>
+        {{card.comments}}
+    </span>
     <span ng-show="card.shares" >
-        <i class="fa fa-share-alt"></i>
+        <i class="xg-icon xg-icon-share"></i>
         {{card.shares}}
     </span>
 </div>

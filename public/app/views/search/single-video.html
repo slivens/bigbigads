@@ -14,7 +14,7 @@
         </div>
         <div class="h5">
             <div class="pull-right" ng-if="card.buttondesc">
-                <a href="{{card.buttonlink}}" class="label label-sm label-warning" target="_blank">{{card.buttondesc}}</a>
+                <a href="{{card.buttonlink}}" class="xg-a-likepage xg-label" target="_blank">{{card.buttondesc}}</a>
             </div>
             <div class="xg-span-name">
                 <span ng-bind-html="card.name | toHtml"></span>
@@ -32,23 +32,23 @@
 </div>
 <!-- end description -->
 <div class="aditem-footer" ng-show="!card.indetail">
-    <hr>
+    <hr class="xg-p-margin">
     <i class="fa fa-link"></i>
     <a href="{{card.link}}" class="adlink" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top" popover-title="Snapshot" popover-is-open="card.popup" ng-mouseenter="card.popup=true" ng-mouseleave="card.popup=false" >{{card.link}}</a>
     <span ng-show="card.views">
-        <i class="fa fa-eye"></i>
+        <i class="xg-icon xg-icon-video"></i>
         {{card.views}}
     </span>
-    <span ng-show="card.comments">
-        <i class="fa fa-comment"></i>
-        {{card.comments}}
-    </span>
     <span ng-show="card.likes">
-        <i class="fa fa-heart" ></i>
+        <i class="fa fa-thumbs-up" ></i>
         {{card.likes}}
     </span>
+    <span ng-show="card.comments">
+        <i class="xg-icon xg-icon-comment"></i>
+        {{card.comments}}
+    </span>  
     <span ng-show="card.shares">
-        <i class="fa fa-share-alt"></i>
+        <i class="xg-icon xg-icon-share"></i>
         {{card.shares}}
     </span>
 </div>
