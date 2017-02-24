@@ -14,15 +14,17 @@
                     <i class="fa fa-users font-yellow-gold"></i>
                 </button>
             </div>
-            <span class="font-yellow_gold">ads_id:</span> <a ui-sref="adAnalysis({id:card.event_id})"  ui-sref-opts="{reload:false}" class="font-yellow-gold ">{{card.event_id}}</a><br/>
+            <!-- <span class="font-yellow_gold">ads_id:</span> --> 
+            <br/>
             <i class="fa fa-calendar font-yellow-gold fa-fw"></i><span>{{card.first_see}}~{{card.last_see}}</span>
             <i class="fa fa-clock-o font-yellow-gold fa-fw"></i><span>{{card.duration_days}}</span>
             <i class="fa fa-eye font-yellow-gold  fa-fw"></i><span>{{card.see_date}}</span>
-            <p/>
+            <a ui-sref="adAnalysis({id:card.event_id})"  ui-sref-opts="{reload:false}" class="font-yellow-gold "><i class="fa fa-line-chart font-yellow-gold fa-fw"></i></a>    
+            <p class="xg-p-margin"></p>
             <div>
-                <i class="fa fa-share-alt fa-3x font-yellow-gold"  ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.timeline)"></i>
+                <!--<i class="fa fa-share-alt fa-3x font-yellow-gold"  ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.timeline)"></i>
                 <i class="fa fa-columns fa-3x font-yellow-gold"  ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.rightcolumn)"></i>
-                <i class="fa fa-mobile font-yellow-gold  fa-3x" ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.mobile)"></i>
+                 <i class="fa fa-mobile font-yellow-gold  fa-3x" ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.mobile)"></i> -->
             </div>
         </div>
 
@@ -35,7 +37,7 @@
             </div>
             <div class="col-md-9">
                 <div class="margin-bottom-5">
-                    <a ui-sref="adser({name:card.adser_name, adser:card.adser_username})">
+                    <a class="xg-adsername" ui-sref="adser({name:card.adser_name, adser:card.adser_username})">
                         <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
                         <span ng-show="!card.adser_name">{{card.adser_username}}</span>
                     </a>
@@ -44,7 +46,7 @@
                 Sponsored
                 </div>
                 <div class="pull-right">
-                    <a href="https://www.facebook.com/{{card.adser_username}}" class="label label-sm label-warning" ng-show="card.likepage" target="_blank"> <i class="fa fa-thumbs-up blue"></i>Like Page</a>
+                    <a href="https://www.facebook.com/{{card.adser_username}}" class="xg-a-likepage xg-label" ng-show="card.likepage" target="_blank"> <i class="fa fa-thumbs-up blue xg-space"></i>Like Page</a>
                 </div>
             </div>
         </div>

@@ -357,12 +357,12 @@
 				border-color: darken($brand-warning, 10%);	
 			}
 			>.ribbon-sub{
-				background-color: $brand-warning;
+				background-color: #e87e04/*$brand-warning*/;
 				color:darken($brand-warning, 50%);
 				&:after{
 					border-color: darken($brand-warning, 30%);
-					border-left-color: $brand-warning;
-					border-right-color: $brand-warning;
+					border-left-color: #e87e04/*$brand-warning*/;
+					border-right-color: #e87e04/*$brand-warning*/;
 				}
 			}
 		}
