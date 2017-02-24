@@ -36,14 +36,7 @@ Customized Bootstrap Labels
 }
 
 .label-success {
-  /*@include label-variant($brand-success);*/
-    color: #90949c !important;
-    background-color: #fff !important;
-}
-
-.label-xg-bgcolor {
-      color: #90949c !important;
-      background-color: #fff !important;
+  @include label-variant($brand-success);
 }
 
 .label-info {
@@ -51,37 +44,11 @@ Customized Bootstrap Labels
 }
 
 .label-warning {
-  /* @include label-variant($brand-warning); */
-  background-color: #f6f7f9;
-  border-color: #ced0d4; 
-  color: #939393;
-  border: 1px solid;
-  border-radius: 2px;
+  @include label-variant($brand-warning);
 }
 
 .label-danger {
   @include label-variant($brand-danger);
-}
-
-.xg-span-message {
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 1.38;
-}
-
-.xg-span-name {
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 22px;
-    color: #1d2129;
-}
-
-.xg-span-description {
-    line-height: 16px;
-    max-height: 80px;
-    overflow: hidden;
-    color: #1d2129;
-    font-size: 12px;
 }
 
 /***
