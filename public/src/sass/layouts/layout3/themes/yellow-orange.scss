@@ -127,11 +127,11 @@ $header-top-menu-task-dropdown-progress-bg-color:						#dfe2e9;
 // Top Menu Notifications
 $header-top-menu-notification-time-bg-color:							lighten(#eee, 1%);
 
-$header-top-menu-dropdown-dark-bg-color: 								darken($header-hor-menu-bg-color, 10%);
+$header-top-menu-dropdown-dark-bg-color: 								#f27858;
 $header-top-menu-dropdown-dark-header-bg-color:							darken($header-top-menu-dropdown-dark-bg-color, 3%);
 $header-top-menu-dropdown-dark-header-font-color:						lighten($header-top-menu-dropdown-dark-header-bg-color, 50%);
 
-$header-top-menu-dropdown-dark-item-font-color:							#aaafb7;  
+$header-top-menu-dropdown-dark-item-font-color:							white;  
 $header-top-menu-dropdown-dark-item-border-color:						lighten($header-top-menu-dropdown-dark-bg-color, 6%);
 $header-top-menu-dropdown-dark-item-icon-color:							#6FA7D7;
 $header-top-menu-dropdown-dark-item-bg-color-on-hover:					lighten($header-top-menu-dropdown-dark-bg-color, 4%);
