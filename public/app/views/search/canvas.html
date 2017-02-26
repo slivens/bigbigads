@@ -6,20 +6,10 @@
         <!-- timeline and rightcolumn are diffrent view -->
         <!-- begin timeline canvas-->
         <div class="text-center mt-element-overlay" ng-if="Searcher.getAdsType(card, Searcher.ADS_TYPE.timeline)">
-            <div class="mt-overlay-1 xg-margin-bottom">
-                <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.watermark}}" alt="">
-                <div class="mt-overlay">
-                    <ul class="mt-info">
-                        <li>
-                            <a class="btn default btn-outline" fancybox ng-href="{{settings.imgRemoteBase + card.local_picture}}">
-                                <i class="icon-magnifier"></i>
-                            </a>
-                            <a class="btn default btn-outline" ng-href="https://www.facebook.com/{{card.adser_username}}/posts/{{card.event_id}}" target="_blank"  ng-if="Searcher.getAdsType(card, Searcher.ADS_TYPE.timeline)" >
-                                <i class="icon-link"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="xg-margin-bottom">
+                <a fancybox ng-href="{{settings.imgRemoteBase + card.local_picture}}">
+                    <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.watermark}}" alt="">
+                </a>
             </div>
         </div>
         <!-- end timeline canvas -->
@@ -27,20 +17,10 @@
         <div class="text-center mt-element-overlay" ng-if="Searcher.getAdsType(card, Searcher.ADS_TYPE.rightcolumn)">
 
             <div ng-repeat="item in card.watermark">
-                <div class="mt-overlay-1">
-                    <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.watermark[$index]}}" alt="">
-                    <div class="mt-overlay">
-                        <ul class="mt-info">
-                            <li>
-                                <a class="btn default btn-outline" fancybox ng-href="{{settings.imgRemoteBase + card.local_picture[$index]}}">
-                                    <i class="icon-magnifier"></i>
-                                </a>
-                                <!-- <a class="btn default btn-outline" ng-href="https://www.facebook.com/{{card.adser_username}}/posts/{{card.event_id}}" target="_blank"> -->
-                                <!--     <i class="icon-link"></i> -->
-                                <!-- </a> -->
-                            </li>
-                        </ul>
-                    </div>
+                <div>
+                    <a fancybox ng-href="{{settings.imgRemoteBase + card.local_picture[$index]}}">
+                        <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.watermark[$index]}}" alt="">
+                    </a>
                 </div>
             </div>
         </div>

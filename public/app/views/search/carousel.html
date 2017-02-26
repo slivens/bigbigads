@@ -7,20 +7,11 @@
         <uib-carousel active="card.active" no-wrap="true">
             <uib-slide ng-repeat="slide in card.watermark track by $index" index="$index">
                 <div class="text-center mt-element-overlay">
-                    <div class="mt-overlay-1 xg-margin-bottom">
-                        <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + slide.source}}" alt="">
-                        <div class="mt-overlay">
-                            <ul class="mt-info">
-                                <li>
-                                    <a class="btn default btn-outline" fancybox ng-href="{{settings.imgRemoteBase + card.local_picture[$index].source}}" rel="group{{card.event_id}}">
-                                        <i class="icon-magnifier"></i>
-                                    </a>
-                                    <a class="btn default btn-outline" ng-href="https://www.facebook.com/{{card.adser_username}}/posts/{{card.event_id}}" target="_blank" ng-if="Searcher.getAdsType(card, Searcher.ADS_TYPE.timeline)" >
-                                        <i class="icon-link"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="xg-margin-bottom">
+                        <a  fancybox ng-href="{{settings.imgRemoteBase + card.local_picture[$index].source}}" rel="group{{card.event_id}}">
+                            <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + slide.source}}" alt="">
+
+                        </a>
                     </div>
                 </div>
             </uib-slide>

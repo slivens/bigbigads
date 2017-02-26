@@ -13,6 +13,9 @@ body {
 .response-width {
     width:100%;
 }
+.navbar-fixed-top  {
+    z-index:500 !important;
+}
 //头部样式
 $tabmenu-bg-color: #f2784b;
 $tabmenu-font-color: white;
