@@ -13,15 +13,28 @@
             <!-- BEGIN MEGA MENU -->
             <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
             <!-- DOC: Remove dropdown-menu-hover and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
-            <div class="hor-menu">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a class="font-yellow-gold" ui-sref="adsearch">Facebook</a>
-                    </li>
-                    <li class="disabled">
-                        <a>Instgram</a>
-                    </li>
-                </ul>
+            <div class="hor-menu" ng-controller="TabMenuController" >
+
+                <!-- BEGIN MEGA MENU -->
+                    <ul class="nav navbar-nav">
+                        <li ng-class="{active:tabmenu.name == '/adsearch'}">
+                            <a ui-sref="adsearch" ui-sref-opts="{reload:true}">AD Search</a>
+                        </li>
+
+                        <li ng-class="{active:tabmenu.name == '/adserSearch'}">
+                            <a ui-sref="adserSearch" ui-sref-opts="{reload:true}">Advertiser Search</a>
+                        </li>
+                        <li ng-class="{active:tabmenu.name == '/ranking'}">
+                            <a ui-sref="ranking" ui-sref-opts="{reload:true}">Ranking</a>
+                        </li>
+                        <li ng-class="{active:tabmenu.name == '/bookmark'}">
+                            <a ui-sref="bookmark" ui-sref-opts="{reload:true}">Bookmark</a>
+                        </li>
+                        <li class="disabled">
+                            <a href="#">Moniter</a>
+                        </li>
+                    </ul>
+                <!-- END MEGA MENU -->
             </div>
             <!-- END MEGA MENU -->
         </div>
@@ -78,31 +91,5 @@
 
     </div>
 
-<!-- BEGIN TAB MENU -->
-<div class="page-tab-menu" ng-controller="TabMenuController">
-    <div class="container-fluid">
-        <!-- BEGIN MEGA MENU -->
-            <ul class="nav navbar-nav">
-                <li ng-class="{active:tabmenu.name == '/adsearch'}">
-                    <a ui-sref="adsearch" ui-sref-opts="{reload:true}">AD Search</a>
-                </li>
-
-                <li ng-class="{active:tabmenu.name == '/adserSearch'}">
-                    <a ui-sref="adserSearch" ui-sref-opts="{reload:true}">Advertiser Search</a>
-                </li>
-                <li ng-class="{active:tabmenu.name == '/ranking'}">
-                    <a ui-sref="ranking" ui-sref-opts="{reload:true}">Ranking</a>
-                </li>
-                <li ng-class="{active:tabmenu.name == '/bookmark'}">
-                    <a ui-sref="bookmark" ui-sref-opts="{reload:true}">Bookmark</a>
-                </li>
-                <li class="disabled">
-                    <a href="#">Moniter</a>
-                </li>
-            </ul>
-        <!-- END MEGA MENU -->
-    </div>
-</div>
-<!-- END TAB MENU -->
 </div>
 <!-- END HEADER TOP -->

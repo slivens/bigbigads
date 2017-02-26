@@ -135,7 +135,7 @@ Custom color buttons
     .btn:not(.md-skip):not(.bs-select-all):not(.bs-deselect-all) {
         font-size: 12px;
         font-weight: 600;
-        text-transform: uppercase;    
+        //text-transform: uppercase;    
         transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
         @include border-radius($general-border-radius);          
         overflow: hidden;  

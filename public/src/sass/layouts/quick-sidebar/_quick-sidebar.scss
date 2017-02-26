@@ -57,13 +57,14 @@ $quick-sidebar-font-color:											    black;
 /* Quick sidebar wrapper */
 
 .page-quick-sidebar-wrapper {
-	transition: left 0.3s;	
+	//transition: left 0.3s;	
 	z-index: $zindex-quick-sidebar;
 	position: fixed;
 	top: $header-height;
 	bottom: 0;
 	width: $quick-sidebar-width;  
-	left: -$quick-sidebar-width;
+    left:0;
+	//left: -$quick-sidebar-width;
 	overflow: hidden;
 	color: lighten($quick-sidebar-font-color, 10%);
 	background: $quick-sidebar-bg-color;
