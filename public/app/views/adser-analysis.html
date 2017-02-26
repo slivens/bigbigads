@@ -1,6 +1,43 @@
 <div ng-controller="AdserAnalysisController">
+
+        <!-- BEGIN MENU -->
+        <div class="page-quick-sidebar-wrapper adser-analysis-sidebar">
+            <ul role="tablist" class="nav nav-pills nav-stacked text-center">
+                <li>
+                    <a href="#overview">
+                        <i class="fa fa-bar-chart fa-2x font-yellow-gold"></i>
+                        <div>Overview</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#audience">
+                        <i class="fa fa-eye fa-2x font-yellow-gold"></i>
+                        <div>Audience</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#curve">
+                        <i class="fa fa-envelope fa-2x font-yellow-gold"></i>
+                        <div>Curve</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#tops">
+                        <i class="fa fa-link fa-2x font-yellow-gold"></i>
+                        <div>Top</div>
+                    </a>
+                </li>
+                <li class="disabled">
+                    <a href="#related">
+                        <i class="fa fa-feed fa-2x font-yellow-gold"></i>
+                        <div>Related</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- END MENU-->
     <!-- BEGIN MAIN CONTENT -->
-    <div class="row">
+    <div class="adser-analysis-content">
         <div class="col-md-12">
             <!-- BEGIN: ACCORDION DEMO -->
             <div class="portlet light bordered">
@@ -11,52 +48,17 @@
                         <span class="caption-helper hide"></span>
                     </div>
                     <div class="actions">
-                        <a class="btn btn-circle btn-icon-only btn-default" ui-sref="adsearch">
-                            <i class="icon-action-undo"></i>
+                        <a class="btn btn-outline blue" ui-sref="adsearch">
+                            <i class="fa fa-caret-left"></i>
+                            BACK TO RESULTS
                         </a>
                     </div>
                 </div>
                 <!-- portlet body -->
                 <div class="portlet-body">
                     <div class="row">
-                        <!-- BEGIN MENU -->
-                        <div class="col-xs-2">
-                            <ul role="tablist" class="nav nav-pills nav-stacked text-center">
-                                <li>
-                                    <a href="#overview">
-                                        <i class="fa fa-bar-chart fa-2x font-yellow-gold"></i>
-                                        <div>Overview</div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#audience">
-                                        <i class="fa fa-eye fa-2x font-yellow-gold"></i>
-                                        <div>Audience</div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#curve">
-                                        <i class="fa fa-envelope fa-2x font-yellow-gold"></i>
-                                        <div>Curve</div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#tops">
-                                        <i class="fa fa-link fa-2x font-yellow-gold"></i>
-                                        <div>Top</div>
-                                    </a>
-                                </li>
-                                <li class="disabled">
-                                    <a href="#related">
-                                        <i class="fa fa-feed fa-2x font-yellow-gold"></i>
-                                        <div>Related</div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- END MENU-->
                         <!-- BEGIN CONTENT-->
-                        <div class="col-xs-10" id="ad">
+                        <div class="col-xs-12" id="ad">
                             <div id="overview">
                                 <h4 class="font-yellow-gold">
                                         Overview &nbsp;&nbsp;
