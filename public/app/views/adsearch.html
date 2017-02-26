@@ -35,9 +35,6 @@
                     </div>
                 </div>
                 <div class="alert alert-warning margin-top-10" ng-show="currSearchOption.isdirty">
-                    <div>
-                        <h4><a ng-click="clearSearch()">Clear Search</a></h4>
-                    </div>
                     <div ng-if="currSearchOption.search.text">Search Text:{{currSearchOption.search.text}}</div>
                     <div ng-if="currSearchOption.filter.type">Media Type:{{currSearchOption.filter.type}}</div>
                     <div ng-if="currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Date:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}}</div>

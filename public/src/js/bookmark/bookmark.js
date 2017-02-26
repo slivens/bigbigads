@@ -108,6 +108,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                 adSearcher.filter().then(function(data) {
                     $scope.ads = data;
                     $scope.ads.bookmark = true;
+                    console.log("ads", $scope.ads);
                 }, function() {
                     $scope.ads = {};
                 });
