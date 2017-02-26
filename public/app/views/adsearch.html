@@ -10,17 +10,17 @@
                         <!-- BEGIN HEADER SEARCH BOX -->
                         <form class="search-form" ng-submit="search()">
                                 <div class="col-xs-8">
-                                <div class="input-group">
-                                    <input type="text" class="form-control input-lg" placeholder="Search" ng-model="adSearcher.searchOption.search.text">
-                                    <span class="input-group-addon">
-                                        <select class="bs-select" data-width="150px" ng-model="filterOption.type" >
-                                            <option value="" >ALL</option>
-                                            <option policy-lock ng-repeat="item in settings.searchSetting.adsTypes" value="{{item.key}}" key="platform" val="{{item.key}}">
-                                            {{item.value}}
-                                            </option>
-                                        </select>
-                                    </span>
-                                </div>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control input-lg" placeholder="Search" ng-model="adSearcher.searchOption.search.text">
+                                        <span class="input-group-addon">
+                                            <select class="bs-select" data-width="150px" ng-model="filterOption.type" >
+                                                <option value="" >ALL</option>
+                                                <option policy-lock ng-repeat="item in settings.searchSetting.adsTypes" value="{{item.key}}" key="platform" val="{{item.key}}">
+                                                {{item.value}}
+                                                </option>
+                                            </select>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="col-xs-4">
                                 <button type="submit" class="btn yellow-gold btn-lg">

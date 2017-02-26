@@ -1,5 +1,5 @@
 <!-- BEGIN PAGE BREADCRUMB -->
-<div ng-controller="AdserController">
+<div ng-controller="AdserController" class="ml-sidebar">
 <ul class="page-breadcrumb breadcrumb">
     <li>
         <a ui-sref="adsearch">ad search</a>
@@ -66,9 +66,9 @@
 <!-- END MAIN CONTENT -->
 
 <!-- sidebar and sidebar controller -->
- <button type="button" class="quick-sidebar-toggler bg-yellow-gold" data-toggle="collapse">
-			<span class="sr-only">Toggle Filter Sidebar</span>
-			<i class="icon-grid"></i>
- </button>
+ <!-- <button type="button" class="quick-sidebar-toggler bg-yellow-gold" data-toggle="collapse"> -->
+			<!-- <span class="sr-only">Toggle Filter Sidebar</span> -->
+			<!-- <i class="icon-grid"></i> -->
+ <!-- </button> -->
 
  <div data-ng-include="'tpl/quick-sidebar.html'" data-ng-controller="QuickSidebarController" class="page-quick-sidebar-wrapper"></div>
