@@ -324,6 +324,28 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }]
         };
     })
+    .directive('fixsidebar', ['$timeout', '$interval', function($timeout, $interval) {
+        return {
+            link:function(scope, element, attrs) {
+                var oldtop = 0;
+                $timeout(function() {
+                    oldtop = element[0].getBoundingClientRect().top;
+                    if (oldtop < 20)
+                        oldtop = 20;
+                }, 100);
+                $interval(function() {
+                    
+                    var top = element.parent()[0].getBoundingClientRect().top;
+                    if (top < 0)
+                        $(element).css('top', oldtop - top);
+                    else if (top > 0) {
+                        $(element).css('top', oldtop);
+                    }
+                    // console.log("pos:", top);
+                }, 500);
+            }
+        }
+    }])
     .factory('Util', function() {
         return {
             matchkey: function(origstr, destArr) {

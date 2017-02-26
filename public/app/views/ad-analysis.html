@@ -1,7 +1,42 @@
-<div ng-controller="AdAnalysisController">
+<div ng-controller="AdAnalysisController" class="ad-analysis">
+
+        <div class="sidebar">
+            <ul role="tablist" class="nav nav-pills nav-stacked text-center">
+                <li>
+                    <a href="#overview">
+                        <i class="fa fa-bar-chart fa-2x font-yellow-gold"></i>
+                        <div>Overview {{card.end}}</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#detail">
+                        <i class="fa fa-envelope fa-2x font-yellow-gold"></i>
+                        <div>Detail</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#link">
+                        <i class="fa fa-link fa-2x font-yellow-gold"></i>
+                        <div>Link</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#interactive">
+                        <i class="fa fa-feed fa-2x font-yellow-gold"></i>
+                        <div>Interactive</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#audience">
+                        <i class="fa fa-eye fa-2x font-yellow-gold"></i>
+                        <div>Audience</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
     <!-- BEGIN MAIN CONTENT -->
-    <div class="row">
-        <div class="col-md-12">
+    <div class="content">
+        <div class="col-xs-12">
             <!-- BEGIN: ACCORDION DEMO -->
             <div class="portlet light bordered">
                 <div class="portlet-title">
@@ -19,41 +54,7 @@
                 <div class="portlet-body">
                     <div class="alert alert-warning ng-cloak" ng-show="card.end">AD {{id}} Not found!</div>
                     <div class="row" ng-show="!card.end">
-                        <div class="col-xs-2">
-                            <ul role="tablist" class="nav nav-pills nav-stacked text-center">
-                                <li>
-                                    <a href="#overview">
-                                        <i class="fa fa-bar-chart fa-2x font-yellow-gold"></i>
-                                        <div>Overview {{card.end}}</div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#detail">
-                                        <i class="fa fa-envelope fa-2x font-yellow-gold"></i>
-                                        <div>Detail</div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#link">
-                                        <i class="fa fa-link fa-2x font-yellow-gold"></i>
-                                        <div>Link</div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#interactive">
-                                        <i class="fa fa-feed fa-2x font-yellow-gold"></i>
-                                        <div>Interactive</div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#audience">
-                                        <i class="fa fa-eye fa-2x font-yellow-gold"></i>
-                                        <div>Audience</div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-10" id="ad">
+                        <div class="col-xs-12" id="ad">
                             <div id="overview">
                                 <h3>ID:{{ad.event_id}}</h3>
                                 <h4 class="font-yellow-gold">Overview</h4>

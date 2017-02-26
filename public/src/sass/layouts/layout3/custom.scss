@@ -26,6 +26,8 @@ $tabmenu-bg-color: #f2784b;
 $tabmenu-font-color: white;
 //广告主分析样式
 $adser-analysis-sidebar-width:150px;
+//广告分析样式
+$ad-analysis-sidebar-width:150px;
 body {
     min-width:800px;
 }
@@ -366,4 +368,20 @@ body {
 }
 .adser-analysis-content{
     margin-left:$adser-analysis-sidebar-width !important;
+}
+//广告分析样式
+.ad-analysis {
+    overflow:hidden;
+    position:relative;
+    .sidebar {
+        margin:20px;
+        width:$adser-analysis-sidebar-width !important;
+        position:absolute;
+        left:0;
+        top:0;
+    }
+    .content{
+        padding:20px;
+        margin-left:$adser-analysis-sidebar-width !important;
+    }
 }

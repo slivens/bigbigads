@@ -100,9 +100,41 @@
   <div class="modal-header">
         <h3 class="modal-title" id="modal-title">AD Search Statics</h3>
         </div>
-        <div class="modal-body" id="modal-body">
+        <div class="modal-body ad-analysis" id="modal-body">
+            <!-- begin sidebar -->
+                <div class="sidebar" fixsidebar >
+                    <ul role="tablist" class="nav nav-pills nav-stacked text-center">
+                        <li>
+                            <a href="#statics_overview">
+                                <i class="fa fa-bar-chart fa-2x font-yellow-gold"></i>
+                                <div>Overview {{card.end}}</div>
+                            </a>
+                        </li>
 
-                    <div class="row">
+                        <li>
+                            <a href="#statics_chart">
+                                <i class="fa fa-feed fa-2x font-yellow-gold"></i>
+                                <div>Interactive</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#statics_link">
+                                <i class="fa fa-link fa-2x font-yellow-gold"></i>
+                                <div>Link</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#statics_audience">
+                                <i class="fa fa-eye fa-2x font-yellow-gold"></i>
+                                <div>Audience</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- end sidebar -->
+                <!-- begin content -->
+                <div class="content row">
+                    <div class="row" id="statics_overview">
                         <div class="col-md-4 col-sm-4">
                             <rank-board title="Total Count">
                                 <div class="clearfix">
@@ -129,7 +161,8 @@
                                 </div>
                             </rank-board>
                         </div>
-
+                    </div>
+                    <div class="row">
                         <div class="col-md-4 col-sm-4">
                             <rank-board title="Summary Shares">
                                 <div class="clearfix">
@@ -157,7 +190,8 @@
                                 </div>
                             </rank-board>
                         </div>
-
+                    </div>
+                    <div class="row">
                         <div class="col-md-4 col-sm-4">
                             <rank-board title="Summary Comments">
                                 <div class="clearfix">
@@ -168,24 +202,24 @@
                         </div>
                     </div>
              <!-- 图表表示 -->         
-            <div class="row">
-                <div class="col-md-offset-2 col-md-8 col-xs-12" ng-if="statics.adLangConfig">
+            <div class="row" id="statics_chart">
+                <div class=" col-xs-12" ng-if="statics.adLangConfig">
                     <highchart id="adLangChart" config="statics.adLangConfig"></highchart>
                 </div>
-                <div class="col-md-offset-2 col-md-8 col-xs-12" ng-if="statics.adserNameConfig">
+                <div class=" col-xs-12" ng-if="statics.adserNameConfig">
                     <highchart id="adserNameChart" config="statics.adserNameConfig"></highchart>
                 </div>
-                <div class="col-md-offset-2 col-md-8 col-xs-12" ng-if="statics.adserUsernameConfig">
+                <div class="col-xs-12" ng-if="statics.adserUsernameConfig">
                     <highchart id="adserUsernameChart" config="statics.adserUsernameConfig"></highchart>
                 </div>
-                <div class="col-md-offset-2 col-md-8 col-xs-12" ng-if="statics.categoryConfig">
+                <div class=" col-xs-12" ng-if="statics.categoryConfig">
                     <highchart id="categoryChart" config="statics.categoryConfig"></highchart>
                 </div>
-                <div class="col-md-offset-2 col-md-8 col-xs-12" ng-if="statics.mediaTypeConfig">
+                <div class=" col-xs-12" ng-if="statics.mediaTypeConfig">
                     <highchart id="mediaTypeChart" config="statics.mediaTypeConfig"></highchart>
                 </div>
             </div>
-            <div class="container-fluid">
+            <div class="container-fluid" id="statics_link">
                 <!-- 内容太长，改以表格表示 -->
                 <div class="row" ng-if="statics.button_link">
                     <h4 class="font-yellow-gold">Button Link:</h4>
@@ -240,7 +274,7 @@
                     </div>
                 </div>
 
-                <div class="row" ng-if="statics.whyseeads">
+                <div class="row" ng-if="statics.whyseeads" id="statics_audience">
                     <h4 class="font-yellow-gold">Audience:</h4>
                     <div>
                         <table class="table table-hover linktable" >
@@ -259,6 +293,8 @@
                 </div>
             </div>
         </div>
+        </div>
+        <!-- end content -->
         <div class="modal-footer">
             <button class="btn btn-warning" type="button" ng-click="close()">Close</button>
         </div>
