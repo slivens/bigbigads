@@ -97,7 +97,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         layoutPath: '../assets/layouts/layout3',
         baseurl: '/app/',
         remoteurl: '', //根目录
-        imgRemoteBase: 'http://image1.bigbigads.com:88',
+        imgRemoteBase: 'http://192.168.10.152:88',
         searchSetting: {
             pageCount: 10, //每一页的数据量
             durationRange:[0, 365],
@@ -1037,7 +1037,19 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
         return function(url) {
             return $sce.trustAsResourceUrl(url);
         };
-    }]);
+    }])
+    .filter('clearHttps',function(){
+        var link = "";
+        return function(httpLink) {
+            if(httpLink.indexOf("http") >= 0){ 
+                link = httpLink.replace(/http:\/\//,"");
+            }
+            if(httpLink.indexOf("https") >= 0){
+                link = httpLink.replace(/https:\/\//,"");
+            }
+            return link;
+        };
+    });
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {
