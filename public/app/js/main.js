@@ -106,62 +106,62 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 key: 'last_view_date',
                 value: 'Last_Seen',
                 last: false,
-                grounp: 'orderBy_time'
+                group: 'time'
             }, {
                 key: 'duration_days',
                 value: 'Duration',
                 last: true,
-                grounp: 'orderBy_time'
+                group: 'time'
             }, {
                 key: 'engagements',
                 value: 'Engagements',
                 last: false,
-                grounp: 'orderBy_seen'
+                group: 'seen'
             }, {
                 key: 'views',
                 value:'Video views',
                 last: false,
-                grounp: 'orderBy_seen'
+                group: 'seen'
             }, {
                 key: 'engagements_per_7d',
                 value: 'Growth Engaments',
                 last: false,
-                grounp: 'orderBy_seen'
+                group: 'seen'
             }, {
                 key: 'views_per_7d',
                 value: 'Growth Video views',
                 last: true,
-                grounp: 'orderBy_seen'
+                group: 'seen'
             }, {
                 key:'likes',
                 value:'likes',
                 last: false,
-                grounp: 'orderBy_interactive'
+                group: 'interactive'
             }, {
                 key:'shares',
                 value:'shares',
                 last: false,
-                grounp: 'orderBy_interactive'
+                group: 'interactive'
             }, {
                 key:'comments',
                 value:'comments',
                 last: false,
-                grounp: 'orderBy_interactive'
+                group: 'interactive'
             }, {
                 key:'likes_per_7d',
                 value:'growth likes',
                 last: false,
-                grounp: 'orderBy_interactive'
+                group: 'interactive'
             }, {
                 key:'shares_per_7d',
                 value:'growth shares',
                 last: false,
-                grounp: 'orderBy_interactive'
+                group: 'interactive'
             }, {
                 key:'comments_per_7d',
                 value:'growth comments',
                 last: true,
-                grounp: 'orderBy_interactive'
+                group: 'interactive'
             }],
             adsTypes: [{
                 key: 'timeline',
