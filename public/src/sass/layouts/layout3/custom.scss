@@ -361,6 +361,9 @@ body {
     background-image: url('../../../../assets/global/svg/video.svg');
 }
 
+.xg-icon-play:before {
+    content: url('../../../../assets/global/img/xgrit-img/icon-play.png');
+}
 //广告主分析样式
 .adser-analysis-sidebar {
     padding-top:20px;
@@ -385,3 +388,4 @@ body {
         margin-left:$adser-analysis-sidebar-width !important;
     }
 }
+

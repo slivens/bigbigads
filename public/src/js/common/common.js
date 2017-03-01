@@ -252,7 +252,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 var img = $('<img/>');
                 img.attr('src', attrs.preview);
                 poster.addClass('video');
-                poster.html('<a class="playbtn"><i class="fa fa-play-circle-o fa-4x font-yellow-gold"></i></a>');
+                poster.html('<a class="playbtn"><i class="fa xg-icon-play"></i></a>');
                 poster.append(img);
                 element.before(poster);
                 element.hide();
@@ -344,7 +344,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     // console.log("pos:", top);
                 }, 500);
             }
-        }
+        };
     }])
     .factory('Util', function() {
         return {

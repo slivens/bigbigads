@@ -103,48 +103,75 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
             durationRange:[0, 365],
             seeTimesRange:[0, 365],
             orderBy: [{
-                key: 'first_view_date',
-                value: 'first_view'
-            }, {
                 key: 'last_view_date',
-                value: 'last_view'
-            }, {
-                key: 'description',
-                value: 'content'
-            }, {
-                key: 'adser_name',
-                value: 'advertiser'
-            }, {
-                key: 'engement',
-                value: 'engagement'
-            }, {
-                key: 'see_date',
-                value: 'view_count'
+                value: 'Last_Seen',
+                last: false,
+                group: 'time'
             }, {
                 key: 'duration_days',
-                value: 'duration'
+                value: 'Duration',
+                last: true,
+                group: 'time'
+            }, {
+                key: 'engagements',
+                value: 'Engagements',
+                last: false,
+                group: 'seen'
             }, {
                 key: 'views',
-                value:'views'
+                value:'Video views',
+                last: false,
+                group: 'seen'
             }, {
-                key:'comments',
-                value:'comments'
+                key: 'engagements_per_7d',
+                value: 'Growth Engaments',
+                last: false,
+                group: 'seen'
+            }, {
+                key: 'views_per_7d',
+                value: 'Growth Video views',
+                last: true,
+                group: 'seen'
             }, {
                 key:'likes',
-                value:'likes'
+                value:'likes',
+                last: false,
+                group: 'interactive'
             }, {
                 key:'shares',
-                value:'shares'
+                value:'shares',
+                last: false,
+                group: 'interactive'
+            }, {
+                key:'comments',
+                value:'comments',
+                last: false,
+                group: 'interactive'
+            }, {
+                key:'likes_per_7d',
+                value:'growth likes',
+                last: false,
+                group: 'interactive'
+            }, {
+                key:'shares_per_7d',
+                value:'growth shares',
+                last: false,
+                group: 'interactive'
+            }, {
+                key:'comments_per_7d',
+                value:'growth comments',
+                last: true,
+                group: 'interactive'
             }],
             adsTypes: [{
                 key: 'timeline',
-                value: 'timeline'
+                value: 'Newsfeed'
             }, {
                 key: 'rightcolumn',
-                value: 'rightcolumn'
+                value: 'Right Column'
             }, {
                 key: 'phone',
-                value: 'phone'
+                value: 'Mobile'
             }],
             categoryList: [{
                 key: "Advertising Agency",
@@ -1037,7 +1064,19 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
         return function(url) {
             return $sce.trustAsResourceUrl(url);
         };
-    }]);
+    }])
+    .filter('clearHttps',function(){
+        var link = "";
+        return function(httpLink) {
+            if(httpLink.indexOf("http") >= 0){ 
+                link = httpLink.replace(/http:\/\//,"");
+            }
+            if(httpLink.indexOf("https") >= 0){
+                link = httpLink.replace(/https:\/\//,"");
+            }
+            return link;
+        };
+    });
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {

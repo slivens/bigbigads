@@ -48,7 +48,7 @@
 <div class="aditem-footer" ng-show="!card.indetail">
     <hr class="xg-p-margin">
     <i class="fa fa-link fa-fw"></i>
-    <a href="{{card.link[0]}}" class="adlink" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top" popover-title="Snapshot" popover-is-open="card.popup" ng-mouseenter="card.popup=true" ng-mouseleave="card.popup=false" >{{card.link[0]}}</a>
+    <a href="{{card.link[0]}}" class="adlink" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top" popover-title="Snapshot" popover-is-open="card.popup" ng-mouseenter="card.popup=true" ng-mouseleave="card.popup=false" >{{card.link[0] | clearHttps}}</a>
 
     <span ng-show="card.views">
         <i class="xg-icon xg-icon-video"></i>
