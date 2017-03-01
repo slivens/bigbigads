@@ -56,16 +56,9 @@
                 <form class="form-inline">
                 <div class="form-group">
                     <!-- <button policy-lock key="search_sortby" class="btn yellow-gold btn-sm" ng-class="{'active':!adSearcher.params.sort.order}" ng-click="reverseSort()">Reverse</button> -->
-                    <span class="ng-binding xg-mr5">Sort By</span>
+                    <span class="xg-mr5">Sort By</span>
                     <select class="form-control bs-select" ng-disabled="!User.can('search_sortby')" data-width="150px" ng-model="adSearcher.params.sort.field"  ng-change="adSearcher.filter()">
-                        <option policy-lock key="search_sortby" value="{{item.key}}" ng-repeat="item in settings.searchSetting.orderBy_time" ng-class="{true: 'xg-order-border', false: ''}[item.last]">
-                            {{item.value}}
-                        </option>
-                        <option policy-lock key="search_sortby" value="{{item.key}}" ng-repeat="item in settings.searchSetting.orderBy_seen" ng-class="{true: 'xg-order-border', false: ''}[item.last]">
-                            {{item.value}}
-                        </option>
-                        </option>
-                        <option policy-lock key="search_sortby" value="{{item.key}}" ng-repeat="item in settings.searchSetting.orderBy_interactive">
+                        <option policy-lock key="search_sortby" value="{{item.key}}" ng-repeat="item in settings.searchSetting.orderBy" ng-class="{"xg-order-border":item.last">
                             {{item.value}}
                         </option>
                     </select>
