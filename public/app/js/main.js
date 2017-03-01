@@ -102,49 +102,66 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
             pageCount: 10, //每一页的数据量
             durationRange:[0, 365],
             seeTimesRange:[0, 365],
-            orderBy: [{
-                key: 'first_view_date',
-                value: 'first_view'
-            }, {
+            orderBy_time: [{
                 key: 'last_view_date',
-                value: 'last_view'
-            }, {
-                key: 'description',
-                value: 'content'
-            }, {
-                key: 'adser_name',
-                value: 'advertiser'
-            }, {
-                key: 'engement',
-                value: 'engagement'
-            }, {
-                key: 'see_date',
-                value: 'view_count'
+                value: 'Last_Seen',
+                last: false
             }, {
                 key: 'duration_days',
-                value: 'duration'
+                value: 'Duration',
+                last: true
+            }],
+            orderBy_seen: [{
+                key: 'engagements',
+                value: 'Engagements',
+                last: false
             }, {
                 key: 'views',
-                value:'views'
+                value:'Video views',
+                last: false
             }, {
-                key:'comments',
-                value:'comments'
+                key: 'engagements_per_7d',
+                value: 'Growth Engaments',
+                last: false
             }, {
+                key: 'views_per_7d',
+                value: 'Growth Video views',
+                last: true
+            }],
+            orderBy_interactive: [{
                 key:'likes',
-                value:'likes'
+                value:'likes',
+                last: false
             }, {
                 key:'shares',
-                value:'shares'
+                value:'shares',
+                last: false
+            }, {
+                key:'comments',
+                value:'comments',
+                last: false
+            }, {
+                key:'likes_per_7d',
+                value:'growth likes',
+                last: false
+            }, {
+                key:'shares_per_7d',
+                value:'growth shares',
+                last: false
+            }, {
+                key:'comments_per_7d',
+                value:'growth comments',
+                last: true
             }],
             adsTypes: [{
                 key: 'timeline',
-                value: 'timeline'
+                value: 'Newsfeed'
             }, {
                 key: 'rightcolumn',
-                value: 'rightcolumn'
+                value: 'Right Column'
             }, {
                 key: 'phone',
-                value: 'phone'
+                value: 'Mobile'
             }],
             categoryList: [{
                 key: "Advertising Agency",
