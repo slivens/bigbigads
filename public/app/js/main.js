@@ -102,56 +102,66 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
             pageCount: 10, //每一页的数据量
             durationRange:[0, 365],
             seeTimesRange:[0, 365],
-            orderBy_time: [{
+            orderBy: [{
                 key: 'last_view_date',
                 value: 'Last_Seen',
-                last: false
+                last: false,
+                grounp: 'orderBy_time'
             }, {
                 key: 'duration_days',
                 value: 'Duration',
-                last: true
-            }],
-            orderBy_seen: [{
+                last: true,
+                grounp: 'orderBy_time'
+            }, {
                 key: 'engagements',
                 value: 'Engagements',
-                last: false
+                last: false,
+                grounp: 'orderBy_seen'
             }, {
                 key: 'views',
                 value:'Video views',
-                last: false
+                last: false,
+                grounp: 'orderBy_seen'
             }, {
                 key: 'engagements_per_7d',
                 value: 'Growth Engaments',
-                last: false
+                last: false,
+                grounp: 'orderBy_seen'
             }, {
                 key: 'views_per_7d',
                 value: 'Growth Video views',
-                last: true
-            }],
-            orderBy_interactive: [{
+                last: true,
+                grounp: 'orderBy_seen'
+            }, {
                 key:'likes',
                 value:'likes',
-                last: false
+                last: false,
+                grounp: 'orderBy_interactive'
             }, {
                 key:'shares',
                 value:'shares',
-                last: false
+                last: false,
+                grounp: 'orderBy_interactive'
             }, {
                 key:'comments',
                 value:'comments',
-                last: false
+                last: false,
+                grounp: 'orderBy_interactive'
             }, {
                 key:'likes_per_7d',
                 value:'growth likes',
-                last: false
+                last: false,
+                grounp: 'orderBy_interactive'
             }, {
                 key:'shares_per_7d',
                 value:'growth shares',
-                last: false
+                last: false,
+                grounp: 'orderBy_interactive'
             }, {
                 key:'comments_per_7d',
                 value:'growth comments',
-                last: true
+                last: true,
+                grounp: 'orderBy_interactive'
             }],
             adsTypes: [{
                 key: 'timeline',
