@@ -612,6 +612,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 
 				});
 			};
+            $scope.Util = Util;
 			$scope.User = User;
 			$scope.Searcher = Searcher;
 			//一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
@@ -879,8 +880,8 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         });
         // $scope.adSearcher.filter();
 	}])
-	.controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window',
-		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $window) {
+	.controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window', '$http', 'Util',
+		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $window, $http, Util) {
 			var searcher = $scope.adSearcher = new Searcher();
 			// $scope.adSearcher.search($scope.adSearcher.defparams, true);
 			$scope.reverseSort = function() {
@@ -943,6 +944,44 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				});
 				return similarPromise;
 			};
+            /**
+             * 加载广告趋势
+             */
+            searcher.getTrends = function(eventid) {
+                // eventid = "118849271971984";//for test
+                var params = {
+                    search_result:"adsid_trend",
+                    where:[
+                    {
+                        field:"ads_id",
+                        value:eventid
+                    }
+                    ],
+                    event_id:eventid
+                };
+                return $http.post(settings.remoteurl + "/forward/trends", params);
+            };
+            searcher.isLoadingCharts = true;
+            searcher.getTrends($scope.id).then(function(res) {
+                // console.log(res);
+                var data = res.data;
+                if (!data.info) {
+                    searcher.noTrends = true;
+                    return;
+                }
+                if (data.info.comments)
+                    searcher.commentsTrend = Util.initTrend(data.info.comments, "comments", $scope.id);
+                if (data.info.engagements)
+                    searcher.engagementsTrend = Util.initTrend(data.info.engagements, "engagements", $scope.id);
+                if (data.info.likes) 
+                    searcher.likesTrend = Util.initTrend(data.info.likes, "likes", $scope.id);
+                if (data.info.shares)
+                    searcher.sharesTrend = Util.initTrend(data.info.shares, "shares", $scope.id);
+                if (data.info.views)
+                    searcher.viewsTrend = Util.initTrend(data.info.views, "views", $scope.id);
+            }).finally(function() {
+                searcher.isLoadingCharts = false;
+            });
 			$scope.$on('$viewContentLoaded', function() {
 				// initialize core components
 				App.initAjax();
@@ -1256,7 +1295,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 
 		}
 	])
-	.controller('AdserAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$http', '$uibModal', '$q', 'Util', '$timeout',
+	.controller('AdserAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$http', '$uibModal', '$q', 'Util', '$timeout',  
 		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $http, $uibModal, $q, Util, $timeout) {
 
 			function getAdserAnalysis(username, select) {
@@ -1467,24 +1506,10 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 				};
             }
 
-			function openAd(id) {
-				return $uibModal.open({
-					templateUrl: 'views/ad-analysis.html',
-					size: 'lg',
-					animation: true,
-					resolve: {
-						$stateParams: function() {
-							$stateParams.id = id;
-							return $stateParams;
-						}
-					}
-				});
-			}
-
 
 			var competitorQuery = [];
 			var promises = [];
-			$scope.openAd = openAd;
+			$scope.openAd = Util.openAd;
 			$scope.card = {words:[]}; //card必须先赋值，否则调用Searcher的getAdsType时会提前生成自己的card,scope出错。
 			$scope.Searcher = Searcher;
 			$scope.username = $stateParams.username;

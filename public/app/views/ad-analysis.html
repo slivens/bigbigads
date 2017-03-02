@@ -1,11 +1,11 @@
 <div ng-controller="AdAnalysisController" class="ad-analysis">
 
-        <div class="sidebar">
+        <div class="sidebar" fixsidebar>
             <ul role="tablist" class="nav nav-pills nav-stacked text-center">
                 <li>
                     <a href="#overview">
                         <i class="fa fa-bar-chart fa-2x font-yellow-gold"></i>
-                        <div>Overview {{card.end}}</div>
+                        <div>Overview</div>
                     </a>
                 </li>
                 <li>
@@ -170,12 +170,19 @@
                             <div id="detail">
                                 <h4 class="font-yellow-gold">Detail</h4>
                                 <div class="portlet light bordered">
-                                    <single-image ng-if="card.type == 'SingleImage'" card="card">
-                                    </single-image>
-                                    <single-video ng-if="card.type == 'SingleVideo'" card="card"></single-video>
-                                    <carousel ng-if="card.type == 'Carousel'" card="card">
-                                    </carousel>
-                                    <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <single-image ng-if="card.type == 'SingleImage'" card="card">
+                                            </single-image>
+                                            <single-video ng-if="card.type == 'SingleVideo'" card="card"></single-video>
+                                            <carousel ng-if="card.type == 'Carousel'" card="card">
+                                            </carousel>
+                                            <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
+                                        </div>
+                                        <div class="col-xs-6">
+                                        广告信息...
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div id="similar" ng-if="card.similars.length > 0">
@@ -199,6 +206,31 @@
                             <!-- end link -->
                             <div id="interactive">
                                 <h4 class="font-yellow-gold">Interactive</h4>
+                                <div class="text-center" ng-show="adSearcher.isLoadingCharts">
+                                    <i class="fa fa-spinner fa-spin"></i>Loading Charts...
+                                </div>
+                                <div class="text-center" ng-show="adSearcher.noTrends">
+                                    <span>no trends data...</span>
+                                </div>
+                                <div class="col-xs-12" ng-if="adSearcher.commentsTrend">
+                                    <highchart  config="adSearcher.commentsTrend"></highchart>
+                                </div>
+
+                                <div class="col-xs-12" ng-if="adSearcher.engagementsTrend">
+                                    <highchart  config="adSearcher.engagementsTrend"></highchart>
+                                </div>
+
+                                <div class="col-xs-12" ng-if="adSearcher.likesTrend">
+                                    <highchart  config="adSearcher.likesTrend"></highchart>
+                                </div>
+                                <button  class="btn font-yellow-gold btn-link" ng-click="adSearcher.showAllTrend=true" ng-if="adSearcher.sharesTrend || adSearcher.viewsTrend" ng-show="!adSearcher.showAllTrend">More...</button>
+                                <div class="col-xs-12" ng-if="adSearcher.sharesTrend" ng-show="adSearcher.showAllTrend">
+                                    <highchart  config="adSearcher.sharesTrend"></highchart>
+                                </div>
+
+                                <div class="col-xs-12" ng-if="adSearcher.viewsTrend" ng-show="adSearcher.showAllTrend">
+                                    <highchart  config="adSearcher.viewsTrend"></highchart>
+                                </div>
                             </div>
                             <div id="audience">
                                 <h4 class="font-yellow-gold">Audience</h4>

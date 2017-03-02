@@ -19,7 +19,7 @@
             <i class="fa fa-calendar font-yellow-gold fa-fw"></i><span>{{card.first_see}}~{{card.last_see}}</span>
             <i class="fa fa-clock-o font-yellow-gold fa-fw"></i><span>{{card.duration_days}}</span>
             <i class="fa fa-eye font-yellow-gold  fa-fw"></i><span>{{card.see_date}}</span>
-            <a ui-sref="adAnalysis({id:card.event_id})"  ui-sref-opts="{reload:false}" class="font-yellow-gold "><i class="fa fa-line-chart font-yellow-gold fa-fw"></i></a>    
+            <a eventid="{{card.event_id}}" adlink class="font-yellow-gold "><i class="fa fa-line-chart font-yellow-gold fa-fw"></i></a>    
             <p class="xg-p-margin"></p>
             <div>
                 <!--<i class="fa fa-share-alt fa-3x font-yellow-gold"  ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.timeline)"></i>

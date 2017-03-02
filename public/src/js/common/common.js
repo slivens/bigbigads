@@ -232,6 +232,15 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
+    .directive('adlink', ['Util', function(Util) {
+        return {
+            link:function(scope, element, attrs) {
+                element.on('click', function() {
+                    Util.openAd(attrs.eventid);
+                });
+            }
+        };
+    }])
     .directive('rankBoard', ['$compile', '$timeout', function($compile, $timeout) {
         return {
             scope: {
@@ -330,8 +339,8 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 var oldtop = 0;
                 $timeout(function() {
                     oldtop = element[0].getBoundingClientRect().top;
-                    if (oldtop < 20)
-                        oldtop = 20;
+                    if (oldtop < 80)
+                        oldtop = 80;
                 }, 100);
                 $interval(function() {
                     
@@ -346,7 +355,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .factory('Util', function() {
+    .factory('Util', ['$uibModal', '$stateParams', function($uibModal, $stateParams) {
         return {
             matchkey: function(origstr, destArr) {
                 var orig = origstr.split(',');
@@ -395,9 +404,83 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                         data: data
                     }]
                 };
-            }
+            },
+            openAd: function(id) {
+                return $uibModal.open({
+                    templateUrl: 'views/ad-analysis.html',
+                    size: 'lg',
+                    animation: true,
+                    resolve: {
+                        $stateParams: function() {
+                            $stateParams.id = id;
+                            return $stateParams;
+                        }
+                    }
+                });
+            },
+            getTrendData:function(json) {
+				if (!json || !json.trend) {
+					return null;
+				}
+				var length = json.trend.length;
+				var endDate = moment(json.day, 'YYYY-MM-DD');
+                var xs, ys, i;
+                if (json.trend[0] < 0) {
+                    xs = [];
+                    ys = [];
+                } else {
+                    xs = [endDate.format('YYYY-MM-DD')];
+                    ys = [json.trend[1]];
+                }
+				for (i = 1; i < length; ++i) {
+                    if (json.trend[i] >= 0) {
+                        xs.push(endDate.subtract(1, 'days').format('YYYY-MM-DD'));
+                        ys.push(json.trend[i]);
+                    }
+				}
+				xs = xs.reverse();
+				ys = ys.reverse();
+                // console.log("trend data", xs, ys);
+                return [xs, ys];
+            },
+			/**
+             * 单个广告的趋势图
+             * @param json 包含day与trend数据的对象
+             * @param title 标题
+             * @param name 曲线名称
+             *
+             * @return 返回highcharts图表的配置
+			 */
+            initTrend:function(json, title, name) {
+                var data = this.getTrendData(json);
+                if (data === null)
+                    return;
+				return {
+					title: {
+						text: title
+					},
+					xAxis: {
+						categories: data[0]
+					},
+					yAxis: {
+						title: {
+							text: title
+						},
+						plotLines: [{
+							value: 0,
+							width: 1,
+						}]
+					},
+					series: [{
+						name: name,
+						data: data[1]
+					}],
+                    className:"response-width",
+                    credits:false
+				};
+			}
         };
-    });
+    }]);
 app.service('Resource', ['$resource', 'settings', 'SweetAlert', function($resource, settings, SweetAlert) {
     function f(name) {
         var vm = this;
