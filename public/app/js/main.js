@@ -1068,6 +1068,7 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
     .filter('clearHttps',function(){
         var link = "";
         return function(httpLink) {
+            if(httpLink===null||httpLink===undefined||httpLink==='') return;
             if(httpLink.indexOf("http") >= 0){ 
                 link = httpLink.replace(/http:\/\//,"");
             }

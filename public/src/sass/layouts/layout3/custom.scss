@@ -327,6 +327,10 @@ body {
     margin-bottom: 5px;
 }
 
+.xg-mr5{
+    margin-right: 5px;
+}
+
 .xg-adsername {
     color: #365899;
     cursor: pointer;
@@ -363,6 +367,26 @@ body {
 
 .xg-icon-play:before {
     content: url('../../../../assets/global/img/xgrit-img/icon-play.png');
+}
+
+.xg-analysis {
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.xg-type-select {
+    padding: 0px !important;
+    button {
+        height: 39px;
+    }
+}
+
+.xg-order-border {
+    border-bottom: 1px solid #d3d3d3;
+}
+
+.xg-search-height{
+    height: 40px !important;
 }
 //广告主分析样式
 .adser-analysis-sidebar {
