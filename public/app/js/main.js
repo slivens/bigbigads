@@ -1082,7 +1082,7 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
         var unit_num = '';
         return function(num) {
             if(num===null||num===undefined||num==='') return;
-            //num = parseInt(num); 
+            num = Number(num); 
             if(num<1000) {
                 return num;
             }
