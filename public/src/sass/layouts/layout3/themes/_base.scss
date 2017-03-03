@@ -375,7 +375,7 @@ Page Header
                 /* Classic menu */
                 > li {
                     > a {
-                        color: black;
+                        color: $main-color;
 
                         > i {
                             color: $header-hor-menu-default-link-icon-color;
@@ -387,7 +387,7 @@ Page Header
                     > a:hover,
                     > a:focus,
                     > a:active {
-                        color: $header-hor-menu-default-link-font-color-on-hover ;      
+                        color: white ;      
                         //background: $header-hor-menu-default-link-bg-color-on-hover !important;
 
                         > i {
@@ -399,7 +399,7 @@ Page Header
                     &.current {
                         > a,
                         > a:hover {
-                            color: $header-hor-menu-default-link-font-color-on-active;
+                            color: white;
                             //background: $header-hor-menu-default-link-bg-color-on-active; 
 
                             > i {

@@ -97,7 +97,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         layoutPath: '../assets/layouts/layout3',
         baseurl: '/app/',
         remoteurl: '', //根目录
-        imgRemoteBase: 'http://192.168.10.152:88',
+        imgRemoteBase: 'http://image1.bigbigads.com:88',
         searchSetting: {
             pageCount: 10, //每一页的数据量
             durationRange:[0, 180],
@@ -1065,7 +1065,7 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
             return $sce.trustAsResourceUrl(url);
         };
     }])
-    .filter('clearHttps',function(){
+    .filter('clearHttps',function() {
         var link = "";
         return function(httpLink) {
             if(httpLink===null||httpLink===undefined||httpLink==='') return;
@@ -1076,6 +1076,26 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
                 link = httpLink.replace(/https:\/\//,"");
             }
             return link;
+        };
+    })
+    .filter('addUnit',function() {
+        var unit_num = '';
+        return function(num) {
+            if(num===null||num===undefined||num==='') return;
+            num = Number(num); 
+            if(num<1000) {
+                return num;
+            }
+            if(num>=1000||num<1000000) {
+                num = num/1000;
+                unit_num = num.toFixed(1) + 'K';
+                return unit_num;
+            }
+            if(num>=1000000) {
+                num = num/1000000;
+                unit_num = num.toFixed(1) + 'M';
+                return unit_num;
+            }
         };
     });
 /* Setup App Main Controller */
