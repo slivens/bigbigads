@@ -56,7 +56,7 @@ Page Header
 
         /* Top menu */
         .top-menu {
-            margin: 13px 0 0;
+            margin: 18px 0 0;
             padding: 0;
             float: right; 
 
@@ -381,9 +381,7 @@ Page Header
                 /* User */
                 > li.dropdown-user {
                     .dropdown-toggle {
-                        padding: $header-top-menu-user-item-padding;
-                        padding-left: 0;
-                        padding-right: 0;
+                        padding: 8px;//$header-top-menu-user-item-padding;
 
                         > img {
                             margin-top: -8px;

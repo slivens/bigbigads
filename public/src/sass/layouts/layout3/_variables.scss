@@ -9,12 +9,12 @@ $header-height:             				            				75px  !default; // header height
 $header-height-xs:             											($header-height * 2) !default; // header height on mobile view
 $page-header-top-height:												75px;
 
-$header-logo-height:                                    				32px;
+$header-logo-height:                                    				64px;
 $header-logo-container-width:                                           255px;
 $header-menu-toggler-width:                             				22px; 
 $header-menu-toggler-height:                            				14px;
 //$header-responsive-toggler-margin:                      				($header-height - $header-menu-toggler-height) / 2 6px 0 6px !default; 
-$header-logo-margin:                                					($page-header-top-height - $header-logo-height) / 2 0 0 0 !default;  
+$header-logo-margin:                                					($page-header-top-height - $header-logo-height) / 2 0 0 16px !default;  
 
 $header-top-menu-general-item-padding:      							17px 10px 8px 10px !default;  // adjust top menu general elements padding. default: 15px 10px 7px 10px
 $header-top-menu-general-item-padding-on-mobile:       					17px 6px 8px 6px !default;  // adjust top menu general elements padding mobile. default: 15px 10px 7px 10px
