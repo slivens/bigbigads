@@ -97,11 +97,11 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         layoutPath: '../assets/layouts/layout3',
         baseurl: '/app/',
         remoteurl: '', //根目录
-        imgRemoteBase: 'http://image1.bigbigads.com:88',
+        imgRemoteBase: 'http://192.168.10.152:88',
         searchSetting: {
             pageCount: 10, //每一页的数据量
-            durationRange:[0, 365],
-            seeTimesRange:[0, 365],
+            durationRange:[0, 180],
+            seeTimesRange:[0, 180],
             orderBy: [{
                 key: 'last_view_date',
                 value: 'Last_Seen',
@@ -1197,7 +1197,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
-                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
+                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinModern.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             'http://code.highcharts.com/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',

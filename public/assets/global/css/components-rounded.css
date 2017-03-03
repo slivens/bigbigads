@@ -18836,12 +18836,12 @@ body.stop-scrolling {
       .mt-element-ribbon .ribbon.ribbon-color-warning:after {
         border-color: #c29d0b; }
       .mt-element-ribbon .ribbon.ribbon-color-warning > .ribbon-sub {
-        background-color: #F1C40F;
+        background-color: #e87e04;
         color: #010100; }
         .mt-element-ribbon .ribbon.ribbon-color-warning > .ribbon-sub:after {
           border-color: #614f06;
-          border-left-color: #F1C40F;
-          border-right-color: #F1C40F; }
+          border-left-color: #e87e04;
+          border-right-color: #e87e04; }
 
 .mt-element-card .mt-card-item {
   border: 1px solid;

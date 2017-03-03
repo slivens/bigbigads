@@ -412,4 +412,107 @@ body {
         margin-left:$adser-analysis-sidebar-width !important;
     }
 }
+//placeholder颜色大小字体
+$black_placeholder:#000;
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+color: $black_placeholder !important;
+}
+input:-moz-placeholder, textarea:-moz-placeholder {
+color: $black_placeholder !important;
+}
+input::-moz-placeholder, textarea::-moz-placeholder {
+color: $black_placeholder !important;
+}
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+color: $black_placeholder !important;
+}
+//engament
+.wt10{
+    width: 10px;
+}
+.wt45{
+    width: 45px;
+}
+.percent35{
+    width: 35%;
+}
+.percent65{
+    width: 65%;
+}
+//engament color
+.table-engamentfilter{ 
+    .like{
+        color:#54ACF3;//Twitter's color
+    }
+    .share{
+        color:#4658A4;//Facebook's color
+    }
+    .comment{
+        color:#B84C40;//Google+'s color
+    }
+    .videoview{
+        color:#2673A7;//LinkIn's color
+    }
+    .engament{
+        color:#F15A25;//orange
+    }
+    td{
+        .close{
+            margin-top: 8px;
+        }
+    }
+}
+.top10{
+    margin-top: 10px;
+}
+.dropdown-left-btn{
+    text-align: left;
+}
+.select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {
+    min-width: 0em;
+    padding-left:10px;
+}
 
+.collapse_show{
+    padding:10px 0;
+}
+.none-border{
+    border: 0 none;
+    tr,td{
+        border:0 !important;
+    }
+}
+.page-quick-sidebar {
+    .input-group{
+    margin-bottom: 10px;
+    }
+    form{
+        i{
+            color:#000;
+        }
+        span.select2,.select2-selection{
+            border-radius: 0 4px 4px 0;
+            border-left:0px;
+        }
+        span.select2-container{
+            width: 100% !important;
+        }
+        .input-group-addon{
+            background-color: #FFF;
+            color: #000;
+        }
+        .has_left_icon{
+            border-left:0px;
+        }
+    }
+    .apply-button{
+        margin: 5px 0;
+    }
+    .dropdown{
+        button{
+            font-size: 14px !important;
+            font-weight: 500 !important;
+        }
+    }
+
+}
