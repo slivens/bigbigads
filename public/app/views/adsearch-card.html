@@ -1,26 +1,35 @@
 <div class="a-card fade-in-up mt-element-ribbon">
-        <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning" uib-popover-template="'views/bookmark-popover.html'" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.adsers.bookmark">
-            <div class="ribbon-sub ribbon-bookmark"></div>
+        <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning xg-collect" uib-popover-template="'views/bookmark-popover.html'" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.adsers.bookmark">
+            <div class="ribbon-sub ribbon-bookmark xg-collect-border"></div>
             <i class="fa fa-star font-white"></i>
         </div>
         <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning"  ng-if="mother.adsers.bookmark" ng-click="mother.cancelBookmark(0, card)">
             <div class="ribbon-sub ribbon-bookmark"></div>
             <i class="fa fa-star"></i>
         </div>
-    <div class="portlet light aditem">
-        <div class="portlet-title">
-            <div class="pull-right margin-right-10">
-                <button ng-if="card.whyseeads_all || card.whyseeads" sweetalert title="{{card.whyseeads ? card.whyseeads : card.whyseeads_all}}">
+    <div class="portlet light aditem xg-card-pt0">
+        <div class="portlet-title xg-cardcontent-bbmn">
+            <div class="pull-right xg-audience-mr4">
+                <!-- <button ng-if="card.whyseeads_all || card.whyseeads" sweetalert title="{{card.whyseeads ? card.whyseeads : card.whyseeads_all}}">
                     <i class="fa fa-users font-yellow-gold"></i>
-                </button>
+                </button> -->
             </div>
             <!-- <span class="font-yellow_gold">ads_id:</span> --> 
             <br/>
-            <i class="fa fa-calendar font-yellow-gold fa-fw"></i><span>{{card.first_see}}~{{card.last_see}}</span>
-            <i class="fa fa-clock-o font-yellow-gold fa-fw"></i><span>{{card.duration_days}}</span>
-            <i class="fa fa-eye font-yellow-gold  fa-fw"></i><span>{{card.see_date}}</span>
-            <a eventid="{{card.event_id}}" adlink class="font-yellow-gold "><i class="fa fa-line-chart font-yellow-gold fa-fw"></i></a>    
-            <p class="xg-p-margin"></p>
+            <div>
+                <i class="fa fa-calendar font-yellow-gold fa-fw"></i><span>{{card.first_see}}~{{card.last_see}}</span>
+            </div>
+            <div>
+            <div class="pull-right">
+                <i class="xg-audience xg-icon xg-icon-audience font-yellow-gold" ng-if="card.whyseeads_all || card.whyseeads" sweetalert title="{{card.whyseeads ? card.whyseeads : card.whyseeads_all}}"></i>
+                <a ui-sref="adAnalysis({id:card.event_id})"  ui-sref-opts="{reload:false}" class="font-yellow-gold "><i class="xg-icon xg-icon-analysis"></i></a>    
+                <!-- <p class="xg-p-margin"></p> -->
+            </div>
+            <div class="pull-left">
+                <i class="fa fa-clock-o font-yellow-gold fa-fw"></i><span>{{card.duration_days}}</span>
+                <i class="fa fa-eye font-yellow-gold  fa-fw"></i><span>{{card.see_date}}</span>
+            </div>
+                <div class="clearfix"></div>  
             <div>
                 <!--<i class="fa fa-share-alt fa-3x font-yellow-gold"  ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.timeline)"></i>
                 <i class="fa fa-columns fa-3x font-yellow-gold"  ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.rightcolumn)"></i>
