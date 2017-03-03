@@ -38,23 +38,23 @@
 <div class="aditem-footer" ng-show="!card.indetail">
     <hr class="xg-p-margin">
     <i class="fa fa-link fa-fw"></i>
-    <a href="{{card.link[card.active]}}" class="adlink" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top" popover-title="Snapshot" popover-is-open="card.popup" ng-mouseenter="card.popup=true" ng-mouseleave="card.popup=false" >{{card.link[card.active] | clearHttps}}</a>
+    <a href="{{card.link[card.active]}}" class="adlink xg-link-width" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top" popover-title="Snapshot" popover-is-open="card.popup" ng-mouseenter="card.popup=true" ng-mouseleave="card.popup=false" >{{card.link[card.active] | clearHttps}}</a>
 
     <span ng-show="card.views">
         <i class="xg-icon xg-icon-video"></i>
-        {{card.views}}
+        {{card.views | addUnit}}
     </span>
     <span ng-show="card.likes" >
         <i class="fa fa-thumbs-up" ></i>
-        {{card.likes}}
+        {{card.likes | addUnit}}
     </span>
     <span ng-show="card.comments" >
         <i class="xg-icon xg-icon-comment"></i>
-        {{card.comments}}
+        {{card.comments | addUnit}}
     </span>
     <span ng-show="card.shares" >
         <i class="xg-icon xg-icon-share"></i>
-        {{card.shares}}
+        {{card.shares | addUnit}}
     </span>
 </div>
 
