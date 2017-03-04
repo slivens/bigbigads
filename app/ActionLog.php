@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class ActionLog extends Model
 {
-    const TYPE_USERS = "users";
+    const TYPE_USERS = "USERS";
+    const TYPE_USER_LOGIN = "USER_LOGIN";
+    const TYPE_USER_LOGOUT = "USER_LOGOUT";
     const TYPE_AD_SEARCH = "ad-search";
     const TYPE_ADSER_SEARCH =  "adser-search";
     //

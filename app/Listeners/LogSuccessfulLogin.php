@@ -28,6 +28,6 @@ class LogSuccessfulLogin
     public function handle(Login $event)
     {
         $user = $event->user;
-        ActionLog::log(ActionLog::TYPE_USERS, json_encode(["name" => $user->name, "email" => $user->email]));
+        ActionLog::log(ActionLog::TYPE_USER_LOGIN, json_encode(["name" => $user->name, "email" => $user->email]));
     }
 }
