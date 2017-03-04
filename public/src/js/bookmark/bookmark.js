@@ -89,6 +89,14 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
         });
         return promise;
     };
+    bookmark.decSubitemCount = function(bid) {
+        for (var i = 0; i < bookmark.items.length; ++i) {
+            if (bookmark.items[i].id == bid) {
+                bookmark.items[i].item_count--;
+                break;
+            }
+        }
+    };
     return bookmark;
 }]);
 app.factory('BookmarkItem', ['Resource', '$uibModal', 'SweetAlert', function(Resource, $uibModal, SweetAlert) {
@@ -197,7 +205,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
         }, function(isConfirm) {
             if (!isConfirm)
                 return;
-            console.log(Bookmark.subItems);
+            // console.log(Bookmark.subItems);
             angular.forEach(Bookmark.subItems, function(item) {
                 if (type != item.type)
                     return;
@@ -206,6 +214,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                         for (var i = 0; i < $scope.data.ads.ads_info.length; ++i) {
                             if ($scope.data.ads.ads_info[i] == card) {
                                 $scope.data.ads.ads_info.splice(i, 1);
+                                Bookmark.decSubitemCount(Bookmark.bid);
                                 break;
                             }
                         }
@@ -215,6 +224,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                         for (var i = 0; i < $scope.data.adsers.adser.length; ++i) {
                             if ($scope.data.adsers.adser[i] == card) {
                                 $scope.data.adsers.adser.splice(i, 1);
+                                Bookmark.decSubitemCount(Bookmark.bid);
                                 break;
                             }
                         }
@@ -281,45 +291,50 @@ app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', '
             card.showBookmark = false; //耦合
         });
     };
-    // if (!Bookmark.queried) {
-        User.getInfo().then(function() {
-            if (User.info.login) {
-                var type, ident, promise1, promise2, promises = [];
-                if ($scope.card.event_id) {
-                    type = 0;
-                    ident = $scope.card.event_id;
-                } else if ($scope.card.adser_username) {
-                    type = 1;
-                    ident = $scope.card.adser_username;
-                }
 
-                if (!Bookmark.queried) {
-                    promise1 = Bookmark.get({
-                        uid: User.info.user.id
-                    });
-                    promises.push(promise1);
+    function match() {
+        angular.forEach($scope.selectedSubItems, function(subItem, key) {
+            var i;
+            for (i = 0; i < $scope.bookmark.items.length; ++i) {
+                if ($scope.bookmark.items[i].id == subItem.bid) {
+                    $scope.card.select[i] = true;
+                    break;
                 }
-                promise2 = BookmarkItem.get({
-                    where:JSON.stringify([
-                        ["ident", "=", ident],
-                        ["type", "=", type]
-                    ])
-                });
-                promise2.then(function(subItems) {
-                    $scope.selectedSubItems = subItems;
-                    angular.forEach(subItems, function(subItem, key) {
-                        var i;
-                        for (i = 0; i < $scope.bookmark.items.length; ++i) {
-                            if ($scope.bookmark.items[i].id == subItem.bid) {
-                                $scope.card.select[i] = true;
-                                break;
-                            }
-                        }
-                    });
-                });
-                promises.push(promise2);
-                $scope.queryPromise = $q.all(promises);
             }
         });
-    // }
+    }
+    $scope.User = User;
+    User.getInfo().then(function() {
+        if (User.info.login) {
+            var type, ident, promise1, promise2, promises = [];
+            if ($scope.card.event_id) {
+                type = 0;
+                ident = $scope.card.event_id;
+            } else if ($scope.card.adser_username) {
+                type = 1;
+                ident = $scope.card.adser_username;
+            }
+            if (!Bookmark.queried) {
+                promise1 = Bookmark.get({
+                    uid: User.info.user.id
+                });
+                promise1.then(function() {
+                    match();
+                });
+                promises.push(promise1);
+            }
+            promise2 = BookmarkItem.get({
+                where:JSON.stringify([
+                    ["ident", "=", ident],
+                    ["type", "=", type]
+                ])
+            });
+            promise2.then(function(subItems) {
+                $scope.selectedSubItems = subItems;
+                match();
+            });
+            promises.push(promise2);
+            $scope.card.queryPromise = $q.all(promises);
+        }
+    });
 }]);
