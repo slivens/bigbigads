@@ -4,6 +4,17 @@ if (!app)
 app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', function(Resource, $uibModal, SweetAlert, BookmarkItem) {
     var bookmark = new Resource('bookmark');
     bookmark.subItems = [];
+    bookmark.editBookmarkByBid = function(bid) {
+        var item = null, i;
+        for (i = 0; i < bookmark.items.length; ++i) {
+            if (bookmark.items[i].id == bid) {
+                item = bookmark.items[i];
+                break;
+            }
+        }
+        if (item)
+            bookmark.addBookmark(item);
+    };
     bookmark.addBookmark = function(item) {
         return $uibModal.open({
             templateUrl: 'views/bookmark-add-dialog.html',
@@ -30,6 +41,17 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
                 };
             }]
         });
+    };
+    bookmark.delBookmarkByBid = function(bid) {
+        var item = null, i;
+        for (i = 0; i < bookmark.items.length; ++i) {
+            if (bookmark.items[i].id == bid) {
+                item = bookmark.items[i];
+                break;
+            }
+        }
+        if (item)
+            bookmark.delBookmark(item);
     };
     bookmark.delBookmark = function(item) {
         SweetAlert.swal({
@@ -76,8 +98,6 @@ app.factory('BookmarkItem', ['Resource', '$uibModal', 'SweetAlert', function(Res
 }]);
 
 app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource', '$uibModal', 'User', 'Bookmark', 'BookmarkItem', '$location', 'Searcher', 'SweetAlert', function($scope, settings, $http, Resource, $uibModal, User, Bookmark, BookmarkItem, $location, Searcher, SweetAlert) {
-
-
     function loadAds(type, bid) {
         Bookmark.showDetail(bid).then(function(items) {
             var wanted = [];
@@ -100,20 +120,22 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
             });
 
             //获取广告
+            $scope.data.ads = {};
             if (wanted.length > 0) {
                 adSearcher.addFilter({
                     field: 'ads_id',
                     value: wanted.join(',')
                 });
                 adSearcher.filter().then(function(data) {
-                    $scope.ads = data;
-                    $scope.ads.bookmark = true;
-                    console.log("ads", $scope.ads);
+                    $scope.data.ads = data;
+                    $scope.data.ads.bookmark = true;
+                    $scope.data.ads.wantedLength = wanted.length;
+                    // console.log("ads", 'wanted:', wanted.length, $scope.data.ads);
                 }, function() {
-                    $scope.ads = {};
+                    $scope.data.ads = {};
                 });
             }
-
+            $scope.data.adsers = {};
             //获取广告主
             if (wantedAdsers.length > 0) {
                 adserSearcher.addFilter({
@@ -121,16 +143,19 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                     value: wantedAdsers.join(',')
                 });
                 adserSearcher.filter().then(function(data) {
-                    $scope.adsers = data;
-                    $scope.adsers.bookmark = true;
+                    $scope.data.adsers = data;
+                    $scope.data.adsers.bookmark = true;
+                    $scope.data.adsers.wantedLength = wantedAdsers.length;
+                    // console.log("adsers", $scope.data.adsers);
                 }, function() {
-                    $scope.adsers = {};
+                    $scope.data.adsers = {};
                 });
             }
         });
     }
 
     function load(type, bid) {
+        Bookmark.bid = bid;
         loadAds(type, bid);
         $location.search('bid', bid);
         $location.search('type', type);
@@ -154,10 +179,10 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
     }
     $scope.Searcher = Searcher;
     $scope.bookmark = Bookmark;
+    $scope.User = User;
     //$scope.bookmark.type = 0;//当前显示类型
     $scope.load = load;
-    $scope.ads = {}; //广告列表
-    $scope.adsers = {}; //广告主列表
+    $scope.data = {ads:{}, adsers:{}}; //广告列表
     $scope.cancelBookmark = function(type, card) {
         SweetAlert.swal({
             title: 'Are you sure?',
@@ -178,18 +203,18 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                     return;
                 if (type === 0 && card.event_id == item.ident) {
                     BookmarkItem.del(item).then(function() {
-                        for (var i = 0; i < $scope.ads.ads_info.length; ++i) {
-                            if ($scope.ads.ads_info[i] == card) {
-                                $scope.ads.ads_info.splice(i, 1);
+                        for (var i = 0; i < $scope.data.ads.ads_info.length; ++i) {
+                            if ($scope.data.ads.ads_info[i] == card) {
+                                $scope.data.ads.ads_info.splice(i, 1);
                                 break;
                             }
                         }
                     });
                 } else if (type === 1 && card.adser_username == item.ident) {
                     BookmarkItem.del(item).then(function() {
-                        for (var i = 0; i < $scope.adsers.adser.length; ++i) {
-                            if ($scope.adsers.adser[i] == card) {
-                                $scope.adsers.adser.splice(i, 1);
+                        for (var i = 0; i < $scope.data.adsers.adser.length; ++i) {
+                            if ($scope.data.adsers.adser[i] == card) {
+                                $scope.data.adsers.adser.splice(i, 1);
                                 break;
                             }
                         }
