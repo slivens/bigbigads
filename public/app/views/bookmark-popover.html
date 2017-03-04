@@ -6,7 +6,7 @@
         <li ng-repeat="item in bookmark.items" >
             <div class="form-group">
                 <label class="mt-checkbox mt-checkbox-outline"> {{item.name}}
-                    <input type="checkbox" ng-model="select[$index]">
+                    <input type="checkbox" ng-model="card.select[$index]">
                     <span></span>
                 </label>
             </div>
@@ -14,7 +14,7 @@
     </ul>
     <button type="submit" class="btn btn-sm btn-block yellow-gold" cg-busy="addPromise" ng-show="bookmark.items.length > 0">
     <i class="fa fa-plus fa-fw"></i>
-    Add
+    Save
     </button>
     </form>
     <br/>

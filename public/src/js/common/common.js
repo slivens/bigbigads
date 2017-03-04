@@ -510,7 +510,7 @@ app.service('Resource', ['$resource', 'settings', 'SweetAlert', function($resour
                 return promise;
             },
             del: function(item) {
-                console.log('ondeleting', item);
+                // console.log('ondeleting', item);
                 var promise = item.$delete();
                 promise.then(function(item) {
                     vm.items.splice($.inArray(item, vm.items), 1);

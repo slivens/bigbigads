@@ -245,12 +245,14 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
 }]);
 
 app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', 'User', '$q', function($scope, Bookmark, BookmarkItem, User, $q) {
-    $scope.select = [];
+    $scope.card.select = [];
     $scope.bookmark = Bookmark;
+    $scope.selectedSubItems = [];
     $scope.add = function(card) {
         var promises = [];
-        for (var i = 0; i < $scope.select.length; i++) {
-            if ($scope.select[i]) {
+        var i, j;
+        for (i = 0; i < $scope.card.select.length; i++) {
+            if ($scope.card.select[i]) {
                 var subItem = {
                     uid: User.info.user.id,
                     bid: Bookmark.items[i].id
@@ -264,6 +266,14 @@ app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', '
                 }
                 promises.push(BookmarkItem.save(subItem));
                 console.log(subItem);
+            } else {
+                for (j = 0; j < $scope.selectedSubItems.length; ++j) {
+                    if ($scope.selectedSubItems[j].bid == Bookmark.items[i].id) {
+                        promises.push(BookmarkItem.del($scope.selectedSubItems[j]));
+                        console.log("del", Bookmark.items[j]);
+                        break;
+                    }
+                }
             }
         }
         $scope.addPromise = $q.all(promises);
@@ -271,13 +281,45 @@ app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', '
             card.showBookmark = false; //耦合
         });
     };
-    if (!Bookmark.queried) {
+    // if (!Bookmark.queried) {
         User.getInfo().then(function() {
             if (User.info.login) {
-                $scope.queryPromise = Bookmark.get({
-                    uid: User.info.user.id
+                var type, ident, promise1, promise2, promises = [];
+                if ($scope.card.event_id) {
+                    type = 0;
+                    ident = $scope.card.event_id;
+                } else if ($scope.card.adser_username) {
+                    type = 1;
+                    ident = $scope.card.adser_username;
+                }
+
+                if (!Bookmark.queried) {
+                    promise1 = Bookmark.get({
+                        uid: User.info.user.id
+                    });
+                    promises.push(promise1);
+                }
+                promise2 = BookmarkItem.get({
+                    where:JSON.stringify([
+                        ["ident", "=", ident],
+                        ["type", "=", type]
+                    ])
                 });
+                promise2.then(function(subItems) {
+                    $scope.selectedSubItems = subItems;
+                    angular.forEach(subItems, function(subItem, key) {
+                        var i;
+                        for (i = 0; i < $scope.bookmark.items.length; ++i) {
+                            if ($scope.bookmark.items[i].id == subItem.bid) {
+                                $scope.card.select[i] = true;
+                                break;
+                            }
+                        }
+                    });
+                });
+                promises.push(promise2);
+                $scope.queryPromise = $q.all(promises);
             }
         });
-    }
+    // }
 }]);
