@@ -74,11 +74,10 @@ $quick-sidebar-font-color:											    black;
 		transition: left 0.3s;	
 		left: 0;
 	}
-
 	.page-quick-sidebar {
 		//background: $quick-sidebar-bg-color;
         max-height:100%;
-        overflow-y:scroll;
+        overflow-y:auto;
         padding:8px;
 		.nav-tabs {
 			margin: 0;
