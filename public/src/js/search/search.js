@@ -1079,6 +1079,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 				searchType: 'adser',
 				url: '/forward/adserSearch'
 			});
+            $scope.inAdvertiserMode = true;
 			// $scope.adSearcher.search($scope.adSearcher.defparams, true);
 			$scope.reverseSort = function() {
 				$scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;

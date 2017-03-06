@@ -247,8 +247,8 @@ class BigbigadsSeeder extends Seeder
         echo "insert permission data\n";
     
         //advertiser 
-        $advertiser = ['advertiser_search'];
-        $advertiserPermission = ['advertiser_search'=>[false, false, false, true]];
+        $advertiser = ['adser_search'];
+        $advertiserPermission = ['adser_search'=>[false, false, false, true]];
 
         $this->insertPermissions("advertiser", $advertiser, $advertiserPermission, $roles);
         echo "insert advertisers\n";

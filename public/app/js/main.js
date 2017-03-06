@@ -1134,11 +1134,12 @@ MetronicApp.controller('HeaderController', ['$scope', function($scope) {
         Layout.initHeader(); // init header
     });
 }]);
-MetronicApp.controller('TabMenuController', ['$scope', '$location', function($scope, $location) {
+MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', function($scope, $location, User) {
     var tabmenu = {
         name: $location.path()
     };
     $scope.tabmenu = tabmenu;
+    $scope.User = User;
     $scope.$on('$locationChangeSuccess', function() {
          tabmenu.name = $location.path();
     });

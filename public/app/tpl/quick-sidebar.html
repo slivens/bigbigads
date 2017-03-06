@@ -147,7 +147,12 @@
         </div>
         
         <div class="form-group">
-            <button  type="submit" class="btn btn-lg yellow-gold">
+            <button  type="submit" class="btn btn-lg yellow-gold" ng-show="!$parent.inAdvertiserMode">
+                <!-- <i class="fa fa-filter" ></i> -->
+                Filter
+            </button>
+
+            <button  type="submit" class="btn btn-lg yellow-gold" policy-lock key="adser_search" trigger="lockButton" ng-show="$parent.inAdvertiserMode">
                 <!-- <i class="fa fa-filter" ></i> -->
                 Filter
             </button>
