@@ -238,6 +238,12 @@ body {
         border-bottom: 1px solid #e7ecf1;
         height: 90px;
     }
+    .detail-comm{
+        span{margin-left: 10px;
+            i{margin-right: 5px;color: #333;}}
+        span:first-child{margin-left: 0px;}
+
+    }
     single-image img{
         max-width: 100%;
         //padding-right: 30px;
@@ -252,7 +258,12 @@ body {
         max-width: 100%;
     }
     #Landpage{
-    .buttonlink-a{max-width: 80%;overflow: hidden;display: inline-block;margin-right: 10px;}
+    // .landpage-div{margin-left: 20px;}
+    .landpage-font{color: #AAB5BC;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;}
+    .buttonlink-a{display: inline-block;margin-right: 10px;}
     .label{padding-bottom: 1px;box-shadow: none;}
     }
 
