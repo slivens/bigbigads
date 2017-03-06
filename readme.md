@@ -72,6 +72,16 @@ BRAINTREE_PRIVATE_KEY=2616a406dba36832b23db9b0d8e6f4e8
 
 然后配置nginx或者apache,将网站根目录定位到`public/`，同时允许`URL rewrite`。配置就完成了。
 
+## 后台如何配置权限
+根据设计文档，权限与策略的基础描述信息分别都放在`permissions`与`policies`表中，而角色的权限则在`permission_role`,角色的策略在`policy_role`。直接通过修改数据库去修改权限是非常困难的。为了简化操作，这里使用了`Laravel`的种子填充功能实现权限、策略的生成以及角色的权限与策略配置。具体请查看`database/seeds/BigbigadsSeeder.php`源码，在完成修改后，执行以下命令完成配置。
+
+```
+php artisan db:seed --class=BigbigadsSeeder
+```
+
+## 前端如何判断权限
+`User.can`与`policy-lock`的指令。
+
 ## 配置QA
 
 ## 开发配置
