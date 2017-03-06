@@ -578,6 +578,11 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$state.reload();
 			};
 			$scope.showStatics = function() {
+                if (!User.can('statics_all')) {
+					SweetAlert.swal("you have no permission");
+                    return;
+                }
+
 				if (adSearcher.params.keys.length === 0) {
 					SweetAlert.swal("you must search first");
 					return;

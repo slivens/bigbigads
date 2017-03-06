@@ -35,6 +35,18 @@ class BigbigadsSeeder extends Seeder
         $this->insertPermissions('AdAnalysis', $adAnalysis, $adAnalysisPermission, $roles);
         echo "insert analysis permissions \n";
     }
+
+    /**
+     * 注入广告统计权限
+     */
+    public function insertAdStaticsPermissions(&$roles)
+    {
+        //广告分析
+        $list = ['statics_overview', 'statics_link', 'statics_audience', 'statics_trend', 'statics_all'];
+        $permission = ['statics_overview' => [true, true, true, true], 'statics_link' => [false, true, true, true], 'statics_audience' => [false, true, true, true], 'statics_trend' => [false, true, true, true], 'statics_all' => [false, true, true, true]];
+        $this->insertPermissions('Keyword Statics', $list, $permission, $roles);
+        echo "insert analysis permissions \n";
+    }
     /**
      * Run the database seeds.
      * 1:永久累计 2:按月累计 3:按日累计 4.按小时累计 5.固定数值 6.期限
@@ -114,6 +126,8 @@ class BigbigadsSeeder extends Seeder
         }
         //广告分析
         $this->insertAdAnalysisPermissions($roles);
+        //广告统计
+        $this->insertAdStaticsPermissions($roles);
 
         //Export Permissions And Policies
         $export = ['image_download', 'video_download', 'HD_video_download', 'Export'];
@@ -237,19 +251,8 @@ class BigbigadsSeeder extends Seeder
         $advertiserPermission = ['advertiser_search'=>[false, false, false, true]];
 
         $this->insertPermissions("advertiser", $advertiser, $advertiserPermission, $roles);
-        /* foreach($monitor as $key=>$item) { */
-        /*     $permision = Permission::firstOrCreate([ */
-        /*         'key'        => $item, */
-        /*         'table_name' => 'monitor', */
-        /*     ]); */
+        echo "insert advertisers\n";
 
-        /*     for ($i = 0; $i < count($roles); ++$i) { */
-        /*         if ($monitorPermission[$item][$i]) */
-        /*             $roles[$i]->permissions()->attach($permision->id); */
-        /*     } */
-        /* } */
-
-        echo "insert \n";
         } catch (\Exception $e) {
             echo $e->getMessage();
         }

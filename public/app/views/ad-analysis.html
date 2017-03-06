@@ -187,7 +187,7 @@
                             </div>
                             <div id="similar" ng-if="card.similars.length > 0">
                                 <h4 class="font-yellow-gold">Similar Ads</h4>
-                                <div ng-repeat="item in card.similars">
+                                <div ng-repeat="item in card.similars track by $index">
                                     <p><a ui-sref="adAnalysis({id:item.event_id})"  ui-sref-opts="{reload:false}">{{item.event_id}}</a></p>
                                     <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + item.watermark}}" class="img-responsive" ng-if="item.watermark"/>
                                 </div>
@@ -254,7 +254,7 @@
                                             <th>#</th>
                                             <th>Audience</th>
                                         </tr>
-                                        <tr ng-repeat="item in card.whyseeads_all">
+                                        <tr ng-repeat="item in card.whyseeads_all track by $index">
                                             <td>{{$index}}</td>
                                             <td>{{item}}</td>
                                         </tr>
@@ -264,7 +264,7 @@
                                             <th>#</th>
                                             <th>Audience</th>
                                         </tr>
-                                        <tr ng-repeat="item in card.whyseeads">
+                                        <tr ng-repeat="item in card.whyseeads track by $index">
                                             <td>{{$index}}</td>
                                             <td>{{item}}</td>
                                         </tr>

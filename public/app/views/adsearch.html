@@ -99,6 +99,7 @@
 
 </div>
 <!-- END MAIN CONTENT -->
+<!-- BEGIN statics dialog -->
 <script type="text/ng-template" id="statics-dlg.html">
   <div class="modal-header">
         <h3 class="modal-title" id="modal-title">AD Search Statics</h3>
@@ -233,7 +234,7 @@
                                 <th>Link</th>
                                 <th>Number</th>
                             </tr>
-                            <tr ng-repeat="(key, val) in statics.button_link">
+                            <tr ng-repeat="(key, val) in statics.button_link track by $index">
                                 <td>{{$index + 1}}</td>
                                 <td>{{key}}</td>
                                 <td>{{val}}</td>
@@ -251,7 +252,7 @@
                                 <th>Link</th>
                                 <th>Number</th>
                             </tr>
-                            <tr ng-repeat="(key, val) in statics.link">
+                            <tr ng-repeat="(key, val) in statics.link track by $index">
                                 <td>{{$index + 1}}</td>
                                 <td>{{key}}</td>
                                 <td>{{val}}</td>
@@ -268,7 +269,7 @@
                                 <th>Link</th>
                                 <th>Number</th>
                             </tr>
-                            <tr ng-repeat="(key, val) in statics.dest_site">
+                            <tr ng-repeat="(key, val) in statics.dest_site track by $index">
                                 <td>{{$index + 1}}</td>
                                 <td>{{key}}</td>
                                 <td>{{val}}</td>
@@ -286,7 +287,7 @@
                                 <th>Audience</th>
                                 <th>Number</th>
                             </tr>
-                            <tr ng-repeat="(key, val) in statics.whyseeads">
+                            <tr ng-repeat="(key, val) in statics.whyseeads track by $index">
                                 <td>{{$index + 1}}</td>
                                 <td>{{key}}</td>
                                 <td>{{val}}</td>
@@ -303,3 +304,4 @@
         </div>
     </div>
 </script>
+<!-- END statics dialog -->
