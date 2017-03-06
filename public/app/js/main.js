@@ -1738,11 +1738,14 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
             $location.url("/login");
         },
         can:function(key) {
+            var keyArr = key.split('|');
+            var i;
             //无登陆时的策略与有登陆需要做策略区分(只在服务器端区分是更好的做法)
             if (!user.info.permissions)
                 return false;
-            if (!user.info.permissions[key])
-                return false;
+            for (i = 0; i < keyArr.length; ++i) 
+                if (!user.info.permissions[keyArr[i]])
+                    return false;
             return true;
         },
         usable:function(key, val) {
@@ -1770,7 +1773,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
 
             if (!user.can(key)) //没有权限一定没有策略
                 return false;
-            if (!user.info.user.usage[key])//没有策略不需要策略
+            if (!user.info.user.usage[key])//没有策略不需要策略，组合权限不支持策略，所以也返回true
                 return true;
             usage = user.info.user.usage[key];
             if (usage.length > 2)

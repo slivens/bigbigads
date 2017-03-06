@@ -153,12 +153,19 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     if (!User.can(key) || !User.usable(key, attrs.val)) {
                         if (element.find('.lock').length)
                             return;
-                        if (attrs.trigger == "disabled")
+                        
+                        if (attrs.trigger == "lockButton") {
+                            element.attr("disabled", "disabled");
+                            element.append('<i class="fa fa-lock  lock"></i>');
+                        } else if (attrs.trigger == "disabled")
                             element.attr("disabled", "disabled");
                         else
                             element.append('<i class="fa fa-lock  lock"></i>');
                     } else {
-                        if (attrs.trigger == "disabled")
+                        if (attrs.trigger == "lockButton") {
+                            element.removeAttr("disabled");
+                            element.children('.lock').remove();
+                        } else if (attrs.trigger == "disabled")
                             element.removeAttr("disabled");
                         else
                             element.children('.lock').remove();

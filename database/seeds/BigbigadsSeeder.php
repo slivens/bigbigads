@@ -74,11 +74,11 @@ class BigbigadsSeeder extends Seeder
         /* } */
         
         //Search Permissions And Policies
-        $search = ['search_times_perday', 'result_per_search', 'search_filter', 'search_sortby', 'advanced_search', 'save_search', 'advertiser_search', 'dest_site_search', 'content_search', 'audience_search', 
+        $search = ['search_times_perday', 'result_per_search', 'search_filter', 'search_sortby', 'advanced_search', 'save_search', 'advertiser_search', 'domain_search', 'content_search', 'audience_search', 
             'date_filter', 'format_filter', 'call_action_filter', 'duration_filter', 'see_times_filter', 'lang_filter', 'engagement_filter', 
             'date_sort', 'likes_sort','shares_sort', 'video_views_sort', 'comment_sort', 'duration_sort', 'views_sort', 'engagement_total_sort', 'engagement_inc_sort', 'likes_inc_sort', 'video_views_inc_sort'];
         $searchPermission = ['search_times_perday'=>[true, true, true, true], 'result_per_search'=>[true, true, true, true], 'search_filter'=>[false, true, true, true], 'search_sortby'=>[false, false, true, true], 'advanced_search'=>[false, false, true, true], 'save_search' => [false, true, true, true], 
-            'advertiser_search' => [true, true, true, true], 'dest_site_search' => [true, true, true, true], 'content_search' => [true, true, true, true], 'audience_search' => [false, true, true, true], 
+            'advertiser_search' => [true, true, true, true], 'domain_search' => [true, true, true, true], 'content_search' => [true, true, true, true], 'audience_search' => [false, true, true, true], 
             'date_filter' => [true, true, true, true], 'format_filter' => [true, true, true, true], 'call_action_filter' => [false, true, true, true], 'duration_filter' => [false, true, true, true], 'see_times_filter' => [false, true, true, true], 'lang_filter' => [false, true, true, true], 'engagement_filter' => [false, true, true, true], 
             'date_sort' => [true, true, true, true], 'likes_sort' => [true, true, true, true], 'shares_sort' => [true, true, true, true], 'video_views_sort' => [true, true, true, true], 'comment_sort' => [true, true, true, true], 'duration_sort'=>[false, true, true, true], 'views_sort' => [false, true, true, true], 'engagement_total_sort' => [false, true, true, true], 'engagement_inc_sort' => [false, true, true, true], 'likes_inc_sort' => [false, true, true, true], 'video_views_inc_sort' => [false, true, true, true]];
         $searchPolicy = ['search_times_perday' => [Policy::DAY, 20,100, 500, 1000], 'result_per_search' => [Policy::VALUE, 500, 1000, 2000, 5000]];
@@ -237,7 +237,7 @@ class BigbigadsSeeder extends Seeder
         /*     } */
         /* } */
 
-        echo "insert advertisers\n";
+        echo "insert \n";
         } catch (\Exception $e) {
             echo $e->getMessage();
         }

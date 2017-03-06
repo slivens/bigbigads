@@ -41,7 +41,7 @@
         <hr>
         <div class="form-group" >
         <div class="dropdown">
-            <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn"  data-toggle="dropdown"   id="ad_run_filter">
+            <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn" policy-lock key="duration_filter|see_times_filter" trigger="lockButton" data-toggle="dropdown"   id="ad_run_filter">
                 Ad Run Filter
             </button>
             <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="ad_run_filter"> 
@@ -49,13 +49,13 @@
                     <label class="lh48h30">duration:</label>
                     </div>
                     <div class="col-md-12">
-                        <input policy-lock key="duration_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.duration.from" ng-to="$parent.filterOption.duration.to" ng-min="settings.searchSetting.durationRange[0]" ng-max="settings.searchSetting.durationRange[1]" />
+                        <input ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.duration.from" ng-to="$parent.filterOption.duration.to" ng-min="settings.searchSetting.durationRange[0]" ng-max="settings.searchSetting.durationRange[1]" />
                     </div>
                     <div class="col-md-6">
                     <label>see times:</label> 
                     </div>
                     <div class="col-md-12">
-                        <input policy-lock key="see_times_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" />
+                        <input  ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" />
                     </div>
                     <div class="col-md-12 text-left apply-button"><button type="button" class="btn btn-md yellow-lemon " >Apply</button></div>
             </div> 
@@ -64,7 +64,7 @@
         <div>
             <div class="dropdown">
                 <!-- dropdown-left-btn -->
-                <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn" data-toggle="dropdown" policy-lock key="engagement_filter" trigger="disabled" id="engament_filter">
+                <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn" data-toggle="dropdown"  policy-lock key="engagement_filter" trigger="lockButton" id="engament_filter">
                 Engament Filter
                 </button>
                 <!-- blue-steel  Likes blue-madison Shares green-meadow Comments red-sunglo Video Views dark Engaments -->
@@ -75,10 +75,10 @@
                                 <tr>
                                     <td class="like">Likes</td>
                                     
-                                    <td><input type="text" class="wt45" value=""/></td>
+                                    <td><input type="text" class="wt45" /></td>
                                     <td><label class="wt10">to</label></td>
-                                    <td><input type="text" class="wt45" value=""/></td>
-                                    <td><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
+                                    <td><input type="text" class="wt45" /></td>
+                                    <td><button type="button" class="close" aria-label="Close" ><span aria-hidden="true">&times;</span></button></td>
                                 </tr>
                                 <tr>
                                     <td class="share">Shares</td>
@@ -111,7 +111,7 @@
                             </tbody>
                         </table>
                     </div> 
-                    <div class="col-md-12 text-left apply-button"><button policy-lock type="button" class="btn btn-md yellow-lemon " key="search_filter">Apply</button></div>
+                    <div class="col-md-12 text-left apply-button"><button type="button" class="btn btn-md yellow-lemon" >Apply</button></div>
                                                             
                 </div> 
             </div>
@@ -127,9 +127,9 @@
         <div class="form-group">
             <h5>Domain:</h5>
             <div class="input-group">
-                <input policy-lock key="search_filter" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.domain.text" placeholder="E.g nike.com">
+                <input policy-lock key="domain_search" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.domain.text" placeholder="E.g nike.com">
                <span class="input-group-addon">
-                    <input policy-lock key="search_filter" trigger="disabled"  type="checkbox" class="text" ng-model="$parent.searchOption.domain.exclude" name="">Exclude
+                    <input policy-lock key="domain_search" trigger="disabled"  type="checkbox" class="text" ng-model="$parent.domainOption.domain.exclude" name="">Exclude
                 </span>
 
             </div>
@@ -138,16 +138,16 @@
             <h5>Audience:</h5>
 
             <div class="input-group">
-                <input policy-lock key="search_filter" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.audience.text" placeholder="E.g women">
+                <input policy-lock key="audience_search" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.audience.text" placeholder="E.g women">
                 <span class="input-group-addon">
-                    <input policy-lock key="search_filter" trigger="disabled" type="checkbox" class="text" ng-model="$parent.searchOption.audience.exclude" name="">Exclude
+                    <input policy-lock key="audience_search" trigger="disabled" type="checkbox" class="text" ng-model="$parent.searchOption.audience.exclude" name="">Exclude
                 </span>
             </div>
         </div>
         </div>
         
         <div class="form-group">
-            <button policy-lock type="submit" class="btn btn-lg yellow-gold" key="search_filter">
+            <button  type="submit" class="btn btn-lg yellow-gold">
                 <!-- <i class="fa fa-filter" ></i> -->
                 Filter
             </button>
