@@ -924,6 +924,8 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			 * 查找相似图
 			 */
 			searcher.findSimilar = function(watermark) {
+                if (!watermark)
+                    return false;
 				var similarSearcher = new Searcher();
 				var similarPromise;
 				var md5 = watermark.match(/\/(\w+)\./);
