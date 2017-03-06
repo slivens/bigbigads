@@ -8,7 +8,7 @@ use App\Policy;
 use App\Role;
 class BigbigadsSeeder extends Seeder
 {
-    public function insertPermissions($tableName, $list, $permissions, $roles) 
+    public function insertPermissions($tableName, $list, $permissions, &$roles) 
     {
         foreach($list as $key=>$item) {
             $permision = Permission::firstOrCreate([
@@ -24,7 +24,17 @@ class BigbigadsSeeder extends Seeder
 
     }
 
-
+    /**
+     * 注入广告分析权限
+     */
+    public function insertAdAnalysisPermissions(&$roles)
+    {
+        //广告分析
+        $adAnalysis = ['analysis_overview', 'analysis_link', 'analysis_audience', 'analysis_trend', 'analysis_similar'];
+        $adAnalysisPermission = ['analysis_overview' => [true, true, true, true], 'analysis_link' => [false, true, true, true], 'analysis_audience' => [false, true, true, true], 'analysis_trend' => [false, true, true, true], 'analysis_similar' => [false, true, true, true]];
+        $this->insertPermissions('AdAnalysis', $adAnalysis, $adAnalysisPermission, $roles);
+        echo "insert analysis permissions \n";
+    }
     /**
      * Run the database seeds.
      * 1:永久累计 2:按月累计 3:按日累计 4.按小时累计 5.固定数值 6.期限
@@ -73,7 +83,7 @@ class BigbigadsSeeder extends Seeder
         /*     } */
         /* } */
         
-        //Search Permissions And Policies
+        //广告搜索及策略 Search Permissions And Policies
         $search = ['search_times_perday', 'result_per_search', 'search_filter', 'search_sortby', 'advanced_search', 'save_search', 'advertiser_search', 'dest_site_search', 'domain_search', 'content_search', 'audience_search', 
             'date_filter', 'format_filter', 'call_action_filter', 'duration_filter', 'see_times_filter', 'lang_filter', 'engagement_filter', 
             'date_sort', 'likes_sort','shares_sort',  'comment_sort', 'duration_sort', 'views_sort', 'engagements_sort', 'engagement_inc_sort', 'likes_inc_sort', 'views_inc_sort', 'shares_inc_sort', 'comments_inc_sort'];
@@ -102,6 +112,8 @@ class BigbigadsSeeder extends Seeder
                 $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]);
             }
         }
+        //广告分析
+        $this->insertAdAnalysisPermissions($roles);
 
         //Export Permissions And Policies
         $export = ['image_download', 'video_download', 'HD_video_download', 'Export'];

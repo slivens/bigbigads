@@ -5,7 +5,7 @@
                 <li>
                     <a href="#overview">
                         <i class="fa fa-bar-chart fa-2x font-yellow-gold"></i>
-                        <div>Overview</div>
+                        <div policy-lock key="analysis_overview" >Overview</div>
                     </a>
                 </li>
                 <li>
@@ -17,19 +17,19 @@
                 <li>
                     <a href="#link">
                         <i class="fa fa-link fa-2x font-yellow-gold"></i>
-                        <div>Link</div>
+                        <div policy-lock key="analysis_link">Link</div>
                     </a>
                 </li>
                 <li>
                     <a href="#interactive">
                         <i class="fa fa-feed fa-2x font-yellow-gold"></i>
-                        <div>Interactive</div>
+                        <div policy-lock key="analysis_trend">Interactive</div>
                     </a>
                 </li>
                 <li>
                     <a href="#audience">
                         <i class="fa fa-eye fa-2x font-yellow-gold"></i>
-                        <div>Audience</div>
+                        <div policy-lock key="analysis_audience">Audience</div>
                     </a>
                 </li>
             </ul>
@@ -195,66 +195,86 @@
                             <!-- begin link-->
                             <div id="link">
                                 <h4 class="font-yellow-gold">Link</h4>
-                                <div ng-if="card.type == 'Carousel'">
+                                <div ng-show="User.can('analysis_link')">
+                                    <div ng-if="card.type == 'Carousel'">
 
+                                    </div>
+                                    <div ng-if="card.type != 'Carousel'">
+                                        <h5><a href="{{card.link}}" >{{card.link}}</a></h5>
+                                        <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.snapshot}}" class="img-responsive" ng-if="card.snapshot" />
+                                    </div>
                                 </div>
-                                <div ng-if="card.type != 'Carousel'">
-                                    <h5><a href="{{card.link}}" >{{card.link}}</a></h5>
-                                    <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.snapshot}}" class="img-responsive" ng-if="card.snapshot" />
+                                <div class="text-center text-danger" ng-show="!User.can('analysis_link')">
+                                    <span>No Permission</span>
                                 </div>
                             </div>
                             <!-- end link -->
+                            <!-- begin interactive -->
                             <div id="interactive">
                                 <h4 class="font-yellow-gold">Interactive</h4>
-                                <div class="text-center" ng-show="adSearcher.isLoadingCharts">
-                                    <i class="fa fa-spinner fa-spin"></i>Loading Charts...
-                                </div>
-                                <div class="text-center" ng-show="adSearcher.noTrends">
-                                    <span>no trends data...</span>
-                                </div>
-                                <div class="col-xs-12" ng-if="adSearcher.commentsTrend">
-                                    <highchart  config="adSearcher.commentsTrend"></highchart>
-                                </div>
+                                <div ng-show="User.can('analysis_trend')">
+                                    <div class="text-center" ng-show="adSearcher.isLoadingCharts">
+                                        <i class="fa fa-spinner fa-spin"></i>Loading Charts...
+                                    </div>
+                                    <div class="text-center" ng-show="adSearcher.noTrends">
+                                        <span>no trends data...</span>
+                                    </div>
+                                    <div class="col-xs-12" ng-if="adSearcher.commentsTrend">
+                                        <highchart  config="adSearcher.commentsTrend"></highchart>
+                                    </div>
 
-                                <div class="col-xs-12" ng-if="adSearcher.engagementsTrend">
-                                    <highchart  config="adSearcher.engagementsTrend"></highchart>
-                                </div>
+                                    <div class="col-xs-12" ng-if="adSearcher.engagementsTrend">
+                                        <highchart  config="adSearcher.engagementsTrend"></highchart>
+                                    </div>
 
-                                <div class="col-xs-12" ng-if="adSearcher.likesTrend">
-                                    <highchart  config="adSearcher.likesTrend"></highchart>
-                                </div>
-                                <button  class="btn font-yellow-gold btn-link" ng-click="adSearcher.showAllTrend=true" ng-if="adSearcher.sharesTrend || adSearcher.viewsTrend" ng-show="!adSearcher.showAllTrend">More...</button>
-                                <div class="col-xs-12" ng-if="adSearcher.sharesTrend" ng-show="adSearcher.showAllTrend">
-                                    <highchart  config="adSearcher.sharesTrend"></highchart>
-                                </div>
+                                    <div class="col-xs-12" ng-if="adSearcher.likesTrend">
+                                        <highchart  config="adSearcher.likesTrend"></highchart>
+                                    </div>
+                                    <button  class="btn font-yellow-gold btn-link" ng-click="adSearcher.showAllTrend=true" ng-if="adSearcher.sharesTrend || adSearcher.viewsTrend" ng-show="!adSearcher.showAllTrend">More...</button>
+                                    <div class="col-xs-12" ng-if="adSearcher.sharesTrend" ng-show="adSearcher.showAllTrend">
+                                        <highchart  config="adSearcher.sharesTrend"></highchart>
+                                    </div>
 
-                                <div class="col-xs-12" ng-if="adSearcher.viewsTrend" ng-show="adSearcher.showAllTrend">
-                                    <highchart  config="adSearcher.viewsTrend"></highchart>
+                                    <div class="col-xs-12" ng-if="adSearcher.viewsTrend" ng-show="adSearcher.showAllTrend">
+                                        <highchart  config="adSearcher.viewsTrend"></highchart>
+                                    </div>
+                                </div>
+                                <div class="text-center text-danger" ng-show="!User.can('analysis_trend')">
+                                    <span>No Permission</span>
                                 </div>
                             </div>
+                            <!-- end interactive -->
+                            <!-- begin audience -->
                             <div id="audience">
                                 <h4 class="font-yellow-gold">Audience</h4>
-                                <table ng-if="card.whyseeads_all" class="table table-hover">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Audience</th>
-                                    </tr>
-                                    <tr ng-repeat="item in card.whyseeads_all">
-                                        <td>{{$index}}</td>
-                                        <td>{{item}}</td>
-                                    </tr>
-                                </table>
-                                <table ng-if="card.whyseeads" class="table table-hover">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Audience</th>
-                                    </tr>
-                                    <tr ng-repeat="item in card.whyseeads">
-                                        <td>{{$index}}</td>
-                                        <td>{{item}}</td>
-                                    </tr>
-                                </table>
+
+                                <div ng-show="User.can('analysis_audience')">
+                                    <table ng-if="card.whyseeads_all" class="table table-hover">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Audience</th>
+                                        </tr>
+                                        <tr ng-repeat="item in card.whyseeads_all">
+                                            <td>{{$index}}</td>
+                                            <td>{{item}}</td>
+                                        </tr>
+                                    </table>
+                                    <table ng-if="card.whyseeads" class="table table-hover">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Audience</th>
+                                        </tr>
+                                        <tr ng-repeat="item in card.whyseeads">
+                                            <td>{{$index}}</td>
+                                            <td>{{item}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="text-center text-danger" ng-show="!User.can('analysis_audience')">
+                                    <span>No Permission</span>
+                                </div>
                             </div>
+                            <!-- end audience-->
                         </div>
                     </div>
                 </div>

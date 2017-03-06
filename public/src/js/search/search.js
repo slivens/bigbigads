@@ -880,14 +880,15 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         });
         // $scope.adSearcher.filter();
 	}])
-	.controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window', '$http', 'Util',
-		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $window, $http, Util) {
+	.controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window', '$http', 'Util','User', 
+		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $window, $http, Util, User) {
 			var searcher = $scope.adSearcher = new Searcher();
 			// $scope.adSearcher.search($scope.adSearcher.defparams, true);
 			$scope.reverseSort = function() {
 				$scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;
 				$scope.adSearcher.filter();
 			};
+            $scope.User = User;
 			$scope.card = {
 				end: true,
 				similars: []
@@ -932,7 +933,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				if (md5 === null) {
 					return false;
 				}
-				console.log(md5);
+				// console.log(md5);
 				md5 = md5[1];
 
 				similarSearcher.addFilter({
