@@ -224,7 +224,7 @@ class BigbigadsSeeder extends Seeder
         $advertiser = ['advertiser_search'];
         $advertiserPermission = ['advertiser_search'=>[false, false, false, true]];
 
-        insertPermissions("advertiser", $advertiser, $advertiserPermission, $roles);
+        $this->insertPermissions("advertiser", $advertiser, $advertiserPermission, $roles);
         /* foreach($monitor as $key=>$item) { */
         /*     $permision = Permission::firstOrCreate([ */
         /*         'key'        => $item, */
@@ -237,7 +237,7 @@ class BigbigadsSeeder extends Seeder
         /*     } */
         /* } */
 
-        echo "insert bookmarks\n";
+        echo "insert advertisers\n";
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
