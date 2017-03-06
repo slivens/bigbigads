@@ -574,16 +574,20 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
             }],
             rangeList: [{
                 key: "adser_name,adser_username",
-                value: "Advertiser"
+                value: "Advertiser",
+                permission:"advertiser_search"
             }, {
                 key: "dest_site",
-                value: "Destsite"
+                value: "Destsite",
+                permission:"dest_site_search"
             }, {
                 key: "description",
-                value: "Content"
+                value: "Content",
+                permission:"content_search"
             }, {
                 key:"whyseeads,whyseeads_all",
-                value:"Audience"
+                value:"Audience",
+                permission:"audience_search"
             }],
             langList: [{
                 key: "af",

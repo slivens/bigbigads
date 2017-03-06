@@ -8,6 +8,23 @@ use App\Policy;
 use App\Role;
 class BigbigadsSeeder extends Seeder
 {
+    public function insertPermissions($tableName, $list, $permissions, $roles) 
+    {
+        foreach($list as $key=>$item) {
+            $permision = Permission::firstOrCreate([
+                'key'        => $item,
+                'table_name' => $tableName
+            ]);
+
+            for ($i = 0; $i < count($roles); ++$i) {
+                if ($permissions[$item][$i])
+                    $roles[$i]->permissions()->attach($permision->id);
+            }
+        }
+
+    }
+
+
     /**
      * Run the database seeds.
      * 1:永久累计 2:按月累计 3:按日累计 4.按小时累计 5.固定数值 6.期限
@@ -15,6 +32,7 @@ class BigbigadsSeeder extends Seeder
      */
     public function run()
     {
+        try {
         //创建角色 
         $roleNames = ["Free" => "Free", "Standard"=>"Standard", "Advanced" => "Advanced", "Pro" => "Pro"];
         $roles = [];
@@ -29,40 +47,45 @@ class BigbigadsSeeder extends Seeder
             $roles[$i]->permissions()->detach();
             $roles[$i]->policies()->detach();
         }
-        echo "Insert Roles\n";
+        /* $this->info("Insert Roles"); */
         $role = Role::where('name', 'Standard')->first();
         //权限分配控制有与没有
         //策略分配控制多少
-        $dashboard = ["online_users", "duration", "ad_date", "ad_update", "platform"];
-        $dashboardPolicy = ['online_users' => [Policy::VALUE, 1, 1, 1, 3], "duration" => [Policy::VALUE, 5, 30, 30, 30], "ad_date" => [Policy::VALUE, 90, 180, 360, 0], "ad_update" => [Policy::VALUE, 'month', 'daily', 'daily', 'real time'], "platform" => [Policy::VALUE, 5, 5, 7, 7]];
-        //dashboard permission
-        foreach($dashboard as $key=>$item) {
-            $permision = Permission::firstOrCreate([
-                'key'        => $item,
-                'table_name' => 'dashboard'
-            ]);
-            for ($i = 0; $i < count($roles); ++$i) {
-                $roles[$i]->permissions()->attach($permision->id);
-            }
-        }
-        foreach($dashboardPolicy as $key=>$item) {
-            $policy = Policy::firstOrCreate([
-                'key'   => $key,
-                'type'  => $item[0]
-            ]);
-            for ($i = 0; $i < count($roles); ++$i) {
-                $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]);
-            }
-        }
+        /* $dashboard = ["online_users", "duration", "ad_date", "ad_update", "platform"]; */
+        /* $dashboardPolicy = ['online_users' => [Policy::VALUE, 1, 1, 1, 3], "duration" => [Policy::VALUE, 5, 30, 30, 30], "ad_date" => [Policy::VALUE, 90, 180, 360, 0], "ad_update" => [Policy::VALUE, 'month', 'daily', 'daily', 'real time'], "platform" => [Policy::VALUE, 5, 5, 7, 7]]; */
+        /* //dashboard permission */
+        /* foreach($dashboard as $key=>$item) { */
+        /*     $permision = Permission::firstOrCreate([ */
+        /*         'key'        => $item, */
+        /*         'table_name' => 'dashboard' */
+        /*     ]); */
+        /*     for ($i = 0; $i < count($roles); ++$i) { */
+        /*         $roles[$i]->permissions()->attach($permision->id); */
+        /*     } */
+        /* } */
+        /* foreach($dashboardPolicy as $key=>$item) { */
+        /*     $policy = Policy::firstOrCreate([ */
+        /*         'key'   => $key, */
+        /*         'type'  => $item[0] */
+        /*     ]); */
+        /*     for ($i = 0; $i < count($roles); ++$i) { */
+        /*         $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]); */
+        /*     } */
+        /* } */
         
         //Search Permissions And Policies
-        $search = ['search_times_perday', 'result_per_search', 'search_filter', 'search_sortby', 'advanced_search', 'save_search'];
-        $searchPermission = ['search_times_perday'=>[true, true, true, true], 'result_per_search'=>[true, true, true, true], 'search_filter'=>[false, true, true, true], 'search_sortby'=>[false, false, true, true], 'advanced_search'=>[false, false, true, true], 'save_search' => [false, true, true, true]];
+        $search = ['search_times_perday', 'result_per_search', 'search_filter', 'search_sortby', 'advanced_search', 'save_search', 'advertiser_search', 'dest_site_search', 'content_search', 'audience_search', 
+            'date_filter', 'format_filter', 'call_action_filter', 'duration_filter', 'see_times_filter', 'lang_filter', 'engagement_filter', 
+            'date_sort', 'likes_sort','shares_sort', 'video_views_sort', 'comment_sort', 'duration_sort', 'views_sort', 'engagement_total_sort', 'engagement_inc_sort', 'likes_inc_sort', 'video_views_inc_sort'];
+        $searchPermission = ['search_times_perday'=>[true, true, true, true], 'result_per_search'=>[true, true, true, true], 'search_filter'=>[false, true, true, true], 'search_sortby'=>[false, false, true, true], 'advanced_search'=>[false, false, true, true], 'save_search' => [false, true, true, true], 
+            'advertiser_search' => [true, true, true, true], 'dest_site_search' => [true, true, true, true], 'content_search' => [true, true, true, true], 'audience_search' => [false, true, true, true], 
+            'date_filter' => [true, true, true, true], 'format_filter' => [true, true, true, true], 'call_action_filter' => [false, true, true, true], 'duration_filter' => [false, true, true, true], 'see_times_filter' => [false, true, true, true], 'lang_filter' => [false, true, true, true], 'engagement_filter' => [false, true, true, true], 
+            'date_sort' => [true, true, true, true], 'likes_sort' => [true, true, true, true], 'shares_sort' => [true, true, true, true], 'video_views_sort' => [true, true, true, true], 'comment_sort' => [true, true, true, true], 'duration_sort'=>[false, true, true, true], 'views_sort' => [false, true, true, true], 'engagement_total_sort' => [false, true, true, true], 'engagement_inc_sort' => [false, true, true, true], 'likes_inc_sort' => [false, true, true, true], 'video_views_inc_sort' => [false, true, true, true]];
         $searchPolicy = ['search_times_perday' => [Policy::DAY, 20,100, 500, 1000], 'result_per_search' => [Policy::VALUE, 500, 1000, 2000, 5000]];
         foreach($search as $key=>$item) {
             $permision = Permission::firstOrCreate([
                 'key'        => $item,
-                'table_name' => 'search',
+                'table_name' => 'Advertisement',
             ]);
 
             for ($i = 0; $i < count($roles); ++$i) {
@@ -122,7 +145,7 @@ class BigbigadsSeeder extends Seeder
         
         //排名权限与策略
         $ranking = ['ranking', 'ranking_export', 'ranking_by_category'];
-        $rankingPermission = ['ranking'=>[true, true, true, true], 'ranking_export'=>[false, true, true, true], 'ranking_by_category'=>[false, false, true,true]];
+        $rankingPermission = ['ranking'=>[false, false, true, true], 'ranking_export'=>[false, true, true, true], 'ranking_by_category'=>[false, false, true,true]];
         $rankingPolicy = ['ranking'=>[Policy::VALUE, 50, 100, 500, 10000], 'ranking_export'=>[Policy::VALUE, 0, 100, 500, 10000]];
         foreach($ranking as $key=>$item) {
             $permision = Permission::firstOrCreate([
@@ -147,9 +170,9 @@ class BigbigadsSeeder extends Seeder
         }
 
         //收藏夹权限与策略
-        $bookmark = ['bookmark_support', 'bookmark_list', 'save_ad_count', 'save_adser_count'];
-        $bookmarkPermission = ['bookmark_support'=>[false, true, true, true], 'bookmark_list'=>[false, true, true, true], 'save_ad_count'=>[false, true, true, true], 'save_adser_count'=>[false, true, true, true]];
-        $bookmarkPolicy = ['bookmark_list'=>[Policy::PERMANENT, 0, 20, 50, 50], 'save_ad_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000], 'save_adser_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000]];
+        $bookmark = ['bookmark_support', 'bookmark_list', 'bookmark_adser_support', 'save_count'];
+        $bookmarkPermission = ['bookmark_support'=>[false, true, true, true], 'bookmark_list'=>[true, true, true, true], 'bookmark_adser_support'=>[false, true, true, true], 'save_count'=>[false, true, true, true]];
+        $bookmarkPolicy = ['bookmark_list'=>[Policy::PERMANENT, 1, 10, 100, 10000], 'save_ad_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000], 'save_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000]];
         foreach($bookmark as $key=>$item) {
             $permision = Permission::firstOrCreate([
                 'key'        => $item,
@@ -197,14 +220,26 @@ class BigbigadsSeeder extends Seeder
         }
         echo "insert permission data\n";
     
+        //advertiser 
+        $advertiser = ['advertiser_search'];
+        $advertiserPermission = ['advertiser_search'=>[false, false, false, true]];
 
-        //收藏夹测试项
-        Bookmark::firstOrCreate(['uid'=>1, 'name'=>'Sport']);
-        Bookmark::firstOrCreate(['uid'=>1, 'name'=>'Technology']);
+        insertPermissions("advertiser", $advertiser, $advertiserPermission, $roles);
+        /* foreach($monitor as $key=>$item) { */
+        /*     $permision = Permission::firstOrCreate([ */
+        /*         'key'        => $item, */
+        /*         'table_name' => 'monitor', */
+        /*     ]); */
 
-        //添加收藏项
-        /* BookmarkItem::firstOrCreate(['uid'=>1, 'bid'=>1, 'type'=>0, 'ident'=> '23842544524540050']); */
-        /* BookmarkItem::firstOrCreate(['uid'=>1, 'bid'=>1, 'type'=>1, 'ident'=> 'coxcommunications']); */
+        /*     for ($i = 0; $i < count($roles); ++$i) { */
+        /*         if ($monitorPermission[$item][$i]) */
+        /*             $roles[$i]->permissions()->attach($permision->id); */
+        /*     } */
+        /* } */
+
         echo "insert bookmarks\n";
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
     }
 }

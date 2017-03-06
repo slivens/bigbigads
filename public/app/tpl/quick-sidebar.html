@@ -10,36 +10,38 @@
     <form role="form" ng-submit="$parent.search('filter')">
         <div class="input-group">
             <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-calendar"></i></span>
-            <input policy-lock key="search_filter" trigger="disabled" date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.date" options="daterangeOption" placeholder="Filter By Date" aria-describedby="filterbydate_addon"/> 
+            <input policy-lock key="date_filter" trigger="disabled" date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.date" options="daterangeOption" placeholder="Filter By Date" aria-describedby="filterbydate_addon"/> 
         </div>
         <div class="input-group">
             <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-search"></i></span>
-            <select id="search_range_select" policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Search Range">
-                  <option ng-repeat="item in $parent.searchOption.range">{{item.value}}</option>
+            <select id="search_range_select"  trigger="disabled" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Search Range">
+                <option policy-lock ng-repeat="item in $parent.searchOption.range" key={{item.permission}} trigger="disabled">
+                {{item.value}}
+                </option>
             </select>
         </div>
         <div class="input-group">
             <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-picture-o"></i></span>
-            <select policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Format">
+            <select policy-lock key="format_filter" trigger="disabled" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Format">
                   <option ng-repeat="item in $parent.filterOption.format">{{item.value}}</option>
             </select>
         </div>
         <div class="input-group">
             <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-flag"></i></span>
-            <select policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Call to Action">
+            <select policy-lock key="call_action_filter" trigger="disabled" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Call to Action">
             <option ng-repeat="item in buttondescOpt.items"  ng-hide="$index >= buttondescOpt.defnum && buttondescOpt.collapse">{{item.value}}</option>
             </select>
         </div>
         <div class="input-group">
             <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-language"></i></span>
             <!-- <input type="text" class="form-control" ng-model="$parent.filterOption.lang" placeholder="E.g Engllish"> -->
-            <select policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon" id="language" multiple="multiple"  data-placeholder="Language" ng-model="$parent.filterOption.lang" ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" >
+            <select policy-lock key="lang_filter" trigger="disabled" select2 class="form-control has_left_icon" id="language" multiple="multiple"  data-placeholder="Language" ng-model="$parent.filterOption.lang" ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" >
             </select>
         </div>
         <hr>
         <div class="form-group" >
         <div class="dropdown">
-            <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn"  data-toggle="dropdown" policy-lock key="search_filter" trigger="disabled" id="ad_run_filter">
+            <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn"  data-toggle="dropdown"   id="ad_run_filter">
                 Ad Run Filter
             </button>
             <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="ad_run_filter"> 
@@ -47,22 +49,22 @@
                     <label class="lh48h30">duration:</label>
                     </div>
                     <div class="col-md-12">
-                        <input policy-lock key="search_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.duration.from" ng-to="$parent.filterOption.duration.to" ng-min="settings.searchSetting.durationRange[0]" ng-max="settings.searchSetting.durationRange[1]" />
+                        <input policy-lock key="duration_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.duration.from" ng-to="$parent.filterOption.duration.to" ng-min="settings.searchSetting.durationRange[0]" ng-max="settings.searchSetting.durationRange[1]" />
                     </div>
                     <div class="col-md-6">
                     <label>see times:</label> 
                     </div>
                     <div class="col-md-12">
-                        <input policy-lock key="search_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" />
+                        <input policy-lock key="see_times_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" />
                     </div>
-                    <div class="col-md-12 text-left apply-button"><button policy-lock type="button" class="btn btn-md yellow-lemon " key="search_filter">Apply</button></div>
+                    <div class="col-md-12 text-left apply-button"><button type="button" class="btn btn-md yellow-lemon " >Apply</button></div>
             </div> 
         </div>
         </div>
         <div>
             <div class="dropdown">
                 <!-- dropdown-left-btn -->
-                <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn" data-toggle="dropdown" policy-lock key="search_filter" trigger="disabled" id="engament_filter">
+                <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn" data-toggle="dropdown" policy-lock key="engagement_filter" trigger="disabled" id="engament_filter">
                 Engament Filter
                 </button>
                 <!-- blue-steel  Likes blue-madison Shares green-meadow Comments red-sunglo Video Views dark Engaments -->

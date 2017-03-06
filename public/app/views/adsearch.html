@@ -15,7 +15,7 @@
                                         <span class="input-group-addon xg-type-select">
                                             <select class="bs-select" data-width="150px" ng-model="filterOption.type" >
                                                 <option value="" >ALL</option>
-                                                <option policy-lock ng-repeat="item in settings.searchSetting.adsTypes" value="{{item.key}}" key="platform" val="{{item.key}}">
+                                                <option ng-repeat="item in settings.searchSetting.adsTypes" value="{{item.key}}" key="platform" val="{{item.key}}">
                                                 {{item.value}}
                                                 </option>
                                             </select>
