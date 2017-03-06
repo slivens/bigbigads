@@ -106,62 +106,74 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 key: 'last_view_date',
                 value: 'Last_Seen',
                 last: false,
-                group: 'time'
+                group: 'time',
+                permission:'date_sort'
             }, {
                 key: 'duration_days',
                 value: 'Duration',
                 last: true,
-                group: 'time'
+                group: 'time',
+                permission:'duration_sort'
             }, {
                 key: 'engagements',
                 value: 'Engagements',
                 last: false,
-                group: 'seen'
+                group: 'seen',
+                permission:'engagements_sort'
             }, {
                 key: 'views',
                 value:'Video views',
                 last: false,
-                group: 'seen'
+                group: 'seen',
+                permission:'views_sort'
             }, {
                 key: 'engagements_per_7d',
                 value: 'Growth Engaments',
                 last: false,
-                group: 'seen'
+                group: 'seen',
+                permission:'engagement_inc_sort'
             }, {
                 key: 'views_per_7d',
                 value: 'Growth Video views',
                 last: true,
-                group: 'seen'
+                group: 'seen',
+                permission:'views_inc_sort'
             }, {
                 key:'likes',
                 value:'likes',
                 last: false,
-                group: 'interactive'
+                group: 'interactive',
+                permission:'likes_sort',
             }, {
                 key:'shares',
                 value:'shares',
                 last: false,
-                group: 'interactive'
+                group: 'interactive',
+                permission:'shares_sort'
             }, {
                 key:'comments',
                 value:'comments',
                 last: false,
-                group: 'interactive'
+                group: 'interactive',
+                permission:'comment_sort'
             }, {
                 key:'likes_per_7d',
                 value:'growth likes',
                 last: false,
-                group: 'interactive'
+                group: 'interactive',
+                permission:'likes_inc_sort'
             }, {
                 key:'shares_per_7d',
                 value:'growth shares',
                 last: false,
-                group: 'interactive'
+                group: 'interactive',
+                permission:'shares_inc_sort'
             }, {
                 key:'comments_per_7d',
                 value:'growth comments',
                 last: true,
-                group: 'interactive'
+                group: 'interactive',
+                permission:'comments_inc_sort'
             }],
             adsTypes: [{
                 key: 'timeline',

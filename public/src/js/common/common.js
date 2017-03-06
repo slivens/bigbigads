@@ -150,6 +150,8 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             link: function(scope, element, attrs) {
                 function check() {
                     var key = attrs.key;
+                    if (!key)
+                        return;
                     if (!User.can(key) || !User.usable(key, attrs.val)) {
                         if (element.find('.lock').length)
                             return;
