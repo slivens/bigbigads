@@ -733,11 +733,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					$scope.adSearcher.removeFilter('category');
 				}
 
-				//内容格式 
-				angular.forEach($scope.filterOption.format, function(item, key) {
-					if (item.selected) {
-						format.push(item.key);
-					}
+				//format by select2 multiple
+				angular.forEach($scope.filterOption.formatSelected, function(item) {
+						format.push(item);
 				});
 				$scope.filterOption.formatString = format.join(',');
 				if (format.length) {
@@ -749,11 +747,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					$scope.adSearcher.removeFilter('media_type');
 				}
 
-				//Button Description
-				angular.forEach($scope.filterOption.buttondesc, function(item, key) {
-					if (item.selected) {
-						buttondesc.push(item.key);
-					}
+				//Call To Action
+				angular.forEach($scope.filterOption.callToAction, function(item) {
+						buttondesc.push(item);
 				});
 				option.buttondescString = buttondesc.join(',');
 				if (buttondesc.length) {
@@ -824,11 +820,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				}
 				//字符串和域
 				$scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
-				if (option.search.text) {
-					angular.forEach(option.range, function(item, key) {
-						if (item.selected) {
-							range.push(item.key);
-						}
+				if (option.rangeselected) {
+					angular.forEach(option.rangeselected, function(item) {
+							range.push(item);
 					});
 					option.search.fields = range.length ? range.join(',') : option.search.fields;
 					keys.push({
@@ -1173,11 +1167,9 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 					$scope.adSearcher.removeFilter('category');
 				}
 
-				//内容格式 
-				angular.forEach($scope.filterOption.format, function(item, key) {
-					if (item.selected) {
-						format.push(item.key);
-					}
+				//format by select2 multiple
+				angular.forEach($scope.filterOption.formatSelected, function(item) {
+						format.push(item);
 				});
 				$scope.filterOption.formatString = format.join(',');
 				if (format.length) {
@@ -1189,11 +1181,9 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 					$scope.adSearcher.removeFilter('media_type');
 				}
 
-				//Button Description
-				angular.forEach($scope.filterOption.buttondesc, function(item, key) {
-					if (item.selected) {
-						buttondesc.push(item.key);
-					}
+				//Call To Action
+				angular.forEach($scope.filterOption.callToAction, function(item) {
+						buttondesc.push(item);
 				});
 				option.buttondescString = buttondesc.join(',');
 				if (buttondesc.length) {
@@ -1242,11 +1232,9 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 
 				//字符串和域
 				$scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
-				if (option.search.text) {
-					angular.forEach(option.range, function(item, key) {
-						if (item.selected) {
-							range.push(item.key);
-						}
+				if (option.rangeselected) {
+					angular.forEach(option.rangeselected, function(item) {
+							range.push(item);
 					});
 					option.search.fields = range.length ? range.join(',') : option.search.fields;
 					keys.push({
