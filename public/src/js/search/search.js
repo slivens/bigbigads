@@ -596,7 +596,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						var seacher = new Searcher();
 						seacher.params = angular.copy(adSearcher.params);
 						$scope.statics = {};
-						$scope.queryPromise = seacher.getStatics(seacher.params);
+						$scope.queryPromise = seacher.getStatics(seacher.params, "statics");
 						$scope.queryPromise.then(function(res) {
 							var data = $scope.statics = res.data;
 							//饼图
@@ -607,8 +607,11 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 							$scope.statics.mediaTypeConfig = Util.initPie(data.media_type, "Media Type");
 
 							//button_link, dest_site,link,whyseeads太长，怎么处理？
-							console.log(res);
-						});
+							// console.log(res);
+                        }, function(res) {
+                            $uibModalInstance.dismiss("cancel");
+                            Util.hint(res);
+                        });
 						$scope.close = function() {
 							$uibModalInstance.dismiss('cancel');
 						};

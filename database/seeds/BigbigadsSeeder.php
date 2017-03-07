@@ -24,16 +24,44 @@ class BigbigadsSeeder extends Seeder
 
     }
 
+    public function insertPolicies(&$policies, &$roles)
+    {
+        foreach($policies as $key=>$item) {
+            $policy = Policy::firstOrCreate([
+                'key'   => $key,
+                'type'  => $item[0]
+            ]);
+            for ($i = 0; $i < count($roles); ++$i) {
+                $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]);
+            }
+        }
+    }
+
     /**
      * 注入广告分析权限
      */
     public function insertAdAnalysisPermissions(&$roles)
     {
         //广告分析
-        $adAnalysis = ['analysis_overview', 'analysis_link', 'analysis_audience', 'analysis_trend', 'analysis_similar'];
-        $adAnalysisPermission = ['analysis_overview' => [true, true, true, true], 'analysis_link' => [false, true, true, true], 'analysis_audience' => [false, true, true, true], 'analysis_trend' => [false, true, true, true], 'analysis_similar' => [false, true, true, true]];
+        $adAnalysis = ['analysis_overview', 'analysis_link', 'analysis_audience', 'analysis_trend', 'analysis_similar', 'ad_analysis_times_perday'];
+        $adAnalysisPermission = ['analysis_overview' => [true, true, true, true], 'analysis_link' => [false, true, true, true], 'analysis_audience' => [false, true, true, true], 'analysis_trend' => [false, true, true, true], 'analysis_similar' => [false, true, true, true],'ad_analysis_times_perday' => [true, true, true, true]];
+        $policies = ['ad_analysis_times_perday' => [Policy::DAY, 1000, 1000, 1000, 1000]];
         $this->insertPermissions('AdAnalysis', $adAnalysis, $adAnalysisPermission, $roles);
+        $this->insertPolicies($policies, $roles);
         echo "insert analysis permissions \n";
+    }
+
+    /**
+     * 注入广告主权限
+     */
+    public function insertAdsersPermissions(&$roles)
+    {
+        $advertiser = ['adser_search', 'adser_search_times_perday'];
+        $advertiserPermission = ['adser_search'=>[false, false, false, true], 'adser_search_times_perday' => [true, true, true, true]];
+        $policies = ['adser_search_times_perday' => [Policy::DAY, 1000, 1000, 1000, 1000]];
+        $this->insertPermissions("advertiser", $advertiser, $advertiserPermission, $roles);
+        $this->insertPolicies($policies, $roles);
+        echo "insert advertisers permissions \n";
     }
 
     /**
@@ -96,14 +124,15 @@ class BigbigadsSeeder extends Seeder
         /* } */
         
         //广告搜索及策略 Search Permissions And Policies
-        $search = ['search_times_perday', 'result_per_search', 'search_filter', 'search_sortby', 'advanced_search', 'save_search', 'advertiser_search', 'dest_site_search', 'domain_search', 'content_search', 'audience_search', 
+        $search = ['search_times_perday', 'result_per_search', 'search_filter', 'search_sortby', 'advanced_search', 'save_search', 'keyword_times_perday', 
+            'advertiser_search', 'dest_site_search', 'domain_search', 'content_search', 'audience_search', 
             'date_filter', 'format_filter', 'call_action_filter', 'duration_filter', 'see_times_filter', 'lang_filter', 'engagement_filter', 
             'date_sort', 'likes_sort','shares_sort',  'comment_sort', 'duration_sort', 'views_sort', 'engagements_sort', 'engagement_inc_sort', 'likes_inc_sort', 'views_inc_sort', 'shares_inc_sort', 'comments_inc_sort'];
-        $searchPermission = ['search_times_perday'=>[true, true, true, true], 'result_per_search'=>[true, true, true, true], 'search_filter'=>[false, true, true, true], 'search_sortby'=>[false, false, true, true], 'advanced_search'=>[false, false, true, true], 'save_search' => [false, true, true, true], 
+        $searchPermission = ['search_times_perday'=>[true, true, true, true], 'result_per_search'=>[true, true, true, true], 'search_filter'=>[false, true, true, true], 'search_sortby'=>[false, false, true, true], 'advanced_search'=>[false, false, true, true], 'save_search' => [false, true, true, true], 'keyword_times_perday' => [true, true, true, true],
             'advertiser_search' => [true, true, true, true], 'dest_site_search' => [true, true, true, true], 'domain_search' => [true, true, true, true], 'content_search' => [true, true, true, true], 'audience_search' => [false, true, true, true], 
             'date_filter' => [true, true, true, true], 'format_filter' => [true, true, true, true], 'call_action_filter' => [false, true, true, true], 'duration_filter' => [false, true, true, true], 'see_times_filter' => [false, true, true, true], 'lang_filter' => [false, true, true, true], 'engagement_filter' => [false, true, true, true], 
             'date_sort' => [true, true, true, true], 'likes_sort' => [true, true, true, true], 'shares_sort' => [true, true, true, true],  'comment_sort' => [true, true, true, true], 'duration_sort'=>[false, true, true, true], 'views_sort' => [false, true, true, true], 'engagements_sort' => [false, true, true, true], 'engagement_inc_sort' => [false, true, true, true], 'likes_inc_sort' => [false, true, true, true], 'views_inc_sort' => [false, true, true, true], 'shares_inc_sort'=>[false, true, true, true], 'comments_inc_sort' => [false, true, true, true]];
-        $searchPolicy = ['search_times_perday' => [Policy::DAY, 20,100, 500, 1000], 'result_per_search' => [Policy::VALUE, 500, 1000, 2000, 5000]];
+        $searchPolicy = ['search_times_perday' => [Policy::DAY, 20,100, 500, 1000], 'result_per_search' => [Policy::VALUE, 500, 1000, 2000, 5000], 'keyword_times_perday' => [Policy::DAY, 1000, 1000, 1000, 1000]];
         foreach($search as $key=>$item) {
             $permision = Permission::firstOrCreate([
                 'key'        => $item,
@@ -246,12 +275,6 @@ class BigbigadsSeeder extends Seeder
         }
         echo "insert permission data\n";
     
-        //advertiser 
-        $advertiser = ['adser_search'];
-        $advertiserPermission = ['adser_search'=>[false, false, false, true]];
-
-        $this->insertPermissions("advertiser", $advertiser, $advertiserPermission, $roles);
-        echo "insert advertisers\n";
 
         } catch (\Exception $e) {
             echo $e->getMessage();

@@ -16,6 +16,45 @@ use Braintree\Plan;
 use App\Services\AnonymousUser;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
+use App\ActionLog;
+
+/**
+ * @$req Reqeust 
+ * @$name 权限名称
+ * @$params 搜索参数
+ */
+function updateUsage($req, $name, &$params)
+{
+    if (Auth::check()) {
+        $user = Auth::user();
+    } else {
+        $user = AnonymousUser::user($req);
+    }
+    $lastParams = $user->getCache($name);
+    if ($lastParams != $params) {
+        $usage = $user->getUsage($name);
+        if (!$usage) {
+            throw new \Exception("no permission", -1);
+        }
+        if (count($usage) < 4) {
+            $carbon = Carbon::now();
+        } else {
+            if ($usage[3] instanceof Carbon)
+                $carbon = new Carbon($usage[3]->date, $usage[3]->timezone);
+            else
+                $carbon = new Carbon($usage[3]['date'], $usage[3]['timezone']);
+        }
+        if (!$carbon->isToday()) {
+            $usage[2] = 0;
+        }
+        if ($usage[2] >= intval($usage[1]))
+            throw new \Exception("you reached the limit", -2);
+        $user->updateUsage($name, $usage[2] + 1, Carbon::now());
+        ActionLog::log($name, $params, "{$name}:"  . ($usage[2] + 1));
+        $user->setCache($name, $params);
+        Log::debug("statics:" . $data);
+    }
+}
 
 Route::get('/', function () {
     return view('welcome');
@@ -83,13 +122,14 @@ Route::any('/forward/{action}', function(Request $req, $action) {
             } else {
                 $user = AnonymousUser::user($req);
             }
-            $lastParams = $user->getCache('adsearch.params', 'today');
+            $lastParams = $user->getCache('adsearch.params');
             //参数有变化，开始做搜索次数的判定
             if ($lastParams != $json_data) {
                 $usage = $user->getUsage('search_times_perday');
                 if (!$usage) {
                     return response(["code"=>-1, "desc"=> "no search permission"], 422);
                 }
+                //有搜索或者过滤条件
                 if (count($req->keys) > 0 || count($req->where) > 0) {
                     if (count($usage) < 4) {
                         $carbon = Carbon::now();
@@ -106,18 +146,32 @@ Route::any('/forward/{action}', function(Request $req, $action) {
                         return response(["code"=>-1, "desc"=> "you reached search times today, default result will show"], 422);
                     Log::debug("adsearch " . $json_data . json_encode($usage));
                     $user->updateUsage('search_times_perday', $usage[2] + 1, Carbon::now());
+                    ActionLog::log("search_times_perday", $json_data, "search_times_perday:"  . ($usage[2] + 1));
                 }
                 $user->setCache('adsearch.params', $json_data);
+            }
+        } else if ($act["action"] == "statics") {
+            try {
+                updateUsage($req, "keyword_times_perday", $json_data);
+            } catch(\Exception $e) {
+                if ($e->getCode() == -1)
+                    return response(["code"=>-1, "desc"=>"no permission"], 422);
+                else if ($e->getCode() == -2)
+                    return response(["code"=>-1, "desc"=>"you reached the limit of statics today"], 422);
             }
         }
 
         $remoteurl = 'http://121.41.107.126:8080/search';
     } else if ($action == "adserSearch") {
+        //广告主分析
+        
         $remoteurl = 'http://121.41.107.126:8080/adser_search';
     } else if ($action == "adserAnalysis") {
         //curl_setopt($ch, CURLOPT_URL, 'http://121.41.107.126:8080/adser_analysis');
         $remoteurl = 'http://xgrit.xicp.net:5000/adser_analysis';
+        
     } else if ($action == "trends") {
+        //获取广告趋势
         $remoteurl = 'http://xgrit.xicp.net:5000/adsid_trend';
     } else {
         return response(["code"=>-1, "desc"=>"unsupported action"], 422);

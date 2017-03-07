@@ -78,9 +78,14 @@ BRAINTREE_PRIVATE_KEY=2616a406dba36832b23db9b0d8e6f4e8
 ```
 php artisan db:seed --class=BigbigadsSeeder
 ```
+> 完成配置后，不代表前端能立即生效。这里有两个原因：
+> 
+> 1. 用户信息是缓存的（缓存时间为1天），所以需要手动禁用缓存才行 
+> 2. 每个用户要记录它的策略Usage，所以只有在初始化的时候才从角色那里初始化策略Usage。如果角色的Usage变了，用户Usage也跟着变会有问题，所以当重新填充角色的策略时，需要重新初始化用户的策略Usage才能生效。
 
 ## 前端如何判断权限
 `User.can`与`policy-lock`的指令。
+
 
 ## 配置QA
 
