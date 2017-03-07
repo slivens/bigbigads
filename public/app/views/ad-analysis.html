@@ -2,7 +2,7 @@
 
         <div class="sidebar" fixsidebar>
             <ul role="tablist" class="nav nav-pills nav-stacked text-center">
-                
+
                 <li>
                     <a href="#detail">
                         <i class="fa fa-envelope fa-2x font-yellow-gold"></i>
@@ -18,19 +18,24 @@
                 <li>
                     <a href="#Landpage">
                         <i class="fa fa-link fa-2x font-yellow-gold"></i>
+
                         <div>Landpage</div>
+
                     </a>
                 </li>
                 <li>
                     <a href="#Engements">
                         <i class="fa fa-feed fa-2x font-yellow-gold"></i>
+
                         <div>Engements</div>
+
+
                     </a>
                 </li>
                 <li>
                     <a href="#audience">
                         <i class="fa fa-eye fa-2x font-yellow-gold"></i>
-                        <div>Audience</div>
+                        <div policy-lock key="analysis_audience">Audience</div>
                     </a>
                 </li>
             </ul>
@@ -107,8 +112,8 @@
                                         </div>
                                         <!--overview-->
                                         <div class="col-xs-12 col-md-6">
-                                            <div id="overview">
-                                                <h4 class="font-yellow-gold">Overview</h4>
+                                            
+                                                
                                 
 
                                                 <!-- Begin date, duration, see_date -->
@@ -203,7 +208,7 @@
                                                 </div>
                                                 <!-- end date, duration, see_date-->
                                                
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -302,6 +307,7 @@
                                        
                                 </div>
 
+
                                
                                 <!--land page-->
                                     
@@ -320,45 +326,63 @@
                                     <highchart  config="adSearcher.commentsTrend"></highchart>
                                 </div>
 
-                                <div class="col-xs-12" ng-if="adSearcher.engagementsTrend">
-                                    <highchart  config="adSearcher.engagementsTrend"></highchart>
-                                </div>
 
-                                <div class="col-xs-12" ng-if="adSearcher.likesTrend">
-                                    <highchart  config="adSearcher.likesTrend"></highchart>
-                                </div>
-                                <button  class="btn font-yellow-gold btn-link" ng-click="adSearcher.showAllTrend=true" ng-if="adSearcher.sharesTrend || adSearcher.viewsTrend" ng-show="!adSearcher.showAllTrend">More...</button>
-                                <div class="col-xs-12" ng-if="adSearcher.sharesTrend" ng-show="adSearcher.showAllTrend">
-                                    <highchart  config="adSearcher.sharesTrend"></highchart>
-                                </div>
+                                    <div class="col-xs-12" ng-if="adSearcher.engagementsTrend">
+                                        <highchart  config="adSearcher.engagementsTrend"></highchart>
+                                    </div>
 
-                                <div class="col-xs-12" ng-if="adSearcher.viewsTrend" ng-show="adSearcher.showAllTrend">
-                                    <highchart  config="adSearcher.viewsTrend"></highchart>
+                                    <div class="col-xs-12" ng-if="adSearcher.likesTrend">
+                                        <highchart  config="adSearcher.likesTrend"></highchart>
+                                    </div>
+                                    <button  class="btn font-yellow-gold btn-link" ng-click="adSearcher.showAllTrend=true" ng-if="adSearcher.sharesTrend || adSearcher.viewsTrend" ng-show="!adSearcher.showAllTrend">More...</button>
+                                    <div class="col-xs-12" ng-if="adSearcher.sharesTrend" ng-show="adSearcher.showAllTrend">
+                                        <highchart  config="adSearcher.sharesTrend"></highchart>
+                                    </div>
+
+                                    <div class="col-xs-12" ng-if="adSearcher.viewsTrend" ng-show="adSearcher.showAllTrend">
+                                        <highchart  config="adSearcher.viewsTrend"></highchart>
+                                    </div>
+                            
+                                <div class="text-center text-danger" ng-show="!User.can('analysis_trend')">
+                                    <span>No Permission</span>
                                 </div>
                             </div>
+                            <!-- end interactive -->
+                            <!-- begin audience -->
                             <div id="audience">
                                 <h4 class="font-yellow-gold">Audience</h4>
-                                <table ng-if="card.whyseeads_all" class="table table-hover">
-                                    <!-- <tr>
-                                        <th>#</th>
-                                        <th>Audience</th>
-                                    </tr> -->
-                                    <tr ng-repeat="item in card.whyseeads_all">
-                                        <!-- <td>{{$index}}</td> -->
-                                        <td><a title="All ads by this audience" target="_blank" href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a></td>
-                                    </tr>
-                                </table>
-                                <table ng-if="card.whyseeads" class="table table-hover">
-                                    <!-- <tr>
-                                        <th>#</th>
-                                        <th>Audience</th>
-                                    </tr> -->
-                                    <tr ng-repeat="item in card.whyseeads">
-                                        <!-- <td>{{$index}}</td> -->
-                                        <td>{{item}}</td>
-                                    </tr>
-                                </table>
+
+                                
+
+
+                                <div ng-show="User.can('analysis_audience')">
+                                    <table ng-if="card.whyseeads_all" class="table table-hover">
+                                        <!-- <tr>
+                                            <th>#</th>
+                                            <th>Audience</th>
+                                        </tr> -->
+                                        <tr ng-repeat="item in card.whyseeads_all track by $index">
+                                            <!-- <td>{{$index}}</td> -->
+                                            <td><a title="All ads by this audience" target="_blank" href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a></td>
+                                        </tr>
+                                    </table>
+                                    <table ng-if="card.whyseeads" class="table table-hover">
+                                        <!-- <tr>
+                                            <th>#</th>
+                                            <th>Audience</th>
+                                        </tr> -->
+                                        <tr ng-repeat="item in card.whyseeads track by $index">
+                                            <!-- <td>{{$index}}</td> -->
+                                            <td><a title="All ads by this audience" target="_blank" href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="text-center text-danger" ng-show="!User.can('analysis_audience')">
+                                    <span>No Permission</span>
+                                </div>
+
                             </div>
+                            <!-- end audience-->
                         </div>
                     </div>
                 </div>
