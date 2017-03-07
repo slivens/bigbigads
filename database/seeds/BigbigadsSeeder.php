@@ -157,7 +157,8 @@ class BigbigadsSeeder extends Seeder
         $this->insertAdAnalysisPermissions($roles);
         //广告统计
         $this->insertAdStaticsPermissions($roles);
-
+        //广告主分析
+        $this->insertAdsersPermissions($roles);
         //Export Permissions And Policies
         $export = ['image_download', 'video_download', 'HD_video_download', 'Export'];
         $exportPermission = ['image_download'=>[false, true,true,true], 'video_download'=>[false, true, true, true], 'HD_video_download'=>[false, false, true,true], 'Export'=>[false, false, true,true]];

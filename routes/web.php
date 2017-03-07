@@ -32,10 +32,12 @@ function updateUsage($req, $name, &$params)
     }
     $lastParams = $user->getCache($name);
     if ($lastParams != $params) {
+        //usage的格式请参考Role::groupedPolicies的说明
         $usage = $user->getUsage($name);
         if (!$usage) {
             throw new \Exception("no permission", -1);
         }
+        //如果没有时间信息就以当前时间作为时间信息
         if (count($usage) < 4) {
             $carbon = Carbon::now();
         } else {
@@ -159,12 +161,28 @@ Route::any('/forward/{action}', function(Request $req, $action) {
                 else if ($e->getCode() == -2)
                     return response(["code"=>-1, "desc"=>"you reached the limit of statics today"], 422);
             }
+        } else if ($act["action"] == "analysis") {
+            try {
+                updateUsage($req, "ad_analysis_times_perday", $json_data);
+            } catch(\Exception $e) {
+                if ($e->getCode() == -1)
+                    return response(["code"=>-1, "desc"=>"no permission"], 422);
+                else if ($e->getCode() == -2)
+                    return response(["code"=>-1, "desc"=>"you reached the limit of ad analysis today"], 422);
+            }
         }
 
         $remoteurl = 'http://121.41.107.126:8080/search';
     } else if ($action == "adserSearch") {
         //广告主分析
-        
+        try {
+            updateUsage($req, "adser_search_times_perday", $json_data);
+        } catch(\Exception $e) {
+            if ($e->getCode() == -1)
+                return response(["code"=>-1, "desc"=>"no permission"], 422);
+            else if ($e->getCode() == -2)
+                return response(["code"=>-1, "desc"=>"you reached the limit of ad analysis today"], 422);
+        }
         $remoteurl = 'http://121.41.107.126:8080/adser_search';
     } else if ($action == "adserAnalysis") {
         //curl_setopt($ch, CURLOPT_URL, 'http://121.41.107.126:8080/adser_analysis');
