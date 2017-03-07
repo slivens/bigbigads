@@ -12,27 +12,20 @@
             <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-calendar"></i></span>
             <input policy-lock key="search_filter" trigger="disabled" date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.date" options="daterangeOption" placeholder="Filter By Date" aria-describedby="filterbydate_addon"/> 
         </div>
-        <div class="input-group">
-            <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-search"></i></span>
-            <select id="search_range_select" policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Search Range">
-                  <option ng-repeat="item in $parent.searchOption.range">{{item.value}}</option>
-            </select>
+         <div class="input-group">
+            <span class="input-group-addon" id="searchrange_addon"><i class="fa fa-search"></i></span>
+            <select id="search_range_select" policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Search Range" ng-model="$parent.searchOption.rangeselected" ng-options="item.key as item.value for item in $parent.settings.searchSetting.rangeList"></select>
+        </div>
+         <div class="input-group">
+             <span class="input-group-addon" id="format_addon"><i class="fa fa-picture-o"></i></span>
+                  <select policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon" id="format" multiple="multiple"  data-placeholder="Format" ng-model="$parent.filterOption.formatSelected" ng-options="item.key as item.value for item in $parent.settings.searchSetting.formatList" ></select>
         </div>
         <div class="input-group">
-            <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-picture-o"></i></span>
-            <select policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Format">
-                  <option ng-repeat="item in $parent.filterOption.format">{{item.value}}</option>
-            </select>
-        </div>
+            <span class="input-group-addon" id="calltoaction_addon"><i class="fa fa-flag"></i></span>
+            <select policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Call to Action" ng-model="$parent.filterOption.callToAction" ng-options="item.key as item.value for item in $parent.settings.searchSetting.buttondescList" ></select>
+        </div> 
         <div class="input-group">
-            <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-flag"></i></span>
-            <select policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Call to Action">
-            <option ng-repeat="item in buttondescOpt.items"  ng-hide="$index >= buttondescOpt.defnum && buttondescOpt.collapse">{{item.value}}</option>
-            </select>
-        </div>
-        <div class="input-group">
-            <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-language"></i></span>
-            <!-- <input type="text" class="form-control" ng-model="$parent.filterOption.lang" placeholder="E.g Engllish"> -->
+            <span class="input-group-addon" id="language_addon"><i class="fa fa-language"></i></span>
             <select policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon" id="language" multiple="multiple"  data-placeholder="Language" ng-model="$parent.filterOption.lang" ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" >
             </select>
         </div>
