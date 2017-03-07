@@ -364,6 +364,41 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
+    .directive('audience', ['SweetAlert', function(SweetAlert) {
+        return {
+            link: function(scope, element, attrs) {
+                element.bind('click', function() {
+                    if(attrs.title!==null||attrs.title!==underfind||attrs.title!==""){
+                        var why_see = attrs.title.split("\n");
+                        var show_length = 0;
+                        var table = "";
+                        var show_text = "";
+                        table_head = '<table class="table table-striped table-hover table-bordered text-left xg-audience-table"><tbody>';
+                        table_body = '';
+                        table_foot = '</tbody></table>';
+                        if(why_see.length>10) {
+                            show_length = 10;
+                            show_text = '<span class="font-yellow-gold">You can see all other audience target in the ad detail page.</span>';
+                        }else {
+                            show_length = why_see.length;
+                        }
+                        for(var i=0;i<show_length;i++) {
+                            table_body += '<tr><td>' + why_see[i] +'</td></tr>';
+                        }
+                        table = table_head + table_body + table_foot;
+                        SweetAlert.swal({
+                            html: true,
+                            title: '',
+                            text: table+show_text, 
+                            confirmButtonText: "close",
+                            closeOnConfirm: false,
+                            closeOnCancel: false                         
+                        });
+                    }
+                });
+            }
+        };
+    }])
     .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', function($uibModal, $stateParams, SweetAlert) {
         return {
             matchkey: function(origstr, destArr) {
