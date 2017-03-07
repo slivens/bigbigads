@@ -129,3 +129,8 @@ A:
 
 ## 开发配置
 教程请参考Wiki
+
+## Design Documents
+[Bigbigads原型设计.rp](/uploads/068102ffa932509f98fed02efb76029b/Bigbigads原型设计.rp)
+[bigbigads设计.asta](/uploads/1ca44d34c686fecbb6ca07a91faf0fb6/bigbigads设计.asta)
+[bigbigads_plan_new.pdf](/uploads/0bd89378aafdb23d60ac644317e08be6/bigbigads_plan_new.pdf)
