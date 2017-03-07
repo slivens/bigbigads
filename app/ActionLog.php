@@ -11,6 +11,7 @@ class ActionLog extends Model
     const TYPE_USERS = "USERS";
     const TYPE_USER_LOGIN = "USER_LOGIN";
     const TYPE_USER_LOGOUT = "USER_LOGOUT";
+    const TYPE_USER_REGISTERED = "USER_REGISTERED";
     const TYPE_AD_SEARCH = "ad-search";
     const TYPE_ADSER_SEARCH =  "adser-search";
     //
