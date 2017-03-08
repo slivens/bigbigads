@@ -19,8 +19,7 @@
                     <a href="#Landpage">
                         <i class="fa fa-link fa-2x font-yellow-gold"></i>
 
-
-                        <div>Landpage</div>
+                        <div policy-lock key="analysis_link">Landpage</div>
 
 
                     </a>
@@ -30,7 +29,7 @@
                         <i class="fa fa-feed fa-2x font-yellow-gold"></i>
 
 
-                        <div>Engements</div>
+                        <div policy-lock key="analysis_trend">Engements</div>
 
 
 
@@ -203,7 +202,18 @@
                                                             <div class="number">
                                                                 <small>position</small>
                                                                 <h4 class="font-yellow-gold">
-                                                                News Feed
+                                                                <span ng-if="card.show_way=='1'">
+                                                                    News Feed
+                                                                </span>
+                                                                <span ng-if="card.show_way=='2'">
+                                                                    Right Column
+                                                                </span>
+                                                                <span ng-if="card.show_way=='3'">
+                                                                    Mobile
+                                                                </span>
+                                                                <span ng-if="card.show_way=='4'">
+                                                                    Pc
+                                                                </span>
                                                                 </h4>
                                                             </div>
                                                         </div> 
@@ -258,54 +268,55 @@
                                 <h4 class="font-yellow-gold">Landpage</h4>
                                 <div ng-show="User.can('analysis_link')">
                                     <div class="landpage-div clearfix">
-                                        <div ng-if="card.type == 'Carousel'">
-                                            <h4 class="landpage-font">link</h4>
+                                        <div ng-if="card.type == 'Carousel' || card.type=='Canvas'">
+
+                                            <h4 class="landpage-title">link</h4>
                                             <table class="table table-hover" ng-if="card.link">
-                                                <tr ng-repeat="item in card.link">
+                                                <tr ng-repeat="item in card.link track by $index">
                                                     <td>
-                                                        <a href="{{item.link}}" target="_blank" class="text-nowrap buttonlink-a">{{item | limitTo:80}}...</a>
+                                                        <a ng-href="{{item.link}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}...</a>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <h4 class="landpage-font">buttonlink</h4>
+                                            <h4 class="landpage-title">buttonlink</h4>
                                             <table class="table table-hover" ng-if="card.buttonlink">
-                                                <tr ng-repeat="item in cars.buttonlink">
+                                                <tr ng-repeat="item in card.buttonlink">
                                                     <td>
-                                                        <a href="{{item.buttonlink}}" target="_blank" class="text-nowrap buttonlink-a">{{item | limitTo:80}}...</a>
+                                                        <a ng-href="{{item.buttonlink}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}...</a>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <h4 class="landpage-font">description</h4>
+                                            <h4 class="landpage-title">description</h4>
                                             <table class="table table-hover" ng-if="card.dest_site">
                                                 <tr ng-repeat="item in card.dest_site">
                                                     <td>
-                                                        <a href="{{item.dest_site}}" target="_blank" class="text-nowrap buttonlink-a">{{item | limitTo:80}}...</a>
+                                                        <a ng-href="{{item.dest_site}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}...</a>
                                                     </td>
                                                 </tr>
                                             </table>
                                         </div>
-                                        <div ng-if="card.type != 'Carousel'">
-                                            <h4 class="landpage-font">link</h4>
+                                        <div ng-if="card.type != 'Carousel' && card.type!='Canvas'">
+                                            <h4 class="landpage-title">link</h4>
                                                 <table class="table table-hover" ng-if="card.link">
                                                     <tr>
                                                         <td>
-                                                            <a href="{{card.link}}" target="_blank" class="text-nowrap buttonlink-a">{{card.link | limitTo:80}}...</a>
+                                                            <a ng-href="{{card.link}}" target="_blank" class="text-nowrap ">{{card.link | limitTo:80}}...</a>
                                                         </td>
                                                     </tr>
                                                 </table>
-                                            <h4 class="landpage-font">buttonlink</h4>
+                                            <h4 class="landpage-title">buttonlink</h4>
                                                 <table class="table table-hover" ng-if="card.buttonlink">
                                                     <tr>
                                                         <td>
-                                                            <a href="{{card.buttonlink}}" target="_blank" class="text-nowrap buttonlink-a">{{card.buttonlink | limitTo:80}}...</a>
+                                                            <a ng-href="{{card.buttonlink}}" target="_blank" class="text-nowrap ">{{card.buttonlink | limitTo:80}}...</a>
                                                         </td>
                                                     </tr>
                                                 </table>
-                                            <h4 class="landpage-font">description</h4>
+                                            <h4 class="landpage-title">description</h4>
                                                 <table class="table table-hover" ng-if="card.dest_site">
                                                     <tr>
                                                         <td>
-                                                            <a href="{{card.dest_site}}" target="_blank" class="text-nowrap buttonlink-a">{{card.dest_site | limitTo:80}}...</a>
+                                                            <a ng-href="{{card.dest_site}}" target="_blank" class="text-nowrap ">{{card.dest_site | limitTo:80}}...</a>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -367,7 +378,7 @@
                                         </tr> -->
                                         <tr ng-repeat="item in card.whyseeads_all track by $index">
                                             <!-- <td>{{$index}}</td> -->
-                                            <td><a title="All ads by this audience" target="_blank" href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a></td>
+                                            <td><a title="All ads by this audience" target="_blank" ng-href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a></td>
                                         </tr>
                                     </table>
                                     <table ng-if="card.whyseeads" class="table table-hover">
@@ -377,7 +388,7 @@
                                         </tr> -->
                                         <tr ng-repeat="item in card.whyseeads track by $index">
                                             <!-- <td>{{$index}}</td> -->
-                                            <td><a title="All ads by this audience" target="_blank" href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a></td>
+                                            <td><a title="All ads by this audience" target="_blank" ng-href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a></td>
                                         </tr>
                                     </table>
                                 </div>
