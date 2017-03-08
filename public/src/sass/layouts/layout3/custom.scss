@@ -229,8 +229,43 @@ body {
         padding:16px;
     }
     .dashboard-stat2 {
-        padding-bottom:15px !important;
+        //padding-bottom:15px !important;
+        padding-top: 0px;
+        // padding-right: 0px;
+        // padding-left: 0px;
+        padding-bottom:0px;
+        margin-bottom: 0px;
+        // border-bottom: 1px solid #e7ecf1;
+        height: 90px;
     }
+    .detail-comm{
+        span{margin-left: 10px;
+            i{margin-right: 5px;color: #333;}}
+        span:first-child{margin-left: 0px;}
+
+    }
+    single-image img{
+        max-width: 100%;
+        //padding-right: 30px;
+    }
+    single-video img{
+        max-width: 100%;
+    }
+    carousel img{
+        max-width: 100%;
+    }
+    adcanvas img{
+        max-width: 100%;
+    }
+    #Landpage{
+    // .landpage-div{margin-left: 20px;}
+    .landpage-title{color: #AAB5BC;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;}
+    .label{padding-bottom: 1px;box-shadow: none;}
+    }
+
 
 }
 .rank-title {
