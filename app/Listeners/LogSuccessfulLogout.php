@@ -28,6 +28,8 @@ class LogSuccessfulLogout
     public function handle(Logout $event)
     {
         $user = $event->user;
+        if (is_null($user))
+            return;
         ActionLog::log(ActionLog::TYPE_USER_LOGOUT, json_encode(["name" => $user->name,  "email" => $user->email]), "", $user->id);
     }
 }
