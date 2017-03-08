@@ -428,7 +428,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					$scope.adSearcher.removeFilter('state');
 				}
 
-
 				//支持多项搜索，以","隔开
 				angular.forEach($scope.filterOption.category, function(item, key) {
 					if (item.selected) {
