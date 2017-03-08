@@ -1,7 +1,7 @@
 if (!app)
     var app = angular.module('MetronicApp');
 
-app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', function(Resource, $uibModal, SweetAlert, BookmarkItem) {
+app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 'User', function(Resource, $uibModal, SweetAlert, BookmarkItem, User) {
     var bookmark = new Resource('bookmark');
     bookmark.subItems = [];
     bookmark.editBookmarkByBid = function(bid) {
@@ -16,6 +16,11 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
             bookmark.addBookmark(item);
     };
     bookmark.addBookmark = function(item) {
+        //允许编辑，不允许添加
+        if (!item && bookmark.items.length >= Number(User.getPolicy("bookmark_list").value)) {
+            SweetAlert.swal("You can't create more bookmark list");
+            return;
+        }
         return $uibModal.open({
             templateUrl: 'views/bookmark-add-dialog.html',
             size: 'sm',
@@ -254,13 +259,17 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
     }, 200);
 }]);
 
-app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', 'User', '$q', function($scope, Bookmark, BookmarkItem, User, $q) {
+app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', 'User', '$q', 'SweetAlert',  function($scope, Bookmark, BookmarkItem, User, $q, SweetAlert) {
     $scope.card.select = [];
     $scope.bookmark = Bookmark;
     $scope.selectedSubItems = [];
     $scope.add = function(card) {
         var promises = [];
         var i, j;
+        if (!User.can('bookmark_adser_support')) {
+            SweetAlert.swal("no permission for adser's bookmark");
+            return false;
+        }
         for (i = 0; i < $scope.card.select.length; i++) {
             if ($scope.card.select[i]) {
                 var subItem = {

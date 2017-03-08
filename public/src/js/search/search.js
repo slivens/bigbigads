@@ -578,6 +578,11 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$state.reload();
 			};
 			$scope.showStatics = function() {
+                if (!User.can('statics_all')) {
+					SweetAlert.swal("you have no permission");
+                    return;
+                }
+
 				if (adSearcher.params.keys.length === 0) {
 					SweetAlert.swal("you must search first");
 					return;
@@ -591,7 +596,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						var seacher = new Searcher();
 						seacher.params = angular.copy(adSearcher.params);
 						$scope.statics = {};
-						$scope.queryPromise = seacher.getStatics(seacher.params);
+						$scope.queryPromise = seacher.getStatics(seacher.params, "statics");
 						$scope.queryPromise.then(function(res) {
 							var data = $scope.statics = res.data;
 							//饼图
@@ -602,8 +607,11 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 							$scope.statics.mediaTypeConfig = Util.initPie(data.media_type, "Media Type");
 
 							//button_link, dest_site,link,whyseeads太长，怎么处理？
-							console.log(res);
-						});
+							// console.log(res);
+                        }, function(res) {
+                            $uibModalInstance.dismiss("cancel");
+                            Util.hint(res);
+                        });
 						$scope.close = function() {
 							$uibModalInstance.dismiss('cancel');
 						};
@@ -880,14 +888,15 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         });
         // $scope.adSearcher.filter();
 	}])
-	.controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window', '$http', 'Util',
-		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $window, $http, Util) {
+	.controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window', '$http', 'Util','User', 
+		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $window, $http, Util, User) {
 			var searcher = $scope.adSearcher = new Searcher();
 			// $scope.adSearcher.search($scope.adSearcher.defparams, true);
 			$scope.reverseSort = function() {
 				$scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;
 				$scope.adSearcher.filter();
 			};
+            $scope.User = User;
 			$scope.card = {
 				end: true,
 				similars: []
@@ -897,7 +906,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				field: 'ads_id',
 				value: $scope.id
 			});
-			var promise = $scope.adSearcher.filter();
+			var promise = $scope.adSearcher.filter("analysis");
 			$rootScope.$broadcast("loading");
 			promise.then(function(ads) {
 				//只取首条消息
@@ -911,7 +920,11 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					$scope.card.whyseeads = $scope.card.whyseeads.split('\n');
 				searcher.findSimilar($scope.card.watermark);
 			}, function(res) {
+                // console.log("error res:", res);
 				$scope.card.end = true;
+                if (res.status != 200) {
+                    Util.hint(res);
+                }
 			}).finally(function() {
 				$rootScope.$broadcast("completed");
 			});
@@ -924,13 +937,15 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			 * 查找相似图
 			 */
 			searcher.findSimilar = function(watermark) {
+                if (!watermark)
+                    return false;
 				var similarSearcher = new Searcher();
 				var similarPromise;
 				var md5 = watermark.match(/\/(\w+)\./);
 				if (md5 === null) {
 					return false;
 				}
-				console.log(md5);
+				// console.log(md5);
 				md5 = md5[1];
 
 				similarSearcher.addFilter({
@@ -1071,6 +1086,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 				searchType: 'adser',
 				url: '/forward/adserSearch'
 			});
+            $scope.inAdvertiserMode = true;
 			// $scope.adSearcher.search($scope.adSearcher.defparams, true);
 			$scope.reverseSort = function() {
 				$scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;
@@ -1224,7 +1240,10 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
 				$scope.currSearchOption.buttondesc = buttondesc.join(',');
-				$scope.adSearcher.filter();
+                $scope.adSearcher.filter().then(function() {}, function(res) {
+                    if (res.status != 200)
+                        Util.hint(res);
+                });
 				console.log("params", $scope.adSearcher.params);
 			};
 

@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
-use Illuminate\Auth\Events\Logout;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\ActionLog;
 
-class LogSuccessfulLogout 
+class RegisteredListener
 {
     /**
      * Create the event listener.
@@ -25,11 +25,14 @@ class LogSuccessfulLogout
      * @param  SomeEvent  $event
      * @return void
      */
-    public function handle(Logout $event)
+    public function handle(Registered $event)
     {
         $user = $event->user;
-        if (is_null($user))
-            return;
-        ActionLog::log(ActionLog::TYPE_USER_LOGOUT, json_encode(["name" => $user->name,  "email" => $user->email]), "", $user->id);
+        ActionLog::log(ActionLog::TYPE_USER_REGISTERED, json_encode(["name" => $user->name, "email" => $user->email]), "", $user->id);
+        //创建默认的收藏夹
+        $bookmark = new \App\Bookmark;
+        $bookmark->uid = $user->id;
+        $bookmark->name = "default";
+        $bookmark->save();
     }
 }

@@ -28,6 +28,7 @@ class AnonymousUser
         } else {
             $role = Role::where('name', 'Free')->with('permissions', 'policies')->first();
             $user = new AnonymousUser();
+            $user->id = 0;
             $user->role = $role;
             $user->usage = $role->groupedPolicies();
             $user->date  = Carbon::now();

@@ -100,68 +100,80 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         imgRemoteBase: 'http://image1.bigbigads.com:88',
         searchSetting: {
             pageCount: 10, //每一页的数据量
-            durationRange:[0, 365],
-            seeTimesRange:[0, 365],
+            durationRange:[0, 180],
+            seeTimesRange:[0, 180],
             orderBy: [{
                 key: 'last_view_date',
                 value: 'Last_Seen',
                 last: false,
-                group: 'time'
+                group: 'time',
+                permission:'date_sort'
             }, {
                 key: 'duration_days',
                 value: 'Duration',
                 last: true,
-                group: 'time'
+                group: 'time',
+                permission:'duration_sort'
             }, {
                 key: 'engagements',
                 value: 'Engagements',
                 last: false,
-                group: 'seen'
+                group: 'seen',
+                permission:'engagements_sort'
             }, {
                 key: 'views',
                 value:'Video views',
                 last: false,
-                group: 'seen'
+                group: 'seen',
+                permission:'views_sort'
             }, {
                 key: 'engagements_per_7d',
                 value: 'Growth Engaments',
                 last: false,
-                group: 'seen'
+                group: 'seen',
+                permission:'engagement_inc_sort'
             }, {
                 key: 'views_per_7d',
                 value: 'Growth Video views',
                 last: true,
-                group: 'seen'
+                group: 'seen',
+                permission:'views_inc_sort'
             }, {
                 key:'likes',
                 value:'likes',
                 last: false,
-                group: 'interactive'
+                group: 'interactive',
+                permission:'likes_sort',
             }, {
                 key:'shares',
                 value:'shares',
                 last: false,
-                group: 'interactive'
+                group: 'interactive',
+                permission:'shares_sort'
             }, {
                 key:'comments',
                 value:'comments',
                 last: false,
-                group: 'interactive'
+                group: 'interactive',
+                permission:'comment_sort'
             }, {
                 key:'likes_per_7d',
                 value:'growth likes',
                 last: false,
-                group: 'interactive'
+                group: 'interactive',
+                permission:'likes_inc_sort'
             }, {
                 key:'shares_per_7d',
                 value:'growth shares',
                 last: false,
-                group: 'interactive'
+                group: 'interactive',
+                permission:'shares_inc_sort'
             }, {
                 key:'comments_per_7d',
                 value:'growth comments',
                 last: true,
-                group: 'interactive'
+                group: 'interactive',
+                permission:'comments_inc_sort'
             }],
             adsTypes: [{
                 key: 'timeline',
@@ -574,16 +586,20 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
             }],
             rangeList: [{
                 key: "adser_name,adser_username",
-                value: "Advertiser"
+                value: "Advertiser",
+                permission:"advertiser_search"
             }, {
                 key: "dest_site",
-                value: "Destsite"
+                value: "Destsite",
+                permission:"dest_site_search"
             }, {
                 key: "description",
-                value: "Content"
+                value: "Content",
+                permission:"content_search"
             }, {
                 key:"whyseeads,whyseeads_all",
-                value:"Audience"
+                value:"Audience",
+                permission:"audience_search"
             }],
             langList: [{
                 key: "af",
@@ -1118,11 +1134,12 @@ MetronicApp.controller('HeaderController', ['$scope', function($scope) {
         Layout.initHeader(); // init header
     });
 }]);
-MetronicApp.controller('TabMenuController', ['$scope', '$location', function($scope, $location) {
+MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', function($scope, $location, User) {
     var tabmenu = {
         name: $location.path()
     };
     $scope.tabmenu = tabmenu;
+    $scope.User = User;
     $scope.$on('$locationChangeSuccess', function() {
          tabmenu.name = $location.path();
     });
@@ -1217,7 +1234,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
-                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
+                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinModern.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             'http://code.highcharts.com/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
@@ -1734,11 +1751,14 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
             $location.url("/login");
         },
         can:function(key) {
+            var keyArr = key.split('|');
+            var i;
             //无登陆时的策略与有登陆需要做策略区分(只在服务器端区分是更好的做法)
             if (!user.info.permissions)
                 return false;
-            if (!user.info.permissions[key])
-                return false;
+            for (i = 0; i < keyArr.length; ++i) 
+                if (!user.info.permissions[keyArr[i]])
+                    return false;
             return true;
         },
         usable:function(key, val) {
@@ -1766,7 +1786,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
 
             if (!user.can(key)) //没有权限一定没有策略
                 return false;
-            if (!user.info.user.usage[key])//没有策略不需要策略
+            if (!user.info.user.usage[key])//没有策略不需要策略，组合权限不支持策略，所以也返回true
                 return true;
             usage = user.info.user.usage[key];
             if (usage.length > 2)

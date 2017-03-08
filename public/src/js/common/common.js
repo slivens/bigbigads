@@ -150,15 +150,24 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             link: function(scope, element, attrs) {
                 function check() {
                     var key = attrs.key;
+                    if (!key)
+                        return;
                     if (!User.can(key) || !User.usable(key, attrs.val)) {
                         if (element.find('.lock').length)
                             return;
-                        if (attrs.trigger == "disabled")
+                        
+                        if (attrs.trigger == "lockButton") {
+                            element.attr("disabled", "disabled");
+                            element.append('<i class="fa fa-lock  lock"></i>');
+                        } else if (attrs.trigger == "disabled")
                             element.attr("disabled", "disabled");
                         else
                             element.append('<i class="fa fa-lock  lock"></i>');
                     } else {
-                        if (attrs.trigger == "disabled")
+                        if (attrs.trigger == "lockButton") {
+                            element.removeAttr("disabled");
+                            element.children('.lock').remove();
+                        } else if (attrs.trigger == "disabled")
                             element.removeAttr("disabled");
                         else
                             element.children('.lock').remove();
@@ -355,7 +364,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .factory('Util', ['$uibModal', '$stateParams', function($uibModal, $stateParams) {
+    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', function($uibModal, $stateParams, SweetAlert) {
         return {
             matchkey: function(origstr, destArr) {
                 var orig = origstr.split(',');
@@ -478,7 +487,14 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     className:"response-width",
                     credits:false
 				};
-			}
+			},
+            hint:function(res) {
+                if (res.data instanceof Object) {
+                    SweetAlert.swal(res.data.desc);
+                } else {
+                    SweetAlert.swal(res.statusText);
+                }
+            }
         };
     }]);
 app.service('Resource', ['$resource', 'settings', 'SweetAlert', function($resource, settings, SweetAlert) {

@@ -24,14 +24,15 @@
                         <li ng-class="{active:tabmenu.name == '/adserSearch'}">
                             <a ui-sref="adserSearch" ui-sref-opts="{reload:true}">Advertiser Search</a>
                         </li>
-                        <li ng-class="{active:tabmenu.name == '/ranking'}">
-                            <a ui-sref="ranking" ui-sref-opts="{reload:true}">Ranking</a>
+                        <li ng-class="{active:tabmenu.name == '/ranking'}" >
+                            <a ui-sref="ranking" ui-sref-opts="{reload:true}" ng-show="User.can('ranking')">Ranking</a>
+                            <a href="#" ng-show="!User.can('ranking')">Ranking<i class="fa fa-lock fa-fw"></i></a>
                         </li>
                         <li ng-class="{active:tabmenu.name == '/bookmark'}">
                             <a ui-sref="bookmark" ui-sref-opts="{reload:true}">Bookmark</a>
                         </li>
                         <li class="disabled">
-                            <a href="#">Moniter</a>
+                            <a href="#">Moniter<i class="fa fa-lock fa-fw"></i></a>
                         </li>
                     </ul>
                 <!-- END MEGA MENU -->

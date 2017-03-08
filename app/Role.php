@@ -56,6 +56,7 @@ class Role extends Model
 
     /**
      * 将策略按key组织，只返回必要信息
+     * usage的格式:[key] = [类型，默认值,当前值,额外信息(时间)]
      */
     public function groupedPolicies()
     {
