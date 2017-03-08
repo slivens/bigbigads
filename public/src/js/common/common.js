@@ -364,7 +364,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .factory('Util', ['$uibModal', '$stateParams', function($uibModal, $stateParams) {
+    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', function($uibModal, $stateParams, SweetAlert) {
         return {
             matchkey: function(origstr, destArr) {
                 var orig = origstr.split(',');
@@ -487,7 +487,14 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     className:"response-width",
                     credits:false
 				};
-			}
+			},
+            hint:function(res) {
+                if (res.data instanceof Object) {
+                    SweetAlert.swal(res.data.desc);
+                } else {
+                    SweetAlert.swal(res.statusText);
+                }
+            }
         };
     }]);
 app.service('Resource', ['$resource', 'settings', 'SweetAlert', function($resource, settings, SweetAlert) {

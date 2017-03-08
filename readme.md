@@ -78,11 +78,59 @@ BRAINTREE_PRIVATE_KEY=2616a406dba36832b23db9b0d8e6f4e8
 ```
 php artisan db:seed --class=BigbigadsSeeder
 ```
+> 完成配置后，不代表前端能立即生效。这里有两个原因：
+> 
+> 1. 用户信息是缓存的（缓存时间为1天），所以需要手动禁用缓存才行 
+> 2. 每个用户要记录它的策略Usage，所以只有在初始化的时候才从角色那里初始化策略Usage。如果角色的Usage变了，用户Usage也跟着变会有问题，所以当重新填充角色的策略时，需要重新初始化用户的策略Usage才能生效。
 
 ## 前端如何判断权限
-`User.can`与`policy-lock`的指令。
+两种方式：`policy-lock`指令,`User.can``User.getPolicy`接口。
+
+### policy-lock用法
+
+```
+<!-- 下面这行表示检查adser_search(广告主搜索）权限，没有权限就在按钮后面加锁并禁止 -->
+<button class="btn btn-primary" policy-lock key="adser_search" trigger="lockButton">Search</button>
+```
+
+#### policy-lock参数说明
+
+- `key`  要检查的权限，可以使用|同时检查多个权限（不允许有策略)。目前没有相关文档指明数据库中`permissions`对应到需求文档上的计划列表，所以目前只能从`BigbigadsSeeder.php`查看（后续研究下是否有建立关联的更好手段）。
+- `trigger` 目前支持`lockButton`,`disabled`以及没有属性值这三种情况，分别实现以下特性"禁用并加锁","禁用","加锁"。
+
+User.can以及User.getPolicy待补充。
+
 
 ## 配置QA
+Q:升级源码后，权限配置没生效？
+A:
+
+1. 重新生成下权限`php artisan db:seed --class=BigbigadsSeeder`。
+2. 登陆后，进入`http://<服务器域名>/tester`，重新将自己的权限提示到`Pro`级别，界面上有打出内容且不是错误提示就表示成功，这时重新登陆下权限即生效。
+3. 如果没有登陆，使用的是匿名用户的权限，没生效是因为匿名用户有缓存，要么等一天再试，要么修改`app/Services/AnonymousUser.php`，将`user`函数按下面说明修改：
+
+```
+    /**
+     * 返回匿名帐户
+     */
+    public static function user($req)
+    {
+        $ip = $req->ip();
+        $user = null;//Cache::get($ip);//将此修改为null即可
+        if (!is_null($user) && !is_null($user->date) && $user->date->isToday()) {
+            Log::debug("$ip is still valid");
+        } else {
+        	...省略无关代码
+        }
+        return $user;
+    }
+
+```
 
 ## 开发配置
 教程请参考Wiki
+
+## Design Documents
+[Bigbigads原型设计.rp](/uploads/068102ffa932509f98fed02efb76029b/Bigbigads原型设计.rp)
+[bigbigads设计.asta](/uploads/1ca44d34c686fecbb6ca07a91faf0fb6/bigbigads设计.asta)
+[bigbigads_plan_new.pdf](/uploads/0bd89378aafdb23d60ac644317e08be6/bigbigads_plan_new.pdf)
