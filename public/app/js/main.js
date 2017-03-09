@@ -1102,7 +1102,7 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
             if(num<1000) {
                 return num;
             }
-            if(num>=1000&&num<1000000) {
+            if(num>=1000 && num<1000000) {
                 num = num/1000;
                 unit_num = num.toFixed(1) + 'K';
                 return unit_num;
