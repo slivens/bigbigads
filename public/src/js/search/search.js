@@ -449,7 +449,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 				}
 				//语言
-				if (option.lang) {
+				if (option.lang && option.lang.length) {
 					$scope.adSearcher.addFilter({
 						field: 'ad_lang',
 						value: option.lang
@@ -586,7 +586,20 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				// }
 				//字符串和域
 				$scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
-				if (option.rangeselected || option.search.text) {
+				if (option.rangeselected && option.rangeselected.length) {
+					angular.forEach(option.rangeselected, function(item) {
+							range.push(item);
+					});
+				}
+				if (option.search.text || range.length) {
+					option.search.fields = range.length ? range.join(',') : option.search.fields;
+					keys.push({
+						string: option.search.text,
+						search_fields: option.search.fields,
+						relation: "Must"
+					});
+				}
+				/*if (option.rangeselected && option.search.text) {
 					angular.forEach(option.rangeselected, function(item) {
 							range.push(item);
 					});
@@ -596,7 +609,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						search_fields: option.search.fields,
 						relation: "Must"
 					});
-				}
+				}*/
 				//域名
 				if (option.domain.text) {
 					keys.push({
@@ -755,7 +768,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 				}
 				//语言
-				if (option.lang) {
+				if (option.lang && option.lang.length) {
 					$scope.adSearcher.addFilter({
 						field: 'ad_lang',
 						value: option.lang
@@ -840,6 +853,18 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						max: option.seeTimes.to
 					});
 				}
+				//engagementsFilter
+				angular.forEach(option.engagements,function(key,item){
+					if (key.min==="" && key.max==="") {
+						$scope.adSearcher.removeFilter(item);
+					}else{
+						$scope.adSearcher.addFilter({
+						field: item,
+						min: key.min,
+						max: key.max
+					});
+					}
+				});
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
 				$scope.currSearchOption.callToAction = buttondesc.join(',');
@@ -878,10 +903,12 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				}
 				//字符串和域
 				$scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
-				if (option.rangeselected || option.search.text) {
+				if (option.rangeselected && option.rangeselected.length) {
 					angular.forEach(option.rangeselected, function(item) {
 							range.push(item);
 					});
+				}
+				if (option.search.text || range.length) {
 					option.search.fields = range.length ? range.join(',') : option.search.fields;
 					keys.push({
 						string: option.search.text,
@@ -1198,7 +1225,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 					});
 				}
 				//语言
-				if (option.lang) {
+				if (option.lang && option.lang.length) {
 					$scope.adSearcher.addFilter({
 						field: 'ad_lang',
 						value: option.lang
@@ -1283,6 +1310,18 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 						max: option.seeTimes.to
 					});
 				}
+				//engagementsFilter
+				angular.forEach(option.engagements,function(key,item){
+					if (key.min==="" && key.max==="") {
+						$scope.adSearcher.removeFilter(item);
+					}else{
+						$scope.adSearcher.addFilter({
+						field: item,
+						min: key.min,
+						max: key.max
+					});
+					}
+				});
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
 				$scope.currSearchOption.callToAction = buttondesc.join(',');
@@ -1303,10 +1342,12 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 
 				//字符串和域
 				$scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
-				if (option.rangeselected || option.search.text) {
+				if (option.rangeselected && option.rangeselected.length) {
 					angular.forEach(option.rangeselected, function(item) {
 							range.push(item);
 					});
+				}
+				if (option.search.text || range.length) {
 					option.search.fields = range.length ? range.join(',') : option.search.fields;
 					keys.push({
 						string: option.search.text,
