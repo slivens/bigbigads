@@ -72,7 +72,7 @@
                                 <h4 class="font-yellow-gold">Detail</h4>
                                 <div class="portlet light bordered">
                                     <div class="row">
-                                        <div class="col-xs-12 col-md-6">
+                                        <div class="col-xs-12 aditem col-md-6 ">
                                             <div class="margin-bottom-10 margin-top-10">
                                                
                                                 <a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
@@ -95,94 +95,78 @@
                                         </div>
                                         <!--overview-->
                                         <div class="col-xs-12 col-md-6">
-                                            
-                                                
-                                
-
                                                 <!-- Begin date, duration, see_date -->
-                                                <div class="row">
-                                                    <div class="col-xs-12 dashboard-stat2">
-                                                        <div class="display">
-                                                            <h3>
-                                                                <i class="fa fa-calendar pull-left font-yellow-gold fa-fw"></i>
-                                                            </h3>
-                                                            <div class="number">
-                                                                <small>DATA</small>
-                                                            
-                                                                <h4 class="font-yellow-gold">{{card.first_see}}~{{card.last_see}}</h4>
-                                                            </div>
+                                                
+                                                        <div class="overview-line">
+                                                            <span class="col-left">
+                                                                <h4>
+                                                                <i class="fa fa-calendar pull-left font-yellow-gold fa-fw">
+                                                                </i>
+                                                                <span class="overviewtitle">DATE:</span>
+                                                                </h4>
+                                                            </span>
+                                                            <span class="col-right">
+                                                                <span class="font-yellow-gold inline-block">{{card.first_see}}~{{card.last_see}}</span>
+                                                            </span>
                                                         </div>
-                                                    </div>
-                                                    <!--duration-->
-                                                    <div class="col-sm-12 col-md-6 dashboard-stat2">
-                                                        <div class="display">
-                                                            <h3>
-                                                                <i class="fa fa-clock-o pull-left font-yellow-gold fa-fw"></i>
-                                                            </h3>
-                                                            
-                                                            <div class="number">
-                                                                <small>Duration</small>
-                                                                <h4 class="font-yellow-gold">
-                                                                {{card.duration_days}}
+                                                        <div class="overview-line">
+                                                            <span class="col-left">
+                                                                <h4>
+                                                                <i class="fa fa-clock-o pull-left font-yellow-gold fa-fw">
+                                                                </i>
+                                                                <span class="overviewtitle">Duration:</span>
                                                                 </h4>
-                                                            </div>
-                                                        </div> 
-                                                    </div>
-                                                    <!--see-view-->
-                                                    <div class="col-sm-12 col-md-6 dashboard-stat2">
-                                                        <div class="display">
-                                                            <h3>
-                                                                <i class="fa fa-eye pull-left font-yellow-gold fa-fw"></i>
-                                                            </h3>
-                                                            
-                                                            <div class="number">
-                                                                <small>view count</small>
-                                                                <h4 class="font-yellow-gold">
-                                                                {{card.see_date}}
+                                                            </span>
+                                                            <span class="col-right">
+                                                                <span class="font-yellow-gold inline-block">{{card.duration_days}}</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="overview-line">
+                                                            <span class="col-left">
+                                                                <h4>
+                                                                <i class="fa fa-eye pull-left font-yellow-gold fa-fw">
+                                                                </i>
+                                                                <span class="overviewtitle">view count:</span>
                                                                 </h4>
-                                                            </div>
-                                                        </div> 
-                                                    </div>
-                                                    <div class="col-sm-12 col-md-6 dashboard-stat2">
-                                                        <div class="display">
-                                                            <h3>
-                                                                <i class="fa glyphicon glyphicon-flag pull-left font-yellow-gold fa-fw"></i>
-                                                            </h3>
-                                                            
-                                                            <div class="number">
-                                                                <small>country</small>
-                                                                <h4 class="font-yellow-gold">
-                                                                {{ad.proxy_country}}
+                                                            </span>
+                                                            <span class="col-right">
+                                                                <span class="font-yellow-gold inline-block">{{card.see_date}}</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="overview-line">
+                                                            <span class="col-left">
+                                                                <h4>
+                                                                <i class="fa glyphicon glyphicon-flag font-yellow-gold fa-fw">
+                                                                </i>
+                                                                <span class="overviewtitle">country:</span>
                                                                 </h4>
-                                                            </div>
-                                                        </div> 
-                                                    </div> 
-                                                    <!--language-->
-                                                    <div class="col-sm-12 col-md-6 dashboard-stat2">
-                                                        <div class="display">
-                                                            <h3>
-                                                                <i class="fa glyphicon glyphicon-font pull-left font-yellow-gold fa-fw"></i>
-                                                            </h3>
-                                                            
-                                                            <div class="number">
-                                                                <small>language</small>
-                                                                <h4 class="font-yellow-gold">
-                                                                {{ad.ad_lang}}
+                                                            </span>
+                                                            <span class="col-right">
+                                                                <span class="font-yellow-gold inline-block">{{ad.proxy_country}}</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="overview-line">
+                                                            <span class="col-left">
+                                                                <h4>
+                                                                <i class="fa glyphicon glyphicon-font font-yellow-gold fa-fw">
+                                                                </i>
+                                                                <span class="overviewtitle">language:</span>
                                                                 </h4>
-                                                            </div>
-                                                        </div> 
-                                                    </div>  
-                                                    <!--ad position-->
-                                                    <div class="col-sm-12 col-md-6 dashboard-stat2">
-                                                        <div class="display">
-                                                            <h3>
-                                                                <i class="fa glyphicon glyphicon-tag pull-left font-yellow-gold fa-fw"></i>
-                                                            </h3>
-                                                            
-                                                            <div class="number">
-                                                                <small>position</small>
-                                                                <h4 class="font-yellow-gold">
-                                                                <span ng-if="card.show_way=='1'">
+                                                            </span>
+                                                            <span class="col-right">
+                                                                <span class="font-yellow-gold inline-block"> {{ad.ad_lang}}</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="overview-line">
+                                                            <span class="col-left">
+                                                                <h4>
+                                                                <i class="fa glyphicon glyphicon-tag font-yellow-gold fa-fw">
+                                                                </i>
+                                                                <span class="overviewtitle">position:</span>
+                                                                </h4>
+                                                            </span>
+                                                            <span class="col-right">
+                                                                <span class="font-yellow-gold inline-block"> <span ng-if="card.show_way=='1'">
                                                                     News Feed
                                                                 </span>
                                                                 <span ng-if="card.show_way=='2'">
@@ -193,11 +177,11 @@
                                                                 </span>
                                                                 <span ng-if="card.show_way=='4'">
                                                                     Right Column
-                                                                </span>
-                                                                </h4>
-                                                            </div>
-                                                        </div> 
-                                                    </div> 
+                                                                </span></span>
+                                                            </span>
+                                                        </div>
+                                                        
+                                                    
                                                         
                                                 </div>
                                                 <!-- end date, duration, see_date-->
