@@ -206,13 +206,13 @@
                                                                     News Feed
                                                                 </span>
                                                                 <span ng-if="card.show_way=='2'">
-                                                                    Right Column
-                                                                </span>
-                                                                <span ng-if="card.show_way=='3'">
                                                                     Mobile
                                                                 </span>
+                                                                <span ng-if="card.show_way=='3'">
+                                                                    News Feed <br>Mobile
+                                                                </span>
                                                                 <span ng-if="card.show_way=='4'">
-                                                                    Pc
+                                                                    Right Column
                                                                 </span>
                                                                 </h4>
                                                             </div>
@@ -262,6 +262,8 @@
 
                                 <a class="btn font-yellow-gold btn-link ng-scope" ng-if="card.similars.length > 2" href="#" role="button">search more</a>
                             </div>
+                            
+
                             <!--end similar-->
                             <!-- begin Landpage-->
                             <div id="Landpage">
@@ -332,7 +334,7 @@
                             
                             <!-- end Landpage -->
                             <!--begin engements-->
-                            <div id="Engements">
+                            <div id="Engements" class="clearfix">
                                 <h4 class="font-yellow-gold">Engements</h4>
                                 <div ng-show="User.can('analysis_trend')">
                                     <div class="text-center" ng-show="adSearcher.isLoadingCharts">
