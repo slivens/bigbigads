@@ -20,18 +20,57 @@
         </div>
          <div class="input-group">
              <span class="input-group-addon" id="format_addon"><i class="fa fa-picture-o"></i></span>
-                  <select select2 class="form-control has_left_icon" id="format" multiple="multiple"  data-placeholder="Format" ng-model="$parent.filterOption.formatSelected" ng-options="item.key as item.value for item in $parent.settings.searchSetting.formatList" ></select>
+                  <select select2 class="form-control has_left_icon" id="format" multiple="multiple"  data-placeholder="Format" ng-model="$parent.filterOption.formatSelected"> 
+                      <option ng-repeat="item in $parent.settings.searchSetting.formatList" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
+                  </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.formatList" > -->
         </div>
         <div class="input-group">
             <span class="input-group-addon" id="calltoaction_addon"><i class="fa fa-flag"></i></span>
-            <select policy-lock key="search_filter" trigger="lockButton" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Call to Action" ng-model="$parent.filterOption.callToAction" ng-options="item.key as item.value for item in $parent.settings.searchSetting.buttondescList" ></select>
+            <select select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Call to Action" ng-model="$parent.filterOption.callToAction">
+                <option ng-repeat="item in $parent.settings.searchSetting.buttondescList" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
+            </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.buttondescList" > -->
         </div> 
         <div class="input-group">
             <span class="input-group-addon" id="language_addon"><i class="fa fa-language"></i></span>
-            <select policy-lock key="search_filter" trigger="lockButton" select2 class="form-control has_left_icon" id="language" multiple="multiple"  data-placeholder="Language" ng-model="$parent.filterOption.lang" ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" >
-            </select>
+            <select  select2 class="form-control has_left_icon" id="language" multiple="multiple"  data-placeholder="Language" ng-model="$parent.filterOption.lang"  >
+                <option ng-repeat="item in $parent.settings.searchSetting.langList" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
+            </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" -->
+
         </div>
         <hr>
+         <!--<table class="table table-condensed none-border">
+                <tr><td></td>
+                     <td><h4><a class="collapse_show" data-toggle="collapse" data-target="#collapse_advance_filter" policy-lock key="search_filter" trigger="lockButton">show</a></h4></td> 
+                </tr>
+            </table>-->
+            <h4><i class="fa fa-sliders"></i><label>|</label>Advance Filter:</h4>
+        
+        <!-- <h4 class="percent65"><i class="fa fa-sliders"></i><label>|</label>Advance Filter:</h4>
+        <u class="collapse_show" data-toggle="collapse" data-target="#collapse_advance_filter">show</u> -->
+        
+        
+        <div class="collapse" id="collapse_advance_filter">
+        <div class="form-group">
+            <h5>Domain:</h5>
+            <div class="input-group">
+                <input policy-lock key="domain_search" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.domain.text" placeholder="E.g nike.com">
+               <span class="input-group-addon">
+                    <input policy-lock key="domain_search" trigger="disabled"  type="checkbox" class="text" ng-model="$parent.domainOption.domain.exclude" name="">Exclude
+                </span>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <h5>Audience:</h5>
+
+            <div class="input-group">
+                <input policy-lock key="audience_search" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.audience.text" placeholder="E.g women">
+                <span class="input-group-addon">
+                    <input policy-lock key="audience_search" trigger="disabled" type="checkbox" class="text" ng-model="$parent.searchOption.audience.exclude" name="">Exclude
+                </span>
+            </div>
+        </div>
+        </div>
         <div class="form-group" >
         <div class="dropdown">
             <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn"  data-toggle="dropdown" policy-lock key="duration_filter|see_time_filter" trigger="lockButton" id="ad_run_filter">
@@ -57,8 +96,8 @@
         <div>
             <div class="dropdown">
                 <!-- dropdown-left-btn -->
-                <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn" data-toggle="dropdown" policy-lock key="search_filter" trigger="lockButton" id="engagements_filter">
-                engagements Filter
+                <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn" data-toggle="dropdown" policy-lock key="engagement_filter" trigger="lockButton" id="engagements_filter">
+                Engagements Filter
                 </button>
                
                 <!-- blue-steel  Likes blue-madison Shares green-meadow Comments red-sunglo Video Views dark Engaments -->
@@ -109,39 +148,6 @@
             </div>
         </div>
         <hr>
-            <table class="table table-condensed none-border">
-                <tr><td><h4><i class="fa fa-sliders"></i><label>|</label>Advance Filter:</h4></td>
-                    <td><h4><a class="collapse_show" data-toggle="collapse" data-target="#collapse_advance_filter" policy-lock key="search_filter" trigger="lockButton">show</a></h4></td>
-                </tr>
-            </table>
-        
-        <!-- <h4 class="percent65"><i class="fa fa-sliders"></i><label>|</label>Advance Filter:</h4>
-        <u class="collapse_show" data-toggle="collapse" data-target="#collapse_advance_filter">show</u> -->
-        
-        
-        <div class="collapse" id="collapse_advance_filter">
-        <div class="form-group">
-            <h5>Domain:</h5>
-            <div class="input-group">
-                <input policy-lock key="domain_search" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.domain.text" placeholder="E.g nike.com">
-               <span class="input-group-addon">
-                    <input policy-lock key="domain_search" trigger="disabled"  type="checkbox" class="text" ng-model="$parent.domainOption.domain.exclude" name="">Exclude
-                </span>
-
-            </div>
-        </div>
-        <div class="form-group">
-            <h5>Audience:</h5>
-
-            <div class="input-group">
-                <input policy-lock key="audience_search" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.audience.text" placeholder="E.g women">
-                <span class="input-group-addon">
-                    <input policy-lock key="audience_search" trigger="disabled" type="checkbox" class="text" ng-model="$parent.searchOption.audience.exclude" name="">Exclude
-                </span>
-            </div>
-        </div>
-        </div>
-        
         <div class="form-group">
             <button  type="submit" class="btn btn-lg yellow-gold" ng-show="!$parent.inAdvertiserMode">
                 <!-- <i class="fa fa-filter" ></i> -->
@@ -156,8 +162,7 @@
             <!--     Reset -->
             <!-- </button> -->
             
-            <h4><a ng-click="$parent.clearSearch()">Clear Search</a></h4>
-
+            <a class="top10 flr" ng-click="$parent.clearSearch()">Clear Search</a>
         </div>
     </form>
         </div>
