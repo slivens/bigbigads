@@ -69,19 +69,21 @@
                             
                             <!--begin detal-->
                             <div id="detail">
-                                
                                 <h4 class="font-yellow-gold">Detail</h4>
                                 <div class="portlet light bordered">
                                     <div class="row">
                                         <div class="col-xs-12 col-md-6">
-                                            <div>
+                                            <div class="margin-bottom-10 margin-top-10">
+                                               
                                                 <a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
                                                     <img src="{{settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded avatar">
                                                 </a>
-                                                <a ui-sref="adser({name:card.adser_name, adser:card.adser_username})">
+                                                
+                                                <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:card.adser_name, adser:card.adser_username})">
                                                     <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
                                                     <span ng-show="!card.adser_name">{{card.adser_username}}</span>
                                                 </a>
+                                            
                                             </div>
                                             <single-image ng-if="card.type == 'SingleImage'" card="card">
                                             </single-image>
@@ -89,29 +91,7 @@
                                             <carousel ng-if="card.type == 'Carousel'" card="card">
                                             </carousel>
                                             <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
-                                            <div class="clearfix detail-comm">
-                                                <span ng-if="card.comments" class="pull-left">
-                                                    <!--comments-->
-                                                    <h5>
-                                                        <i class="fa fa-comment pull-left fa-fw"></i>
-                                                        {{card.comments}}    
-                                                    </h5>
-                                                </span>
-                                                <span ng-if="card.likes" class="pull-left">
-                                                    <!--likes-->
-                                                    <h5>
-                                                        <i class="fa fa-heart pull-left fa-fw"></i>
-                                                        {{card.likes}}
-                                                    </h5>
-                                                </span>
-                                                <span ng-if="card.shares" class="pull-left">
-                                                    <!--shares-->
-                                                    <h5>
-                                                        <i class="fa fa-share-alt pull-left fa-fw"></i>
-                                                        {{card.shares}}
-                                                    </h5>
-                                                </span>   
-                                            </div>
+                                            
                                         </div>
                                         <!--overview-->
                                         <div class="col-xs-12 col-md-6">
@@ -133,7 +113,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!--存活时间-->
+                                                    <!--duration-->
                                                     <div class="col-sm-12 col-md-6 dashboard-stat2">
                                                         <div class="display">
                                                             <h3>
@@ -229,41 +209,32 @@
                             <!--begin similar-->
                             <div id="similar" ng-if="card.similars.length > 0" >
                                 <h4 class="font-yellow-gold">Similar Ads</h4>
-
                                 <div class="row">
-                                    <div ng-repeat="item in card.similars | limitTo:2" class="col-md-6 col-xs-12">
+                                    <div ng-repeat="item in card.similars | limitTo:2" class="aditem col-md-6 col-xs-12">
                                         <div class="portlet light bordered">
-                                            <div>
+                                            <div class="margin-bottom-10 margin-top-10">
                                                 <a ng-href="">
-                                                    <img src="{{settings.imgRemoteBase + item.local_photo}}" alt="" class="rounded avatar">
+                                                    <img src="{{settings.imgRemoteBase + item.local_photo}}"  class="rounded avatar">
                                                 </a>
                                                        
-                                                <a ui-sref="adser({name:item.adser_name, adser:item.adser_username})">
+                                                <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:item.adser_name, adser:item.adser_username})">
                                                     <span ng-bind-html="item.adser_name | toHtml" ng-show="item.adser_name">
+                                                        {{item.adser_name}}
                                                     </span>
                                                     <span ng-show="!item.adser_name">{{item.adser_username}}</span>
                                                 </a>
                                             </div>
-                                            <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + item.watermark}}" class="img-responsive" ng-if="item.watermark"/></a>
-                                            <H5>
-                                                <div class="xg-span-name">
-                                                {{item.name}}</div>
-                                            </H5>
-
-                                            <p class="xg-span-description">
-                                                <span ng-bind-html="card.description | toHtml" class="ng-binding">{{item.description}}</span>
-                                            </p>
-                                            <div class="aditem-caption margin-top-10" ng-hide="empty(card.caption)">
-                                                <label class="xg-label-caption ng-binding">{{item.caption}}</label>
-                                            </div>
+                                            <single-image ng-if="item.type == 'SingleImage'" card="item">
+                                            </single-image>
+                                            <single-video ng-if="item.type == 'SingleVideo'" card="item"></single-video>
+                                            <carousel ng-if="item.type == 'Carousel'" card="item">
+                                            </carousel>
+                                            <adcanvas ng-if="item.type == 'Canvas'" card="item"></adcanvas>
                                         </div>
                                     </div>
                                 </div>
-
                                 <a class="btn font-yellow-gold btn-link ng-scope" ng-if="card.similars.length > 2" href="#" role="button">search more</a>
                             </div>
-                            
-
                             <!--end similar-->
                             <!-- begin Landpage-->
                             <div id="Landpage">
@@ -271,38 +242,42 @@
                                 <div ng-show="User.can('analysis_link')">
                                     <div class="landpage-div clearfix">
                                         <div ng-if="card.type == 'Carousel' || card.type=='Canvas'">
-
                                             <h4 class="landpage-title">link</h4>
                                             <table class="table table-hover" ng-if="card.link">
                                                 <tr ng-repeat="item in card.link track by $index">
-                                                    <td>
-                                                        <a ng-href="{{item.link}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}...</a>
-                                                    </td>
+                                                    <td ng-if="item"> 
+                                                        <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
+                                                        <span ng-show="card.snapshot">
+                                                            <i class="glyphicon glyphicon-eye-open linksnapshot-icon" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top"  popover-is-open="issnapshot" ng-mouseenter="issnapshot=true" ng-mouseleave="issnapshot=false" ></i></span>
+                                                        </td>
                                                 </tr>
                                             </table>
                                             <h4 class="landpage-title">buttonlink</h4>
                                             <table class="table table-hover" ng-if="card.buttonlink">
-                                                <tr ng-repeat="item in card.buttonlink">
-                                                    <td>
-                                                        <a ng-href="{{item.buttonlink}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}...</a>
+                                                <tr ng-repeat="item in card.buttonlink track by $index">
+                                                    <td ng-if="item">
+                                                        <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <h4 class="landpage-title">description</h4>
-                                            <table class="table table-hover" ng-if="card.dest_site">
-                                                <tr ng-repeat="item in card.dest_site">
-                                                    <td>
-                                                        <a ng-href="{{item.dest_site}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}...</a>
+                                            <h4 class="landpage-title">description</h4> 
+                                            <!-- <table class="table table-hover" ng-if="card.dest_site">
+                                                <tr ng-repeat="item in card.dest_site track by $index ">
+                                                    <td ng-if="item">
+                                                        <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                     </td>
                                                 </tr>
-                                            </table>
+                                            </table> -->
                                         </div>
                                         <div ng-if="card.type != 'Carousel' && card.type!='Canvas'">
                                             <h4 class="landpage-title">link</h4>
                                                 <table class="table table-hover" ng-if="card.link">
                                                     <tr>
                                                         <td>
-                                                            <a ng-href="{{card.link}}" target="_blank" class="text-nowrap ">{{card.link | limitTo:80}}...</a>
+                                                            <a ng-href="{{card.link}}" target="_blank" class="text-nowrap ">{{card.link | limitTo:80}}<span ng-show="card.link.length>80">...</span></a>
+                                                            
+                                                            <i ng-show="card.snapshot" class="glyphicon glyphicon-eye-open linksnapshot-icon" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top"  popover-is-open="issnapshot" ng-mouseenter="issnapshot=true" ng-mouseleave="issnapshot=false" ></i>
+
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -331,7 +306,6 @@
                             </div>
                             <!--about Landpage image-->
                                 <!-- <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.snapshot}}" class="img-responsive" ng-if="card.snapshot" /> -->
-                            
                             <!-- end Landpage -->
                             <!--begin engements-->
                             <div id="Engements" class="clearfix">

@@ -225,9 +225,19 @@ body {
 //广告分析的类
 #ad {
     .avatar {
-        max-width:80px;
-        padding:16px;
+        max-width:50px;
+        //padding:16px;
     }
+    #detail{
+        .aditem-footer{display: block !important;
+            .adlink{display: none;}
+            .fa-link{display: none;}  
+
+            }
+    }
+    .detailusername{max-width: 70%;margin-left:5%;}  
+    
+    .aditem{margin: 0px;}
     .dashboard-stat2 {
         //padding-bottom:15px !important;
         padding-top: 0px;
@@ -259,6 +269,7 @@ body {
     }
     #Landpage{
     // .landpage-div{margin-left: 20px;}
+    .linksnapshot-icon{margin-left: 5px;cursor: pointer;}
     .landpage-title{color: #AAB5BC;
     font-weight: 600;
     font-size: 14px;
