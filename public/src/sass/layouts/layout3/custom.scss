@@ -232,9 +232,17 @@ body {
         .aditem-footer{display: block !important;
             .adlink{display: none;}
             .fa-link{display: none;}  
-
             }
+        .overview-line{height:50px;line-height: 50px;
+            .col-left{width: 40%;display: inline-block;
+                .fa{font-size: 16px;line-height: 20px;}}
+            .col-right{width: 55%;display: inline-block;}}
     }
+    .overviewtitle{
+    font-size: 14px;
+    color: #AAB5BC;
+    font-weight: 600;
+    text-transform: uppercase;}
     .detailusername{max-width: 70%;margin-left:5%;}  
     
     .aditem{margin: 0px;}
