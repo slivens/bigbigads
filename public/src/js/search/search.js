@@ -523,17 +523,18 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					SweetAlert.swal("no search permission");
 					return;
 				}
-				if (action == 'filter' && !User.can('search_filter')) {
-					SweetAlert.swal("no filter permission");
-					return;
-				}
-				if ($scope.filterOption.type) {
-					var type = ADS_TYPE[$scope.filterOption.type];
-					if (!(Number(User.getPolicy('platform').value) & type)) {
-						SweetAlert.swal("type '" + $scope.filterOption.type + "' exceed your permission");
-						return;
-					}
-				}
+                //2017-03-09 Liuwc:设计变更，过滤权限分开，同时不检查搜索类型
+				// if (action == 'filter' && !User.can('search_filter')) {
+				// 	SweetAlert.swal("no filter permission");
+				// 	return;
+				// }
+				// if ($scope.filterOption.type) {
+				// 	var type = ADS_TYPE[$scope.filterOption.type];
+				// 	if (!(Number(User.getPolicy('platform').value) & type)) {
+				// 		SweetAlert.swal("type '" + $scope.filterOption.type + "' exceed your permission");
+				// 		return;
+				// 	}
+				// }
 				//字符串和域
 				$scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
 				if (option.search.text) {
