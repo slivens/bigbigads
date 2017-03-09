@@ -43,6 +43,30 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					from: settings.searchSetting.seeTimesRange[0],
 					to: settings.searchSetting.seeTimesRange[1]
 				},
+				//engagementsFilter
+				engagements:{
+					likes:{
+						min:"",	
+						max:""
+					},
+					shares:{
+						min:"",	
+						max:""
+					},
+					comments:{
+						min:"",	
+						max:""
+					},
+					views:{
+						min:"",	
+						max:""
+					},
+					engagements:{
+						min:"",	
+						max:""
+					}
+
+				},
 				isDurationDirty: function() {
 					//这里引用this,关键是要对this这个指针有透彻的理解，this是会变的。当函数作为对象的属性时，this就是对象，即当以obj.isDurationDirty()，this就是obj。如果fn=obj.isDurationDirty();fn();那么this就是window。当函数出问题时一定要检查下this。
 					if (this.duration.from == searcher.defFilterOption.duration.from &&
@@ -493,9 +517,22 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						max: option.seeTimes.to
 					});
 				}
+
+				//engagementsFilter
+				angular.forEach(option.engagements,function(key,item){
+					if (key.min==="" && key.max==="") {
+						$scope.adSearcher.removeFilter(item);
+					}else{
+						$scope.adSearcher.addFilter({
+						field: item,
+						min: key.min,
+						max: key.max
+					});
+					}
+				});
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
-				$scope.currSearchOption.buttondesc = buttondesc.join(',');
+				$scope.currSearchOption.callToAction = buttondesc.join(',');
 				$scope.adSearcher.filter(action ? action : 'search').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
 						SweetAlert.swal(res.data.desc);
@@ -531,7 +568,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				}
 				//字符串和域
 				$scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
-				if (option.rangeselected) {
+				if (option.rangeselected || option.search.text) {
 					angular.forEach(option.rangeselected, function(item) {
 							range.push(item);
 					});
@@ -608,6 +645,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             $scope.Util = Util;
 			$scope.User = User;
 			$scope.Searcher = Searcher;
+			$scope.engamentApply = function(){
+
+			};
 			//一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
 			User.getInfo().then(function() {
 				//根据search参数页面初始化
@@ -776,7 +816,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				}
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
-				$scope.currSearchOption.buttondesc = buttondesc.join(',');
+				$scope.currSearchOption.callToAction = buttondesc.join(',');
 				$scope.adSearcher.filter(action ? action : 'search').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
 						SweetAlert.swal(res.data.desc);
@@ -812,7 +852,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				}
 				//字符串和域
 				$scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
-				if (option.rangeselected) {
+				if (option.rangeselected || option.search.text) {
 					angular.forEach(option.rangeselected, function(item) {
 							range.push(item);
 					});
@@ -1206,7 +1246,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 				}
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
-				$scope.currSearchOption.buttondesc = buttondesc.join(',');
+				$scope.currSearchOption.callToAction = buttondesc.join(',');
 				$scope.adSearcher.filter();
 				console.log("params", $scope.adSearcher.params);
 			};
@@ -1220,7 +1260,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 
 				//字符串和域
 				$scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
-				if (option.rangeselected) {
+				if (option.rangeselected || option.search.text) {
 					angular.forEach(option.rangeselected, function(item) {
 							range.push(item);
 					});

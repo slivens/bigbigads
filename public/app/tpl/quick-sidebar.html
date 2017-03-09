@@ -10,29 +10,29 @@
     <form role="form" ng-submit="$parent.search('filter')">
         <div class="input-group">
             <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-calendar"></i></span>
-            <input policy-lock key="search_filter" trigger="disabled" date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.date" options="daterangeOption" placeholder="Filter By Date" aria-describedby="filterbydate_addon"/> 
+            <input date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.date" options="daterangeOption" placeholder="Filter By Date" aria-describedby="filterbydate_addon"/> 
         </div>
          <div class="input-group">
             <span class="input-group-addon" id="searchrange_addon"><i class="fa fa-search"></i></span>
-            <select id="search_range_select" policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Search Range" ng-model="$parent.searchOption.rangeselected" ng-options="item.key as item.value for item in $parent.settings.searchSetting.rangeList"></select>
+            <select id="search_range_select" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Search Range" ng-model="$parent.searchOption.rangeselected" ng-options="item.key as item.value for item in $parent.settings.searchSetting.rangeList"></select>
         </div>
          <div class="input-group">
              <span class="input-group-addon" id="format_addon"><i class="fa fa-picture-o"></i></span>
-                  <select policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon" id="format" multiple="multiple"  data-placeholder="Format" ng-model="$parent.filterOption.formatSelected" ng-options="item.key as item.value for item in $parent.settings.searchSetting.formatList" ></select>
+                  <select select2 class="form-control has_left_icon" id="format" multiple="multiple"  data-placeholder="Format" ng-model="$parent.filterOption.formatSelected" ng-options="item.key as item.value for item in $parent.settings.searchSetting.formatList" ></select>
         </div>
         <div class="input-group">
             <span class="input-group-addon" id="calltoaction_addon"><i class="fa fa-flag"></i></span>
-            <select policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Call to Action" ng-model="$parent.filterOption.callToAction" ng-options="item.key as item.value for item in $parent.settings.searchSetting.buttondescList" ></select>
+            <select policy-lock key="search_filter" trigger="lockButton" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Call to Action" ng-model="$parent.filterOption.callToAction" ng-options="item.key as item.value for item in $parent.settings.searchSetting.buttondescList" ></select>
         </div> 
         <div class="input-group">
             <span class="input-group-addon" id="language_addon"><i class="fa fa-language"></i></span>
-            <select policy-lock key="search_filter" trigger="disabled" select2 class="form-control has_left_icon" id="language" multiple="multiple"  data-placeholder="Language" ng-model="$parent.filterOption.lang" ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" >
+            <select policy-lock key="search_filter" trigger="lockButton" select2 class="form-control has_left_icon" id="language" multiple="multiple"  data-placeholder="Language" ng-model="$parent.filterOption.lang" ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" >
             </select>
         </div>
         <hr>
         <div class="form-group" >
         <div class="dropdown">
-            <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn"  data-toggle="dropdown" policy-lock key="search_filter" trigger="disabled" id="ad_run_filter">
+            <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn"  data-toggle="dropdown" policy-lock key="duration_filter|see_time_filter" trigger="lockButton" id="ad_run_filter">
                 Ad Run Filter
             </button>
             <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="ad_run_filter"> 
@@ -48,61 +48,61 @@
                     <div class="col-md-12">
                         <input policy-lock key="search_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" />
                     </div>
-                    <div class="col-md-12 text-left apply-button"><button policy-lock type="button" class="btn btn-md yellow-lemon " key="search_filter">Apply</button></div>
+                    <div class="col-md-12 text-left apply-button"><button policy-lock type="button" class="applyBtn btn btn-sm btn-success" key="search_filter">Apply</button></div>
             </div> 
         </div>
         </div>
         <div>
             <div class="dropdown">
                 <!-- dropdown-left-btn -->
-                <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn" data-toggle="dropdown" policy-lock key="search_filter" trigger="disabled" id="engament_filter">
-                Engament Filter
+                <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn" data-toggle="dropdown" policy-lock key="search_filter" trigger="lockButton" id="engagements_filter">
+                engagements Filter
                 </button>
                 <!-- blue-steel  Likes blue-madison Shares green-meadow Comments red-sunglo Video Views dark Engaments -->
                 <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="engament_filter">
                     <div class="col-md-12">
-                        <table class="table table-condensed table-engamentfilter">
+                        <table class="table table-condensed table-engamentfilter" >
                             <tbody>
                                 <tr>
                                     <td class="like">Likes</td>
                                     
-                                    <td><input type="text" class="wt45" value=""/></td>
+                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.likes.min"/></td>
                                     <td><label class="wt10">to</label></td>
-                                    <td><input type="text" class="wt45" value=""/></td>
+                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.likes.max"/></td>
                                     <td><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
                                 </tr>
                                 <tr>
                                     <td class="share">Shares</td>
-                                    <td><input type="text" class="wt45" value=""/></td>
+                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.shares.min"/></td>
                                     <td><label class="wt10">to</label></td>
-                                    <td><input type="text" class="wt45" value=""/></td>
+                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.shares.max"/></td>
                                     <td><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
                                 </tr>
                                 <tr>
                                     <td class="comment">Comments</td>
-                                    <td><input type="text" class="wt45" value=""/></td>
+                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.comments.min"/></td>
                                     <td><label class="wt10">to</label></td>
-                                    <td><input type="text" class="wt45" value=""/></td>
+                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.comments.max"/></td>
                                     <td><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
                                 </tr>
                                 <tr>
                                     <td class="videoview">Video Views</td>
-                                    <td><input type="text" class="wt45" value=""/></td>
+                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.views.min"/></td>
                                     <td><label class="wt10">to</label></td>
-                                    <td><input type="text" class="wt45" value=""/></td>
+                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.views.max"/></td>
                                     <td><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
                                 </tr>
                                 <tr>
-                                    <td class="engament">Engaments</td>
-                                    <td><input type="text" class="wt45" value=""/></td>
+                                    <td class="engagements">Engagements</td>
+                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.engagements.min"/></td>
                                     <td><label class="wt10">to</label></td>
-                                    <td><input type="text" class="wt45" value=""/></td>
+                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.engagements.max"/></td>
                                     <td><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div> 
-                    <div class="col-md-12 text-left apply-button"><button policy-lock type="button" class="btn btn-md yellow-lemon " key="search_filter">Apply</button></div>
+                    <div class="col-md-12 text-left apply-button"><button policy-lock type="button" class="applyBtn btn btn-sm btn-success" key="search_filter" ng-click="$parent.filterOption.engagementsApply()">Apply</button></div>
                                                             
                 </div> 
             </div>
@@ -110,16 +110,16 @@
         <hr>
             <table class="table table-condensed none-border">
                 <tr><td><h4><i class="fa fa-sliders"></i><label>|</label>Advance Filter:</h4></td>
-                    <td><h4><a class="collapse_show" data-toggle="collapse" data-target="#collapse_advance_filter">show</a></h4></td>
+                    <td><h4><a class="collapse_show" data-toggle="collapse" data-target="#collapse_advance_filter" policy-lock key="search_filter" trigger="lockButton">show</a></h4></td>
                 </tr>
             </table>
-        <div class="collapse" id="collapse_advance_filter">
+        <div class="collapse" id="collapse_advance_filter"> 
         <div class="form-group">
             <h5>Domain:</h5>
             <div class="input-group">
-                <input policy-lock key="search_filter" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.domain.text" placeholder="E.g nike.com">
+                <input type="text" class="form-control" ng-model="$parent.searchOption.domain.text" placeholder="E.g nike.com">
                <span class="input-group-addon">
-                    <input policy-lock key="search_filter" trigger="disabled"  type="checkbox" class="text" ng-model="$parent.searchOption.domain.exclude" name="">Exclude
+                    <input type="checkbox" class="text" ng-model="$parent.searchOption.domain.exclude" name="">Exclude
                 </span>
 
             </div>
@@ -128,9 +128,9 @@
             <h5>Audience:</h5>
 
             <div class="input-group">
-                <input policy-lock key="search_filter" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.audience.text" placeholder="E.g women">
+                <input type="text" class="form-control" ng-model="$parent.searchOption.audience.text" placeholder="E.g women">
                 <span class="input-group-addon">
-                    <input policy-lock key="search_filter" trigger="disabled" type="checkbox" class="text" ng-model="$parent.searchOption.audience.exclude" name="">Exclude
+                    <input type="checkbox" class="text" ng-model="$parent.searchOption.audience.exclude" name="">Exclude
                 </span>
             </div>
         </div>
