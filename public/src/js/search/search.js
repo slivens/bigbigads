@@ -67,6 +67,21 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					}
 
 				},
+				isEngagementsDirty: function() {
+					if (this.engagements.likes.min == searcher.defFilterOption.engagements.likes.min && 
+						this.engagements.likes.max == searcher.defFilterOption.engagements.likes.max &&
+						this.engagements.shares.min == searcher.defFilterOption.engagements.shares.min &&
+						this.engagements.shares.max == searcher.defFilterOption.engagements.shares.max &&
+						this.engagements.comments.min == searcher.defFilterOption.engagements.comments.min &&
+						this.engagements.comments.max == searcher.defFilterOption.engagements.comments.max &&
+						this.engagements.views.min == searcher.defFilterOption.engagements.views.min &&
+						this.engagements.views.max == searcher.defFilterOption.engagements.views.max &&
+						this.engagements.engagements.min == searcher.defFilterOption.engagements.engagements.min &&
+						this.engagements.engagements.max == searcher.defFilterOption.engagements.engagements.max){
+						return false;
+					}
+					return true;
+				},
 				isDurationDirty: function() {
 					//这里引用this,关键是要对this这个指针有透彻的理解，this是会变的。当函数作为对象的属性时，this就是对象，即当以obj.isDurationDirty()，this就是obj。如果fn=obj.isDurationDirty();fn();那么this就是window。当函数出问题时一定要检查下this。
 					if (this.duration.from == searcher.defFilterOption.duration.from &&
