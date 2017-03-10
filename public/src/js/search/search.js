@@ -43,6 +43,45 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					from: settings.searchSetting.seeTimesRange[0],
 					to: settings.searchSetting.seeTimesRange[1]
 				},
+				//engagementsFilter
+				engagements:{
+					likes:{
+						min:"",	
+						max:""
+					},
+					shares:{
+						min:"",	
+						max:""
+					},
+					comments:{
+						min:"",	
+						max:""
+					},
+					views:{
+						min:"",	
+						max:""
+					},
+					engagements:{
+						min:"",	
+						max:""
+					}
+
+				},
+				isEngagementsDirty: function() {
+					if (this.engagements.likes.min == searcher.defFilterOption.engagements.likes.min && 
+						this.engagements.likes.max == searcher.defFilterOption.engagements.likes.max &&
+						this.engagements.shares.min == searcher.defFilterOption.engagements.shares.min &&
+						this.engagements.shares.max == searcher.defFilterOption.engagements.shares.max &&
+						this.engagements.comments.min == searcher.defFilterOption.engagements.comments.min &&
+						this.engagements.comments.max == searcher.defFilterOption.engagements.comments.max &&
+						this.engagements.views.min == searcher.defFilterOption.engagements.views.min &&
+						this.engagements.views.max == searcher.defFilterOption.engagements.views.max &&
+						this.engagements.engagements.min == searcher.defFilterOption.engagements.engagements.min &&
+						this.engagements.engagements.max == searcher.defFilterOption.engagements.engagements.max){
+						return false;
+					}
+					return true;
+				},
 				isDurationDirty: function() {
 					//这里引用this,关键是要对this这个指针有透彻的理解，this是会变的。当函数作为对象的属性时，this就是对象，即当以obj.isDurationDirty()，this就是obj。如果fn=obj.isDurationDirty();fn();那么this就是window。当函数出问题时一定要检查下this。
 					if (this.duration.from == searcher.defFilterOption.duration.from &&
@@ -385,6 +424,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			$scope.filter = function(option, action) {
 				var category = [],
 					format = [],
+					formatList='',
 					buttondesc = [];
 
 				//广告类型
@@ -409,7 +449,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 				}
 				//语言
-				if (option.lang) {
+				if (option.lang && option.lang.length) {
 					$scope.adSearcher.addFilter({
 						field: 'ad_lang',
 						value: option.lang
@@ -426,7 +466,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				} else {
 					$scope.adSearcher.removeFilter('state');
 				}
-
 
 				//支持多项搜索，以","隔开
 				angular.forEach($scope.filterOption.category, function(item, key) {
@@ -445,11 +484,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					$scope.adSearcher.removeFilter('category');
 				}
 
-				//内容格式 
-				angular.forEach($scope.filterOption.format, function(item, key) {
-					if (item.selected) {
-						format.push(item.key);
-					}
+				//format by select2 multiple
+				angular.forEach($scope.filterOption.formatSelected, function(item) {
+						format.push(item);
 				});
 				$scope.filterOption.formatString = format.join(',');
 				if (format.length) {
@@ -461,11 +498,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					$scope.adSearcher.removeFilter('media_type');
 				}
 
-				//Button Description
-				angular.forEach($scope.filterOption.buttondesc, function(item, key) {
-					if (item.selected) {
-						buttondesc.push(item.key);
-					}
+				//Call To Action
+				angular.forEach($scope.filterOption.callToAction, function(item) {
+						buttondesc.push(item);
 				});
 				option.buttondescString = buttondesc.join(',');
 				if (buttondesc.length) {
@@ -498,9 +533,22 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						max: option.seeTimes.to
 					});
 				}
+
+				//engagementsFilter
+				angular.forEach(option.engagements,function(key,item){
+					if (key.min==="" && key.max==="") {
+						$scope.adSearcher.removeFilter(item);
+					}else{
+						$scope.adSearcher.addFilter({
+						field: item,
+						min: key.min,
+						max: key.max
+					});
+					}
+				});
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
-				$scope.currSearchOption.buttondesc = buttondesc.join(',');
+				$scope.currSearchOption.callToAction = buttondesc.join(',');
 				$scope.adSearcher.filter(action ? action : 'search').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
 						SweetAlert.swal(res.data.desc);
@@ -517,31 +565,33 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var keys;
 				var range = [];
 				keys = $scope.adSearcher.params.keys = [];
+				//console.log($scope.searchOption.rangeselected);
 
 				//检查权限，并且应该集中检查权限，才不会搞得逻辑混乱或者状态不一致
 				if (!User.can('result_per_search')) {
 					SweetAlert.swal("no search permission");
 					return;
 				}
-				if (action == 'filter' && !User.can('search_filter')) {
-					SweetAlert.swal("no filter permission");
-					return;
-				}
-				if ($scope.filterOption.type) {
-					var type = ADS_TYPE[$scope.filterOption.type];
-					if (!(Number(User.getPolicy('platform').value) & type)) {
-						SweetAlert.swal("type '" + $scope.filterOption.type + "' exceed your permission");
-						return;
-					}
-				}
+                //2017-03-09 Liuwc:设计变更，过滤权限分开，同时不检查搜索类型
+				// if (action == 'filter' && !User.can('search_filter')) {
+				// 	SweetAlert.swal("no filter permission");
+				// 	return;
+				// }
+				// if ($scope.filterOption.type) {
+				// 	var type = ADS_TYPE[$scope.filterOption.type];
+				// 	if (!(Number(User.getPolicy('platform').value) & type)) {
+				// 		SweetAlert.swal("type '" + $scope.filterOption.type + "' exceed your permission");
+				// 		return;
+				// 	}
+				// }
 				//字符串和域
 				$scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
-				if (option.search.text) {
-					angular.forEach(option.range, function(item, key) {
-						if (item.selected) {
-							range.push(item.key);
-						}
+				if (option.rangeselected && option.rangeselected.length) {
+					angular.forEach(option.rangeselected, function(item) {
+							range.push(item);
 					});
+				}
+				if (option.search.text || range.length) {
 					option.search.fields = range.length ? range.join(',') : option.search.fields;
 					keys.push({
 						string: option.search.text,
@@ -549,6 +599,17 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						relation: "Must"
 					});
 				}
+				/*if (option.rangeselected && option.search.text) {
+					angular.forEach(option.rangeselected, function(item) {
+							range.push(item);
+					});
+					option.search.fields = range.length ? range.join(',') : option.search.fields;
+					keys.push({
+						string: option.search.text,
+						search_fields: option.search.fields,
+						relation: "Must"
+					});
+				}*/
 				//域名
 				if (option.domain.text) {
 					keys.push({
@@ -623,6 +684,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             $scope.Util = Util;
 			$scope.User = User;
 			$scope.Searcher = Searcher;
+			$scope.engamentApply = function(){
+
+			};
 			//一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
 			User.getInfo().then(function() {
 				//根据search参数页面初始化
@@ -704,7 +768,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 				}
 				//语言
-				if (option.lang) {
+				if (option.lang && option.lang.length) {
 					$scope.adSearcher.addFilter({
 						field: 'ad_lang',
 						value: option.lang
@@ -740,11 +804,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					$scope.adSearcher.removeFilter('category');
 				}
 
-				//内容格式 
-				angular.forEach($scope.filterOption.format, function(item, key) {
-					if (item.selected) {
-						format.push(item.key);
-					}
+				//format by select2 multiple
+				angular.forEach($scope.filterOption.formatSelected, function(item) {
+						format.push(item);
 				});
 				$scope.filterOption.formatString = format.join(',');
 				if (format.length) {
@@ -756,11 +818,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					$scope.adSearcher.removeFilter('media_type');
 				}
 
-				//Button Description
-				angular.forEach($scope.filterOption.buttondesc, function(item, key) {
-					if (item.selected) {
-						buttondesc.push(item.key);
-					}
+				//Call To Action
+				angular.forEach($scope.filterOption.callToAction, function(item) {
+						buttondesc.push(item);
 				});
 				option.buttondescString = buttondesc.join(',');
 				if (buttondesc.length) {
@@ -793,9 +853,21 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						max: option.seeTimes.to
 					});
 				}
+				//engagementsFilter
+				angular.forEach(option.engagements,function(key,item){
+					if (key.min==="" && key.max==="") {
+						$scope.adSearcher.removeFilter(item);
+					}else{
+						$scope.adSearcher.addFilter({
+						field: item,
+						min: key.min,
+						max: key.max
+					});
+					}
+				});
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
-				$scope.currSearchOption.buttondesc = buttondesc.join(',');
+				$scope.currSearchOption.callToAction = buttondesc.join(',');
 				$scope.adSearcher.filter(action ? action : 'search').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
 						SweetAlert.swal(res.data.desc);
@@ -831,12 +903,12 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				}
 				//字符串和域
 				$scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
-				if (option.search.text) {
-					angular.forEach(option.range, function(item, key) {
-						if (item.selected) {
-							range.push(item.key);
-						}
+				if (option.rangeselected && option.rangeselected.length) {
+					angular.forEach(option.rangeselected, function(item) {
+							range.push(item);
 					});
+				}
+				if (option.search.text || range.length) {
 					option.search.fields = range.length ? range.join(',') : option.search.fields;
 					keys.push({
 						string: option.search.text,
@@ -939,9 +1011,14 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			searcher.findSimilar = function(watermark) {
                 if (!watermark)
                     return false;
+                console.log("water", watermark);
 				var similarSearcher = new Searcher();
 				var similarPromise;
-				var md5 = watermark.match(/\/(\w+)\./);
+                var md5;
+                if (watermark instanceof Array)
+                    md5 = watermark[0].match(/\/(\w+)\./);
+                else 
+                    md5 = watermark.match(/\/(\w+)\./);
 				if (md5 === null) {
 					return false;
 				}
@@ -1148,7 +1225,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 					});
 				}
 				//语言
-				if (option.lang) {
+				if (option.lang && option.lang.length) {
 					$scope.adSearcher.addFilter({
 						field: 'ad_lang',
 						value: option.lang
@@ -1184,11 +1261,9 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 					$scope.adSearcher.removeFilter('category');
 				}
 
-				//内容格式 
-				angular.forEach($scope.filterOption.format, function(item, key) {
-					if (item.selected) {
-						format.push(item.key);
-					}
+				//format by select2 multiple
+				angular.forEach($scope.filterOption.formatSelected, function(item) {
+						format.push(item);
 				});
 				$scope.filterOption.formatString = format.join(',');
 				if (format.length) {
@@ -1200,11 +1275,9 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 					$scope.adSearcher.removeFilter('media_type');
 				}
 
-				//Button Description
-				angular.forEach($scope.filterOption.buttondesc, function(item, key) {
-					if (item.selected) {
-						buttondesc.push(item.key);
-					}
+				//Call To Action
+				angular.forEach($scope.filterOption.callToAction, function(item) {
+						buttondesc.push(item);
 				});
 				option.buttondescString = buttondesc.join(',');
 				if (buttondesc.length) {
@@ -1237,13 +1310,26 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 						max: option.seeTimes.to
 					});
 				}
+				//engagementsFilter
+				angular.forEach(option.engagements,function(key,item){
+					if (key.min==="" && key.max==="") {
+						$scope.adSearcher.removeFilter(item);
+					}else{
+						$scope.adSearcher.addFilter({
+						field: item,
+						min: key.min,
+						max: key.max
+					});
+					}
+				});
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
-				$scope.currSearchOption.buttondesc = buttondesc.join(',');
+				$scope.currSearchOption.callToAction = buttondesc.join(',');
                 $scope.adSearcher.filter().then(function() {}, function(res) {
                     if (res.status != 200)
                         Util.hint(res);
                 });
+
 				console.log("params", $scope.adSearcher.params);
 			};
 
@@ -1256,12 +1342,12 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 
 				//字符串和域
 				$scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
-				if (option.search.text) {
-					angular.forEach(option.range, function(item, key) {
-						if (item.selected) {
-							range.push(item.key);
-						}
+				if (option.rangeselected && option.rangeselected.length) {
+					angular.forEach(option.rangeselected, function(item) {
+							range.push(item);
 					});
+				}
+				if (option.search.text || range.length) {
 					option.search.fields = range.length ? range.join(',') : option.search.fields;
 					keys.push({
 						string: option.search.text,

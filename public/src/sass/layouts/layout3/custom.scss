@@ -229,8 +229,43 @@ body {
         padding:16px;
     }
     .dashboard-stat2 {
-        padding-bottom:15px !important;
+        //padding-bottom:15px !important;
+        padding-top: 0px;
+        // padding-right: 0px;
+        // padding-left: 0px;
+        padding-bottom:0px;
+        margin-bottom: 0px;
+        // border-bottom: 1px solid #e7ecf1;
+        height: 90px;
     }
+    .detail-comm{
+        span{margin-left: 10px;
+            i{margin-right: 5px;color: #333;}}
+        span:first-child{margin-left: 0px;}
+
+    }
+    single-image img{
+        max-width: 100%;
+        //padding-right: 30px;
+    }
+    single-video img{
+        max-width: 100%;
+    }
+    carousel img{
+        max-width: 100%;
+    }
+    adcanvas img{
+        max-width: 100%;
+    }
+    #Landpage{
+    // .landpage-div{margin-left: 20px;}
+    .landpage-title{color: #AAB5BC;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;}
+    .label{padding-bottom: 1px;box-shadow: none;}
+    }
+
 
 }
 .rank-title {
@@ -292,6 +327,7 @@ body {
     line-height: 11px;
     font-family: Helvetica, Arial, sans-serif;
     text-transform: uppercase;
+    word-wrap: break-word;
 }
 
 .xg-a-likepage {
@@ -357,7 +393,7 @@ body {
     height: 20px;
     background-repeat: no-repeat;
     background-size: auto;
-    background-position: 0px 5px;
+    background-position: 0px 8px
 }
 
 .xg-icon-comment {
@@ -380,11 +416,11 @@ body {
 }
 
 .xg-icon-audience {
-    content: url('../../../../assets/global/svg/detail-person.svg');
+    background-image: url('../../../../assets/global/svg/detail-person.svg');
 }
 
 .xg-icon-analysis {
-    content: url('../../../../assets/global/svg/venus-detail-2.svg');
+    background-image: url('../../../../assets/global/svg/venus-detail-2.svg');
 }
 
 .xg-analysis {
@@ -404,7 +440,7 @@ body {
     border-bottom: 1px solid #d3d3d3;
 }
 
-.xg-search-height{
+.xg-search-height {
     height: 44px !important;
     padding: 9px 16px !important;
 }
@@ -454,6 +490,14 @@ body {
     margin-bottom: 0px !important;
 }
 
+.xg-audience-table {
+    color: #333333 !important;
+    font-weight: bold;   
+    tr td {
+        font-size: 16px !important;
+    }
+}
+
 //广告主分析样式
 .adser-analysis-sidebar {
     padding-top:20px;
@@ -481,7 +525,7 @@ body {
 }
 //placeholder颜色大小字体
 $black_placeholder:#000;
-input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+/* input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 color: $black_placeholder !important;
 }
 input:-moz-placeholder, textarea:-moz-placeholder {
@@ -492,16 +536,16 @@ color: $black_placeholder !important;
 }
 input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 color: $black_placeholder !important;
-}
+} */
 //engament
-.wt10{
+.xg-wt10{
     width: 10px;
 }
-.wt45{
+.xg-wt45{
     width: 45px;
 }
-//engament color
-.table-engamentfilter{ 
+//engagements color
+.table-engagementsfilter{ 
     .like{
         color:#54ACF3;//Twitter's color
     }
@@ -514,7 +558,7 @@ color: $black_placeholder !important;
     .videoview{
         color:#2673A7;//LinkIn's color
     }
-    .engament{
+    .engagements{
         color:#F15A25;//orange
     }
     td{
@@ -523,25 +567,19 @@ color: $black_placeholder !important;
         }
     }
 }
-.top10{
+.xg-clrbtn{
     margin-top: 10px;
+     float: right;
 }
-.dropdown-left-btn{
+.xg-dropdown-left-btn{
     text-align: left;
 }
-.select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {
+/* .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {
     min-width: 0em;
     padding-left:10px;
-}
-
-.collapse_show{
-    padding:10px 0;
-}
-.none-border{
-    border: 0 none;
-    tr,td{
-        border:0 !important;
-    }
+} */
+.xg-mh565{
+    min-height: 565px;
 }
 .page-quick-sidebar {
     .input-group{
