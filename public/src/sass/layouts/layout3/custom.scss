@@ -231,12 +231,18 @@ body {
     #detail{
         .aditem-footer{display: block !important;
             .adlink{display: none;}
-            .fa-link{display: none;}  
-            }
-        .overview-line{height:50px;line-height: 50px;
-            .col-left{width: 40%;display: inline-block;
+            .fa-link{display: none;} 
+            hr{display: none;} 
+        }
+        .overview-line{
+            .col-left{width: 43%;display: inline-block;
                 .fa{font-size: 16px;line-height: 20px;}}
-            .col-right{width: 55%;display: inline-block;}}
+            .col-right{width: 55%;display: inline-block;}
+            h4{margin-bottom: 0px;}
+        }
+        .overview-card{padding-left:5px;padding-bottom: 10px; margin-bottom: 15px;border-bottom: 1px solid #e7ecf1;}
+        .overview-data{margin-left: 30px;font-size: 14px;margin-bottom: 0px;}
+        .detail-right.col-md-6{padding-left: 10px;}
     }
     .overviewtitle{
     font-size: 14px;

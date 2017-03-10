@@ -1,368 +1,358 @@
 <div ng-controller="AdAnalysisController" class="ad-analysis">
 
-        <div class="sidebar" fixsidebar>
-            <ul role="tablist" class="nav nav-pills nav-stacked text-center">
+    <div class="sidebar" fixsidebar>
+        <ul role="tablist" class="nav nav-pills nav-stacked text-center">
 
-                <li>
-                    <a href="#detail">
-                        <i class="fa fa-envelope fa-2x font-yellow-gold"></i>
-                        <div>Detail</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="#similar">
-                        <i class="fa fa-bar-chart fa-2x font-yellow-gold"></i>
-                        <div>Similar Ads</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="#Landpage">
-                        <i class="fa fa-link fa-2x font-yellow-gold"></i>
+            <li>
+                <a href="#detail">
+                    <i class="fa fa-envelope fa-2x font-yellow-gold"></i>
+                    <div>Detail</div>
+                </a>
+            </li>
+            <li>
+                <a href="#similar">
+                    <i class="fa fa-bar-chart fa-2x font-yellow-gold"></i>
+                    <div policy-lock key="analysis_similar">Similar Ads</div>
+                </a>
+            </li>
+            <li>
+                <a href="#Landpage">
+                    <i class="fa fa-link fa-2x font-yellow-gold"></i>
 
-                        <div policy-lock key="analysis_link">Landpage</div>
-
-
-                    </a>
-                </li>
-                <li>
-                    <a href="#Engements">
-                        <i class="fa fa-feed fa-2x font-yellow-gold"></i>
+                    <div policy-lock key="analysis_link">Landpage</div>
 
 
-                        <div policy-lock key="analysis_trend">Engements</div>
+                </a>
+            </li>
+            <li>
+                <a href="#Engements">
+                    <i class="fa fa-feed fa-2x font-yellow-gold"></i>
+
+
+                    <div policy-lock key="analysis_trend">Engements</div>
 
 
 
-                    </a>
-                </li>
-                <li>
-                    <a href="#audience">
-                        <i class="fa fa-eye fa-2x font-yellow-gold"></i>
-                        <div policy-lock key="analysis_audience">Audience</div>
-                    </a>
-                </li>
-            </ul>
-        </div>
+                </a>
+            </li>
+            <li>
+                <a href="#audience">
+                    <i class="fa fa-eye fa-2x font-yellow-gold"></i>
+                    <div policy-lock key="analysis_audience">Audience</div>
+                </a>
+            </li>
+        </ul>
+    </div>
     <!-- BEGIN MAIN CONTENT -->
     <div class="content">
         <div class="row">
-        <div class="col-xs-12">
-            <!-- BEGIN: ACCORDION DEMO -->
-            <div class="portlet light bordered">
-                <div class="portlet-title">
-                    <div class="caption font-yellow-gold">
-                        <i class="icon-badge font-green-sharp"></i>
-                        <span class="caption-subject bold">AD:{{id}}</span>
-                        <span class="caption-helper hide"></span>
+            <div class="col-xs-12">
+                <!-- BEGIN: ACCORDION DEMO -->
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-yellow-gold">
+                            <i class="icon-badge font-green-sharp"></i>
+                            <span class="caption-subject bold">ID:{{id}}</span>
+                            <span class="caption-helper hide"></span>
+                        </div>
+                        <div class="actions" ng-hide="true">
+                            <a class="btn btn-circle btn-icon-only btn-default" ui-sref="adsearch">
+                                <i class="icon-action-undo"></i>
+                            </a>
+                        </div>
                     </div>
-                    <div class="actions" ng-hide="true">
-                        <a class="btn btn-circle btn-icon-only btn-default" ui-sref="adsearch">
-                            <i class="icon-action-undo"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="portlet-body">
+                    <div class="portlet-body">
 
-                    <div class="alert alert-warning ng-cloak" ng-show="card.end">AD {{id}} Not found!</div>
-                    <div class="row" ng-show="!card.end">
-                        <div class="col-xs-12" id="ad">
-                            
-                            <!--begin detal-->
-                            <div id="detail">
-                                <h4 class="font-yellow-gold">Detail</h4>
-                                <div class="portlet light bordered">
-                                    <div class="row">
-                                        <div class="col-xs-12 aditem col-md-6 ">
-                                            <div class="margin-bottom-10 margin-top-10">
-                                               
-                                                <a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
-                                                    <img src="{{settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded avatar">
-                                                </a>
-                                                
-                                                <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:card.adser_name, adser:card.adser_username})">
-                                                    <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
-                                                    <span ng-show="!card.adser_name">{{card.adser_username}}</span>
-                                                </a>
-                                            
-                                            </div>
-                                            <single-image ng-if="card.type == 'SingleImage'" card="card">
-                                            </single-image>
-                                            <single-video ng-if="card.type == 'SingleVideo'" card="card"></single-video>
-                                            <carousel ng-if="card.type == 'Carousel'" card="card">
-                                            </carousel>
-                                            <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
-                                            
-                                        </div>
-                                        <!--overview-->
-                                        <div class="col-xs-12 col-md-6">
-                                                <!-- Begin date, duration, see_date -->
-                                                
-                                                        <div class="overview-line">
-                                                            <span class="col-left">
-                                                                <h4>
-                                                                <i class="fa fa-calendar pull-left font-yellow-gold fa-fw">
-                                                                </i>
-                                                                <span class="overviewtitle">DATE:</span>
-                                                                </h4>
-                                                            </span>
-                                                            <span class="col-right">
-                                                                <span class="font-yellow-gold inline-block">{{card.first_see}}~{{card.last_see}}</span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="overview-line">
-                                                            <span class="col-left">
-                                                                <h4>
-                                                                <i class="fa fa-clock-o pull-left font-yellow-gold fa-fw">
-                                                                </i>
-                                                                <span class="overviewtitle">Duration:</span>
-                                                                </h4>
-                                                            </span>
-                                                            <span class="col-right">
-                                                                <span class="font-yellow-gold inline-block">{{card.duration_days}}</span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="overview-line">
-                                                            <span class="col-left">
-                                                                <h4>
-                                                                <i class="fa fa-eye pull-left font-yellow-gold fa-fw">
-                                                                </i>
-                                                                <span class="overviewtitle">view count:</span>
-                                                                </h4>
-                                                            </span>
-                                                            <span class="col-right">
-                                                                <span class="font-yellow-gold inline-block">{{card.see_date}}</span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="overview-line">
-                                                            <span class="col-left">
-                                                                <h4>
-                                                                <i class="fa glyphicon glyphicon-flag font-yellow-gold fa-fw">
-                                                                </i>
-                                                                <span class="overviewtitle">country:</span>
-                                                                </h4>
-                                                            </span>
-                                                            <span class="col-right">
-                                                                <span class="font-yellow-gold inline-block">{{ad.proxy_country}}</span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="overview-line">
-                                                            <span class="col-left">
-                                                                <h4>
-                                                                <i class="fa glyphicon glyphicon-font font-yellow-gold fa-fw">
-                                                                </i>
-                                                                <span class="overviewtitle">language:</span>
-                                                                </h4>
-                                                            </span>
-                                                            <span class="col-right">
-                                                                <span class="font-yellow-gold inline-block"> {{ad.ad_lang}}</span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="overview-line">
-                                                            <span class="col-left">
-                                                                <h4>
-                                                                <i class="fa glyphicon glyphicon-tag font-yellow-gold fa-fw">
-                                                                </i>
-                                                                <span class="overviewtitle">position:</span>
-                                                                </h4>
-                                                            </span>
-                                                            <span class="col-right">
-                                                                <span class="font-yellow-gold inline-block"> <span ng-if="card.show_way=='1'">
-                                                                    News Feed
-                                                                </span>
-                                                                <span ng-if="card.show_way=='2'">
-                                                                    Mobile
-                                                                </span>
-                                                                <span ng-if="card.show_way=='3'">
-                                                                    News Feed <br>Mobile
-                                                                </span>
-                                                                <span ng-if="card.show_way=='4'">
-                                                                    Right Column
-                                                                </span></span>
-                                                            </span>
-                                                        </div>
-                                                        
+                        <div class="alert alert-warning ng-cloak" ng-show="card.end">ID {{id}} Not found!</div>
+                        <div class="row" ng-show="!card.end">
+                            <div class="col-xs-12" id="ad">
+                                <!--begin detal-->
+                                <div id="detail">
+                                    <h4 class="font-yellow-gold">Detail</h4>
+                                    <div class="portlet light bordered">
+                                        <div class="row">
+                                            <!--begin ads card-->
+                                            <div class="col-xs-12 aditem col-md-6 ">
+                                                <div class=" detail-left">
+                                                <div class="margin-bottom-10 margin-top-10">
+                                                   
+                                                    <a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
+                                                        <img src="{{settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded avatar">
+                                                    </a>
                                                     
-                                                        
+                                                    <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:card.adser_name, adser:card.adser_username})">
+                                                        <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
+                                                        <span ng-show="!card.adser_name">{{card.adser_username}}</span>
+                                                    </a>
+                                                
                                                 </div>
-                                                <!-- end date, duration, see_date-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end detal-->
-                            <!--begin similar-->
-                            <div id="similar" ng-if="card.similars.length > 0" >
-                                <h4 class="font-yellow-gold">Similar Ads</h4>
-                                <div class="row">
-                                    <div ng-repeat="item in card.similars | limitTo:2" class="aditem col-md-6 col-xs-12">
-                                        <div class="portlet light bordered">
-                                            <div class="margin-bottom-10 margin-top-10">
-                                                <a ng-href="">
-                                                    <img src="{{settings.imgRemoteBase + item.local_photo}}"  class="rounded avatar">
-                                                </a>
-                                                       
-                                                <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:item.adser_name, adser:item.adser_username})">
-                                                    <span ng-bind-html="item.adser_name | toHtml" ng-show="item.adser_name">
-                                                        {{item.adser_name}}
-                                                    </span>
-                                                    <span ng-show="!item.adser_name">{{item.adser_username}}</span>
-                                                </a>
+                                                <single-image ng-if="card.type == 'SingleImage'" card="card">
+                                                </single-image>
+                                                <single-video ng-if="card.type == 'SingleVideo'" card="card"></single-video>
+                                                <carousel ng-if="card.type == 'Carousel'" card="card">
+                                                </carousel>
+                                                <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
+                                                </div>
                                             </div>
-                                            <single-image ng-if="item.type == 'SingleImage'" card="item">
-                                            </single-image>
-                                            <single-video ng-if="item.type == 'SingleVideo'" card="item"></single-video>
-                                            <carousel ng-if="item.type == 'Carousel'" card="item">
-                                            </carousel>
-                                            <adcanvas ng-if="item.type == 'Canvas'" card="item"></adcanvas>
+                                            <!--end ads card-->
+                                            <!--begin overview-->
+                                            <div class="col-xs-12 col-md-6 detail-right">
+                                                <!-- Begin date, duration, viewcount -->
+                                                <div class="overview-card clearfix ">
+                                                    <div class="overview-line">
+                                                        <span class="col-left">
+                                                            <h4>
+                                                            <i class="fa fa-calendar pull-left font-yellow-gold fa-fw">
+                                                            </i>
+                                                            <span class="overviewtitle">DATE:</span>
+                                                            </h4>
+                                                        </span>
+                                                        <span class="col-right">
+                                                            <span class="font-yellow-gold inline-block">{{card.first_see}}~{{card.last_see}}</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="overview-line">
+                                                        <span class="col-left">
+                                                            <h4>
+                                                            <i class="fa fa-clock-o pull-left font-yellow-gold fa-fw">
+                                                            </i>
+                                                            <span class="overviewtitle">Duration:</span>
+                                                            </h4>
+                                                        </span>
+                                                        <span class="col-right">
+                                                            <span class="font-yellow-gold inline-block">{{card.duration_days}}</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="overview-line">
+                                                        <span class="col-left">
+                                                            <h4>
+                                                            <i class="fa fa-eye pull-left font-yellow-gold fa-fw">
+                                                            </i>
+                                                            <span class="overviewtitle">view count:</span>
+                                                            </h4>
+                                                        </span>
+                                                        <span class="col-right">
+                                                            <span class="font-yellow-gold inline-block">{{card.see_date}}</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <!-- end date, duration, viewcount -->
+                                                <!--begin country-->
+                                                <div class="overview-card clearfix ">
+                                                        <h4>
+                                                            <i class="fa glyphicon glyphicon-flag font-yellow-gold fa-fw">
+                                                            </i>
+                                                            <span class="overviewtitle">country:</span>
+                                                        </h4>
+                                                        <p class="font-yellow-gold overview-data">{{ad.proxy_country}}</p> 
+                                                </div>
+                                                <!--end country-->
+                                                <!--begin langaue-->
+                                                <div class="overview-card clearfix table-hover">
+                                                        <h4>
+                                                            <i class="fa glyphicon glyphicon-font font-yellow-gold fa-fw">
+                                                            </i>
+                                                            <span class="overviewtitle">language:</span>
+                                                        </h4>
+                                                        <p class="font-yellow-gold overview-data">{{ad.ad_lang}}</p> 
+                                                </div>
+                                                <!--end language-->
+                                                <!--begin position-->
+                                                <div class="overview-card clearfix ">
+                                                    <h4>
+                                                        <i class="fa glyphicon glyphicon-tag font-yellow-gold fa-fw">
+                                                        </i>
+                                                        <span class="overviewtitle">position:</span>
+                                                    </h4>
+                                                    <p class="font-yellow-gold overview-data">
+                                                        <span ng-if="card.show_way=='1'">
+                                                            News Feed
+                                                        </span>
+                                                        <span ng-if="card.show_way=='2'">
+                                                            Mobile
+                                                        </span>
+                                                        <span ng-if="card.show_way=='3'">
+                                                            News Feed&nbsp;&nbsp;Mobile
+                                                        </span>
+                                                        <span ng-if="card.show_way=='4'">
+                                                            Right Column
+                                                        </span>
+                                                    </p> 
+                                                </div>
+                                                <!--end position-->
+                                            </div>
+                                            <!--end overview-->
                                         </div>
                                     </div>
                                 </div>
-                                <a class="btn font-yellow-gold btn-link ng-scope" ng-if="card.similars.length > 2" href="#" role="button">search more</a>
-                            </div>
-                            <!--end similar-->
-                            <!-- begin Landpage-->
-                            <div id="Landpage">
-                                <h4 class="font-yellow-gold">Landpage</h4>
-                                <div ng-show="User.can('analysis_link')">
-                                    <div class="landpage-div clearfix">
-                                        <div ng-if="card.type == 'Carousel' || card.type=='Canvas'">
-                                            <h4 class="landpage-title">link</h4>
-                                            <table class="table table-hover" ng-if="card.link">
-                                                <tr ng-repeat="item in card.link track by $index">
-                                                    <td ng-if="item"> 
-                                                        <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
-                                                        <span ng-show="card.snapshot">
-                                                            <i class="glyphicon glyphicon-eye-open linksnapshot-icon" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top"  popover-is-open="issnapshot" ng-mouseenter="issnapshot=true" ng-mouseleave="issnapshot=false" ></i></span>
-                                                        </td>
-                                                </tr>
-                                            </table>
-                                            <h4 class="landpage-title">buttonlink</h4>
-                                            <table class="table table-hover" ng-if="card.buttonlink">
-                                                <tr ng-repeat="item in card.buttonlink track by $index">
-                                                    <td ng-if="item">
-                                                        <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            <h4 class="landpage-title">description</h4> 
-                                            <!-- <table class="table table-hover" ng-if="card.dest_site">
-                                                <tr ng-repeat="item in card.dest_site track by $index ">
-                                                    <td ng-if="item">
-                                                        <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
-                                                    </td>
-                                                </tr>
-                                            </table> -->
+                                <!--end detal-->
+                                <!--begin similar-->
+                                <div id="similar">
+                                    <h4 class="font-yellow-gold">Similar Ads</h4>
+                                    <div ng-show="User.can('analysis_similar')">
+                                    <div class="row">
+                                        <div  ng-if="card.similars.length > 0" ng-repeat="item in card.similars | limitTo:2" class="aditem col-md-6 col-xs-12">
+                                            <div class="portlet light bordered">
+                                                <div class="margin-bottom-10 margin-top-10">
+                                                    <a ng-href="">
+                                                        <img src="{{settings.imgRemoteBase + item.local_photo}}"  class="rounded avatar">
+                                                    </a>
+                                                           
+                                                    <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:item.adser_name, adser:item.adser_username})">
+                                                        <span ng-bind-html="item.adser_name | toHtml" ng-show="item.adser_name">
+                                                            {{item.adser_name}}
+                                                        </span>
+                                                        <span ng-show="!item.adser_name">{{item.adser_username}}</span>
+                                                    </a>
+                                                </div>
+                                                <single-image ng-if="item.type == 'SingleImage'" card="item">
+                                                </single-image>
+                                                <single-video ng-if="item.type == 'SingleVideo'" card="item"></single-video>
+                                                <carousel ng-if="item.type == 'Carousel'" card="item">
+                                                </carousel>
+                                                <adcanvas ng-if="item.type == 'Canvas'" card="item"></adcanvas>
+                                            </div>
                                         </div>
-                                        <div ng-if="card.type != 'Carousel' && card.type!='Canvas'">
-                                            <h4 class="landpage-title">link</h4>
+                                    </div>
+                                    <a class="btn font-yellow-gold btn-link ng-scope" ng-if="card.similars.length > 2" href="#" role="button">search more</a>
+                                    </div>
+                                    <div class="text-center text-danger" ng-show="!User.can('analysis_similar')">
+                                          <span>No Permission</span>
+                                    </div>
+                                </div>
+                                <!--end similar-->
+                                <!-- begin Landpage-->
+                                <div id="Landpage">
+                                    <h4 class="font-yellow-gold">Landpage</h4>
+                                    <div ng-show="User.can('analysis_link')">
+                                        <div class="landpage-div clearfix">
+                                            <div ng-if="card.type == 'Carousel' || card.type=='Canvas'">
+                                                <h4 class="landpage-title">link</h4>
                                                 <table class="table table-hover" ng-if="card.link">
-                                                    <tr>
-                                                        <td>
-                                                            <a ng-href="{{card.link}}" target="_blank" class="text-nowrap ">{{card.link | limitTo:80}}<span ng-show="card.link.length>80">...</span></a>
-                                                            
-                                                            <i ng-show="card.snapshot" class="glyphicon glyphicon-eye-open linksnapshot-icon" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top"  popover-is-open="issnapshot" ng-mouseenter="issnapshot=true" ng-mouseleave="issnapshot=false" ></i>
-
-                                                        </td>
+                                                    <tr ng-repeat="item in card.link track by $index">
+                                                        <td ng-if="item"> 
+                                                            <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
+                                                            <span ng-show="card.snapshot">
+                                                                <i class="glyphicon glyphicon-eye-open linksnapshot-icon" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top"  popover-is-open="issnapshot" ng-mouseenter="issnapshot=true" ng-mouseleave="issnapshot=false" ></i></span>
+                                                            </td>
                                                     </tr>
                                                 </table>
-                                            <h4 class="landpage-title">buttonlink</h4>
+                                                <h4 class="landpage-title">buttonlink</h4>
                                                 <table class="table table-hover" ng-if="card.buttonlink">
-                                                    <tr>
-                                                        <td>
-                                                            <a ng-href="{{card.buttonlink}}" target="_blank" class="text-nowrap ">{{card.buttonlink | limitTo:80}}...</a>
+                                                    <tr ng-repeat="item in card.buttonlink track by $index">
+                                                        <td ng-if="item">
+                                                            <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                         </td>
                                                     </tr>
                                                 </table>
-                                            <h4 class="landpage-title">description</h4>
-                                                <table class="table table-hover" ng-if="card.dest_site">
-                                                    <tr>
-                                                        <td>
-                                                            <a ng-href="{{card.dest_site}}" target="_blank" class="text-nowrap ">{{card.dest_site | limitTo:80}}...</a>
+                                                <h4 class="landpage-title">description</h4>
+                                                <!--this have some qustion--> 
+                                                <!-- <table class="table table-hover" ng-if="card.dest_site">
+                                                    <tr ng-repeat="item in card.dest_site track by $index ">
+                                                        <td ng-if="item">
+                                                            <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                         </td>
                                                     </tr>
-                                                </table>
+                                                </table> -->
+                                            </div>
+                                            <div ng-if="card.type != 'Carousel' && card.type!='Canvas'">
+                                                <h4 class="landpage-title">link</h4>
+                                                    <table class="table table-hover" ng-if="card.link">
+                                                        <tr>
+                                                            <td>
+                                                                <a ng-href="{{card.link}}" target="_blank" class="text-nowrap ">{{card.link | limitTo:80}}<span ng-show="card.link.length>80">...</span></a>
+                                                                
+                                                                <i ng-show="card.snapshot" class="glyphicon glyphicon-eye-open linksnapshot-icon" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top"  popover-is-open="issnapshot" ng-mouseenter="issnapshot=true" ng-mouseleave="issnapshot=false" ></i>
+
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                <h4 class="landpage-title">buttonlink</h4>
+                                                    <table class="table table-hover" ng-if="card.buttonlink">
+                                                        <tr>
+                                                            <td>
+                                                                <a ng-href="{{card.buttonlink}}" target="_blank" class="text-nowrap ">{{card.buttonlink | limitTo:80}}...</a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                <h4 class="landpage-title">description</h4>
+                                                    <table class="table table-hover" ng-if="card.dest_site">
+                                                        <tr>
+                                                            <td>
+                                                                <a ng-href="{{card.dest_site}}" target="_blank" class="text-nowrap ">{{card.dest_site | limitTo:80}}...</a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="text-center text-danger" ng-show="!User.can('analysis_link')">
+                                        <span>No Permission</span>
+                                    </div>
                                 </div>
-                                <div class="text-center text-danger" ng-show="!User.can('analysis_link')">
-                                    <span>No Permission</span>
+                                
+                                <!--begin engements-->
+                                <div id="Engements" class="clearfix">
+                                    <h4 class="font-yellow-gold">Engements</h4>
+                                    <div ng-show="User.can('analysis_trend')">
+                                        <div class="text-center" ng-show="adSearcher.isLoadingCharts">
+                                            <i class="fa fa-spinner fa-spin"></i>Loading Charts...
+                                        </div>
+                                        <div class="text-center" ng-show="adSearcher.noTrends">
+                                            <span>no trends data...</span>
+                                        </div>
+                                        <div class="col-xs-12" ng-if="adSearcher.commentsTrend">
+                                            <highchart  config="adSearcher.commentsTrend"></highchart>
+                                        </div>
+
+                                        <div class="col-xs-12" ng-if="adSearcher.engagementsTrend">
+                                            <highchart  config="adSearcher.engagementsTrend"></highchart>
+                                        </div>
+
+                                        <div class="col-xs-12" ng-if="adSearcher.likesTrend">
+                                            <highchart  config="adSearcher.likesTrend"></highchart>
+                                        </div>
+                                        <button  class="btn font-yellow-gold btn-link" ng-click="adSearcher.showAllTrend=true" ng-if="adSearcher.sharesTrend || adSearcher.viewsTrend" ng-show="!adSearcher.showAllTrend">More...</button>
+                                        <div class="col-xs-12" ng-if="adSearcher.sharesTrend" ng-show="adSearcher.showAllTrend">
+                                            <highchart  config="adSearcher.sharesTrend"></highchart>
+                                        </div>
+
+                                        <div class="col-xs-12" ng-if="adSearcher.viewsTrend" ng-show="adSearcher.showAllTrend">
+                                            <highchart  config="adSearcher.viewsTrend"></highchart>
+                                        </div>
+                                    </div>
+                                    <div class="text-center text-danger" ng-show="!User.can('analysis_trend')">
+                                        <span>No Permission</span>
+                                    </div>
                                 </div>
+                                <!-- end engements -->
+                                <!-- begin audience -->
+                                <div id="audience">
+                                    <h4 class="font-yellow-gold">Audience</h4>
+
+                                    <div ng-show="User.can('analysis_audience')">
+                                        <table ng-if="card.whyseeads_all" class="table table-hover">
+                                            <tr ng-repeat="item in card.whyseeads_all track by $index">
+                                                <td><a title="All ads by this audience" target="_blank" ng-href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a></td>
+                                            </tr>
+                                        </table>
+                                        <table ng-if="card.whyseeads" class="table table-hover">
+                                            <tr ng-repeat="item in card.whyseeads track by $index">
+                                                <td><a title="All ads by this audience" target="_blank" ng-href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="text-center text-danger" ng-show="!User.can('analysis_audience')">
+                                        <span>No Permission</span>
+                                    </div>
+
+                                </div>
+                                <!-- end audience-->
                             </div>
-                            <!--about Landpage image-->
-                                <!-- <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.snapshot}}" class="img-responsive" ng-if="card.snapshot" /> -->
-                            <!-- end Landpage -->
-                            <!--begin engements-->
-                            <div id="Engements" class="clearfix">
-                                <h4 class="font-yellow-gold">Engements</h4>
-                                <div ng-show="User.can('analysis_trend')">
-                                    <div class="text-center" ng-show="adSearcher.isLoadingCharts">
-                                        <i class="fa fa-spinner fa-spin"></i>Loading Charts...
-                                    </div>
-                                    <div class="text-center" ng-show="adSearcher.noTrends">
-                                        <span>no trends data...</span>
-                                    </div>
-                                    <div class="col-xs-12" ng-if="adSearcher.commentsTrend">
-                                        <highchart  config="adSearcher.commentsTrend"></highchart>
-                                    </div>
-
-                                    <div class="col-xs-12" ng-if="adSearcher.engagementsTrend">
-                                        <highchart  config="adSearcher.engagementsTrend"></highchart>
-                                    </div>
-
-                                    <div class="col-xs-12" ng-if="adSearcher.likesTrend">
-                                        <highchart  config="adSearcher.likesTrend"></highchart>
-                                    </div>
-                                    <button  class="btn font-yellow-gold btn-link" ng-click="adSearcher.showAllTrend=true" ng-if="adSearcher.sharesTrend || adSearcher.viewsTrend" ng-show="!adSearcher.showAllTrend">More...</button>
-                                    <div class="col-xs-12" ng-if="adSearcher.sharesTrend" ng-show="adSearcher.showAllTrend">
-                                        <highchart  config="adSearcher.sharesTrend"></highchart>
-                                    </div>
-
-                                    <div class="col-xs-12" ng-if="adSearcher.viewsTrend" ng-show="adSearcher.showAllTrend">
-                                        <highchart  config="adSearcher.viewsTrend"></highchart>
-                                    </div>
-                                </div>
-                                <div class="text-center text-danger" ng-show="!User.can('analysis_trend')">
-                                    <span>No Permission</span>
-                                </div>
-                            </div>
-                            <!-- end engements -->
-                            <!-- begin audience -->
-                            <div id="audience">
-                                <h4 class="font-yellow-gold">Audience</h4>
-
-                                <div ng-show="User.can('analysis_audience')">
-                                    <table ng-if="card.whyseeads_all" class="table table-hover">
-                                        <!-- <tr>
-                                            <th>#</th>
-                                            <th>Audience</th>
-                                        </tr> -->
-                                        <tr ng-repeat="item in card.whyseeads_all track by $index">
-                                            <!-- <td>{{$index}}</td> -->
-                                            <td><a title="All ads by this audience" target="_blank" ng-href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a></td>
-                                        </tr>
-                                    </table>
-                                    <table ng-if="card.whyseeads" class="table table-hover">
-                                        <!-- <tr>
-                                            <th>#</th>
-                                            <th>Audience</th>
-                                        </tr> -->
-                                        <tr ng-repeat="item in card.whyseeads track by $index">
-                                            <!-- <td>{{$index}}</td> -->
-                                            <td><a title="All ads by this audience" target="_blank" ng-href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="text-center text-danger" ng-show="!User.can('analysis_audience')">
-                                    <span>No Permission</span>
-                                </div>
-
-                            </div>
-                            <!-- end audience-->
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 </div>
