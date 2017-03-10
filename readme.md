@@ -99,8 +99,8 @@ php artisan db:seed --class=BigbigadsSeeder
 - `trigger` 目前支持`lockButton`,`disabled`以及没有属性值这三种情况，分别实现以下特性"禁用并加锁","禁用","加锁"。
 
 User.can以及User.getPolicy待补充。
-
-
+## 如何添加搜索项
+[参考对应WIKI:如何添加搜索项](http://git.papamk.com:81/bigbigads/bigbigads/wikis/%E5%B9%BF%E5%91%8A%E6%90%9C%E7%B4%A2%E5%A6%82%E4%BD%95%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E9%A1%B9)
 ## 配置QA
 Q:升级源码后，权限配置没生效？
 A:
@@ -126,6 +126,7 @@ A:
     }
 
 ```
+
 
 ## 开发配置
 教程请参考Wiki
