@@ -82,7 +82,7 @@
                     <label class="lh48h30">duration:</label>
                     </div>
                     <div class="col-md-12">
-                        <input ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.duration.from" ng-to="$parent.filterOption.duration.to" ng-min="settings.searchSetting.durationRange[0]" ng-max="settings.searchSetting.durationRange[1]" />
+                        <input policy-lock key="search_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.duration.from" ng-to="$parent.filterOption.duration.to" ng-min="settings.searchSetting.durationRange[0]" ng-max="settings.searchSetting.durationRange[1]" />
                     </div>
                     <div class="col-md-6">
                     <label>see times:</label> 
@@ -144,7 +144,7 @@
                             </tbody>
                         </table>
                     </div> 
-                    <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success" >Apply</button></div>                                            
+                    <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success" >Apply</button></div>
                 </div> 
             </div>
         </div>
@@ -162,7 +162,6 @@
             <!-- <button type="reset" class="btn btn-lg default filterbar-toggler" ng-click="reset()"> -->
             <!--     Reset -->
             <!-- </button> -->
-            
             <a class="xg-clrbtn" ng-click="$parent.clearSearch()">Clear Search</a>
         </div>
     </form>

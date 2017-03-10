@@ -979,7 +979,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				value: $scope.id
 			});
 			var promise = $scope.adSearcher.filter("analysis");
-			$rootScope.$broadcast("loading");
+			//$rootScope.$broadcast("loading");
 			promise.then(function(ads) {
 				//只取首条消息
 				$scope.card = $scope.ad = ads.ads_info[0];
@@ -998,7 +998,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                     Util.hint(res);
                 }
 			}).finally(function() {
-				$rootScope.$broadcast("completed");
+		//		$rootScope.$broadcast("completed");
 			});
 
 			$scope.goback = function() {
