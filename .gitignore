@@ -1,0 +1,14 @@
+/node_modules
+/public/storage
+/vendor
+/.idea
+Homestead.json
+Homestead.yaml
+.env
+*.swp
+.DS_Store
+tags
+bower_components/
+node_modules/
+*.map
+
