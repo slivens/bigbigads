@@ -7,7 +7,7 @@
         <!-- </div> -->
         <div class="portlet-body form"> 
             <h4><i class="fa fa-filter"></i><label>|</label>Filter</h4>
-    <form role="form" ng-submit="$parent.search('filter')">
+    <form role="form" ng-submit="$parent.search('filter')" class="xg-mh565">
         <div class="input-group">
             <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-calendar"></i></span>
             <input date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.date" options="daterangeOption" placeholder="Filter By Date" aria-describedby="filterbydate_addon"/> 
@@ -73,9 +73,10 @@
         </div>
         <div class="form-group" >
         <div class="dropdown">
-            <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn"  data-toggle="dropdown" policy-lock key="duration_filter|see_time_filter" trigger="lockButton" id="ad_run_filter">
+            <button type="button" class="btn btn-default btn-block dropdown-toggle xg-dropdown-left-btn"  data-toggle="dropdown" policy-lock key="duration_filter|see_times_filter" trigger="lockButton" id="ad_run_filter">
                 Ad Run Filter
             </button>
+            <!-- TODO:Apply功能未实现 ，冒泡事件未解决-->
             <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="ad_run_filter"> 
                     <div class="col-md-6">
                     <label class="lh48h30">duration:</label>
@@ -87,7 +88,7 @@
                     <label>see times:</label> 
                     </div>
                     <div class="col-md-12">
-                        <input policy-lock key="search_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" />
+                        <input ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" />
                     </div>
                     <div class="col-md-12 text-left apply-button"><button policy-lock type="button" class="applyBtn btn btn-sm btn-success" key="search_filter">Apply</button></div>
             </div> 
@@ -96,10 +97,10 @@
         <div>
             <div class="dropdown">
                 <!-- dropdown-left-btn -->
-                <button type="button" class="btn btn-default btn-block dropdown-toggle dropdown-left-btn" data-toggle="dropdown" policy-lock key="engagement_filter" trigger="lockButton" id="engagements_filter">
+                <button type="button" class="btn btn-default btn-block dropdown-toggle xg-dropdown-left-btn" data-toggle="dropdown" policy-lock key="engagement_filter" trigger="lockButton" id="engagements_filter">
                 Engagements Filter
                 </button>
-               
+               <!--TODO:清除与Apply功能未实现，冒泡事件未解决-->
                 <!-- blue-steel  Likes blue-madison Shares green-meadow Comments red-sunglo Video Views dark Engaments -->
                 <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="engament_filter">
                     <div class="col-md-12">
@@ -107,43 +108,43 @@
                             <tbody>
                                 <tr>
                                     <td class="like">Likes</td>
-                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.likes.min"/></td>
-                                    <td><label class="wt10">to</label></td>
-                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.likes.max"/></td>
+                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.likes.min"/></td>
+                                    <td><label class="xg-wt10">to</label></td>
+                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.likes.max"/></td>
                                     <td><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
                                 </tr>
                                 <tr>
                                     <td class="share">Shares</td>
-                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.shares.min"/></td>
-                                    <td><label class="wt10">to</label></td>
-                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.shares.max"/></td>
+                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.shares.min"/></td>
+                                    <td><label class="xg-wt10">to</label></td>
+                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.shares.max"/></td>
                                     <td><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
                                 </tr>
                                 <tr>
                                     <td class="comment">Comments</td>
-                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.comments.min"/></td>
-                                    <td><label class="wt10">to</label></td>
-                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.comments.max"/></td>
+                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.comments.min"/></td>
+                                    <td><label class="xg-wt10">to</label></td>
+                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.comments.max"/></td>
                                     <td><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
                                 </tr>
                                 <tr>
                                     <td class="videoview">Video Views</td>
-                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.views.min"/></td>
-                                    <td><label class="wt10">to</label></td>
-                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.views.max"/></td>
+                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.views.min"/></td>
+                                    <td><label class="xg-wt10">to</label></td>
+                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.views.max"/></td>
                                     <td><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
                                 </tr>
                                 <tr>
                                     <td class="engagements">Engagements</td>
-                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.engagements.min"/></td>
-                                    <td><label class="wt10">to</label></td>
-                                    <td><input type="text" class="wt45" ng-model="$parent.filterOption.engagements.engagements.max"/></td>
+                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.engagements.min"/></td>
+                                    <td><label class="xg-wt10">to</label></td>
+                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.engagements.max"/></td>
                                     <td><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div> 
-                    <div class="col-md-12 text-left apply-button"><button type="button" class="btn btn-md yellow-lemon" >Apply</button></div>                                            
+                    <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success" >Apply</button></div>
                 </div> 
             </div>
         </div>
@@ -161,8 +162,7 @@
             <!-- <button type="reset" class="btn btn-lg default filterbar-toggler" ng-click="reset()"> -->
             <!--     Reset -->
             <!-- </button> -->
-            
-            <a class="top10 flr" ng-click="$parent.clearSearch()">Clear Search</a>
+            <a class="xg-clrbtn" ng-click="$parent.clearSearch()">Clear Search</a>
         </div>
     </form>
         </div>
