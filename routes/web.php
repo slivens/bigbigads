@@ -59,7 +59,19 @@ function updateUsage($req, $name, &$params)
 }
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
+});
+
+Route::get('/product', function () {
+    return view('product');
+});
+
+Route::get('/pricing', function () {
+    return view('pricing');
+});
+
+Route::get('/about', function () {
+    return view('about');
 });
 
 Auth::routes();
