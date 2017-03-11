@@ -219,6 +219,34 @@ Route::any('/forward/{action}', function(Request $req, $action) {
 	/* curl_setopt($ch, CURLOPT_TIMEOUT, 1); */ 
 	$result = curl_exec($ch);
     curl_close($ch);
+    if (Auth::check()) {
+        $user = Auth::user();
+        for($i=0;$i<1;$i++) {
+            //检查是否有该用户收藏
+            if ($action == 'adsearch' && $act['action'] == 'search') {
+                $json = json_decode($result, true);
+                if (!isset($json['ads_info'])) 
+                    break;
+                foreach($json['ads_info'] as $key => $item) {
+                    if ($user->bookmarkItems()->where('type', 0)->where('ident', $item['event_id'])->count()) {
+                        /* Log::debug($item['event_id'] . ' is in bookmark'); */
+                        $json['ads_info'][$key]['hasBookmark'] = true;
+                    }
+                }
+                $result = json_encode($json);
+            } else if ($action == 'adserSearch') {
+                $json = json_decode($result, true);
+                if (!isset($json['adser'])) 
+                    break;
+                foreach($json['adser'] as $key => $item) {
+                    if ($user->bookmarkItems()->where('type', 1)->where('ident', $item['adser_username'])->count()) {
+                        $json['adser'][$key]['hasBookmark'] = true;
+                    }
+                }
+                $result = json_encode($json);
+            }
+        }
+    }
     return $result;
 });
 
