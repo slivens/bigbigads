@@ -1,7 +1,7 @@
 <div class="a-card fade-in-up mt-element-ribbon">
         <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning xg-collect" uib-popover-template="'views/bookmark-popover.html'" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.data.ads.bookmark">
             <div class="ribbon-sub ribbon-bookmark xg-collect-border"></div>
-            <i class="fa fa-star font-white"></i>
+            <i class="fa fa-star" ng-class='{"font-white":!card.hasBookmark}'></i>
         </div>
         <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning"  ng-if="mother.data.ads.bookmark" ng-click="mother.cancelBookmark(0, card)">
             <div class="ribbon-sub ribbon-bookmark"></div>
@@ -21,7 +21,7 @@
             </div>
             <div>
             <div class="pull-right">
-                <i class="xg-audience xg-icon xg-icon-audience font-yellow-gold" ng-if="card.whyseeads_all || card.whyseeads" audience title="{{card.whyseeads ? card.whyseeads : card.whyseeads_all}}"></i>
+                <i class="xg-audience xg-icon xg-icon-audience font-yellow-gold" ng-if="mother.User.can('audience_search') && (card.whyseeads_all || card.whyseeads)" audience title="{{card.whyseeads ? card.whyseeads : card.whyseeads_all}}"></i>
                 <a eventid="{{card.event_id}}" adlink class="font-yellow-gold "><i class="xg-icon xg-icon-analysis"></i></a> 
             </div>
             <div class="pull-left">
@@ -45,7 +45,7 @@
             </div>
             <div class="col-md-9">
                 <div class="margin-bottom-5">
-                    <a class="xg-adsername" ui-sref="adser({name:card.adser_name, adser:card.adser_username})">
+                    <a class="xg-adsername" ui-sref="adser({name:card.adser_name, adser:card.adser_username})" target="_blank">
                         <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
                         <span ng-show="!card.adser_name">{{card.adser_username}}</span>
                     </a>
