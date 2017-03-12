@@ -1113,6 +1113,19 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
                 return unit_num;
             }
         };
+    })
+    .filter('getImageSize', function() {
+        //@param type 0表示宽度,1表示高度
+        return function(url, type) {
+            var size;
+            var pos = url.lastIndexOf('#');
+            if (pos < 0)
+                return 0;
+            size = url.slice(pos + 1).split('*');
+            if (size.length != 2)
+                return 0;
+            return size[type];    
+        }
     });
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
@@ -1708,7 +1721,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
 MetronicApp.config(['lazyImgConfigProvider', function(lazyImgConfigProvider) {
     // var scrollable = document.querySelector('#scrollable');
     lazyImgConfigProvider.setOptions({
-      offset: 100, // how early you want to load image (default = 100)
+      offset: 200, // how early you want to load image (default = 100)
       errorClass: 'error', // in case of loading image failure what class should be added (default = null)
       successClass: 'success', // in case of loading image success what class should be added (default = null)
       onError: function(image){}, // function fired on loading error

@@ -6,7 +6,8 @@
         <div class="text-center mt-element-overlay">
                 <div class="xg-margin-bottom">
                     <a fancybox ng-href="{{settings.imgRemoteBase + card.local_picture}}">
-                        <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.watermark}}" alt="">
+                        <!-- 为防止无限加载时图片加载后高度改变导致浏览位置变化，在加载图片前就设定好高度，这就要求图片URL一定要符合格式，否则不能正常显示 -->
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="img-loading" lazy-img="{{settings.imgRemoteBase + card.watermark}}" width="{{card.watermark | getImageSize:0}}px" height="{{card.watermark | getImageSize:1}}px"  alt="">
                     </a>
                 </div>
         </div>
