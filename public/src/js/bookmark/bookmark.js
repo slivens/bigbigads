@@ -266,10 +266,6 @@ app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', '
     $scope.add = function(card) {
         var promises = [];
         var i, j, noselect = true;
-        if (!User.can('bookmark_adser_support')) {
-            SweetAlert.swal("no permission for adser's bookmark");
-            return false;
-        }
         for (i = 0; i < $scope.card.select.length; i++) {
             if ($scope.card.select[i]) {
                 var subItem = {
@@ -280,6 +276,11 @@ app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', '
                     subItem.type = 0;
                     subItem.ident = card.event_id;
                 } else if (card.adser_username) {
+                    //广告收藏要检查权限
+                    if (!User.can('bookmark_adser_support')) {
+                        SweetAlert.swal("no permission for adser's bookmark");
+                        return false;
+                    }
                     subItem.type = 1;
                     subItem.ident = card.adser_username;
                 }
