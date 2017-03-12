@@ -265,7 +265,7 @@ app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', '
     $scope.selectedSubItems = [];
     $scope.add = function(card) {
         var promises = [];
-        var i, j;
+        var i, j, noselect = true;
         if (!User.can('bookmark_adser_support')) {
             SweetAlert.swal("no permission for adser's bookmark");
             return false;
@@ -284,12 +284,13 @@ app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', '
                     subItem.ident = card.adser_username;
                 }
                 promises.push(BookmarkItem.save(subItem));
-                console.log(subItem);
+                noselect = false;
+                // console.log(subItem);
             } else {
                 for (j = 0; j < $scope.selectedSubItems.length; ++j) {
                     if ($scope.selectedSubItems[j].bid == Bookmark.items[i].id) {
                         promises.push(BookmarkItem.del($scope.selectedSubItems[j]));
-                        console.log("del", Bookmark.items[j]);
+                        // console.log("del", Bookmark.items[j]);
                         break;
                     }
                 }
@@ -298,6 +299,10 @@ app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', '
         $scope.addPromise = $q.all(promises);
         $scope.addPromise.finally(function() {
             card.showBookmark = false; //耦合
+            if (noselect)
+                card.hasBookmark = false;
+            else
+                card.hasBookmark = true;
         });
     };
 

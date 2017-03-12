@@ -225,14 +225,38 @@ body {
 //广告分析的类
 #ad {
     .avatar {
-        max-width:80px;
-        padding:16px;
+        max-width:50px;
+        //padding:16px;
     }
+    #detail{
+        .aditem-footer{display: block !important;
+            .adlink{display: none;}
+            .fa-link{display: none;} 
+            hr{display: none;} 
+        }
+        .overview-line{
+            .col-left{width: 43%;display: inline-block;
+                .fa{font-size: 16px;line-height: 20px;}}
+            .col-right{width: 55%;display: inline-block;}
+            h4{margin-bottom: 0px;}
+        }
+        .overview-card{padding-left:5px;padding-bottom: 10px; margin-bottom: 15px;border-bottom: 1px solid #e7ecf1;}
+        .overview-data{margin-left: 30px;font-size: 14px;margin-bottom: 0px;}
+        .detail-right.col-md-6{padding-left: 10px;}
+    }
+    .overviewtitle{
+    font-size: 14px;
+    color: #AAB5BC;
+    font-weight: 600;
+    text-transform: uppercase;}
+    .detailusername{max-width: 70%;margin-left:5%;}  
+    
+    .aditem{margin: 0px;}
     .dashboard-stat2 {
         //padding-bottom:15px !important;
         padding-top: 0px;
-        // padding-right: 0px;
-        // padding-left: 0px;
+        padding-right: 8px;
+        padding-left: 8px;
         padding-bottom:0px;
         margin-bottom: 0px;
         // border-bottom: 1px solid #e7ecf1;
@@ -259,11 +283,13 @@ body {
     }
     #Landpage{
     // .landpage-div{margin-left: 20px;}
+    .linksnapshot-icon{margin-left: 5px;cursor: pointer;}
     .landpage-title{color: #AAB5BC;
     font-weight: 600;
     font-size: 14px;
     text-transform: uppercase;}
     .label{padding-bottom: 1px;box-shadow: none;}
+
     }
 
 

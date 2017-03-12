@@ -1,7 +1,7 @@
 <div class="a-card fade-in-up mt-element-ribbon">
         <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning xg-collect" uib-popover-template="'views/bookmark-popover.html'" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.data.ads.bookmark">
             <div class="ribbon-sub ribbon-bookmark xg-collect-border"></div>
-            <i class="fa fa-star font-white"></i>
+            <i class="fa fa-star" ng-class='{"font-white":!card.hasBookmark}'></i>
         </div>
         <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning"  ng-if="mother.data.ads.bookmark" ng-click="mother.cancelBookmark(0, card)">
             <div class="ribbon-sub ribbon-bookmark"></div>

@@ -12,6 +12,16 @@ class User extends Authenticatable
 {
     use Notifiable, Billable;
 
+    public function bookmarks()
+    {
+        return $this->hasMany('App\Bookmark');
+    }
+
+    public function bookmarkItems()
+    {
+        return $this->hasMany('App\BookmarkItem', 'uid');
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class);
