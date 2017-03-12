@@ -27,7 +27,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 			}
 			searcher.defSearchFields = searcher.prototype.defSearchFields = "message,name,description,caption,link,adser_username,adser_name,dest_site,buttonlink";
 			searcher.defFilterOption = searcher.prototype.defFilterOption = {
-				type: "",
+				type: "timeline",
 				date: {
 					startDate: null,
 					endDate: null
