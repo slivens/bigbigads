@@ -38,7 +38,7 @@
                     <div ng-if="currSearchOption.search.text">Search Text:{{currSearchOption.search.text}}</div>
                     <div ng-if="currSearchOption.filter.type">Media Type:{{currSearchOption.filter.type}}</div>
                     <div ng-if="currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Date:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}}</div>
-                    <div ng-if="currSearchOption.filter.lang.length">Language:{{currSearchOption.filter.lang}}</div>
+                    <div ng-if="currSearchOption.filter.lang && currSearchOption.filter.lang.length">Language:{{currSearchOption.filter.lang}}</div>
                     <div ng-if="currSearchOption.filter.state">Country:{{currSearchOption.filter.state}}</div>
                     <div ng-if="currSearchOption.domain.text">Domain:{{currSearchOption.domain.text}}({{currSearchOption.domain.exclude ? "Not Contain" : "Must Contain"}})</div>
                     <div ng-if="currSearchOption.audience.text">Audience:{{currSearchOption.audience.text}}({{currSearchOption.audience.exclude ? "Not Contain" : "Must Contain"}})</div>

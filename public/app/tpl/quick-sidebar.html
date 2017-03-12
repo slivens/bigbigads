@@ -7,7 +7,7 @@
         <!-- </div> -->
         <div class="portlet-body form"> 
             <h4><i class="fa fa-filter"></i><label>|</label>Filter</h4>
-    <form role="form" ng-submit="$parent.search('filter')" class="xg-mh565">
+    <form role="form" ng-submit="$parent.search('filter')">
         <div class="input-group">
             <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-calendar"></i></span>
             <input date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.date" options="daterangeOption" placeholder="Filter By Date" aria-describedby="filterbydate_addon"/> 
@@ -15,7 +15,7 @@
          <div class="input-group">
             <span class="input-group-addon" id="searchrange_addon"><i class="fa fa-search"></i></span>
             <select id="search_range_select" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Search Range" ng-model="$parent.searchOption.rangeselected" >
-                <option ng-repeat="item in $parent.searchOption.range" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
+                <option ng-repeat="item in $parent.searchOption.range" policy-lock key="{{item.permission}}" trigger="disabled" value="{{item.key}}">{{item.value}}</option>
             </select>
         </div>
          <div class="input-group">
