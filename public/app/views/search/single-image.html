@@ -19,10 +19,10 @@
             </div>
         </div>
 
-        <p class="xg-span-description" ng-if="empty(card.description)">
+        <p class="xg-span-description xg-p-margin" ng-if="card.description!=''">
             <span ng-bind-html="card.description | toHtml"></span>
         </p>
-        <div class="aditem-caption margin-top-10" ng-if="empty(card.caption)">
+        <div class="aditem-caption margin-top-10" ng-if="card.caption!=''">
             <label class="xg-label-caption">{{card.caption}}</label>
         </div>
     </div>

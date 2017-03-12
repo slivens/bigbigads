@@ -24,12 +24,12 @@
                 <span ng-bind-html="card.name[card.active] | toHtml"></span>
             </div>
         </div>
-		<p class="xg-span-description" ng-if="empty(card.description[card.active])">
+		<p class="xg-span-description xg-p-margin" ng-if="card.description[card.active]!=''">
 			<span ng-bind-html="card.description[card.active] | toHtml"></span>
 		</p>
       </div>
     <!-- End Carousel -->
-    <div class="aditem-caption margin-top-10" ng-if="empty(card.caption)">
+    <div class="aditem-caption margin-top-10" ng-if="card.caption!=''">
         <label class="xg-label-caption label label-sm label-warning">{{card.caption}}</label>
     </div>
 </div>
