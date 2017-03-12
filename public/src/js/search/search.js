@@ -267,8 +267,11 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				var query = {};
 				if (option.search.text)
 					query.searchText = option.search.text;
-				if (option.search.fields != searcher.defSearchFields)
-					query.searchFields = option.search.fields;
+				if (angular.isDefined(option.rangeselected) && option.rangeselected.length) {
+					query.searchFields = option.rangeselected.join(',');
+				}
+				//if (option.search.fields != searcher.defSearchFields)
+				//	query.searchFields = option.search.fields;
 				if (option.filter.date.startDate && option.filter.date.endDate) {
 					query.startDate = option.filter.date.startDate.format('YYYY-MM-DD');
 					query.endDate = option.filter.date.endDate.format('YYYY-MM-DD');
@@ -276,8 +279,8 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				if (option.filter.type) {
 					query.type = option.filter.type;
 				}
-				if (option.filter.lang) {
-					query.lang = option.filter.lang;
+				if (angular.isDefined(option.filter.lang) && option.filter.lang.length) {
+					query.lang = option.filter.lang.join(',');
 				}
 				if (option.filter.state) {
 					query.state = option.filter.state;
@@ -289,7 +292,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					query.audience = JSON.stringify(option.audience);
 				}
 
-				//category, format, buttondesc
+				//category, format, buttondesc,engagement
 				if (option.filter.categoryString) {
 					query.category = option.filter.categoryString;
 				}
@@ -298,6 +301,9 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				}
 				if (option.filter.buttondescString) {
 					query.buttondesc = option.filter.buttondescString;
+				}
+				if (option.filter.isEngagementsDirty()) {
+					query.engagements = JSON.stringify(option.filter.engagements);
 				}
 				if (option.filter.isDurationDirty()) {
 					query.duration = JSON.stringify(option.filter.duration);
@@ -311,6 +317,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
         searcher.queryToSearch = searcher.prototype.queryToSearch = function(locaionSearch, option) {
 				var i;
                 var search = locaionSearch;
+                option.rangeselected =[];
 				if (search.searchText) {
 					option.search.text = search.searchText;
 				}
@@ -318,11 +325,13 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					var range = search.searchFields.split(',');
 					angular.forEach(range, function(item1) {
 						for (i = 0; i < option.range.length; i++) {
-							if (item1 == option.range[i].key) {
-								option.range[i].selected = true;
-							}
+							if (option.range[i].key.indexOf(item1)>-1 && jQuery.inArray(option.range[i].key,option.rangeselected)==-1)
+									option.rangeselected.push(option.range[i].key);
+							/*} && !jQuery.inArray(option.range[i].key,option.rangeselected) )//原始range.key是多个单词组合而成
+								option.rangeselected.push(option.range[i].key);*/
 						}
 					});
+						//
 				}
 				if (search.startDate && search.endDate) {
 					option.filter.date.startDate = moment(search.startDate, 'YYYY-MM-DD');
@@ -332,7 +341,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					option.filter.type = search.type;
 				}
 				if (search.lang) {
-					option.filter.lang = search.lang;
+					option.filter.lang = search.lang.split(",");
 				}
 				if (search.state) {
 					option.filter.state = search.state;
@@ -347,10 +356,15 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					Util.matchkey(search.category, option.filter.category);
 				}
 				if (search.format) {
-					Util.matchkey(search.format, option.filter.format);
+					option.filter.formatSelected = search.format.split(",");
+					//Util.matchkey(search.format, option.filter.format);
 				}
 				if (search.buttondesc) {
-					Util.matchkey(search.buttondesc, option.filter.buttondesc);
+					option.filter.callToAction=search.buttondesc.split(",");
+					//Util.matchkey(search.buttondesc, option.filter.buttondesc);
+				}
+				if (search.engagements) {
+					option.filter.engagements = JSON.parse(search.engagements);
 				}
 				if (search.duration) {
 					option.filter.duration = JSON.parse(search.duration);
@@ -452,8 +466,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				if (option.lang && option.lang.length) {
 					$scope.adSearcher.addFilter({
 						field: 'ad_lang',
-						value: option.lang
+						value: option.lang.join(',')
 					});
+					$scope.currSearchOption.lang = option.lang.join(',');
 				} else {
 					$scope.adSearcher.removeFilter('ad_lang');
 				}
@@ -535,17 +550,17 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				}
 
 				//engagementsFilter
-				angular.forEach(option.engagements,function(key,item){
-					if (key.min==="" && key.max==="") {
-						$scope.adSearcher.removeFilter(item);
+				angular.forEach(option.engagements,function(item,key){
+					if (item.min==="" && item.max==="") {
+						$scope.adSearcher.removeFilter(key);
 					}else{
 						$scope.adSearcher.addFilter({
-						field: item,
-						min: key.min,
-						max: key.max
+						field: key,
+						min: item.min,
+						max: item.max
 					});
 					}
-				});
+				}); 
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
 				$scope.currSearchOption.callToAction = buttondesc.join(',');
