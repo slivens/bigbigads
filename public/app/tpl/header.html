@@ -20,9 +20,9 @@
                         <li ng-class="{active:tabmenu.name == '/adsearch'}">
                             <a ui-sref="adsearch" ui-sref-opts="{reload:true}">AD Search</a>
                         </li>
-
                         <li ng-class="{active:tabmenu.name == '/adserSearch'}">
-                            <a ui-sref="adserSearch" ui-sref-opts="{reload:true}">Advertiser Search</a>
+                            <a ui-sref="adserSearch" ui-sref-opts="{reload:true}" ng-show="User.can('advertiser_search')">Advertiser Search</a>
+                            <a href="#" ng-show="!User.can('advertiser_search')">Advertiser Search<i class="fa fa-lock fa-fw"></i></a>
                         </li>
                         <li ng-class="{active:tabmenu.name == '/ranking'}" >
                             <a ui-sref="ranking" ui-sref-opts="{reload:true}" ng-show="User.can('ranking')">Ranking</a>
