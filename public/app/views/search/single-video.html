@@ -21,10 +21,10 @@
             </div>
         </div>
 
-        <p class="xg-span-description clearfix xg-p-margin" ng-if="card.description!=''">
+        <p class="xg-span-description clearfix xg-p-margin" ng-if="card.description" >
             <span ng-bind-html="card.description | toHtml"></span>
         </p>
-        <div class="xg-label-caption aditem-caption margin-top-10" ng-if="card.caption!=''">
+        <div class="xg-label-caption aditem-caption margin-top-10" ng-if="card.caption">
             {{card.caption}}
         </div>
     </div>
@@ -33,7 +33,7 @@
 <!-- end description -->
 <div class="aditem-footer" ng-show="!card.indetail">
     <hr class="xg-p-margin">
-    <div ng-if="card.link!=''">
+    <div ng-if="card.link">
         <i class="fa fa-link"></i>
         <a href="{{card.link}}" class="adlink xg-link-width">{{card.link | clearHttps}}</a>
     </div>

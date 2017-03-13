@@ -27,7 +27,7 @@
         <!-- end rightcolumn canvas -->
 
         <div class="h5">
-            <div class="xg-label-caption pull-right" ng-if="card.buttondesc">
+            <div class="xg-label-caption pull-right" ng-if="card.buttondesc" >
                 <a href="{{card.buttonlink}}" class="xg-a-likepage label label-sm label-warning" target="_blank">{{card.buttondesc}}</a>
             </div>
             <div class="xg-span-name">
@@ -35,10 +35,10 @@
             </div>
         </div>
 
-        <p class="xg-span-description xg-p-margin" ng-if="card.description!=''">
+        <p class="xg-span-description xg-p-margin" ng-if="card.description">
             <span ng-bind-html="card.description | toHtml"></span>
         </p>
-        <div class="aditem-caption margin-top-10" ng-if="card.caption!=''">
+        <div class="aditem-caption margin-top-10" ng-if="card.caption">
             <label class="xg-label-caption label label-sm label-success">{{card.caption}}</label>
         </div>
     </div>
@@ -47,7 +47,7 @@
 <!-- end description -->
 <div class="aditem-footer" ng-show="!card.indetail">
     <hr class="xg-p-margin">
-    <div ng-if="card.link[0]!=''">
+    <div ng-if="card.link[0]">
         <i class="fa fa-link fa-fw"></i>
         <a href="{{card.link[0]}}" class="adlink xg-link-width">{{card.link[0] | clearHttps}}</a>
     </div>

@@ -24,12 +24,12 @@
                 <span ng-bind-html="card.name[card.active] | toHtml"></span>
             </div>
         </div>
-		<p class="xg-span-description xg-p-margin" ng-if="card.description[card.active]!=''">
+		<p class="xg-span-description xg-p-margin" ng-if="card.description[card.active]" >
 			<span ng-bind-html="card.description[card.active] | toHtml"></span>
 		</p>
       </div>
     <!-- End Carousel -->
-    <div class="aditem-caption margin-top-10" ng-if="card.caption!=''">
+    <div class="aditem-caption margin-top-10" ng-if="card.caption">
         <label class="xg-label-caption label label-sm label-warning">{{card.caption}}</label>
     </div>
 </div>
@@ -37,7 +37,7 @@
 
 <div class="aditem-footer" ng-show="!card.indetail">
     <hr class="xg-p-margin">
-    <div ng-if="card.link[card.active]!=''">
+    <div ng-if="card.link[card.active]">
         <i class="fa fa-link fa-fw"></i>
         <a ng-href="{{card.link[card.active]}}" class="adlink xg-link-width">{{card.link[card.active] | clearHttps}}</a>
     </div>
