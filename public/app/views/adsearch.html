@@ -42,12 +42,19 @@
                     <div ng-if="currSearchOption.filter.state">Country:{{currSearchOption.filter.state}}</div>
                     <div ng-if="currSearchOption.domain.text">Domain:{{currSearchOption.domain.text}}({{currSearchOption.domain.exclude ? "Not Contain" : "Must Contain"}})</div>
                     <div ng-if="currSearchOption.audience.text">Audience:{{currSearchOption.audience.text}}({{currSearchOption.audience.exclude ? "Not Contain" : "Must Contain"}})</div>
-                    <div ng-if="currSearchOption.category">Category:{{currSearchOption.category}}</div>
-                    <div ng-if="currSearchOption.format">Format:{{currSearchOption.format}}</div>
-                    <div ng-if="currSearchOption.buttondesc">Button Description:{{currSearchOption.buttondesc}}</div>
+                    <div ng-if="currSearchOption.filter.category">Category:{{currSearchOption.filter.category}}</div>
+                    <div ng-if="currSearchOption.filter.format">Format:{{currSearchOption.filter.format}}</div>
+                    <div ng-if="currSearchOption.filter.callToAction">Call To Action:{{currSearchOption.filter.callToAction}}</div>
                     <div ng-if="currSearchOption.range">Range:{{currSearchOption.range}}</div>
                     <div ng-if="currSearchOption.filter.isDurationDirty()">Duration Range:{{currSearchOption.filter.duration.from}}~{{currSearchOption.filter.duration.to}}</div>
                     <div ng-if="currSearchOption.filter.isSeeTimesDirty()">See Times Range:{{currSearchOption.filter.seeTimes.from}}~{{currSearchOption.filter.seeTimes.to}}</div>
+                    <div ng-if="currSearchOption.filter.isEngagementsDirty()">Engagements Filters:
+                        <div ng-if="currSearchOption.filter.engagements.likes.min || currSearchOption.filter.engagements.likes.max">Likes: {{currSearchOption.filter.engagements.likes.min}}~{{currSearchOption.filter.engagements.likes.max}}</div>
+                        <div ng-if="currSearchOption.filter.engagements.shares.min || currSearchOption.filter.engagements.shares.max">Shares: {{currSearchOption.filter.engagements.shares.min}}~{{currSearchOption.filter.engagements.shares.max}}</div>
+                        <div ng-if="currSearchOption.filter.engagements.comments.min || currSearchOption.filter.engagements.comments.max">Comments: {{currSearchOption.filter.engagements.comments.min}}~{{currSearchOption.filter.engagements.comments.max}}</div>
+                        <div ng-if="currSearchOption.filter.engagements.views.min || currSearchOption.filter.engagements.views.max">Video Views: {{currSearchOption.filter.engagements.views.min}}~{{currSearchOption.filter.engagements.views.max}}</div>
+                        <div ng-if="currSearchOption.filter.engagements.engagements.min || currSearchOption.filter.engagements.engagements.max">Engagements: {{currSearchOption.filter.engagements.engagements.min}}~{{currSearchOption.filter.engagements.engagements.max}}</div>
+                    </div>
                 </div>
             </div>
         </div>

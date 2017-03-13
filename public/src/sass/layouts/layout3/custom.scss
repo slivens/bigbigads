@@ -183,7 +183,7 @@ body {
 }
 
 .advideo {
-    min-height:170px;
+    min-height:130px;
 }
 
 .statics-btn {
@@ -408,7 +408,7 @@ body.modal-open{overflow-y:hidden !important; padding-right: 17px !important;}
 }
 
 .xg-p-margin {
-    margin: 10px 0;
+    margin: 5px 0 !important;
 }
 
 .xg-count-mt {
@@ -558,7 +558,7 @@ body.modal-open{overflow-y:hidden !important; padding-right: 17px !important;}
 }
 //placeholder颜色大小字体
 $black_placeholder:#000;
-input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+/* input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 color: $black_placeholder !important;
 }
 input:-moz-placeholder, textarea:-moz-placeholder {
@@ -569,16 +569,16 @@ color: $black_placeholder !important;
 }
 input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 color: $black_placeholder !important;
-}
+} */
 //engament
-.wt10{
+.xg-wt10{
     width: 10px;
 }
-.wt45{
+.xg-wt45{
     width: 45px;
 }
-//engament color
-.table-engamentfilter{ 
+//engagements color
+.table-engagementsfilter{ 
     .like{
         color:#54ACF3;//Twitter's color
     }
@@ -591,7 +591,7 @@ color: $black_placeholder !important;
     .videoview{
         color:#2673A7;//LinkIn's color
     }
-    .engament{
+    .engagements{
         color:#F15A25;//orange
     }
     td{
@@ -600,25 +600,19 @@ color: $black_placeholder !important;
         }
     }
 }
-.top10{
+.xg-clrbtn{
     margin-top: 10px;
+     float: right;
 }
-.dropdown-left-btn{
+.xg-dropdown-left-btn{
     text-align: left;
 }
-.select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {
+/* .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {
     min-width: 0em;
     padding-left:10px;
-}
-
-.collapse_show{
-    padding:10px 0;
-}
-.none-border{
-    border: 0 none;
-    tr,td{
-        border:0 !important;
-    }
+} */
+.xg-mh565{
+    min-height: 565px;
 }
 .page-quick-sidebar {
     .input-group{
