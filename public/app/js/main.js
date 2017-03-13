@@ -122,55 +122,55 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 permission:'engagements_sort'
             }, {
                 key: 'views',
-                value:'Video views',
+                value:'Video Views',
                 last: false,
                 group: 'seen',
                 permission:'views_sort'
             }, {
                 key: 'engagements_per_7d',
-                value: 'Growth Engaments',
+                value: 'Engagements Growth',
                 last: false,
                 group: 'seen',
                 permission:'engagement_inc_sort'
             }, {
                 key: 'views_per_7d',
-                value: 'Growth Video views',
+                value: 'Video Views Growth',
                 last: true,
                 group: 'seen',
                 permission:'views_inc_sort'
             }, {
                 key:'likes',
-                value:'likes',
+                value:'Likes',
                 last: false,
                 group: 'interactive',
                 permission:'likes_sort',
             }, {
                 key:'shares',
-                value:'shares',
+                value:'Shares',
                 last: false,
                 group: 'interactive',
                 permission:'shares_sort'
             }, {
                 key:'comments',
-                value:'comments',
+                value:'Comments',
                 last: false,
                 group: 'interactive',
                 permission:'comment_sort'
             }, {
                 key:'likes_per_7d',
-                value:'growth likes',
+                value:'Likes Growth',
                 last: false,
                 group: 'interactive',
                 permission:'likes_inc_sort'
             }, {
                 key:'shares_per_7d',
-                value:'growth shares',
+                value:'Shares Growth',
                 last: false,
                 group: 'interactive',
                 permission:'shares_inc_sort'
             }, {
                 key:'comments_per_7d',
-                value:'growth comments',
+                value:'Comments Growth',
                 last: true,
                 group: 'interactive',
                 permission:'comments_inc_sort'
