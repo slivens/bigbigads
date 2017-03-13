@@ -1114,8 +1114,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			ranges: {
 				'Last 7 Days': [moment().subtract(6, 'days'), moment()],
 				'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-				'Last 90 Days': [moment().subtract(89, 'days'), moment()],
-				'Last 180 Days': [moment().subtract(179, 'days'), moment()]
+				'Last 90 Days': [moment().subtract(89, 'days'), moment()]
 			}
 		};
 		$scope.categoryOpt = {
