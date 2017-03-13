@@ -544,6 +544,14 @@ body {
         left:0;
         top:0;
     }
+
+    a{.fa-lock.buttonlock{display:none;}}
+    a[disabled="disabled"]{ 
+        cursor:not-allowed;
+        .fa-lock.lock{display: none;}
+        .fa-lock.buttonlock{display: inline-block;}
+     }
+    a[disabled="disabled"]:hover{background: #fff}
     .content{
         padding:20px;
         margin-left:$adser-analysis-sidebar-width !important;
