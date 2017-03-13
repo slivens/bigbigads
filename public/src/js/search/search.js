@@ -325,13 +325,11 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					var range = search.searchFields.split(',');
 					angular.forEach(range, function(item1) {
 						for (i = 0; i < option.range.length; i++) {
-							if (option.range[i].key.indexOf(item1)>-1 && jQuery.inArray(option.range[i].key,option.rangeselected)==-1)
-									option.rangeselected.push(option.range[i].key);
-							/*} && !jQuery.inArray(option.range[i].key,option.rangeselected) )//原始range.key是多个单词组合而成
-								option.rangeselected.push(option.range[i].key);*/
+							if (option.range[i].key.indexOf(item1)>-1 && option.rangeselected.indexOf(option.range[i].key)==-1)
+									option.rangeselected.push(option.range[i].key);//原始range.key是多个单词组合而成
+								
 						}
 					});
-						//
 				}
 				if (search.startDate && search.endDate) {
 					option.filter.date.startDate = moment(search.startDate, 'YYYY-MM-DD');
@@ -468,7 +466,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						field: 'ad_lang',
 						value: option.lang.join(',')
 					});
-					$scope.currSearchOption.lang = option.lang.join(',');
+					$scope.currSearchOption.filter.lang = option.lang.join(',');
 				} else {
 					$scope.adSearcher.removeFilter('ad_lang');
 				}
@@ -561,9 +559,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 					}
 				}); 
-				$scope.currSearchOption.category = category.join(',');
-				$scope.currSearchOption.format = format.join(',');
-				$scope.currSearchOption.callToAction = buttondesc.join(',');
+				$scope.currSearchOption.filter.category = category.join(',');
+				$scope.currSearchOption.filter.format = format.join(',');
+				$scope.currSearchOption.filter.callToAction = buttondesc.join(',');
 				$scope.adSearcher.filter(action ? action : 'search').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
 						SweetAlert.swal(res.data.desc);
