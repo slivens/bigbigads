@@ -77,7 +77,7 @@
                 Customized Ad Run
             </button>
             <!-- TODO:Apply功能未实现 ，冒泡事件未解决-->
-            <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="ad_run_filter" ng-click="doThing($index); $event.stopPropagation();"> 
+            <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="ad_run_filter" ng-click="$event.stopPropagation();"> 
                     <div class="col-md-6">
                     <label class="lh48h30">duration:</label>
                     </div>
@@ -102,7 +102,7 @@
                 </button>
                <!--TODO:清除与Apply功能未实现，冒泡事件未解决-->
                 <!-- blue-steel  Likes blue-madison Shares green-meadow Comments red-sunglo Video Views dark Engaments -->
-                <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="engament_filter" ng-click="doThing($index); $event.stopPropagation();">
+                <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="engament_filter" ng-click="$event.stopPropagation();">
                     <div class="col-md-12">
                         <table class="table table-condensed table-engamentfilter" >
                             <tbody>

@@ -1154,17 +1154,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 		setTimeout(function() {
 			QuickSidebar.init(); // init quick sidebar        
 		}, 100);
-		$scope.stopPropagation=function(event){
-　　		var ev = event || window.event;
-			if( ev.stopPropagation )
-			{
-				ev.stopPropagation();
-			}
-			else
-			{
-				ev.cancelBubble = true;
-			}
-		};
 	});
 }]);
 
