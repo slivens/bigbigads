@@ -107,7 +107,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 value: 'Last_Seen',
                 last: false,
                 group: 'time',
-                permission:'date_sort'
+                permission:'date_sort',
             }, {
                 key: 'duration_days',
                 value: 'Duration',
