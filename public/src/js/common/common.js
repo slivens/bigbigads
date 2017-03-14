@@ -355,12 +355,14 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     
                     var top = element.parent()[0].getBoundingClientRect().top;
                     if (top < 0)
-                        $(element).css('top', oldtop - top);
+                        //$(element).css('top', oldtop - top);
+                    $(element).animate({ top: oldtop - top });
                     else if (top > 0) {
-                        $(element).css('top', oldtop);
+                        //$(element).css('top', oldtop);
+                        $(element).animate({ top: oldtop});
                     }
                     // console.log("pos:", top);
-                }, 500);
+                }, 400);
             }
         };
     }])
