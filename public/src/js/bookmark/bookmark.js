@@ -62,7 +62,7 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
         console.log(item);
         SweetAlert.swal({
             title: 'Are you sure?',
-            text: 'By clicking Yes you would delete the whole '+ item.name +' folder',
+            text: 'By clicking Yes you would delete the whole '+item.name+' folder',
             type: 'warning',
             showCancelButton: true,
             // confirmButtonColor: '#DD6B55',   
