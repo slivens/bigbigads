@@ -33,10 +33,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
     .directive('select2', function() {
         return {
             link: function(scope, element, attrs) {
-                element.select2({
-                    placeholder: 'Select',
-                    allowClear: true
-                });
+                element.select2();
                 // scope.$watch(attrs.ngModel, function(newValue, oldValue) {
                 //     if (newValue != oldValue) {
                 //         $timeout(function() {

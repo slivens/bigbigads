@@ -605,7 +605,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 				}
 				if (option.search.text || range.length) {
-					option.search.fields = range.length ? range.join(',') : option.search.fields;
+					option.search.fields = range.length ? range.join(',') : $scope.Searcher.defSearchFields;//默认值
 					keys.push({
 						string: option.search.text,
 						search_fields: option.search.fields,
