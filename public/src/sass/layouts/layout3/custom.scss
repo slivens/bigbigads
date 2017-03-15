@@ -183,7 +183,7 @@ body {
 }
 
 .advideo {
-    min-height:170px;
+    min-height:130px;
 }
 
 .statics-btn {
@@ -221,13 +221,16 @@ body {
         word-wrap:break-word;
     }
 }
-
+//弹出广告详情框时，隐藏右边滚动条，并右内填充17px
+body.modal-open{overflow-y:hidden !important; padding-right: 17px !important;}
 //广告分析的类
 #ad {
     .avatar {
         max-width:50px;
         //padding:16px;
+       
     }
+    a.avatar:hover{ text-decoration: none;}
     #detail{
         .aditem-footer{display: block !important;
             .adlink{display: none;}
@@ -235,9 +238,9 @@ body {
             hr{display: none;} 
         }
         .overview-line{
-            .col-left{width: 43%;display: inline-block;
+            .col-left{display: inline-block;
                 .fa{font-size: 16px;line-height: 20px;}}
-            .col-right{width: 55%;display: inline-block;}
+            .col-right{display: inline-block;margin-left: 10px;}
             h4{margin-bottom: 0px;}
         }
         .overview-card{padding-left:5px;padding-bottom: 10px; margin-bottom: 15px;border-bottom: 1px solid #e7ecf1;}
@@ -405,7 +408,7 @@ body {
 }
 
 .xg-p-margin {
-    margin: 10px 0;
+    margin: 5px 0 !important;
 }
 
 .xg-count-mt {
