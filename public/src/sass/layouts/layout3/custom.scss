@@ -139,8 +139,12 @@ body {
         width:100%;
     }
 }
+
 .lh48 {
     line-height:48px;
+}
+.img-loading {
+    background:#efefef url("../img/input-spinner.gif") no-repeat center center;
 }
 //广告搜索相关类
 .aditem {
