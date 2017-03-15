@@ -25,12 +25,7 @@
             <li>
                 <a href="#Engagements">
                     <i class="fa fa-feed fa-2x font-yellow-gold"></i>
-
-
                     <div policy-lock key="analysis_trend">Engagements</div>
-
-
-
                 </a>
             </li>
             <li>
@@ -170,7 +165,7 @@
                                                             Mobile
                                                         </span>
                                                         <span ng-if="card.show_way=='3'">
-                                                            News Feed&nbsp;&nbsp;Mobile
+                                                            News Feed&nbsp;<span class="overviewtitle">&</span>&nbsp;Mobile
                                                         </span>
                                                         <span ng-if="card.show_way=='4'">
                                                             Right Column
@@ -178,6 +173,18 @@
                                                     </p> 
                                                 </div>
                                                 <!--end position-->
+                                                <!--begin buttonlink-->
+                                                <div ng-if="card.buttonlink.length" class="overview-card clearfix table-hover">
+                                                        <h4>
+                                                            <i class="fa glyphicon glyphicon-hand-down font-yellow-gold fa-fw">
+                                                            </i>
+                                                            <span class="overviewtitle">buttonlink:</span>
+                                                        </h4>
+
+                                                        <p ng-if="card.buttonlink|isArray" ng-init="button=(card.buttonlink|unique); buttondesc=(card.buttondesc|unique)" class="viewbutton overview-data"><a ng-repeat="item in button | limitTo:2" ng-if="buttondesc[$index]!=''"  class="xg-a-likepage xg-label ng-binding">{{buttondesc[$index]}}</a></p>
+                                                        <p ng-if="!(card.buttonlink|isArray)" class="viewbutton overview-data"><a class="xg-a-likepage xg-label ng-binding">{{card.buttondesc}}</a></p>  
+                                                </div>
+                                                <!--end buttonlink-->
                                             </div>
                                             <!--end overview-->
                                         </div>
@@ -226,8 +233,8 @@
                                         <div class="landpage-div clearfix">
                                             <div ng-if="card.type == 'Carousel' || card.type=='Canvas'">
                                                 <h4 class="landpage-title">link</h4>
-                                                <table class="table table-hover" ng-if="card.link">
-                                                    <tr ng-repeat="item in card.link track by $index">
+                                                <table class="table table-hover" ng-if="card.link" ng-init="linkitem=(card.link|unique)">
+                                                    <tr ng-repeat="item in linkitem">
                                                         <td ng-if="item"> 
                                                             <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                             <span ng-show="card.snapshot">
@@ -236,8 +243,8 @@
                                                     </tr>
                                                 </table>
                                                 <h4 class="landpage-title">buttonlink</h4>
-                                                <table class="table table-hover" ng-if="card.buttonlink">
-                                                    <tr ng-repeat="item in card.buttonlink track by $index">
+                                                <table class="table table-hover" ng-if="card.buttonlink" ng-init="buttonlink=(card.buttonlink|unique)">
+                                                    <tr ng-repeat="item in buttonlink ">
                                                         <td ng-if="item">
                                                             <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                         </td>

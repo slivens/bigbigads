@@ -244,7 +244,8 @@ body.modal-open{overflow-y:hidden !important; padding-right: 17px !important;}
             h4{margin-bottom: 0px;}
         }
         .overview-card{padding-left:5px;padding-bottom: 10px; margin-bottom: 15px;border-bottom: 1px solid #e7ecf1;}
-        .overview-data{margin-left: 30px;font-size: 14px;margin-bottom: 0px;}
+        .overview-data{margin-left: 30px;font-size: 14px;margin-bottom: 0px;
+            a{cursor:default ;}}
         .detail-right.col-md-6{padding-left: 10px;}
     }
     .overviewtitle{

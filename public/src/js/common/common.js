@@ -401,6 +401,27 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
+    //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
+    .filter('unique', function () {  
+        return function (collection) {  
+            //console.info(collection);   
+            var output = []; 
+            angular.forEach(collection, function (item) {  
+                var itemname = item;  
+                if (output.indexOf(itemname) === -1) //indexOf表示首次出现的位置，===-1表示不存在
+                 {  
+                    output.push(itemname);  //输入到数组
+                }  
+            });  
+            return output;  
+        }  
+    })
+    //判断是否为数组：定义一个过滤器，用于判断某个字符串是否为一个数组
+    .filter("isArray",function(){
+        return function(value){
+            return angular.isArray(value);
+        }
+    })
     .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', function($uibModal, $stateParams, SweetAlert) {
         return {
             matchkey: function(origstr, destArr) {
