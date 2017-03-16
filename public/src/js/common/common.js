@@ -33,10 +33,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
     .directive('select2', function() {
         return {
             link: function(scope, element, attrs) {
-                element.select2({
-                    placeholder: 'Select',
-                    allowClear: true
-                });
+                element.select2();
                 // scope.$watch(attrs.ngModel, function(newValue, oldValue) {
                 //     if (newValue != oldValue) {
                 //         $timeout(function() {
@@ -45,6 +42,13 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 //     }
                 // });
 
+                scope.$on('userChanged', function() {
+                    //当用户信息改变时重新生成，这是由于我们的权限锁加在select的option里面，但是select2这个插件只在首次下拉时，根据option的状态初始化一次。所以后面option的状态不论怎么变，都体现不到select2里面来。所以要整个插件重新生成下。
+                    element.select2({
+                        placeholder:'Select',
+                        allowClear:true
+                    });
+                });
             }
         };
     })

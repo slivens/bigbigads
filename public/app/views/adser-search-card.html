@@ -1,15 +1,15 @@
 <div class="a-card fade-in-up mt-element-ribbon">
-    <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning" uib-popover-template="'views/bookmark-popover.html'" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.data.adsers.bookmark && card.adser_username">
-        <div class="ribbon-sub ribbon-bookmark"></div>
+    <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning xg-collect" uib-popover-template="'views/bookmark-popover.html'" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.data.adsers.bookmark && card.adser_username">
+        <div class="ribbon-sub ribbon-bookmark xg-collect-border"></div>
         <i class="fa fa-star" ng-class='{"font-white":!card.hasBookmark}' ></i>
     </div>
-    <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning"  ng-if="mother.data.adsers.bookmark" ng-click="mother.cancelBookmark(1, card)">
-        <div class="ribbon-sub ribbon-bookmark"></div>
+    <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning xg-collect"  ng-if="mother.data.adsers.bookmark" ng-click="mother.cancelBookmark(1, card)">
+        <div class="ribbon-sub ribbon-bookmark xg-collect-border"></div>
         <i class="fa fa-star"></i>
     </div>
 
     <div class="portlet light aditem">
-        <div class="aditem-ader row margin-bottom-10">
+        <div class="aditem-ader row margin-bottom-10" >
             <!-- avatar and adser info -->
             <div class="col-md-3 text-center ">
                 <a  ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
