@@ -13,20 +13,20 @@
             <!-- BEGIN MEGA MENU -->
             <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
             <!-- DOC: Remove dropdown-menu-hover and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
-            <div class="hor-menu" ng-controller="TabMenuController" >
+            <div class="hor-menu" ng-controller="TabMenuController">
 
                 <!-- BEGIN MEGA MENU -->
                     <ul class="nav navbar-nav">
                         <li ng-class="{active:tabmenu.name == '/adsearch'}">
-                            <a ui-sref="adsearch" ui-sref-opts="{reload:true}">AD Search</a>
+                            <a ui-sref="adsearch" ui-sref-opts="{reload:true}">Advertisment</a>
                         </li>
                         <li ng-class="{active:tabmenu.name == '/adserSearch'}">
-                            <a ui-sref="adserSearch" ui-sref-opts="{reload:true}" ng-show="User.can('advertiser_search')">Advertiser Search</a>
-                            <a href="#" ng-show="!User.can('advertiser_search')">Advertiser Search<i class="fa fa-lock fa-fw"></i></a>
+                            <a ui-sref="adserSearch" ui-sref-opts="{reload:true}" ng-show="User.can('advertiser_search')">Advertiser</a>
+                            <a href="#" ng-show="!User.can('advertiser_search')">Advertiser<i class="fa fa-lock fa-fw"></i></a>
                         </li>
                         <li ng-class="{active:tabmenu.name == '/ranking'}" >
-                            <a ui-sref="ranking" ui-sref-opts="{reload:true}" ng-show="User.can('ranking')">Ranking</a>
-                            <a href="#" ng-show="!User.can('ranking')">Ranking<i class="fa fa-lock fa-fw"></i></a>
+                            <a ui-sref="ranking" ui-sref-opts="{reload:true}" ng-show="User.can('ranking')">Billboard</a>
+                            <a href="#" ng-show="!User.can('ranking')">Billboard<i class="fa fa-lock fa-fw"></i></a>
                         </li>
                         <li ng-class="{active:tabmenu.name == '/bookmark'}">
                             <a ui-sref="bookmark" ui-sref-opts="{reload:true}">Bookmark</a>

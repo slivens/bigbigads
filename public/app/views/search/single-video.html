@@ -16,7 +16,7 @@
             <div class="pull-right" ng-if="card.buttondesc">
                 <a href="{{card.buttonlink}}" class="xg-a-likepage xg-label" target="_blank">{{card.buttondesc}}</a>
             </div>
-            <div class="xg-span-name">
+            <div class="xg-span-name xg-video-name-mh20" ng-if="card.name||card.buttondesc" >
                 <span ng-bind-html="card.name | toHtml"></span>
             </div>
         </div>
