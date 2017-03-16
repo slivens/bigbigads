@@ -611,8 +611,8 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 key: "Japanese",
                 value: "Japanese"
             }, {
-                key: "Korea",
-                value: "Korea"
+                key: "Korean",
+                value: "Korean"
             }, {
                 key: "French",
                 value: "French"
