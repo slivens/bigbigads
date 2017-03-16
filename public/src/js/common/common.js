@@ -412,19 +412,19 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             var output = []; 
             angular.forEach(collection, function (item) {  
                 var itemname = item;  
-                if (output.indexOf(itemname) === -1) //indexOf表示首次出现的位置，===-1表示不存在
+                if (output.indexOf(itemname) <0) //indexOf表示首次出现的位置，===-1表示不存在
                  {  
                     output.push(itemname);  //输入到数组
                 }  
             });  
             return output;  
-        }  
+        };  
     })
     //判断是否为数组：定义一个过滤器，用于判断某个字符串是否为一个数组
     .filter("isArray",function(){
         return function(value){
             return angular.isArray(value);
-        }
+        };
     })
     .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', function($uibModal, $stateParams, SweetAlert) {
         return {

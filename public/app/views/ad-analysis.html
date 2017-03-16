@@ -181,8 +181,8 @@
                                                             <span class="overviewtitle">buttonlink:</span>
                                                         </h4>
 
-                                                        <p ng-if="card.buttonlink|isArray" ng-init="button=(card.buttonlink|unique); buttondesc=(card.buttondesc|unique)" class="viewbutton overview-data"><a ng-repeat="item in button | limitTo:2" ng-if="buttondesc[$index]!=''"  class="xg-a-likepage xg-label ng-binding">{{buttondesc[$index]}}</a></p>
-                                                        <p ng-if="!(card.buttonlink|isArray)" class="viewbutton overview-data"><a class="xg-a-likepage xg-label ng-binding">{{card.buttondesc}}</a></p>  
+                                                        <p ng-if="card.buttonlink|isArray" ng-init="button=(card.buttonlink|unique); buttondesc=(card.buttondesc|unique)" class="viewbutton overview-data"><a ng-repeat="item in button | limitTo:2" ng-if="!buttondesc[$index]"  class="xg-a-likepage xg-label ">{{buttondesc[$index]}}</a></p>
+                                                        <p ng-if="!(card.buttonlink|isArray)" class="viewbutton overview-data"><a class="xg-a-likepage xg-label ">{{card.buttondesc}}</a></p>  
                                                 </div>
                                                 <!--end buttonlink-->
                                             </div>
