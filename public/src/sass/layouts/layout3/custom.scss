@@ -234,8 +234,11 @@ body.modal-open{overflow-y:hidden !important; padding-right: 17px !important;}
         //padding:16px;
        
     }
+    .adscard-head{width: 100%;text-align: left;
+            .adscaed-img{width: 50px;}}
     a.avatar:hover{ text-decoration: none;}
     #detail{
+
         .aditem-footer{display: block !important;
             .adlink{display: none;}
             .fa-link{display: none;} 
@@ -299,6 +302,7 @@ body.modal-open{overflow-y:hidden !important; padding-right: 17px !important;}
     font-size: 14px;
     text-transform: uppercase;}
     .label{padding-bottom: 1px;box-shadow: none;}
+    .landpage-div table{margin-bottom: 0px;}
 
     }
 
