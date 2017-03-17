@@ -37,15 +37,15 @@
                 <div class="alert alert-warning margin-top-10" ng-show="currSearchOption.isdirty">
                     <div ng-if="currSearchOption.search.text">Search Text:{{currSearchOption.search.text}}</div>
                     <div ng-if="currSearchOption.filter.type">Media Type:{{currSearchOption.filter.type}}</div>
-                    <div ng-if="currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Date:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}}</div>
+                    <div ng-if="currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Time Frame:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}}</div>
                     <div ng-if="currSearchOption.filter.lang">Language:{{currSearchOption.filter.lang}}</div>
                     <div ng-if="currSearchOption.filter.state">Country:{{currSearchOption.filter.state}}</div>
                     <div ng-if="currSearchOption.domain.text">Domain:{{currSearchOption.domain.text}}({{currSearchOption.domain.exclude ? "Not Contain" : "Must Contain"}})</div>
                     <div ng-if="currSearchOption.audience.text">Audience:{{currSearchOption.audience.text}}({{currSearchOption.audience.exclude ? "Not Contain" : "Must Contain"}})</div>
                     <div ng-if="currSearchOption.filter.category">Category:{{currSearchOption.filter.category}}</div>
-                    <div ng-if="currSearchOption.filter.format">Format:{{currSearchOption.filter.format}}</div>
+                    <div ng-if="currSearchOption.filter.format">Ad Type:{{currSearchOption.filter.format}}</div>
                     <div ng-if="currSearchOption.filter.callToAction">Call To Action:{{currSearchOption.filter.callToAction}}</div>
-                    <div ng-if="currSearchOption.range">Range:{{currSearchOption.range}}</div>
+                    <div ng-if="currSearchOption.range">Search Mode:{{currSearchOption.range}}</div>
                     <div ng-if="currSearchOption.filter.isDurationDirty()">Duration Range:{{currSearchOption.filter.duration.from}}~{{currSearchOption.filter.duration.to}}</div>
                     <div ng-if="currSearchOption.filter.isSeeTimesDirty()">See Times Range:{{currSearchOption.filter.seeTimes.from}}~{{currSearchOption.filter.seeTimes.to}}</div>
                     <div ng-if="currSearchOption.filter.isEngagementsDirty()">Engagements Filters:

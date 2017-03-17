@@ -406,38 +406,6 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('engagement',function(){
-        return{
-            link:function(scope, element, attrs){
-                element.bind('click', function() {
-                    var name=element.parent().parent().find('td').first().text();
-                    switch(name){
-                        case 'Likes':
-                            scope.$parent.$parent.filterOption.engagements.likes.min="";
-                            scope.$parent.$parent.filterOption.engagements.likes.max="";
-                        break;
-                        case 'Shares':
-                            scope.$parent.$parent.filterOption.engagements.shares.min="";
-                            scope.$parent.$parent.filterOption.engagements.shares.max="";
-                        break;
-                        case 'Comments':
-                            scope.$parent.$parent.filterOption.engagements.comments.min="";
-                            scope.$parent.$parent.filterOption.engagements.comments.max="";
-                        break;
-                        case 'Video Views':
-                            scope.$parent.$parent.filterOption.engagements.views.min="";
-                            scope.$parent.$parent.filterOption.engagements.views.max="";
-                        break;
-                        case 'Engagements':
-                        default:
-                            scope.$parent.$parent.filterOption.engagements.engagements.min="";
-                            scope.$parent.$parent.filterOption.engagements.engagements.max="";
-                        break;
-                    }
-                });
-            }
-        };
-    })
     .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', function($uibModal, $stateParams, SweetAlert) {
         return {
             matchkey: function(origstr, destArr) {
