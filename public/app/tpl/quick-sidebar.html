@@ -21,7 +21,7 @@
          <div class="input-group">
              <span class="input-group-addon" id="format_addon"><i class="fa fa-picture-o"></i></span>
                   <select select2 class="form-control has_left_icon" id="format" multiple="multiple"  data-placeholder="Ad Type" ng-model="$parent.filterOption.formatSelected"> 
-                      <option ng-repeat="item in $parent.settings.searchSetting.formatList" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
+                      <option ng-repeat="item in $parent.settings.searchSetting.formatList" policy-lock key="{{item.permission}}" trigger="lockButton" value="{{item.key}}">{{item.value}}</option>
                   </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.formatList" > -->
         </div>
         <div class="input-group callToAction_group">
@@ -90,7 +90,7 @@
                     <div class="col-md-12">
                         <input ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" />
                     </div>
-                    <div class="col-md-12 text-left apply-button"><button policy-lock type="button" class="applyBtn btn btn-sm btn-success" key="search_filter">Apply</button></div>
+                    <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success">Apply</button></div>
             </div> 
         </div>
         </div>
@@ -106,12 +106,12 @@
                     <div class="col-md-12">
                         <table class="table table-condensed table-engamentfilter" >
                             <tbody>
-                                <tr>
+                                <tr >
                                     <td class="like">Likes</td>
                                     <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.likes.min"/></td>
                                     <td><label class="xg-wt10">to</label></td>
                                     <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.likes.max"/></td>
-                                    <td ng-show = "$parent.filterOption.engagements.likes.min || $parent.filterOption.engagements.likes.max"><button type="button" class="close" aria-label="Close" ><span aria-hidden="true">&times;</span></button></td>
+                                    <td ng-show = "$parent.filterOption.engagements.likes.min || $parent.filterOption.engagements.likes.max"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
                                 </tr>
                                 <tr>
                                     <td class="share">Shares</td>
@@ -144,7 +144,7 @@
                             </tbody>
                         </table>
                     </div> 
-                    <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success" >Apply</button></div>
+                    <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success">Apply</button></div>
                 </div> 
             </div>
         </div>

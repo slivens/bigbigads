@@ -903,6 +903,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					SweetAlert.swal("no search permission");
 					return;
 				}
+				/*同步adsearchController代码----20170316
 				if (action == 'filter' && !User.can('search_filter')) {
 					SweetAlert.swal("no filter permission");
 					return;
@@ -913,7 +914,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						SweetAlert.swal("type '" + $scope.filterOption.type + "' exceed your permission");
 						return;
 					}
-				}
+				}*/
 				//字符串和域
 				$scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
 				if (option.rangeselected && option.rangeselected.length) {

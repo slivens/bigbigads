@@ -611,8 +611,8 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 key: "Japanese",
                 value: "Japanese"
             }, {
-                key: "Korea",
-                value: "Korea"
+                key: "Korean",
+                value: "Korean"
             }, {
                 key: "French",
                 value: "French"
@@ -696,7 +696,7 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
             if (size.length != 2)
                 return 0;
             return size[type];    
-        }
+        };
     });
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
