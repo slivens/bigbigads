@@ -27,7 +27,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 			}
 			searcher.defSearchFields = searcher.prototype.defSearchFields = "message,name,description,caption,link,adser_username,adser_name,dest_site,buttonlink";
 			searcher.defFilterOption = searcher.prototype.defFilterOption = {
-				type: "timeline",
+				type: "",
 				date: {
 					startDate: null,
 					endDate: null
@@ -1030,7 +1030,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var similarPromise;
                 var md5;
                 if (watermark instanceof Array)
-                    md5 = watermark[0].match(/\/(\w+)\./);
+                    md5 = watermark[0].source.match(/\/(\w+)\./);
                 else 
                     md5 = watermark.match(/\/(\w+)\./);
 				if (md5 === null) {
