@@ -53,7 +53,7 @@
         <div class="slider-right col-md-4" >
             <ul class="slider-items">
                 <li class="active">
-                    <p class="slider-title">Real & Fresh Data</p>
+                    <p class="slider-title">Real &amp; Fresh Data</p>
                     <p class="slider-desc">With a total 3million+ and 1m+ monthly new database, bigbigads offer the most real and fresh data and info for your business reference. Just enter a keyword or keyword series of your niche market to find out what you need.</p>
                 </li>
                 <li>
@@ -62,14 +62,14 @@
                 </li>
                 <li>
                     <p class="slider-title">Powerful</p>
-                    <p class="slider-desc">Powerful compositor with dimension & metrics to help you locate the most winning ad.</p>
+                    <p class="slider-desc">Powerful compositor with dimension &amp; metrics to help you locate the most winning ad.</p>
                 </li>
                 <li>
                     <p class="slider-title">1 click to</p>
                     <p class="slider-desc">find out all ads of a specific advertiser, check advertiser’s fan page, check original ad post, etc</p>
                 </li>
                 <li>
-                    <p class="slider-title">Data storage, tracking & alert</p>
+                    <p class="slider-title">Data storage, tracking &amp; alert</p>
                     <p class="slider-desc">you can use the bookmark to keep your target ad or advertiser for your analytics purpose or for tracking, we can send alert to you.</p>
                 </li>
             </ul>
@@ -218,7 +218,6 @@
         spaceBetween: 30,
         loop: true
     });
-
-
 </script>
+</body>
 </html>
