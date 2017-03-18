@@ -18,18 +18,9 @@ class PlansSeeder extends Seeder
             //_monthly,_weekly,_daily
             $plans = [
                 [
-                    "name" => "free",
-                    "display_name" => "Free",
-                    "type" => "TRIAL",
-                    "frequency" => "YEAR",
-                    "frequency_interval" => 1,
-                    "cycles" => 0,
-                    "amount" => 0,
-                    "currency" => "USD"
-                ],
-                [
                     "name" => "start_monthly",
                     "display_name" => "Start Plan",
+                    "display_order" => 1, 
                     "type" => "REGULAR",
                     "frequency" => "MONTH",
                     "frequency_interval" => 1,
@@ -40,6 +31,7 @@ class PlansSeeder extends Seeder
                 [
                     "name" => "start",
                     "display_name" => "Start Plan",
+                    "display_order" => 1, 
                     "type" => "REGULAR",
                     "frequency" => "YEAR",
                     "frequency_interval" => 1,
@@ -50,6 +42,7 @@ class PlansSeeder extends Seeder
                 [
                     "name" => "standard_monthly",
                     "display_name" => "Standard Plan",
+                    "display_order" => 2, 
                     "type" => "REGULAR",
                     "frequency" => "MONTH",
                     "frequency_interval" => 1,
@@ -60,6 +53,7 @@ class PlansSeeder extends Seeder
                 [
                     "name" => "standard",
                     "display_name" => "Standard Plan",
+                    "display_order" => 2, 
                     "type" => "REGULAR",
                     "frequency" => "YEAR",
                     "frequency_interval" => 1,
@@ -70,6 +64,7 @@ class PlansSeeder extends Seeder
                 [
                     "name" => "advanced_monthly",
                     "display_name" => "Advanced Plan",
+                    "display_order" => 3, 
                     "type" => "REGULAR",
                     "frequency" => "MONTH",
                     "frequency_interval" => 1,
@@ -80,6 +75,7 @@ class PlansSeeder extends Seeder
                 [
                     "name" => "advanced",
                     "display_name" => "Advanced Plan",
+                    "display_order" => 3, 
                     "type" => "REGULAR",
                     "frequency" => "YEAR",
                     "frequency_interval" => 1,
@@ -90,6 +86,7 @@ class PlansSeeder extends Seeder
                 [
                     "name" => "vip_monthly",
                     "display_name" => "Vip Plan",
+                    "display_order" => 4, 
                     "type" => "REGULAR",
                     "frequency" => "MONTH",
                     "frequency_interval" => 1,
@@ -100,13 +97,25 @@ class PlansSeeder extends Seeder
                 [
                     "name" => "vip",
                     "display_name" => "VIP Plan",
+                    "display_order" => 4, 
                     "type" => "REGULAR",
                     "frequency" => "YEAR",
                     "frequency_interval" => 1,
                     "cycles" => 0,
                     "amount" => 500,
                     "currency" => "USD"
-                ]
+                ],
+                [
+                    "name" => "free",
+                    "display_name" => "Free",
+                    "display_order" => 0, 
+                    "type" => "REGULAR",
+                    "frequency" => "YEAR",
+                    "frequency_interval" => 1,
+                    "cycles" => 0,//can't be null or 0 if type is TRIAL
+                    "amount" => 0,
+                    "currency" => "USD"
+                ],
             ];
 
             //每次填充都会清空所有计划
@@ -116,7 +125,8 @@ class PlansSeeder extends Seeder
             }
             echo "insert plans\n";
 
-            //将角色绑定到对应的计划上
+            //将角色绑定到对应的计划上，先清空再绑定
+            Role::where('id', '>', 2)->update(['plan' => NULL]);
             $roles = ["Free" => "free", "Standard" => "standard", "Advanced" => "advanced", "Pro" => "vip"];
             foreach ($roles as $key => $item) {
                 $role = Role::where('name', $key)->first();
@@ -124,6 +134,16 @@ class PlansSeeder extends Seeder
                 $role->save();
             }
             echo "binding plans to roles\n";
+            echo "sync to paypal, this will cost time, PLEASE WAITING...";
+			$all = Plan::all();
+			$service = new \App\Services\PaypalService();                                         
+            $all->each(function($item, $key) use($service){                                       
+                //Paypal如果要建立TRIAL用户，过程比较繁琐，这里直接跳过
+                if ($item->amount == 0)
+                    return;
+				$service->createPlan($item);                                                      
+			}); 
+			echo "sync done";
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
