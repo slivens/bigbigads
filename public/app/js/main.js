@@ -699,24 +699,25 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
         };
     })
     .filter('mediaType', function() {
-        var show_type='';
         return function(type) {
+            var showType='';
             switch(type){
-                case 'timeline': {show_type = 'Newsfeed';break;}
-                case 'rightcolumn': {show_type = 'Right Column';break;}
-                case 'phone': {show_type = 'Mobile';break;}
+                case 'timeline': {showType = 'Newsfeed';break;}
+                case 'rightcolumn': {showType = 'Right Column';break;}
+                case 'phone': {showType = 'Mobile';break;}
+                default: break;
             }
-            return show_type;
+            return showType;
         };
     })
     .filter('adsCount', function() {
-        var Count_string = '';
         return function(adsNumber) {
-            if(adsNumber===null||adsNumber===undefined||adsNumber==='') return ;
+            if(!adsNumber) return ;
+            var countString = '';
+            var re = /(?=(?!\b)(\d{3})+$)/g;
             adsNumber = String(adsNumber);
-            var re = /(?=(?!\b)(\d{3})+$)/g; 
-            Count_string = adsNumber.replace(re, ',');
-            return Count_string;
+            countString = adsNumber.replace(re, ',');
+            return countString;
         };
     });
 /* Setup App Main Controller */
