@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use TCG\Voyager\Models\Permission;
-use Braintree\Plan;
 
 class Role extends Model
 {
@@ -14,7 +13,7 @@ class Role extends Model
     static public function plans()
     {
         if (self::$plans == null) {
-            self::$plans = Plan::all();
+            self::$plans = \Braintree\Plan::all();
         }  
         return self::$plans;
     }
