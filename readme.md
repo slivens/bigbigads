@@ -68,6 +68,12 @@ BRAINTREE_ENV=sandbox
 BRAINTREE_MERCHANT_ID=svjdgf4mf94mfkdv
 BRAINTREE_PUBLIC_KEY=ygh9txfjt8cv5kp2
 BRAINTREE_PRIVATE_KEY=2616a406dba36832b23db9b0d8e6f4e8
+
+PAYPAL_APPID=bigbigads   # App ID，实际没用上                      
+PAYPAL_CLIENT_ID=XXXXXXX # Paypal App ClientID
+PAYPAL_CLIENT_SECRET=XXXXXXX # Paypal App Secret
+PAYPAL_WEBHOOK=https://phenye.tunnel.2bdata.com/onPayWebhook # Webhook用于接收支付消息，比如支付成功，过期等。这个需要在Paypal开发者平台的webhook先做配置，然后再填到这里来，两者名称必须一致，同时要求必须是https协议。请将域名换成自己的，后面的onPayWebhook应保留不变                  
+PAYPAL_RETURNURL=https://phenye.tunnel.2bdata.com/onPay # 回调接口，在支付的时候需要先跳到Paypal的网站上完成支付，然后Paypal将跳回该回调地址完成最后操作。请将域名换成自己的，onPay保持不变。
 ```
 
 然后配置nginx或者apache,将网站根目录定位到`public/`，同时允许`URL rewrite`。配置就完成了。
@@ -75,15 +81,37 @@ BRAINTREE_PRIVATE_KEY=2616a406dba36832b23db9b0d8e6f4e8
 ## 权限配置指南
 [参考对应WIKI:权限配置指南](/bigbigads/bigbigads/wikis/权限配置指南)
 
+## Paypal的支持
+项目已经集成了`Paypal`，目前只实现了`Paypal`帐号的循环扣款。基于信用卡的支付、一次性扣款、Webhook消息处理均未实现。
+
+项目使用[paypal/Paypal-PHP-SDK](https://github.com/paypal/PayPal-PHP-SDK)提供的包做Paypal开发，开发包用法、用例和Api说明请直接上该项目查看。
+
+要使用`Paypal`，需要先修改`.env`修改（没有则在末尾增加）相关配置，主要配置项如下：
+
+```
+PAYPAL_APPID=bigbigads   # App ID，实际没用上                      
+PAYPAL_CLIENT_ID=XXXXXXX # Paypal App ClientID
+PAYPAL_CLIENT_SECRET=XXXXXXX # Paypal App Secret
+PAYPAL_WEBHOOK=https://phenye.tunnel.2bdata.com/onPayWebhook # Webhook用于接收支付消息，比如支付成功，过期等。这个需要在Paypal开发者平台的webhook先做配置，然后再填到这里来，两者名称必须一致，同时要求必须是https协议。请将域名换成自己的，后面的onPayWebhook应保留不变                  
+PAYPAL_RETURNURL=https://phenye.tunnel.2bdata.com/onPay # 回调接口，在支付的时候需要先跳到Paypal的网站上完成支付，然后Paypal将跳回该回调地址完成最后操作。请将域名换成自己的，onPay保持不变。
+```
+
+> 开发注意：Paypal的订阅一旦生效，不会自动取消。因此当用户切换升级计划，也就是切换不同的升级计划时，开发上必须主动将前一个订阅`挂起`或者`取消`，否则就会出现多个订阅同时在扣用户款的情况。
+
 ## subscriptions配置
-手动清除下数据库
+
+`subscriptions`原来在数据库中有残留，因此当执行数据库迁移时不一定能成功，这时手动检查下数据表：
+
+-  `subscriptions`表格是否存在，有就删除：
 
 ```
 drop table subscriptions
 ```
 
-> 在产品上线后就不应该用rollback，否则整个列删除后，原来生产的数据将跟着被清除。
+-  `users`表格的字段：
+`stripe_id`,`braintree_id`,`subscription_id`, `paypal_email`, `card_brand`, `card_last_four`, `trial_ends_at`，手动删除。
 
+然后看下面一节。
 ## plans（升级计划）配置指南
 
 分三步：
