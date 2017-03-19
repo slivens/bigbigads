@@ -24,7 +24,7 @@
             <span ng-bind-html="card.description | toHtml"></span>
         </p>
         <div class="aditem-caption margin-top-10" ng-if="card.caption">
-            <label class="xg-label-caption">{{card.caption}}</label>
+            <label class="xg-label-caption" ng-bind-html="card.caption | toHtml"></label>
         </div>
     </div>
     <!-- end SingleImage -->

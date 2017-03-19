@@ -24,8 +24,7 @@
         <p class="xg-span-description clearfix xg-p-margin" ng-if="card.description" >
             <span ng-bind-html="card.description | toHtml"></span>
         </p>
-        <div class="xg-label-caption aditem-caption margin-top-10" ng-if="card.caption">
-            {{card.caption}}
+        <div class="xg-label-caption aditem-caption margin-top-10" ng-if="card.caption" ng-bind-html="card.caption | toHtml">
         </div>
     </div>
     <!-- End SingleVideo -->
