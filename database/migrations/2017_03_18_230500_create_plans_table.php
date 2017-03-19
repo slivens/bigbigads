@@ -15,8 +15,10 @@ class CreatePlansTable extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer("role_id");
             $table->string("name");
             $table->string("display_name");
+            $table->string("desc");
             $table->integer("display_order");
             $table->string("type");
             $table->string("frequency");
@@ -24,6 +26,7 @@ class CreatePlansTable extends Migration
             $table->integer("cycles");
             $table->integer("amount");
             $table->string("currency");
+            $table->string("remote_id");
             $table->timestamps();
         });
     }

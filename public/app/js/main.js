@@ -1321,7 +1321,8 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
            user.promise = $http.get(infourl);
            user.promise.then(function(res) {
                 user.info = res.data;
-                console.log(user.info);
+                angular.extend(user, user.info);
+                console.log(user);
            }, function(res) {
                 user.info = {};
            }).finally(function() {
@@ -1331,9 +1332,9 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
            user.retreived = true;
            return user.promise;
         },
-        login:function() {
-            $location.url("/login");
-        },
+        // goLoginPage:function() {
+        //     $location.url("/login");
+        // },
         can:function(key) {
             var keyArr = key.split('|');
             var i;

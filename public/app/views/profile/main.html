@@ -11,7 +11,7 @@
                         <h3>Your Plan</h3>
                         <div>
                             <p>
-                                You are currently on <span class="text-warning">{{subscription.braintree_plan.replace('_', ' ')}}</span> Plan
+                                You are currently on <span class="text-warning">{{subscription.plan.replace('_', ' ')}}</span> Plan
                             </p>
                             <p>
                             <a class="btn btn-primary" ui-sref="plans">Change Plan</a>
@@ -39,30 +39,7 @@
                     </div>
                 </uib-tab>
                 <uib-tab index="1" heading="Billings">
-                    <div ng-controller="BillingsController">
-                    <table class="table table-striped " cg-busy="queryPromise">
-                        <tr class="bg-default table-bordered">
-                            <th>ID</th>
-                            <th>Type</th>
-                            <th>Start Date</th>
-                            <th>Expire Date</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            <th>Operation</th>
-                        </tr>
-                        <tr ng-repeat="item in billings.items">
-                            <td>{{item.id}}</td>
-                            <td>{{item.planId}}</td>
-                            <td>{{beatifyDate(item.billingPeriodStartDate.date)}}</td>
-                            <td>{{beatifyDate(item.billingPeriodEndDate.date)}}</td>
-                            <td>${{item.price}}</td>
-                            <td>{{item.status}}</td>
-                            <td>
-                                <a class="btn btn-default" ng-href="/invoice/{{item.invoice}}">Invoice</a>
-                            </td>
-                        </tr>
-                    </table>
-                    </div>
+                    <Billings should-init="{{profile.active == 1}}" />
                 </uib-tab>
                 <uib-tab index="2" heading="Account Settings">
                     <div class="portlet">

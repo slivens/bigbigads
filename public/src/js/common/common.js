@@ -211,7 +211,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 var usageMode = attrs.mode == "usage" ? true : false;
                 var val = scope.$eval(attrs.value);
                 var text;
-                console.log(val);
+                // console.log(val);
                 if ((typeof val) == 'boolean') {
                     if (val)
                         element.append('<i class="icon-check font-green-jungle"></i>');
@@ -607,3 +607,4 @@ app.service('Resource', ['$resource', 'settings', 'SweetAlert', function($resour
     }
     return f;
 }]);
+

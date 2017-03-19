@@ -12,12 +12,12 @@
  */
 use Illuminate\Http\Request;
 use TCG\Voyager\Models\Permission;
-use Braintree\Plan;
 use App\Services\AnonymousUser;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 use App\ActionLog;
-
+use App\Role;
+use App\Plan;
 /**
  * @$req Reqeust 
  * @$name 权限名称
@@ -98,14 +98,8 @@ Route::get('/ranking', function(Request $req) {
 
 Route::get('/userinfo', 'UserController@logInfo');
 
-Route::get('/plans', function() {
-    $items = App\Role::with('permissions', 'policies')->where('id', '>', 2)->get();
-    foreach ($items as $key=>$item) {
-        $item->groupPermissions = $item->permissions->groupBy('table_name');
-        $item->plan;
-    }
-    return $items;
-});
+Route::get('/plans', 'SubscriptionController@plans');
+
 Route::group(['middleware'=>'auth'], function() {
     Route::get('/pay', 'SubscriptionController@form');
     Route::post('/pay', 'SubscriptionController@pay');
@@ -118,7 +112,11 @@ Route::group(['middleware'=>'auth'], function() {
     });
 
     Route::post('changepwd', 'UserController@changepwd');
+
 });
+
+Route::get('/onPay', 'SubscriptionController@onPay');
+
 Route::get('logout', 'Auth\LoginController@logout');
 
 Route::resource('bookmark', 'BookmarkController');
@@ -275,4 +273,40 @@ Route::get('/tester', function() {
    // $invoices = $user->invoices();
     //dd($invoices);
     dd($res);
+});
+
+/* Route::get('/showPlans', 'SubscriptionController@showPlans'); */
+Route::any('/onPayWebhook', 'SubscriptionController@onPayWebhook');
+/* Route::any('/createPayment', 'PaymentController@createPayment'); */
+
+
+Route::get('/t2', function() {
+
+    /* $service = new \App\Services\PaypalService(); */
+    /* $name = "I-23KWN02LTR7P"; */
+    /* /1* $service->suspendSubscription($name); *1/ */
+    /* $subscription = $service->subscription($name); */
+    /* return $subscription; */
+    /* $detail = $subscription->getAgreementDetails(); */
+    /* echo "payment:" . $detail->getLastPaymentDate(); */
+    /* echo " next:" . $detail->getNextBillingDate() . "<br/>"; */
+    /* $t = $service->transactions($name); */
+    /* foreach ($t as $item) { */
+    /*     echo "{$item->getTransactionId()} , {$item->getTransactionType()} "; */
+    /*     $amount = $item->getAmount(); */
+    /*     if ($amount) { */
+    /*         echo "value: {$amount->getValue()}"; */
+    /*     } */
+    /*     $carbon = new Carbon($item->getTimeStamp(), $item->getTimeZone()); */
+    /*     $carbon->tz = Carbon::now()->tz; */
+    /*     echo " happend: " . $carbon ; */
+    /*     echo " timezone:" . $item->getTimeZone(); */
+    /*     echo " status: " . $item->getStatus(); */
+    /*     echo "<br/>"; */
+    /* } */
+});
+Route::get('/paytest', function() {
+    /* $plan = Plan::where('name', 'standard')->first(); */
+    /* $service = new \App\Services\PaypalService; */
+    /* return $service->createPayment($plan); */
 });

@@ -72,75 +72,70 @@ BRAINTREE_PRIVATE_KEY=2616a406dba36832b23db9b0d8e6f4e8
 
 然后配置nginx或者apache,将网站根目录定位到`public/`，同时允许`URL rewrite`。配置就完成了。
 
-## 后台如何配置权限
-根据设计文档，权限与策略的基础描述信息分别都放在`permissions`与`policies`表中，而角色的权限则在`permission_role`,角色的策略在`policy_role`。直接通过修改数据库去修改权限是非常困难的。为了简化操作，这里使用了`Laravel`的种子填充功能实现权限、策略的生成以及角色的权限与策略配置。具体请查看`database/seeds/BigbigadsSeeder.php`源码，在完成修改后，执行以下命令完成配置。
+## 权限配置指南
+[参考对应WIKI:权限配置指南](/bigbigads/bigbigads/wikis/权限配置指南)
+
+## subscriptions配置
+手动清除下数据库
 
 ```
-php artisan db:seed --class=BigbigadsSeeder
+drop table subscriptions
 ```
-> 完成配置后，不代表前端能立即生效。这里有两个原因：
+
+> 在产品上线后就不应该用rollback，否则整个列删除后，原来生产的数据将跟着被清除。
+
+## plans（升级计划）配置指南
+
+分三步：
+
+1. 迁移plans数据库
+2. 修改数据库填充文件`PlansSeeder.php`，该文件包含三部分：填充`plans`表格，将角色与plans绑定以及将plans同步到`Paypal`.
+3. 执行填充
+
+### 迁移
+
+迁移文件位于`2017_03_18_230500_create_plans_table.php`，执行下面这条命令即可完成迁移，同时查看下本地数据库是否多了张`plans`的表。
+
+```
+php artisan migrate
+```
+
+> 该命令只需要执行一次，作用是往数据库创建表，如果你需要修改迁移内容，请先阅读下`Laravel`的迁移教程：
+> [http://laravelacademy.org/post/6171.html](http://laravelacademy.org/post/6171.html)
+
+如果`plans`做了修改，需要重新迁移，那么需要先执行回滚将`plans`删除先做迁移。
+
+```
+php artisan migrate:rollback
+```
+
+### 修改`PlansSeeder.php`
+
+数据库填充文件位于`database/seeds/PlansSeeder.php`：
+
+该文件包含三块内容：
+
+1. 填充`plans`，比如Free, Start,Standard,Advanced,VIP等升级计划的信息，主要有价格和收费周期等。
+
+2. 将角色与`plans`绑定。从业务角度上看，不同的plan应该对应到不同的权限上；但是在设计上，我们的权限模型是`RBAC`，所有的权限都分配到指定的角色上。因此不同的`plan`要对应不同的权限，就应该将不同的`plan`绑定到不同的`role`上。当`user`的`plan`改变时，`user`的`role`也应该跟着改变。基于以上原因：`plans`表格都有一个`role_id`的字段，以便用户完成支付后获取该计划所属的角色，并做变更。但是`roles`表格也有一个`plan`的字段，这实际上是由于早期设计上通过第三方`Braintree`保存`plans`（也就是本地没有`plans`表格），所以需要通过`roles`去获取对应的`plans`导致的，在将来**重新设计支付系统时这块将被完全抛弃**。
+3. 	将升级计划信息同步到`Paypal`，以便在支付的时候Paypal能知道我们想各个升级计划的具体情况（价格，税收，有效期，循环周期等），以便实现循环支付。
+
+### 执行填充
+执行如下命令将初始化跟升级计划相关的数据，因此每次修改了该文件都应该重新执行这条命令。
+
+```
+php artisan db:seed --class=PlansSeeder
+```
+
+> 可对计划内容作任意修改，不会影响到已经支付的用户。
 > 
-> 1. 用户信息是缓存的（缓存时间为1天），所以需要手动禁用缓存才行 
-> 2. 每个用户要记录它的策略Usage，所以只有在初始化的时候才从角色那里初始化策略Usage。如果角色的Usage变了，用户Usage也跟着变会有问题，所以当重新填充角色的策略时，需要重新初始化用户的策略Usage才能生效。
+> 如果是在生产环境下，要重新填充初始化是不可逆的，出于安全性考虑，**请务必备份好数据库**。
 
-###  `BigbigadsSeeder.php`源码说明
-该文件包含三部分：角色的定义、角色权限的分配和角色策略的分配。
-
-第一：角色的定义，直接看源码注释：
-
-```
-//创建角色,有几档权限（未登陆与第一档合用Free权限)就有几个角色，如果要增加角色。就扩展该数组即可。
-//需要注意的是，数组是[key=>value]形式。一旦执行填充命令，key部分就不能改，否则用户已经绑定的角色将失效。因此下面的Free,Standard,Advanced,Pro的key部分都不
-应该改动。
-$roleNames = ["Free" => "Free", "Standard"=>"Standard", "Advanced" => "Advanced", "Pro" => "VIP"];
-
-```
-
-第二：角色权限的分配
-
-```
-//权限列表                                                                        
-$search = ['search_times_perday', 'result_per_search', 'search_filter', 'search_sortby', 'advanced_search', 'save_search', 'keyword_times_perday',
-    'advertiser_search', 'dest_site_search', 'domain_search', 'content_search', 'audience_search', 
-    'date_filter', 'format_filter', 'call_action_filter', 'duration_filter', 'see_times_filter', 'lang_filter', 'engagement_filter',
-    'date_sort', 'likes_sort','shares_sort',  'comment_sort', 'duration_sort', 'views_sort', 'engagements_sort', 'engagement_inc_sort', 'likes_inc_sort', 'views_inc_sort', 'shares_inc_sort', 'comments_inc_sort'];
-//将权限分配到角色，有多少角色，数组长度就有多少，与上面的角色一一对应。true表示该角色有该权限，false表示该角色无此权限。
-$searchPermission = ['search_times_perday'=>[true, true, true, true], 'result_per_search'=>[true, true, true, true], 'search_filter'=>[false, true, true, true], 'search_sortby'=>[false, false, true, true], 'advanced_search'=>[false, false, true, true], 'save_search' => [false, true, true, true], 'keyword_times_perday' => [true, true, true, true],
-    'advertiser_search' => [true, true, true, true], 'dest_site_search' => [true, true, true, true], 'domain_search' => [true, true, true, true], 'content_search' => [true, true, true, true], 'audience_search' => [false, true, true, true], 
-    'date_filter' => [true, true, true, true], 'format_filter' => [true, true, true, true], 'call_action_filter' => [false, true, true, true], 'duration_filter' => [false, true, true, true], 'see_times_filter' => [false, true, true, true], 'lang_filter' => [false, true, true, true], 'engagement_filter' => [false, true, true, true],  
-    'date_sort' => [true, true, true, true], 'likes_sort' => [true, true, true, true], 'shares_sort' => [true, true, true, true],  'comment_sort' => [true, true, true, true], 'duration_sort'=>[false, true, true, true], 'views_sort' => [true, true, true, true], 'engagements_sort' => [false, true, true, true], 'engagement_inc_sort' => [false, true, true, true], 'likes_inc_sort' => [false, true, true, true], 'views_inc_sort' => [false, true, true, true], 'shares_inc_sort'=>[false, true, true, true], 'comments_inc_sort' => [false, true, true, true]];
-
-```
-
-第三：角色策略的分配
-
-```
-//给权限指定策略，策略数组的第一个数值表示策略类型，Policy::DAY表示按天累计，Policy::VALUE表示是一个固定值，Policy::PERMANENT表示永久累计，后面数值同上。需要注意的是，只有角
-色有对应的权限，才会有检查策略。
-$searchPolicy = ['search_times_perday' => [Policy::DAY, 20,100, 500, 1000], 'result_per_search' => [Policy::VALUE, 500, 1000, 2000, 5000], 'keyword_times_perday' => [Policy:DAY, 1000, 1000, 1000, 1000]];
-
-```
-
-> 应用是根据权限名称判断权限的，因此权限名称应该唯一。
-
-## 前端如何判断权限
-两种方式：`policy-lock`指令,`User.can``User.getPolicy`接口。
-
-### policy-lock用法
-
-```
-<!-- 下面这行表示检查adser_search(广告主搜索）权限，没有权限就在按钮后面加锁并禁止 -->
-<button class="btn btn-primary" policy-lock key="adser_search" trigger="lockButton">Search</button>
-```
-
-#### policy-lock参数说明
-
-- `key`  要检查的权限，可以使用|同时检查多个权限（不允许有策略)。目前没有相关文档指明数据库中`permissions`对应到需求文档上的计划列表，所以目前只能从`BigbigadsSeeder.php`查看（后续研究下是否有建立关联的更好手段）。
-- `trigger` 目前支持`lockButton`,`disabled`以及没有属性值这三种情况，分别实现以下特性"禁用并加锁","禁用","加锁"。
-
-User.can以及User.getPolicy待补充。
 ## 如何添加搜索项
-[参考对应WIKI:如何添加搜索项](http://git.papamk.com:81/bigbigads/bigbigads/wikis/%E5%B9%BF%E5%91%8A%E6%90%9C%E7%B4%A2%E5%A6%82%E4%BD%95%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E9%A1%B9)
+[参考对应WIKI:如何添加搜索项](/bigbigads/bigbigads/wikis/%E5%B9%BF%E5%91%8A%E6%90%9C%E7%B4%A2%E5%A6%82%E4%BD%95%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E9%A1%B9)
+
+
+
 ## 配置QA
 Q:升级源码后，权限配置没生效？
 A:
