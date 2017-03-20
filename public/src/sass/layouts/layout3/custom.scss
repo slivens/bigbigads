@@ -556,6 +556,7 @@ body.modal-open{overflow-y:hidden !important; padding-right: 17px !important;}
     background-color: rgba(255, 255, 255, 0.8);
     border-top: 3px dashed #3B3B3C;
     margin: -76px 0 0 -3px !important;
+    z-index: 9999;
     p {
         font-size: 30px;
         font-weight: bold;
@@ -571,6 +572,10 @@ body.modal-open{overflow-y:hidden !important; padding-right: 17px !important;}
 
 .xg-buybut-mt60 {
     margin-top: 60px;    
+}
+
+.xg-overflow-hidden {
+    overflow: hidden;
 }
 
 //广告主分析样式
