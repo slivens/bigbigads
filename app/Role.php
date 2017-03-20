@@ -4,20 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use TCG\Voyager\Models\Permission;
-use Braintree\Plan;
+use App\Plan;
 
 class Role extends Model
 {
     public static $plans = null;
     protected $guarded = [];
+    protected $hidden = ['created_at', 'updated_at'];
 
-    static public function plans()
-    {
-        if (self::$plans == null) {
-            self::$plans = Plan::all();
-        }  
-        return self::$plans;
-    }
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_roles');
@@ -34,24 +28,14 @@ class Role extends Model
     }
 
     /**
-     * 从Braintree获取该角色的计划
+     * 获取该角色的计划
+     * @return annually和monthly
      */
-    public function getPlanAttribute()
+    public function getPlansAttribute()
     {
-        $plans = $this->plans();
-        $res = [];
-        $type = "annually";
-        for($i=0;$i<count($plans);++$i) {
-            if (preg_match('/^' . $this->name . '/', $plans[$i]->id) > 0) {
-                $plan = $plans[$i];
-                if ($plan->id == $this->name . "_Monthly")
-                    $type = "monthly";
-                $res[$type] = ["id"=>$plan->id, "price"=>$plan->price, "billingFrequency"=>$plan->billingFrequency];
-            }
-        }    
-        if (count($res) > 0)
-            return $res; 
-        return null;
+        $annually = Plan::where('name', '=', $this->plan)->first();
+        $monthly = Plan::where('name', '=', "{$this->plan}_monthly")->first();
+        return ["annually" => $annually, "monthly" => $monthly];
     }
 
     /**
