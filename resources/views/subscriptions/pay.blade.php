@@ -14,33 +14,22 @@ use \Illuminate\Support\Facades\Input;
     @endif
     <form action="{{url('/pay')}}" method="post" id="checkout">
         {{ csrf_field() }}
-    <input  type="hidden" name="payment-method-nonce"/>
+    <input  type="hidden" name="planid" value="{{$plan->id}}"/>
     <div class="form-group">
             <label for="plan">
                 Plan
             </label>
-        <input type="text" class="form-control" value="{{$plan->id}}" name="plan" readonly>
+        <input type="text" class="form-control" value="{{$plan->display_name}}" name="plan" readonly>
     </div>
 
     <div class="form-group">
             <label for="price">
-                Price:<span>{{$plan->price}}</span>
+                Price:<span>{{$plan->currency}} {{$plan->amount}}</span>
             </label>
     </div>
+    <!--
     <div class="row">
             <div id="paypal" class="col-sm-12 col-md-6"  aria-live="assertive" style="">
-
-
-<script src="https://www.paypalobjects.com/api/button.js?"
-     data-merchant="braintree"
-     data-id="paypal-button"
-     data-button="checkout"
-     data-color="gold"
-     data-size="medium"
-     data-shape="pill"
-     data-button_type="submit"
-     data-button_disabled="false"
- ></script>
             </div>
 
             <a id="cc" class="col-sm-12 col-md-6 btn btn-secondary btn-green"  href="" title="Click to pay by Credit Card">
@@ -83,123 +72,19 @@ use \Illuminate\Support\Facades\Input;
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <input type="submit" value="Pay" class="btn-primary btn-orange col-sm-12" />
-                <div class="help-block ">
-                    You can cancel, or change your plan at any time.
-                </div>
+
+    </div>
+    -->
+        <div class="row">
+            <input type="submit" value="Pay(Paypal)" class="btn btn-primary  btn-block" />
+            <div class="help-block ">
+                You can cancel, or change your plan at any time.
             </div>
         </div>
-        </form>
+    </form>
 </div>
+
 @endsection
 @section('script')
-<script src="https://js.braintreegateway.com/web/3.6.3/js/client.min.js"></script>
-<script type="text/javascript" src="https://js.braintreegateway.com/web/3.6.3/js/hosted-fields.min.js"></script>
-<script src="https://js.braintreegateway.com/web/3.6.3/js/paypal.min.js"></script>
-<script>
-$('#cc').on( 'click', function(e) {
-    $( '#cc-info' ).show().attr( 'aria-hidden', true ).css( 'visibility', 'visible' );
-});
-
-var url = "<?php echo url('subscription' ); ?>";
-var form = document.querySelector('#checkout');
-var submit = document.querySelector('input[type=submit]');
-var paypalButton = document.querySelector('.paypal-button');
-braintree.client.create({
-authorization:"{{$clientToken}}"
-}, function(clientErr, clientInstance) {
-    if (clientErr) {
-        console.log(clientErr);
-        return;
-    }
-    braintree.hostedFields.create({
-    client:clientInstance,
-        fields:{
-        number: {
-        selector: "#number"
-    },
-        postalCode: {
-        selector: '#postal-code'
-    },
-        expirationDate: {
-        selector: "#expiration-date",
-            placeholder: "00/00"
-    },
-        cvv: {
-        selector: "#cvv"
-    }
-    }}, function(hostedFieldErr, hostedFieldsInstance) {
-        if (hostedFieldErr)
-            return;
-        submit.removeAttribute('disabled');
-
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            submit.setAttribute('disabled', 'disabled');
-            hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
-                if (tokenizeErr) {
-                    submit.removeAttribute('disabled');
-                    console.log("err", tokenizeErr);
-                    // Handle error in Hosted Fields tokenization
-                    return;
-                }
-
-                // Put `payload.nonce` into the `payment-method-nonce` input, and then
-                // submit the form. Alternatively, you could send the nonce to your server
-                // with AJAX.
-                document.querySelector('input[name="payment-method-nonce"]').value = payload.nonce;
-                form.submit();
-            });
-        }, false);
-    }
-);
-    // Create a PayPal component.
-    /* braintree.paypal.create({ */
-    /* client: clientInstance */
-/* }, function (paypalErr, paypalInstance) { */
-
-    /* // Stop if there was a problem creating PayPal. */
-    /* // This could happen if there was a network error or if it's incorrectly */
-    /* // configured. */
-    /* if (paypalErr) { */
-    /*     console.error('Error creating PayPal:', paypalErr); */
-    /*     return; */
-    /* } */
-
-    /* // Enable the button. */
-    /* paypalButton.removeAttribute('disabled'); */
-
-    /* // When the button is clicked, attempt to tokenize. */
-    /* paypalButton.addEventListener('click', function (event) { */
-
-    /*     // Because tokenization opens a popup, this has to be called as a result of */
-    /*     // customer action, like clicking a button—you cannot call this at any time. */
-    /*     paypalInstance.tokenize({ */
-    /*     flow: 'vault' */
-    /* }, function (tokenizeErr, payload) { */
-
-    /*     // Stop if there was an error. */
-    /*     if (tokenizeErr) { */
-    /*         if (tokenizeErr.type !== 'CUSTOMER') { */
-    /*             console.error('Error tokenizing:', tokenizeErr); */
-    /*         } */
-    /*         return; */
-    /*     } */
-
-    /*     // Tokenization succeeded! */
-    /*     paypalButton.setAttribute('disabled', true); */
-    /*     console.log('Got a nonce! You should submit this to your server.'); */
-    /*     console.log(payload.nonce); */
-
-    /* }); */
-
-    /* }, false); */
-
-/* }); */
-
-});
-</script>
 @endsection
 

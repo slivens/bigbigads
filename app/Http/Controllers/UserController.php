@@ -48,12 +48,8 @@ class UserController extends Controller
             $res['login'] = true;
             $res['user'] = $user;
             //将购买的相关计划也要返回，必须缓存，这一步很慢
-            if ($user->hasBraintreeId()) {
-                $subscription = Cache::get($user->braintree_id, $user->subscriptions->first()->toJson());
-                $res['subscription'] = $subscription;
-                if (!Cache::has($user->braintree_id)) {
-                    Cache::put($user->braintree_id, $subscription);
-                }
+            if ($user['subscription_id'] != null) {
+                $user->load('subscription');//有订阅就把订阅信息也一起加载
             }
             $res['permissions'] = $user->role->permissions->groupBy('key');
             $res['groupPermissions'] = $user->role->permissions->groupBy('table_name');

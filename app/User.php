@@ -74,6 +74,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function subscription()
+    {
+        return $this->belongsTo('App\Subscription');
+    }
+
     public function getUsageAttribute($value)
     {
         
