@@ -697,6 +697,28 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
                 return 0;
             return size[type];    
         };
+    })
+    .filter('mediaType', function() {
+        return function(type) {
+            var showType='';
+            switch(type){
+                case 'timeline': {showType = 'Newsfeed';break;}
+                case 'rightcolumn': {showType = 'Right Column';break;}
+                case 'phone': {showType = 'Mobile';break;}
+                default: break;
+            }
+            return showType;
+        };
+    })
+    .filter('adsCount', function() {
+        return function(adsNumber) {
+            if(!adsNumber) return ;
+            var countString = '';
+            var re = /(?=(?!\b)(\d{3})+$)/g;
+            adsNumber = String(adsNumber);
+            countString = adsNumber.replace(re, ',');
+            return countString;
+        };
     });
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {

@@ -114,11 +114,13 @@ var Login = function() {
         jQuery('#forget-password').click(function() {
             jQuery('.login-form').hide();
             jQuery('.forget-form').show();
+            window.location.hash = '#forget';
         });
 
         jQuery('#back-btn').click(function() {
             jQuery('.login-form').show();
             jQuery('.forget-form').hide();
+            window.location.hash = "";
         });
 
     }
@@ -159,20 +161,20 @@ var Login = function() {
             rules: {
 
                 fullname: {
-                    required: true
+                    required: false
                 },
                 email: {
                     required: true,
                     email: true
                 },
                 address: {
-                    required: true
+                    required: false
                 },
                 city: {
-                    required: true
+                    required: false
                 },
                 country: {
-                    required: true
+                    required: false
                 },
 
                 username: {
@@ -192,7 +194,7 @@ var Login = function() {
 
             messages: { // custom messages for radio buttons and checkboxes
                 tnc: {
-                    required: "Please accept TNC first."
+                    required: "Please accept Agreement first."
                 }
             },
 
@@ -253,6 +255,12 @@ var Login = function() {
             handleForgetPassword();
             handleRegister();
 
+            switch (window.location.hash) {
+                case '#forget':
+                    jQuery('.login-form').hide();
+                    jQuery('.forget-form').show();
+                    break;
+            }
         }
 
     };

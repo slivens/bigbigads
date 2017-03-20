@@ -36,7 +36,7 @@
                 </div>
                 <div class="alert alert-warning margin-top-10" ng-show="currSearchOption.isdirty">
                     <div ng-if="currSearchOption.search.text">Search Text:{{currSearchOption.search.text}}</div>
-                    <div ng-if="currSearchOption.filter.type">Media Type:{{currSearchOption.filter.type}}</div>
+                    <div ng-if="currSearchOption.filter.type">Media Type:{{currSearchOption.filter.type | mediaType}}</div>
                     <div ng-if="currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Time Frame:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}}</div>
                     <div ng-if="currSearchOption.filter.lang">Language:{{currSearchOption.filter.lang}}</div>
                     <div ng-if="currSearchOption.filter.state">Country:{{currSearchOption.filter.state}}</div>
@@ -73,7 +73,7 @@
                 </form>
             </div>
             <div class="xg-count-mt">
-                <span>About {{adSearcher.ads.total_count}} results</span>
+                <span>About {{adSearcher.ads.total_count | adsCount}} results</span>
                 <!-- <button class="btn yellow-gold btn-lg" ng-click="showStatics()">analysis</button> -->
                 <i class="fa fa-hand-o-right font-yellow-gold xg-analysis" ng-click="showStatics()"></i>
             </div>

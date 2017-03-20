@@ -219,8 +219,8 @@ class BigbigadsSeeder extends Seeder
         }
 
         //收藏夹权限与策略
-        $bookmark = ['bookmark_support', 'bookmark_list', 'bookmark_adser_support', 'save_count'];
-        $bookmarkPermission = ['bookmark_support'=>[false, true, true, true], 'bookmark_list'=>[true, true, true, true], 'bookmark_adser_support'=>[false, true, true, true], 'save_count'=>[false, true, true, true]];
+        $bookmark = ['bookmark_support', 'bookmark_list', 'bookmark_adser_support', 'save_count','advertiser_collect'];
+        $bookmarkPermission = ['bookmark_support'=>[false, true, true, true], 'bookmark_list'=>[true, true, true, true], 'bookmark_adser_support'=>[false, true, true, true], 'save_count'=>[false, true, true, true],'advertiser_collect'=>[false, false, true, true]];
         $bookmarkPolicy = ['bookmark_list'=>[Policy::PERMANENT, 1, 10, 100, 10000], 'save_ad_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000], 'save_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000]];
         foreach($bookmark as $key=>$item) {
             $permision = Permission::firstOrCreate([
