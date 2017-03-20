@@ -22,14 +22,14 @@
                         <h3 class="text-center">{{item.name}}</h3>
                         
                         <h4 class="text-center">
-                            <span ng-if="!item.plan">
+                            <span ng-if="!item.plans">
                                 0
                             </span>
-                            <span ng-if="item.plan && !plans.annually">
-                                ${{item.plan.monthly.price}} / Month
+                            <span ng-if="item.plans && !plans.annually">
+                                ${{item.plans.monthly.amount}} / Month
                             </span>
-                            <span ng-if="item.plan && plans.annually">
-                                ${{item.plan.annually.price}} / Year
+                            <span ng-if="item.plans && plans.annually">
+                                ${{item.plans.annually.amount}} / Year
                             </span>
                         </h4>
                         <div>
