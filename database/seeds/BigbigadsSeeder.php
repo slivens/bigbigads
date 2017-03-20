@@ -83,15 +83,22 @@ class BigbigadsSeeder extends Seeder
     public function run()
     {
         try {
-        //创建角色 
-        $roleNames = ["Free" => "Free", "Standard"=>"Standard", "Advanced" => "Advanced", "Pro" => "Pro"];
-        $roles = [];
-        foreach($roleNames as $key=>$item) {
-            array_push($roles, Role::firstOrCreate([
-               'name' => $key,
-               'display_name' => $item
-            ]));
-        }
+            //创建角色,有几档权限（未登陆与第一档合用Free权限)就有几个角色，如果要增加角色。就扩展该数组即可。
+            //需要注意的是，数组是[key=>value]形式。一旦执行填充命令，key部分就不能改，否则用户已经绑定的角色将失效。因此下面的Free,Standard,Advanced,Pro的key部分都不应该改动。
+            $roleNames = ["Free" => "Free", "Standard"=>"Standard", "Advanced" => "Advanced", "Pro" => "VIP"];
+            $roles = [];
+            foreach($roleNames as $key=>$item) {
+                if (Role::where('name', $key)->count() > 0) {
+                    $role = Role::where('name', $key)->first();
+                    $role->update(['display_name' => $item]);
+                    array_push($roles, $role);
+                } else {
+                    array_push($roles, Role::create([
+                        'name' => $key,
+                        'display_name' => $item
+                    ]));
+                }
+            }
 
         for ($i = 0; $i < count($roles); ++$i) {
             $roles[$i]->permissions()->detach();
@@ -124,35 +131,21 @@ class BigbigadsSeeder extends Seeder
         /* } */
         
         //广告搜索及策略 Search Permissions And Policies
+        //权限列表
         $search = ['search_times_perday', 'result_per_search', 'search_filter', 'search_sortby', 'advanced_search', 'save_search', 'keyword_times_perday', 
             'advertiser_search', 'dest_site_search', 'domain_search', 'content_search', 'audience_search', 
             'date_filter', 'format_filter', 'call_action_filter', 'duration_filter', 'see_times_filter', 'lang_filter', 'engagement_filter', 
             'date_sort', 'likes_sort','shares_sort',  'comment_sort', 'duration_sort', 'views_sort', 'engagements_sort', 'engagement_inc_sort', 'likes_inc_sort', 'views_inc_sort', 'shares_inc_sort', 'comments_inc_sort'];
+        //将权限分配到角色，有多少角色，数组长度就有多少，与上面的角色一一对应。true表示该角色有该权限，false表示该角色无此权限。
         $searchPermission = ['search_times_perday'=>[true, true, true, true], 'result_per_search'=>[true, true, true, true], 'search_filter'=>[false, true, true, true], 'search_sortby'=>[false, false, true, true], 'advanced_search'=>[false, false, true, true], 'save_search' => [false, true, true, true], 'keyword_times_perday' => [true, true, true, true],
             'advertiser_search' => [true, true, true, true], 'dest_site_search' => [true, true, true, true], 'domain_search' => [true, true, true, true], 'content_search' => [true, true, true, true], 'audience_search' => [false, true, true, true], 
             'date_filter' => [true, true, true, true], 'format_filter' => [true, true, true, true], 'call_action_filter' => [false, true, true, true], 'duration_filter' => [false, true, true, true], 'see_times_filter' => [false, true, true, true], 'lang_filter' => [false, true, true, true], 'engagement_filter' => [false, true, true, true], 
             'date_sort' => [true, true, true, true], 'likes_sort' => [true, true, true, true], 'shares_sort' => [true, true, true, true],  'comment_sort' => [true, true, true, true], 'duration_sort'=>[false, true, true, true], 'views_sort' => [true, true, true, true], 'engagements_sort' => [false, true, true, true], 'engagement_inc_sort' => [false, true, true, true], 'likes_inc_sort' => [false, true, true, true], 'views_inc_sort' => [false, true, true, true], 'shares_inc_sort'=>[false, true, true, true], 'comments_inc_sort' => [false, true, true, true]];
+        //给权限指定策略，策略数组的第一个数值表示策略类型，Policy::DAY表示按天累计，Policy::VALUE表示是一个固定值，Policy::PERMANENT表示永久累计，后面数值同上。需要注意的是，只有角色有对应的权限，才会有检查策略。
         $searchPolicy = ['search_times_perday' => [Policy::DAY, 20,100, 500, 1000], 'result_per_search' => [Policy::VALUE, 500, 1000, 2000, 5000], 'keyword_times_perday' => [Policy::DAY, 1000, 1000, 1000, 1000]];
-        foreach($search as $key=>$item) {
-            $permision = Permission::firstOrCreate([
-                'key'        => $item,
-                'table_name' => 'Advertisement',
-            ]);
+        $this->insertPermissions('Advertisement', $search, $searchPermission,  $roles);
+        $this->insertPolicies($searchPolicy, $roles);
 
-            for ($i = 0; $i < count($roles); ++$i) {
-                if ($searchPermission[$item][$i])
-                    $roles[$i]->permissions()->attach($permision->id);
-            }
-        }
-        foreach($searchPolicy as $key=>$item) {
-            $policy = Policy::firstOrCreate([
-                'key'   => $key,
-                'type'  => $item[0]
-            ]);
-            for ($i = 0; $i < count($roles); ++$i) {
-                $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]);
-            }
-        }
         //广告分析
         $this->insertAdAnalysisPermissions($roles);
         //广告统计
@@ -226,8 +219,8 @@ class BigbigadsSeeder extends Seeder
         }
 
         //收藏夹权限与策略
-        $bookmark = ['bookmark_support', 'bookmark_list', 'bookmark_adser_support', 'save_count'];
-        $bookmarkPermission = ['bookmark_support'=>[false, true, true, true], 'bookmark_list'=>[true, true, true, true], 'bookmark_adser_support'=>[false, true, true, true], 'save_count'=>[false, true, true, true]];
+        $bookmark = ['bookmark_support', 'bookmark_list', 'bookmark_adser_support', 'save_count','advertiser_collect'];
+        $bookmarkPermission = ['bookmark_support'=>[false, true, true, true], 'bookmark_list'=>[true, true, true, true], 'bookmark_adser_support'=>[false, true, true, true], 'save_count'=>[false, true, true, true],'advertiser_collect'=>[false, false, true, true]];
         $bookmarkPolicy = ['bookmark_list'=>[Policy::PERMANENT, 1, 10, 100, 10000], 'save_ad_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000], 'save_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000]];
         foreach($bookmark as $key=>$item) {
             $permision = Permission::firstOrCreate([

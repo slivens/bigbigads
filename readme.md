@@ -83,6 +83,46 @@ php artisan db:seed --class=BigbigadsSeeder
 > 1. 用户信息是缓存的（缓存时间为1天），所以需要手动禁用缓存才行 
 > 2. 每个用户要记录它的策略Usage，所以只有在初始化的时候才从角色那里初始化策略Usage。如果角色的Usage变了，用户Usage也跟着变会有问题，所以当重新填充角色的策略时，需要重新初始化用户的策略Usage才能生效。
 
+###  `BigbigadsSeeder.php`源码说明
+该文件包含三部分：角色的定义、角色权限的分配和角色策略的分配。
+
+第一：角色的定义，直接看源码注释：
+
+```
+//创建角色,有几档权限（未登陆与第一档合用Free权限)就有几个角色，如果要增加角色。就扩展该数组即可。
+//需要注意的是，数组是[key=>value]形式。一旦执行填充命令，key部分就不能改，否则用户已经绑定的角色将失效。因此下面的Free,Standard,Advanced,Pro的key部分都不
+应该改动。
+$roleNames = ["Free" => "Free", "Standard"=>"Standard", "Advanced" => "Advanced", "Pro" => "VIP"];
+
+```
+
+第二：角色权限的分配
+
+```
+//权限列表                                                                        
+$search = ['search_times_perday', 'result_per_search', 'search_filter', 'search_sortby', 'advanced_search', 'save_search', 'keyword_times_perday',
+    'advertiser_search', 'dest_site_search', 'domain_search', 'content_search', 'audience_search', 
+    'date_filter', 'format_filter', 'call_action_filter', 'duration_filter', 'see_times_filter', 'lang_filter', 'engagement_filter',
+    'date_sort', 'likes_sort','shares_sort',  'comment_sort', 'duration_sort', 'views_sort', 'engagements_sort', 'engagement_inc_sort', 'likes_inc_sort', 'views_inc_sort', 'shares_inc_sort', 'comments_inc_sort'];
+//将权限分配到角色，有多少角色，数组长度就有多少，与上面的角色一一对应。true表示该角色有该权限，false表示该角色无此权限。
+$searchPermission = ['search_times_perday'=>[true, true, true, true], 'result_per_search'=>[true, true, true, true], 'search_filter'=>[false, true, true, true], 'search_sortby'=>[false, false, true, true], 'advanced_search'=>[false, false, true, true], 'save_search' => [false, true, true, true], 'keyword_times_perday' => [true, true, true, true],
+    'advertiser_search' => [true, true, true, true], 'dest_site_search' => [true, true, true, true], 'domain_search' => [true, true, true, true], 'content_search' => [true, true, true, true], 'audience_search' => [false, true, true, true], 
+    'date_filter' => [true, true, true, true], 'format_filter' => [true, true, true, true], 'call_action_filter' => [false, true, true, true], 'duration_filter' => [false, true, true, true], 'see_times_filter' => [false, true, true, true], 'lang_filter' => [false, true, true, true], 'engagement_filter' => [false, true, true, true],  
+    'date_sort' => [true, true, true, true], 'likes_sort' => [true, true, true, true], 'shares_sort' => [true, true, true, true],  'comment_sort' => [true, true, true, true], 'duration_sort'=>[false, true, true, true], 'views_sort' => [true, true, true, true], 'engagements_sort' => [false, true, true, true], 'engagement_inc_sort' => [false, true, true, true], 'likes_inc_sort' => [false, true, true, true], 'views_inc_sort' => [false, true, true, true], 'shares_inc_sort'=>[false, true, true, true], 'comments_inc_sort' => [false, true, true, true]];
+
+```
+
+第三：角色策略的分配
+
+```
+//给权限指定策略，策略数组的第一个数值表示策略类型，Policy::DAY表示按天累计，Policy::VALUE表示是一个固定值，Policy::PERMANENT表示永久累计，后面数值同上。需要注意的是，只有角
+色有对应的权限，才会有检查策略。
+$searchPolicy = ['search_times_perday' => [Policy::DAY, 20,100, 500, 1000], 'result_per_search' => [Policy::VALUE, 500, 1000, 2000, 5000], 'keyword_times_perday' => [Policy:DAY, 1000, 1000, 1000, 1000]];
+
+```
+
+> 应用是根据权限名称判断权限的，因此权限名称应该唯一。
+
 ## 前端如何判断权限
 两种方式：`policy-lock`指令,`User.can``User.getPolicy`接口。
 

@@ -27,7 +27,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 			}
 			searcher.defSearchFields = searcher.prototype.defSearchFields = "message,name,description,caption,link,adser_username,adser_name,dest_site,buttonlink";
 			searcher.defFilterOption = searcher.prototype.defFilterOption = {
-				type: "timeline",
+				type: "",
 				date: {
 					startDate: null,
 					endDate: null
@@ -903,6 +903,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					SweetAlert.swal("no search permission");
 					return;
 				}
+				/*同步adsearchController代码----20170316
 				if (action == 'filter' && !User.can('search_filter')) {
 					SweetAlert.swal("no filter permission");
 					return;
@@ -913,7 +914,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						SweetAlert.swal("type '" + $scope.filterOption.type + "' exceed your permission");
 						return;
 					}
-				}
+				}*/
 				//字符串和域
 				$scope.currSearchOption = angular.copy($scope.searchOption); //保存搜索
 				if (option.rangeselected && option.rangeselected.length) {
@@ -1029,7 +1030,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var similarPromise;
                 var md5;
                 if (watermark instanceof Array)
-                    md5 = watermark[0].match(/\/(\w+)\./);
+                    md5 = watermark[0].source.match(/\/(\w+)\./);
                 else 
                     md5 = watermark.match(/\/(\w+)\./);
 				if (md5 === null) {
