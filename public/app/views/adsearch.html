@@ -87,6 +87,7 @@
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
 				<span class="sr-only">Loading...</span>
 			</div>
+            <div ng-if="(User.info.user.role.name=='Free') && adSearcher.isend" ng-include="'limited-banner.html'"></div>
         </div>
     </div>
 </div>
@@ -308,6 +309,35 @@
         <!-- end content -->
         <div class="modal-footer">
             <button class="btn btn-warning" type="button" ng-click="close()">Close</button>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="limited-banner.html">
+    <div class="dashboard-stat dashboard-stat-v2 col-md-12 xg-limited-banner">
+        <div class="text-center col-md-12">
+            <p ng-if="currSearchOption.search.text">There are <span ng-if="adSearcher.ads.total_count-10>0">{{adSearcher.ads.total_count-10 | adsCount}}</span> more ads results for "{{currSearchOption.search.text}}" with Bigbigads Standard</p>
+            <p ng-if="!currSearchOption.search.text">There are <span ng-if="adSearcher.ads.total_count-10>0">{{adSearcher.ads.total_count-10 | adsCount}}</span> more ads results with Bigbigads Standard</p>
+            <h4>Subscribe now to get full & complete access to the full database,plus all future ads</h4>
+        </div>
+        <div class="col-md-12">
+            <div class="pull-left col-md-5">
+                <p class="plus">Plus:</p>
+                <ul>
+                    <li ng-if="currSearchOption.search.text">Set up a <strong>content alert for "{{currSearchOption.search.text}}"</strong></li>
+                    <li>Export data to Excel</li>
+                    <li>Get extra search filters</li>
+                    <li>Run Content Analysis Reports</li>
+                    <li>and lots more!</li>
+                </ul>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="text-center col-md-5 xg-buybut-mt60">
+                <a ng-href="/login" class="btn btn-lg xg-subscribe-color" ng-if="!User.info.login">Try Bigbigads Standard</a>
+                <a ui-sref="plans" class="btn btn-lg xg-subscribe-color" ng-if="User.info.login">Try Bigbigads Standard</a>
+            </div>
+        </div>
+        <div class="col-md-12 text-center xg-subscribe">
+            <a href="/product">Learn more about Bigbigads Standard</a>
         </div>
     </div>
 </script>

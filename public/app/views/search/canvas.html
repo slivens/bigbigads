@@ -32,7 +32,7 @@
             <div class="xg-label-caption pull-right" ng-if="card.buttondesc" >
                 <a href="{{card.buttonlink}}" class="xg-a-likepage label label-sm label-warning" target="_blank">{{card.buttondesc}}</a>
             </div>
-            <div class="xg-span-name">
+            <div class="xg-span-name xg-overflow-hidden">
                 <span ng-bind-html="card.name | toHtml"></span>
             </div>
         </div>
@@ -41,7 +41,7 @@
             <span ng-bind-html="card.description | toHtml"></span>
         </p>
         <div class="aditem-caption margin-top-10" ng-if="card.caption">
-            <label class="xg-label-caption label label-sm label-success">{{card.caption}}</label>
+            <label class="xg-label-caption label label-sm label-success" ng-bind-html="card.caption | toHtml"></label>
         </div>
     </div>
     <!-- end SingleImage -->
