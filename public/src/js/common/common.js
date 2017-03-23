@@ -581,7 +581,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 }
             },
             lengthLimit:function(value) {
-                if(value.length>20) {//20长度仅用于测试
+                if(value.length>300) {//20长度仅用于测试
                     SweetAlert.swal("You can`t beyond 300 word length");
                     return false;
                 }else {
