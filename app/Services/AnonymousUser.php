@@ -21,7 +21,7 @@ class AnonymousUser
     public static function user($req)
     {
         $ip = $req->ip();
-        $user = null;//Cache::get($ip);
+        $user = Cache::get($ip);
         if (!is_null($user) && !is_null($user->date) && $user->date->isToday()) {
             //TODO:记录登陆动作
             Log::debug("$ip is still valid");
