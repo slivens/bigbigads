@@ -170,7 +170,7 @@
                                                             Mobile
                                                         </span>
                                                         <span ng-if="card.show_way=='3'">
-                                                            News Feed&nbsp;<span class="overviewtitle">&</span>&nbsp;Mobile
+                                                            News Feed&nbsp;<span class="overviewtitle">&amp;</span>&nbsp;Mobile
                                                         </span>
                                                         <span ng-if="card.show_way=='4'">
                                                             Right Column
@@ -179,19 +179,21 @@
                                                 </div>
                                                 <!--end position-->
                                                 <!--begin buttonlink-->
-                                                <div ng-if="card.buttonlink.length" class="overview-card clearfix table-hover">
+                                                <div ng-if="card.buttondesc" class="overview-card clearfix table-hover">
                                                         <h4>
                                                             <i class="fa glyphicon glyphicon-hand-down font-yellow-gold fa-fw">
                                                             </i>
                                                             <span class="overviewtitle">buttonlink:</span>
                                                         </h4>
-                                                        <div ng-init="isarr=(card.buttonlink|isArray)">
-                                                            <p ng-show="isarr" ng-init="button=(card.buttonlink|unique); buttondesc=(card.buttondesc|unique)" class="viewbutton overview-data">
-                                                                <a ng-repeat="item in button | limitTo:2" ng-if="buttondesc[$index]"  class="xg-a-likepage xg-label ">{{buttondesc[$index]}}</a>
-                                                            </p>
-                                                            <p ng-show="!isarr" class="viewbutton overview-data"><a class="xg-a-likepage xg-label ">{{card.buttondesc}}</a>
-                                                            </p>
-                                                        </div>  
+                                                       
+                                                        <p ng-if="Util.isArray(card.buttondesc)" class="viewbutton overview-data">
+                                                            <a ng-repeat="item in (card.buttondesc|unique) track by $index" ng-if="item"  class="xg-a-likepage xg-label ">{{item}}</a>
+                                                            
+                                                        </p>
+                                                        <p ng-if="!Util.isArray(card.buttondesc)" class="viewbutton overview-data">
+                                                            <a class="xg-a-likepage xg-label ">{{card.buttondesc}}</a>
+                                                        </p>
+                                                        
                                                 </div>
                                                 <!--end buttonlink-->
                                             </div>
@@ -203,42 +205,42 @@
                                 <!--begin similar-->
                                 <div id="similar">
                                     <h4 class="font-yellow-gold">Similar Ads</h4>
-                                    <div ng-show="User.can('analysis_similar')">
-                                    <div class="row">
-                                        <div  ng-if="card.similars.length > 0" ng-repeat="item in card.similars | limitTo:2" class="aditem col-md-6 col-xs-12">
-                                            <div class="portlet light bordered">
-                                                <div class="margin-bottom-10 margin-top-10">
-                                                    <table class="adscard-head">
-                                                        <tr>
-                                                            <td class="adscaed-img">
-                                                    <a ng-href="">
-                                                        <img src="{{settings.imgRemoteBase + item.local_photo}}"  class="rounded avatar">
-                                                    </a>
-                                                        </td>
-                                        
-                                                        <td class="adscard-img">  
-                                                            <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:item.adser_name, adser:item.adser_username})">
-                                                                <span ng-bind-html="item.adser_name | toHtml" ng-show="item.adser_name">
-                                                                    {{item.adser_name}}
-                                                                </span>
-                                                                <span ng-show="!item.adser_name">{{item.adser_username}}</span>
-                                                            </a>
-                                                        </td>
-                                                        </tr> 
-                                                    </table>
+                                    <div ng-if="User.can('analysis_similar')">
+                                        <div class="row">
+                                            <div  ng-if="card.similars.length > 0" ng-repeat="item in card.similars | limitTo:2 track by $index" class="aditem col-md-6 col-xs-12">
+                                                <div class="portlet light bordered">
+                                                    <div class="margin-bottom-10 margin-top-10">
+                                                        <table class="adscard-head">
+                                                            <tr>
+                                                                <td class="adscaed-img">
+                                                        <a ng-href="">
+                                                            <img src="{{settings.imgRemoteBase + item.local_photo}}"  class="rounded avatar">
+                                                        </a>
+                                                            </td>
+                                            
+                                                            <td class="adscard-img">  
+                                                                <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:item.adser_name, adser:item.adser_username})">
+                                                                    <span ng-bind-html="item.adser_name | toHtml" ng-show="item.adser_name">
+                                                                        {{item.adser_name}}
+                                                                    </span>
+                                                                    <span ng-show="!item.adser_name">{{item.adser_username}}</span>
+                                                                </a>
+                                                            </td>
+                                                            </tr> 
+                                                        </table>
+                                                    </div>
+                                                    <single-image ng-if="item.type == 'SingleImage'" card="item">
+                                                    </single-image>
+                                                    <single-video ng-if="item.type == 'SingleVideo'" card="item"></single-video>
+                                                    <carousel ng-if="item.type == 'Carousel'" card="item">
+                                                    </carousel>
+                                                    <adcanvas ng-if="item.type == 'Canvas'" card="item"></adcanvas>
                                                 </div>
-                                                <single-image ng-if="item.type == 'SingleImage'" card="item">
-                                                </single-image>
-                                                <single-video ng-if="item.type == 'SingleVideo'" card="item"></single-video>
-                                                <carousel ng-if="item.type == 'Carousel'" card="item">
-                                                </carousel>
-                                                <adcanvas ng-if="item.type == 'Canvas'" card="item"></adcanvas>
                                             </div>
                                         </div>
+                                        <a class="btn font-yellow-gold btn-link ng-scope" ng-if="card.similars.length > 2" href="#" role="button">search more</a>
                                     </div>
-                                    <a class="btn font-yellow-gold btn-link ng-scope" ng-if="card.similars.length > 2" href="#" role="button">search more</a>
-                                    </div>
-                                    <div class="text-center text-danger" ng-show="!User.can('analysis_similar')">
+                                    <div class="text-center text-danger" ng-if="!User.can('analysis_similar')">
                                           <span>Please Upgrade your account!</span>
                                     </div>
                                 </div>
@@ -246,12 +248,12 @@
                                 <!-- begin Landpage-->
                                 <div id="Landpage">
                                     <h4 class="font-yellow-gold">Landpage</h4>
-                                    <div ng-show="User.can('analysis_link')">
+                                    <div ng-if="User.can('analysis_link')">
                                         <div class="landpage-div clearfix">
                                             <h4 class="landpage-title">link</h4>
-                                            <div ng-if="card.link" ng-init="isarr=(card.link|isArray)">       
-                                                <table ng-if="isarr" class="table table-hover" ng-init="linkitem=(card.link|unique)">
-                                                    <tr ng-repeat="item in linkitem">
+                                            <div ng-if="card.link">       
+                                                <table ng-if="Util.isArray(card.link)" class="table table-hover">
+                                                    <tr ng-repeat="item in (card.link|unique) track by $index">
                                                         <td ng-if="item"> 
                                                             <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                             <span ng-show="card.snapshot">
@@ -261,7 +263,7 @@
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <table ng-if="!isarr" class="table table-hover">
+                                                <table ng-if="!Util.isArray(card.link)" class="table table-hover">
                                                     <tr>
                                                         <td>
                                                             <a ng-href="{{card.link}}" target="_blank" class="text-nowrap ">{{card.link | limitTo:80}}<span ng-show="card.link.length>80">...</span></a>
@@ -273,15 +275,15 @@
                                                 </table>
                                             </div>
                                             <h4 class="landpage-title">buttonlink</h4>
-                                            <div ng-if="card.buttonlink" ng-init="isarr=(card.buttonlink|isArray)">
-                                                <table ng-if="isarr" class="table table-hover" ng-init="buttonlink=(card.buttonlink|unique)">
-                                                    <tr ng-repeat="item in buttonlink" ng-if="item">
+                                            <div ng-if="card.buttonlink">
+                                                <table ng-if="Util.isArray(card.buttonlink)" class="table table-hover">
+                                                    <tr ng-repeat="item in (card.buttonlink|unique) track by $index" ng-if="item">
                                                         <td >
                                                             <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <table ng-if="!isarr" class="table table-hover" >
+                                                <table ng-if="!Util.isArray(card.buttonlink)" class="table table-hover" >
                                                     <tr>
                                                         <td>
                                                             <a ng-href="{{card.buttonlink}}" target="_blank" class="text-nowrap ">{{card.buttonlink | limitTo:80}}...</a>
@@ -290,15 +292,15 @@
                                                 </table>
                                             </div>   
                                             <h4 class="landpage-title">description</h4>
-                                            <div ng-if="card.dest_site" ng-init="isarr=(crad.dest_site|isArray)">
-                                                <table ng-if="isarr" ng-init="dest=(card.dest_site|unique)" class="table table-hover">
-                                                    <tr ng-repeat="item in dest">
+                                            <div ng-if="card.dest_site">
+                                                <table ng-if="Util.isArray(crad.dest_site)" class="table table-hover">
+                                                    <tr ng-repeat="item in (card.dest_site|unique) track by $index">
                                                         <td ng-if="item">
                                                             <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <table ng-if="!isarr" class="table table-hover">
+                                                <table ng-if="!Util.isArray(crad.dest_site)" class="table table-hover">
                                                     <tr>
                                                         <td>
                                                             <a ng-href="{{card.dest_site}}" target="_blank" class="text-nowrap ">{{card.dest_site | limitTo:80}}...</a>
@@ -308,7 +310,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-center text-danger" ng-show="!User.can('analysis_link')">
+                                    <div class="text-center text-danger" ng-if="!User.can('analysis_link')">
                                         <span>Please Upgrade your account!</span>
                                     </div>
                                 </div>
@@ -317,7 +319,7 @@
                                 <!--begin Engagements-->
                                 <div id="Engagements" class="clearfix">
                                     <h4 class="font-yellow-gold">Engagements</h4>
-                                    <div ng-show="User.can('analysis_trend')">
+                                    <div ng-if="User.can('analysis_trend')">
                                         <div class="text-center" ng-show="adSearcher.isLoadingCharts">
                                             <i class="fa fa-spinner fa-spin"></i>Loading Charts...
                                         </div>
@@ -344,7 +346,7 @@
                                             <highchart  config="adSearcher.viewsTrend"></highchart>
                                         </div>
                                     </div>
-                                    <div class="text-center text-danger" ng-show="!User.can('analysis_trend')">
+                                    <div class="text-center text-danger" ng-if="!User.can('analysis_trend')">
                                         <span>Please Upgrade your account!</span>
                                     </div>
                                 </div>
@@ -353,7 +355,7 @@
                                 <div id="audience">
                                     <h4 class="font-yellow-gold">Audience</h4>
 
-                                    <div ng-show="User.can('analysis_audience')">
+                                    <div ng-if="User.can('analysis_audience')">
                                         <table ng-if="card.whyseeads_all" class="table table-hover">
                                             <tr ng-repeat="item in card.whyseeads_all track by $index">
                                                 <td><a title="All ads by this audience" target="_blank" ng-href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a></td>
@@ -365,7 +367,7 @@
                                             </tr>
                                         </table>
                                     </div>
-                                    <div class="text-center text-danger" ng-show="!User.can('analysis_audience')">
+                                    <div class="text-center text-danger" ng-if="!User.can('analysis_audience')">
                                         <span>Please Upgrade your account!</span>
                                     </div>
 
