@@ -46,7 +46,7 @@
                 if(i==0) return true;
                 $(menu[i]).parent().removeClass("active");
             });
-        }else{
+        }else {
             $(menu[0]).parent().removeClass("active");
             $.each(menu,function(i){
                 if(i==0) return true;
