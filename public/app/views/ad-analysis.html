@@ -75,7 +75,7 @@
                                                 <div class="margin-bottom-10 margin-top-10">
                                                    
                                                     <a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
-                                                        <img src="{{settings.imgRemoteBase + card.local_photo}}" class="rounded avatar" />
+                                                        <img src="{{settings.imgRemoteBase + card.small_photo}}" class="avatar" />
                                                     </a>
                                                     
                                                     <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:card.adser_name, adser:card.adser_username})" target="_blank">
@@ -193,7 +193,7 @@
                                             <div class="portlet light bordered">
                                                 <div class="margin-bottom-10 margin-top-10">
                                                     <a ng-href="">
-                                                        <img src="{{settings.imgRemoteBase + item.local_photo}}"  class="rounded avatar">
+                                                        <img src="{{settings.imgRemoteBase + item.small_photo}}"  class="avatar">
                                                     </a>
                                                            
                                                     <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:item.adser_name, adser:item.adser_username})">

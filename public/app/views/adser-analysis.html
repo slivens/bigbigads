@@ -68,7 +68,7 @@
                                     <!-- begin avatar info -->
                                     <div class="inline">
                                         <a ng-href="https://www.facebook.com/{{card.username}}" target="_blank">
-                                            <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.local_photo}}" alt="" class="rounded avatar">
+                                            <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + card.small_photo}}" alt="" class="avatar">
                                         </a>
                                         <a ui-sref="adser({name:card.name, adser:card.username})">
                                             <span ng-show="card.name">{{card.name}}</span>
@@ -82,7 +82,7 @@
                                     <div class="inline" ng-repeat="competitor in competitors">
                                         <h3 class="inline font-yellow-gold" > Vs.</h3>
                                         <a ng-href="https://www.facebook.com/{{competitor.username}}" target="_blank">
-                                            <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + competitor.local_photo}}" alt="" class="rounded avatar">
+                                            <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + competitor.small_photo}}" alt="" class="avatar">
                                         </a>
                                         <a ui-sref="adser({name:competitor.name, adser:competitor.username})">
                                             <span ng-bind-html="competitor.name | toHtml" ng-show="competitor.name"></span>
