@@ -96,6 +96,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					return true;
 				}
 
+
 			};
 			vm.defSearchOption = {
 				range: settings.searchSetting.rangeList,
@@ -983,6 +984,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$scope.adSearcher.filter();
 			};
             $scope.User = User;
+            $scope.Util=Util;
 			$scope.card = {
 				end: true,
 				similars: []
