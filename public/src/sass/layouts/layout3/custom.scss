@@ -578,6 +578,42 @@ body.modal-open{overflow-y:hidden !important; padding-right: 17px !important;}
     overflow: hidden;
 }
 
+.xg-upgrade-banner {
+    background-color: #fff !important;
+    .xg-upgrade-banner-head {
+        border-bottom: 1px solid #e5e5e5;
+        background-color: #F8F8F8;
+        padding: 16px;
+        min-height: 16px;
+        h3 {
+            margin: 0 !important;
+        }
+    }
+    .xg-upgrade-banner-body {
+        max-height: 320px;
+        padding: 20px;
+        h5 {
+            color: #242424 !important;
+            font-weight: normal !important;
+            font-family: 'Open Sans', sans-serif !important;
+        }
+    }
+    .xg-upgrade-banner-foot {
+        padding: 15px;
+        text-align: right;
+        border-top: 1px solid #e5e5e5;
+    }
+}
+
+.xg-limited-banner-mt6 {
+    margin-top: 80px !important;    
+}
+
+.xg-alert {
+    margin-left: 16px !important;
+    margin-right: 16px !important;
+}
+
 //广告主分析样式
 .adser-analysis-sidebar {
     padding-top:20px;

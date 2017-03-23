@@ -406,6 +406,29 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
+    .directive('adserlink', ['$state', function($state) {
+        return {
+            link: function(scope, element, attrs) {
+                element.bind('click', function() {
+                    var url = "";
+                    var name = attrs.name.replace(/<[^>]+>/g,"");
+                    var username = attrs.username.replace(/<[^>]+>/g,"");
+                    url = $state.href('adser', {name:name, adser:username});
+                    window.open(url,'_blank');
+                });
+            }
+        };
+    }])
+    .directive('canvaslink', ['$state', function($state) {
+        return {
+            link: function(scope, element, attrs) {
+                element.bind('click', function() {
+                    var url = "https://facebook.com/"+attrs.id+"/"+attrs.eventid;
+                    window.open(url);
+                });
+            }
+        };
+    }])
     .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', function($uibModal, $stateParams, SweetAlert) {
         return {
             matchkey: function(origstr, destArr) {
@@ -535,6 +558,34 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     SweetAlert.swal(res.data.desc);
                 } else {
                     SweetAlert.swal(res.statusText);
+                }
+            },
+            openUpgrade:function() {
+                return $uibModal.open({
+                    templateUrl: 'views/upgrade.html',
+                    size: 'md',
+                    animation: true,
+                });
+            },
+        };
+    }])
+    .factory('FreeLimit',['$uibModal', 'SweetAlert', 'User', 'Util', function($uibModal, SweetAlert, User, Util) {
+        return {
+            numberLimit:function(value) {
+                if(User.info.user.role.name !='Free') return true;
+                var valueArray = value.split(" ");
+                if(valueArray.length>1) {
+                    Util.openUpgrade();
+                }else {
+                    return true;
+                }
+            },
+            lengthLimit:function(value) {
+                if(value.length>20) {//20长度仅用于测试
+                    SweetAlert.swal("You can`t beyond 300 word length");
+                    return false;
+                }else {
+                    return true;
                 }
             }
         };

@@ -51,7 +51,8 @@
     <hr class="xg-p-margin">
     <div ng-if="card.link[0]">
         <i class="fa fa-link fa-fw"></i>
-        <a href="{{card.link[0]}}" class="adlink xg-link-width">{{card.link[0] | clearHttps}}</a>
+        <a href="{{card.link[0]}}" class="adlink xg-link-width" ng-if="card.show_way!=1">{{card.link[0] | clearHttps}}</a>
+        <a canvaslink class="adlink xg-link-width" eventid="{{card.event_id}}" id="{{card.adser_username}}" ng-if="card.show_way==1">{{card.link[0] | clearHttps}}</a>
     </div>
     <div>
         <span ng-show="card.views">
