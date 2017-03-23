@@ -122,6 +122,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 			};
 			vm.isend = false;
 			vm.isNoResult = false;
+
 			vm.search = function(params, clear, action) {
 				var defer = $q.defer();
 				//获取广告搜索信息
@@ -752,8 +753,8 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			name: $stateParams.name,
 			username: $stateParams.adser
 		};
-		$scope.adSearcher = new Searcher();
-		$scope.adSearcher.checkAndGetMore = function() {
+		var adSearcher = $scope.adSearcher = new Searcher();
+		adSearcher.checkAndGetMore = function() {
 				if (!User.done) {
 					adSearcher.getMore();
 					return;
