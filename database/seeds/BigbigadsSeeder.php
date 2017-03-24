@@ -110,174 +110,175 @@ class BigbigadsSeeder extends Seeder
                 }
             }
 
+        for ($i = 0; $i < count($roles); ++$i) {
+            $roles[$i]->permissions()->detach();
+            $roles[$i]->policies()->detach();
+        }
+        /* $this->info("Insert Roles"); */
+        $role = Role::where('name', 'Standard')->first();
+        //权限分配控制有与没有
+        //策略分配控制多少
+        /* $dashboard = ["online_users", "duration", "ad_date", "ad_update", "platform"]; */
+        /* $dashboardPolicy = ['online_users' => [Policy::VALUE, 1, 1, 1, 3], "duration" => [Policy::VALUE, 5, 30, 30, 30], "ad_date" => [Policy::VALUE, 90, 180, 360, 0], "ad_update" => [Policy::VALUE, 'month', 'daily', 'daily', 'real time'], "platform" => [Policy::VALUE, 5, 5, 7, 7]]; */
+        /* //dashboard permission */
+        /* foreach($dashboard as $key=>$item) { */
+        /*     $permision = Permission::firstOrCreate([ */
+        /*         'key'        => $item, */
+        /*         'table_name' => 'dashboard' */
+        /*     ]); */
+        /*     for ($i = 0; $i < count($roles); ++$i) { */
+        /*         $roles[$i]->permissions()->attach($permision->id); */
+        /*     } */
+        /* } */
+        /* foreach($dashboardPolicy as $key=>$item) { */
+        /*     $policy = Policy::firstOrCreate([ */
+        /*         'key'   => $key, */
+        /*         'type'  => $item[0] */
+        /*     ]); */
+        /*     for ($i = 0; $i < count($roles); ++$i) { */
+        /*         $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]); */
+        /*     } */
+        /* } */
+        
+        //广告搜索及策略 Search Permissions And Policies
+        //权限列表
+        $search = ['search_times_perday', 'result_per_search', 'search_filter', 'search_sortby', 'advanced_search', 'save_search', 'keyword_times_perday', 
+            'advertiser_search', 'dest_site_search', 'domain_search', 'content_search', 'audience_search', 
+            'date_filter', 'format_filter', 'call_action_filter', 'duration_filter', 'see_times_filter', 'lang_filter', 'engagement_filter', 
+            'date_sort', 'likes_sort','shares_sort',  'comment_sort', 'duration_sort', 'views_sort', 'engagements_sort', 'engagement_inc_sort', 'likes_inc_sort', 'views_inc_sort', 'shares_inc_sort', 'comments_inc_sort'];
+        //将权限分配到角色，有多少角色，数组长度就有多少，与上面的角色一一对应。true表示该角色有该权限，false表示该角色无此权限。
+        $searchPermission = ['search_times_perday'=>[true, true, true, true], 'result_per_search'=>[true, true, true, true], 'search_filter'=>[false, true, true, true], 'search_sortby'=>[false, false, true, true], 'advanced_search'=>[false, false, true, true], 'save_search' => [false, true, true, true], 'keyword_times_perday' => [true, true, true, true],
+            'advertiser_search' => [true, true, true, true], 'dest_site_search' => [true, true, true, true], 'domain_search' => [true, true, true, true], 'content_search' => [true, true, true, true], 'audience_search' => [false, true, true, true], 
+            'date_filter' => [true, true, true, true], 'format_filter' => [true, true, true, true], 'call_action_filter' => [false, true, true, true], 'duration_filter' => [false, true, true, true], 'see_times_filter' => [false, true, true, true], 'lang_filter' => [false, true, true, true], 'engagement_filter' => [false, true, true, true], 
+            'date_sort' => [true, true, true, true], 'likes_sort' => [true, true, true, true], 'shares_sort' => [true, true, true, true],  'comment_sort' => [true, true, true, true], 'duration_sort'=>[false, true, true, true], 'views_sort' => [true, true, true, true], 'engagements_sort' => [false, true, true, true], 'engagement_inc_sort' => [false, true, true, true], 'likes_inc_sort' => [false, true, true, true], 'views_inc_sort' => [false, true, true, true], 'shares_inc_sort'=>[false, true, true, true], 'comments_inc_sort' => [false, true, true, true]];
+        //给权限指定策略，策略数组的第一个数值表示策略类型，Policy::DAY表示按天累计，Policy::VALUE表示是一个固定值，Policy::PERMANENT表示永久累计，后面数值同上。需要注意的是，只有角色有对应的权限，才会有检查策略。
+        $searchPolicy = ['search_times_perday' => [Policy::DAY, 20,100, 500, 1000], 'result_per_search' => [Policy::VALUE, 10, 1000, 2000, 5000], 'keyword_times_perday' => [Policy::DAY, 1000, 1000, 1000, 1000]];
+        $this->insertPermissions('Advertisement', $search, $searchPermission,  $roles);
+        $this->insertPolicies($searchPolicy, $roles);
+
+        //广告分析
+        $this->insertAdAnalysisPermissions($roles);
+        //广告统计
+        $this->insertAdStaticsPermissions($roles);
+        //广告主分析
+        $this->insertAdsersPermissions($roles);
+        //Export Permissions And Policies
+        $export = ['image_download', 'video_download', 'HD_video_download', 'Export'];
+        $exportPermission = ['image_download'=>[false, true,true,true], 'video_download'=>[false, true, true, true], 'HD_video_download'=>[false, false, true,true], 'Export'=>[false, false, true,true]];
+        $exportPolicy = ['image_download'=>[Policy::DAY, 0, 100, 500, 1000], 'video_download'=>[Policy::DAY, 0, 100, 500, 1000], 'HD_video_download'=>[Policy::DAY, 0, 0, 100, 500], 'Export'=>[Policy::DAY, 0, 0, 10, 100]];
+        foreach($export as $key=>$item) {
+            $permision = Permission::firstOrCreate([
+                'key'        => $item,
+                'table_name' => 'export',
+            ]);
+
             for ($i = 0; $i < count($roles); ++$i) {
-                $roles[$i]->permissions()->detach();
-                $roles[$i]->policies()->detach();
+                if ($exportPermission[$item][$i])
+                    $roles[$i]->permissions()->attach($permision->id);
             }
-            /* $this->info("Insert Roles"); */
-            $role = Role::where('name', 'Standard')->first();
-            //权限分配控制有与没有
-            //策略分配控制多少
-            /* $dashboard = ["online_users", "duration", "ad_date", "ad_update", "platform"]; */
-            /* $dashboardPolicy = ['online_users' => [Policy::VALUE, 1, 1, 1, 3], "duration" => [Policy::VALUE, 5, 30, 30, 30], "ad_date" => [Policy::VALUE, 90, 180, 360, 0], "ad_update" => [Policy::VALUE, 'month', 'daily', 'daily', 'real time'], "platform" => [Policy::VALUE, 5, 5, 7, 7]]; */
-            /* //dashboard permission */
-            /* foreach($dashboard as $key=>$item) { */
-            /*     $permision = Permission::firstOrCreate([ */
-            /*         'key'        => $item, */
-            /*         'table_name' => 'dashboard' */
-            /*     ]); */
-            /*     for ($i = 0; $i < count($roles); ++$i) { */
-            /*         $roles[$i]->permissions()->attach($permision->id); */
-            /*     } */
-            /* } */
-            /* foreach($dashboardPolicy as $key=>$item) { */
-            /*     $policy = Policy::firstOrCreate([ */
-            /*         'key'   => $key, */
-            /*         'type'  => $item[0] */
-            /*     ]); */
-            /*     for ($i = 0; $i < count($roles); ++$i) { */
-            /*         $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]); */
-            /*     } */
-            /* } */
-
-            //广告搜索及策略 Search Permissions And Policies
-            //权限列表
-            $search = ['search_times_perday', 'result_per_search', 'search_filter', 'search_sortby', 'advanced_search', 'save_search', 'keyword_times_perday', 
-                'advertiser_search', 'dest_site_search', 'domain_search', 'content_search', 'audience_search', 
-                'date_filter', 'format_filter', 'call_action_filter', 'duration_filter', 'see_times_filter', 'lang_filter', 'engagement_filter', 
-                'date_sort', 'likes_sort','shares_sort',  'comment_sort', 'duration_sort', 'views_sort', 'engagements_sort', 'engagement_inc_sort', 'likes_inc_sort', 'views_inc_sort', 'shares_inc_sort', 'comments_inc_sort'];
-            //将权限分配到角色，有多少角色，数组长度就有多少，与上面的角色一一对应。true表示该角色有该权限，false表示该角色无此权限。
-            $searchPermission = ['search_times_perday'=>[true, true, true, true], 'result_per_search'=>[true, true, true, true], 'search_filter'=>[false, true, true, true], 'search_sortby'=>[false, false, true, true], 'advanced_search'=>[false, false, true, true], 'save_search' => [false, true, true, true], 'keyword_times_perday' => [true, true, true, true],
-                'advertiser_search' => [true, true, true, true], 'dest_site_search' => [true, true, true, true], 'domain_search' => [true, true, true, true], 'content_search' => [true, true, true, true], 'audience_search' => [false, true, true, true], 
-                'date_filter' => [true, true, true, true], 'format_filter' => [true, true, true, true], 'call_action_filter' => [false, true, true, true], 'duration_filter' => [false, true, true, true], 'see_times_filter' => [false, true, true, true], 'lang_filter' => [false, true, true, true], 'engagement_filter' => [false, true, true, true], 
-                'date_sort' => [true, true, true, true], 'likes_sort' => [true, true, true, true], 'shares_sort' => [true, true, true, true],  'comment_sort' => [true, true, true, true], 'duration_sort'=>[false, true, true, true], 'views_sort' => [true, true, true, true], 'engagements_sort' => [false, true, true, true], 'engagement_inc_sort' => [false, true, true, true], 'likes_inc_sort' => [false, true, true, true], 'views_inc_sort' => [false, true, true, true], 'shares_inc_sort'=>[false, true, true, true], 'comments_inc_sort' => [false, true, true, true]];
-            //给权限指定策略，策略数组的第一个数值表示策略类型，Policy::DAY表示按天累计，Policy::VALUE表示是一个固定值，Policy::PERMANENT表示永久累计，后面数值同上。需要注意的是，只有角色有对应的权限，才会有检查策略。
-            $searchPolicy = ['search_times_perday' => [Policy::DAY, 20,100, 500, 1000], 'result_per_search' => [Policy::VALUE, 500, 1000, 2000, 5000], 'keyword_times_perday' => [Policy::DAY, 1000, 1000, 1000, 1000]];
-            $this->insertPermissions('Advertisement', $search, $searchPermission,  $roles);
-            $this->insertPolicies($searchPolicy, $roles);
-
-            //广告分析
-            $this->insertAdAnalysisPermissions($roles);
-            //广告统计
-            $this->insertAdStaticsPermissions($roles);
-            //广告主分析
-            $this->insertAdsersPermissions($roles);
-            //Export Permissions And Policies
-            $export = ['image_download', 'video_download', 'HD_video_download', 'Export'];
-            $exportPermission = ['image_download'=>[false, true,true,true], 'video_download'=>[false, true, true, true], 'HD_video_download'=>[false, false, true,true], 'Export'=>[false, false, true,true]];
-            $exportPolicy = ['image_download'=>[Policy::DAY, 0, 100, 500, 1000], 'video_download'=>[Policy::DAY, 0, 100, 500, 1000], 'HD_video_download'=>[Policy::DAY, 0, 0, 100, 500], 'Export'=>[Policy::DAY, 0, 0, 10, 100]];
-            foreach($export as $key=>$item) {
-                $permision = Permission::firstOrCreate([
-                    'key'        => $item,
-                    'table_name' => 'export',
-                ]);
-
-                for ($i = 0; $i < count($roles); ++$i) {
-                    if ($exportPermission[$item][$i])
-                        $roles[$i]->permissions()->attach($permision->id);
-                }
+        }
+        
+        foreach($exportPolicy as $key=>$item) {
+            $policy = Policy::firstOrCreate([
+                'key'   => $key,
+                'type'  => $item[0]
+            ]);
+            for ($i = 0; $i < count($roles); ++$i) {
+                $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]);
             }
+        }
 
-            foreach($exportPolicy as $key=>$item) {
-                $policy = Policy::firstOrCreate([
-                    'key'   => $key,
-                    'type'  => $item[0]
-                ]);
-                for ($i = 0; $i < count($roles); ++$i) {
-                    $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]);
-                }
+        $statics = ['search_statics', 'ad_analysis', 'adser_analysis', 'Realtime_AD_analysis'];
+        $staticsPermission = ['search_statics'=>[false, true, true, true], 'ad_analysis'=>[false, true, true, true], 'adser_analysis'=>[false, true, true, true], 'Realtime_AD_analysis'=>[false, false, false, true]];
+        foreach($statics as $key=>$item) {
+            $permision = Permission::firstOrCreate([
+                'key'        => $item,
+                'table_name' => 'statics',
+            ]);
+
+            for ($i = 0; $i < count($roles); ++$i) {
+                if ($staticsPermission[$item][$i])
+                    $roles[$i]->permissions()->attach($permision->id);
             }
+        }
+        
+        //排名权限与策略
+        $ranking = ['ranking', 'ranking_export', 'ranking_by_category'];
+        $rankingPermission = ['ranking'=>[false, false, true, true], 'ranking_export'=>[false, true, true, true], 'ranking_by_category'=>[false, false, true,true]];
+        $rankingPolicy = ['ranking'=>[Policy::VALUE, 50, 100, 500, 10000], 'ranking_export'=>[Policy::VALUE, 0, 100, 500, 10000]];
+        foreach($ranking as $key=>$item) {
+            $permision = Permission::firstOrCreate([
+                'key'        => $item,
+                'table_name' => 'ranking',
+            ]);
 
-            $statics = ['search_statics', 'ad_analysis', 'adser_analysis', 'Realtime_AD_analysis'];
-            $staticsPermission = ['search_statics'=>[false, true, true, true], 'ad_analysis'=>[false, true, true, true], 'adser_analysis'=>[false, true, true, true], 'Realtime_AD_analysis'=>[false, false, false, true]];
-            foreach($statics as $key=>$item) {
-                $permision = Permission::firstOrCreate([
-                    'key'        => $item,
-                    'table_name' => 'statics',
-                ]);
-
-                for ($i = 0; $i < count($roles); ++$i) {
-                    if ($staticsPermission[$item][$i])
-                        $roles[$i]->permissions()->attach($permision->id);
-                }
+            for ($i = 0; $i < count($roles); ++$i) {
+                if ($rankingPermission[$item][$i])
+                    $roles[$i]->permissions()->attach($permision->id);
             }
+        }
 
-            //排名权限与策略
-            $ranking = ['ranking', 'ranking_export', 'ranking_by_category'];
-            $rankingPermission = ['ranking'=>[false, false, true, true], 'ranking_export'=>[false, true, true, true], 'ranking_by_category'=>[false, false, true,true]];
-            $rankingPolicy = ['ranking'=>[Policy::VALUE, 50, 100, 500, 10000], 'ranking_export'=>[Policy::VALUE, 0, 100, 500, 10000]];
-            foreach($ranking as $key=>$item) {
-                $permision = Permission::firstOrCreate([
-                    'key'        => $item,
-                    'table_name' => 'ranking',
-                ]);
-
-                for ($i = 0; $i < count($roles); ++$i) {
-                    if ($rankingPermission[$item][$i])
-                        $roles[$i]->permissions()->attach($permision->id);
-                }
+        foreach($rankingPolicy as $key=>$item) {
+            $policy = Policy::firstOrCreate([
+                'key'   => $key,
+                'type'  => $item[0]
+            ]);
+            for ($i = 0; $i < count($roles); ++$i) {
+                $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]);
             }
+        }
 
-            foreach($rankingPolicy as $key=>$item) {
-                $policy = Policy::firstOrCreate([
-                    'key'   => $key,
-                    'type'  => $item[0]
-                ]);
-                for ($i = 0; $i < count($roles); ++$i) {
-                    $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]);
-                }
-            }
+        //收藏夹权限与策略
+        $bookmark = ['bookmark_support', 'bookmark_list', 'bookmark_adser_support', 'save_count','advertiser_collect'];
+        $bookmarkPermission = ['bookmark_support'=>[false, true, true, true], 'bookmark_list'=>[true, true, true, true], 'bookmark_adser_support'=>[false, true, true, true], 'save_count'=>[false, true, true, true],'advertiser_collect'=>[false, false, true, true]];
+        $bookmarkPolicy = ['bookmark_list'=>[Policy::PERMANENT, 1, 10, 100, 10000], 'save_ad_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000], 'save_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000]];
+        foreach($bookmark as $key=>$item) {
+            $permision = Permission::firstOrCreate([
+                'key'        => $item,
+                'table_name' => 'bookmark',
+            ]);
 
-            //收藏夹权限与策略
-            $bookmark = ['bookmark_support', 'bookmark_list', 'bookmark_adser_support', 'save_count','advertiser_collect'];
-            $bookmarkPermission = ['bookmark_support'=>[false, true, true, true], 'bookmark_list'=>[true, true, true, true], 'bookmark_adser_support'=>[false, true, true, true], 'save_count'=>[false, true, true, true],'advertiser_collect'=>[false, false, true, true]];
-            $bookmarkPolicy = ['bookmark_list'=>[Policy::PERMANENT, 1, 10, 100, 10000], 'save_ad_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000], 'save_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000]];
-            foreach($bookmark as $key=>$item) {
-                $permision = Permission::firstOrCreate([
-                    'key'        => $item,
-                    'table_name' => 'bookmark',
-                ]);
+            for ($i = 0; $i < count($roles); ++$i) {
+                if ($bookmarkPermission[$item][$i])
+                    $roles[$i]->permissions()->attach($permision->id);
+            }
+        }
+        foreach($bookmarkPolicy as $key=>$item) {
+            $policy = Policy::firstOrCreate([
+                'key'   => $key,
+                'type'  => $item[0]
+            ]);
+            for ($i = 0; $i < count($roles); ++$i) {
+                $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]);
+            }
+        }
+        //moniter权限与策略
+        $monitor = ['monitor_support', 'monitor_ad_keyword', 'monitor_advertiser'];
+        $monitorPermission = ['monitor_support'=>[false, false, false, true], 'monitor_ad_keyword'=>[false, false, false, true], 'monitor_advertiser'=>[false, false, false, true]];
+        $monitorPolicy = ['monitor_ad_keyword'=>[Policy::PERMANENT, 0, 0, 0, 20], 'monitor_advertiser'=>[Policy::PERMANENT, 0, 0, 0, 20]];
+        foreach($monitor as $key=>$item) {
+            $permision = Permission::firstOrCreate([
+                'key'        => $item,
+                'table_name' => 'monitor',
+            ]);
 
-                for ($i = 0; $i < count($roles); ++$i) {
-                    if ($bookmarkPermission[$item][$i])
-                        $roles[$i]->permissions()->attach($permision->id);
-                }
+            for ($i = 0; $i < count($roles); ++$i) {
+                if ($monitorPermission[$item][$i])
+                    $roles[$i]->permissions()->attach($permision->id);
             }
-            foreach($bookmarkPolicy as $key=>$item) {
-                $policy = Policy::firstOrCreate([
-                    'key'   => $key,
-                    'type'  => $item[0]
-                ]);
-                for ($i = 0; $i < count($roles); ++$i) {
-                    $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]);
-                }
-            }
-            //moniter权限与策略
-            $monitor = ['monitor_support', 'monitor_ad_keyword', 'monitor_advertiser'];
-            $monitorPermission = ['monitor_support'=>[false, false, false, true], 'monitor_ad_keyword'=>[false, false, false, true], 'monitor_advertiser'=>[false, false, false, true]];
-            $monitorPolicy = ['monitor_ad_keyword'=>[Policy::PERMANENT, 0, 0, 0, 20], 'monitor_advertiser'=>[Policy::PERMANENT, 0, 0, 0, 20]];
-            foreach($monitor as $key=>$item) {
-                $permision = Permission::firstOrCreate([
-                    'key'        => $item,
-                    'table_name' => 'monitor',
-                ]);
+        }
 
-                for ($i = 0; $i < count($roles); ++$i) {
-                    if ($monitorPermission[$item][$i])
-                        $roles[$i]->permissions()->attach($permision->id);
-                }
+        foreach($monitorPolicy as $key=>$item) {
+            $policy = Policy::firstOrCreate([
+                'key'   => $key,
+                'type'  => $item[0]
+            ]);
+            for ($i = 0; $i < count($roles); ++$i) {
+                $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]);
             }
-
-            foreach($monitorPolicy as $key=>$item) {
-                $policy = Policy::firstOrCreate([
-                    'key'   => $key,
-                    'type'  => $item[0]
-                ]);
-                for ($i = 0; $i < count($roles); ++$i) {
-                    $roles[$i]->policies()->attach($policy->id, ['value'=>$item[$i+1]]);
-                }
-            }
-            echo "insert permission data\n";
+        }
+        echo "insert permission data\n";
+    
 
             $this->generateAdminPermissions();
         } catch (\Exception $e) {
