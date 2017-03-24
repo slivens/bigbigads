@@ -474,10 +474,12 @@ footer a {
 .solution-product {
     margin: 70px auto 90px auto;
 }
+.solution-product .productcard{margin-top: 40px;}
+.solution-product .adsintroduce{line-height: 26px;color:#555}
 
 .solution-product_title {
     font-size: 2rem;
-    margin-bottom: 3.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .solution-product_title span {
@@ -780,6 +782,28 @@ footer a {
 .color_active {
     color: #eb6130;
 }
+/*pricing table*/
+.pricing-table{margin-top: 5.25rem;}
+.pricing-table .tabel-div{overflow: hidden;}
+.pricing-table table{margin-bottom: 0px;}
+.pricing-table .table-head{background: #f08751;color: #fff;}
+.pricing-table .table-head .table-title{line-height: 60px;font-size: 1.5rem;}
+.pricing-table .table-head .table-title td{padding: 20px 0px;}
+.pricing-table .table-title2 td{height: 40px;font-size: 16px;font-family: "Open Sans", sans-serif;font-weight: 300;color: #E87E04}
+.pricing-table .table-head tr>td{border-bottom:0px;border-top:0px;}
+
+.pricing-table .table-content td{padding-bottom:10px;padding-top: 10px;}
+.pricing-table .text-content2{background: #f6f6f6;padding:16px 0;}
+.pricing-table .text-content2 .pricingitme-name{padding-left: 15px;font-size: 18px;font-weight: 400;color:#555;}
+.pricing-table .pricingitme-name{text-align: left;font-size: 16px;color: #333;font-weight: 0;padding-top: 8px;padding-left: 30px;}
+.pricing-table .pricing-field{margin-left: 5px;color: #333;font-size: 14px;}
+.pricing-table .right{color:#68b325;font-size: 14px;}
+.pricing-table .error{height: 8px;width: 8px;display: inline-block;border-radius: 4px;background: #ccc;}
+.pricing-table .table-footer a{padding: 5px 10px;border-radius: 4px;border: 1px solid transparent;background:#eb6130;color: #fff}
+.pricing-table .table-footer a:hover{box-shadow: 0 3px 6px rgba(0,0,0,.2), 0 3px 6px rgba(0,0,0,.26);}
+.pricing-table .table-footer>tr>td{border-bottom:0px;border-top:0px;background:  #f6f6f6}
+.table-footer .footertop td{padding-top: 20px;}
+.table-footer .footerbottom td{padding-bottom: 20px;}
 
 .pricing-qa {
     margin-top: 3.25rem;
@@ -861,8 +885,11 @@ footer a {
 
 .about p {
     font-size: 1.75rem;
-    margin-top: 4rem;
+    margin-top: 1rem;
+    color:#555;
 }
+.about-time p{color:#555}
+.about .aboutus-text{margin-top: 4rem;font-size: 16px;}
 
 .about-time {
     background: #f6f6f6;
@@ -898,7 +925,7 @@ footer a {
     box-shadow: 1px 1px 1px 1px rgba(7, 17, 27, .1);
     border: 1px solid #ddd;
     position: relative;
-    margin-left: 4.5%;
+    margin-left: 5.5%;
     width: 45%;
     float: left;
     max-width: 30rem;
@@ -988,7 +1015,9 @@ footer a {
 .about-time_content li .icon{
     position: absolute;
     left: 50%;
+    top:8px;
     margin-left: -1.875rem;
+
 }
 
 .about-time_time{
@@ -1005,6 +1034,9 @@ footer a {
 }
 .news .about-time_label {
 color:#7ac8e9
+}
+.year .about-time_label{
+    color: #8ec92f;
 }
 .people .about-time_label{
     color:#f08964
@@ -1052,3 +1084,110 @@ color:#7ac8e9
 .people .icon{
     background: url("images/about/people.png") no-repeat center center;
 }
+
+
+/*login*/
+body.login {
+  background: #f5f8fa !important; }
+body.login .logo {
+    margin-top: 80px;
+    padding: 0px; }
+body.login .logo .bigbigads-logo {
+      background: url(/assets/global/img/logo.png) no-repeat center center;
+      display: inline-block;
+      height: 92px;
+      width: 90px; }
+body.login .backgrounddiv {
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: -999;
+    position: fixed;
+    overflow: hidden; }
+body.login .backgrounddiv img {
+      height: 106%;
+      min-width: 100%;
+      position: absolute;
+      top: -3%;
+      left: 0%;
+      margin-left: -10%;
+      filter: blur(10px); }
+body.login .content {
+    margin: 0 auto;
+    margin-bottom: 50px;
+    width: 430px;
+    background: #fff !important;
+    border: 1px solid #c2cad8;
+    margin-top: 0px;
+    padding-left: 36px;
+    padding-right: 36px;
+    padding-bottom: 20px; }
+body.login .content .form-title {
+      font-weight: 400;
+      color: #2b2c2d; }
+body.login .content .input-icon {
+      border-left: 2px solid #eb6130 !important; }
+body.login .content .forget-password {
+      margin-top: 0px; }
+body.login .content .forget-password label {
+        margin-top: 10px; }
+body.login .content .login-form .form-group {
+      margin-top: 10px; }
+body.login .content .login-form .form-control {
+      height: 50px; }
+body.login .content .login-form .fa {
+      line-height: 28px; }
+body.login .content .login-form .rememberme-div {
+      padding-left: 0px; }
+body.login .content .login-form .rememberme {
+      margin-top: 10px; }
+body.login .content .login-form .rememberme span {
+        border: 1px solid #ccc; }
+body.login .content .login-form .forget-password {
+      padding-left: 0px;
+      padding-right: 0px; }
+body.login .content .login-form .login-button {
+      padding-top: 30px; }
+body.login .content .login-form .login-button button {
+        height: 50px;
+        width: 100%;
+        font-size: 18px;
+        background: #eb6130;
+        border: 1px solid transparent;
+        font-weight: 600;
+        color: #fff; }
+body.login .content .login-form .login-button button:hover {
+        background: #eb6130;
+        border: 1px solid transparent; }
+body.login .content .form-actions {
+      padding-bottom: 0px;
+      background: none; }
+body.login .content .login-footer {
+      margin-top: 15px; }
+body.login .content .login-footer .create-account {
+        margin-top: 0px;
+        padding-top: 0px; }
+body.login .content .login-footer .create-account p {
+          font-weight: 600; }
+body.login .content .forget-form .form-control {
+      height: 50px; }
+body.login .content .forget-form .fa {
+      line-height: 28px; }
+body.login .content .forget-form .submit-btn {
+      background: #eb6130;
+      border: 1px solid transparent;
+      color: #fff; }
+body.login .content .forget-form .submit-btn:hover {
+      background: #eb6130;
+      border: 1px solid transparent; }
+body.login .content .forget-form .form-actions {
+      padding-bottom: 0px; }
+body.login .content .register-form .form-control {
+      height: 50px; }
+body.login .content .register-form .fa {
+      line-height: 28px; }
+body.login .content .register-form .signup-btn {
+      background: #eb6130;
+      border: 1px solid transparent;
+      color: #fff; }

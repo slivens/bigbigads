@@ -50,79 +50,104 @@
 </section>
 
 
+
+
 <div class="solution-product clearfix text-center container">
-    <p class="solution-product_title ">An <span>All_in_one</span> solution-packed with powerful features</p>
-    <div class="text-left">
+    <p class="solution-product_title "><span>BIG BIG ADS</span> 
+    </p>
+    <h4 class="adsintroduce">Bigbigads is the only tool that offers feature of carousel ad, canvas and call to action filter. 
+Successful Marketing requires fresh and accurate information so your ads are shown to the right audience with the most
+ resonate images and call to action. With million+ monthly updated data and other unique features , 
+ Bigbigads guarantee you a systematic advantage over competitors.
+    </h4>
+<!--Larger  Faster Easier
+Cross-Filtering \Niche Market analysis \ Data Exporting
+Bookmark to save and manage  Find an image that resonates  Custom Setting-->
+    <div class="text-left productcard">
+    <div class="row">
         <div class="col-md-4">
-            <img src="static/images/product/1.png" class="fl mar-2"/>
-            <div>
-                <h5>Unlimited Users</h5>
-                <p>We have no user limits on any plan. Invite all your team and c</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <img src="static/images/product/2.png" class="fl mar-2"/>
-            <div>
-                <h5>Multi-device Support</h5>
-                <p>All our features track and work on Desktop,Mobile and Tablet v</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <img src="static/images/product/3.png" class="fl"/>
+            <img src="static/images/product/3.png" class="fl">
             <div class="mal-2">
-                <h5>Rectangle 2</h5>
-                <p>Installation is quick and simple using one script with support</p>
+                <h5>Larger</h5>
+                <p>Quantative & Qualitive data guarantee you the most reliable intelligence and best efforts </p>
             </div>
         </div>
         <div class="col-md-4">
-            <img src="static/images/product/4.png" class="fl mar-2"/>
+            <img src="static/images/product/1.png" class="fl mar-2">
             <div>
-                <h5>Powerful Targeting</h5>
-                <p>Target visitors using URLs,device or custom javascript trigger</p>
+                <h5>Faster</h5>
+                <p>Highest Response speed ever to save your time</p>
             </div>
         </div>
         <div class="col-md-4">
-            <img src="static/images/product/5.png" class="fl mar-2"/>
+            <img src="static/images/product/2.png" class="fl mar-2">
             <div>
-                <h5>Unlimited Responses</h5>
-                <p>There are no limits to how many responses you can collect using</p>
+                <h5>Easier</h5>
+                <p>User-friendly design, very easy to use. No misunderstanding, confusing & inconvenience</p>
+            </div>
+        </div>
+    </div>    
+        <!--seconed row-->
+    <div class="row">
+        <div class="col-md-4">
+            <img src="static/images/product/6.png" class="fl mar-2">
+            <div>
+                <h5>Cross-Filtering</h5>
+                <p>Strongest cross-filtering ever to narrow down the results, find out your winning ads in seconds.</p>
             </div>
         </div>
         <div class="col-md-4">
-            <img src="static/images/product/6.png" class="fl mar-2"/>
+            <img src="static/images/product/7.png" class="fl mar-2">
             <div>
-                <h5>Behabiour logic</h5>
-                <p>Decide when feedback widgets should show such as on-exit inten</p>
-            </div>
+                <h5>Niche Market analysis</h5>
+                <p>Enter a niche keyword to learn the analysis for the market, top player, market share, ad structure</p>
+            </div> 
         </div>
         <div class="col-md-4">
-            <img src="static/images/product/7.png" class="fl mar-2"/>
+            <img src="static/images/product/8.png" class="fl mar-2">
             <div>
-                <h5>Ready Localized</h5>
-                <p>Feedback tools come ready localized in over 40 languages.</p>
-            </div>
-            </li>
-        </div>
-        <div class="col-md-4">
-            <img src="static/images/product/8.png" class="fl mar-2"/>
-            <div>
-                <h5>Export & Share</h5>
-                <p>Export responses you collect in CSV or XLSX fotmat. Share Heatm</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <img src="static/images/product/9.png" class="fl mar-2"/>
-            <div>
-                <h5>Block IPs</h5>
-                <p>Exculde tracking yourself, your team or you clients in Hotjar b</p>
+                <h5>Data Exporting</h5>
+                <p>Export data in .xls format for further analysis</p>
             </div>
         </div>
     </div>
+        <!--thired row-->
+    <div class="row">
+        <div class="col-md-4">
+            <img src="static/images/product/5.png" class="fl mar-2">
+            <div>
+                <h5>Bookmark to save and manage</h5>
+                <p>Save winning ad in your niche market, hop on wave someone else created.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <img src="static/images/product/6.png" class="fl mar-2">
+            <div>
+                <h5>Find an image that resonates</h5>
+                <p>Send your brand voice to your customers through images, which they resonate with your brand.</p>
+            </div>
+        </div>
+        
+        
+        <div class="col-md-4">
+            <img src="static/images/product/7.png" class="fl mar-2">
+            <div>
+                <h5>Custom Setting</h5>
+                <p>Customize your own searching filter default setting. Give different setting a name to relax your daily job.</p>
+            </div>    
+        </div>
+    </div>
 
+         
 
-    <a class="btn btn-clg" href="">Try it For Free</a>
-    <p class="solution-product_tip">No credit card required-Get started in seconds.</p>
-</div>
+    <div class="clearfix text-center">
+        <a class="btn btn-clg" href="">Try it For Free</a>
+    </div>
+        
+        <p class="solution-product_tip text-center">No credit card required-Get started in seconds.</p>
+    </div>
+    </div>
+
 @include('tpl.footer')
 <script src="static/jquery-3.1.1.js"></script>
 <script src="static/swiper.jquery.js"></script>
