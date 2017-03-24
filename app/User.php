@@ -53,6 +53,14 @@ class User extends Authenticatable
 
     public function hasPermission($name)
     {
+        if (!$this->relationLoaded('role')) {
+            $this->load('role');
+        }
+
+        if (!$this->role->relationLoaded('permissions')) {
+            $this->role->load('permissions');
+        }
+
         return in_array($name, $this->role->permissions->pluck('key')->toArray());
     }
 
