@@ -429,7 +429,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', function($uibModal, $stateParams, SweetAlert) {
+    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', 'User',function($uibModal, $stateParams, SweetAlert,User) {
         return {
             matchkey: function(origstr, destArr) {
                 var orig = origstr.split(',');
@@ -567,22 +567,18 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     animation: true,
                 });
             },
-        };
-    }])
-    .factory('FreeLimit',['$uibModal', 'SweetAlert', 'User', 'Util', function($uibModal, SweetAlert, User, Util) {
-        return {
             numberLimit:function(value) {
                 if(User.info.user.role.name !='Free') return true;
                 var valueArray = value.split(" ");
                 if(valueArray.length>1) {
-                    Util.openUpgrade();
+                    this.openUpgrade();
                 }else {
                     return true;
                 }
             },
             lengthLimit:function(value) {
                 if(value.length>300) {//20长度仅用于测试
-                    SweetAlert.swal("You can`t beyond 300 word length");
+                    SweetAlert.swal("Text Limit: 300 Character Only");
                     return false;
                 }else {
                     return true;
