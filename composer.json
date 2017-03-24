@@ -10,7 +10,8 @@
         "laravel/cashier-braintree": "^2.0",
         "tcg/voyager": "^0.11.0",
         "predis/predis": "^1.1",
-        "paypal/rest-api-sdk-php": "*"
+        "paypal/rest-api-sdk-php": "*",
+        "barryvdh/laravel-debugbar": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

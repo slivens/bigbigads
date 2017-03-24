@@ -578,6 +578,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var option = $scope.adSearcher.searchOption;
 				var keys;
 				var range = [];
+				var range_value=[];//用于显示
 				keys = $scope.adSearcher.params.keys = [];
 				//console.log($scope.searchOption.rangeselected);
 
@@ -612,6 +613,11 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						search_fields: option.search.fields,
 						relation: "Must"
 					});
+					//alert-warning range显示文本
+					angular.forEach(option.range,function(item){
+						if (range.indexOf(item.key)>-1)range_value.push(item.value);
+					});
+
 				}
 				/*if (option.rangeselected && option.search.text) {
 					angular.forEach(option.rangeselected, function(item) {
@@ -640,7 +646,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						relation: option.audience.exclude ? 'Not' : 'Must'
 					});
 				}
-				$scope.currSearchOption.range = range.join(',');
+				$scope.currSearchOption.range = range_value.join(',');
 				$scope.filter($scope.filterOption, action);
 				if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 0) {
 					$scope.currSearchOption.isdirty = true;
@@ -698,9 +704,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             $scope.Util = Util;
 			$scope.User = User;
 			$scope.Searcher = Searcher;
-			$scope.engamentApply = function(){
-
-			};
 			//一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
 			User.getInfo().then(function() {
 				//根据search参数页面初始化
@@ -897,6 +900,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var option = $scope.adSearcher.searchOption;
 				var keys;
 				var range = [];
+				var range_value=[];
 				keys = $scope.adSearcher.params.keys = [];
 
 				//检查权限，并且应该集中检查权限，才不会搞得逻辑混乱或者状态不一致
@@ -929,6 +933,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						string: option.search.text,
 						search_fields: option.search.fields,
 						relation: "Must"
+					});
+					angular.forEach(option.range,function(item){
+						if (range.indexOf(item.key)>-1)range_value.push(item.value);
 					});
 				}
 				//域名
@@ -1115,7 +1122,8 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			ranges: {
 				'Last 7 Days': [moment().subtract(6, 'days'), moment()],
 				'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-				'Last 90 Days': [moment().subtract(89, 'days'), moment()]
+				'Last 90 Days': [moment().subtract(89, 'days'), moment()],
+				'All Times': ['2016-08-23', moment()]
 			}
 		};
 		$scope.categoryOpt = {
@@ -1353,6 +1361,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 				var option = $scope.adSearcher.searchOption;
 				var keys;
 				var range = [];
+				var range_value=[];
 				keys = $scope.adSearcher.params.keys = [];
 
 				//字符串和域
@@ -1368,6 +1377,9 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 						string: option.search.text,
 						search_fields: option.search.fields,
 						relation: "Must"
+					});
+					angular.forEach(option.range,function(item){
+						if (range.indexOf(item.key)>-1)range_value.push(item.value);
 					});
 				}
 				//域名

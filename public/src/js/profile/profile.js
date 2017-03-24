@@ -26,20 +26,21 @@ app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope
 
     plans.goPlanID = function(item) {
         var id;
-        if (!item.plan)
+        if (!item.plans)
             return "";
+        
         if (plans.annually) {
-            id = item.plan.annually.id;
+            id = item.plans.annually.id;
         }  else  {
-            id = item.plan.monthly.id;
+            id = item.plans.monthly.id;
         }
         // console.log(plans.annually, id);
         window.open("/pay?plan=" + id);
     };
     plans.isCurrentPlan = function(item) {
-        if (!User.info.subscription)
+        if (!User.user.subscription)
             return false;
-        return User.info.subscription.braintree_plan.replace('_Monthly', '') == item.name;
+        return User.user.subscription.plan.replace('_monthly', '') == item.plan;
     };
 
     plans.annually = false;
@@ -98,23 +99,37 @@ app.controller('ProfileController', ['$scope', '$location', 'User', '$uibModal',
 app.controller('SubscriptionController', ['$scope', 'User', function($scope, User) {
     User.getInfo().then(function() {
         $scope.userInfo = User.info;
-        $scope.subscription = User.info.subscription;
+        $scope.subscription = User.user.subscription;
     });
 }]);
+app.component('billings', {
+    templateUrl:'components/billings.html',
+    controller:'BillingsController',
+    bindings:{
+        shouldInit:'@'
+    }
+});
 app.controller('BillingsController', ['$scope', 'User', 'Resource', function($scope, User, Resource) {
+    var ctrl = this;
     var billings = new Resource('billings');
-    $scope.billings = billings;
+    ctrl.billings = billings;
 
-    $scope.beatifyDate = function(dateStr) {
+    ctrl.beatifyDate = function(dateStr) {
         return dateStr.split(' ')[0];
     };
-    User.getInfo().then(function() {
-        $scope.userInfo = User.info;
-        $scope.subscription = User.info.subscription;
-        if (!User.info.login) 
+    ctrl.$onChanges = function(obj) {
+        if (obj.shouldInit.currentValue !== "true" || ctrl.inited)
             return;
-        $scope.queryPromise = billings.get();
-    });
+
+        User.getInfo().then(function() {
+            // $scope.userInfo = User.info;
+            // $scope.subscription = User.info.subscription;
+            if (!User.login) 
+                return;
+            ctrl.queryPromise = billings.get();
+            ctrl.inited = true;
+        });
+    }
 }]);
 app.controller('ChangepwdController', ['$scope', '$uibModalInstance', '$http', 'settings', function($scope, $uibModalInstance, $http, settings) {
     var info = {

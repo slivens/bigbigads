@@ -38,61 +38,53 @@
 
         </div>
         <hr>
-         <!--<table class="table table-condensed none-border">
-                <tr><td></td>
-                     <td><h4><a class="collapse_show" data-toggle="collapse" data-target="#collapse_advance_filter" policy-lock key="search_filter" trigger="lockButton">show</a></h4></td> 
-                </tr>
-            </table>-->
-            <h4><i class="fa fa-sliders"></i><label>|</label>Advance Filter:</h4>
-        
+        <h4><i class="fa fa-sliders"></i><label>|</label>Advance Filter:</h4>
         <!-- <h4 class="percent65"><i class="fa fa-sliders"></i><label>|</label>Advance Filter:</h4>
-        <u class="collapse_show" data-toggle="collapse" data-target="#collapse_advance_filter">show</u> -->
-        
-        
+        <u class="collapse_show" data-toggle="collapse" data-target="#collapse_advance_filter">show</u> -->   
         <div class="collapse" id="collapse_advance_filter">
-        <div class="form-group">
-            <h5>Domain:</h5>
-            <div class="input-group">
-                <input policy-lock key="domain_search" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.domain.text" placeholder="E.g nike.com">
-               <span class="input-group-addon">
-                    <input policy-lock key="domain_search" trigger="disabled"  type="checkbox" class="text" ng-model="$parent.domainOption.domain.exclude" name="">Exclude
-                </span>
+            <div class="form-group">
+                <h5>Domain:</h5>
+                <div class="input-group">
+                    <input policy-lock key="domain_search" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.domain.text" placeholder="E.g nike.com">
+                   <span class="input-group-addon">
+                        <input policy-lock key="domain_search" trigger="disabled"  type="checkbox" class="text" ng-model="$parent.domainOption.domain.exclude" name="">Exclude
+                    </span>
 
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <h5>Audience:</h5>
+            <div class="form-group">
+                <h5>Audience:</h5>
 
-            <div class="input-group">
-                <input policy-lock key="audience_search" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.audience.text" placeholder="E.g women">
-                <span class="input-group-addon">
-                    <input policy-lock key="audience_search" trigger="disabled" type="checkbox" class="text" ng-model="$parent.searchOption.audience.exclude" name="">Exclude
-                </span>
+                <div class="input-group">
+                    <input policy-lock key="audience_search" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.audience.text" placeholder="E.g women">
+                    <span class="input-group-addon">
+                        <input policy-lock key="audience_search" trigger="disabled" type="checkbox" class="text" ng-model="$parent.searchOption.audience.exclude" name="">Exclude
+                    </span>
+                </div>
             </div>
-        </div>
         </div>
         <div class="form-group" >
-        <div class="dropdown">
-            <button type="button" class="btn btn-default btn-block dropdown-toggle xg-dropdown-left-btn"  data-toggle="dropdown" policy-lock key="duration_filter|see_times_filter" trigger="lockButton" id="ad_run_filter">
-                Customized Ad Run
-            </button>
-            <!-- TODO:Apply功能未实现-->
-            <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="ad_run_filter" ng-click="$event.stopPropagation();"> 
-                    <div class="col-md-6">
-                    <label class="lh48h30">duration:</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input policy-lock key="search_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.duration.from" ng-to="$parent.filterOption.duration.to" ng-min="settings.searchSetting.durationRange[0]" ng-max="settings.searchSetting.durationRange[1]" />
-                    </div>
-                    <div class="col-md-6">
-                    <label>see times:</label> 
-                    </div>
-                    <div class="col-md-12">
-                        <input ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" />
-                    </div>
-                    <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success">Apply</button></div>
-            </div> 
-        </div>
+            <div class="dropdown">
+                <button type="button" class="btn btn-default btn-block dropdown-toggle xg-dropdown-left-btn"  data-toggle="dropdown" policy-lock key="duration_filter|see_times_filter" trigger="lockButton" id="ad_run_filter">
+                    Customized Ad Run
+                </button>
+                <!-- TODO:Apply功能未实现-->
+                <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="ad_run_filter" ng-click="$event.stopPropagation();"> 
+                        <div class="col-md-6">
+                        <label class="lh48h30">duration:</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input policy-lock key="search_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.duration.from" ng-to="$parent.filterOption.duration.to" ng-min="settings.searchSetting.durationRange[0]" ng-max="settings.searchSetting.durationRange[1]" />
+                        </div>
+                        <div class="col-md-6">
+                        <label>see times:</label> 
+                        </div>
+                        <div class="col-md-12">
+                            <input ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" />
+                        </div>
+                        <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success">Apply</button></div>
+                </div> 
+            </div>
         </div>
         <div>
             <div class="dropdown">
@@ -149,20 +141,20 @@
             </div>
         </div>
         <hr>
-        <div class="form-group">
-            <button  type="submit" class="btn btn-lg yellow-gold" ng-show="!$parent.inAdvertiserMode">
+        <div class="form-group clearfix">
+            <button  type="submit" class="btn btn-lg yellow-gold pull-left" ng-show="!$parent.inAdvertiserMode">
                 <!-- <i class="fa fa-filter" ></i> -->
                 Filter
             </button>
 
-            <button  type="submit" class="btn btn-lg yellow-gold" policy-lock key="adser_search" trigger="lockButton" ng-show="$parent.inAdvertiserMode">
+            <button  type="submit" class="btn btn-lg yellow-gold pull-left" policy-lock key="adser_search" trigger="lockButton" ng-show="$parent.inAdvertiserMode">
                 <!-- <i class="fa fa-filter" ></i> -->
                 Filter
             </button>
             <!-- <button type="reset" class="btn btn-lg default filterbar-toggler" ng-click="reset()"> -->
             <!--     Reset -->
             <!-- </button> -->
-            <a class="xg-clrbtn" ng-click="$parent.clearSearch()">Clear All</a>
+            <a class="xg-clrbtn pull-left" ng-click="$parent.clearSearch()">Clear All</a>
         </div>
     </form>
         </div>

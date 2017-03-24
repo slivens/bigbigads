@@ -56,7 +56,7 @@
                 </form>
             </div>
             <div class="xg-count-mt">
-                <span>About {{adSearcher.ads.total_count}} results</span>
+                <span>About {{adSearcher.ads.total_count | adsCount}} results</span>
             </div>
         </div>
         <div infinite-scroll="adSearcher.getMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">

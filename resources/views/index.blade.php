@@ -17,16 +17,16 @@
 <section class="search">
     <div class="container">
     <div class="search-title">Facebook Ads has never been so easy</div>
-    <div class="search-title_sub">Inspire your Facebook Ads with Bigbigads’s 1 million+ Ads datab</div>
+    <div class="search-title_sub">To get inspired</div>
     <form class="margin-bottom30 " style="margin: 0 16% 30px" action="/app/adsearch" method="GET">
         <div class="input-group" style="width: 100%">
-            <input type="search" placeholder="Please Enter a brand name or site name" class="search-input" style="    width: 100%;" name="searchText"/>
+            <input type="search" placeholder="Please enter a keyword" class="search-input" style="    width: 100%;" name="searchText"/>
             <input type="submit" class="btn search-btn" value="Search">
         </div>
     </form>
         <div style="margin-bottom: 80px">
-            <a class="btn  btn-clg" href="{{url('/register')}}">Try it For Free</a>
-            <a class="search-more" href="">or Learn more</a>
+            <!-- <a class="btn  btn-clg" href="{{url('/register')}}">Try it For Free</a>
+            <a class="search-more" href="">or Learn more</a> -->
         </div>
 
     </div>
@@ -53,24 +53,26 @@
         <div class="slider-right col-md-4" >
             <ul class="slider-items">
                 <li class="active">
-                    <p class="slider-title">Real &amp; Fresh Data</p>
-                    <p class="slider-desc">With a total 3million+ and 1m+ monthly new database, bigbigads offer the most real and fresh data and info for your business reference. Just enter a keyword or keyword series of your niche market to find out what you need.</p>
+                    <p class="slider-title">The Most Fresh Data</p>
+                    <p class="slider-desc">With 700K+ monthly updated database, bigbigads offer the most authentic and fresh data for your business. No more guessing which ad your competitor are making money from. YES! I wanna learn my competitor’s marketing strategy Now!
+</p>
                 </li>
                 <li>
                     <p class="slider-title">Strongest filter</p>
-                    <p class="slider-desc">ever to narrow down huge data in a lightening fast way. Say goodbye to terrible manual eye search experience.</p>
+                    <p class="slider-desc">Strongest filter ever to narrow down huge data in a lightning fast way. Say goodbye to terrible experience of the endless page down work. YES! I’d like to save hundreds of hours doing tedious research!</p>
                 </li>
                 <li>
-                    <p class="slider-title">Powerful</p>
-                    <p class="slider-desc">Powerful compositor with dimension &amp; metrics to help you locate the most winning ad.</p>
+                    <p class="slider-title">Uncover More About An Ad</p>
+                    <p class="slider-desc">With our unique feature (Canvas/Carousel/Landing Page/Audience Targeting etc), you can reveal more comprehensive intelligence others never know. No more questioning why a logo only ad attract so many reactions. YES! Help me to know more!</p>
                 </li>
                 <li>
-                    <p class="slider-title">1 click to</p>
-                    <p class="slider-desc">find out all ads of a specific advertiser, check advertiser’s fan page, check original ad post, etc</p>
+                    <p class="slider-title">Easy To Start</p>
+                    <p class="slider-desc">X-generation database structure for highest search efficiency ever. User-friendly design, video tutorial, and article for usage. YES! I’d like to use your benefit to comfort my job!
+</p>
                 </li>
                 <li>
-                    <p class="slider-title">Data storage, tracking &amp; alert</p>
-                    <p class="slider-desc">you can use the bookmark to keep your target ad or advertiser for your analytics purpose or for tracking, we can send alert to you.</p>
+                    <p class="slider-title">Spy, Save &amp; Success</p>
+                    <p class="slider-desc">Use the bookmark to save your favorite ad or advertiser, set an alert for tracking. Set up different file for each niche market, find out the winner and learn. YES! I want to hop onto the wave someone else created!</p>
                 </li>
             </ul>
             <a href="" class="btn btn-clg slider-btn">Try it For Free</a>
@@ -98,22 +100,22 @@
 <section class="solution">
     <div class="container">
         <div class="solution-title">The Best Solution</div>
-        <div class="solution-title_sub">For Ad Buyer, Manufacturer, Ad Agency&Researchers</div>
+        <div class="solution-title_sub">For Ad Buyer, Manufacturer, Ad Agency &amp; Researchers</div>
         <ul class="solution-itmes">
             <li class="solution-item">
                 <img src="static/images/solution1.png" class="img-circle bg"/>
-                <div class="solution-item_number">1,000,000+</div>
-                <div class="solution-item_desc">Advertise</div>
+                <div class="solution-item_number">3,000,000+</div>
+                <div class="solution-item_desc">Ad data</div>
             </li>
             <li class="solution-item">
                 <img src="static/images/solution2.png"  class="img-circle bg"/>
-                <div class="solution-item_number">300,000+</div>
+                <div class="solution-item_number">100,000+</div>
                 <div class="solution-item_desc">advertiser</div>
             </li>
             <li class="solution-item">
                 <img src="static/images/solution3.png"  class="img-circle bg"/>
-                <div class="solution-item_number">300,000+</div>
-                <div class="solution-item_desc">Monthy Ads Update</div>
+                <div class="solution-item_number">100,000+</div>
+                <div class="solution-item_desc">Monthly Updated</div>
             </li>
             <li class="solution-item">
                 <img src="static/images/solution4.png"  class="img-circle bg"/>

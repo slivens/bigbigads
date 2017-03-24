@@ -1,0 +1,26 @@
+<div>
+    <table class="table table-striped " cg-busy="$ctrl.queryPromise">
+        <tr class="bg-default table-bordered">
+            <th>ID</th>
+            <th>Plan</th>
+            <th>Type</th>
+            <th>Start Date</th>
+            <th>Expire Date</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Operation</th>
+        </tr>
+        <tr ng-repeat="item in $ctrl.billings.items | orderBy:'-startDate'">
+            <td>{{item.id}}</td>
+            <td>{{item.plan}}</td>
+            <td>{{item.type}}</td>
+            <td>{{item.startDate}}</td>
+            <td>{{item.endDate}}</td>
+            <td>{{item.amount + " " + item.currency}}</td>
+            <td>{{item.status}}</td>
+            <td>
+                <!-- <a class="btn btn-default" ng-href="/invoice/{{item.invoice}}">Invoice</a> -->
+            </td>
+        </tr>
+    </table>
+</div>
