@@ -27,7 +27,6 @@
         </ul>
     </div>
     <script src="static/jquery-3.1.1.js"></script>
-    <script src="static/swiper.jquery.js"></script>
     <script>
       window.intercomSettings = {
         app_id: "pv0r2p1a"
@@ -51,7 +50,7 @@
             $.each(menu,function(i){
                 if(i==0) return true;
                 href = $(menu[i]).attr("href");
-                if($.trim(currenturl).indexOf($.trim(href).replace(urlhost,''))==0){
+                if($.trim(currenturl).indexOf($.trim(href).replace(urlhost,''))==0) {
                     $(menu[i]).parent().addClass("active");
                 }else{
                     $(menu[i]).parent().removeClass("active");
