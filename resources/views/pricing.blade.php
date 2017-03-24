@@ -35,7 +35,7 @@
                     <p class="pricing-item_title">PLUS</p>
                     <p class="mab-56">Get access to all features on ad level,enjoy your next generation ad intelligence platform.</p>
                     <p >$169/ Month</p>
-                    <a href="/" class="btn  pricing-item_btn active">TRY IT</a>
+                    <a href="/" class="btn  pricing-item_btn">TRY IT</a>
                     <p class="color_tip">Data Update Frequency:</p>
                     <p><strong>Daily</strong></p>
                 </div>
@@ -228,7 +228,7 @@
                 </tr>
                 <tr class="text-center">
                     <td class="pricingitme-name">Video</td>
-                    <td><i class="error"></i></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
                     <td><i class="glyphicon glyphicon-ok right"></i></td>
                     <td><i class="glyphicon glyphicon-ok right"></i></td>
                 </tr>
@@ -240,7 +240,7 @@
                 </tr>
                 <tr class="text-center">
                     <td class="pricingitme-name">Carousel</td>
-                    <td><i class="error"></i></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
                     <td><i class="glyphicon glyphicon-ok right"></i></td>
                     <td><i class="glyphicon glyphicon-ok right"></i></td>
                 </tr>
@@ -288,7 +288,7 @@
                 </tr>
                 <tr class="text-center">
                     <td class="pricingitme-name">Customized Ad Engagement</td>
-                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                    <td><i class="error"></i></td>
                     <td><i class="glyphicon glyphicon-ok right"></i></td>
                     <td><i class="glyphicon glyphicon-ok right"></i></td>
                 </tr>
@@ -343,13 +343,13 @@
                     <td><i class="glyphicon glyphicon-ok right"></i></td>
                 </tr>
                 <tr class="text-center">
-                    <td class="pricingitme-name">Similare Ads</td>
+                    <td class="pricingitme-name">Similar Ads</td>
                     <td><i class="error"></i></td>
                     <td><i class="glyphicon glyphicon-ok right"></i></td>
                     <td><i class="glyphicon glyphicon-ok right"></i></td>
                 </tr>
                 <tr class="text-center">
-                    <td class="pricingitme-name">Engments Trends</td>
+                    <td class="pricingitme-name">Engagement Trends</td>
                     <td><i class="error"></i></td>
                     <td><i class="glyphicon glyphicon-ok right"></i></td>
                     <td><i class="glyphicon glyphicon-ok right"></i></td>
@@ -357,7 +357,7 @@
             </tbody> 
 
             <!--keyword analysis-->
-            <tr class="text-center">
+            <tr class="text-center text-content2">
                     <td class="pricingitme-name">Keyword Analysis</td>
                     <td><i class="error"></i></td>
                     <td><i class="error"></i></td>
@@ -388,8 +388,14 @@
 
             <!--bookmark-->
             <tbody class="table-content">
-                <tr class="text-center">
+                <tr class="text-center text-content2">
                     <td class="pricingitme-name">Bookmark</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="text-center">
+                    <td class="pricingitme-name">Advertisement Bookmark</td>
                     <td><i class=""></i><span class="pricing-field">Limited(1folder/30ads total)</span></td>
                     <td><i class=""></i><span class="pricing-field">Limited(5folder/150ads total)</span></td>
                     <td><i class=""></i><span class="pricing-field">10 folder/500ads total</span></td>
@@ -424,23 +430,23 @@
             <tbody class="table-footer text-center">
                 <tr class="table-title2 footertop">
                     <td class="">Monthly</td>
-                    <td>$10.00 / Month</td>
-                    <td>$20.00 / Month</td>
-                    <td>$30.00 / Month</td>
+                    <td>$99.00/Month</td>
+                    <td>$169.00/Month</td>
+                    <td>start from $1??/Month</td>
                     
                 </tr>
                 <tr class="table-title2">
                     <td class="">Annually</td>
-                    <td>$100.00 / Year</td>
-                    <td>$200.00 / Year</td>
-                    <td>$400.00 / Year</td>
+                    <td>$79.00/Month</td>
+                    <td>$139.00/Month</td>
+                    <td>start from $1??/Month</td>
                     
                 </tr>
                 <tr class="table-title2 footerbottom">
                     <td></td>
                     <td><a class="btn" href="app/plans">Order Now</a></td>
-                    <td><a class="btn" href="app/plans">Order Now</a></td>
-                    <td><a class="btn" href="app/plans">Order Now</a></td>
+                    <td><a class="btn" href="app/plans">Coming Soon</a></td>
+                    <td><a class="btn" href="app/plans">Coming Soon</a></td>
                     
                 </tr>
            </tbody>

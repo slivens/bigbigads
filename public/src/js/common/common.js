@@ -558,10 +558,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             },
             //判断是否为数组
             isArray:function(value){
-                if(Object.prototype.toString.call(value)=="[object Array]")
-                    return true;
-                else
-                    return false;
+                return angular.isArray(value);
             }
         };
     }]);

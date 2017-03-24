@@ -107,7 +107,7 @@
                 <i class="icon " ><span class="time">2016</span></i>
             </li>
         </ul>
-        <div class="text-center"><i class="icon icon-start"></i></div>
+        <div class="text-center"><i class="icon "></i></div>
     </div>
 </section>
 @include('tpl.footer')
