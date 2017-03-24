@@ -377,8 +377,8 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 	}
 ]);
 /* adsearch js */
-app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal', 'FreeLimit',
-		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, FreeLimit) {
+app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal', 
+		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal) {
 			//搜索流程:location.search->searchOption->adSearcher.params
 			//将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
 
@@ -702,20 +702,19 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 
 				});
 			};
-			/*$scope.islegel = true;*/
 			$scope.searchCheck = function(value) {
-				var islegel = true;
+				var islegal = true;
 				var numberLimit;
 				var lengthLimit;
-				numberLimit = FreeLimit.numberLimit(value);
-				lengthLimit = FreeLimit.lengthLimit(value);
+				numberLimit = Util.numberLimit(value);
+				lengthLimit = Util.lengthLimit(value);
 				if(numberLimit instanceof Object) numberLimit = false;
 				if(numberLimit && lengthLimit){
-					islegel=true;
+					islegal=true;
 				}else{
-					islegel=false;
+					islegal=false;
 				}
-				$scope.islegel = islegel;
+				$scope.islegal = islegal;
 			};
 
             $scope.Util = Util;
