@@ -182,7 +182,7 @@ Route::any('/forward/{action}', function(Request $req, $action) {
             }
         }
 
-        $remoteurl = 'http://192.168.20.166:8080/search';
+        $remoteurl = 'http://121.41.107.126:8080/search';
     } else if ($action == "adserSearch") {
         //广告主分析
         try {
@@ -193,14 +193,14 @@ Route::any('/forward/{action}', function(Request $req, $action) {
             else if ($e->getCode() == -2)
                 return response(["code"=>-1, "desc"=>"you reached the limit of ad analysis today"], 422);
         }
-        $remoteurl = 'http://192.168.20.166:8080/adser_search';
+        $remoteurl = 'http://121.41.107.126:8080/adser_search';
     } else if ($action == "adserAnalysis") {
         //curl_setopt($ch, CURLOPT_URL, 'http://121.41.107.126:8080/adser_analysis');
-        $remoteurl = 'http://192.168.10.174:8000/adser_analysis';
+        $remoteurl = 'http://xgrit.xicp.net:5000/adser_analysis';
         
     } else if ($action == "trends") {
         //获取广告趋势
-        $remoteurl = 'http://192.168.10.174:8000/adsid_trend';
+        $remoteurl = 'http://xgrit.xicp.net:5000/adsid_trend';
     } else {
         return response(["code"=>-1, "desc"=>"unsupported action"], 422);
     }
