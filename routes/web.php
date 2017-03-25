@@ -62,6 +62,10 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/blog', function () {
+    return view('blog_list');
+});
+
 Route::get('/product', function () {
     return view('product');
 });

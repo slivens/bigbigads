@@ -69,6 +69,7 @@ return [
 
     'storage' => [
         'subfolder' => 'public/', // include trailing slash, like 'my_folder/'
+        'disk' => 'public'
     ],
 
     /*

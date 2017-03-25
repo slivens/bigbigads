@@ -14,10 +14,11 @@ body {
     min-height:100vh;
     position:relative;
     border-radius:5px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
     z-index:2;
     padding:0;
     justify-content:center;
-    background:#ffffff;
 }
 
 .login-sidebar:after {
@@ -31,44 +32,12 @@ body {
     z-index:3;
 }
 
-.login-container{
-    position: absolute;
-    z-index: 10;
-    width: 100%;
-    padding: 30px;
-    top: 50%;
-    margin-top: -200px;
-}
 
-.login-container h2{
-    text-align: left;
-    font-weight: 200;
-    margin-bottom: 0;
-    margin-top: 3px;
-    color: #757C85;
-    font-family: 'Helvetica Neue', Helvetica, Arial, Roboto, courier;
-    font-size: 26px;
-}
-
-.login-container form{
-    padding-top:45px;
-}
-
-.login-container .glyphicon{
-    top:-1px;
-    font-size:13px;
-}
-
-.login-container .signingin .glyphicon{
-    top:2px;
-    left:-5px;
-}
-
-.logo-title-container{
-    position: fixed;
-    width: 100%;
-    top: 50%;
-    margin-top: -100px;
+.login-sidebar > form {
+    z-index:4;
+    position:relative;
+    padding:0px 25px;
+    width:100%;
 }
 
 .logo-container {
@@ -80,13 +49,9 @@ body {
 
 .logo{
     height:auto;
-    padding:30px 0px;
+    padding:50px 0px;
     max-width: 100px;
     margin: 0 auto;
-}
-
-.logo-container .logo{
-    padding:50px 0px;
 }
 
 .group { 
@@ -94,19 +59,19 @@ body {
     margin-bottom:45px; 
 }
 .group input {
-    font-size:15px;
+    font-size:18px;
     padding:10px 10px 10px 10px;
     display:block;
     width:100%;
     border:none;
-    border-bottom:1px solid rgba(53,61,71, 0.1);
+    border-bottom:1px solid rgba(255,255,255, 0.3);
     background:none;
-    color:#454C55;
+    color:#eee;
 }
 .group input:focus { outline:none; }
 
 .group label                 {
-    color:rgba(53,61,71, 0.3); 
+    color:rgba(255,255,255, 0.5); 
     font-size:18px;
     font-weight:normal;
     position:absolute;
@@ -121,17 +86,17 @@ body {
 .group input:focus ~ label, input:valid ~ label  {
     top:-20px;
     font-size:14px;
-    color:rgba(53,61,71, 0.5);
+    color:rgba(255,255,255, 0.7);
 }
 
 .bar    { position:relative; display:block; width:100%; }
 .bar:before, .bar:after {
     content:'';
-    height:1px; 
+    height:2px; 
     width:0;
     bottom:1px; 
     position:absolute;
-    background:rgba(53,61,71, 0.3); 
+    background:rgba(255,255,255, 0.7); 
     transition:0.2s ease all; 
     -moz-transition:0.2s ease all; 
     -webkit-transition:0.2s ease all;
@@ -191,10 +156,9 @@ body {
 .span-input{
     margin-left:10px;
     position:relative;
-    top: -3px;
-    font-size: 15px;
+    top:-5px;
 }
-.login-button {
+.gradient-button {
     display:block;
     text-align:center;
     text-decoration:none;
@@ -205,9 +169,8 @@ body {
     border-radius:3px;
     outline:none !important;
     opacity:0.8;
-    border:0px;
 }
-.login-button:hover, .login-button:focus {
+.gradient-button:hover, .gradient-button:focus {
     color: #FFF;
     opacity: 1
 }
