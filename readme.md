@@ -79,7 +79,7 @@ PAYPAL_RETURNURL=https://phenye.tunnel.2bdata.com/onPay # 回调接口，在支�
 然后配置nginx或者apache,将网站根目录定位到`public/`，同时允许`URL rewrite`。配置就完成了。
 
 ## 权限配置指南
-[参考对应WIKI:权限配置指南](/bigbigads/bigbigads/wikis/权限配置指南)
+[参考对应WIKI:权限配置指南](/wikis/权限配置指南)
 
 ## Paypal的支持
 项目已经集成了`Paypal`，目前只实现了`Paypal`帐号的循环扣款。基于信用卡的支付、一次性扣款、Webhook消息处理均未实现。
@@ -158,6 +158,35 @@ php artisan db:seed --class=PlansSeeder
 > 可对计划内容作任意修改，不会影响到已经支付的用户。
 > 
 > 如果是在生产环境下，要重新填充初始化是不可逆的，出于安全性考虑，**请务必备份好数据库**。
+
+## 后台管理与博客
+同步后，先执行`composer update`更新下包，然后执行下面命令重新填充权限：
+
+```
+php artisan db:seed --class=BigbigadsSeeder
+```
+后台配置便完成了。
+
+
+后台地址：`http://<你的域名>/admin`
+
+### 如何登陆？
+
+请自己注册个帐号，然后执行下面命令该帐户提升为后台管理员
+
+```
+php artisan voyager:admin  <你的email帐号>
+```
+
+> 前后台的帐号不可混用，如果你在前台已经登陆了，进入后台会出错；所以必须先退出前台的帐户，然后再进后台。
+> 反之，如果你登陆了后台，然后再去查看前台，就会得到各种错误，这块暂时没有好方法解决。
+
+### 如何修改角色？
+后台可以直接修改用户的角色，但是未重置权限，这块待完善。
+
+### 如何发博客？
+请找到`Posts`菜单，标准的发文章流程，看下就懂如何操作。然后进前台看下即可。
+
 
 ## 如何添加搜索项
 [参考对应WIKI:如何添加搜索项](/bigbigads/bigbigads/wikis/%E5%B9%BF%E5%91%8A%E6%90%9C%E7%B4%A2%E5%A6%82%E4%BD%95%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E9%A1%B9)
