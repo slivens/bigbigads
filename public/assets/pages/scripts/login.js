@@ -239,11 +239,13 @@ var Login = function() {
         jQuery('#register-btn').click(function() {
             jQuery('.login-form').hide();
             jQuery('.register-form').show();
+            window.location.hash = '#register'
         });
 
         jQuery('#register-back-btn').click(function() {
             jQuery('.login-form').show();
             jQuery('.register-form').hide();
+            window.location.hash = '';
         });
     }
 
@@ -260,6 +262,10 @@ var Login = function() {
                     jQuery('.login-form').hide();
                     jQuery('.forget-form').show();
                     break;
+                case '#register':
+                jQuery('.login-form').hide();
+                jQuery('.register-form').show();
+                break;
             }
         }
 
