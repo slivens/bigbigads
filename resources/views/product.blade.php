@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="./static/custom.css">
     <link rel="stylesheet" href="static/swiper.css">
     <link rel="stylesheet" type="text/css" href="./static/demo.css">
+    <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
 </head>
 <body>
 @include('tpl.header')
@@ -45,7 +46,7 @@
                     <p class="slider-desc">Ranking Download Advertiser Search Analysis</p>
                 </li>
             </ul>
-            <a href="" class="btn btn-clg slider-btn">Try it For Free</a>
+            <a href="" class="btn btn-clg slider-btn">Try It Now</a>
         </div>
     </div>
 </section>
@@ -71,7 +72,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
         <div class="col-md-4">
 
             <div class="pull-left card-left">
-                <i class="producticon icon-trophy"></i>
+                <i class="producticon demoicon icon-trophy"></i>
             </div>
             <div class=" clearfix card-right">
                 <h5>Larger</h5>
@@ -80,7 +81,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
         </div>
         <div class="col-md-4">
             <div class="pull-left clearfix card-left">
-                <i class="producticon icon-rocket"></i>
+                <i class="producticon demoicon icon-rocket"></i>
             </div>
             <div class="card-right">
                 <h5>Faster</h5>
@@ -89,7 +90,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
         </div>
         <div class="col-md-4">
             <div class="pull-left card-left">
-                <i class="producticon icon-leaf"></i>
+                <i class="producticon demoicon icon-leaf"></i>
             </div>
             <div class="card-right">
                 <h5>Easier</h5>
@@ -101,7 +102,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
     <div class="row">
         <div class="col-md-4">
             <div class="pull-left card-left">
-                <i class="producticon icon-filter"></i>
+                <i class="producticon demoicon icon-filter"></i>
             </div>
             <div class="card-right ">
                 <h5>Cross-Filtering</h5>
@@ -110,7 +111,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
         </div>
         <div class="col-md-4">
             <div class="pull-left card-left">
-                <i class="producticon icon-stats-bars"></i>
+                <i class="producticon demoicon icon-stats-bars"></i>
             </div>
             <div>
                 <h5>Niche Market analysis</h5>
@@ -119,7 +120,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
         </div>
         <div class="col-md-4">
             <div class="pull-left  card-left">
-                <i class="producticon icon-stats-dots"></i>
+                <i class="producticon demoicon icon-stats-dots"></i>
             </div>
             <div  class="card-right">
                 <h5>Data Exporting</h5>
@@ -131,7 +132,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
     <div class="row">
         <div class="col-md-4">
             <div class="pull-left card-left">
-                <i class="producticon icon-price-tags"></i>
+                <i class="producticon demoicon icon-price-tags"></i>
             </div>
             <div  class="card-right">
                 <h5>Bookmark to manage</h5>
@@ -140,7 +141,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
         </div>
         <div class="col-md-4">
             <div class="pull-left card-left">
-                <i class="producticon icon-images"></i>
+                <i class="producticon demoicon icon-images"></i>
             </div>
             <div  class="card-right">
                 <h5>Find an image that resonates</h5>
@@ -151,7 +152,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
         
         <div class="col-md-4">
             <div class="pull-left card-left">
-                <i class="producticon icon-cogs"></i>
+                <i class="producticon demoicon icon-cogs"></i>
             </div>
             <div  class="card-right">
                 <h5>Custom Setting</h5>
@@ -163,7 +164,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
          
 
     <div class="clearfix text-center">
-        <a class="btn btn-clg" href="">Try it Now</a>
+        <a class="btn btn-clg" href="">Try It Now</a>
     </div>
         
         <p class="solution-product_tip text-center">No credit card required-Get started in seconds.</p>

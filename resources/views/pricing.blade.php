@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="./static/bootstrap.css">
     <link href="../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="./static/custom.css">
+    <link rel="stylesheet" type="text/css" href="./static/demo.css">
+    <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
 </head>
 <body>
 @include('tpl.header')
@@ -44,49 +46,52 @@
             <div class="bg_f6  clearfix text-left">
                 <ul class="col-md-6  border-right pricing-tab_desc">
                     <li>
-                        <img src="static/images/pricing/pricing4.png" class=""/>
-                        <span>All Data Access</span>
+                        <span class="demoicon icon-stats-dots pricing-tab_icon"></span>
+                        <span class="pricing-tab_text">All Data Access</span>
                     </li>
                     <li>
-                        <img src="static/images/pricing/pricing5.png" class=""/>
-                        <span>Standard Cross Filter</span>
+                        <span class="glyphicon glyphicon-filter pricing-tab_icon"></span>
+                        <span class="pricing-tab_text">Standard Cross Filter</span>
                     </li>
-                  
+                    <li>
+                        <span class="glyphicon glyphicon-sort-by-attributes pricing-tab_icon"></span>
+                        <span class="pricing-tab_text">Standard Sorting</span>
+                    </li>
                     
                     <li>
-                        <img src="static/images/pricing/pricing2.png" class=""/>
-                        <span> Limited Bookmark</span>
+                        <span class="glyphicon glyphicon-bookmark pricing-tab_icon"></span>
+                        <span class="pricing-tab_text"> Limited Bookmark</span>
                     </li>
                     <li>
-                        <img src="static/images/pricing/pricing2.png" class=""/>
-                        <span>Limited Ad Inisight</span>
+                        <span class="demoicon icon-compass2 pricing-tab_icon"></span>
+                        <span class="pricing-tab_text">Limited Ad Insight</span>
                     </li>
                     
                 </ul>
                 <ul class="col-md-6 pricing-tab_desc">
                     <li>
-                        <img src="static/images/pricing/pricing4.png" class=""/>
-                        <span>All Features of Standard Level</span>
+                        <span class="icon-book demoicon pricing-tab_icon"></span>
+                        <span class="pricing-tab_text">All Features of Standard Level</span>
                     </li>
                     <li>
-                        <img src="static/images/pricing/pricing5.png" class=""/>
-                        <span>Advanced Cross Filter</span>
+                        <span class="glyphicon glyphicon-screenshot pricing-tab_icon"></span>
+                        <span class="pricing-tab_text">Advanced Cross Filter</span>
                     </li>
                     <li>
-                        <img src="static/images/pricing/pricing2.png" class=""/>
-                        <span> Advanced Compositor</span>
+                        <span class="glyphicon glyphicon-sort-by-alphabet pricing-tab_icon"></span>
+                        <span class="pricing-tab_text"> Advanced Sorting</span>
                     </li>
                     <li>
-                        <img src="static/images/pricing/pricing3.png" class=""/>
-                        <span>Custom Time Frame</span>
+                        <span class="demoicon icon-cog pricing-tab_icon"></span>
+                        <span class="pricing-tab_text">Custom Time Frame</span>
                     </li>
                     <li>
-                        <img src="static/images/pricing/pricing1.png" class=""/>
-                        <span>Audience Targeting & Interests</span>
+                        <span class="demoicon icon-binoculars pricing-tab_icon"></span>
+                        <span class="pricing-tab_text">Audience Targeting & Interests</span>
                     </li>
                     <li>
-                        <img src="static/images/pricing/pricing9.png" class=""/>
-                        <span>Advanced Ad Inisight</span>
+                        <span class="demoicon icon-stats-bars pricing-tab_icon"></span>
+                        <span class="pricing-tab_text">Advanced Ad Insight</span>
                     </li>
                 </ul>
             </div>
@@ -120,9 +125,9 @@
             </tr>
             <tr class="text-center text-content2">
                     <td class="pricingitme-name">Millions of Ad Creative</td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
             </tr>
             <tr class="text-center text-content2">
                     <td class="pricingitme-name">Update Frequency</td>
@@ -133,27 +138,27 @@
             <tbody class="table-content">
                 <tr class="text-center text-content2">
                     <td class="pricingitme-name">Ad Position Filter</td>
-                    <td><i class=""></i><span class="pricing-field"></span></td>
-                    <td><i class=""></i><span class="pricing-field"></span></td>
-                    <td><i class=""></i><span class="pricing-field"></span></td>
+                    <td><i class=""></i></td>
+                    <td><i class=""></i></td>
+                    <td><i class=""></i></td>
                 </tr>  
                 <tr class="text-center">
                     <td class="pricingitme-name">Right Column Ad</td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
                 </tr>
                 <tr class="text-center">
                     <td class="pricingitme-name">News Feed Ad</td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
                 </tr>
                 <tr class="text-center">
                     <td class="pricingitme-name">Mobile Ad</td>
                     <td><i class="error"></i></td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
                 </tr>
             </tbody>
             
@@ -161,21 +166,21 @@
             <tbody class="table-content">
                 <tr class="text-center text-content2">
                     <td class="pricingitme-name">Search Mode</td>
-                    <td><i class=""></i><span class="pricing-field"></span></td>
-                    <td><i class=""></i><span class="pricing-field"></span></td>
-                    <td><i class=""></i><span class="pricing-field"></span></td>
+                    <td><i class=""></i></td>
+                    <td><i class=""></i></td>
+                    <td><i class=""></i></td>
                 </tr> 
                 <tr class="text-center">
                     <td class="pricingitme-name">Search Advertiser</td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
                 </tr>
                 <tr class="text-center">
                     <td class="pricingitme-name">Search URL</td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
                 </tr>
                 <tr class="text-center">
                     <td class="pricingitme-name">Search Advertisement</td>
@@ -402,9 +407,9 @@
                 </tr> 
                 <tr class="text-center">
                     <td class="pricingitme-name">Advertiser Bookmark</td>
-                    <td><i class="error"></i><span class="pricing-field"></span></td>
-                    <td><i class="error"></i><span class="pricing-field"></span></td>
-                    <td><i class="glyphicon glyphicon-ok right"></i><span class="pricing-field"></span></td>
+                    <td><i class="error"></i></td>
+                    <td><i class="error"></i></td>
+                    <td><i class="glyphicon glyphicon-ok right"></i></td>
                 </tr>
             </tbody>
 
