@@ -411,6 +411,29 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
+    .directive('adserlink', ['$state', function($state) {
+        return {
+            link: function(scope, element, attrs) {
+                element.bind('click', function() {
+                    var url = "";
+                    var name = attrs.name.replace(/<[^>]+>/g,"");
+                    var username = attrs.username.replace(/<[^>]+>/g,"");
+                    url = $state.href('adser', {name:name, adser:username});
+                    window.open(url,'_blank');
+                });
+            }
+        };
+    }])
+    .directive('canvaslink', ['$state', function($state) {
+        return {
+            link: function(scope, element, attrs) {
+                element.bind('click', function() {
+                    var url = "https://facebook.com/"+attrs.id+"/"+attrs.eventid;
+                    window.open(url);
+                });
+            }
+        };
+    }])
     //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function () {  
         return function (collection) { 
@@ -425,7 +448,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             return output;  
         };  
     })
-    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', function($uibModal, $stateParams, SweetAlert) {
+    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert' , 'User', function($uibModal, $stateParams, SweetAlert, User) {
         return {
             matchkey: function(origstr, destArr) {
                 var orig = origstr.split(',');
@@ -554,6 +577,30 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     SweetAlert.swal(res.data.desc);
                 } else {
                     SweetAlert.swal(res.statusText);
+                }
+            },
+            openUpgrade:function() {
+                return $uibModal.open({
+                    templateUrl: 'views/upgrade.html',
+                    size: 'md',
+                    animation: true,
+                });
+            },
+            numberLimit:function(value) {
+                if(User.info.user.role.name !='Free') return true;
+                var valueArray = value.split(" ");
+                if(valueArray.length>1) {
+                    this.openUpgrade();
+                }else {
+                    return true;
+                }
+            },
+            lengthLimit:function(value) {
+                if(value.length>300) {//20长度仅用于测试
+                    SweetAlert.swal("Text Limit: 300 Character Only");
+                    return false;
+                }else {
+                    return true;
                 }
             },
             //判断是否为数组
