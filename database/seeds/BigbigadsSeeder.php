@@ -75,6 +75,16 @@ class BigbigadsSeeder extends Seeder
         $this->insertPermissions('Keyword Statics', $list, $permission, $roles);
         echo "insert analysis permissions \n";
     }
+
+    /**
+     * 权限列表被重新构建，后台管理员权限也应该重建
+     */
+    public function generateAdminPermissions()
+    {
+        $this->call(PermissionsTableSeeder::class);
+        $this->call(PermissionRoleTableSeeder::class);
+        echo "admin permissions generated\n";
+    }
     /**
      * Run the database seeds.
      * 1:永久累计 2:按月累计 3:按日累计 4.按小时累计 5.固定数值 6.期限
@@ -270,6 +280,7 @@ class BigbigadsSeeder extends Seeder
         echo "insert permission data\n";
     
 
+            $this->generateAdminPermissions();
         } catch (\Exception $e) {
             echo $e->getMessage();
         }

@@ -58,7 +58,7 @@ Page Header
 
     /* Page Header Top */
     .page-header-top {
-
+        box-shadow:0 4px 8px 0 rgba(7, 17, 27, .1);
         &.fixed {            
             background: $header-bg-color !important;
             box-shadow: $header-top-menu-fixed-border-box;

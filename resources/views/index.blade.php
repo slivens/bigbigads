@@ -170,7 +170,7 @@
 <!--blog slider-->
 <section class="blog">
     <div class="container ">
-        <p class="blog-title text-center">From Our Blog </p>
+        <p class="blog-head-title text-center">From Our Blog </p>
         <div class="blog-slider clearfix ">
             <div class="swiper-container" id="blog_slider">
                 <div class="swiper-wrapper">
