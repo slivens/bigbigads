@@ -514,7 +514,7 @@
     </div>
 </section>
 @include('tpl.footer')
-<script src="static/jquery-3.1.1.js"></script>
+<!-- <script src="static/jquery-3.1.1.js"></script>-->
 <script src="static/swiper.jquery.js"></script>
 <script>
     $(function () {

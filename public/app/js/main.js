@@ -712,6 +712,7 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
     })
     .filter('adsCount', function() {
         return function(adsNumber) {
+            if(adsNumber===0) return adsNumber;
             if(!adsNumber) return ;
             var countString = '';
             var re = /(?=(?!\b)(\d{3})+$)/g;
@@ -1307,7 +1308,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 });
             }]
         }
-    });
+    })
+    //权限升级提示模板
+    .state("upgrade", {
+            url: "views/upgrade",
+            templateUrl: "upgrade.html"
+        });
     $locationProvider.html5Mode(true);
 
 }]);

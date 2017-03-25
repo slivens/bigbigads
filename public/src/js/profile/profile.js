@@ -129,7 +129,7 @@ app.controller('BillingsController', ['$scope', 'User', 'Resource', function($sc
             ctrl.queryPromise = billings.get();
             ctrl.inited = true;
         });
-    }
+    };
 }]);
 app.controller('ChangepwdController', ['$scope', '$uibModalInstance', '$http', 'settings', function($scope, $uibModalInstance, $http, settings) {
     var info = {
