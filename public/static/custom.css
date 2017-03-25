@@ -50,6 +50,7 @@ a:hover {
     padding: 16px 27px;
     border-radius: 8px;
 }
+.btn-lgm:hover{    box-shadow: 0 3px 6px rgba(0,0,0,.2), 0 3px 6px rgba(0,0,0,.26);}
 
 .btn-clg {
     font-size: 1.25rem;
@@ -57,6 +58,7 @@ a:hover {
     margin-right: 2.5rem;
     border-radius: 0.5rem;
 }
+.btn-clg:hover{    box-shadow: 0 3px 6px rgba(0,0,0,.2), 0 3px 6px rgba(0,0,0,.26);}
 
 .fl {
     float: left;
@@ -207,13 +209,17 @@ header li.active  a{
 }
 
 .search-btn {
+
     margin-left: -120px;
+    margin-left:-125px\0; /*IE 9-11 兼容*/
+    padding: 18px 0;
     width: 120px;
     padding: 1rem 0;
     font-size: 18px;
     border-color: #eb6130;
     border-radius: 0 4px 4px 0;
     height: 58px;
+    height: 60px\0;
 }
 .search-more {
     font-size: 16px;
@@ -246,18 +252,18 @@ header li.active  a{
     background-attachment: scroll;
     width: 100%;
 }
-.swiper-adsbar{color: #fff;margin-left:0px;margin-right:0px;bottom:0px;left:0px;height: 70px;width: 100%;background: rgba(45, 46, 47, 0.63);}
+.swiper-adsbar{color: #fff;margin-left:0px;margin-right:0px;bottom:0px;left:0px;width: 100%;background: rgba(45, 46, 47, 0.63);}
+.swiper-adsbar div{padding-top: 15px;padding-bottom: 15px;}
 .swiper-adsbar .adsbigword{text-transform: uppercase;
-    font-size: 50px;
-    /* font-weight: 600; */
-    line-height: 68px;
-    padding-right: 0px;
+    font-size: 3.125rem;
+    min-width:116px;
+    line-height: 3.125rem;
+    /*padding-right: 0px;*/
 }
-.swiper-adsbar .adstext{    padding: 10px 0px;
-    font-size: 17px;
-    padding-left: 10px;
-    padding-top: 10px;}
-.adsbutton .slider-btn{padding:10px 20px;font-weight: 600;margin: 10px 0px;}
+.swiper-adsbar .adstext{    /*padding: 10px 0px;*/
+    font-size: 1.06rem;
+    padding-right: 0px;}
+.adsbutton .slider-btn{padding:10px 20px;font-weight: 600;margin: 0px auto;}
 .slider-left {
     box-shadow: 0 4px 8px 0 rgba(7, 17, 27, .1);
     border-radius: 4px;
@@ -284,7 +290,7 @@ header li.active  a{
 
 .slider-items .slider-title {
     color: #666666;
-    font-size: 24px;
+    font-size: 1.5rem;
     border-bottom: 1px solid #dddddd;
     display: inline-block;
     cursor: pointer;
@@ -317,7 +323,7 @@ header li.active  a{
 }
 
 .slider-items li.active .slider-desc {
-    display: block;font-size: 16px;
+    display: block;font-size: 1rem;
 }
 
 .slider-items li:hover .slider-title {
@@ -331,7 +337,7 @@ header li.active  a{
 }
 
 .video-title {
-    font-size: 44px;
+    font-size: 2.75rem;
     color: #333;
     margin-top: 80px;
     margin-bottom: 30px;
@@ -452,46 +458,19 @@ footer a {
     font-size: 1rem;
 }
 
-.f-icon {
-    width: 2.125rem;
-    height: 2.125rem;
-    background-position: center;
-    background-repeat: no-repeat;
+.footer-icon {
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 1.1rem;
     display: inline-block;
-    vertical-align: middle;
-    margin-right: 0.5rem;
+    line-height: 2.2rem !important;
+    text-align: center;
+    color: #fff;
+    background: #5c5c5c;
+    font-size: 1.1rem;
+    margin-right: 8px;
 }
 
-.icon-yutobe {
-    background-image: url('images/yutobe.png');
-}
-
-.icon-yutobe:hover {
-    background-image: url('images/yutobe_active.png');
-}
-
-.icon-facebook {
-    background-image: url('images/facebook.png');
-}
-
-.icon-facebook:hover {
-    background-image: url('images/facebook_active.png');
-}
-
-.icon-in {
-    background-image: url('images/in.png');
-}
-
-.icon-in:hover {
-    background-image: url('images/in_active.png');
-}
-
-.icon-03{
-    background-image: url('images/f03.png');
-}
-.icon-03:hover{
-    background-image: url('images/f03_active.png');
-}
 /*product*/
 
 .solution-product {
@@ -771,6 +750,16 @@ footer a {
     padding: 3rem 0 3rem 6rem;
     margin: 0;
 }
+.pricing-tab_desc .pricing-tab_icon{
+    width: 44px;height: 44px;font-size: 18px;line-height: 44px;border-radius: 23px;
+    background: #8dc900;color: #fff;
+    display: inline-block;text-align: center;font-weight: 200;
+    margin-right: 12px;
+}
+.pricing-tab_desc .pricing-tab_text{
+    height: 44px;line-height: 44px;
+    display: inline-block;
+}
 
 .pricing-tab_desc li {
     margin-bottom: 1.5rem;
@@ -817,13 +806,13 @@ footer a {
 .pricing-table .table-head{background: #f08751;color: #fff;}
 .pricing-table .table-head .table-title{line-height: 60px;font-size: 1.5rem;}
 .pricing-table .table-head .table-title td{padding: 20px 0px;}
-.pricing-table .table-title2 td{height: 40px;font-size: 16px;font-family: "Open Sans", sans-serif;font-weight: 300;color: #E87E04}
+.pricing-table .table-title2 td{height: 40px;font-size: 1rem;font-family: "Open Sans", sans-serif;font-weight: 300;color: #E87E04}
 .pricing-table .table-head tr>td{border-bottom:0px;border-top:0px;}
 
 .pricing-table .table-content td{padding-bottom:10px;padding-top: 10px;}
 .pricing-table .text-content2{background: #f6f6f6;padding:16px 0;}
-.pricing-table .text-content2 .pricingitme-name{padding-left: 15px;font-size: 18px;font-weight: 400;color:#555;}
-.pricing-table .pricingitme-name{text-align: left;font-size: 16px;color: #333;font-weight: 0;padding-top: 8px;padding-left: 30px;}
+.pricing-table .text-content2 .pricingitme-name{padding-left: 15px;font-size: 1.125rem;font-weight: 400;color:#555;}
+.pricing-table .pricingitme-name{text-align: left;font-size: 1rem;color: #333;font-weight: 0;padding-top: 8px;padding-left: 30px;}
 .pricing-table .pricing-field{margin-left: 5px;color: #333;font-size: 14px;}
 .pricing-table .right{color:#68b325;font-size: 14px;}
 .pricing-table .error{height: 8px;width: 8px;display: inline-block;border-radius: 4px;background: #ccc;}
