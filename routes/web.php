@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use App\ActionLog;
 use App\Role;
 use App\Plan;
+use TCG\Voyager\Models\Post;
 /**
  * @$req Reqeust 
  * @$name 权限名称
@@ -58,14 +59,24 @@ function updateUsage($req, $name, &$params)
     }
 }
 
-Route::get('/', function () {
+Route::get('/', function (Request $request) {
     return view('index');
 });
 
 Route::get('/blog', function () {
-    return view('blog_list');
-});
 
+    /* dd( Route::current()); */
+    //TODO:现在只做一次性加载，排版最终定版以及前端改用vue,webpack整理后再做完整修改
+    $posts = Post::orderBy('created_at', 'desc')->paginate(100);
+    return view('blog_list')->with("posts", $posts);
+});
+Route::get('/post/{id}', function($id) {
+
+    /* dd( Route::current()); */
+    $post = Post::find($id);
+    $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
+    return view('post')->with('post', $post)->with('recents', $recents);
+});
 Route::get('/product', function () {
     return view('product');
 });
