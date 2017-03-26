@@ -588,6 +588,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             },
             isNumberLimit:function(value) {
                 if(User.info.user.role.name !='Free') return true;
+                 if(!value) return true;
                 var valueArray = value.split(" ");
                 if(valueArray.length>1) {
                     return false;
@@ -596,6 +597,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 }
             },
             isLengthLimit:function(value) {
+                if(!value) return true;
                 if(value.length>300) {//20长度仅用于测试
                     return false;
                 }else {
@@ -605,6 +607,47 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             //判断是否为数组
             isArray:function(value){
                 return angular.isArray(value);
+            },
+            isFilterLimit:function(filter,searchOption) {
+                if((User.info.user.role.name !='Free')||User.login) {
+                    return true;
+                }
+                var isLimit = false;
+                var isDateLimit;
+                var isFormatLimit;
+                var isCallToActionLimit;
+                var isLangLimit; 
+                var isRangeSelectedLimit;  
+                    //console.log(filter);
+                if((filter.hasOwnProperty('formatSelected'))&&(filter.formatSelected.length===0)){
+                    isFormatLimit = false;
+                }else if(filter.hasOwnProperty('formatSelected')){
+                    isFormatLimit = true;
+                }
+                if((filter.hasOwnProperty('callToAction'))&&(filter.callToAction.length===0)){
+                    isCallToActionLimit = false;
+                }else if(filter.hasOwnProperty('callToAction')){
+                    isCallToActionLimit = true;
+                }
+                if((filter.hasOwnProperty('lang'))&&(filter.lang.length===0)){
+                    isLangLimit = false;
+                }else if(filter.hasOwnProperty('lang')){
+                    isLangLimit = true;
+                }
+                if((searchOption.hasOwnProperty('rangeselected'))&&(searchOption.rangeselected.length===0)){
+                    isRangeSelectedLimit = false;
+                }else if(searchOption.hasOwnProperty('rangeselected')){
+                    isRangeSelectedLimit = true;
+                }
+                if(filter.date.endDate!==null){
+                    isDateLimit = true;
+                }
+                if(isFormatLimit||isCallToActionLimit||isLangLimit||isDateLimit||isRangeSelectedLimit) isLimit=true;
+                if(isLimit){
+                    return false;
+                }else {
+                    return true;
+                }
             }
         };
     }]);
