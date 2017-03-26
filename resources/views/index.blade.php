@@ -22,8 +22,8 @@
     <div class="search-title_sub">To get inspired</div>
     <form class="margin-bottom30 " style="margin: 0 16% 30px" action="/app/adsearch" method="GET">
         <div class="input-group" style="width: 100%">
-            <input type="search" placeholder="Please enter a keyword" class="search-input" style="width:100%;" name="searchText"/>
-            <input type="submit" class="btn search-btn" value="Search">
+            <input type="search" placeholder="Please enter a keyword " class="search-input pull-left" style="width:100%;" name="searchText"/>
+            <input type="submit" class="btn search-btn pull-left" value="Search">
         </div>
     </form>
         <div style="margin-bottom: 80px">
@@ -44,7 +44,8 @@
                         <div class="swiper-adsbar row absolute">
                             <div class="col-md-2 adsbigword">YES!</div>
                             <div class="col-md-6 adstext">I wanna learn my competitor's marketing strategy Now!</div>
-                            <div class="col-md-4 adsbutton text-center"><a href="" class="btn btn-clg slider-btn">Try It Now </a></div>
+                            <div class="col-md-4 adsbutton text-center">
+                                <a href="/app/adsearch" class="btn btn-clg slider-btn">Try It Now </a></div>
                         </div>
                     </div>
                     <div class="swiper-slide">
@@ -52,7 +53,7 @@
                         <div class="swiper-adsbar row">
                             <div class="col-md-2 adsbigword">yes!</div>
                             <div class="col-md-6 adstext">I'd like to save hundreds of hours doing tedious research!</div>
-                            <div class="col-md-4 adsbutton text-center"><a href="" class="btn btn-clg slider-btn">Try It Now </a></div>
+                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Try It Now </a></div>
                         </div>
                     </div>
                     <div class="swiper-slide">
@@ -60,7 +61,7 @@
                         <div class="swiper-adsbar row">
                             <div class="col-md-2 adsbigword">yes!</div>
                             <div class="col-md-6 adstext">Help me to know more!</div>
-                            <div class="col-md-4 adsbutton text-center"><a href="" class="btn btn-clg slider-btn">Try It Now</a></div>
+                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Try It Now</a></div>
                         </div>
                     </div>
                     <div class="swiper-slide">
@@ -68,7 +69,7 @@
                         <div class="swiper-adsbar row">
                             <div class="col-md-2 adsbigword">yes!</div>
                             <div class="col-md-6 adstext">I'd like to use your benefit to comfort my job!</div>
-                            <div class="col-md-4 adsbutton text-center"><a href="" class="btn btn-clg slider-btn">Try It Now</a></div>
+                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Try It Now</a></div>
                         </div>
                     </div>
                     <div class="swiper-slide">
@@ -76,7 +77,7 @@
                         <div class="swiper-adsbar row">
                             <div class="col-md-2 adsbigword">YES!</div>
                             <div class="col-md-6 adstext">I want to hop onto the wave someone else created!</div>
-                            <div class="col-md-4 adsbutton text-center"><a href="" class="btn btn-clg slider-btn">Try It Now</a></div>
+                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Try It Now</a></div>
                         </div>
                     </div>
                 </div>
@@ -117,7 +118,7 @@
     <div class="container">
         <div class="col-md-5">
             <p class="video-title ">Keep you in pace with Facebook Ads!</p>
-            <a href="" class="btn btn-lgm font_22">Try it Now</a>
+            <a href="/app/adsearch" class="btn btn-lgm font_22">Try It Now</a>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-6 ">

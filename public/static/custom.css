@@ -38,6 +38,23 @@ a:hover {
     color: #eb6130;
 }
 
+.btn{
+    /*font-size: 12px;*/
+    /*font-weight: 600;*/
+    transition: box-shadow .28s cubic-bezier(.4,0,.2,1);
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.18);
+   /* padding: 8px 14px 7px;*/}
+.btn:hover{    box-shadow: 0 3px 6px rgba(0,0,0,.2), 0 3px 6px rgba(0,0,0,.26);}
+    
+
 .bg {
     background: #eb6130;
 }
@@ -52,7 +69,7 @@ a:hover {
 }
 .btn-lgm:hover{    box-shadow: 0 3px 6px rgba(0,0,0,.2), 0 3px 6px rgba(0,0,0,.26);}
 
-.btn-clg {
+.btn.btn-clg {
     font-size: 1.25rem;
     padding: 1rem 28px;
     margin-right: 2.5rem;
@@ -86,6 +103,19 @@ a:hover {
     background: #eb6130;
     color: #fff;
 }
+.btn.btn_cannot{
+    background: #f5f5f5 !important;
+    color: #fea666 !important;
+    cursor:default !important;
+    box-shadow: none !important;
+    border:1px solid #ccc !important;
+    font-weight: 200;
+}
+.btn.btn_cannot:hover{
+    background: #f5f5f5 !important;
+    color: #fea666 !important;
+}
+
 
 .btn:hover {
     color: #fff;
@@ -155,6 +185,9 @@ header li.active  a{
     margin-right: 10px;
     margin-left: 70px;
     padding: 0.5rem 0.75rem !important;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.44;
 }
 
 .btn-empty:hover {
@@ -166,6 +199,8 @@ header li.active  a{
     margin-left: 0;
     margin-right: 0;
     padding: 0.5rem 0.75rem !important;
+    font-size: 0.75rem;
+    font-weight: 600;
 }
 
 .margin-top14 {
@@ -198,28 +233,27 @@ header li.active  a{
 }
 
 .search-input {
-    width: 880px;
-    font-size: 18px;
+    width:100%;
+    font-size: 1.125rem;
+    line-height: 1.125rem;
     padding: 18px 135px 18px 15px;
     border-radius: 4px;
-    border: 0;
+    border: 0px;
     vertical-align: middle;
-    line-height: 1.25;
     color: #333;
+    height: 60px;
 }
 
 .search-btn {
-
     margin-left: -120px;
-    margin-left:-125px\0; /*IE 9-11 兼容*/
-    padding: 18px 0;
+    height: 60px;
+    -moz-padding:18px 0;
+    padding: 20px 0;
     width: 120px;
-    padding: 1rem 0;
-    font-size: 18px;
+    font-size: 1.125rem;
+    line-height: 1.125rem;
     border-color: #eb6130;
     border-radius: 0 4px 4px 0;
-    height: 58px;
-    height: 60px\0;
 }
 .search-more {
     font-size: 16px;
@@ -252,7 +286,7 @@ header li.active  a{
     background-attachment: scroll;
     width: 100%;
 }
-.swiper-adsbar{color: #fff;margin-left:0px;margin-right:0px;bottom:0px;left:0px;width: 100%;background: rgba(45, 46, 47, 0.63);}
+.swiper-adsbar{color: #fff;margin-left:0px;margin-right:0px;width: 100%;background: rgba(45, 46, 47, 0.63);}
 .swiper-adsbar div{padding-top: 15px;padding-bottom: 15px;}
 .swiper-adsbar .adsbigword{text-transform: uppercase;
     font-size: 3.125rem;
@@ -523,7 +557,7 @@ footer a {
     background: #eef0f4;
     /*margin-top: 70px;*/
 }
-
+.container-fluid{padding-left: 0 !important;padding-right: 0 !important;}
 .blog-head-title {
     font-size: 3rem;
     line-height: 3;
@@ -621,10 +655,12 @@ footer a {
 .pricing-icon:last-child {
     border-radius: 0 8px 8px 0;
 }
-
 .pricing-tab-item {
     padding: 3.75rem 0;
 }
+.pricing-card_top .pricing-tab-item{padding-bottom: 0px;}
+.pricing-card_bottom .pricing-tab-item{padding-top: 0px;}
+
 
 .pricing-item_title {
     margin-bottom: 2.5rem;
@@ -653,8 +689,8 @@ footer a {
     float: left;
     font-size: 1.5rem;
     font-weight: 500;
-    width: 12.5rem;
-    padding: 1rem 0;
+    
+    padding: 1rem 1.125rem;
     margin-top: 4.75rem;
     margin-right: 0;
     background-color: #fff;
@@ -738,6 +774,9 @@ footer a {
 
 .border-right {
     border-right: 1px solid #ddd;
+}
+.border-left {
+    border-left: 1px solid #ddd;
 }
 
 .pricing-item_title {

@@ -46,7 +46,7 @@
                     <p class="slider-desc">Ranking Download Advertiser Search Analysis</p>
                 </li>
             </ul>
-            <a href="" class="btn btn-clg slider-btn">Try It Now</a>
+            <a href="/app/adsearch" class="btn btn-clg slider-btn">Try It Now</a>
         </div>
     </div>
 </section>
@@ -164,7 +164,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
          
 
     <div class="clearfix text-center">
-        <a class="btn btn-clg" href="">Try It Now</a>
+        <a class="btn btn-clg" href="/app/adsearch">Try It Now</a>
     </div>
         
         <p class="solution-product_tip text-center">No credit card required-Get started in seconds.</p>
