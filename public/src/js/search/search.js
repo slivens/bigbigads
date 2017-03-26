@@ -705,14 +705,18 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			};
 			$scope.searchCheck = function(value) {
 				var islegal = true;
-				var numberLimit;
-				var lengthLimit;
-				numberLimit = Util.numberLimit(value);
-				lengthLimit = Util.lengthLimit(value);
-				if(numberLimit instanceof Object) numberLimit = false;
-				if(numberLimit && lengthLimit){
-					islegal=true;
-				}else{
+				var isNumberLimit;
+				var isLengthLimit;
+				isNumberLimit = Util.isNumberLimit(value);
+				isLengthLimit = Util.isLengthLimit(value);
+				console.log(isNumberLimit);
+				console.log(isLengthLimit);
+				if(!isNumberLimit) {
+					Util.openUpgrade();
+					islegal = false;
+				}
+				if(!isLengthLimit){
+					SweetAlert.swal("Text Limit: 300 Character Only");
 					islegal=false;
 				}
 				$scope.islegal = islegal;
