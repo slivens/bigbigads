@@ -4,25 +4,25 @@
         <ul class="col-md-3">
             <li class="footer-title"> ABOUT BIGBIGADS</li>
             <li><a href="{{url('/about')}}">About Us</a></li>
-            <li><a href="">Blog</a></li>
+            <li><a href="{{url('/blog')}}">Blog</a></li>
         </ul>
         <ul class="col-md-3">
             <li class="footer-title"> USING BIGBIGADS</li>
-            <li><a href="">Features</a></li>
-            <li><a href="">Pricing&Buy</a></li>
+            <li><a href="{{url('./product')}}">Features</a></li>
+            <li><a href="{{url('/pricing')}}" >Pricing&Buy</a></li>
         </ul>
         <ul class="col-md-3">
             <li class="footer-title"> GETTING HELP</li>
-            <li><a href="">Video Demos</a></li>
+            <li><a href="https://www.youtube.com/channel/UCtXk7wpkmVO7SdStR4JwX0A" target="_blank">Video Tutorial</a></li>
             <li><a href="">Contact Us</a></li>
         </ul>
         <ul class="col-md-3">
             <li class="footer-title"> STAY CONNECTES</li>
             <li>
-                <a href="" class="f-icon icon-facebook"></a>
-                <a href="" class="f-icon icon-in"></a>
-                <!-- <a href="" class="f-icon icon-03"></a> -->
-                <!-- <a href="" class="f-icon icon-yutobe"></a> -->
+                <a href="" class="footer-icon demoicon icon-facebook"></a>
+                <a href="" class="footer-icon demoicon icon-linkedin2 hidden"></a>
+                <a href="" class="footer-icon demoicon icon-twitter hidden"></a>
+                <a href="" class="footer-icon demoicon icon-youtube"></a>
             </li>
         </ul>
     </div>

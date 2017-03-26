@@ -6,6 +6,8 @@
     <title>Product-Bigbigads</title>
     <link rel="stylesheet" type="text/css" href="./static/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="./static/custom.css">
+    <link rel="stylesheet" type="text/css" href="./static/demo.css">
+    <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
     <script src="static/jquery-3.1.1.js"></script>
     <script src="static/bootstrap.js"></script>
 </head>
@@ -107,7 +109,7 @@
                 <i class="icon " ><span class="time">2016</span></i>
             </li>
         </ul>
-        <div class="text-center"><i class="icon icon-start"></i></div>
+        <div class="text-center"><i class="icon "></i></div>
     </div>
 </section>
 @include('tpl.footer')
