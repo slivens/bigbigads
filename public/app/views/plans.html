@@ -29,35 +29,466 @@
                                 ${{item.plans.monthly.amount}} / Month
                             </span>
                             <span ng-if="item.plans && plans.annually">
-                                ${{item.plans.annually.amount}} / Year
+                                ${{item.plans.annually.amount/12}} / Month
                             </span>
                         </h4>
                         <div>
-                        <a class="btn btn-block btn-primary" ng-class="{disabled:!userInfo || !userInfo.login}"  ng-click="plans.goPlanID(item, plans.annually)" target="_blank" ng-show="!plans.isCurrentPlan(item)" >
-                                Select
+                        <a class="btn btn-block btn-primary" ng-class="{disabled:!userInfo || !userInfo.login || (item.name =='Advanced') || (item.name =='Pro')}"  ng-click="plans.goPlanID(item, plans.annually)" target="_blank" ng-show="userInfo.login&&!plans.isCurrentPlan(item)" >
+                            <span ng-if="(item.name =='Free') || (item.name =='Standard')">Select</span>
+                            <span ng-if="(item.name =='Advanced') || (item.name =='Pro')">Coming Soon</span>
                         </a>
+                        <a class="btn btn-block btn-primary" ng-href="/login" ng-show="!userInfo.login" ng-class="{disabled:(item.name =='Advanced') || (item.name =='Pro')}">
+                            <span ng-if="(item.name =='Free') || (item.name =='Standard')">Select</span>
+                            <span ng-if="(item.name =='Advanced') || (item.name =='Pro')">Coming Soon</span>
+                        </a>
+
                             <a  class="btn btn-block btn-default disabled" ng-show="plans.isCurrentPlan(item)">Current</a>
                             
                         </div>
                         </p>
                     </div>
                 </div>
-                <div class="row" ng-repeat-start="(key, group) in groupPermissions">
+                <!-- <div class="row" ng-repeat-start="(key, group) in groupPermissions">
                     <div class="col-xs-2 bg-default"> 
                         <h4 class="bold">{{key}}</h4>
                     </div>
-                </div>
-                <div ng-repeat="permission in group" class="row">
+                </div> -->
+                <!-- <div ng-repeat="permission in group" class="row">
                     <div class="col-xs-2 bg-default">{{permission.key}}</div>
                     <div class="col-xs-2" ng-repeat="item in plans.items">
                         <span policy-formatter value="plans.getPolicy(item, permission.key, key)" data-format="%used / %value"></span>
                     </div>
-                </div>
-                <div ng-repeat-end ng-if="false">
+                </div> -->
+                <!-- <div ng-repeat-end ng-if="false">
                 </div>
                 <div class="row">
                     <div class="col-xs-2 bg-default">&nbsp;</div>
-                </div>
+                </div> -->
+                <section class="pricing-table clearfix">
+                    <div class="">
+                        <div class="clearfix radius tabel-div">
+                            <table class="table">
+                            <tbody class="table-head text-center">
+                                <tr class="table-title">
+                                    <td style="width:16%"></td>
+                                    <td style="width:17.3%" class="td1"></td>
+                                    <td style="width:17.3%" class="td2"></td>
+                                    <td style="width:16.3%" class="td3"></td>
+                                    <td style="width:17.8%" class="td4"></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                            <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Daily Request Limits</td>
+                                    <td><i class=""></i><span class="pricing-field">50</span></td>
+                                    <td><i class=""></i><span class="pricing-field">300</span></td>
+                                    <td><i class=""></i><span class="pricing-field">3000</span></td>
+                                    <td><i class=""></i><span class="pricing-field">5000</span></td>
+                                    <td></td>
+                            </tr>
+                            <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Millions of Ad Creative</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                            </tr>
+                            <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Update Frequency</td>
+                                    <td><i class=""></i><span class="pricing-field">Weekly</span></td>
+                                    <td><i class=""></i><span class="pricing-field">Weekly</span></td>
+                                    <td><i class=""></i><span class="pricing-field">Weekly</span></td>
+                                    <td><i class=""></i><span class="pricing-field">Daily</span></td>
+                                    <td></td>
+                            </tr>     
+                            <tbody class="table-content">
+                                <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Ad Position Filter</td>
+                                    <td><i class=""></i></td>
+                                    <td><i class=""></i></td>
+                                    <td><i class=""></i></td>
+                                    <td><i class=""></i></td>
+                                    <td></td>
+                                </tr>  
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Right Column Ad</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">News Feed Ad</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Mobile Ad</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                            
+                            <!--Search Mode-->
+                            <tbody class="table-content">
+                                <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Search Mode</td>
+                                    <td><i class=""></i></td>
+                                    <td><i class=""></i></td>
+                                    <td><i class=""></i></td>
+                                    <td><i class=""></i></td>
+                                    <td></td>
+                                </tr> 
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Search Advertiser</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Search URL</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Search Advertisement</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Search Audience</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                            <!--Time filter-->
+                            <tbody class="table-content">
+                                <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Time filter</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Time Filter</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Custom Time Filter</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+
+                            <!--ad type filter-->
+                            <tbody class="table-content">
+                                <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Ad Type Filter</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Single Image</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Video</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Canvas</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Carousel</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                            
+                            <!--call to action-->
+                            <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Call To Action Filter</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                            </tr>
+                            <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Country Filter</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                            </tr>
+                            <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Language Filter</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                            </tr> 
+
+                            <!--advanced filter-->
+                            <tbody class="table-content">
+                                <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Advanced Filter</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Customized Ad Duration</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Customized Ad See Times</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Customized Ad Engagement</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                            </tbody> 
+
+                            <!--compositor-->
+                            <tbody class="table-content">
+                                <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Compositor(Sort by)</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Engagement/Duration/Last Seen</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Engagement Growth</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                            </tbody> 
+
+                            <!--ad insight-->
+                            <tbody class="table-content">
+                                <tr class="text-center2 text-content2">
+                                    <td class="pricingitme-name">AD insight</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Overview</td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Landing Page</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Audience</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Similar Ads</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Engagement Trends</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                            </tbody> 
+
+                            <!--keyword analysis-->
+                            <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Keyword Analysis</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                            </tr>
+
+                            <!--advertiser-->
+                            <tbody class="table-content">
+                                <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Advertiser </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Advertiser Search</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Advertiser Analysis</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+
+                            <!--bookmark-->
+                            <tbody class="table-content">
+                                <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Bookmark</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Advertisement Bookmark</td>
+                                    <td><i class=""></i><span class="pricing-field">Limited(1folder/30ads total)</span></td>
+                                    <td><i class=""></i><span class="pricing-field">Limited(1folder/30ads total)</span></td>
+                                    <td><i class=""></i><span class="pricing-field">Limited(5folder/150ads total)</span></td>
+                                    <td><i class=""></i><span class="pricing-field">10 folder/500ads total</span></td>
+                                    <td></td>
+                                </tr> 
+                                <tr class="text-center">
+                                    <td class="pricingitme-name">Advertiser Bookmark</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+
+                            <!--billboard-->
+                            <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Billboard</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                            </tr>
+                            <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Monitor</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                            </tr>
+                            <tr class="text-center text-content2">
+                                    <td class="pricingitme-name">Export</td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="error"></i></td>
+                                    <td><i class="glyphicon glyphicon-ok right"></i></td>
+                                    <td></td>
+                            </tr>
+                        </table>
+                    </div>      
+                    </div>
+                </section>
             </div>
             </div>
         </div>
