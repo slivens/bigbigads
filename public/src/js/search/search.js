@@ -122,6 +122,8 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				total_count: 0
 			};
 			vm.isend = false;
+			vm.isNoResult = false;
+
 			vm.search = function(params, clear, action) {
 				var defer = $q.defer();
 				//获取广告搜索信息
@@ -140,7 +142,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 						defer.reject(res);
                         return;
                     }
-					vm.isend = res.data.is_end;
+					vm.isend = vm.isNoResult = res.data.is_end;
 					if (clear && vm.isend) { //检测到结束就清空搜索结果
 						vm.ads = [];
 						vm.ads.total_count = 0;
@@ -376,7 +378,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 	}
 ]);
 /* adsearch js */
-app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal',
+app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal', 
 		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal) {
 			//搜索流程:location.search->searchOption->adSearcher.params
 			//将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
@@ -405,7 +407,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				}
 				// console.log("max search result:", policy.value, adSearcher.params.limit[0] + adSearcher.params.limit[1]);
 				if (adSearcher.params.limit[0] + adSearcher.params.limit[1] >= policy.value) {
-					SweetAlert.swal("you reached search result limit(" + policy.value + ")");
+					//SweetAlert.swal("you reached search result limit(" + policy.value + ")");
 					adSearcher.isend = true;
 					return;
 				}
@@ -701,6 +703,25 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 
 				});
 			};
+			$scope.searchCheck = function(value) {
+				var islegal = true;
+				var isNumberLimit;
+				var isLengthLimit;
+				isNumberLimit = Util.isNumberLimit(value);
+				isLengthLimit = Util.isLengthLimit(value);
+				console.log(isNumberLimit);
+				console.log(isLengthLimit);
+				if(!isNumberLimit) {
+					Util.openUpgrade();
+					islegal = false;
+				}
+				if(!isLengthLimit){
+					SweetAlert.swal("Text Limit: 300 Character Only");
+					islegal=false;
+				}
+				$scope.islegal = islegal;
+			};
+
             $scope.Util = Util;
 			$scope.User = User;
 			$scope.Searcher = Searcher;
@@ -736,7 +757,26 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			name: $stateParams.name,
 			username: $stateParams.adser
 		};
-		$scope.adSearcher = new Searcher();
+		var adSearcher = $scope.adSearcher = new Searcher();
+		adSearcher.checkAndGetMore = function() {
+				if (!User.done) {
+					adSearcher.getMore();
+					return;
+				}
+				var policy = User.getPolicy('result_per_search');
+				if (!policy) {
+					SweetAlert.swal("no permission for get more");
+					adSearcher.isend = true;
+					return;
+				}
+				// console.log("max search result:", policy.value, adSearcher.params.limit[0] + adSearcher.params.limit[1]);
+				if (adSearcher.params.limit[0] + adSearcher.params.limit[1] >= policy.value) {
+					//SweetAlert.swal("you reached search result limit(" + policy.value + ")");
+					adSearcher.isend = true;
+					return;
+				}
+				adSearcher.getMore();
+			};
 		// $scope.adSearcher.search($scope.adSearcher.defparams, true);
 		$scope.reverseSort = function() {
             if (!User.can('search_sortby')) {
@@ -966,7 +1006,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$location.search({});
 				$state.reload();
 			};
-
 			$scope.User = User;
 			$scope.Searcher = Searcher;
 

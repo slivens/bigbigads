@@ -38,14 +38,14 @@
 
         <!-- avatar and adser info -->
         <div class="aditem-ader row margin-bottom-10">
-            <div class="col-md-3 text-center ">
+            <div class="col-md-3 text-center" >
                 <a  ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
-                    <img src="../assets/global/img/input-spinner.gif" lazy-img="{{mother.settings.imgRemoteBase + card.local_photo}}" alt="" class="avatar">
+                    <img src="../assets/global/img/input-spinner.gif" lazy-img="{{mother.settings.imgRemoteBase + card.small_photo}}" alt="" class="avatar">
                 </a>
             </div>
             <div class="col-md-9">
                 <div class="margin-bottom-5 xg-overflow-hidden">
-                    <a class="xg-adsername" ui-sref="adser({name:card.adser_name, adser:card.adser_username})" target="_blank">
+                    <a class="xg-adsername" adserlink name="{{card.adser_name}}" username="{{card.adser_username}}">
                         <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
                         <span ng-show="!card.adser_name">{{card.adser_username}}</span>
                     </a>
