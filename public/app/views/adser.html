@@ -69,7 +69,7 @@
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
 				<span class="sr-only">Loading...</span>
 			</div>
-            <div ng-if="(User.info.user.role.name =='Free') && adSearcher.isend" ng-include="'limited-banner.html'" ng-class='{"xg-limited-banner-mt6":adSearcher.isNoResult}'></div>
+            <div ng-if="(User.info.user.role.name =='Free') && adSearcher.isend" ng-include="'adser-limited-banner.html'" ng-class='{"xg-limited-banner-mt6":adSearcher.isNoResult}'></div>
             <div ng-if="(User.info.user.role.name !='Free') && adSearcher.isNoResult" class="text-center col-md-12" >
                 <div class="dashboard-stat dashboard-stat-v2 alert-warning">
                     <h2>The end</h2>
@@ -88,7 +88,7 @@
  <!-- </button> -->
 
  <div data-ng-include="'tpl/quick-sidebar.html'" data-ng-controller="QuickSidebarController" class="page-quick-sidebar-wrapper"></div>
- <script type="text/ng-template" id="limited-banner.html">
+ <script type="text/ng-template" id="adser-limited-banner.html">
     <div class="dashboard-stat dashboard-stat-v2 col-md-12 xg-limited-banner">
         <div ng-if="adSearcher.ads.total_count!=0">
             <div class="text-center col-md-12">
