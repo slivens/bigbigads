@@ -567,7 +567,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$scope.currSearchOption.filter.callToAction = buttondesc.join(',');
 				$scope.adSearcher.filter(action ? action : 'search').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
-						SweetAlert.swal(res.data.desc);
+						Util.openUpgrade();
+						$scope.islegal = false;
+						//SweetAlert.swal(res.data.desc);
 					} else {
 						SweetAlert.swal(res.statusText);
 					}
@@ -709,9 +711,12 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var isLengthLimit;
 				isNumberLimit = Util.isNumberLimit(value);
 				isLengthLimit = Util.isLengthLimit(value);
-				console.log(isNumberLimit);
-				console.log(isLengthLimit);
+				isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
 				if(!isNumberLimit) {
+					Util.openUpgrade();
+					islegal = false;
+				}
+				if(!isFilterLimit) {
 					Util.openUpgrade();
 					islegal = false;
 				}
