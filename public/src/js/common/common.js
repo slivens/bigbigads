@@ -586,18 +586,17 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     animation: true,
                 });
             },
-            numberLimit:function(value) {
+            isNumberLimit:function(value) {
                 if(User.info.user.role.name !='Free') return true;
                 var valueArray = value.split(" ");
                 if(valueArray.length>1) {
-                    this.openUpgrade();
+                    return false;
                 }else {
                     return true;
                 }
             },
-            lengthLimit:function(value) {
+            isLengthLimit:function(value) {
                 if(value.length>300) {//20长度仅用于测试
-                    SweetAlert.swal("Text Limit: 300 Character Only");
                     return false;
                 }else {
                     return true;
