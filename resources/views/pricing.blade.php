@@ -18,33 +18,41 @@
     <div class="pricing"></div>
     <div class="container text-center mat-500" >
         <div class="pricing-tab">
-            <a href="javascript:;" class="pricing-icon icon-per active">Personal</a>
+            <a href="javascript:;" class="pricing-icon icon-per active">Small Business</a>
             <a href="javascript:;" class="pricing-icon icon-ad">Advanced</a>
             <a href="javascript:;" class="pricing-icon icon-shop">Enterprice</a>
         </div>
-        <p class="pricing-tab_tip mab-2">For personal projects and sites with low traffic. </p>
-        <div class="box-shadow radius " >
-            <div class="clearfix" style="background-color: #fff;">
-                <div class="col-md-6 border-right font_24  pricing-tab-item">
+        <p class="pricing-tab_tip mab-2">For Small Business to get inspired on products and creatives </p>
+        <div class="box-shadow radius" >
+            <div class="clearfix pricing-card_top" style="background-color: #fff;">
+                <div class="col-md-6 font_24 pricing-tab-item">
                     <p class="pricing-item_title">STANDARD</p>
                     <p class="mab-56">A starter level which way too better than other competitor on the market.</p>
+                </div>
+                <div class="col-md-6 font_24  border-left pricing-tab-item">
+                    <p class="pricing-item_title">ADVANCED
+</p>
+                    <p class="mab-56">Unblocked features on ad level,enjoy your next generation ad intelligence platform.</p>
+                </div>
+            </div>
+            <div class="clearfix pricing-card_bottom" style="background-color: #fff;">
+                <div class="col-md-6  font_24  pricing-tab-item">
                     <p >$99/Month</p>
-                    <a href="/" class="btn font_22 pricing-item_btn">START NOW</a>
+                    <a href="/app/adsearch" class="btn font_22 pricing-item_btn">START NOW</a>
                     <p class="color_tip">Data Update Frequency:</p>
                     <p><strong>Weekly</strong></p>
                 </div>
-                <div class="col-md-6 font_24  pricing-tab-item">
-                    <p class="pricing-item_title">PLUS</p>
-                    <p class="mab-56">Get access to all features on ad level,enjoy your next generation ad intelligence platform.</p>
+                <div class="col-md-6 font_24 border-left  pricing-tab-item">
                     <p >$169/ Month</p>
-                    <a href="/" class="btn  pricing-item_btn">TRY IT</a>
+                    <a  class="btn pricing-item_btn btn_cannot">Coming Soon</a>
                     <p class="color_tip">Data Update Frequency:</p>
                     <p><strong>Daily</strong></p>
                 </div>
             </div>
-
+            
+            <!--Privilege contrast-->
             <div class="bg_f6  clearfix text-left">
-                <ul class="col-md-6  border-right pricing-tab_desc">
+                <ul class="col-md-6  pricing-tab_desc">
                     <li>
                         <span class="demoicon icon-stats-dots pricing-tab_icon"></span>
                         <span class="pricing-tab_text">All Data Access</span>
@@ -68,7 +76,7 @@
                     </li>
                     
                 </ul>
-                <ul class="col-md-6 pricing-tab_desc">
+                <ul class="col-md-6 pricing-tab_desc border-left">
                     <li>
                         <span class="icon-book demoicon pricing-tab_icon"></span>
                         <span class="pricing-tab_text">All Features of Standard Level</span>
@@ -105,7 +113,7 @@
 <!--begin pricing table-->
 <section class="pricing-table clearfix">
     <div class="container">
-        <p class="pricing-qa_title">Composer Plan</p>
+        <p class="pricing-qa_title">Plans &amp; pricing</p>
         <div class="clearfix radius tabel-div">
             <table class="table">
             <tbody class="table-head text-center">
@@ -450,8 +458,8 @@
                 <tr class="table-title2 footerbottom">
                     <td></td>
                     <td><a class="btn" href="app/plans">Order Now</a></td>
-                    <td><a class="btn" href="app/plans">Coming Soon</a></td>
-                    <td><a class="btn" href="app/plans">Coming Soon</a></td>
+                    <td><a class="btn btn_cannot" >Coming Soon</a></td>
+                    <td><a class="btn btn_cannot" >Coming Soon</a></td>
                     
                 </tr>
            </tbody>
@@ -525,7 +533,7 @@
     </div>
 </section>
 @include('tpl.footer')
-<script src="static/jquery-3.1.1.js"></script>
+<!-- <script src="static/jquery-3.1.1.js"></script>-->
 <script src="static/swiper.jquery.js"></script>
 <script>
     $(function () {
