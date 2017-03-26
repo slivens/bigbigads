@@ -6,7 +6,7 @@
         <i class="fa fa-circle"></i>
     </li>
     <li>
-        <a  ui-sref="adser({adser:adser.username})"><span ng-bind-html="adser.name | toHtml"></span></a>
+        <a  ui-sref="adser({adser:adser.username})"><span ng-bind-html="adser.username | toHtml"></span></a>
     </li>
 </ul>
 
@@ -15,7 +15,7 @@
 <div class="row">
     <div class="col-md-12">
 
-                <div class="alert alert-warning margin-top-10" ng-show="currSearchOption.isdirty">
+                <div class="alert alert-warning margin-top-10 xg-alert" ng-show="currSearchOption.isdirty">
                     <!-- <div> -->
                     <!--     <h4><a ng-click="clearSearch()">Clear Search</a></h4> -->
                     <!-- </div> -->
@@ -56,10 +56,11 @@
                 </form>
             </div>
             <div class="xg-count-mt">
-                <span>About {{adSearcher.ads.total_count | adsCount}} results</span>
+                <span ng-if="adSearcher.ads.total_count!=0">About {{adSearcher.ads.total_count | adsCount}} results</span>
+                <span ng-if="adSearcher.ads.total_count==0">Your search did not match any results.</span>
             </div>
         </div>
-        <div infinite-scroll="adSearcher.getMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
+        <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
             <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid" cardTemplate="views/adsearch-card.html">
             </div>
             <div class="clearfix">
@@ -68,6 +69,12 @@
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
 				<span class="sr-only">Loading...</span>
 			</div>
+            <div ng-if="(User.info.user.role.name =='Free') && adSearcher.isend" ng-include="'adser-limited-banner.html'" ng-class='{"xg-limited-banner-mt6":adSearcher.isNoResult}'></div>
+            <div ng-if="(User.info.user.role.name !='Free') && adSearcher.isNoResult" class="text-center col-md-12" >
+                <div class="dashboard-stat dashboard-stat-v2 alert-warning">
+                    <h2>The end</h2>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -81,3 +88,51 @@
  <!-- </button> -->
 
  <div data-ng-include="'tpl/quick-sidebar.html'" data-ng-controller="QuickSidebarController" class="page-quick-sidebar-wrapper"></div>
+ <script type="text/ng-template" id="adser-limited-banner.html">
+    <div class="dashboard-stat dashboard-stat-v2 col-md-12 xg-limited-banner">
+        <div ng-if="adSearcher.ads.total_count!=0">
+            <div class="text-center col-md-12">
+                <p>There are <span ng-if="adSearcher.ads.total_count-10>0">{{adSearcher.ads.total_count-10 | adsCount}}</span> more ads results for "{{adser.username | toHtml}}" with Bigbigads Standard</p>
+                <h4>Subscribe now to get full & complete access to the full database,plus all future ads</h4>
+            </div>
+            <div class="col-md-12">
+                <div class="pull-left col-md-5">
+                    <p class="plus">Plus:</p>
+                    <ul>
+                        <li>Set up a <strong>content alert for "{{adser.username | toHtml}}"</strong></li>
+                        <li>Export data to Excel</li>
+                        <li>Get extra search filters</li>
+                        <li>Run Content Analysis Reports</li>
+                        <li>and lots more!</li>
+                    </ul>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="text-center col-md-5 xg-buybut-mt60">
+                    <a ng-href="/login" class="btn btn-lg xg-subscribe-color" ng-if="!User.info.login">Try Bigbigads Standard</a>
+                    <a ui-sref="plans" class="btn btn-lg xg-subscribe-color" ng-if="User.info.login">Try Bigbigads Standard</a>
+                </div>
+            </div>
+            <div class="col-md-12 text-center xg-subscribe">
+                <a href="/product">Learn more about Bigbigads Standard</a>
+            </div>
+        </div>
+        <div ng-if="adSearcher.ads.total_count==0">
+            <div class="col-md-12">
+                <div class="pull-left col-md-5">
+                    <p class="plus">Don&apos;t feel lucky? Here are our suggestions:</p>
+                    <ul>
+                        <li>Make sure all words are spelled correctly</li>
+                        <li>Make sure you clear the filter when you start a new search</li>
+                        <li>Try a different keyword - for example： shoe and shoes are different.</li>
+                        <li>Try fewer keywords.</li>
+                        <li>Check here for more tips.</li>
+                        <li> Learn more about Bigbigads.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12 text-center xg-subscribe">
+                <a href="/product">Learn more about Bigbigads</a>
+            </div>
+        </div>
+    </div>
+</script>

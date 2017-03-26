@@ -26,6 +26,7 @@
             </li>
         </ul>
     </div>
+    <script src="static/jquery-3.1.1.js"></script>
     <script>
       window.intercomSettings = {
         app_id: "pv0r2p1a"

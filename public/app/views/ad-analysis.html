@@ -71,7 +71,7 @@
                                                     <table class="adscard-head">
                                                         <tr>
                                                             <td class="adscaed-img"><a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
-                                                        <img src="{{settings.imgRemoteBase + card.local_photo}}" class="rounded avatar" />
+                                                        <img src="{{settings.imgRemoteBase + card.small_photo}}" class="avatar" />
                                                     </a></td>
                                                             <td class="adscard-name"><a class="xg-adsername inline-block detailusername" ui-sref="adser({name:card.adser_name, adser:card.adser_username})" target="_blank">
                                                         <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
@@ -205,6 +205,7 @@
                                 <!--begin similar-->
                                 <div id="similar">
                                     <h4 class="font-yellow-gold">Similar Ads</h4>
+
                                     <div ng-if="User.can('analysis_similar')">
                                         <div class="row">
                                             <div  ng-if="card.similars.length > 0" ng-repeat="item in card.similars | limitTo:2 track by $index" class="aditem col-md-6 col-xs-12">
@@ -235,6 +236,23 @@
                                                     <carousel ng-if="item.type == 'Carousel'" card="item">
                                                     </carousel>
                                                     <adcanvas ng-if="item.type == 'Canvas'" card="item"></adcanvas>
+
+                                    <div ng-show="User.can('analysis_similar')">
+                                    <div class="row">
+                                        <div  ng-if="card.similars.length > 0" ng-repeat="item in card.similars | limitTo:2" class="aditem col-md-6 col-xs-12">
+                                            <div class="portlet light bordered">
+                                                <div class="margin-bottom-10 margin-top-10">
+                                                    <a ng-href="">
+                                                        <img src="{{settings.imgRemoteBase + item.small_photo}}"  class="avatar">
+                                                    </a>
+                                                           
+                                                    <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:item.adser_name, adser:item.adser_username})">
+                                                        <span ng-bind-html="item.adser_name | toHtml" ng-show="item.adser_name">
+                                                            {{item.adser_name}}
+                                                        </span>
+                                                        <span ng-show="!item.adser_name">{{item.adser_username}}</span>
+                                                    </a>
+
                                                 </div>
                                             </div>
                                         </div>
