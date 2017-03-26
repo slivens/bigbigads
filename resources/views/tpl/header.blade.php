@@ -23,7 +23,7 @@
                         <li class="{{ $request->path() == 'blog' || preg_match('/^post/', $request->path()) ? 'active':'' }}"><a href="{{url('/blog')}}">Blog</a></li>
                         <li class="{{ $request->path() == 'about' ? 'active':'' }}"><a href="{{url('/about')}}" >About</a></li>
                         <li class="none"><a href="{{url('/login')}}" class="btn btn-empty w100">LOGIN</a></li>
-                        <li class="none"><a href="{{url('/register')}}" class="btn w100 head-btn">SIGN UP</a></li>
+                        <li class="none"><a href="{{url('/login#register')}}" class="btn w100 head-btn">SIGN UP</a></li>
                     </ul>
                 </div>
 

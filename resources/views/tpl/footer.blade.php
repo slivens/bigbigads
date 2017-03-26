@@ -14,7 +14,7 @@
         <ul class="col-md-3">
             <li class="footer-title"> GETTING HELP</li>
             <li><a href="https://www.youtube.com/channel/UCtXk7wpkmVO7SdStR4JwX0A" target="_blank">Video Tutorial</a></li>
-            <li><a href="">Contact Us</a></li>
+            <li><a href="javascript:Intercom('show');">Contact Us</a></li>
         </ul>
         <ul class="col-md-3">
             <li class="footer-title"> STAY CONNECTES</li>

@@ -37,8 +37,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="./assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
         <!-- END GLOAL MANDATORY STYLES -->
         <!-- BEGIN THEME GLOBAL STYLES -->
-        <link href="./assets/global/css/components-md.min.css" rel="stylesheet" id="style_components" type="text/css" />
-        <link href="./assets/global/css/plugins-md.min.css" rel="stylesheet" type="text/css" />
+         <link href="./assets/global/css/plugins-md.min.css" rel="stylesheet" type="text/css" />
         <!-- END THEME GLOBAL STYLES -->
         <!-- BEGIN PAGE LEVEL STYLES -->
         <link href="./assets/pages/css/blog.css" rel="stylesheet" type="text/css" />
@@ -47,8 +46,9 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="./assets/layouts/layout3/css/layout.css" rel="stylesheet" type="text/css" />
         <link href="./assets/layouts/layout3/css/custom.min.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" type="text/css" href="./static/custom.css"><!-- 头部与足部样式 -->
+        <link rel="stylesheet" type="text/css" href="./static/demo.css">
         <!-- END THEME LAYOUT STYLES -->
-        <link rel="shortcut icon" href="favicon.ico" /> </head>
+        <link rel="shortcut icon" href="./static/images/favicon.ico" /> </head>
     <!-- END HEAD -->
 
     <body class="page-header-fixed page-sidebar-closed-hide-logo page-md">

@@ -98,7 +98,7 @@
                     <div class="forget-password col-md-6 col-xs-6 text-right">
                     
                         <label>
-                            <a href="javascript:;" id="forget-password" href="{{ url('/password/reset') }}">
+                            <a href="javascript:;" id="forget-password" class="hidden" href="{{ url('/password/reset') }}">
                                 Forget your password?
                             </a> 
                         </label>
@@ -134,15 +134,11 @@
                         </li>
                     </ul>
                 </div> -->
-                <!--forget password-->
-                
-                
-                
+                <!--forget password-->  
             </form>
             <!-- END LOGIN FORM -->
             <!-- BEGIN FORGOT PASSWORD FORM -->
-
-            <form class="forget-form" action="{{url('/password/email')}}" method="post">
+            <form class="forget-form hidden" action="{{url('/password/email')}}" method="post">
                 {{ csrf_field() }}
                 <h3 class="forget-title form-title">Forget Password ?</h3>
                 <p class="forget-text"> Enter your e-mail address below to reset your password. </p>
