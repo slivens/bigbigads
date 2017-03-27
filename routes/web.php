@@ -116,6 +116,8 @@ Route::get('/ranking', function(Request $req) {
 
 Route::get('/userinfo', 'UserController@logInfo');
 Route::get('/registerVerify', 'UserController@registerVerify');
+Route::get('/noverify', 'UserController@noverify');
+Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
 
 Route::get('/plans', 'SubscriptionController@plans');
 
