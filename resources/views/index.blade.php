@@ -155,7 +155,7 @@
             <li class="solution-item">
                 <img src="static/images/solution3.png"  class="img-circle bg"/>
                 <div class="solution-item_number clearfix" style="width: 180px;margin:0 auto">
-                    <span class="pull-left">100,000</span>
+                    <span class="pull-left">700,000</span>
                     <span class="solution-item_symbol pull-left">+</span>
                 </div>
                 <div class="solution-item_desc">Monthly Updated</div>
