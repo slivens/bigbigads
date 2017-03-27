@@ -10,7 +10,7 @@ use DB;
 use App\Role;
 use App\Plan;
 use App\Subscription;
-use App\Webhooks;
+use App\Webhook;
 use App\Services\PaypalService;
 use Carbon\Carbon;
 
@@ -164,10 +164,10 @@ class SubscriptionController extends Controller
     {
         Log::info('webhooks id: '.$request->id);
         $webhook_id = $request->id;//webhook id
-        $select = Webhooks::where('webhook_id',$webhook_id)->get();
+        $select = Webhook::where('webhook_id',$webhook_id)->get();
         //$select = DB::select('select * from webhooks where webhook_id = :webhook_id',['webhook_id'=>$webhook_id]);
         if($select == null){
-            $webhook = new Webhooks;
+            $webhook = new Webhook;
             $webhook->webhook_id = $webhook_id;
 
             $webhook->create_time = $request->create_time;
