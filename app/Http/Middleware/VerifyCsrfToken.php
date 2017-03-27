@@ -13,6 +13,7 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         "/forward/*",
-        '/onPayment'
+        '/onPayment',
+        '/onPayWebhook'
     ];
 }

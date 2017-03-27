@@ -132,8 +132,9 @@ class SubscriptionController extends Controller
         $service = new PaypalService();
 
         $payment = $service->onPay($request);
-        if ($payment == null)
-            abort(401, "error on payment");
+        //中途取消的情况下返回profile页面
+        if ($payment == null)return redirect('/app/profile?active=0');
+            //abort(401, "error on payment");
 
         $subscription->payment_id = $payment->getId();
         $subscription->quantity = 1;
@@ -157,7 +158,44 @@ class SubscriptionController extends Controller
     /**
      * 处理支付的一些通知
      */
-    public function onPayWebhook()
+    public function onPayWebhook(request $request)
     {
+        //Log::info('webhooks: '.$request);
+        Log::info('webhooks id: '.$request->id);
+        //$webhook_obj=json_decode($request);
+        $webhook_id = $request->id;//webhook id
+        $select = DB::select('select * from webhooks where webhook_id = :webhook_id',['webhook_id'=>$webhook_id]);
+        if($select == null){
+            $create_time = $request->create_time;
+            $resource_type = $request->resource_type;
+            $event_type = $request->event_type;
+            $summary = $request->summary;
+            /*if ($resource_type == 'Agreement') {
+                $plan_price = $request->resource->plan->payment_definitions[0]->amount->value;//plan价格/每期收款数量
+                $payer_name = $request->resource->payer->payer_info->email;//买家账号，付款账号
+                $resource_desc = $request->resource->description;//订阅描述，如Advanced Plan
+                $resource_next_paytime = $request->resource->agreement_details->next_billing_date;//下次付款时间
+                $resource_last_paytime = $request->resource->agreement_details->last_payment_date;//最后一次成功扣款的时间 
+            }else {*/
+            $plan_price='';
+            $payer_email='';
+            $resource_desc='';
+            $resource_next_paytime='';
+            $resource_last_paytime='';
+            //}
+            //$resource = json_decode($request->resource,true);
+            $resource_id = '';//$request->resource->id;
+            $resource_create_time = '';//$request->resource->start_date;
+            $resource_state = '';//$request->resource->state;
+            $billing_agreement_id = '';//$request->resource->billing_agreement_id;
+            $webhook_status = $request->status;
+            $webhook_content = serialize($request->resource);
+            try {
+                DB::insert("insert into webhooks(webhook_id,create_time,resource_type,event_type,summary,plan_price,payer_email,resource_desc,resource_next_paytime,resource_last_paytime,resource_id,resource_create_time,resource_state,billing_agreement_id,webhook_status,webhook_content)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[$webhook_id,$create_time,$resource_type,$event_type,$summary,$plan_price,$payer_email,$resource_desc,$resource_next_paytime,$resource_last_paytime,$resource_id,$resource_create_time,$resource_state,$billing_agreement_id,$webhook_status,$webhook_content]);
+            } catch(\Exception $e) {
+                Log::error("save webhooks failed:" . $e->getMessage());
+                return null;
+            }
+        }
     }
 }
