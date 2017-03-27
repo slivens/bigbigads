@@ -28,7 +28,7 @@ class PaypalService
             ));
         $apiContext->setConfig( 
             array(
-                'mode' => 'live' 
+                'mode'=>config('payment.mode')
                 )
             );
         /*         'log.LogEnabled' => true, */
