@@ -712,6 +712,7 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
     })
     .filter('adsCount', function() {
         return function(adsNumber) {
+            if(adsNumber===0) return adsNumber;
             if(!adsNumber) return ;
             var countString = '';
             var re = /(?=(?!\b)(\d{3})+$)/g;
@@ -844,7 +845,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             'http://code.highcharts.com/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            'js/bigbigads.js'
+                            'js/bigbigads.js?r=' + Math.random() 
                         ]
                     });
                 }]
@@ -880,7 +881,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            'js/bigbigads.js'
+                            'js/bigbigads.js?r=' + Math.random()
                         ]
                     });
                 }]
@@ -917,7 +918,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            'js/bigbigads.js'
+                            'js/bigbigads.js?r=' + Math.random()
                         ]
                     });
                 }]
@@ -949,7 +950,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/jqcloud2/dist/jqcloud.min.css',
                             '/node_modules/jqcloud2/dist/jqcloud.min.js',
                             '../assets/global/plugins/angular-jqcloud.js',
-                            'js/bigbigads.js'
+                            'js/bigbigads.js?r=' + Math.random()
                         ]
                     });
                 }]
@@ -984,7 +985,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
                             'http://code.highcharts.com/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            'js/bigbigads.js'
+                            'js/bigbigads.js?r=' + Math.random()
                         ]
                     });
                 }]
@@ -1018,7 +1019,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            'js/bigbigads.js'
+                            'js/bigbigads.js?r=' + Math.random()
                         ]
                     });
                 }]
@@ -1051,7 +1052,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            'js/bigbigads.js'
+                            'js/bigbigads.js?r=' + Math.random()
                         ]
                     });
                 }]
@@ -1087,7 +1088,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                         '/node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
                         '/node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
 
-                            'js/bigbigads.js'
+                            'js/bigbigads.js?r=' + Math.random()
                         ]
                     });
                 }]
@@ -1243,7 +1244,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
                             '/node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
                             '/node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
-                            'js/bigbigads.js'
+                            'js/bigbigads.js?r=' + Math.random()
                     ]
                 });
             }]
@@ -1307,7 +1308,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 });
             }]
         }
-    });
+    })
+    //权限升级提示模板
+    .state("upgrade", {
+            url: "views/upgrade",
+            templateUrl: "upgrade.html"
+        });
     $locationProvider.html5Mode(true);
 
 }]);

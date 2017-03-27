@@ -1,4 +1,6 @@
 <!-- 导航 -->
+@inject('request', 'Illuminate\Http\Request')
+
 <header>
     <div class="container ">
         <nav class="navbar " role="navigation">
@@ -15,13 +17,13 @@
             <div class="collapse navbar-collapse clearfix bg_fff" id="example-navbar-collapse">
                 <div class=" pull-right ">
                     <ul class=" head-nav navbar-nav">
-                        <li class="active"><a href="/">Home</a></li>
-                        <li> <a href="{{url('/product')}}">Product</a></li>
-                        <li><a href="{{url('/pricing')}}">Pricing</a></li>
-                        <li><a href="{{url('/blog')}}">Blog</a></li>
-                        <li ><a href="{{url('/about')}}" >About</a></li>
+                        <li class="{{ $request->path() == '/' ? 'active':'' }}"><a href="/">Home</a></li>
+                        <li class="{{ $request->path() == 'product' ? 'active':'' }}"> <a href="{{url('/product')}}">Product</a></li>
+                        <li class="{{ $request->path() == 'pricing' ? 'active':'' }}"><a href="{{url('/pricing')}}">Pricing</a></li>
+                        <li class="{{ $request->path() == 'blog' || preg_match('/^post/', $request->path()) ? 'active':'' }}"><a href="{{url('/blog')}}">Blog</a></li>
+                        <li class="{{ $request->path() == 'about' ? 'active':'' }}"><a href="{{url('/about')}}" >About</a></li>
                         <li class="none"><a href="{{url('/login')}}" class="btn btn-empty w100">LOGIN</a></li>
-                        <li class="none"><a href="{{url('/register')}}" class="btn w100 head-btn">SIGN UP</a></li>
+                        <li class="none"><a href="{{url('/login#register')}}" class="btn w100 head-btn">SIGN UP</a></li>
                     </ul>
                 </div>
 

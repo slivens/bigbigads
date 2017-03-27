@@ -23,6 +23,14 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
+     * Bigbigads的login与register是同一个页面，重定向
+     */
+    public function showRegistrationForm()
+    {
+        return redirect('/login#register');
+    }
+
+    /**
      * Where to redirect users after login / registration.
      *
      * @var string

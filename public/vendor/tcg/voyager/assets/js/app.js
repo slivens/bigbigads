@@ -1,7 +1,5 @@
 $(document).ready(function(){
-  var appContainer = $(".app-container");
-
-  $('.side-menu').perfectScrollbar();
+    var appContainer = $(".app-container");
 
   $('#voyager-loader').fadeOut();
   $('.readmore').readmore({
@@ -18,6 +16,9 @@ $(document).ready(function(){
       if ($(this).is('button')) {
         appContainer.toggleClass("expanded");
         $(this).toggleClass('is-active');
+      } else {
+        appContainer.removeClass("expanded");
+        hamburger.toggleClass('is-active');
       }
 
       outside.on('click', function(){
@@ -43,6 +44,10 @@ $(document).ready(function(){
   });
 
   $('select.select2').select2();
+
+  $('.toggle-checkbox').bootstrapSwitch({
+    size: "small"
+  });
 
   $('.match-height').matchHeight();
 
@@ -87,14 +92,5 @@ $(document).ready(function(){
   // Right navbar toggle
   $('.navbar-right-expand-toggle').on('click', function(){
     $('ul.navbar-right').toggleClass('expanded');
-  });
-
-  // Save shortcut
-  $(document).keydown(function (e){
-    if ((e.metaKey || e.ctrlKey) && e.keyCode == 83) { /*ctrl+s or command+s*/
-      $(".btn.save").click();
-      e.preventDefault();
-      return false;
-    }
-  });
+  }); 
 });

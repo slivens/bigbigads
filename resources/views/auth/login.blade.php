@@ -13,6 +13,8 @@
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="Bigbigads Login Description " name="description" />
         <meta content="bigbigads" name="author" />
+
+        <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
         <link href="./assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
@@ -33,14 +35,18 @@
         <!-- END PAGE LEVEL STYLES -->
         <!-- BEGIN THEME LAYOUT STYLES -->
         <!-- END THEME LAYOUT STYLES -->
-        <link rel="shortcut icon" href="favicon.ico" /> </head>
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="./static/custom.css">
+         </head>
     <!-- END HEAD -->
 
     <body class=" login">
         <!-- BEGIN LOGO -->
-        <div class="logo">
-            <a href="/" style="color:white;text-decoration:none;">
-                <h2 style="font-family:'Times New Roman'">Bigbigads</h2>
+            
+        
+        <div class="logo text-center">
+            <a href="/" style="color:white;text-decoration:none;" class="bigbigads-logo">
+                <!-- <h2 style="font-family:'Times New Roman'">Bigbigads</h2> -->
                 <!-- <img src="./assets/global/img/logo.png" alt="" /> -->
             </a>
         </div>
@@ -50,7 +56,7 @@
             <!-- BEGIN LOGIN FORM -->
             <form class="login-form" action="{{url('/login')}}" method="post" role="form">
                 {{ csrf_field() }}
-                <h3 class="form-title">Login to your account</h3>
+                <h3 class="form-title">Login</h3>
                 <div class="alert alert-danger display-hide">
                     <button class="close" data-close="alert"></button>
                     <span> Enter any E-mail and password. </span>
@@ -80,14 +86,38 @@
                             </span>
                         @endif
                 </div>
-                <div class="form-actions">
-                    <label class="rememberme mt-checkbox mt-checkbox-outline">
-                        <input type="checkbox" name="remember" value="1" /> Remember me
-                        <span></span>
-                    </label>
-                    <button type="submit" class="btn green pull-right"> Login </button>
+
+                <!--remember me, forget password-->
+                <div class="form-actions row">
+                    <div class="col-md-6 col-xs-6 rememberme-div">
+                        <label class="rememberme mt-checkbox mt-checkbox-outline">
+                            <input type="checkbox" name="remember" value="1" /> Remember me
+                            <span></span>
+                        </label>
+                    </div>
+                    <div class="forget-password col-md-6 col-xs-6 text-right">
+                    
+                        <label>
+                            <a href="javascript:;" id="forget-password" class="hidden" href="{{ url('/password/reset') }}">
+                                Forget your password?
+                            </a> 
+                        </label>
+                    </div> 
                 </div>
-                <div class="login-options">
+                <div class="clearfix login-button">
+                    <button type="submit" class="btn pull-right"> Login </button>
+                </div>
+                
+                <div class="login-footer row">
+                    <!--create an acount-->
+                    <div class="col-xs-12 text-left">
+                    <p> Don't have an account?&nbsp;
+                        <a href="javascript:;" id="register-btn" href="{{url('/register')}}" >Sign Up</a>
+                    </p>
+                    </div>
+                </div>
+                
+                <!-- <div class="login-options">
                     <h4>Or login with</h4>
                     <ul class="social-icons">
                         <li>
@@ -103,25 +133,15 @@
                             <a class="linkedin" data-original-title="Linkedin" href="javascript:;"> </a>
                         </li>
                     </ul>
-                </div>
-                <div class="forget-password">
-                    <h4>Forgot your password ?</h4>
-                    <p> no worries, click
-                        <a href="javascript:;" id="forget-password" href="{{ url('/password/reset') }}"> here </a> to reset your password. </p>
-                </div>
-                <div class="create-account">
-                    <p> Don't have an account yet ?&nbsp;
-                        <a href="javascript:;" id="register-btn" href="{{ url('/register')}}" > Create an account </a>
-                    </p>
-                </div>
+                </div> -->
+                <!--forget password-->  
             </form>
             <!-- END LOGIN FORM -->
             <!-- BEGIN FORGOT PASSWORD FORM -->
-
-            <form class="forget-form" action="{{url('/password/email')}}" method="post">
+            <form class="forget-form hidden" action="{{url('/password/email')}}" method="post">
                 {{ csrf_field() }}
-                <h3>Forget Password ?</h3>
-                <p> Enter your e-mail address below to reset your password. </p>
+                <h3 class="forget-title form-title">Forget Password ?</h3>
+                <p class="forget-text"> Enter your e-mail address below to reset your password. </p>
                 @if (session('status'))
                     <div class="alert alert-success">
                         {{ session('status') }}
@@ -139,14 +159,14 @@
                 </div>
                 <div class="form-actions">
                     <button type="button" id="back-btn" class="btn grey-salsa btn-outline"> Back </button>
-                    <button type="submit" class="btn green pull-right"> Submit </button>
+                    <button type="submit" class="btn submit-btn pull-right"> Submit </button>
                 </div>
             </form>
             <!-- END FORGOT PASSWORD FORM -->
             <!-- BEGIN REGISTRATION FORM -->
             <form class="register-form" action="{{url('/register')}}" method="post">
                 {{ csrf_field() }}
-                <h3>Sign Up</h3>
+                <h3 class="form-title">Sign Up</h3>
                 <p> Enter your account details below: </p>
                 <div class="form-group hidden">
                     <label class="control-label visible-ie8 visible-ie9">Full Name</label>
@@ -464,10 +484,17 @@
                 </div>
                 <div class="form-actions">
                     <button id="register-back-btn" type="button" class="btn grey-salsa btn-outline"> Back </button>
-                    <button type="submit" id="register-submit-btn" class="btn green pull-right"> Sign Up </button>
+                    <button type="submit" id="register-submit-btn" class="btn signup-btn pull-right"> Sign Up </button>
                 </div>
             </form>
             <!-- END REGISTRATION FORM -->
+        
+        </div>
+       
+
+
+        <div class="backgrounddiv backstretch">
+            <img src="/static/images/banner2.jpg">
         </div>
         <!-- END LOGIN -->
         <!--[if lt IE 9]>

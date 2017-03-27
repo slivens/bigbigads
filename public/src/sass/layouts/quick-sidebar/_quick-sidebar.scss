@@ -60,7 +60,7 @@ $quick-sidebar-font-color:											    black;
 	//transition: left 0.3s;	
 	z-index: $zindex-quick-sidebar;
 	position: fixed;
-	top: $header-height;
+	top: ($header-height + 10px);
 	bottom: 0;
 	width: $quick-sidebar-width;  
     left:0;

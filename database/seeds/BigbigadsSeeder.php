@@ -75,6 +75,16 @@ class BigbigadsSeeder extends Seeder
         $this->insertPermissions('Keyword Statics', $list, $permission, $roles);
         echo "insert analysis permissions \n";
     }
+
+    /**
+     * 权限列表被重新构建，后台管理员权限也应该重建
+     */
+    public function generateAdminPermissions()
+    {
+        $this->call(PermissionsTableSeeder::class);
+        $this->call(PermissionRoleTableSeeder::class);
+        echo "admin permissions generated\n";
+    }
     /**
      * Run the database seeds.
      * 1:永久累计 2:按月累计 3:按日累计 4.按小时累计 5.固定数值 6.期限
@@ -142,7 +152,7 @@ class BigbigadsSeeder extends Seeder
             'date_filter' => [true, true, true, true], 'format_filter' => [true, true, true, true], 'call_action_filter' => [false, true, true, true], 'duration_filter' => [false, true, true, true], 'see_times_filter' => [false, true, true, true], 'lang_filter' => [false, true, true, true], 'engagement_filter' => [false, true, true, true], 
             'date_sort' => [true, true, true, true], 'likes_sort' => [true, true, true, true], 'shares_sort' => [true, true, true, true],  'comment_sort' => [true, true, true, true], 'duration_sort'=>[false, true, true, true], 'views_sort' => [true, true, true, true], 'engagements_sort' => [false, true, true, true], 'engagement_inc_sort' => [false, true, true, true], 'likes_inc_sort' => [false, true, true, true], 'views_inc_sort' => [false, true, true, true], 'shares_inc_sort'=>[false, true, true, true], 'comments_inc_sort' => [false, true, true, true]];
         //给权限指定策略，策略数组的第一个数值表示策略类型，Policy::DAY表示按天累计，Policy::VALUE表示是一个固定值，Policy::PERMANENT表示永久累计，后面数值同上。需要注意的是，只有角色有对应的权限，才会有检查策略。
-        $searchPolicy = ['search_times_perday' => [Policy::DAY, 20,100, 500, 1000], 'result_per_search' => [Policy::VALUE, 500, 1000, 2000, 5000], 'keyword_times_perday' => [Policy::DAY, 1000, 1000, 1000, 1000]];
+        $searchPolicy = ['search_times_perday' => [Policy::DAY, 20,100, 500, 1000], 'result_per_search' => [Policy::VALUE, 10, 1000, 2000, 5000], 'keyword_times_perday' => [Policy::DAY, 1000, 1000, 1000, 1000]];
         $this->insertPermissions('Advertisement', $search, $searchPermission,  $roles);
         $this->insertPolicies($searchPolicy, $roles);
 
@@ -270,6 +280,7 @@ class BigbigadsSeeder extends Seeder
         echo "insert permission data\n";
     
 
+            $this->generateAdminPermissions();
         } catch (\Exception $e) {
             echo $e->getMessage();
         }

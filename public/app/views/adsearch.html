@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-xs-12 ">
                         <!-- BEGIN HEADER SEARCH BOX -->
-                        <form class="search-form" ng-submit="search()">
+                        <form class="search-form" ng-submit="islegal&&search()">
                                 <div class="col-xs-8">
                                     <div class="input-group">
                                         <input type="text" class="form-control input-lg xg-search-height" placeholder="Enter a keyword，url or advertiser " ng-model="adSearcher.searchOption.search.text">
@@ -23,7 +23,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-4">
-                                <button type="submit" class="btn yellow-gold btn-lg">
+                                <button type="submit" class="btn yellow-gold btn-lg" ng-click="searchCheck(adSearcher.searchOption.search.text)">
                                     Search
                                 </button>
                                 <!-- <button class="btn yellow-gold btn-lg" ng-click="showStatics()">analysis</button> -->
@@ -34,18 +34,18 @@
                         <!-- <button class="btn blue btn-outline btn-md " disabled="disabled">Subscribe</button> -->
                     </div>
                 </div>
-                <div class="alert alert-warning margin-top-10" ng-show="currSearchOption.isdirty">
-                    <div ng-if="currSearchOption.filter.type">Media Type:{{currSearchOption.filter.type}}</div>
+                <div class="alert alert-warning margin-top-10 xg-alert" ng-show="currSearchOption.isdirty">
                     <div ng-if="currSearchOption.search.text">Search Text:{{currSearchOption.search.text}}</div>
+                    <div ng-if="currSearchOption.filter.type">Media Type:{{currSearchOption.filter.type | mediaType}}</div>
                     <div ng-if="currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Time Frame:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}}</div>
-                    <div ng-if="currSearchOption.range">Search Mode:{{currSearchOption.range}}</div>
+                    <div ng-if="currSearchOption.filter.lang">Language:{{currSearchOption.filter.lang}}</div>
                     <div ng-if="currSearchOption.filter.state">Country:{{currSearchOption.filter.state}}</div>
                     <div ng-if="currSearchOption.domain.text">Domain:{{currSearchOption.domain.text}}({{currSearchOption.domain.exclude ? "Not Contain" : "Must Contain"}})</div>
                     <div ng-if="currSearchOption.audience.text">Audience:{{currSearchOption.audience.text}}({{currSearchOption.audience.exclude ? "Not Contain" : "Must Contain"}})</div>
                     <div ng-if="currSearchOption.filter.category">Category:{{currSearchOption.filter.category}}</div>
                     <div ng-if="currSearchOption.filter.format">Ad Type:{{currSearchOption.filter.format}}</div>
                     <div ng-if="currSearchOption.filter.callToAction">Call To Action:{{currSearchOption.filter.callToAction}}</div>
-                    <div ng-if="currSearchOption.filter.lang.length">Language:{{currSearchOption.filter.lang}}</div>
+                    <div ng-if="currSearchOption.range">Search Mode:{{currSearchOption.range}}</div>
                     <div ng-if="currSearchOption.filter.isDurationDirty()">Duration Range:{{currSearchOption.filter.duration.from}}~{{currSearchOption.filter.duration.to}}</div>
                     <div ng-if="currSearchOption.filter.isSeeTimesDirty()">See Times Range:{{currSearchOption.filter.seeTimes.from}}~{{currSearchOption.filter.seeTimes.to}}</div>
                     <div ng-if="currSearchOption.filter.isEngagementsDirty()">Engagements Filters:
@@ -73,7 +73,8 @@
                 </form>
             </div>
             <div class="xg-count-mt">
-                <span>About {{adSearcher.ads.total_count | adsCount}} results</span>
+                <span ng-if="adSearcher.ads.total_count!=0">About {{adSearcher.ads.total_count | adsCount}} results</span>
+                <span ng-if="adSearcher.ads.total_count==0">Your search did not match any results.</span>
                 <!-- <button class="btn yellow-gold btn-lg" ng-click="showStatics()">analysis</button> -->
                 <i class="fa fa-hand-o-right font-yellow-gold xg-analysis" ng-click="showStatics()"></i>
             </div>
@@ -87,6 +88,12 @@
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
 				<span class="sr-only">Loading...</span>
 			</div>
+            <div ng-if="(User.info.user.role.name =='Free') && adSearcher.isend" ng-include="'limited-banner.html'" ng-class='{"xg-limited-banner-mt6":adSearcher.isNoResult}'></div>
+            <div ng-if="(User.info.user.role.name !='Free') && adSearcher.isNoResult" class="text-center col-md-12" >
+                <div class="dashboard-stat dashboard-stat-v2 alert-warning">
+                    <h2>The end</h2>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -308,6 +315,55 @@
         <!-- end content -->
         <div class="modal-footer">
             <button class="btn btn-warning" type="button" ng-click="close()">Close</button>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="limited-banner.html">
+    <div class="dashboard-stat dashboard-stat-v2 col-md-12 xg-limited-banner">
+        <div ng-if="adSearcher.ads.total_count!=0">
+            <div class="text-center col-md-12">
+                <p ng-if="currSearchOption.search.text">There are <span ng-if="adSearcher.ads.total_count-10>0">{{adSearcher.ads.total_count-10 | adsCount}}</span> more unique ads results for "{{currSearchOption.search.text}}" to inspire your sucessful business</p>
+                <p ng-if="!currSearchOption.search.text">There are <span ng-if="adSearcher.ads.total_count-10>0">{{adSearcher.ads.total_count-10 | adsCount}}</span> more unique ads results to inspire your sucessful business</p>
+                <h4>Wanna be a Winner? Subscribe now to get access to the full searching results and narrow down the winning ad in seconds</h4>
+            </div>
+            <div class="col-md-12">
+                <div class="pull-left col-md-5">
+                    <p class="plus">Coming up next:</p>
+                    <ul>
+                        <li ng-if="currSearchOption.search.text">Set up <strong>keyword alert for "{{currSearchOption.search.text}}"</strong></li>
+                        <li>Export data to Excel</li>
+                        <li>Run niche analysis report-based on keyword</li>
+                        <li>Advertiser Analysis</li>
+                        <li>And lots more!</li>
+                    </ul>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="text-center col-md-5 xg-buybut-mt60">
+                    <a ng-href="/login" class="btn btn-lg xg-subscribe-color" ng-if="!User.info.login">Yes, I wanna be a winner</a>
+                    <a ui-sref="plans" class="btn btn-lg xg-subscribe-color" ng-if="User.info.login">Yes, I wanna be a winner</a>
+                </div>
+            </div>
+            <div class="col-md-12 text-center xg-subscribe">
+                <a href="/product">Learn more about Bigbigads</a>
+            </div>
+        </div>
+        <div ng-if="adSearcher.ads.total_count==0">
+            <div class="col-md-12">
+                <div class="pull-left col-md-5">
+                    <p class="plus">Don&apos;t feel lucky? Here are our suggestions:</p>
+                    <ul>
+                        <li>Make sure all words are spelled correctly</li>
+                        <li>Make sure you clear the filter when you start a new search</li>
+                        <li>Try a different keyword - for example： shoe and shoes are different.</li>
+                        <li>Try fewer keywords.</li>
+                        <li>Check here for more tips.</li>
+                        <li> Learn more about Bigbigads.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12 text-center xg-subscribe">
+                <a href="/product">Learn more about Bigbigads</a>
+            </div>
         </div>
     </div>
 </script>

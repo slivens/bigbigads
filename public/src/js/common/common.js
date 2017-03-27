@@ -347,27 +347,32 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }]
         };
     })
-    .directive('fixsidebar', ['$timeout', '$interval', function($timeout, $interval) {
+    .directive('fixsidebar', ['$timeout', '$rootScope', function($timeout, $rootScope) {
         return {
+            scope: true,
             link:function(scope, element, attrs) {
                 var oldtop = 0;
-                $timeout(function() {
+                
+                 $timeout(function() {
                     oldtop = element[0].getBoundingClientRect().top;
                     if (oldtop < 80)
                         oldtop = 80;
-                }, 100);
-                $interval(function() {
-                    
+                 }, 100);
+                //更新浮动
+                function updatefix(){
                     var top = element.parent()[0].getBoundingClientRect().top;
                     if (top < 0)
-                        //$(element).css('top', oldtop - top);
-                    $(element).animate({ top: oldtop - top });
-                    else if (top > 0) {
-                        //$(element).css('top', oldtop);
+                        $(element).animate({ top: oldtop - top });
+                    else if (top > 0)
                         $(element).animate({ top: oldtop});
-                    }
-                    // console.log("pos:", top);
-                }, 400);
+                    // if(!$rootScope.$$phase){
+                    //     scope.$digest();
+                    // }
+                }
+                (function loop(){
+                    setTimeout(loop,1000);
+                    updatefix();
+                })();
             }
         };
     }])
@@ -406,7 +411,44 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', function($uibModal, $stateParams, SweetAlert) {
+    .directive('adserlink', ['$state', function($state) {
+        return {
+            link: function(scope, element, attrs) {
+                element.bind('click', function() {
+                    var url = "";
+                    var name = attrs.name.replace(/<[^>]+>/g,"");
+                    var username = attrs.username.replace(/<[^>]+>/g,"");
+                    url = $state.href('adser', {name:name, adser:username});
+                    window.open(url,'_blank');
+                });
+            }
+        };
+    }])
+    .directive('canvaslink', ['$state', function($state) {
+        return {
+            link: function(scope, element, attrs) {
+                element.bind('click', function() {
+                    var url = "https://facebook.com/"+attrs.id+"/"+attrs.eventid;
+                    window.open(url);
+                });
+            }
+        };
+    }])
+    //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
+    .filter('unique', function () {  
+        return function (collection) { 
+            var output = []; 
+            angular.forEach(collection, function (item) {  
+                var itemname = item;  
+                if (output.indexOf(itemname) <0) //indexOf表示首次出现的位置，===-1表示不存在
+                 {  
+                    output.push(itemname);  //输入到数组
+                }  
+            });  
+            return output;  
+        };  
+    })
+    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert' , 'User', function($uibModal, $stateParams, SweetAlert, User) {
         return {
             matchkey: function(origstr, destArr) {
                 var orig = origstr.split(',');
@@ -536,6 +578,33 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 } else {
                     SweetAlert.swal(res.statusText);
                 }
+            },
+            openUpgrade:function() {
+                return $uibModal.open({
+                    templateUrl: 'views/upgrade.html',
+                    size: 'md',
+                    animation: true,
+                });
+            },
+            isNumberLimit:function(value) {
+                if(User.info.user.role.name !='Free') return true;
+                var valueArray = value.split(" ");
+                if(valueArray.length>1) {
+                    return false;
+                }else {
+                    return true;
+                }
+            },
+            isLengthLimit:function(value) {
+                if(value.length>300) {//20长度仅用于测试
+                    return false;
+                }else {
+                    return true;
+                }
+            },
+            //判断是否为数组
+            isArray:function(value){
+                return angular.isArray(value);
             }
         };
     }]);
