@@ -297,7 +297,7 @@ Route::get('/tester', function() {
 });
 
 /* Route::get('/showPlans', 'SubscriptionController@showPlans'); */
-Route::any('/onPayWebhook', 'SubscriptionController@onPayWebhook');
+Route::any('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
 /* Route::any('/createPayment', 'PaymentController@createPayment'); */
 
 
