@@ -748,7 +748,7 @@ MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', func
     $scope.tabmenu = tabmenu;
     $scope.User = User;
     $scope.checkAccount = function() {
-        if(User.info.user.role.name !='Free') return;
+        if((User.info.user.role.name !='Free')&&(User.info.user.role.name !='Standard')) return;
         User.openUpgrade();
     };
     $scope.$on('$locationChangeSuccess', function() {
