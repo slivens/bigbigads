@@ -29,7 +29,7 @@
                                 ${{item.plans.monthly.amount}} / Month
                             </span>
                             <span ng-if="item.plans && plans.annually">
-                                ${{item.plans.annually.amount/12}} / Month
+                                ${{item.plans.annually.amount/12 | number:0}} / Month
                             </span>
                         </h4>
                         <div>
