@@ -278,7 +278,6 @@ header li.active  a{
 .slider-content {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2);
 }
-
 .slider img {
     /*display: block;*/
     background-position: center;
@@ -357,7 +356,7 @@ header li.active  a{
 }
 
 .slider-items li.active .slider-desc {
-    display: block;font-size: 1rem;
+    display: block;font-size: 1.125rem;
 }
 
 .slider-items li:hover .slider-title {

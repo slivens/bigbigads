@@ -19,8 +19,8 @@
     <div class="container text-center mat-500" >
         <div class="pricing-tab">
             <a href="javascript:;" class="pricing-icon icon-per active">Small Business</a>
-            <a href="javascript:;" class="pricing-icon icon-ad">Advanced</a>
-            <a href="javascript:;" class="pricing-icon icon-shop">Enterprice</a>
+            <a href="javascript:;" class="pricing-icon icon-ad">Marketer</a>
+            <a href="javascript:;" class="pricing-icon icon-shop">Ad Agency</a>
         </div>
         <p class="pricing-tab_tip mab-2">For Small Business to get inspired on products and creatives </p>
         <div class="box-shadow radius" >
@@ -30,8 +30,7 @@
                     <p class="mab-56">A starter level which way too better than other competitor on the market.</p>
                 </div>
                 <div class="col-md-6 font_24  border-left pricing-tab-item">
-                    <p class="pricing-item_title">ADVANCED
-</p>
+                    <p class="pricing-item_title">PLUS</p>
                     <p class="mab-56">Unblocked features on ad level,enjoy your next generation ad intelligence platform.</p>
                 </div>
             </div>
@@ -471,7 +470,7 @@
 <!--end pricing tabel-->
 <section class="pricing-qa clearfix">
     <div class="container">
-        <p class="pricing-qa_title">Frequently asked questions</p>
+        <p class="pricing-qa_title">F.A.Q </p>
         <ul class="pricing-qa_item" id="qa">
             <li class="">
                 <div><span class="caret "></span>
@@ -533,7 +532,7 @@
     </div>
 </section>
 @include('tpl.footer')
-<!-- <script src="static/jquery-3.1.1.js"></script>-->
+ <script src="static/jquery-3.1.1.js"></script>
 <script src="static/swiper.jquery.js"></script>
 <script>
     $(function () {
