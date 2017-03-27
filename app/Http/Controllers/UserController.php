@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Role;
+use App\User;
 use Carbon\Carbon;
 use Log;
 use App\Services\AnonymousUser;
@@ -63,4 +64,23 @@ class UserController extends Controller
         return json_encode($res, JSON_UNESCAPED_UNICODE);
     }
 
+    /**
+     * 用户邮箱注册验证
+     */
+    public function registerVerify(Request $request)
+    {
+        if (!($request->has('email') && $request->has('token'))) {
+            return view('auth.verify')->with('error', "parameter error");
+        }
+        $user = User::where('email', $request->email)->where('verify_token', $request->token)->first();
+        if (!($user instanceof User)) {
+            return view('auth.verify')->with('error', "Verify failed");
+        }
+        if ($user->state == 1) {
+            return view('auth.verify')->with('error', "You have verified, don't verify again!!!");
+        }
+        $user->state = 1;
+        $user->save();
+        return view('auth.verify')->with("user", $user);
+    }
 }

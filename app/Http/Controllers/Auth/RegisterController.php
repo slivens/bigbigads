@@ -6,6 +6,8 @@ use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisterVerify;
 
 class RegisterController extends Controller
 {
@@ -74,10 +76,12 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'role_id' => 3//不知为何没生效，默认设置为免费用户
+            'role_id' => 3//不知为何没生效，默认设置为免费用户，下面再设置一遍
         ]);
         $user->role_id = 3;
+        $user->verify_token = str_random(40);
         $user->save();
+        Mail::to($user->email)->send(new RegisterVerify($user));//发送验证邮件
         return $user;
     }
 }

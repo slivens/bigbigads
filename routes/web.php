@@ -19,6 +19,9 @@ use App\ActionLog;
 use App\Role;
 use App\Plan;
 use TCG\Voyager\Models\Post;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisterVerify;
+
 /**
  * @$req Reqeust 
  * @$name 权限名称
@@ -112,6 +115,7 @@ Route::get('/ranking', function(Request $req) {
 });
 
 Route::get('/userinfo', 'UserController@logInfo');
+Route::get('/registerVerify', 'UserController@registerVerify');
 
 Route::get('/plans', 'SubscriptionController@plans');
 
@@ -296,7 +300,9 @@ Route::any('/onPayWebhook', 'SubscriptionController@onPayWebhook');
 
 
 Route::get('/t2', function() {
-
+    $user = \App\User::find(14);
+    
+    Mail::to('95496875@qq.com')->send(new RegisterVerify($user));
     /* $service = new \App\Services\PaypalService(); */
     /* $name = "I-23KWN02LTR7P"; */
     /* /1* $service->suspendSubscription($name); *1/ */
