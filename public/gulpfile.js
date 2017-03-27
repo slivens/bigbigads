@@ -23,7 +23,7 @@ var config = {
     script:{
         target:'./app/js/'
     },
-    mode:"production"
+    mode:"develop"
 }
 //*** Localhost server tast
 gulp.task('localhost', function() {
