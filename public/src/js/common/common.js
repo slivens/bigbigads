@@ -161,7 +161,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                         if (element.find('.lock').length)
                             return;
                         if ((attrs.trigger == "lockButton")&&(attrs.buttontype == "filter")) {
-                            element.on('click.openUpgrade', function(){
+                            element.on('click.openUpgrade', function() {
                                 User.openUpgrade();
                                 return false;
                             });
