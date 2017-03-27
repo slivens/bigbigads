@@ -19,13 +19,13 @@
             <div class="swiper-container" id="slider" >
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <img src="static/images/slider1.png"/>
+                        <img src="static/images/show/product_03.jpg"/>
                     </div>
                     <div class="swiper-slide">
-                        <img src="static/images/slider1.png"/>
+                        <img src="static/images/show/product_02.jpg"/>
                     </div>
                     <div class="swiper-slide">
-                        <img src="static/images/slider1.png"/>
+                        <img src="static/images/show/product_01.jpg"/>
                     </div>
                 </div>
             </div>
@@ -34,16 +34,16 @@
         <div class="slider-right col-md-4" >
             <ul class="slider-items">
                 <li class="active">
-                    <p class="slider-title">Filter</p>
-                    <p class="slider-desc">Find your most interested products or activitisers with Bigbiga</p>
+                    <p class="slider-title">Advertiser Search</p>
+                    <p class="slider-desc">Find out all advertisers for a specific product or service.</p>
                 </li>
                 <li>
-                    <p class="slider-title">Ranking</p>
-                    <p class="slider-desc">Ranking Download Advertiser Search Analysis</p>
+                    <p class="slider-title">Audience Targeting</p>
+                    <p class="slider-desc">Help you to know your customers and competitors better</p>
                 </li>
                 <li>
-                    <p class="slider-title">Ranking</p>
-                    <p class="slider-desc">Ranking Download Advertiser Search Analysis</p>
+                    <p class="slider-title">Niche Market Analysis</p>
+                    <p class="slider-desc">Enhance your ability to understand a new niche market.</p>
                 </li>
             </ul>
             <a href="/app/adsearch" class="btn btn-clg slider-btn">Try It Now</a>

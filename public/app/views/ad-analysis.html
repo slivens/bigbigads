@@ -205,7 +205,6 @@
                                 <!--begin similar-->
                                 <div id="similar">
                                     <h4 class="font-yellow-gold">Similar Ads</h4>
-
                                     <div ng-if="User.can('analysis_similar')">
                                         <div class="row">
                                             <div  ng-if="card.similars.length > 0" ng-repeat="item in card.similars | limitTo:2 track by $index" class="aditem col-md-6 col-xs-12">
@@ -214,19 +213,19 @@
                                                         <table class="adscard-head">
                                                             <tr>
                                                                 <td class="adscaed-img">
-                                                        <a ng-href="">
-                                                            <img src="{{settings.imgRemoteBase + item.local_photo}}"  class="rounded avatar">
-                                                        </a>
-                                                            </td>
+                                                                    <a ng-href="">
+                                                                        <img src="{{settings.imgRemoteBase + item.local_photo}}"  class="rounded avatar">
+                                                                    </a>
+                                                                </td>
                                             
-                                                            <td class="adscard-img">  
-                                                                <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:item.adser_name, adser:item.adser_username})">
-                                                                    <span ng-bind-html="item.adser_name | toHtml" ng-show="item.adser_name">
-                                                                        {{item.adser_name}}
-                                                                    </span>
-                                                                    <span ng-show="!item.adser_name">{{item.adser_username}}</span>
-                                                                </a>
-                                                            </td>
+                                                                <td class="adscard-img">  
+                                                                    <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:item.adser_name, adser:item.adser_username})">
+                                                                        <span ng-bind-html="item.adser_name | toHtml" ng-show="item.adser_name">
+                                                                            {{item.adser_name}}
+                                                                        </span>
+                                                                        <span ng-show="!item.adser_name">{{item.adser_username}}</span>
+                                                                    </a>
+                                                                </td>
                                                             </tr> 
                                                         </table>
                                                     </div>
@@ -236,23 +235,6 @@
                                                     <carousel ng-if="item.type == 'Carousel'" card="item">
                                                     </carousel>
                                                     <adcanvas ng-if="item.type == 'Canvas'" card="item"></adcanvas>
-
-                                    <div ng-show="User.can('analysis_similar')">
-                                    <div class="row">
-                                        <div  ng-if="card.similars.length > 0" ng-repeat="item in card.similars | limitTo:2" class="aditem col-md-6 col-xs-12">
-                                            <div class="portlet light bordered">
-                                                <div class="margin-bottom-10 margin-top-10">
-                                                    <a ng-href="">
-                                                        <img src="{{settings.imgRemoteBase + item.small_photo}}"  class="avatar">
-                                                    </a>
-                                                           
-                                                    <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:item.adser_name, adser:item.adser_username})">
-                                                        <span ng-bind-html="item.adser_name | toHtml" ng-show="item.adser_name">
-                                                            {{item.adser_name}}
-                                                        </span>
-                                                        <span ng-show="!item.adser_name">{{item.adser_username}}</span>
-                                                    </a>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -287,7 +269,6 @@
                                                             <a ng-href="{{card.link}}" target="_blank" class="text-nowrap ">{{card.link | limitTo:80}}<span ng-show="card.link.length>80">...</span></a>
                                                             
                                                             <i ng-show="card.snapshot" class="glyphicon glyphicon-eye-open linksnapshot-icon" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top"  popover-is-open="issnapshot" ng-mouseenter="issnapshot=true" ng-mouseleave="issnapshot=false" ></i>
-
                                                         </td>
                                                     </tr>
                                                 </table>

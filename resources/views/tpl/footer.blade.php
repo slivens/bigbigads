@@ -19,14 +19,14 @@
         <ul class="col-md-3">
             <li class="footer-title"> STAY CONNECTES</li>
             <li>
-                <a href="" class="footer-icon demoicon icon-facebook"></a>
+                <a href="https://www.facebook.com/1869675289915326" class="footer-icon demoicon icon-facebook"></a>
                 <a href="" class="footer-icon demoicon icon-linkedin2 hidden"></a>
                 <a href="" class="footer-icon demoicon icon-twitter hidden"></a>
-                <a href="" class="footer-icon demoicon icon-youtube"></a>
+                <a href="https://youtu.be/xo9cSuR50Js" class="footer-icon demoicon icon-youtube"></a>
             </li>
         </ul>
     </div>
-    <script src="static/jquery-3.1.1.js"></script>
+    
     <script>
       window.intercomSettings = {
         app_id: "pv0r2p1a"
