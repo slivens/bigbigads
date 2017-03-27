@@ -279,58 +279,7 @@ Route::get('/tester', function() {
     /* Auth::user()->incUsage("image_download"); */
     //Auth::user()->save();
     dd(Auth::user()->usage);
-    /* $role = App\Role::where('name', 'Standard')->first(); */
-    /* dd($role->groupedPolicies()); */
-    $fields = ["id", "billingPeriodStartDate", "billingPeriodEndDate", "currentBillingCycle", "planId", "price", "status"];
-    $user = Auth::user();
-    $res = [];
-    foreach($user->subscriptions as $item) {
-        $subscription = \Braintree\Subscription::find($item->braintree_id);
-        $resitem = [];
-        foreach($fields as $item2) {
-            $resitem[$item2] = $subscription->$item2;
-        }
-        array_push($res,  $subscription);
-    }
-   // $invoices = $user->invoices();
-    //dd($invoices);
-    dd($res);
 });
 
-/* Route::get('/showPlans', 'SubscriptionController@showPlans'); */
 Route::any('/onPayWebhook', 'SubscriptionController@onPayWebhook');
-/* Route::any('/createPayment', 'PaymentController@createPayment'); */
 
-
-Route::get('/t2', function() {
-    $user = \App\User::find(14);
-    
-    Mail::to('95496875@qq.com')->send(new RegisterVerify($user));
-    /* $service = new \App\Services\PaypalService(); */
-    /* $name = "I-23KWN02LTR7P"; */
-    /* /1* $service->suspendSubscription($name); *1/ */
-    /* $subscription = $service->subscription($name); */
-    /* return $subscription; */
-    /* $detail = $subscription->getAgreementDetails(); */
-    /* echo "payment:" . $detail->getLastPaymentDate(); */
-    /* echo " next:" . $detail->getNextBillingDate() . "<br/>"; */
-    /* $t = $service->transactions($name); */
-    /* foreach ($t as $item) { */
-    /*     echo "{$item->getTransactionId()} , {$item->getTransactionType()} "; */
-    /*     $amount = $item->getAmount(); */
-    /*     if ($amount) { */
-    /*         echo "value: {$amount->getValue()}"; */
-    /*     } */
-    /*     $carbon = new Carbon($item->getTimeStamp(), $item->getTimeZone()); */
-    /*     $carbon->tz = Carbon::now()->tz; */
-    /*     echo " happend: " . $carbon ; */
-    /*     echo " timezone:" . $item->getTimeZone(); */
-    /*     echo " status: " . $item->getStatus(); */
-    /*     echo "<br/>"; */
-    /* } */
-});
-Route::get('/paytest', function() {
-    /* $plan = Plan::where('name', 'standard')->first(); */
-    /* $service = new \App\Services\PaypalService; */
-    /* return $service->createPayment($plan); */
-});

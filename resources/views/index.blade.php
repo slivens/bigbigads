@@ -124,8 +124,7 @@
         <div class="col-md-6 ">
             <div class="video-content">
                 
-            
-            <iframe class="video-iframe" src="https://www.youtube.com/embed/zi8wZ0YPRWw" frameborder="0" allowfullscreen></iframe>
+           <iframe width="640" height="360" src="https://www.youtube.com/embed/xo9cSuR50Js" frameborder="0" allowfullscreen></iframe> 
         <!-- <span class="video-content_play" data-toggle="modal" data-target="#md_video"></span> --></div>
     </div>
     </div>
