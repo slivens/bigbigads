@@ -11,10 +11,16 @@ var uglify = require("gulp-uglify");
 var rtlcss = require("gulp-rtlcss");  
 var connect = require('gulp-connect');
 var concat = require('gulp-concat');
+var clean = require('gulp-clean');
 var del = require('del');
 var runSequence = require('run-sequence');
 const jshint = require('gulp-jshint');
 var mode = "develop";
+var config = {
+    script:{
+        target:'./app/js'
+    }
+}
 //*** Localhost server tast
 gulp.task('localhost', function() {
   connect.server();
@@ -74,15 +80,22 @@ gulp.task('minify', function () {
 
 });
 
-gulp.task('script', function() {
+gulp.task('clean', function() {
+    try {
+        return gulp.src('./app/js', {read:false}).pipe(clean());
+    } catch(e) {
+    }
+})
+
+gulp.task('script', ['clean'], function() {
     var target = 'bigbigads.js';
-    del.sync(['./app/js/' + target]);
+
     if (mode === "develop") {
-        gulp.src(['./src/js/**/*.js', '!./src/js/standalone/*.js']).pipe(sourcemaps.init()).pipe(concat(target)).pipe(sourcemaps.write('./')).pipe(gulp.dest('./app/js/'));
-        gulp.src(['./src/js/standalone/*.js']).pipe(gulp.dest('./app/js/'));
+        gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js']).pipe(sourcemaps.init()).pipe(concat(target)).pipe(sourcemaps.write('./')).pipe(gulp.dest('./app/js/'));
+        gulp.src(['./src/js/standalone/**/*.js']).pipe(gulp.dest('./app/js/'));
     } else {
-        gulp.src(['./src/js/**/*.js', '!./src/js/standalone/*.js']).pipe(concat(target)).pipe(gulp.dest('./app/js/')).pipe(uglify()).pipe(gulp.dest('./app/js/'));
-        gulp.src(['./src/js/standalone/*.js']).pipe(uglify()).pipe(gulp.dest('./app/js/'));
+        gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js']).pipe(concat(target)).pipe(gulp.dest('./app/js/')).pipe(uglify()).pipe(gulp.dest('./app/js/'));
+        gulp.src(['./src/js/standalone/**/*.js']).pipe(uglify()).pipe(gulp.dest('./app/js/'));
     }
     // gulp.src(['./app/js/' + target]).pipe(uglify()).pipe(rename({suffix:'.min'})).pipe(gulp.dest('./app/js/'));
 });
