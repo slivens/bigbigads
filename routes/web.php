@@ -281,5 +281,5 @@ Route::get('/tester', function() {
     dd(Auth::user()->usage);
 });
 
-Route::any('/onPayWebhook', 'SubscriptionController@onPayWebhook');
+Route::any('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
 
