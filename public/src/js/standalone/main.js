@@ -1226,11 +1226,21 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
             return {type:usage[0], value:usage[1], used:0};
         },
         openUpgrade:function() {
-                return $uibModal.open({
-                    templateUrl: 'views/upgrade.html',
-                    size: 'md',
-                    animation: true,
-                });
+            return $uibModal.open({
+                templateUrl: 'views/upgrade.html',
+                size: 'md',
+                animation: true,
+                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
+                    $scope.goPlans = function() {
+                        $state.go("plans");
+                        $uibModalInstance.dismiss('success');
+                    };
+                    $scope.goLogin = function() {
+                        window.open('/login',"_self");
+                        $uibModalInstance.dismiss('success');
+                    };
+                }]
+            });
         }
     };
     return user;
