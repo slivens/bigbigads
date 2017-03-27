@@ -160,8 +160,13 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     if (!User.can(key) || !User.usable(key, attrs.val)) {
                         if (element.find('.lock').length)
                             return;
-                        
-                        if (attrs.trigger == "lockButton") {
+                        if ((attrs.trigger == "lockButton")&&(attrs.buttontype == "filter")) {
+                            element.on('click', function(){
+                                User.openUpgrade();
+                                return false;
+                            });
+                        }
+                        if ((attrs.trigger == "lockButton")&&(attrs.buttontype != "filter")) {
                             element.attr("disabled", "disabled");
                             element.append('<i class="fa fa-lock  lock"></i>');
                         } else if (attrs.trigger == "disabled")
@@ -172,6 +177,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                         if (attrs.trigger == "lockButton") {
                             element.removeAttr("disabled");
                             element.children('.lock').remove();
+                            element.unbind('click');
                         } else if (attrs.trigger == "disabled")
                             element.removeAttr("disabled");
                         else
