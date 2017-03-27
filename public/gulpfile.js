@@ -14,12 +14,16 @@ var concat = require('gulp-concat');
 var clean = require('gulp-clean');
 var del = require('del');
 var runSequence = require('run-sequence');
+const rev = require('gulp-rev');
+const revCollector = require('gulp-rev-collector');
 const jshint = require('gulp-jshint');
-var mode = "develop";
+const gulpsync = require('gulp-sync')(gulp);
+
 var config = {
     script:{
-        target:'./app/js'
-    }
+        target:'./app/js/'
+    },
+    mode:"production"
 }
 //*** Localhost server tast
 gulp.task('localhost', function() {
@@ -81,21 +85,25 @@ gulp.task('minify', function () {
 });
 
 gulp.task('clean', function() {
-    try {
         return gulp.src('./app/js', {read:false}).pipe(clean());
-    } catch(e) {
-    }
 })
 
-gulp.task('script', ['clean'], function() {
+gulp.task('script',  function() {
     var target = 'bigbigads.js';
 
-    if (mode === "develop") {
+    if (config.mode === "develop") {
         gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js']).pipe(sourcemaps.init()).pipe(concat(target)).pipe(sourcemaps.write('./')).pipe(gulp.dest('./app/js/'));
         gulp.src(['./src/js/standalone/**/*.js']).pipe(gulp.dest('./app/js/'));
+        gulp.src(['./src/index.html']).pipe(gulp.dest('./app/'));
     } else {
         gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js']).pipe(concat(target)).pipe(gulp.dest('./app/js/')).pipe(uglify()).pipe(gulp.dest('./app/js/'));
-        gulp.src(['./src/js/standalone/**/*.js']).pipe(uglify()).pipe(gulp.dest('./app/js/'));
+        gulp.src(['./src/js/standalone/**/*.js'])
+            .pipe(uglify())
+            .pipe(rev())
+            .pipe(gulp.dest(config.script.target))
+            .pipe(rev.manifest())
+            .pipe(gulp.dest('./app'));
+
     }
     // gulp.src(['./app/js/' + target]).pipe(uglify()).pipe(rename({suffix:'.min'})).pipe(gulp.dest('./app/js/'));
 });
@@ -122,13 +130,22 @@ gulp.task('lint', function()  {
 
 });
 
-gulp.task('lint:watch', function() {
+//对JS与CSS生成版本号，防止缓存;源文件必须与目标文件分开，否则将只能替换一次
+gulp.task('rev',  function() {
+    return gulp.src(['./app/*.json', './src/index.html']).pipe(revCollector({
+                replaceReved:true
+                }))
+                .pipe(gulp.dest('./app'));
+});
+
+gulp.task('script:watch', function() {
     gulp.watch(['./src/js/**/*.js'], ['lint', 'script']);
 });
 
-gulp.task('watch', ['sass:watch', 'lint:watch']);
-gulp.task('production', function() {
-    mode = "production";
-    runSequence('sass', 'script', 'minify');
+gulp.task('watch', ['sass:watch', 'script:watch']);
+
+gulp.task('production', ['clean'], function(cb) {
+    config.mode = "production";
+    return runSequence(['sass'], ['script'], ['minify'], ['rev'],  cb);
 });
 gulp.task('develop', ['sass', 'script']);
