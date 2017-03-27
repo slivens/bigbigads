@@ -454,7 +454,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             return output;  
         };  
     })
-    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert' , 'User', function($uibModal, $stateParams, SweetAlert, User) {
+    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert' , 'User', '$state', function($uibModal, $stateParams, SweetAlert, User, $state) {
         return {
             matchkey: function(origstr, destArr) {
                 var orig = origstr.split(',');
@@ -590,6 +590,21 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     templateUrl: 'views/upgrade.html',
                     size: 'md',
                     animation: true,
+                    controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
+                        var url; 
+                        console.log("what?");
+                        $scope.goPlans = function() {
+                            console.log("123456");
+                            $state.go("plans");
+                            $uibModalInstance.dismiss('success');
+                        };
+                        $scope.goLogin = function() {
+                            console.log("123456789");
+                            url = $state.href('/login');
+                            window.open(url);
+                            $uibModalInstance.dismiss('success');
+                        };
+                    }]
                 });
             },
             isNumberLimit:function(value) {
