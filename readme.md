@@ -52,12 +52,12 @@ REDIS_PASSWORD=null
 REDIS_PORT=6379
 
 # E-MAIL配置
-MAIL_DRIVER=smtp
-MAIL_HOST=smtp.papamk.com
-MAIL_PORT=25
-MAIL_USERNAME=pheye@papamk.com
-MAIL_PASSWORD=123456abc
-MAIL_ENCRYPTION=null
+MAIL_DRIVER=smtp                                                                          
+MAIL_HOST=smtp.gmail.com                                                                  
+MAIL_PORT=587                                                                             
+MAIL_USERNAME=info@bigbigads.com                                                          
+MAIL_PASSWORD=info_password@1qaz2wsx                                                      
+MAIL_ENCRYPTION=tls
 
 PUSHER_APP_ID=
 PUSHER_KEY=
