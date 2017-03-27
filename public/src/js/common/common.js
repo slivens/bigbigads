@@ -161,7 +161,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                         if (element.find('.lock').length)
                             return;
                         if ((attrs.trigger == "lockButton")&&(attrs.buttontype == "filter")) {
-                            element.on('click', function(){
+                            element.on('click.openUpgrade', function(){
                                 User.openUpgrade();
                                 return false;
                             });
@@ -177,7 +177,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                         if (attrs.trigger == "lockButton") {
                             element.removeAttr("disabled");
                             element.children('.lock').remove();
-                            element.unbind('click');
+                            element.off('click.openUpgrade');
                         } else if (attrs.trigger == "disabled")
                             element.removeAttr("disabled");
                         else
