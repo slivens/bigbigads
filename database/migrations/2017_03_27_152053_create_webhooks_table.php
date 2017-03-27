@@ -13,7 +13,7 @@ class CreateWebhooksTable extends Migration
      */
     public function up()
     {
-        Schema::table('webhooks', function (Blueprint $table) {
+        Schema::create('webhooks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('webhook_id', 100);
             $table->dateTime('created_at');

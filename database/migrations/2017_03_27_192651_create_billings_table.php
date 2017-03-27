@@ -13,7 +13,7 @@ class CreateBillingsTable extends Migration
      */
     public function up()
     {
-        Schema::table('billings', function (Blueprint $table) {
+        Schema::create('billings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('uid');
             $table->string('tid', 100)->unique();
