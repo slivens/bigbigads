@@ -160,8 +160,13 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     if (!User.can(key) || !User.usable(key, attrs.val)) {
                         if (element.find('.lock').length)
                             return;
-                        
-                        if (attrs.trigger == "lockButton") {
+                        if ((attrs.trigger == "lockButton")&&(attrs.buttontype == "filter")) {
+                            element.on('click.openUpgrade', function() {
+                                User.openUpgrade();
+                                return false;
+                            });
+                        }
+                        if ((attrs.trigger == "lockButton")&&(attrs.buttontype != "filter")) {
                             element.attr("disabled", "disabled");
                             element.append('<i class="fa fa-lock  lock"></i>');
                         } else if (attrs.trigger == "disabled")
@@ -172,6 +177,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                         if (attrs.trigger == "lockButton") {
                             element.removeAttr("disabled");
                             element.children('.lock').remove();
+                            element.off('click.openUpgrade');
                         } else if (attrs.trigger == "disabled")
                             element.removeAttr("disabled");
                         else
@@ -448,7 +454,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             return output;  
         };  
     })
-    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert' , 'User', function($uibModal, $stateParams, SweetAlert, User) {
+    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert' , 'User', '$state', function($uibModal, $stateParams, SweetAlert, User, $state) {
         return {
             matchkey: function(origstr, destArr) {
                 var orig = origstr.split(',');
@@ -579,15 +585,9 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     SweetAlert.swal(res.statusText);
                 }
             },
-            openUpgrade:function() {
-                return $uibModal.open({
-                    templateUrl: 'views/upgrade.html',
-                    size: 'md',
-                    animation: true,
-                });
-            },
             isNumberLimit:function(value) {
                 if(User.info.user.role.name !='Free') return true;
+                 if(!value) return true;
                 var valueArray = value.split(" ");
                 if(valueArray.length>1) {
                     return false;
@@ -596,6 +596,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 }
             },
             isLengthLimit:function(value) {
+                if(!value) return true;
                 if(value.length>300) {//20长度仅用于测试
                     return false;
                 }else {
@@ -605,6 +606,47 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             //判断是否为数组
             isArray:function(value){
                 return angular.isArray(value);
+            },
+            isFilterLimit:function(filter,searchOption) {
+                if((User.info.user.role.name !='Free')||User.login) {
+                    return true;
+                }
+                var isLimit = false;
+                var isDateLimit;
+                var isFormatLimit;
+                var isCallToActionLimit;
+                var isLangLimit; 
+                var isRangeSelectedLimit;  
+                    //console.log(filter);
+                if((filter.hasOwnProperty('formatSelected'))&&(filter.formatSelected.length===0)){
+                    isFormatLimit = false;
+                }else if(filter.hasOwnProperty('formatSelected')){
+                    isFormatLimit = true;
+                }
+                if((filter.hasOwnProperty('callToAction'))&&(filter.callToAction.length===0)){
+                    isCallToActionLimit = false;
+                }else if(filter.hasOwnProperty('callToAction')){
+                    isCallToActionLimit = true;
+                }
+                if((filter.hasOwnProperty('lang'))&&(filter.lang.length===0)){
+                    isLangLimit = false;
+                }else if(filter.hasOwnProperty('lang')){
+                    isLangLimit = true;
+                }
+                if((searchOption.hasOwnProperty('rangeselected'))&&(searchOption.rangeselected.length===0)){
+                    isRangeSelectedLimit = false;
+                }else if(searchOption.hasOwnProperty('rangeselected')){
+                    isRangeSelectedLimit = true;
+                }
+                if(filter.date.endDate!==null){
+                    isDateLimit = true;
+                }
+                if(isFormatLimit||isCallToActionLimit||isLangLimit||isDateLimit||isRangeSelectedLimit) isLimit=true;
+                if(isLimit){
+                    return false;
+                }else {
+                    return true;
+                }
             }
         };
     }]);

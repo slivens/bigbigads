@@ -747,6 +747,10 @@ MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', func
     };
     $scope.tabmenu = tabmenu;
     $scope.User = User;
+    $scope.checkAccount = function() {
+        if(User.info.user.role.name !='Free') return;
+        User.openUpgrade();
+    };
     $scope.$on('$locationChangeSuccess', function() {
          tabmenu.name = $location.path();
     });
@@ -1151,7 +1155,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settin
 }]);
 
 
-MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', function($http, $q, $location, $rootScope, settings, ADS_TYPE) {
+MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', '$uibModal', function($http, $q, $location, $rootScope, settings, ADS_TYPE ,$uibModal) {
     //获取信息完成后应该广播消息，然后其他需要在获取用户信息才能继续的操作就放到接收到广播后处理
     var infourl = settings.remoteurl  + "/userinfo";
     var user = {
@@ -1220,6 +1224,23 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
             if (usage.length > 2)
                 return {type:usage[0], value:usage[1], used: usage[2]};
             return {type:usage[0], value:usage[1], used:0};
+        },
+        openUpgrade:function() {
+            return $uibModal.open({
+                templateUrl: 'views/upgrade.html',
+                size: 'md',
+                animation: true,
+                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
+                    $scope.goPlans = function() {
+                        $state.go("plans");
+                        $uibModalInstance.dismiss('success');
+                    };
+                    $scope.goLogin = function() {
+                        window.open('/login',"_self");
+                        $uibModalInstance.dismiss('success');
+                    };
+                }]
+            });
         }
     };
     return user;

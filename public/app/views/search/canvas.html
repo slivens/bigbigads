@@ -7,7 +7,7 @@
         <!-- begin timeline canvas-->
         <div class="text-center mt-element-overlay" ng-if="Searcher.getAdsType(card, Searcher.ADS_TYPE.timeline)">
             <div class="xg-margin-bottom">
-                <a fancybox ng-href="{{settings.imgRemoteBase + card.local_picture}}">
+                <a fancybox ng-href="{{settings.imgRemoteBase + card.watermark}}">
                     <!-- 为防止无限加载时图片加载后高度改变导致浏览位置变化，在加载图片前就设定好高度，这就要求图片URL一定要符合格式，否则不能正常显示 -->
                     <img class="img-loading" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" lazy-img="{{settings.imgRemoteBase + card.watermark}}" alt="" width="{{card.watermark | getImageSize:0}}px" height="{{card.watermark | getImageSize:1}}px"  >
                 </a>
@@ -17,7 +17,7 @@
         <!-- begin rightcolumn canvas -->
         <div class="text-center mt-element-overlay" ng-if="Searcher.getAdsType(card, Searcher.ADS_TYPE.rightcolumn)">
 
-            <div ng-repeat="item in card.watermark">
+            <div ng-repeat="item in card.watermark track by $index">
                 <div>
                     <a fancybox ng-href="{{settings.imgRemoteBase + card.local_picture[$index]}}">
                         <!-- 为防止无限加载时图片加载后高度改变导致浏览位置变化，在加载图片前就设定好高度，这就要求图片URL一定要符合格式，否则不能正常显示 -->
