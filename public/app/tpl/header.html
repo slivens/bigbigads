@@ -22,11 +22,11 @@
                         </li>
                         <li ng-class="{active:tabmenu.name == '/adserSearch'}">
                             <a ui-sref="adserSearch" ui-sref-opts="{reload:true}" ng-show="User.can('adser_search')">Advertiser</a>
-                            <a href="#" ng-show="!User.can('adser_search')">Advertiser<i class="fa fa-lock fa-fw"></i></a>
+                            <a href="#" ng-show="!User.can('adser_search')" ng-click="checkAccount()">Advertiser<i class="fa fa-lock fa-fw"></i></a>
                         </li>
                         <li ng-class="{active:tabmenu.name == '/ranking'}" >
                             <a ui-sref="ranking" ui-sref-opts="{reload:true}" ng-show="User.can('ranking')">Billboard</a>
-                            <a href="#" ng-show="!User.can('ranking')">Billboard<i class="fa fa-lock fa-fw"></i></a>
+                            <a href="#" ng-show="!User.can('ranking')" ng-click="checkAccount()">Billboard<i class="fa fa-lock fa-fw"></i></a>
                         </li>
                         <li ng-class="{active:tabmenu.name == '/bookmark'}">
                             <a ui-sref="bookmark" ui-sref-opts="{reload:true}">Bookmark</a>
