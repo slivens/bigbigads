@@ -63,7 +63,8 @@ function updateUsage($req, $name, &$params)
 }
 
 Route::get('/', function (Request $request) {
-    return view('index');
+    $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
+    return view('index')->with('recents', $recents);
 });
 
 Route::get('/blog', function () {

@@ -177,50 +177,16 @@
         <div class="blog-slider clearfix ">
             <div class="swiper-container" id="blog_slider">
                 <div class="swiper-wrapper">
-                    <div class="blog-slider_item swiper-slide">
-                        <img src="static/images/blog/01.jpg" alt="">
-                        <a href="/">
-                            <p class="blog-slider_title">Hot jar is a new and easy to way to truly understand 1.</p>
-                            <p class="blog-slider_time">2017.02.14</p>
-                        </a>
-                    </div>
-                    <div class="blog-slider_item swiper-slide">
-                        <a href="/">
-                            <img src="static/images/blog/02.jpg" alt="">
-                            <p class="blog-slider_title">Hotjar is a new and easy to way to truly understand 2.</p>
-                            <p class="blog-slider_time">2017.02.14</p>
-                        </a>
-                    </div>
-                    <div class="blog-slider_item swiper-slide">
-                        <a href="/">
-                            <img src="static/images/blog/03.jpg" alt="">
-                            <p class="blog-slider_title">Hotjar is a new and easy to way to truly understand 3.</p>
-                            <p class="blog-slider_time">2017.02.14</p>
-                        </a>
-                    </div>
 
-
+                    @foreach ($recents as $post)
                     <div class="blog-slider_item swiper-slide">
-                        <img src="static/images/blog/04.jpg" alt="">
-                        <a href="/">
-                            <p class="blog-slider_title">Hot jar is a new and easy to way to truly understand 4.</p>
-                            <p class="blog-slider_time">2017.02.14</p>
+                        <img src="{{ Voyager::image($post->image) }}" alt="">
+                        <a href="{{url('post', ['id' => $post->id])}}">
+                            <p class="blog-slider_title">{{ $post->title }}</p>
+                            <p class="blog-slider_time">{{ (new Carbon\Carbon($post->created_at))->toFormattedDateString() }}</p>
                         </a>
                     </div>
-                    <div class="blog-slider_item swiper-slide">
-                        <a href="/">
-                            <img src="static/images/blog/05.jpg" alt="">
-                            <p class="blog-slider_title">Hotjar is a new and easy to way to truly understand .</p>
-                            <p class="blog-slider_time">2017.02.14</p>
-                        </a>
-                    </div>
-                    <div class="blog-slider_item swiper-slide">
-                        <a href="/">
-                            <img src="static/images/blog/06.jpg" alt="">
-                            <p class="blog-slider_title">Hotjar is a new and easy to way to truly understand .</p>
-                            <p class="blog-slider_time">2017.02.14</p>
-                        </a>
-                    </div>
+                    @endforeach
                 </div>
                 <!-- Add Arrows -->
                 <div class="blog-slider-next blog-slider_btn"></div>
@@ -267,7 +233,7 @@
         nextButton: '.blog-slider-next',
         prevButton: '.blog-slider-prev',
         spaceBetween: 30,
-        loop: true
+        loop: false 
     });
 </script>
 </body>
