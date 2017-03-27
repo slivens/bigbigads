@@ -74,13 +74,15 @@ gulp.task('minify', function () {
 
 });
 
-gulp.task('concat', function() {
+gulp.task('script', function() {
     var target = 'bigbigads.js';
     del.sync(['./app/js/' + target]);
     if (mode === "develop") {
-        gulp.src(['./src/js/**/*.js']).pipe(sourcemaps.init()).pipe(concat(target)).pipe(sourcemaps.write('./')).pipe(gulp.dest('./app/js/'));
+        gulp.src(['./src/js/**/*.js', '!./src/js/standalone/*.js']).pipe(sourcemaps.init()).pipe(concat(target)).pipe(sourcemaps.write('./')).pipe(gulp.dest('./app/js/'));
+        gulp.src(['./src/js/standalone/*.js']).pipe(gulp.dest('./app/js/'));
     } else {
-        gulp.src(['./src/js/**/*.js']).pipe(concat(target)).pipe(gulp.dest('./app/js/')).pipe(uglify()).pipe(gulp.dest('./app/js/'));
+        gulp.src(['./src/js/**/*.js', '!./src/js/standalone/*.js']).pipe(concat(target)).pipe(gulp.dest('./app/js/')).pipe(uglify()).pipe(gulp.dest('./app/js/'));
+        gulp.src(['./src/js/standalone/*.js']).pipe(uglify()).pipe(gulp.dest('./app/js/'));
     }
     // gulp.src(['./app/js/' + target]).pipe(uglify()).pipe(rename({suffix:'.min'})).pipe(gulp.dest('./app/js/'));
 });
@@ -108,12 +110,12 @@ gulp.task('lint', function()  {
 });
 
 gulp.task('lint:watch', function() {
-    gulp.watch(['./src/js/**/*.js'], ['lint', 'concat']);
+    gulp.watch(['./src/js/**/*.js'], ['lint', 'script']);
 });
 
 gulp.task('watch', ['sass:watch', 'lint:watch']);
 gulp.task('production', function() {
     mode = "production";
-    runSequence('sass', 'concat', 'minify');
+    runSequence('sass', 'script', 'minify');
 });
-gulp.task('develop', ['sass', 'concat']);
+gulp.task('develop', ['sass', 'script']);
