@@ -25,7 +25,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 			if (opt && opt.limit) {
 				vm.defparams.limit = opt.limit;
 			}
-			searcher.defSearchFields = searcher.prototype.defSearchFields = "message,name,description,caption,link,adser_username,adser_name,dest_site,buttonlink";
+			searcher.defSearchFields = searcher.prototype.defSearchFields = "message,name,description,caption,link,adser_username,adser_name,dest_site,buttonlink,event_id";
 			searcher.defFilterOption = searcher.prototype.defFilterOption = {
 				type: "",
 				date: {
