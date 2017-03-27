@@ -37,7 +37,7 @@
                             <span ng-if="(item.name =='Free') || (item.name =='Standard')">Select</span>
                             <span ng-if="(item.name =='Advanced') || (item.name =='Pro')">Coming Soon</span>
                         </a>
-                        <a class="btn btn-block btn-primary" ng-href="/login" ng-show="!userInfo.login" ng-class="{disabled:(item.name =='Advanced') || (item.name =='Pro')}">
+                        <a class="btn btn-block btn-primary" ng-href="/login" ng-show="!userInfo.login&&!plans.isCurrentPlan(item)" ng-class="{disabled:(item.name =='Advanced') || (item.name =='Pro')}">
                             <span ng-if="(item.name =='Free') || (item.name =='Standard')">Select</span>
                             <span ng-if="(item.name =='Advanced') || (item.name =='Pro')">Coming Soon</span>
                         </a>
