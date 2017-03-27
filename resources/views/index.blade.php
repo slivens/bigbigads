@@ -40,7 +40,7 @@
             <div class="swiper-container" id="slider" >
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <img src="static/images/slider1.png"/>
+                        <img src="static/images/show/01.jpg"/>
                         <div class="swiper-adsbar row absolute">
                             <div class="col-md-2 adsbigword">YES!</div>
                             <div class="col-md-6 adstext">I wanna learn my competitor's marketing strategy Now!</div>
@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <img src="static/images/slider1.png"/>
+                        <img src="static/images/show/02.jpg"/>
                         <div class="swiper-adsbar row">
                             <div class="col-md-2 adsbigword">yes!</div>
                             <div class="col-md-6 adstext">I'd like to save hundreds of hours doing tedious research!</div>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <img src="static/images/slider1.png"/>
+                        <img src="static/images/show/03.jpg"/>
                         <div class="swiper-adsbar row">
                             <div class="col-md-2 adsbigword">yes!</div>
                             <div class="col-md-6 adstext">Help me to know more!</div>
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <img src="static/images/slider1.png"/>
+                        <img src="static/images/show/04.jpg"/>
                         <div class="swiper-adsbar row">
                             <div class="col-md-2 adsbigword">yes!</div>
                             <div class="col-md-6 adstext">I'd like to use your benefit to comfort my job!</div>
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <img src="static/images/slider1.png"/>
+                        <img src="static/images/show/05.jpg"/>
                         <div class="swiper-adsbar row">
                             <div class="col-md-2 adsbigword">YES!</div>
                             <div class="col-md-6 adstext">I want to hop onto the wave someone else created!</div>
@@ -162,8 +162,10 @@
             </li>
             <li class="solution-item">
                 <img src="static/images/solution4.png"  class="img-circle bg"/>
-                <div class="solution-item_number">297</div>
-                <div class="solution-item_desc">All Countries</div>
+                <div class="solution-item_number clearfix" style="width: 66px;margin:0 auto"><span class="pull-left">90</span>
+                    <span class="solution-item_symbol pull-left">+</span>
+                </div>
+                <div class="solution-item_desc">Languages</div>
             </li>
         </ul>
     </div>
