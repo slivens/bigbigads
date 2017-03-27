@@ -42,7 +42,7 @@ class LoginController extends Controller
     {
         if ($user->state == 0) {
             Auth::logout();
-            $this->redirectTo = "/noverify?email={$user->email}&token={$user->verify_token}";
+            $this->redirectTo = "/sendVerifyMail?email={$user->email}&token={$user->verify_token}";
 			// Authentication passed...
 		}
     }
