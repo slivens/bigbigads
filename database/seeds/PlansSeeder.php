@@ -79,7 +79,7 @@ class PlansSeeder extends Seeder
                     "frequency" => "MONTH",
                     "frequency_interval" => 1,
                     "cycles" => 0,
-                    "amount" => 20,
+                    "amount" => 99,
                     "currency" => "USD",
                     "role" => "Standard"
                 ],
@@ -92,7 +92,7 @@ class PlansSeeder extends Seeder
                     "frequency" => "YEAR",
                     "frequency_interval" => 1,
                     "cycles" => 0,
-                    "amount" => 200,
+                    "amount" => 948,
                     "currency" => "USD",
                     "role" => "Standard"
                 ],
@@ -105,7 +105,7 @@ class PlansSeeder extends Seeder
                     "frequency" => "MONTH",
                     "frequency_interval" => 1,
                     "cycles" => 0,
-                    "amount" => 30,
+                    "amount" => 169,
                     "currency" => "USD",
                     "role" => "Advanced"
                 ],
@@ -118,7 +118,7 @@ class PlansSeeder extends Seeder
                     "frequency" => "YEAR",
                     "frequency_interval" => 1,
                     "cycles" => 0,
-                    "amount" => 300,
+                    "amount" => 1668,
                     "currency" => "USD",
                     "role" => "Advanced"
                 ],
@@ -131,7 +131,7 @@ class PlansSeeder extends Seeder
                     "frequency" => "MONTH",
                     "frequency_interval" => 1,
                     "cycles" => 0,
-                    "amount" => 50,
+                    "amount" => 299,
                     "currency" => "USD",
                     "role" => "Pro"
                 ],
@@ -144,7 +144,7 @@ class PlansSeeder extends Seeder
                     "frequency" => "YEAR",
                     "frequency_interval" => 1,
                     "cycles" => 0,
-                    "amount" => 500,
+                    "amount" => 3588,
                     "currency" => "USD",
                     "role" => "Pro"
                 ]

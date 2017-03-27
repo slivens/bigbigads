@@ -14,7 +14,7 @@
                                         <input type="text" class="form-control input-lg xg-search-height" placeholder="Enter a keyword，url or advertiser " ng-model="adSearcher.searchOption.search.text">
                                         <span class="input-group-addon xg-type-select">
                                             <select class="bs-select" data-width="150px" ng-model="filterOption.type" >
-                                                <option value="" >ALL</option>
+                                                <option value="" >Ad Position</option>
                                                 <option ng-repeat="item in settings.searchSetting.adsTypes" value="{{item.key}}" key="platform" val="{{item.key}}">
                                                 {{item.value}}
                                                 </option>
@@ -76,7 +76,7 @@
                 <span ng-if="adSearcher.ads.total_count!=0">About {{adSearcher.ads.total_count | adsCount}} results</span>
                 <span ng-if="adSearcher.ads.total_count==0">Your search did not match any results.</span>
                 <!-- <button class="btn yellow-gold btn-lg" ng-click="showStatics()">analysis</button> -->
-                <i class="fa fa-hand-o-right font-yellow-gold xg-analysis" ng-click="showStatics()"></i>
+                <!-- <i class="fa fa-hand-o-right font-yellow-gold xg-analysis" ng-click="showStatics()"></i> -->
             </div>
         </div>
         <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">

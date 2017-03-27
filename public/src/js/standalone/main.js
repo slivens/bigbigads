@@ -747,6 +747,10 @@ MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', func
     };
     $scope.tabmenu = tabmenu;
     $scope.User = User;
+    $scope.checkAccount = function() {
+        if(User.info.user.role.name !='Free') return;
+        User.openUpgrade();
+    };
     $scope.$on('$locationChangeSuccess', function() {
          tabmenu.name = $location.path();
     });
@@ -787,33 +791,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     $urlRouterProvider.otherwise("/404.html");
 
     $stateProvider
-
-    // Dashboard
-        .state('dashboard', {
-        url: "/dashboard.html",
-        templateUrl: "views/dashboard.html",
-        data: {
-            pageTitle: 'Admin Dashboard Template'
-        },
-        controller: "DashboardController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                    files: [
-                        '../assets/global/plugins/morris/morris.css',
-                        '../assets/global/plugins/morris/morris.min.js',
-                        '../assets/global/plugins/morris/raphael-min.js',
-                        '../assets/global/plugins/jquery.sparkline.min.js',
-
-                        '../assets/pages/scripts/dashboard.min.js',
-                        'js/controllers/DashboardController.js',
-                    ]
-                });
-            }]
-        }
-    }).state('adsearch', {
+    .state('adsearch', {
             url: '/adsearch',
             templateUrl: "views/adsearch.html",
             data: {
@@ -1095,133 +1073,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             }
 
         })
-    // AngularJS plugins
-    .state('fileupload', {
-        url: "/file_upload.html",
-        templateUrl: "views/file_upload.html",
-        data: {
-            pageTitle: 'AngularJS File Upload'
-        },
-        controller: "GeneralPageController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    name: 'angularFileUpload',
-                    files: [
-                        '../assets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
-                    ]
-                }, {
-                    name: 'MetronicApp',
-                    files: [
-                        'js/controllers/GeneralPageController.js'
-                    ]
-                }]);
-            }]
-        }
-    })
-    // Form Tools
-    .state('formtools', {
-        url: "/form-tools",
-        templateUrl: "views/form_tools.html",
-        data: {
-            pageTitle: 'Form Tools'
-        },
-        controller: "GeneralPageController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                        '../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css',
-                        '../assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
-                        '../assets/global/plugins/typeahead/typeahead.css',
-
-                        '../assets/global/plugins/fuelux/js/spinner.min.js',
-                        '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
-                        '../assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js',
-                        '../assets/global/plugins/jquery.input-ip-address-control-1.0.min.js',
-                        '../assets/global/plugins/bootstrap-pwstrength/pwstrength-bootstrap.min.js',
-                        '../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js',
-                        '../assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js',
-                        '../assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js',
-                        '../assets/global/plugins/typeahead/handlebars.min.js',
-                        '../assets/global/plugins/typeahead/typeahead.bundle.min.js',
-                        '../assets/pages/scripts/components-form-tools-2.min.js',
-
-                        'js/controllers/GeneralPageController.js'
-                    ]
-                }]);
-            }]
-        }
-    })
-
-    // Date & Time Pickers
-    .state('pickers', {
-        url: "/pickers",
-        templateUrl: "views/pickers.html",
-        data: {
-            pageTitle: 'Date & Time Pickers'
-        },
-        controller: "GeneralPageController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        '../assets/global/plugins/clockface/css/clockface.css',
-                        '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                        '../assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css',
-                        '../assets/global/plugins/bootstrap-colorpicker/css/colorpicker.css',
-                        '../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css',
-
-                        '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                        '../assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
-                        '../assets/global/plugins/clockface/js/clockface.js',
-                        '../assets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js',
-                        '../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js',
-
-                        '../assets/pages/scripts/components-date-time-pickers.min.js',
-
-                        'js/controllers/GeneralPageController.js'
-                    ]
-                }]);
-            }]
-        }
-    })
-
-    // Custom Dropdowns
-    .state('dropdowns', {
-        url: "/dropdowns",
-        templateUrl: "views/dropdowns.html",
-        data: {
-            pageTitle: 'Custom Dropdowns'
-        },
-        controller: "GeneralPageController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                        '../assets/global/plugins/select2/css/select2.min.css',
-                        '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
-
-                        '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                        '../assets/global/plugins/select2/js/select2.full.min.js',
-
-                        '../assets/pages/scripts/components-bootstrap-select.min.js',
-                        '../assets/pages/scripts/components-select2.min.js',
-
-                        'js/controllers/GeneralPageController.js'
-                    ]
-                }]);
-            }]
-        }
-    })
     // User Profile
     .state("profile", {
         url: "/profile",
@@ -1277,38 +1128,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             pageTitle: 'User Help'
         }
     })
-
-    // Todo
-    .state('todo', {
-        url: "/todo",
-        templateUrl: "views/todo.html",
-        data: {
-            pageTitle: 'Todo'
-        },
-        controller: "TodoController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                        '../assets/apps/css/todo-2.css',
-                        '../assets/global/plugins/select2/css/select2.min.css',
-                        '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
-
-                        '../assets/global/plugins/select2/js/select2.full.min.js',
-
-                        '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-
-                        '../assets/apps/scripts/todo-2.min.js',
-
-                        'js/controllers/TodoController.js'
-                    ]
-                });
-            }]
-        }
-    })
     //权限升级提示模板
     .state("upgrade", {
             url: "views/upgrade",
@@ -1336,7 +1155,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settin
 }]);
 
 
-MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', function($http, $q, $location, $rootScope, settings, ADS_TYPE) {
+MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', '$uibModal', function($http, $q, $location, $rootScope, settings, ADS_TYPE ,$uibModal) {
     //获取信息完成后应该广播消息，然后其他需要在获取用户信息才能继续的操作就放到接收到广播后处理
     var infourl = settings.remoteurl  + "/userinfo";
     var user = {
@@ -1405,6 +1224,23 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
             if (usage.length > 2)
                 return {type:usage[0], value:usage[1], used: usage[2]};
             return {type:usage[0], value:usage[1], used:0};
+        },
+        openUpgrade:function() {
+            return $uibModal.open({
+                templateUrl: 'views/upgrade.html',
+                size: 'md',
+                animation: true,
+                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
+                    $scope.goPlans = function() {
+                        $state.go("plans");
+                        $uibModalInstance.dismiss('success');
+                    };
+                    $scope.goLogin = function() {
+                        window.open('/login',"_self");
+                        $uibModalInstance.dismiss('success');
+                    };
+                }]
+            });
         }
     };
     return user;
