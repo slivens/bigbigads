@@ -737,3 +737,40 @@ color: $black_placeholder !important;
     }
 
 }
+
+//plan临时性css设置
+.pricing-table .tabel-div {
+    overflow: hidden;
+}
+.radius {
+    border-radius: 4px;
+}
+.pricing-table table {
+    margin-bottom: 0px;
+}
+.pricing-table .text-content2 {
+    background: #f6f6f6;
+    padding: 16px 0;
+}
+.pricing-table .table-content td {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.pricing-table .pricingitme-name {
+    text-align: left;
+    font-size: 1rem;
+    color: #333;
+    font-weight: 0;
+    padding-top: 8px;
+    padding-left: 30px;
+}
+.pricing-table .right {
+    color: #68b325;
+    font-size: 14px;
+}
+.pricing-table .text-content2 .pricingitme-name {
+    padding-left: 15px;
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: #555;
+}

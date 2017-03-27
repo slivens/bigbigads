@@ -38,9 +38,10 @@ app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope
         window.open("/pay?plan=" + id);
     };
     plans.isCurrentPlan = function(item) {
-        if (!User.user.subscription)
-            return false;
-        return User.user.subscription.plan.replace('_monthly', '') == item.plan;
+        console.log(!User.user.subscription);//在这没有找到subscription这个属性，返回一定是false了
+        /*if (!User.user.subscription)
+            return false;*/
+        return User.user.role.plan == item.plan;
     };
 
     plans.annually = false;

@@ -7,9 +7,12 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Role;
+use App\User;
 use Carbon\Carbon;
 use Log;
 use App\Services\AnonymousUser;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisterVerify;
 
 class UserController extends Controller
 {
@@ -63,4 +66,51 @@ class UserController extends Controller
         return json_encode($res, JSON_UNESCAPED_UNICODE);
     }
 
+    /**
+     * 用户邮箱注册验证
+     */
+    public function registerVerify(Request $request)
+    {
+        if (!($request->has('email') && $request->has('token'))) {
+            return view('auth.verify')->with('error', "parameter error");
+        }
+        $user = User::where('email', $request->email)->where('verify_token', $request->token)->first();
+        if (!($user instanceof User)) {
+            return view('auth.verify')->with('error', "Verify failed");
+        }
+        if ($user->state == 1) {
+            return view('auth.verify')->with('error', "You have verified, don't verify again!!!");
+        }
+        $user->state = 1;
+        $user->save();
+        return view('auth.verify')->with("user", $user);
+    }
+
+    /**
+     * 未验证登陆跳到此页面，然后提示
+     */
+    public function noverify(Request $request)
+    {
+        if (!($request->has('email') && $request->has('token'))) {
+            return view('auth.verify')->with('error', "parameter error");
+        }
+        $user = User::where('email', $request->email)->where('verify_token', $request->token)->first();
+        if (($user instanceof User) && $user->state == 1) {
+            return view('auth.verify')->with('error', "You have verified, don't verify again!!!");
+        }
+        $link = "/sendVerifyMail?email={$request->email}&token={$request->token}";
+        return view('auth.verify')->with("error", "Your email {$request->email} has not verified")->with("link", $link);
+    }
+
+    public function sendVerifyMail(Request $request) {
+        if (!($request->has('email') && $request->has('token'))) {
+            return view('auth.verify')->with('error', "parameter error");
+        }
+        $user = User::where('email', $request->email)->where('verify_token', $request->token)->first();
+        if (($user instanceof User) && $user->state == 1) {
+            return view('auth.verify')->with('error', "You have verified, don't verify again!!!");
+        }
+        Mail::to($user->email)->send(new RegisterVerify($user));//发送验证邮件
+        return view('auth.verify')->with('info', "Your email {$request->email} has sent, please check your email. ");
+    }
 }
