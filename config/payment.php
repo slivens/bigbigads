@@ -6,6 +6,7 @@ return [
     'client_id' => env('PAYPAL_CLIENT_ID'),
     'client_secret' => env('PAYPAL_CLIENT_SECRET'),
     'webhook' => env('PAYPAL_WEBHOOK'),
-    'returnurl' => env('PAYPAL_RETURNURL')
+    'returnurl' => env('PAYPAL_RETURNURL'),
+    'mode'=>env('PAYPAL_MODE')
 
 ];

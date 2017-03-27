@@ -26,8 +26,11 @@ class PaypalService
                 config('payment.client_id'),     // ClientID
                 config('payment.client_secret')      // ClientSecret
             ));
-        /* $apiContext->setConfig( */
-        /*     array( */
+        $apiContext->setConfig( 
+            array(
+                'mode'=>config('payment.mode')
+                )
+            );
         /*         'log.LogEnabled' => true, */
         /*         'log.FileName' => 'PayPal.log', */
         /*         'log.LogLevel' => 'DEBUG' */
