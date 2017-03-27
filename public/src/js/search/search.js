@@ -161,8 +161,9 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 								//      value.snapshot = JSON.parse(value.snapshot);
 							} else if (value.type == vm.ADS_CONT_TYPE.CANVAS) {
 								value.link = JSON.parse(value.link);
-								if(value.local_picture instanceof Array)
-								value.local_picture = JSON.parse(value.local_picture);
+								if(value.local_picture instanceof Array){
+									value.local_picture = JSON.parse(value.local_picture);
+								}				    
 								if (vm.getAdsType(value, vm.ADS_TYPE.rightcolumn)) {
 									value.watermark = JSON.parse(value.watermark);
 								}
@@ -568,7 +569,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$scope.currSearchOption.filter.callToAction = buttondesc.join(',');
 				$scope.adSearcher.filter(action ? action : 'search').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
-						Util.openUpgrade();
+						User.openUpgrade();
 						$scope.islegal = false;
 						//SweetAlert.swal(res.data.desc);
 					} else {
@@ -714,11 +715,11 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				isLengthLimit = Util.isLengthLimit(value);
 				isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
 				if(!isNumberLimit) {
-					Util.openUpgrade();
+					User.openUpgrade();
 					islegal = false;
 				}
 				if(!isFilterLimit) {
-					Util.openUpgrade();
+					User.openUpgrade();
 					islegal = false;
 				}
 				if(!isLengthLimit){
