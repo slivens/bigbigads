@@ -161,6 +161,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 								//      value.snapshot = JSON.parse(value.snapshot);
 							} else if (value.type == vm.ADS_CONT_TYPE.CANVAS) {
 								value.link = JSON.parse(value.link);
+								if(value.local_picture instanceof Array)
 								value.local_picture = JSON.parse(value.local_picture);
 								if (vm.getAdsType(value, vm.ADS_TYPE.rightcolumn)) {
 									value.watermark = JSON.parse(value.watermark);
