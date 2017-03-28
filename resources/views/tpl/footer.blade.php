@@ -1,22 +1,22 @@
 <!--footer-->
 <footer>
     <div class="container">
-        <ul class="col-md-3">
+        <ul class="col-md-3 col-sm-6">
             <li class="footer-title"> ABOUT BIGBIGADS</li>
             <li><a href="{{url('/about')}}">About Us</a></li>
             <li><a href="{{url('/blog')}}">Blog</a></li>
         </ul>
-        <ul class="col-md-3">
+        <ul class="col-md-3 col-sm-6">
             <li class="footer-title"> USING BIGBIGADS</li>
             <li><a href="{{url('./product')}}">Features</a></li>
             <li><a href="{{url('/pricing')}}" >Pricing&Buy</a></li>
         </ul>
-        <ul class="col-md-3">
+        <ul class="col-md-3 col-sm-6">
             <li class="footer-title"> GETTING HELP</li>
             <li><a href="https://www.youtube.com/channel/UCtXk7wpkmVO7SdStR4JwX0A" target="_blank">Video Tutorial</a></li>
-            <li><a href="javascript:Intercom('show');">Contact Us</a></li>
+            <li><a href="mailto:sale@bigbigads.com">Contact Us</a></li>
         </ul>
-        <ul class="col-md-3">
+        <ul class="col-md-3 col-sm-6">
             <li class="footer-title"> STAY CONNECTES</li>
             <li>
                 <a href="https://www.facebook.com/1869675289915326" class="footer-icon demoicon icon-facebook"></a>

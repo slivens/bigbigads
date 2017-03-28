@@ -124,14 +124,14 @@
         <div class="col-md-6 ">
             <div class="video-content">
                 
-           <iframe width="640" height="360" src="https://www.youtube.com/embed/xo9cSuR50Js" frameborder="0" allowfullscreen></iframe> 
+           <iframe width="100%" height="360" src="https://www.youtube.com/embed/xo9cSuR50Js" frameborder="0" allowfullscreen></iframe> 
         <!-- <span class="video-content_play" data-toggle="modal" data-target="#md_video"></span> --></div>
     </div>
     </div>
 </section>
 
 <section class="solution">
-    <div class="container">
+    <div class="container" style="width: 100%">
         <div class="solution-title">The Best Solution</div>
         <div class="solution-title_sub">For Ad Buyer, Manufacturer, Ad Agency &amp; Researchers</div>
         <ul class="solution-itmes">

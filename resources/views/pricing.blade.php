@@ -25,23 +25,23 @@
         <p class="pricing-tab_tip mab-2">For Small Business to get inspired on products and creatives </p>
         <div class="box-shadow radius" >
             <div class="clearfix pricing-card_top" style="background-color: #fff;">
-                <div class="col-md-6 font_24 pricing-tab-item">
+                <div class="col-md-6 col-xs-6 font_24 pricing-tab-item">
                     <p class="pricing-item_title">STANDARD</p>
                     <p class="mab-56">A starter level which way too better than other competitor on the market.</p>
                 </div>
-                <div class="col-md-6 font_24  border-left pricing-tab-item">
+                <div class="col-md-6 col-xs-6 font_24  border-left pricing-tab-item">
                     <p class="pricing-item_title">PLUS</p>
                     <p class="mab-56">Unblocked features on ad level,enjoy your next generation ad intelligence platform.</p>
                 </div>
             </div>
             <div class="clearfix pricing-card_bottom" style="background-color: #fff;">
-                <div class="col-md-6  font_24  pricing-tab-item">
+                <div class="col-md-6 col-xs-6  font_24  pricing-tab-item">
                     <p >$99/Month</p>
                     <a href="/app/adsearch" class="btn font_22 pricing-item_btn">START NOW</a>
                     <p class="color_tip">Data Update Frequency:</p>
                     <p><strong>Weekly</strong></p>
                 </div>
-                <div class="col-md-6 font_24 border-left  pricing-tab-item">
+                <div class="col-md-6 col-xs-6 font_24 border-left  pricing-tab-item">
                     <p >$169/ Month</p>
                     <a  class="btn pricing-item_btn btn_cannot">Coming Soon</a>
                     <p class="color_tip">Data Update Frequency:</p>
@@ -51,7 +51,7 @@
             
             <!--Privilege contrast-->
             <div class="bg_f6  clearfix text-left">
-                <ul class="col-md-6  pricing-tab_desc">
+                <ul class="col-md-6 col-xs-6  pricing-tab_desc">
                     <li>
                         <span class="demoicon icon-stats-dots pricing-tab_icon"></span>
                         <span class="pricing-tab_text">All Data Access</span>
@@ -75,7 +75,7 @@
                     </li>
                     
                 </ul>
-                <ul class="col-md-6 pricing-tab_desc border-left">
+                <ul class="col-md-6 col-xs-6 pricing-tab_desc border-left">
                     <li>
                         <span class="icon-book demoicon pricing-tab_icon"></span>
                         <span class="pricing-tab_text">All Features of Standard Level</span>
@@ -479,7 +479,7 @@
                     Here are three easy steps to sign up to Bigbigads! <br>
                     Step 1: Please could you create a Bigbigads account and login. <br>
                     Step 2: Then please select the plan you want to subscribe from the plans page here.<br> 
-                    Step 3: Finally please visit the billing page here, update your card details and hit pay now!
+                    Step 3: Step3:Finally please visit the billing page,we accept paypal for now.
                 </p>
             </li>
             <li class="">
