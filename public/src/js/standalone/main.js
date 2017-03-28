@@ -785,11 +785,12 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 
 /* Setup Rounting For All Pages */
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
+    var ts = Math.random();
     // Redirect any unmatched url
     $urlMatcherFactoryProvider.strictMode(false);
     $urlRouterProvider.when("/", "/adsearch");
     $urlRouterProvider.otherwise("/404.html");
-
+    
     $stateProvider
     .state('adsearch', {
             url: '/adsearch',
@@ -823,7 +824,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             'http://code.highcharts.com/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            'js/bigbigads.js?r=' + Math.random() 
+                            'js/bigbigads.js?r=' + ts
                         ]
                     });
                 }]

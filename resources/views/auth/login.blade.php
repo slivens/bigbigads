@@ -27,11 +27,11 @@
         <link href="./assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN THEME GLOBAL STYLES -->
-        <link href="./assets/global/css/components-md.min.css" rel="stylesheet" id="style_components" type="text/css" />
-        <link href="../assets/global/css/plugins-md.min.css" rel="stylesheet" type="text/css" />
+        <link href="./dist/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="../dist/global/css/plugins-md.css" rel="stylesheet" type="text/css" />
         <!-- END THEME GLOBAL STYLES -->
         <!-- BEGIN PAGE LEVEL STYLES -->
-        <link href="./assets/pages/css/login-3.min.css" rel="stylesheet" type="text/css" />
+        <link href="./dist/pages/css/login-3.css" rel="stylesheet" type="text/css" />
         <!-- END PAGE LEVEL STYLES -->
         <!-- BEGIN THEME LAYOUT STYLES -->
         <!-- END THEME LAYOUT STYLES -->
@@ -516,7 +516,7 @@
         <script src="./assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
-        <script src="./assets/global/scripts/app.min.js" type="text/javascript"></script>
+        <script src="./dist/app.js" type="text/javascript"></script>
         <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
         <script src="./assets/pages/scripts/login.js" type="text/javascript"></script>

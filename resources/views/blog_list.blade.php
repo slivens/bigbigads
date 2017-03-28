@@ -37,14 +37,14 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="./assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
         <!-- END GLOAL MANDATORY STYLES -->
         <!-- BEGIN THEME GLOBAL STYLES -->
-         <link href="./assets/global/css/plugins-md.min.css" rel="stylesheet" type="text/css" />
+         <link href="./dist/global/css/plugins-md.css" rel="stylesheet" type="text/css" />
         <!-- END THEME GLOBAL STYLES -->
         <!-- BEGIN PAGE LEVEL STYLES -->
-        <link href="./assets/pages/css/blog.css" rel="stylesheet" type="text/css" />
+        <link href="./dist/pages/css/blog.css" rel="stylesheet" type="text/css" />
         <!-- END PAGE LEVEL STYLES -->
         <!-- BEGIN THEME LAYOUT STYLES -->
-        <link href="./assets/layouts/layout3/css/layout.css" rel="stylesheet" type="text/css" />
-        <link href="./assets/layouts/layout3/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <link href="./dist/layouts/layout3/css/layout.css" rel="stylesheet" type="text/css" />
+        <link href="./dist/layouts/layout3/css/custom.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" type="text/css" href="./static/custom.css"><!-- 头部与足部样式 -->
         <link rel="stylesheet" type="text/css" href="./static/demo.css">
         <!-- END THEME LAYOUT STYLES -->
@@ -125,10 +125,10 @@ License: You must have a valid license purchased only from themeforest(the above
         <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
         <!-- END CORE PLUGINS -->
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
-        <script src="./assets/global/scripts/app.min.js" type="text/javascript"></script>
+        <script src="./dist/app.js" type="text/javascript"></script>
         <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
-        <script src="./assets/layouts/layout3/scripts/layout.min.js" type="text/javascript"></script>
+        <script src="./dist/layout.js" type="text/javascript"></script>
         <script type="text/javascript">
         $(function() {
 
