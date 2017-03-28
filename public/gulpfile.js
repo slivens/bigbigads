@@ -134,7 +134,7 @@ gulp.task('prettify', function() {
 });
 
 gulp.task('lint', function()  {
-    gulp.src('./src/js/**/*.js')
+    gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js'])
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
     gulp.src('./app/js/main.js')
@@ -182,5 +182,5 @@ gulp.task('front-production', function() {
 })
 
 
-gulp.task('production', gulpsync.sync([["config-product", 'clean'], ['sass', 'script'], 'rev', 'front-product']));
+gulp.task('production', gulpsync.sync([["config-product", 'clean'], ['sass', 'script'], 'rev', 'front-production']));
 gulp.task('develop', ['sass', 'script', 'front-production']);
