@@ -74,15 +74,56 @@ PAYPAL_CLIENT_ID=XXXXXXX # Paypal App ClientID
 PAYPAL_CLIENT_SECRET=XXXXXXX # Paypal App Secret
 PAYPAL_WEBHOOK=https://phenye.tunnel.2bdata.com/onPayWebhook # Webhook用于接收支付消息，比如支付成功，过期等。这个需要在Paypal开发者平台的webhook先做配置，然后再填到这里来，两者名称必须一致，同时要求必须是https协议。请将域名换成自己的，后面的onPayWebhook应保留不变                  
 PAYPAL_RETURNURL=https://phenye.tunnel.2bdata.com/onPay # 回调接口，在支付的时候需要先跳到Paypal的网站上完成支付，然后Paypal将跳回该回调地址完成最后操作。请将域名换成自己的，onPay保持不变。
+PAYPAL_MODE=sandbox
 ```
 
 然后配置nginx或者apache,将网站根目录定位到`public/`，同时允许`URL rewrite`。配置就完成了。
+## 生产环境与开发环境
+两个环境有很大的差异，开发时**务必**使用开发环境，以方便调试；实际上线则必须使用生产环境。
+两者的区别：
+
+1. 开发环境下生成的目标文件都带`sourcemap`，同时不压缩，命名固定;
+2. 生产环境下生成的目标文件(`HTML`,`CSS`,`JS`)全部都是压缩处理的，同时每次命名都会改变，因此在生产环境下，只在有提交时才再次生成，不要定时生成；在没做修改的情况下，用户访问缓存文件会更快。
+
+### 如何配置生产环境
+在`public`目录下，执行
+
+```
+$gulp production 
+```
+
+然后在工程根目录下，修改`.env`文件，核对以下字段是否设置同样的值
+
+```
+APP_DEBUG=false
+```
+
+### 如何配置开发环境
+在`public`目录下，执行
+
+```
+$gulp develop
+``` 
+
+然后在工程根目录下，修改`.env`文件，核对以下字段是否设置同样的值
+
+```
+APP_DEBUG=true
+```
+
+如果要修改`js`或`sass`文件，**修改前**单独开一个窗口，执行如下命令，监听文件有变化则重新生成目标文件
+
+```
+$gulp watch
+```
+
+请配合`Chrome Devtool`做调试开发。
 
 ## 权限配置指南
 [参考对应WIKI:权限配置指南](/wikis/权限配置指南)
 
 ## Paypal的支持
-项目已经集成了`Paypal`，目前只实现了`Paypal`帐号的循环扣款。基于信用卡的支付、一次性扣款、Webhook消息处理均未实现。
+项目已经集成了`Paypal`，目前只实现了`Paypal`帐号的循环扣款。基于信用卡的支付、一次性扣款、`Webhook`消息处理均未实现。
 
 项目使用[paypal/Paypal-PHP-SDK](https://github.com/paypal/PayPal-PHP-SDK)提供的包做Paypal开发，开发包用法、用例和Api说明请直接上该项目查看。
 
@@ -94,6 +135,7 @@ PAYPAL_CLIENT_ID=XXXXXXX # Paypal App ClientID
 PAYPAL_CLIENT_SECRET=XXXXXXX # Paypal App Secret
 PAYPAL_WEBHOOK=https://phenye.tunnel.2bdata.com/onPayWebhook # Webhook用于接收支付消息，比如支付成功，过期等。这个需要在Paypal开发者平台的webhook先做配置，然后再填到这里来，两者名称必须一致，同时要求必须是https协议。请将域名换成自己的，后面的onPayWebhook应保留不变                  
 PAYPAL_RETURNURL=https://phenye.tunnel.2bdata.com/onPay # 回调接口，在支付的时候需要先跳到Paypal的网站上完成支付，然后Paypal将跳回该回调地址完成最后操作。请将域名换成自己的，onPay保持不变。
+PAYPAL_MODE=sandbox
 ```
 
 > 开发注意：Paypal的订阅一旦生效，不会自动取消。因此当用户切换升级计划，也就是切换不同的升级计划时，开发上必须主动将前一个订阅`挂起`或者`取消`，否则就会出现多个订阅同时在扣用户款的情况。
