@@ -150,10 +150,11 @@ class PaypalService
 
         $agreement->setName($param['name'])
             ->setDescription($param['display_name']);
-            if (strpos($param['name'],'_monthly')>0) {
-             $agreement->setStartDate(Carbon::now()->addMonth()->toIso8601String());//_monthly后缀的推迟一个月
+            //按扣款周期设置首期推迟时间
+            if ($param['frequency'] == 'MONTH') {
+             $agreement->setStartDate(Carbon::now()->addMonth()->toIso8601String());
             }else{
-            $agreement->setStartDate(Carbon::now()->addYear()->toIso8601String());//非monthly当年付费，推迟一年
+            $agreement->setStartDate(Carbon::now()->addYear()->toIso8601String());
            }
 
         // Add Plan ID
