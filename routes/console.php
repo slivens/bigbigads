@@ -27,6 +27,7 @@ Artisan::command('bigbigads:change {email} {roleName}', function($email, $roleNa
         }
         $user = App\User::where('email', $email)->first();
         if ($user instanceof App\User) {
+            $user->role_id = $role->id;
             $user->initUsageByRole($role);
             $user->save();
             $this->info("$email change to role:$roleName");
