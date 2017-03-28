@@ -1013,6 +1013,17 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$location.search({});
 				$state.reload();
 			};
+
+			$scope.searchCheck = function(value) {
+				var islegal = true;
+				var isFilterLimit;
+				isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
+				if(!isFilterLimit) {
+					User.openUpgrade();
+					islegal = false;
+				}	
+				$scope.islegal = islegal;
+			};
 			$scope.User = User;
 			$scope.Searcher = Searcher;
 
