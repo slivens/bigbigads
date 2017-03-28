@@ -149,8 +149,13 @@ class PaypalService
         $agreement = new Agreement();
 
         $agreement->setName($param['name'])
-            ->setDescription($param['display_name'])
-            ->setStartDate(Carbon::now()->addMonth()->toIso8601String());
+            ->setDescription($param['display_name']);
+            //按扣款周期设置首期推迟时间
+            if ($param['frequency'] == 'MONTH') {
+             $agreement->setStartDate(Carbon::now()->addMonth()->toIso8601String());
+            }else{
+            $agreement->setStartDate(Carbon::now()->addYear()->toIso8601String());
+           }
 
         // Add Plan ID
         // Please note that the plan Id should be only set in this case.
