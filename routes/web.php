@@ -270,25 +270,6 @@ Route::any('/forward/{action}', function(Request $req, $action) {
     return $result;
 });
 
-//测试，正式发布后删除
-Route::get('/tester', function(Request $request) {
-    $email = $request->email;
-    $role = App\Role::where('name', 'Standard')->first();
-    if (!($role instanceof App\Role)) {
-        die("no such role");
-    }
-    $user = App\User::where('email', $email)->first();
-    if ($user instanceof App\User) {
-        $user->initUsageByRole($role);
-        $user->state = 1;
-        $user->save();
-        dd($user->usage);
-    } else {
-       die("no such user:" . $email);
-    }
-    /* Auth::user()->incUsage("image_download"); */
-    //Auth::user()->save();
-});
 
 Route::any('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
 
