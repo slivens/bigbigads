@@ -149,8 +149,12 @@ class PaypalService
         $agreement = new Agreement();
 
         $agreement->setName($param['name'])
-            ->setDescription($param['display_name'])
-            ->setStartDate(Carbon::now()->addMonth()->toIso8601String());
+            ->setDescription($param['display_name']);
+            if (strpos($param['name'],'_monthly')>0) {
+             $agreement->setStartDate(Carbon::now()->addMonth()->toIso8601String());//_monthly后缀的推迟一个月
+            }else{
+            $agreement->setStartDate(Carbon::now()->addYear()->toIso8601String());//非monthly当年付费，推迟一年
+           }
 
         // Add Plan ID
         // Please note that the plan Id should be only set in this case.
