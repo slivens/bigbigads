@@ -177,13 +177,16 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
             }],
             adsTypes: [{
                 key: 'timeline',
-                value: 'Newsfeed'
+                value: 'Newsfeed',
+                permission: 'timeline_filter',
             }, {
                 key: 'rightcolumn',
-                value: 'Right Column'
+                value: 'Right Column',
+                permission: 'rightcolumn_filter',
             }, {
                 key: 'phone',
-                value: 'Mobile'
+                value: 'Mobile',
+                permission: 'phone_filter',
             }],
             categoryList: [{
                 key: "Advertising Agency",
