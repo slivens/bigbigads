@@ -156,7 +156,7 @@ gulp.task('rev',  function() {
 
 
 gulp.task('script:watch', function() {
-    gulp.watch(['./src/js/**/*.js'], ['lint', 'script']);
+    gulp.watch(['./src/js/**/*.js', './src/index.html'], ['lint', 'script']);
 });
 
 gulp.task('watch', ['sass:watch', 'script:watch']);
