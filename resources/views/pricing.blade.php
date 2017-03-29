@@ -139,7 +139,7 @@
             <tr class="text-center text-content2">
                     <td class="pricingitme-name">Update Frequency</td>
                     <td><i class=""></i><span class="pricing-field">Weekly</span></td>
-                    <td><i class=""></i><span class="pricing-field">Weekly</span></td>
+                    <td><i class=""></i><span class="pricing-field">Daily</span></td>
                     <td><i class=""></i><span class="pricing-field">Daily</span></td>
             </tr>     
             <tbody class="table-content">
@@ -315,7 +315,7 @@
                     <td></td>
                 </tr>
                 <tr class="text-center">
-                    <td class="pricingitme-name">Engagement/Duration/Last Seen</td>
+                    <td class="pricingitme-name">Last Seen/Video Views/Shares/Likes/Comments</td>
                     <td><i class="glyphicon glyphicon-ok right"></i></td>
                     <td><i class="glyphicon glyphicon-ok right"></i></td>
                     <td><i class="glyphicon glyphicon-ok right"></i></td>
