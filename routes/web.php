@@ -147,6 +147,10 @@ Route::resource('BookmarkItem', 'BookmarkItemController');
 Route::any('/forward/{action}', function(Request $req, $action) {
     $json_data = json_encode($req->except(['action']));
     $remoteurl = "";
+    if (!(Auth::check())) {
+        if(false===(($req->except(['action'])['limit'][0]==0)&&($req->except(['action'])['limit'][1]==10)))
+            return;
+    }
     if ($action == 'adsearch') {
         //检查权限（应该是根据GET的动作参数判断，否则客户端会出现一种情况，当查看收藏时，也会触发搜索资源统计)
         $act = $req->only('action');
