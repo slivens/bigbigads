@@ -440,15 +440,6 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    directive('adcollect', ['User', 'Bookmark', function(User,Bookmark) {
-        return {
-            link:function(scope, element, attrs) {
-                element.on('click', function() {
-                    Util.openAd(attrs.eventid);
-                });
-            }
-        };
-    }])
     //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function () {  
         return function (collection) { 
