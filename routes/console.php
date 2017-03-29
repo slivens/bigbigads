@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Inspiring;
+use App\Services\AnonymousUser;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,3 +59,34 @@ Artisan::command('bigbigads:activate {email} {state}', function($email,  $state)
         echo $e->getMessage();
     }
 })->describe("激活/反激活用户，state参数应为0或1");
+
+class MockReq {
+    public function ip() {
+        return '192.168.1.200';
+    }
+}
+Artisan::command('bigbigads:can {email} {priv}', function($email,  $priv) {
+    try {
+        $user = App\User::where('email', $email)->first();
+        if ($user instanceof App\User) {
+            if ($user->can($priv)) {
+                $this->info("$email has $priv ability");
+            } else {
+                $this->error("$email has no $priv ability");
+            }
+        } else {
+            $this->error("no such user:" . $email . ", show anonymous USER");
+
+            $user = AnonymousUser::user(new MockReq());
+            if ($user->can($priv)) {
+                $this->info(" has $priv ability");
+            } else {
+                $this->error(" has no $priv ability");
+            }
+        }
+    } catch(\Exception $e) {
+
+        echo $e->getMessage();
+    }
+})->describe("检查用户权限");
+

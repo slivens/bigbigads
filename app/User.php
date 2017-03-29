@@ -155,4 +155,12 @@ class User extends Authenticatable
         $newkey = "{$this->id}:" . $key;
         Cache::put($newkey, $val, 1440);
     }
+
+    public function can($key, $arguments = [])
+    {
+        $count = $this->role->permissions()->where('key', $key)->count();
+        if ($count > 0)
+            return true;
+        return false;
+    }
 }

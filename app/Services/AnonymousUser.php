@@ -83,4 +83,11 @@ class AnonymousUser
         Cache::put($newkey, $val, 1440);
     }
 
+    public function can($key)
+    {
+        $count = $this->role->permissions()->where('key', $key)->count();
+        if ($count > 0)
+            return true;
+        return false;
+    }
 }
