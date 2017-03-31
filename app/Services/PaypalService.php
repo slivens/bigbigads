@@ -28,14 +28,12 @@ class PaypalService
             ));
         $apiContext->setConfig( 
             array(
-                'mode'=>config('payment.mode')
-                )
-            );
-        /*         'log.LogEnabled' => true, */
-        /*         'log.FileName' => 'PayPal.log', */
-        /*         'log.LogLevel' => 'DEBUG' */
-        /*     ) */
-        /* ); */
+                'mode'=>config('payment.mode'),
+                 'log.LogEnabled' => true, 
+                 'log.FileName' => 'PayPal.log', 
+                 'log.LogLevel' => 'DEBUG' 
+             ) 
+         ); 
         return $apiContext;
     }
 
