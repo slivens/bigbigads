@@ -28,14 +28,12 @@ class PaypalService
             ));
         $apiContext->setConfig( 
             array(
-                'mode'=>config('payment.mode')
-                )
-            );
-        /*         'log.LogEnabled' => true, */
-        /*         'log.FileName' => 'PayPal.log', */
-        /*         'log.LogLevel' => 'DEBUG' */
-        /*     ) */
-        /* ); */
+                'mode'=>config('payment.mode'),
+                 'log.LogEnabled' => true, 
+                 'log.FileName' => 'PayPal.log', 
+                 'log.LogLevel' => 'DEBUG' 
+             ) 
+         ); 
         return $apiContext;
     }
 
@@ -204,6 +202,8 @@ class PaypalService
     public function onPay($request)
     {
 		$apiContext = $this->getApiContext();
+        //如果订阅没激活,就当做是交易失败
+        if ($request->state !='Active')return null;
         if ($request->has('success') && $request->success == 'true') {
             $token = $request->token;
             $agreement = new \PayPal\Api\Agreement();
@@ -211,7 +211,7 @@ class PaypalService
                  $agreement->execute($token, $apiContext);
             } catch(\Exception $e) {
                 Log::error("pay failed after user's agreement" . $e->getMessage());
-                return ull;
+                return null;
             }
             Log::info("onpay id:" . $agreement->getId());
             return $agreement;

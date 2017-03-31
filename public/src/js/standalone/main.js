@@ -595,7 +595,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 value: "URL",
                 permission:"dest_site_search"
             }, {
-                key: "description",
+                key: "description,name,caption,message",
                 value: "Advertisement",
                 permission:"content_search"
             }/*, {

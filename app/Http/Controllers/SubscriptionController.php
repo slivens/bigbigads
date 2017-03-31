@@ -160,7 +160,7 @@ class SubscriptionController extends Controller
     /**
      * 处理支付的一些通知
      */
-    public function onPayWebhooks(request $request)
+    public function onPayWebhooks(Request $request)
     {
         Log::info('webhooks id: '.$request->id);
         $webhook_id = $request->id;//webhook id

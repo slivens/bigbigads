@@ -148,8 +148,13 @@ Route::any('/forward/{action}', function(Request $req, $action) {
     $json_data = json_encode($req->except(['action']));
     $remoteurl = "";
     if (!(Auth::check())) {
-        if(false===(($req->except(['action'])['limit'][0]==0)&&($req->except(['action'])['limit'][1]==10)))
-            return;
+            //匿名用户只有adsearch动作，其它动作一律不允许
+            if ($action == 'adsearch') {
+               if(false===(($req->except(['action'])['limit'][0]==0)&&($req->except(['action'])['limit'][1]==10)))
+                return ;
+            }else {
+                return ;
+            }   
     }
     if ($action == 'adsearch') {
         //检查权限（应该是根据GET的动作参数判断，否则客户端会出现一种情况，当查看收藏时，也会触发搜索资源统计)
@@ -226,6 +231,8 @@ Route::any('/forward/{action}', function(Request $req, $action) {
         
     } else if ($action == "trends") {
         //获取广告趋势
+        $user = Auth::user();
+        if(!$user->can('analysis_trend')) return response(["code"=>-1, "desc"=>"you no permission"], 422);
         $remoteurl = 'http://xgrit.xicp.net:5000/adsid_trend';
     } else {
         return response(["code"=>-1, "desc"=>"unsupported action"], 422);
