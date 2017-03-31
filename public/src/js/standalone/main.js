@@ -1144,10 +1144,29 @@ MetronicApp.config([ function() {
   }]);
 
 /* Init global settings and run the app */
-MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
+MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', function($rootScope, settings, $state, User, SweetAlert) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
 
+    User.getInfo();
+    setInterval(function() {
+        //每隔一段时间再次更新user信息，一方面是获取新权限，另一方面是防止session过期客户端不知道;
+        if (!User.login)
+            return;
+        var oldInfo = null;
+        User.getInfo(true);  
+        $rootScope.$on('userChanged', function(ev, newInfo) {
+            if (!oldInfo) {
+                oldInfo = newInfo;
+                return;
+            }
+            if (!newInfo.login && oldInfo.login) {
+                SweetAlert.swal("you have logout because of no operation for a long time");
+                return;
+            }
+            // console.log("get info again:", oldInfo);
+        });
+    }, 60000 * 5);
 }]);
 
 
@@ -1243,6 +1262,6 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
 }]);
 
 MetronicApp.controller('UserController', ['$scope', 'User', function($scope, User) {
-    User.getInfo();
+ //   User.getInfo();
     $scope.User = User;
 }]);
