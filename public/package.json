@@ -44,6 +44,7 @@
     "fancybox": "^3.0.0",
     "font-awesome": "^4.7.0",
     "gulp-minify-html": "^1.0.6",
+    "highcharts": "^5.0.9",
     "highcharts-ng": "1.0.1",
     "jqcloud2": "^2.0.2",
     "masonry-layout": "^4.1.1",
