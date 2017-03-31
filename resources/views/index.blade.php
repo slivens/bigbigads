@@ -105,7 +105,7 @@
 </p>
                 </li>
                 <li>
-                    <p class="slider-title">Spy, Save &amp; Success</p>
+                    <p class="slider-title">Search, Save &amp; Success</p>
                     <p class="slider-desc">Use the bookmark to save your favorite ad or advertiser, set an alert for tracking. Set up different file for each niche market, find out the winner and learn.</p>
                 </li>
             </ul>
