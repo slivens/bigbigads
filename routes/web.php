@@ -232,7 +232,7 @@ Route::any('/forward/{action}', function(Request $req, $action) {
     } else if ($action == "trends") {
         //获取广告趋势
         $user = Auth::user();
-        if(!$user->can('analysis_trend')) return;
+        if(!$user->can('analysis_trend')) return response(["code"=>-1, "desc"=>"you no permission"], 422);
         $remoteurl = 'http://xgrit.xicp.net:5000/adsid_trend';
     } else {
         return response(["code"=>-1, "desc"=>"unsupported action"], 422);
