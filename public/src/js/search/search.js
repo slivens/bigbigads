@@ -82,6 +82,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					}
 					return true;
 				},
+
 				isDurationDirty: function() {
 					//这里引用this,关键是要对this这个指针有透彻的理解，this是会变的。当函数作为对象的属性时，this就是对象，即当以obj.isDurationDirty()，this就是obj。如果fn=obj.isDurationDirty();fn();那么this就是window。当函数出问题时一定要检查下this。
 					if (this.duration.from == searcher.defFilterOption.duration.from &&
@@ -257,8 +258,11 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				});
 				return promise;
 			};
-
-
+			/*清空高级过滤的输入框*/
+			vm.clearvalue=function(value){
+				//$scope.filterOption.engagements.likes.min=$scope.filterOption.engagements.likes.max='';
+				value.min=value.max="";
+			};
 		};
 		searcher.ADS_TYPE = searcher.prototype.ADS_TYPE = ADS_TYPE;
 		//函数的静态方法以及对象的方法
@@ -728,7 +732,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				}
 				$scope.islegal = islegal;
 			};
-
             $scope.Util = Util;
 			$scope.User = User;
 			$scope.Searcher = Searcher;
