@@ -169,30 +169,10 @@ class SubscriptionController extends Controller
         if($select == null){
             $webhook = new Webhook;
             $webhook->webhook_id = $webhook_id;
-
             $webhook->create_time = $request->create_time;
             $webhook->resource_type = $request->resource_type;
             $webhook->event_type = $request->event_type;
             $webhook->summary = $request->summary;
-            /*if ($resource_type == 'Agreement') {
-                $plan_price = $request->resource->plan->payment_definitions[0]->amount->value;//plan价格/每期收款数量
-                $payer_name = $request->resource->payer->payer_info->email;//买家账号，付款账号
-                $resource_desc = $request->resource->description;//订阅描述，如Advanced Plan
-                $resource_next_paytime = $request->resource->agreement_details->next_billing_date;//下次付款时间
-                $resource_last_paytime = $request->resource->agreement_details->last_payment_date;//最后一次成功扣款的时间 
-            }else {*/
-            $webhook->plan_price='';
-            $webhook->payer_email='';
-            $webhook->resource_desc='';
-            $webhook->resource_next_paytime='';
-            $webhook->resource_last_paytime='';
-            //}
-            //$resource = json_decode($request->resource,true);
-            $webhook->resource_id = '';//$request->resource->id;
-            $webhook->resource_create_time = '';//$request->resource->start_date;
-            $webhook->resource_state = '';//$request->resource->state;
-            $webhook->billing_agreement_id = '';//$request->resource->billing_agreement_id;
-            $webhook->webhook_status = $request->status;
             $webhook->webhook_content = serialize($request->resource);
             try {
                 $re = $webhook->save();
