@@ -120,7 +120,7 @@ $gulp watch
 请配合`Chrome Devtool`做调试开发。
 
 ## 权限配置指南
-[参考对应WIKI:权限配置指南](/wikis/权限配置指南)
+[参考对应WIKI:权限配置指南](http://git.papamk.com:81/bigbigads/bigbigads/wikis/%E6%9D%83%E9%99%90%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97)
 
 ## Paypal的支持
 项目已经集成了`Paypal`，目前只实现了`Paypal`帐号的循环扣款。基于信用卡的支付、一次性扣款、`Webhook`消息处理均未实现。
