@@ -92,11 +92,11 @@ body {
             .hor-menu{
                 .nav{
                     li{margin:0px;
-                        a{display: inline-block;padding: 0px 10px;height: 75px;line-height: 75px;border-radius: 0px;color:#555}
+                        a{display: inline-block;padding: 0px 10px;height: 75px;line-height: 75px;border-radius: 0px;color:#555;font-size: 1.6rem;font-family:'Microsoft YaHei','微软雅黑',"Helvetica Neue", Helvetica, Arial, sans-serif;}
                         a:focus{background: none !important;color: #555;i{color: #BCC2CB;}}
 
                     }
-                    li:hover{a{color: #fff;background:#ea7e00 !important;i{color:#fff;}}}
+                    li:hover{a{color:#ea7e00 !important;background:none !important;i{color:#ea7e00;}}}
                     li.active,li.active:hover{
                         a{background: none !important;border-bottom: 3px solid; cursor:default;color: #ea7e00}
                     }
@@ -107,7 +107,7 @@ body {
 } 
 
 /*广告商*/
-.search-result{border-left:4px solid #ea912a;padding-left: 4px;font-size: 18px;color: #337ab7;font-weight: 700;}
+.search-result{border-left:4px solid #ea912a;padding-left: 4px;font-size: 18px;color: #337ab7;font-weight: 200;.font-yellow-gold{font-weight: 600}}
 .advertiser{
     
     .input-group-addon {
@@ -516,7 +516,8 @@ body.modal-open{overflow-y:hidden !important; padding-right: 17px !important;}
     max-height: 80px;
     overflow: hidden;
     color: #1d2129;
-    font-size: 12px;
+    // font-size: 12px;
+    font-size: 1.4rem;
 }
 
 .xg-label-caption {

@@ -7,225 +7,229 @@
         <!-- </div> -->
         <div class="portlet-body form"> 
             <div class="filter-title">Filter</div>
-    <form role="form" ng-submit="$parent.islegal&&$parent.search('search')">
-        <div class="input-group">
-            <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-calendar"></i></span>
-            <input date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.date" options="daterangeOption" placeholder="Time Frame" aria-describedby="filterbydate_addon"/> 
-        </div>
-        <div class="input-group">
-            <span class="input-group-addon" id="searchrange_addon"><i class="fa fa-search"></i></span>
-            <select id="search_range_select" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Search Mode" ng-model="$parent.searchOption.rangeselected" >
-                <option ng-repeat="item in $parent.searchOption.range" policy-lock key="{{item.permission}}" trigger="disabled" value="{{item.key}}">{{item.value}}</option>
-            </select>
-        </div>
-        <div class="input-group">
-             <span class="input-group-addon" id="format_addon"><i class="fa fa-picture-o"></i></span>
-                  <select select2 class="form-control has_left_icon" id="format" multiple="multiple"  data-placeholder="Ad Type" ng-model="$parent.filterOption.formatSelected"> 
-                      <option ng-repeat="item in $parent.settings.searchSetting.formatList" policy-lock key="{{item.permission}}" trigger="lockButton" value="{{item.key}}">{{item.value}}</option>
-                  </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.formatList" > -->
-        </div>
-        <div class="input-group callToAction_group">
-            <span class="input-group-addon" id="calltoaction_addon"><i class="fa fa-flag"></i></span>
-            <select select2 class="form-control has_left_icon callToAction_select2"  multiple="multiple" data-placeholder="Call to Action" ng-model="$parent.filterOption.callToAction">
-                <option ng-repeat="item in $parent.settings.searchSetting.buttondescList" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
-            </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.buttondescList" > -->
-        </div> 
-        <div class="input-group">
-            <span class="input-group-addon" id="language_addon"><i class="fa fa-language"></i></span>
-            <select  select2 class="form-control has_left_icon" id="language" multiple="multiple"  data-placeholder="Language" ng-model="$parent.filterOption.lang"  >
-                <option ng-repeat="item in $parent.settings.searchSetting.langList" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
-            </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" -->
-
-        </div>
-        <hr>
-
-        
-        <!-- <h4 class="percent65"><i class="fa fa-sliders"></i><label>|</label>Advance Filter:</h4>
-        <u class="collapse_show" data-toggle="collapse" data-target="#collapse_advance_filter">show</u> -->   
-        <div class="collapse" id="collapse_advance_filter">
-            <div class="form-group">
-                <h5>Domain:</h5>
+            <form role="form" ng-submit="$parent.islegal&&$parent.search('search')">
                 <div class="input-group">
-                    <input policy-lock key="domain_search" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.domain.text" placeholder="E.g nike.com">
-                   <span class="input-group-addon">
-                        <input policy-lock key="domain_search" trigger="disabled"  type="checkbox" class="text" ng-model="$parent.domainOption.domain.exclude" name="">Exclude
-                    </span>
+                    <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-calendar"></i></span>
+                    <input date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.date" options="daterangeOption" placeholder="Time Frame" aria-describedby="filterbydate_addon"/> 
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="searchrange_addon"><i class="fa fa-search"></i></span>
+                    <select id="search_range_select" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Search Mode" ng-model="$parent.searchOption.rangeselected" >
+                        <option ng-repeat="item in $parent.searchOption.range" policy-lock key="{{item.permission}}" trigger="disabled" value="{{item.key}}">{{item.value}}</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                     <span class="input-group-addon" id="format_addon"><i class="fa fa-picture-o"></i></span>
+                          <select select2 class="form-control has_left_icon" id="format" multiple="multiple"  data-placeholder="Ad Type" ng-model="$parent.filterOption.formatSelected"> 
+                              <option ng-repeat="item in $parent.settings.searchSetting.formatList" policy-lock key="{{item.permission}}" trigger="lockButton" value="{{item.key}}">{{item.value}}</option>
+                          </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.formatList" > -->
+                </div>
+                <div class="input-group callToAction_group">
+                    <span class="input-group-addon" id="calltoaction_addon"><i class="fa fa-flag"></i></span>
+                    <select select2 class="form-control has_left_icon callToAction_select2"  multiple="multiple" data-placeholder="Call to Action" ng-model="$parent.filterOption.callToAction">
+                        <option ng-repeat="item in $parent.settings.searchSetting.buttondescList" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
+                    </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.buttondescList" > -->
+                </div> 
+                <div class="input-group">
+                    <span class="input-group-addon" id="language_addon"><i class="fa fa-language"></i></span>
+                    <select  select2 class="form-control has_left_icon" id="language" multiple="multiple"  data-placeholder="Language" ng-model="$parent.filterOption.lang"  >
+                        <option ng-repeat="item in $parent.settings.searchSetting.langList" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
+                    </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" -->
 
                 </div>
-            </div>
-            <div class="form-group">
-                <h5>Audience:</h5>
+                <hr>
 
-                <div class="input-group">
-                    <input policy-lock key="audience_search" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.audience.text" placeholder="E.g women">
-                    <span class="input-group-addon">
-                        <input policy-lock key="audience_search" trigger="disabled" type="checkbox" class="text" ng-model="$parent.searchOption.audience.exclude" name="">Exclude
-                    </span>
-                </div>
-            </div>
-        </div>
-<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-            
-            <div class="filter-title">Customized Ad Run</div>
-            <!-- <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="ad_run_filter" ng-click="$event.stopPropagation();">  -->
-            <div class="customads-rundiv open btn-block clearfix">
-                    
-                    <h5 class="lh48h30">duration:</h5>
-                    
-                    <div class="clearfix">
-                        <input policy-lock key="search_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.duration.from" ng-to="$parent.filterOption.duration.to" ng-min="settings.searchSetting.durationRange[0]" ng-max="settings.searchSetting.durationRange[1]" />
-                    </div>
-                    <h5>see times:</h5> 
-                    
-                    <div class="clearfix">
-                        <input ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" />
-                    </div>
-                    <!-- <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success">Apply</button></div> -->
-            </div>
-
-            <div class="filter-title margin-top-15">Customized Engagements</div> 
-            <table class="table table-condensed table-engamentfilter table-hover" >
-                <tbody>
-                    <tr >
-                        <td class="like Engagement-item">Likes</td>
-                        <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.likes.min"/></td>
-                        <td><label class="xg-wt10">-</label></td>
-                        <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.likes.max"/></td>
-                        <td class="clearitem-button">
-                            <button ng-show="$parent.filterOption.engagements.likes.min || $parent.filterOption.engagements.likes.max" type="button" class="close" ng-click="$parent.adSearcher.clearvalue($parent.filterOption.engagements.likes)" aria-label="Close"><span aria-hidden="true">&times;</span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="share Engagement-item">Shares</td>
-                        <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.shares.min"/></td>
-                        <td><label class="xg-wt10">-</label></td>
-                        <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.shares.max"/></td>
-                        <td class="clearitem-button">
-                            <button ng-show = "$parent.filterOption.engagements.shares.min || $parent.filterOption.engagements.shares.max" type="button" class="close" aria-label="Close" ng-click="$parent.adSearcher.clearvalue($parent.filterOption.engagements.shares)"><span aria-hidden="true" >&times;</span>
-                            </button></td>
-                    </tr>
-                    <tr>
-                        <td class="comment Engagement-item">Comments</td>
-                        <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.comments.min"/></td>
-                        <td><label class="xg-wt10">-</label></td>
-                        <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.comments.max"/></td>
-                        <td class="clearitem-button">
-                            <button ng-show = "$parent.filterOption.engagements.comments.min || $parent.filterOption.engagements.comments.max" type="button" class="close" aria-label="Close" ng-click="$parent.adSearcher.clearvalue($parent.filterOption.engagements.comments)"><span aria-hidden="true">&times;</span></button></td>
-                    </tr>
-                    <tr>
-                        <td class="videoview Engagement-item">Video Views</td>
-                        <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.views.min"/></td>
-                        <td><label class="xg-wt10">-</label></td>
-                        <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.views.max"/></td>
-                        <td class="clearitem-button"><button ng-show="$parent.filterOption.engagements.views.min || $parent.filterOption.engagements.views.max" type="button" class="close" aria-label="Close" ng-click="$parent.adSearcher.clearvalue($parent.filterOption.engagements.views)"><span aria-hidden="true">&times;</span></button></td>
-                    </tr>
-                    <tr>
-                        <td class="engagements Engagement-item">Engagements</td>
-                        <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.engagements.min"/></td>
-                        <td><label class="xg-wt10">-</label></td>
-                        <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.engagements.max"/></td>
-                        <td class="clearitem-button">
-                            <button ng-show="$parent.filterOption.engagements.engagements.min || $parent.filterOption.engagements.engagements.max" type="button" class="close" aria-label="Close" ng-click="$parent.adSearcher.clearvalue($parent.filterOption.engagements.engagements)"><span aria-hidden="true">&times;</span></button></td>
-                    </tr>
-                </tbody>
-            </table>
-            <!-- <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="engament_filter" ng-click="$event.stopPropagation();">
-                    <div class="col-md-12">
-                    </div> 
-                    <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success">Apply</button></div>
-            </div>  -->
-        <div class="form-group" >
-            <div class="dropdown">
-                <!-- <button type="button" class="btn btn-default btn-block dropdown-toggle xg-dropdown-left-btn"  data-toggle="dropdown" policy-lock key="duration_filter|see_times_filter" trigger="lockButton" id="ad_run_filter" buttontype="filter">
-                    Customized Ad Run
-                </button> -->
-                <!-- TODO:Apply功能未实现-->
                 
-            </div>
-        </div>
-        <div>
-            <div class="dropdown">
-                <!-- dropdown-left-btn -->
-                <!-- <button type="button" class="btn btn-default btn-block dropdown-toggle xg-dropdown-left-btn" data-toggle="dropdown" policy-lock key="engagement_filter" trigger="lockButton" id="engagements_filter" buttontype="filter">
-                Customized Engagements
-                </button> -->
-               <!--TODO:清除与Apply功能未实现-->
-                <!-- blue-steel  Likes blue-madison Shares green-meadow Comments red-sunglo Video Views dark Engaments -->
-                <!-- <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="engament_filter" ng-click="$event.stopPropagation();">
-                    <div class="col-md-12">
-                        <table class="table table-condensed table-engamentfilter" >
-                            <tbody>
-                                <tr >
-                                    <td class="like">Likes</td>
-                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.likes.min"/></td>
-                                    <td><label class="xg-wt10">to</label></td>
-                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.likes.max"/></td>
-                                    <td ng-show = "$parent.filterOption.engagements.likes.min || $parent.filterOption.engagements.likes.max"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
-                                </tr>
-                                <tr>
-                                    <td class="share">Shares</td>
-                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.shares.min"/></td>
-                                    <td><label class="xg-wt10">to</label></td>
-                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.shares.max"/></td>
-                                    <td ng-show = "$parent.filterOption.engagements.shares.min || $parent.filterOption.engagements.shares.max"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
-                                </tr>
-                                <tr>
-                                    <td class="comment">Comments</td>
-                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.comments.min"/></td>
-                                    <td><label class="xg-wt10">to</label></td>
-                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.comments.max"/></td>
-                                    <td ng-show = "$parent.filterOption.engagements.comments.min || $parent.filterOption.engagements.comments.max"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
-                                </tr>
-                                <tr>
-                                    <td class="videoview">Video Views</td>
-                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.views.min"/></td>
-                                    <td><label class="xg-wt10">to</label></td>
-                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.views.max"/></td>
-                                    <td ng-show = "$parent.filterOption.engagements.views.min || $parent.filterOption.engagements.views.max"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
-                                </tr>
-                                <tr>
-                                    <td class="engagements">Engagements</td>
-                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.engagements.min"/></td>
-                                    <td><label class="xg-wt10">to</label></td>
-                                    <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.engagements.max"/></td>
-                                    <td ng-show = "$parent.filterOption.engagements.engagements.min || $parent.filterOption.engagements.engagements.max"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div> 
-                    <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success">Apply</button></div>
-                </div>  -->
-            </div>
-        </div>
+                <!-- <h4 class="percent65"><i class="fa fa-sliders"></i><label>|</label>Advance Filter:</h4>
+                <u class="collapse_show" data-toggle="collapse" data-target="#collapse_advance_filter">show</u> -->   
+                <div class="collapse" id="collapse_advance_filter">
+                    <div class="form-group">
+                        <h5>Domain:</h5>
+                        <div class="input-group">
+                            <input policy-lock key="domain_search" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.domain.text" placeholder="E.g nike.com">
+                           <span class="input-group-addon">
+                                <input policy-lock key="domain_search" trigger="disabled"  type="checkbox" class="text" ng-model="$parent.domainOption.domain.exclude" name="">Exclude
+                            </span>
 
-</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h5>Audience:</h5>
 
-<!--advance filter-->
-        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="show-button collapsed" aria-expanded="false" aria-controls="collapseThree">
-            <h4 class="font-yellow-gold text-center">Advance Filter:<i class="glyphicon glyphicon-menu-up font-yellow-gold down-icon"></i></h4>
-        </a>
+                        <div class="input-group">
+                            <input policy-lock key="audience_search" trigger="disabled" type="text" class="form-control" ng-model="$parent.searchOption.audience.text" placeholder="E.g women">
+                            <span class="input-group-addon">
+                                <input policy-lock key="audience_search" trigger="disabled" type="checkbox" class="text" ng-model="$parent.searchOption.audience.exclude" name="">Exclude
+                            </span>
+                        </div>
+                    </div>
+                </div>
 
-        <hr>
-        <div class="form-group clearfix filterapply-bitton">
-            <button  type="submit" class="btn btn-lg yellow-gold" ng-show="!$parent.inAdvertiserMode" ng-click="$parent.searchCheck($parent.adSearcher.searchOption.search.text)">
-                <!-- <i class="fa fa-filter" ></i> -->
-                Filter
-            </button>
+                
+                <!--begin advance filter div-->
+                <div id="collapseDiv" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        
+                    <div class="filter-title">Customized Ad Run</div>
+                    <!-- <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="ad_run_filter" ng-click="$event.stopPropagation();">  -->
+                    <div class="customads-rundiv open btn-block clearfix">
+                            
+                            <h5 class="lh48h30">duration:</h5>
+                            
+                            <div class="clearfix">
+                                <input policy-lock key="search_filter" trigger="disabled" ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.duration.from" ng-to="$parent.filterOption.duration.to" ng-min="settings.searchSetting.durationRange[0]" ng-max="settings.searchSetting.durationRange[1]" />
+                            </div>
+                            <h5>see times:</h5> 
+                            
+                            <div class="clearfix">
+                                <input ion-range-slider type="text" class="form-control" ng-from="$parent.filterOption.seeTimes.from" ng-to="$parent.filterOption.seeTimes.to" ng-min="settings.searchSetting.seeTimesRange[0]" ng-max="settings.searchSetting.seeTimesRange[1]" />
+                            </div>
+                            <!-- <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success">Apply</button></div> -->
+                    </div>
 
-            <button  type="submit" class="btn btn-lg yellow-gold" policy-lock key="adser_search" trigger="lockButton" ng-show="$parent.inAdvertiserMode">
-                <!-- <i class="fa fa-filter" ></i> -->
-                Filter
-            </button>
-            <!-- <button type="reset" class="btn btn-lg default filterbar-toggler" ng-click="reset()"> -->
-            <!--     Reset -->
-            <!-- </button> -->
-            
-        </div>
-        <div class="text-center margin-top-10">
-            <a class="xg-clrbtn text-center" ng-click="$parent.clearSearch()">Clear All</a>
-        </div>
-    </form>
+                    <div class="filter-title margin-top-15">Customized Engagements</div> 
+                    <table class="table table-condensed table-engamentfilter table-hover" >
+                        <tbody>
+                            <tr >
+                                <td class="like Engagement-item">Likes</td>
+                                <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.likes.min"/></td>
+                                <td><label class="xg-wt10">-</label></td>
+                                <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.likes.max"/></td>
+                                <td class="clearitem-button">
+                                    <button ng-show="$parent.filterOption.engagements.likes.min || $parent.filterOption.engagements.likes.max" type="button" class="close" ng-click="$parent.adSearcher.clearvalue($parent.filterOption.engagements.likes)" aria-label="Close"><span aria-hidden="true">&times;</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="share Engagement-item">Shares</td>
+                                <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.shares.min"/></td>
+                                <td><label class="xg-wt10">-</label></td>
+                                <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.shares.max"/></td>
+                                <td class="clearitem-button">
+                                    <button ng-show = "$parent.filterOption.engagements.shares.min || $parent.filterOption.engagements.shares.max" type="button" class="close" aria-label="Close" ng-click="$parent.adSearcher.clearvalue($parent.filterOption.engagements.shares)"><span aria-hidden="true" >&times;</span>
+                                    </button></td>
+                            </tr>
+                            <tr>
+                                <td class="comment Engagement-item">Comments</td>
+                                <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.comments.min"/></td>
+                                <td><label class="xg-wt10">-</label></td>
+                                <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.comments.max"/></td>
+                                <td class="clearitem-button">
+                                    <button ng-show = "$parent.filterOption.engagements.comments.min || $parent.filterOption.engagements.comments.max" type="button" class="close" aria-label="Close" ng-click="$parent.adSearcher.clearvalue($parent.filterOption.engagements.comments)"><span aria-hidden="true">&times;</span></button></td>
+                            </tr>
+                            <tr>
+                                <td class="videoview Engagement-item">Video Views</td>
+                                <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.views.min"/></td>
+                                <td><label class="xg-wt10">-</label></td>
+                                <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.views.max"/></td>
+                                <td class="clearitem-button"><button ng-show="$parent.filterOption.engagements.views.min || $parent.filterOption.engagements.views.max" type="button" class="close" aria-label="Close" ng-click="$parent.adSearcher.clearvalue($parent.filterOption.engagements.views)"><span aria-hidden="true">&times;</span></button></td>
+                            </tr>
+                            <tr>
+                                <td class="engagements Engagement-item">Engagements</td>
+                                <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.engagements.min"/></td>
+                                <td><label class="xg-wt10">-</label></td>
+                                <td><input type="number" class="xg-wt45" ng-model="$parent.filterOption.engagements.engagements.max"/></td>
+                                <td class="clearitem-button">
+                                    <button ng-show="$parent.filterOption.engagements.engagements.min || $parent.filterOption.engagements.engagements.max" type="button" class="close" aria-label="Close" ng-click="$parent.adSearcher.clearvalue($parent.filterOption.engagements.engagements)"><span aria-hidden="true">&times;</span></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="engament_filter" ng-click="$event.stopPropagation();">
+                            <div class="col-md-12">
+                            </div> 
+                            <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success">Apply</button></div>
+                    </div>  -->
+                    <div class="form-group" >
+                        <div class="dropdown">
+                            <!-- <button type="button" class="btn btn-default btn-block dropdown-toggle xg-dropdown-left-btn"  data-toggle="dropdown" policy-lock key="duration_filter|see_times_filter" trigger="lockButton" id="ad_run_filter" buttontype="filter">
+                                Customized Ad Run
+                            </button> -->
+                            <!-- TODO:Apply功能未实现-->
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="dropdown hidden">
+                        <!-- dropdown-left-btn -->
+                        <!-- <button type="button" class="btn btn-default btn-block dropdown-toggle xg-dropdown-left-btn" data-toggle="dropdown" policy-lock key="engagement_filter" trigger="lockButton" id="engagements_filter" buttontype="filter">
+                        Customized Engagements
+                        </button> -->
+                       <!--TODO:清除与Apply功能未实现-->
+                        <!-- blue-steel  Likes blue-madison Shares green-meadow Comments red-sunglo Video Views dark Engaments -->
+                        <!-- <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="engament_filter" ng-click="$event.stopPropagation();">
+                            <div class="col-md-12">
+                                <table class="table table-condensed table-engamentfilter" >
+                                    <tbody>
+                                        <tr >
+                                            <td class="like">Likes</td>
+                                            <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.likes.min"/></td>
+                                            <td><label class="xg-wt10">to</label></td>
+                                            <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.likes.max"/></td>
+                                            <td ng-show = "$parent.filterOption.engagements.likes.min || $parent.filterOption.engagements.likes.max"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="share">Shares</td>
+                                            <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.shares.min"/></td>
+                                            <td><label class="xg-wt10">to</label></td>
+                                            <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.shares.max"/></td>
+                                            <td ng-show = "$parent.filterOption.engagements.shares.min || $parent.filterOption.engagements.shares.max"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="comment">Comments</td>
+                                            <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.comments.min"/></td>
+                                            <td><label class="xg-wt10">to</label></td>
+                                            <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.comments.max"/></td>
+                                            <td ng-show = "$parent.filterOption.engagements.comments.min || $parent.filterOption.engagements.comments.max"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="videoview">Video Views</td>
+                                            <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.views.min"/></td>
+                                            <td><label class="xg-wt10">to</label></td>
+                                            <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.views.max"/></td>
+                                            <td ng-show = "$parent.filterOption.engagements.views.min || $parent.filterOption.engagements.views.max"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="engagements">Engagements</td>
+                                            <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.engagements.min"/></td>
+                                            <td><label class="xg-wt10">to</label></td>
+                                            <td><input type="text" class="xg-wt45" ng-model="$parent.filterOption.engagements.engagements.max"/></td>
+                                            <td ng-show = "$parent.filterOption.engagements.engagements.min || $parent.filterOption.engagements.engagements.max"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> 
+                            <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success">Apply</button></div>
+                        </div> --> 
+                    </div>
+                </div>
+                <!--end advance filter div-->
+                <!--advance filter button-->
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseDiv" class="show-button collapsed" aria-expanded="false" aria-controls="collapseDiv">
+                    <h4 class="font-yellow-gold text-center">Advance Filter:<i class="glyphicon glyphicon-menu-up font-yellow-gold down-icon"></i></h4>
+                </a>
+
+                <hr>
+
+                <!--filter button-->
+                <div class="form-group clearfix filterapply-bitton">
+                    <button  type="submit" class="btn btn-lg yellow-gold" ng-show="!$parent.inAdvertiserMode" ng-click="$parent.searchCheck($parent.adSearcher.searchOption.search.text)">
+                        <!-- <i class="fa fa-filter" ></i> -->
+                        Filter
+                    </button>
+
+                    <button  type="submit" class="btn btn-lg yellow-gold" policy-lock key="adser_search" trigger="lockButton" ng-show="$parent.inAdvertiserMode">
+                        <!-- <i class="fa fa-filter" ></i> -->
+                        Filter
+                    </button>
+                    <!-- <button type="reset" class="btn btn-lg default filterbar-toggler" ng-click="reset()"> -->
+                    <!--     Reset -->
+                    <!-- </button> -->   
+                </div>
+
+                <!--clear all button-->
+                <div class="text-center margin-top-10">
+                    <a class="xg-clrbtn text-center" ng-click="$parent.clearSearch()">Clear All</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
