@@ -127,13 +127,15 @@ class SearchController extends Controller
                 if ($lastParams != $json_data) {
                     $usage = $user->getUsage('search_times_perday');
                     if (!$usage) {
-                        return response(["code"=>-1, "desc"=> "no search permission"], 422);
+                        return $this->responseError("no search permission");
                     }
                     //有搜索或者过滤条件
                     if (count($req->keys) > 0 || count($req->where) > 0) {
+                        //额外信息是由用户自己写入的，初始化时并不存在，当不存在时需要自己初始化。
                         if (count($usage) < 4) {
                             $carbon = Carbon::now();
                         } else {
+							//如果已经初始化过，就直接读取；为什么会有两种写法？这是由于从数据库反序列化后的格式跟缓存中的格式不一样导致的。
                             if ($usage[3] instanceof Carbon)
                                 $carbon = new Carbon($usage[3]->date, $usage[3]->timezone);
                             else
