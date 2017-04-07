@@ -75,7 +75,7 @@
                 </form>
             </div>
             <div class="xg-count-mt search-result">
-                <span ng-if="adSearcher.ads.total_count!=0">About <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}<sup>+</sup> </span>results</span>
+                <span ng-if="adSearcher.ads.total_count!=0">About <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}<sup ng-show="adSearcher.ads.total_count>=100000">+</sup> </span>results</span>
                 <span ng-if="adSearcher.ads.total_count==0">Your search did not match any results.</span>
                 <!-- <button class="btn yellow-gold btn-lg" ng-click="showStatics()">analysis</button> -->
                 <!-- <i class="fa fa-hand-o-right font-yellow-gold xg-analysis" ng-click="showStatics()"></i> -->

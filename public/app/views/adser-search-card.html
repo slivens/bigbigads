@@ -1,4 +1,4 @@
-<div class="a-card fade-in-up mt-element-ribbon clearfix adver-card">
+<div class="a-card fade-in-up mt-element-ribbon adver-card">
     
     <div class="portlet light aditem">
         <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning xg-collect"  ng-if="mother.data.adsers.bookmark" ng-click="mother.cancelBookmark(1, card)">
@@ -24,7 +24,7 @@
                         <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
                         <span ng-show="!card.adser_name">{{card.adser_username}}</span>
                     </a>
-                    <i class="fa fa-check-circle fa-2x approve-icon" ng-show="!card.page_verified"></i>
+                    <i class="fa fa-check-circle fa-2x approve-icon" ng-show="card.page_verified"></i>
                 </p>
             </div>
                 <div class="pull-left">
@@ -37,17 +37,17 @@
         
      
         
-        <div class="aditem-ader_bottom row"> 
-            <div class="aditem-row col-md-12 clearfix">
+        <div class="aditem-ader_bottom"> 
+            <div class="aditem-row">
                 <span class="pull-left">Category:</span><span class="pull-right"><a>{{card.page_category}}</a></span>
             </div>
-            <div  class="aditem-row col-md-12 clearfix">
+            <div  class="aditem-row">
                 <span class="pull-left">Page Like:</span><span class="pull-right"><a>{{card.page_like_count}}</a></span>
             </div>
-            <div  class="aditem-row col-md-12 clearfix">
+            <div  class="aditem-row">
                 <span class="pull-left">Global Rank:</span><span class="pull-right"><a>{{card.global_rank}}</a></span>
             </div>
-            <div  class="aditem-row col-md-12 clearfix">
+            <div  class="aditem-row">
                 <span class="pull-left">Minimum Advertise Number:</span><span class="pull-right"><a>{{card.min_ads_number}}</a></span>
             </div>
             <div class="">

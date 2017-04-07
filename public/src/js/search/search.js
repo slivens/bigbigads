@@ -259,7 +259,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				return promise;
 			};
 			/*清空高级过滤的输入框*/
-			vm.clearvalue=function(value){
+			vm.clearValue=function(value){
 				//$scope.filterOption.engagements.likes.min=$scope.filterOption.engagements.likes.max='';
 				value.min=value.max="";
 			};

@@ -161,7 +161,7 @@ body {
         tbody>tr>td, tbody>tr>th, tfoot>tr>td, tfoot>tr>th, thead>tr>td, thead>tr>th{border-top:0px;vertical-align:middle;
                     border-bottom: 1px solid #e7ecf1;padding-left: 0px;padding-right: 0px;
                 }
-        .Engagement-item{color: #555;padding-left: 0px;padding-right: 8px;}
+        .engagement-item{color: #555;padding-left: 0px;padding-right: 8px;}
         input{border-radius: 2px;text-align: center;border:1px solid #d6d9e2;width: 100%;padding: 5px 2px;color: #555}
         input:focus{border-color: #ea7e00;color: #ea7e00;}
         /*去掉number类型输入框的上下箭头*/
@@ -197,7 +197,9 @@ body {
                 .approve-icon{font-size: 2rem;line-height: 1rem;background: #fff;color:#ec7e00;vertical-align: middle;}
             }
             .aditem-ader_bottom{padding: 20px;background: #fff;margin: 0 0 0 0;
-                .aditem-row{margin-bottom: 15px;padding-left: 0px;padding-right: 0px;.pull-left{color: #666;font-weight: 200;max-width: 80%}}
+                .aditem-row{margin-bottom: 15px;overflow: hidden;
+                    .pull-left{color: #666;font-weight: 200;max-width: 80%}
+                }
                 .btn{padding-top: 10px;padding-bottom: 10px;background: #fff;color: #ec7e00;border:1px solid #ec7e00;font-size: 1rem;}
                 .btn:hover{background: #ec7e00;color: #fff;}
             }
