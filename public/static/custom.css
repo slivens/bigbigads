@@ -161,10 +161,11 @@ header li.active  a{
 .logo-head {
     display: block;
     float: left;
-    background: url('/../assets/global/img/logo.png');
-    width: 90px;
-    height: 3.9rem;
-    margin-top: 0.3rem;
+    background: url('/../assets/global/img/logo2.png');
+    width: 154px;
+    height: 46px;
+    margin-top: 10px;
+    margin-left: 0px;
 }
 .head-nav{
     width: 100%;
