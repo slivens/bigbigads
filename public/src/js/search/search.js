@@ -69,16 +69,15 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				},
 				isEngagementsDirty: function() {
 					var item;
-				    var arry=this.engagements;
-				    var isfalse=false;
-					angular.forEach(arry,function(data,index,arr){
-						item=arr[index];
+				    var isFalse = false;
+					angular.forEach(this.engagements ,function(item,index){
+                        console.log(item);
 						if((item.min && (item.min!=searcher.defFilterOption.engagements[index].min)) && (item.max && (item.max!=searcher.defFilterOption.engagements[index].max)))
-					 		isfalse=true;
+					 		isFalse = true;
 					 	
 					 
 					});
-					return isfalse;
+					return isFalse;
 					
 				},
 
