@@ -68,19 +68,18 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 
 				},
 				isEngagementsDirty: function() {
-					if (this.engagements.likes.min == searcher.defFilterOption.engagements.likes.min && 
-						this.engagements.likes.max == searcher.defFilterOption.engagements.likes.max &&
-						this.engagements.shares.min == searcher.defFilterOption.engagements.shares.min &&
-						this.engagements.shares.max == searcher.defFilterOption.engagements.shares.max &&
-						this.engagements.comments.min == searcher.defFilterOption.engagements.comments.min &&
-						this.engagements.comments.max == searcher.defFilterOption.engagements.comments.max &&
-						this.engagements.views.min == searcher.defFilterOption.engagements.views.min &&
-						this.engagements.views.max == searcher.defFilterOption.engagements.views.max &&
-						this.engagements.engagements.min == searcher.defFilterOption.engagements.engagements.min &&
-						this.engagements.engagements.max == searcher.defFilterOption.engagements.engagements.max){
-						return false;
-					}
-					return true;
+					var item;
+				    var arry=this.engagements;
+				    var isfalse=false;
+					angular.forEach(arry,function(data,index,arr){
+						item=arr[index];
+						if((item.min && (item.min!=searcher.defFilterOption.engagements[index].min)) && (item.max && (item.max!=searcher.defFilterOption.engagements[index].max)))
+					 		isfalse=true;
+					 	
+					 
+					});
+					return isfalse;
+					
 				},
 
 				isDurationDirty: function() {
@@ -558,7 +557,8 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 
 				//engagementsFilter
 				angular.forEach(option.engagements,function(item,key){
-					if (item.min==="" && item.max==="") {
+					//还要排除null值
+					if ((item.min==="" || item.min===null) || (item.max==="" || item.max===null)) {
 						$scope.adSearcher.removeFilter(key);
 					}else{
 						$scope.adSearcher.addFilter({
