@@ -10,7 +10,8 @@ var MetronicApp = angular.module("MetronicApp", [
     "ngSanitize",
     "oitozero.ngSweetAlert",
     'ngResource',
-    'cgBusy'
+    'cgBusy',
+    'ngCookies'
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -724,10 +725,17 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
         };
     });
 /* Setup App Main Controller */
-MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
+MetronicApp.controller('AppController', ['$scope', '$rootScope', "$cookies", 'User',function($scope, $rootScope, $cookies, User) {
     $scope.$on('$viewContentLoaded', function() {
         App.initComponents(); // init core components
         //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
+        $rootScope.$on('userChanged', function(ev, newInfo) {
+            if(newInfo){
+                $cookies.put('userName',User.user.name);
+                $cookies.put('email',User.user.email);
+                $cookies.put('created_at',User.user.created_at);
+            }
+        });
     });
 }]);
 
@@ -1147,7 +1155,6 @@ MetronicApp.config([ function() {
 MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', function($rootScope, settings, $state, User, SweetAlert) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
-
     User.getInfo();
     setInterval(function() {
         //每隔一段时间再次更新user信息，一方面是获取新权限，另一方面是防止session过期客户端不知道;
@@ -1168,7 +1175,6 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', funct
         });
     }, 60000 * 5);
 }]);
-
 
 MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', '$uibModal', function($http, $q, $location, $rootScope, settings, ADS_TYPE ,$uibModal) {
     //获取信息完成后应该广播消息，然后其他需要在获取用户信息才能继续的操作就放到接收到广播后处理
