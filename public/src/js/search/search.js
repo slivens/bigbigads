@@ -71,7 +71,6 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					var item;
 				    var isFalse = false;
 					angular.forEach(this.engagements ,function(item,index){
-                        console.log(item);
 						if((item.min && (item.min!=searcher.defFilterOption.engagements[index].min)) && (item.max && (item.max!=searcher.defFilterOption.engagements[index].max)))
 					 		isFalse = true;
 					 	
