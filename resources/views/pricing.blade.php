@@ -37,7 +37,7 @@
             <div class="clearfix pricing-card_bottom" style="background-color: #fff;">
                 <div class="col-md-6 col-xs-6  font_24  pricing-tab-item">
                     <p >$99/Month</p>
-                    <a href="/app/adsearch" class="btn font_22 pricing-item_btn">START NOW</a>
+                    <a href="/app/plans" class="btn font_22 pricing-item_btn">START NOW</a>
                     <p class="color_tip">Data Update Frequency:</p>
                     <p><strong>Weekly</strong></p>
                 </div>

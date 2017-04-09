@@ -3,38 +3,38 @@
 <div class="row">
     <div class="col-md-12">
         <!-- BEGIN: ACCORDION DEMO -->
-        <div class="">
+        <div class="col-xs-12 ">
             <div class="mb10">
-                <div class="row">
-                    <div class="col-xs-12 ">
-                        <!-- BEGIN HEADER SEARCH BOX -->
-                        <form class="search-form" ng-submit="islegal&&search('search')">
-                                <div class="col-xs-8">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control input-lg xg-search-height" placeholder="Enter a keyword，url or advertiser " ng-model="adSearcher.searchOption.search.text">
-                                        <span class="input-group-addon xg-type-select">
-                                            <select class="bs-select" data-width="150px" ng-model="filterOption.type" >
-                                                <option value="" >Ad Position</option>
-                                                <option ng-repeat="item in settings.searchSetting.adsTypes" policy-lock value="{{item.key}}" key="{{item.permission}}" trigger="lockButton">
-                                                {{item.value}}
-                                                </option>
-                                            </select>
-                                        </span>
+                
+                <div class="clearfix">
+                    <!-- BEGIN HEADER SEARCH BOX -->
+                    <form class="search-form" ng-submit="islegal&&search('search')">
+                            <div class="">
+                                <div class="input-group">
+                                    <span class="input-group-addon xg-type-select">
+                                        <select class="bs-select" data-width="150px" ng-model="filterOption.type" >
+                                            <option value="" >Ad Position</option>
+                                            <option ng-repeat="item in settings.searchSetting.adsTypes" policy-lock value="{{item.key}}" key="{{item.permission}}" trigger="lockButton">
+                                            {{item.value}}
+                                            </option>
+                                        </select>
+                                    </span>
+                                    <input type="text" class="form-control input-lg" placeholder="Enter a keyword，url or advertiser " ng-model="adSearcher.searchOption.search.text">
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn yellow-gold btn-lg" ng-click="searchCheck(adSearcher.searchOption.search.text)">
+                                        Search
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="col-xs-4">
-                                <button type="submit" class="btn yellow-gold btn-lg" ng-click="searchCheck(adSearcher.searchOption.search.text)">
-                                    Search
-                                </button>
-                                <!-- <button class="btn yellow-gold btn-lg" ng-click="showStatics()">analysis</button> -->
-                                </div>
-                        </form>
-                <!-- END HEADER SEARCH BOX -->
-                        <!-- <button policy-lock class="btn blue btn-outline btn-md disabled" key="export">Export</button> -->
-                        <!-- <button class="btn blue btn-outline btn-md " disabled="disabled">Subscribe</button> -->
-                    </div>
+                            </div>
+                            
+                    </form>
+                    <!-- END HEADER SEARCH BOX -->
+                    <!-- <button policy-lock class="btn blue btn-outline btn-md disabled" key="export">Export</button> -->
+                    <!-- <button class="btn blue btn-outline btn-md " disabled="disabled">Subscribe</button> -->
                 </div>
-                <div class="alert alert-warning margin-top-10 xg-alert" ng-show="currSearchOption.isdirty">
+                
+                <div class="alert alert-warning margin-top-10" ng-show="currSearchOption.isdirty">
                     <div ng-if="currSearchOption.search.text">Search Text:{{currSearchOption.search.text}}</div>
                     <div ng-if="currSearchOption.filter.type">Media Type:{{currSearchOption.filter.type | mediaType}}</div>
                     <div ng-if="currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Time Frame:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}}</div>
@@ -55,9 +55,11 @@
                         <div ng-if="currSearchOption.filter.engagements.views.min || currSearchOption.filter.engagements.views.max">Video Views: {{currSearchOption.filter.engagements.views.min}}~{{currSearchOption.filter.engagements.views.max}}</div>
                         <div ng-if="currSearchOption.filter.engagements.engagements.min || currSearchOption.filter.engagements.engagements.max">Engagements: {{currSearchOption.filter.engagements.engagements.min}}~{{currSearchOption.filter.engagements.engagements.max}}</div>
                     </div>
-                </div>
+                </div> 
+                <hr style="border-top:1px solid #dbdee6">
             </div>
         </div>
+       
         <div class="col-xs-12">
             <div class="pull-right">
                 <form class="form-inline">
@@ -72,8 +74,8 @@
                 </div>
                 </form>
             </div>
-            <div class="xg-count-mt">
-                <span ng-if="adSearcher.ads.total_count!=0">About {{adSearcher.ads.total_count | adsCount}} results</span>
+            <div class="xg-count-mt search-result">
+                <span ng-if="adSearcher.ads.total_count!=0">About <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}<sup ng-show="adSearcher.ads.total_count>=100000">+</sup> </span>results</span>
                 <span ng-if="adSearcher.ads.total_count==0">Your search did not match any results.</span>
                 <!-- <button class="btn yellow-gold btn-lg" ng-click="showStatics()">analysis</button> -->
                 <!-- <i class="fa fa-hand-o-right font-yellow-gold xg-analysis" ng-click="showStatics()"></i> -->
@@ -90,8 +92,9 @@
 			</div>
             <div ng-if="(User.info.user.role.name =='Free') && adSearcher.isend" ng-include="'limited-banner.html'" ng-class='{"xg-limited-banner-mt6":adSearcher.isNoResult}'></div>
             <div ng-if="(User.info.user.role.name !='Free') && adSearcher.isNoResult" class="text-center col-md-12" >
-                <div class="dashboard-stat dashboard-stat-v2 alert-warning">
-                    <h2>The end</h2>
+                <hr style="border-top:1px solid #dbdee6">
+                <div>
+                   <img src="/assets/global/img/the_end.png">
                 </div>
             </div>
         </div>

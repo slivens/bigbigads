@@ -1,8 +1,8 @@
-<div ng-controller="BookmarkController" ng-class='{"ml-sidebar":!bookmark.error}'>
+<div ng-controller="BookmarkController" ng-class='{"ml-sidebar":!bookmark.error}' class="bookmark">
 
 <!-- BEGIN PAGE BREADCRUMB -->
-<div>
-    <div class="pull-right" ng-show="bookmark.bid > 0">
+<div class="clearfix">
+    <div class="pull-right bookmark-edit" ng-show="bookmark.bid > 0">
         <a ng-click="bookmark.editBookmarkByBid(bookmark.bid)" class="btn btn-primary"><i class="fa fa-pencil fa-fw"></i></a> 
         <a ng-click="bookmark.delBookmarkByBid(bookmark.bid)" class="btn btn-danger"><i class="fa fa-trash fa-fw"></i></a>
     </div>
@@ -26,9 +26,11 @@
             <div ng-if="!bookmark.error">
                 <uib-tabset active="bookmark.type">
                     <uib-tab index="0" heading="Ads">
+
                         <div class="alert alert-info" ng-if="!data.ads.ads_info">
                             No ads yet!
                         </div>
+                        <!--waring-->
                         <div class="alert alert-warning" ng-if="data.ads.ads_info && data.ads.total_count != data.ads.wantedLength">
                             {{data.ads.wantedLength}} ads is wanted, but only find {{data.ads.total_count}}
                         </div>
@@ -62,21 +64,16 @@
     <!-- <i class="icon-grid"></i> -->
 <!-- </button> -->
 
-
+    <!--left bookmark list-->
     <div class="page-quick-sidebar-wrapper" ng-if="!bookmark.error">
         <div class="page-quick-sidebar">
             <div class="portlet light">
                 <div class="portlet-body">
-                    <p>
-                        <button class="btn btn-block yellow-gold" ng-click="bookmark.addBookmark()">
-                        <i class="fa fa-plus"></i>
-                        Create New List
-                        </button>
-                        <div class="text-center">
-                            ({{bookmark.items.length + "/" + User.getPolicy("bookmark_list").value}})
-                        </div>
+                    <p class="clearfix">
+                        <span class="pull-left bookmark-title">Bookmark list</span>
+                        <span class="pull-right">({{bookmark.items.length + "/" + User.getPolicy("bookmark_list").value}})</span>
                     </p>
-                    <div class="list-group">
+                    <div class="list-group bookmark-list">
                         <button type="button" ng-repeat="item in bookmark.items" class="list-group-item clearfix" ng-class='{"active":item.id==bookmark.bid}' ng-click="load(bookmark.type, item.id)">
                             <div class="pull-left ">{{item.name}}</div>
                             <div class="pull-right">
@@ -84,6 +81,11 @@
                             </div>
                         </button>
                     </div>
+                    <!--create new list button-->
+                    <button class="btn btn-block yellow-gold" ng-click="bookmark.addBookmark()">
+                        <i class="fa fa-plus"></i>
+                        Create New List
+                    </button>
                 </div>
             </div>
         </div>
