@@ -17,16 +17,16 @@ class CreateBillingsTable extends Migration
             $table->increments('id');
             $table->integer('uid');
             $table->string('tid', 100)->unique();
+            $table->string('profile_id', 100);
             $table->string('plan',100);
             $table->string('amount',45);
-            $table->string('currency',20);
-            $table->string('payer_email',100);
+            $table->string('currency',100);
+            $table->string('payer_email',45);
             $table->string('type', 100);
             $table->dateTime('startDate');
             $table->dateTime('endDate');
             $table->string('status',100);
             $table->string('transaction_content');
-            $table->primary('id');
         });
     }
 
