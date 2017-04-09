@@ -165,8 +165,10 @@ class SubscriptionController extends Controller
         Log::info('webhooks id: '.$request->id);
         $webhook_id = $request->id;//webhook id
         $select = Webhook::where('webhook_id',$webhook_id)->get();
+        Log::info('$select: '.$select);
+        Log::info('count($select): '.count($select));
         //$select = DB::select('select * from webhooks where webhook_id = :webhook_id',['webhook_id'=>$webhook_id]);
-        if($select == null){
+        if(count($select)==0){
             $webhook = new Webhook;
             $webhook->webhook_id = $webhook_id;
             $webhook->create_time = $request->create_time;
@@ -177,7 +179,6 @@ class SubscriptionController extends Controller
             try {
                 $re = $webhook->save();
                 Log::info('$webhook->save(): '.$re);
-                //DB::insert("insert into webhooks(webhook_id,create_time,resource_type,event_type,summary,plan_price,payer_email,resource_desc,resource_next_paytime,resource_last_paytime,resource_id,resource_create_time,resource_state,billing_agreement_id,webhook_status,webhook_content)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[$webhook_id,$create_time,$resource_type,$event_type,$summary,$plan_price,$payer_email,$resource_desc,$resource_next_paytime,$resource_last_paytime,$resource_id,$resource_create_time,$resource_state,$billing_agreement_id,$webhook_status,$webhook_content]);
             } catch(\Exception $e) {
                 Log::error("save webhooks failed:" . $e->getMessage());
                 return null;
