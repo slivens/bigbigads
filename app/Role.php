@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use TCG\Voyager\Models\Permission;
 use App\Plan;
+use Illuminate\Support\Facades\Cache;
 
 class Role extends Model
 {
@@ -44,11 +45,23 @@ class Role extends Model
      */
     public function groupedPolicies()
     {
+        if (Cache::has("role-" . $this->name)) {
+            return Cache::get("role-" . $this->name);
+        }
         $policies = $this->policies;
         $grouped = [];
         foreach($policies as $key=>$policy) {
             $grouped[$policy->key] =  [$policy->type, $policy->pivot->value];//user会以该结果作参考写入数据库，故使用数组节省空间
         }
+        Cache::forever("role-". $this->name, $grouped);
         return $grouped;
+    }
+
+    /**
+     * 清除缓存
+     */
+    public function cleanCache()
+    {
+        Cache::forget("role-" . $this->name);
     }
 }

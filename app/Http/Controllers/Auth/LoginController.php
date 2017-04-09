@@ -44,6 +44,9 @@ class LoginController extends Controller
             Auth::logout();
             $this->redirectTo = "/sendVerifyMail?email={$user->email}&token={$user->verify_token}";
 			// Authentication passed...
-		}
+        } else if ($user->state == 2) {
+            Auth::logout();
+            return view('auth.verify')->with('error', "Your account has freezed, please contact the Administrator!!!");
+        }
     }
 }

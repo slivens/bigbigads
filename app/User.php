@@ -89,15 +89,9 @@ class User extends Authenticatable
 
     public function getUsageAttribute($value)
     {
-        
         if (is_null($value)) {
-            $value = $this->role->groupedPolicies();
-            foreach($value as $key=>$item) {
-                $value[$key][2] = 0;
-            }
-            $this->usage = $value;
-            return $value;
-        }
+            return $this->initUsageByRole($this->role);
+        } 
         return json_decode($value, true);
     }
 
@@ -113,12 +107,23 @@ class User extends Authenticatable
             $items[$key][2] = 0;
         }
         $this->usage = $items;
-        return true;
+        return $items;
     }
 
     public function getUsage($key)
     {
-        $item = $this->usage[$key];
+        $items = $this->role->groupedPolicies();
+        if (!array_key_exists($key, $items)) {
+            return null;
+        }
+        if (!array_key_exists($key, $this->usage)) {
+            $item = $items[$key];
+            $item[2] = 0;
+        } else {
+            $item = $this->usage[$key];
+            $item[0] = $items[$key][0];
+            $item[1] = $items[$key][1];
+        }
         return $item;
     }
 
