@@ -37,7 +37,7 @@
                 <div class="alert alert-warning margin-top-10" ng-show="currSearchOption.isdirty">
                     <div ng-if="currSearchOption.search.text">Search Text:{{currSearchOption.search.text}}</div>
                     <div ng-if="currSearchOption.filter.type">Media Type:{{currSearchOption.filter.type | mediaType}}</div>
-                    <div ng-if="currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Time Frame:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}}</div>
+                    <div ng-if="currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Time Frame:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}} <span ng-show="adSearcher.freeLimitMessage">{{adSearcher.freeLimitMessage}} <a ui-sref="plans"> Upgrade your account to see all.</a></span></div>
                     <div ng-if="currSearchOption.filter.lang&&currSearchOption.filter.lang.length">Language:{{currSearchOption.filter.lang}}</div>
                     <div ng-if="currSearchOption.filter.state">Country:{{currSearchOption.filter.state}}</div>
                     <div ng-if="currSearchOption.domain.text">Domain:{{currSearchOption.domain.text}}({{currSearchOption.domain.exclude ? "Not Contain" : "Must Contain"}})</div>
@@ -90,7 +90,7 @@
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
 				<span class="sr-only">Loading...</span>
 			</div>
-            <div ng-if="(User.info.user.role.name =='Free') && adSearcher.isend" ng-include="'limited-banner.html'" ng-class='{"xg-limited-banner-mt6":adSearcher.isNoResult}'></div>
+            <div ng-if="adSearcher.isend" ng-include="'limited-banner.html'" ng-class='{"xg-limited-banner-mt6":adSearcher.isNoResult}'></div>
             <div ng-if="(User.info.user.role.name !='Free') && adSearcher.isNoResult" class="text-center col-md-12" >
                 <hr style="border-top:1px solid #dbdee6">
                 <div>
@@ -325,45 +325,20 @@
     <div class="dashboard-stat dashboard-stat-v2 col-md-12 xg-limited-banner">
         <div ng-if="adSearcher.ads.total_count!=0">
             <div class="text-center col-md-12">
-                <p ng-if="currSearchOption.search.text">There are <span ng-if="adSearcher.ads.total_count-10>0">{{adSearcher.ads.total_count-10 | adsCount}}</span> more unique ads results for "{{currSearchOption.search.text}}" to inspire your sucessful business</p>
-                <p ng-if="!currSearchOption.search.text">There are <span ng-if="adSearcher.ads.total_count-10>0">{{adSearcher.ads.total_count-10 | adsCount}}</span> more unique ads results to inspire your sucessful business</p>
-                <h4>Wanna be a Winner? Subscribe now to get access to the full searching results and narrow down the winning ad in seconds</h4>
+                <p ng-if="User.info.user.role.name =='Standard'">You can only see 300 results per search in standard level.Please contact us if you need to see more: help@bigbigads.com</p>
+                <p ng-if="User.info.user.role.name =='Free'">You can only see 100 results per search in free level.Please contact us if you need to see more: help@bigbigads.com</p>
             </div>
             <div class="col-md-12">
                 <div class="pull-left col-md-5">
-                    <p class="plus">Coming up next:</p>
-                    <ul>
-                        <li ng-if="currSearchOption.search.text">Set up <strong>keyword alert for "{{currSearchOption.search.text}}"</strong></li>
-                        <li>Export data to Excel</li>
-                        <li>Run niche analysis report-based on keyword</li>
-                        <li>Advertiser Analysis</li>
-                        <li>And lots more!</li>
-                    </ul>
                 </div>
                 <div class="col-md-2"></div>
                 <div class="text-center col-md-5 xg-buybut-mt60">
-                    <a ng-href="/login" class="btn btn-lg xg-subscribe-color" ng-if="!User.info.login">Yes, I wanna be a winner</a>
-                    <a ui-sref="plans" class="btn btn-lg xg-subscribe-color" ng-if="User.info.login">Yes, I wanna be a winner</a>
                 </div>
             </div>
             <div class="col-md-12 text-center xg-subscribe">
-                <a href="/product">Learn more about Bigbigads</a>
             </div>
         </div>
         <div ng-if="adSearcher.ads.total_count==0">
-            <div class="col-md-12">
-                <div class="pull-left col-md-5">
-                    <p class="plus">Don&apos;t feel lucky? Here are our suggestions:</p>
-                    <ul>
-                        <li>Make sure all words are spelled correctly</li>
-                        <li>Make sure you clear the filter when you start a new search</li>
-                        <li>Try a different keyword - for example： shoe and shoes are different.</li>
-                        <li>Try fewer keywords.</li>
-                        <li>Check here for more tips.</li>
-                        <li> Learn more about Bigbigads.</li>
-                    </ul>
-                </div>
-            </div>
             <div class="col-md-12 text-center xg-subscribe">
                 <a href="/product">Learn more about Bigbigads</a>
             </div>
