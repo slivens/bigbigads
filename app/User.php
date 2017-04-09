@@ -92,7 +92,13 @@ class User extends Authenticatable
         if (is_null($value)) {
             return $this->initUsageByRole($this->role);
         } 
-        return json_decode($value, true);
+        $items = $this->role->groupedPolicies();
+        $value = json_decode($value, true);
+        foreach ($items as $key => $item) {
+            $value[$key][0] = $item[0];
+            $value[$key][1] = $item[1];
+        }
+        return $value;
     }
 
     public function setUsageAttribute($value)
@@ -116,13 +122,12 @@ class User extends Authenticatable
         if (!array_key_exists($key, $items)) {
             return null;
         }
+        //没有初始化则初始化，获取usage时都会先初始化，切换角色也重新初始化，一般不会发生这种事
         if (!array_key_exists($key, $this->usage)) {
             $item = $items[$key];
             $item[2] = 0;
         } else {
             $item = $this->usage[$key];
-            $item[0] = $items[$key][0];
-            $item[1] = $items[$key][1];
         }
         return $item;
     }
