@@ -17,12 +17,12 @@ app.directive('lazyImg', ['$timeout', function($timeout) {
         scope:{
             lazyImg:'@'
         },
-		link:function($scope, element ) {
+		link:function($scope, element, attrs) {
                 $timeout(function() {
                     element.attr('src', $scope.lazyImg);
                 });
 		}
-	}
+	};
 }]);
 app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) {
         return {
@@ -447,7 +447,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
         return {
             link: function(scope, element, attrs) {
                 element.bind('click', function() {
-                    var url = "https://facebook.com/"+attrs.id+"/"+attrs.eventid;
+                    var url = "https://facebook.com/"+attrs.id+"_"+attrs.eventid;
                     window.open(url);
                 });
             }

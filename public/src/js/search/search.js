@@ -1,8 +1,8 @@
 if (!app)
 	var app = angular.module('MetronicApp');
 
-app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util', 
-	function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q, Util) {
+app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util', 'User',
+	function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q, Util, User) {
 		//opt = {searchType:'adser', url:'/forward/adserSearch'}
 		var searcher = function(opt) {
 			var vm = this;
@@ -121,17 +121,67 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 			};
 			vm.isend = false;
 			vm.isNoResult = false;
-
+			vm.freeLimitMessage = '';
 			vm.search = function(params, clear, action) {
 				var defer = $q.defer();
 				//获取广告搜索信息
 				var searchurl = settings.remoteurl + (opt && opt.url ? opt.url : '/forward/adsearch');
+				var limitDate = moment().subtract(2, 'month').format('YYYY-MM-DD');
+				var startDate;
+				var endDate;
+				var freeMin;
+				var freeMax;
 				if (action) {
 					params.action = action;
 				} else {
 					delete params.action;
 				}
 				vm.busy = true;
+				User.getInfo().then(function() {
+					if(!User.login){
+						params.search_result = 'cache_ads';
+					}else {
+						if(User.user.role.plan==='free'){
+							if((params.where.length>0)||(params.keys.length>0)){
+								params.search_result = 'ads';
+								angular.forEach(params.where, function(data,index,array){
+									if(data.field=='time'){
+										startDate = data.min;
+										endDate = data.max;
+										vm.removeFilter('time');
+									}
+								});
+								if(moment(startDate).isBefore(limitDate)&&startDate){
+									if(moment(limitDate).isBefore(endDate)){
+										freeMin = startDate;
+										freeMax = limitDate;
+									}else {
+										freeMin = startDate;
+										freeMax = endDate;
+									}
+								}else{
+									freeMin = '2016-08-23';
+									freeMax = limitDate;
+								}
+								vm.addFilter({
+										field: "time",
+										min: freeMin,
+										max: freeMax,
+										role: "free"
+								});
+								vm.freeLimitMessage = " Free level user can only see data 2 months before. So you see during in " + freeMin + " from " + freeMax + " ads.";				
+							}else{
+								params.search_result = 'cache_ads';
+							}
+						}
+						if(User.user.role.plan==='Standard')
+							if((params.where.length>0)||(params.keys.length>0)){
+								params.search_result = 'ads';
+							}else{
+								params.search_result = 'cache_ads';
+							}
+					}
+				});
 				$http.post(
 					searchurl,
 					params
@@ -159,7 +209,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 								//      value.snapshot = JSON.parse(value.snapshot);
 							} else if (value.type == vm.ADS_CONT_TYPE.CANVAS) {
 								value.link = JSON.parse(value.link);
-								if(value.local_picture instanceof Array){
+								if(JSON.parse(value.local_picture) instanceof Object){
 									value.local_picture = JSON.parse(value.local_picture);
 								}				    
 								if (vm.getAdsType(value, vm.ADS_TYPE.rightcolumn)) {
@@ -571,7 +621,17 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$scope.currSearchOption.filter.callToAction = buttondesc.join(',');
 				$scope.adSearcher.filter(action ? action : 'search').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
-						User.openUpgrade();
+						console.log(res.data.desc);
+						if(res.data.desc === 'no permission of search'){
+							User.openSign();
+						}
+						//User.openUpgrade();
+						if(res.data.desc === 'no permission of filter'){
+							User.openUpgrade();
+						}
+						if(res.data.desc === 'you reached search times today, default result will show'){
+							User.openSearchResultUpgrade();
+						}			
 						$scope.islegal = false;
 						//SweetAlert.swal(res.data.desc);
 					} else {
@@ -713,13 +773,13 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var islegal = true;
 				var isNumberLimit;
 				var isLengthLimit;
-				isNumberLimit = Util.isNumberLimit(value);
+				//isNumberLimit = Util.isNumberLimit(value);
 				isLengthLimit = Util.isLengthLimit(value);
 				isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
-				if(!isNumberLimit) {
+				/*if(!isNumberLimit) {
 					User.openUpgrade();
 					islegal = false;
-				}
+				}*/
 				if(!isFilterLimit) {
 					User.openUpgrade();
 					islegal = false;
