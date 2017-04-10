@@ -29,9 +29,9 @@ class PaypalService
         $apiContext->setConfig( 
             array(
                 'mode'=>config('payment.mode'),
-                 'log.LogEnabled' => true, 
-                 'log.FileName' => 'PayPal.log', 
-                 'log.LogLevel' => 'DEBUG' 
+                 'log.LogEnabled' => true,
+                 'log.FileName' => 'PayPal.log',
+                 'log.LogLevel' => 'DEBUG'
              ) 
          ); 
         return $apiContext;
@@ -203,7 +203,8 @@ class PaypalService
     {
 		$apiContext = $this->getApiContext();
         //如果订阅没激活,就当做是交易失败
-        if ($request->state !='Active')return null;
+        //if ($request->state !='Active')return null;
+        //上面会导致支付失败
         if ($request->has('success') && $request->success == 'true') {
             $token = $request->token;
             $agreement = new \PayPal\Api\Agreement();
