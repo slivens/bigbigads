@@ -56,10 +56,13 @@ class SearchController extends Controller
      * @warning 需要特别注意，参数的'field'与权限值通常不相等。
      */
     protected function checkBeforeAdSearch($user, $params)
-    {
+    {       
             $wheres = $params['where'];
-            if(($params['search_result']==='cache_ads')&&(count($params['keys'])>0)){
-                throw new \Exception("no permission of search", -1);
+            if(!(Auth::check())&&($params['search_result']==='cache_ads')){
+                //throw new \Exception("no permission of search", -1);
+                $params['where'] = [];
+                $params['keys'] = [];
+                return $params;
             }
             foreach($wheres as $key => $obj) {         
                     if ($obj['field'] == "duration_days" && !$user->can('duration_filter')) {
@@ -83,13 +86,15 @@ class SearchController extends Controller
                     if ($obj['field'] == "engagements" && !$user->can('engagement_inc_sort')) {
                         throw new \Exception("no permission of filter", -1);
                     }
-                    if(Auth::check() && $user->hasRole('Free') && $obj['field'] == "time"){
-                        $freeEndDate = date("Y-m-d",strtotime("-2 month"));
-                        if(strtotime($obj['min']) - strtotime($freeEndDate) > 0) {
+                    if (Auth::check() && $user->hasRole('Free') && $obj['field'] == "time") {
+                        $freeEndDate = Carbon::now()->modify('-60 days');
+                        $min = Carbon::parse($obj['min']);
+                        $max = Carbon::parse($obj['max']);
+                        if ($min->gt($freeEndDate)) {
                             throw new \Exception("illegalTime", -1);
                         }
-                        if(strtotime($obj['max']) - strtotime($freeEndDate) > 0){
-                            $obj['max'] = $freeEndDate;
+                        if ($max->gt($freeEndDate)) {
+                            $obj['max'] = $freeEndDate->format("Y-m-d");
                         }
                     }          
             }
@@ -137,7 +142,7 @@ class SearchController extends Controller
         if (!(Auth::check())) {
             //匿名用户只有adsearch动作，其它动作一律不允许
             if ($action == 'adsearch') {
-                if(false===(($req->except(['action'])['limit'][0]%10===0)&&($req->except(['action'])['limit'][0]<300)&&(intval($req->except(['action'])['limit'][1])===10)))
+                if(false === (($req->except(['action'])['limit'][0] % 10 === 0)&&($req->except(['action'])['limit'][0] < 300)&&(intval($req->except(['action'])['limit'][1]) === 10)))
                     return ;
             }else {
                 return ;
@@ -162,6 +167,7 @@ class SearchController extends Controller
                     //有搜索或者过滤条件
                     //if (count($req->keys) > 0 || count($req->where) > 0) {
                     if(count($req->keys) > 0){
+                        //正常搜索才变更每日搜索次数，如果是过滤则不更新每日搜索次数
                         //额外信息是由用户自己写入的，初始化时并不存在，当不存在时需要自己初始化。
                         if (count($usage) < 4) {
                             $carbon = Carbon::now();
