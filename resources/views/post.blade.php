@@ -67,7 +67,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                     <!-- BEGIN PAGE BREADCRUMBS -->
                                     <ul class="page-breadcrumb breadcrumb">
                                         <li>
-                                            <a href="{{url('/index')}}">Home</a>
+                                            <a href="{{url('/home')}}">Home</a>
                                             <i class="fa fa-circle"></i>
                                         </li>
                                         <li>

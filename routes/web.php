@@ -27,7 +27,8 @@ Route::get('/', function (Request $request) {
     return redirect("/app");
 });
 
-Route::get('/index', function (Request $request) {
+Auth::routes();
+Route::get('/home', function (Request $request) {
     $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
     return view('index')->with('recents', $recents);
 });
@@ -58,11 +59,6 @@ Route::get('/about', function () {
     return view('about');
 });
 
-Auth::routes();
-
-Route::get('/home', function() {
-    return redirect('/app');
-});
 
 
 Route::group(['prefix' => 'admin'], function () {
