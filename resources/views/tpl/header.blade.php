@@ -12,12 +12,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="logo-head navbar-brand" href="./" title=""></a>
+                <a class="logo-head navbar-brand" href="/index" title=""></a>
             </div>
             <div class="collapse navbar-collapse clearfix bg_fff" id="example-navbar-collapse">
                 <div class=" pull-right ">
                     <ul class=" head-nav navbar-nav">
-                        <li class="{{ $request->path() == '/' ? 'active':'' }}"><a href="/">Home</a></li>
+                        <li class="{{ $request->path() == 'index' ? 'active':'' }}"><a href="/index">Home</a></li>
                         <li class="{{ $request->path() == 'product' ? 'active':'' }}"> <a href="{{url('/product')}}">Product</a></li>
                         <li class="{{ $request->path() == 'pricing' ? 'active':'' }}"><a href="{{url('/pricing')}}">Pricing</a></li>
                         <li class="{{ $request->path() == 'blog' || preg_match('/^post/', $request->path()) ? 'active':'' }}"><a href="{{url('/blog')}}">Blog</a></li>
