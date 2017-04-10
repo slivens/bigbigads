@@ -164,11 +164,11 @@ class SubscriptionController extends Controller
     {
         Log::info('webhooks id: '.$request->id);
         $webhook_id = $request->id;//webhook id
-        $select = Webhook::where('webhook_id',$webhook_id)->get();
-        Log::info('$select: '.$select);
-        Log::info('count($select): '.count($select));
+        $count = Webhook::where('webhook_id',$webhook_id)->count();
+        //Log::info('$select: '.$select);
+        //Log::info('count($select): '.count($select));
         //$select = DB::select('select * from webhooks where webhook_id = :webhook_id',['webhook_id'=>$webhook_id]);
-        if(count($select)==0){
+        if($count==0){
             $webhook = new Webhook;
             $webhook->webhook_id = $webhook_id;
             $webhook->create_time = $request->create_time;
