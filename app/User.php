@@ -89,16 +89,16 @@ class User extends Authenticatable
 
     public function getUsageAttribute($value)
     {
-        
         if (is_null($value)) {
-            $value = $this->role->groupedPolicies();
-            foreach($value as $key=>$item) {
-                $value[$key][2] = 0;
-            }
-            $this->usage = $value;
-            return $value;
+            return $this->initUsageByRole($this->role);
+        } 
+        $items = $this->role->groupedPolicies();
+        $value = json_decode($value, true);
+        foreach ($items as $key => $item) {
+            $value[$key][0] = $item[0];
+            $value[$key][1] = $item[1];
         }
-        return json_decode($value, true);
+        return $value;
     }
 
     public function setUsageAttribute($value)
@@ -113,12 +113,22 @@ class User extends Authenticatable
             $items[$key][2] = 0;
         }
         $this->usage = $items;
-        return true;
+        return $items;
     }
 
     public function getUsage($key)
     {
-        $item = $this->usage[$key];
+        $items = $this->role->groupedPolicies();
+        if (!array_key_exists($key, $items)) {
+            return null;
+        }
+        //没有初始化则初始化，获取usage时都会先初始化，切换角色也重新初始化，一般不会发生这种事
+        if (!array_key_exists($key, $this->usage)) {
+            $item = $items[$key];
+            $item[2] = 0;
+        } else {
+            $item = $this->usage[$key];
+        }
         return $item;
     }
 

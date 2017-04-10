@@ -43,13 +43,14 @@ Artisan::command('bigbigads:change {email} {roleName}', function($email, $roleNa
 })->describe("设置用户的角色（将重新初始化资源使用情况）");
 
 Artisan::command('bigbigads:activate {email} {state}', function($email,  $state) {
+    $stateDesc = ['anti-activated', 'activated', 'freezed'];
     try {
         $state = intval($state);
         $user = App\User::where('email', $email)->first();
         if ($user instanceof App\User) {
             $user->state = $state;
             $user->save();
-            $this->info("$email is " . ($state == 1 ? "activated" : "anti-activated"));
+            $this->info("$email is " . $stateDesc[$state]);
             /* $this->info($user->usage); */
         } else {
             $this->error("no such user:" . $email);
@@ -58,13 +59,14 @@ Artisan::command('bigbigads:activate {email} {state}', function($email,  $state)
     } catch(\Exception $e) {
         echo $e->getMessage();
     }
-})->describe("激活/反激活用户，state参数应为0或1");
+})->describe("激活/反激活/冻结用户，state参数应为0,1,2。0表示待激活,1表示激活,2表示冻结");
 
 class MockReq {
     public function ip() {
         return '192.168.1.200';
     }
 }
+
 Artisan::command('bigbigads:can {email} {priv}', function($email,  $priv) {
     try {
         $user = App\User::where('email', $email)->first();
@@ -74,6 +76,10 @@ Artisan::command('bigbigads:can {email} {priv}', function($email,  $priv) {
             } else {
                 $this->error("$email has no $priv ability");
             }
+            $usage = $user->getUsage($priv);
+            if (!$usage)
+                return;
+            $this->info("usage info:" . json_encode($usage));
         } else {
             $this->error("no such user:" . $email . ", show anonymous USER");
 

@@ -24,6 +24,10 @@ use App\Mail\RegisterVerify;
 
 
 Route::get('/', function (Request $request) {
+    return redirect("/app");
+});
+
+Route::get('/index', function (Request $request) {
     $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
     return view('index')->with('recents', $recents);
 });

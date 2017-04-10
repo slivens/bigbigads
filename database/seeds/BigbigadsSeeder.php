@@ -101,6 +101,7 @@ class BigbigadsSeeder extends Seeder
                 if (Role::where('name', $key)->count() > 0) {
                     $role = Role::where('name', $key)->first();
                     $role->update(['display_name' => $item]);
+                    $role->cleanCache();
                     array_push($roles, $role);
                 } else {
                     array_push($roles, Role::create([

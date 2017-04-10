@@ -21,7 +21,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <head>
         <meta charset="utf-8" />
-        <title>Bigbigads - </title>
+        <title>Bigbigads - {{$post->title}} </title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="{{$post->meta_description}}" name="description" />
@@ -67,7 +67,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                     <!-- BEGIN PAGE BREADCRUMBS -->
                                     <ul class="page-breadcrumb breadcrumb">
                                         <li>
-                                            <a href="{{url('/')}}">Home</a>
+                                            <a href="{{url('/index')}}">Home</a>
                                             <i class="fa fa-circle"></i>
                                         </li>
                                         <li>
