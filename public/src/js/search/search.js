@@ -138,28 +138,28 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				}
 				vm.busy = true;
 				User.getInfo().then(function() {
-					if(!User.login){
+					if (!User.login) {
 						params.search_result = 'cache_ads';
-					}else {
-						if(User.user.role.plan==='free'){
-							if((params.where.length>0)||(params.keys.length>0)){
+					} else {
+						if (User.user.role.plan==='free') {
+							if ((params.where.length>0) || (params.keys.length>0)) {
 								params.search_result = 'ads';
-								angular.forEach(params.where, function(data,index,array){
-									if(data.field=='time'){
+								angular.forEach(params.where, function(data,index,array) {
+									if (data.field=='time') { 
 										startDate = data.min;
 										endDate = data.max;
 										vm.removeFilter('time');
 									}
 								});
-								if(moment(startDate).isBefore(limitDate)&&startDate){
-									if(moment(limitDate).isBefore(endDate)){
+								if (moment(startDate).isBefore(limitDate) && startDate) {
+									if (moment(limitDate).isBefore(endDate)) {
 										freeMin = startDate;
 										freeMax = limitDate;
-									}else {
+									} else {
 										freeMin = startDate;
 										freeMax = endDate;
 									}
-								}else{
+								} else {
 									freeMin = '2016-08-23';
 									freeMax = limitDate;
 								}
@@ -170,16 +170,17 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 										role: "free"
 								});
 								vm.freeLimitMessage = " Free level user can only see data 2 months before. So you see during in " + freeMin + " from " + freeMax + " ads.";				
-							}else{
+							} else {
 								params.search_result = 'cache_ads';
 							}
 						}
-						if(User.user.role.plan==='Standard')
-							if((params.where.length>0)||(params.keys.length>0)){
+						if (User.user.role.plan==='Standard') {
+							if ((params.where.length>0)||(params.keys.length>0)) {
 								params.search_result = 'ads';
-							}else{
+							} else {
 								params.search_result = 'cache_ads';
 							}
+						}
 					}
 				});
 				$http.post(
@@ -621,10 +622,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$scope.currSearchOption.filter.callToAction = buttondesc.join(',');
 				$scope.adSearcher.filter(action ? action : 'search').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
-						console.log(res.data.desc);
-						if(res.data.desc === 'no permission of search'){
+						/*if(res.data.desc === 'no permission of search'){
 							User.openSign();
-						}
+						}*/
 						//User.openUpgrade();
 						if(res.data.desc === 'no permission of filter'){
 							User.openUpgrade();
@@ -774,19 +774,24 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var isNumberLimit;
 				var isLengthLimit;
 				//isNumberLimit = Util.isNumberLimit(value);
-				isLengthLimit = Util.isLengthLimit(value);
-				isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
-				/*if(!isNumberLimit) {
-					User.openUpgrade();
+				if(!User.login){
+					User.openSign();
 					islegal = false;
-				}*/
-				if(!isFilterLimit) {
-					User.openUpgrade();
-					islegal = false;
-				}
-				if(!isLengthLimit){
-					SweetAlert.swal("Text Limit: 300 Character Only");
-					islegal=false;
+				}else{
+					isLengthLimit = Util.isLengthLimit(value);
+					isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
+					/*if(!isNumberLimit) {
+						User.openUpgrade();
+						islegal = false;
+					}*/
+					if(!isFilterLimit) {
+						User.openUpgrade();
+						islegal = false;
+					}
+					if(!isLengthLimit){
+						SweetAlert.swal("Text Limit: 300 Character Only");
+						islegal=false;
+					}
 				}
 				$scope.islegal = islegal;
 			};
