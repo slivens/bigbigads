@@ -1122,7 +1122,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             pageTitle: 'User Account'
         }
     })
-
     // User Profile Help
     .state("profile.help", {
         url: "/help",
@@ -1130,12 +1129,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         data: {
             pageTitle: 'User Help'
         }
-    })
-    //权限升级提示模板
-    .state("upgrade", {
-            url: "views/upgrade",
-            templateUrl: "upgrade.html"
-        });
+    });
     $locationProvider.html5Mode(true);
 
 }]);
@@ -1258,13 +1252,33 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                         $state.go("plans");
                         $uibModalInstance.dismiss('success');
                     };
-                    $scope.goLogin = function() {
-                        window.open('/login',"_self");
+                    $scope.goPrice = function() {
+                        window.open('/pricing',"_self");
                         $uibModalInstance.dismiss('success');
                     };
                 }]
             });
-        }
+        },
+        openSign:function() {
+            return $uibModal.open({
+                templateUrl: 'views/sign.html',
+                size: 'md',
+                animation: true,
+            });
+        },
+        openSearchResultUpgrade:function() {
+            return $uibModal.open({
+                templateUrl: 'views/search-result-upgrade.html',
+                size: 'md',
+                animation: true,
+                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
+                    $scope.goPlans = function() {
+                        $state.go("plans");
+                        $uibModalInstance.dismiss('success');
+                    };
+                }]
+            });
+        },
     };
     return user;
 }]);

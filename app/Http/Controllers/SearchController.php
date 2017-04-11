@@ -56,13 +56,55 @@ class SearchController extends Controller
      * @warning 需要特别注意，参数的'field'与权限值通常不相等。
      */
     protected function checkBeforeAdSearch($user, $params)
-    {
-        $wheres = $params['where'];
-        foreach($wheres as $key => $obj) {
-            if ($obj['field'] == "duration_days" && !$user->can('duration_filter')) {
-                throw new \Exception("no permission of duration_filter", -1);
+    {       
+            $wheres = $params['where'];
+            if(!Auth::check()) {
+                //throw new \Exception("no permission of search", -1);
+                $params['search_result'] = 'cache_ads';
+                $params['where'] = [];
+                $params['keys'] = [];
+                return $params;
+            }else if($user->hasRole('Free') || $user->hasRole('Standard')) {
+                if((array_key_exists('keys', $params) && count($params['keys']) > 0) || count($wheres) > 0){
+                    $params['search_result'] = 'ads';
+                }else {
+                    $params['search_result'] = 'cache_ads';
+                }          
             }
-        }
+            foreach($wheres as $key => $obj) {         
+                    if ($obj['field'] == "duration_days" && !$user->can('duration_filter')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "see_times" && !$user->can('see_times_filter')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "likes" && !$user->can('likes_inc_sort')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "shares" && !$user->can('shares_inc_sort')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "comments" && !$user->can('comments_inc_sort')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "views" && !$user->can('views_inc_sort')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "engagements" && !$user->can('engagement_inc_sort')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if (Auth::check() && $user->hasRole('Free') && $obj['field'] == "time") {
+                        $freeEndDate = Carbon::now()->modify('-60 days');
+                        $min = Carbon::parse($obj['min']);
+                        $max = Carbon::parse($obj['max']);
+                        if ($min->gt($freeEndDate)) {
+                            throw new \Exception("illegalTime", -4002);
+                        }
+                        if ($max->gt($freeEndDate)) {
+                            $obj['max'] = $freeEndDate->format("Y-m-d");
+                        }
+                    }          
+            }
         return $params;
     }
 
@@ -107,7 +149,7 @@ class SearchController extends Controller
         if (!(Auth::check())) {
             //匿名用户只有adsearch动作，其它动作一律不允许
             if ($action == 'adsearch') {
-                if(false===(($req->except(['action'])['limit'][0]==0)&&($req->except(['action'])['limit'][1]==10)))
+                if(false === (($req->except(['action'])['limit'][0] % 10 === 0) && ($req->except(['action'])['limit'][0] < 300) && (intval($req->except(['action'])['limit'][1]) === 10)))
                     return ;
             }else {
                 return ;
@@ -119,7 +161,7 @@ class SearchController extends Controller
             try {
                 $json_data = json_encode($this->checkBeforeAdSearch($user, $req->except(['action'])));
             } catch(\Exception $e) {
-                return $this->responseError($e->getMessage());
+                return $this->responseError($e->getMessage(),$e->getCode());
             }
             if (in_array($act["action"], ['search'])) {
                 $lastParams = $user->getCache('adsearch.params');
@@ -130,7 +172,9 @@ class SearchController extends Controller
                         return $this->responseError("no search permission");
                     }
                     //有搜索或者过滤条件
-                    if (count($req->keys) > 0 || count($req->where) > 0) {
+                    //if (count($req->keys) > 0 || count($req->where) > 0) {
+                    if(count($req->keys) > 0){
+                        //正常搜索才变更每日搜索次数，如果是过滤则不更新每日搜索次数
                         //额外信息是由用户自己写入的，初始化时并不存在，当不存在时需要自己初始化。
                         if (count($usage) < 4) {
                             $carbon = Carbon::now();
@@ -145,7 +189,7 @@ class SearchController extends Controller
                             $usage[2] = 0;
                         }
                         if ($usage[2] >= intval($usage[1]))
-                            return response(["code"=>-1, "desc"=> "you reached search times today, default result will show"], 422);
+                            return response(["code"=>-4002, "desc"=> "you reached search times today, default result will show"], 422);
                         Log::debug("adsearch " . $json_data . json_encode($usage));
                         $user->updateUsage('search_times_perday', $usage[2] + 1, Carbon::now());
                         ActionLog::log("search_times_perday", $json_data, "search_times_perday:"  . ($usage[2] + 1));
@@ -172,7 +216,7 @@ class SearchController extends Controller
                 }
             }
 
-            $remoteurl = 'http://121.41.107.126:8080/search';
+            $remoteurl = 'http://192.168.20.166:8080/search';
         } else if ($action == "adserSearch") {
             //广告主分析
             try {
@@ -239,9 +283,12 @@ class SearchController extends Controller
         //对返回的数据做权限检查，没有权限的数据部分要清空
         if ($action == 'adsearch') {
             try {
+                //cache_ads接口返回时带有NUL不可见字符，会导致json解析错误
+                $result = trim($result);
                 $result = $this->checkAfterAdSearch($user, json_decode($result, true));
+                //var_dump($result);
             } catch (\Exception $e) {
-                return $this->responseError($e->getMessage());
+                return $this->responseError($e->getMessage(),$e->getCode());
             }
         } else if ($action == 'adserSearch') {
             //TODO

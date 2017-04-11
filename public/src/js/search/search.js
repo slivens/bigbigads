@@ -1,7 +1,7 @@
 if (!app)
 	var app = angular.module('MetronicApp');
 
-app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util', 
+app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util',
 	function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q, Util) {
 		//opt = {searchType:'adser', url:'/forward/adserSearch'}
 		var searcher = function(opt) {
@@ -121,7 +121,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 			};
 			vm.isend = false;
 			vm.isNoResult = false;
-
+			
 			vm.search = function(params, clear, action) {
 				var defer = $q.defer();
 				//获取广告搜索信息
@@ -159,9 +159,12 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 								//      value.snapshot = JSON.parse(value.snapshot);
 							} else if (value.type == vm.ADS_CONT_TYPE.CANVAS) {
 								value.link = JSON.parse(value.link);
-								if(value.local_picture instanceof Array){
+								/*if(JSON.parse(value.local_picture) instanceof Object){
 									value.local_picture = JSON.parse(value.local_picture);
-								}				    
+								}*/				    
+								try{
+									value.local_picture = JSON.parse(value.local_picture);
+									}catch(err){console.log(err);}								
 								if (vm.getAdsType(value, vm.ADS_TYPE.rightcolumn)) {
 									value.watermark = JSON.parse(value.watermark);
 								}
@@ -198,7 +201,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				});
 				return defer.promise;
 			};
-
+			
 			vm.getMore = function() {
 				if (vm.busy)
 					return;
@@ -444,6 +447,11 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					format = [],
 					formatList='',
 					buttondesc = [];
+				var limitDate = moment().subtract(2, 'month').format('YYYY-MM-DD');
+				var selectStartDate;
+				var selectEndDate;
+				var freeMin = '2016-08-23';
+				var freeMax = limitDate;
 
 				//广告类型
 				if (!$scope.filterOption.type) {
@@ -566,12 +574,51 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 					}
 				}); 
+				$scope.freeLimitMessage = '';
+				if (User.user.role.plan === 'free') {
+						if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0)) {
+							angular.forEach($scope.adSearcher.params.where, function(data) {
+								if (data.field === 'time') { 
+									selectStartDate = data.min;
+									selectEndDate = data.max;
+									$scope.adSearcher.removeFilter('time');
+								}
+							});
+							if (moment(selectStartDate).isBefore(limitDate) && selectStartDate) {
+								if (moment(limitDate).isBefore(selectEndDate)) {
+									freeMin = selectStartDate;
+									freeMax = limitDate;
+								} else {
+									freeMin = selectStartDate;
+									freeMax = selectEndDate;
+								}
+							}
+							$scope.adSearcher.addFilter({
+									field: "time",
+									min: freeMin,
+									max: freeMax,
+									role: "free"
+							});
+							$scope.freeLimitMessage = " Free level user can only see data 2 months before. So you see during in " + freeMin + " from " + freeMax + " ads.";
+						}
+				}
+
 				$scope.currSearchOption.filter.category = category.join(',');
 				$scope.currSearchOption.filter.format = format.join(',');
 				$scope.currSearchOption.filter.callToAction = buttondesc.join(',');
 				$scope.adSearcher.filter(action ? action : 'search').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
-						User.openUpgrade();
+						/*if(res.data.desc === 'no permission of search'){
+							User.openSign();
+						}*/
+						//User.openUpgrade();
+						console.log(res);
+						if(res.data.code === -4001){
+							User.openUpgrade();
+						}
+						if(res.data.desc === -4002){
+							User.openSearchResultUpgrade();
+						}			
 						$scope.islegal = false;
 						//SweetAlert.swal(res.data.desc);
 					} else {
@@ -713,20 +760,25 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var islegal = true;
 				var isNumberLimit;
 				var isLengthLimit;
-				isNumberLimit = Util.isNumberLimit(value);
-				isLengthLimit = Util.isLengthLimit(value);
-				isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
-				if(!isNumberLimit) {
-					User.openUpgrade();
+				//isNumberLimit = Util.isNumberLimit(value);
+				if(!User.login){
+					User.openSign();
 					islegal = false;
-				}
-				if(!isFilterLimit) {
-					User.openUpgrade();
-					islegal = false;
-				}
-				if(!isLengthLimit){
-					SweetAlert.swal("Text Limit: 300 Character Only");
-					islegal=false;
+				}else{
+					isLengthLimit = Util.isLengthLimit(value);
+					isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
+					/*if(!isNumberLimit) {
+						User.openUpgrade();
+						islegal = false;
+					}*/
+					if(!isFilterLimit) {
+						User.openUpgrade();
+						islegal = false;
+					}
+					if(!isLengthLimit){
+						SweetAlert.swal("Text Limit: 300 Character Only");
+						islegal=false;
+					}
 				}
 				$scope.islegal = islegal;
 			};
