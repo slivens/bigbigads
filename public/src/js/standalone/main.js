@@ -1251,8 +1251,8 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                         window.open('/home',"_self");
                         $uibModalInstance.dismiss('success');
                     };
-                    $scope.goPrice = function() {
-                        window.open('/pricing',"_self");
+                    $scope.goPlans = function() {
+                        $state.go("plans");
                         $uibModalInstance.dismiss('success');
                     };
                 }]
