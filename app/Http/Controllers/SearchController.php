@@ -132,6 +132,7 @@ class SearchController extends Controller
      */
     protected function checkBeforeAdserSearch($user, $params)
     {
+        return $params;
     }
 
     /**
@@ -150,7 +151,7 @@ class SearchController extends Controller
             //匿名用户只有adsearch动作，其它动作一律不允许
             if ($action == 'adsearch') {
                 if(false === (($req->except(['action'])['limit'][0] % 10 === 0) && ($req->except(['action'])['limit'][0] < 300) && (intval($req->except(['action'])['limit'][1]) === 10)))
-                    return ;
+                    return ;//TODO:应该抛出错误，返回空白会导致维护困难
             }else {
                 return ;
             }   
@@ -216,7 +217,7 @@ class SearchController extends Controller
                 }
             }
 
-            $remoteurl = 'http://192.168.20.166:8080/search';
+            $remoteurl = config('services.bigbigads.ad_search_url');
         } else if ($action == "adserSearch") {
             //广告主分析
             try {
@@ -227,16 +228,16 @@ class SearchController extends Controller
                 else if ($e->getCode() == -2)
                     return response(["code"=>-1, "desc"=>"you reached the limit of ad analysis today"], 422);
             }
-            $remoteurl = 'http://121.41.107.126:8080/adser_search';
+            $remoteurl = config('services.bigbigads.adser_search_url');
         } else if ($action == "adserAnalysis") {
             //curl_setopt($ch, CURLOPT_URL, 'http://121.41.107.126:8080/adser_analysis');
-            $remoteurl = 'http://xgrit.xicp.net:5000/adser_analysis';
+            $remoteurl = config('services.bigbigads.adser_analysis_url');
 
         } else if ($action == "trends") {
             //获取广告趋势
             $user = Auth::user();
             if(!$user->can('analysis_trend')) return response(["code"=>-1, "desc"=>"you no permission"], 422);
-            $remoteurl = 'http://xgrit.xicp.net:5000/adsid_trend';
+            $remoteurl = config('services.bigbigads.trends_url');
         } else {
             return response(["code"=>-1, "desc"=>"unsupported action"], 422);
         }
