@@ -16,15 +16,15 @@
 <section class="about text-center">
     <div class="container">
         <h1>About US</h1>
-        <p class="aboutus-text">Founded in AUG.2016</p>
-        <p>Bigbigads set up a goal of becoming a global pioneer in ad intelligence industry.</p>
+        <p class="aboutus-text">Founded in AUG. 2016</p>
+        <p>Bigbigads set up a goal of becoming a global pioneer in the ad intelligence industry.</p>
     </div>
 
 </section>
 <section class="about-time">
     <div class="container">
         <div class="text-center mat-70">
-            <p class="color_active font_24">BIGBIGADS STORY</p>
+            <p class="color_active font_24">BIGBIGADS' STORY</p>
             <p class="color_tip mab-2"></p>
             <i class="icon icon-end"></i>
         </div>
@@ -35,7 +35,7 @@
             <li class="clearfix money">
                     <i class="icon" ></i>
                     <div class="about-time_cont">
-                        <p class="about-time_title">Coming up: New feature of advertiser stats & analysis</p>
+                        <p class="about-time_title">Coming up: New feature advertiser stats & analysis</p>
                         <p class="about-time_desc"></p>
                         <p>
                             <span class="about-time_time">Soon</span>
@@ -46,11 +46,11 @@
             <li class="clearfix news">
                     <i class="icon " ></i>
                     <div class="about-time_cont ">
-                        <p class="about-time_title">We reach our 2 Million data amounts </p>
+                        <p class="about-time_title">We reach 2 Million ads collected </p>
                         <!-- <p class="about-time_desc">Bigbigads launches Bilty Brand Tools(formerly known as Bilty Enteri</p> -->
                         <p>
                             <span class="about-time_time">March, 2017</span>
-                            <span class="about-time_label">MILSTONE</span>
+                            <span class="about-time_label">MILESTONE</span>
                         </p>
 
                     </div>
@@ -73,11 +73,11 @@
             <li class="clearfix news">
                 <i class="icon " ></i>
                 <div class="about-time_cont ">
-                    <p class="about-time_title">We reach our first 1 MILLION data amounts</p>
+                    <p class="about-time_title">We reach our first 1 Million ads collected</p>
                     <!-- <p class="about-time_desc">Bigbigads launches Bilty Brand Tools(formerly known as Bilty Enteri</p> -->
                     <p>
                         <span class="about-time_time">December, 2016</span>
-                        <span class="about-time_label">MILSTONE</span>
+                        <span class="about-time_label">MILESTONE</span>
                     </p>
 
                 </div>
@@ -88,7 +88,7 @@
                     <p class="about-time_title">First edition was launched</p>
                     <p>
                         <span class="about-time_time">November, 2016</span>
-                        <span class="about-time_label">MILSTONE</span>
+                        <span class="about-time_label">MILESTONE</span>
                     </p>
 
                 </div>
@@ -96,7 +96,7 @@
             <li class="clearfix people">
                 <i class="icon " ></i>
                 <div class="about-time_cont ">
-                    <p class="about-time_title">Bigbigads set up a goal of becoming a global pioneer in Facebook ad intelligence industry.</p>
+                    <p class="about-time_title">Bigbigads set up a goal of becoming a global pioneer in the Facebook ad intelligence industry.</p>
                     <!-- <p class="about-time_desc">Bigbigads launches Bilty Brand Tools(formerly known as Bilty Enteri</p> -->
                     <p>
                         <span class="about-time_time">August, 2016</span>

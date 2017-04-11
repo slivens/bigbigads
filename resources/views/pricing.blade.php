@@ -22,16 +22,18 @@
             <a href="javascript:;" class="pricing-icon icon-ad">Marketer</a>
             <a href="javascript:;" class="pricing-icon icon-shop">Ad Agency</a>
         </div>
-        <p class="pricing-tab_tip mab-2">For Small Business to get inspired on products and creatives </p>
+        <p class="pricing-tab_tip mab-2">Inspiring small businesses, marketers &amp; ad agencies
+            <br>with easily findable winning products and ad creatives
+        </p>
         <div class="box-shadow radius" >
             <div class="clearfix pricing-card_top" style="background-color: #fff;">
                 <div class="col-md-6 col-xs-6 font_24 pricing-tab-item">
                     <p class="pricing-item_title">STANDARD</p>
-                    <p class="mab-56">A starter level which way too better than other competitor on the market.</p>
+                    <p class="mab-56">A starter level that's way better than what others offer. </p>
                 </div>
                 <div class="col-md-6 col-xs-6 font_24  border-left pricing-tab-item">
                     <p class="pricing-item_title">PLUS</p>
-                    <p class="mab-56">Unblocked features on ad level,enjoy your next generation ad intelligence platform.</p>
+                    <p class="mab-56">Unblocked advanced features. Enjoy the next generation ad intelligence platform.</p>
                 </div>
             </div>
             <div class="clearfix pricing-card_bottom" style="background-color: #fff;">
@@ -94,7 +96,7 @@
                     </li>
                     <li>
                         <span class="demoicon icon-binoculars pricing-tab_icon"></span>
-                        <span class="pricing-tab_text">Audience Targeting & Interests</span>
+                        <span class="pricing-tab_text">Audience Targeting &amp; Interests</span>
                     </li>
                     <li>
                         <span class="demoicon icon-stats-bars pricing-tab_icon"></span>
@@ -476,10 +478,11 @@
                 <div><span class="caret "></span>
                 <a href="javascript:;" class="pricing-qa_q">How do I pay for Bigbigads?</a></div>
                 <p class="pricing-qa_a clearfix">
-                    Here are three easy steps to sign up to Bigbigads! <br>
-                    Step 1: Please could you create a Bigbigads account and login. <br>
-                    Step 2: Then please select the plan you want to subscribe from the plans page here.<br> 
-                    Step 3: Step3:Finally please visit the billing page,we accept paypal for now.
+                    Here are three easy steps to sign up for a paid Bigbigads account: <br>
+                    Step 1: Create a free Bigbigads account and log in.<br>
+                    Step 2: Select the plan you want to subscribe to from the choices presented on this page.<br> 
+                    Step 3: Finally, please visit the Billing page (we only accept PayPal for now).
+
                 </p>
             </li>
             <li class="">
@@ -487,7 +490,7 @@
                 <a href="javascript:;" class="pricing-qa_q"> How can I change my password?</a></div>
                 <p class="pricing-qa_a">
                     To change your password: <br>
-                    1. Click on the account menu on the upper right corner of the page. 
+                    1. Click on the account menu on the upper right corner of the page. <br>
                     2. Click Profile.<br>
                     3. Click Account Setting.<br> 
                     4. Click Change button beside the Password</p>
@@ -495,37 +498,43 @@
             <li class="">
                 <div><span class="caret "></span>
                 <a href="javascript:;" class="pricing-qa_q">How many winning ads can Bigbigads help me find?</a></div>
-                <p class="pricing-qa_a">We’ve found thousands of winning ad for customers within the last 6 months, and we’d make it better with your support! 67K+(with 1K+share) 10K+(with 10K+share) 1000+(with 100K+share) 11K+(with 50day+duration) Currently, Bigbigads can help you find winning ads on Facebook. Please write in and let us know if you’re interested in using Bigbigads to find winning ads in other social networks! We’re always looking to improve our product.</p>
+                <p class="pricing-qa_a">We've found thousands of winning ads for customers within the last 7 months! Collectively, we've helped them uncover over 81,000 ads with 1K<sup>+</sup>shares, over 12,000 ads with 10K<sup>+</sup>shares, and over 1200 ads with 100K<sup>+</sup>shares. Currently, Bigbigads is geared to help you find winning ads on Facebook, but let us know if you'd be interested in using Bigbigads to help you discover winning ads on other social networks. We're always looking to improve our product, and we're sure that we can make Bigbigads even better with your feedback! </p>
             </li>
             <li class="">
                 <span class="caret "></span>
                 <a href="javascript:;" class="pricing-qa_q">Where can I get my invoice?</a>
-                <p class="pricing-qa_a">You may view your invoices on the billing page. Go to the account menu on top right side, Click Billing.
+                <p class="pricing-qa_a">You may view your invoices on the billing page. Go to the account menu on the top right side &amp; click "Billing".
                 </p>
             </li>
             <li class="">
                 <div><span class="caret "></span>
                 <a href="javascript:;" class="pricing-qa_q">Why are there no results for my competitors' ads?</a></div>
                 <p class="pricing-qa_a">
-                    There’re several conditions that you can’t find your competitor’s ad:<br>  
-                    1.You didn’t clear your search term- click “Clear All” button.<br>  
-                    2.Improper keyword- check our blog “How to search smart with bigbigads”.<br>  
-                    3.Check if you choose the right “Ad position”-they’re on the right side of searching engine box.<br>  
-                    4.Your competitor’s ad have very few reach so there’s no need for you to study them- bookmark your competitor and set your alert for certain condition.<br>  
-                    5.Your competitor didn’t do facebook ad- check this in our advanced account.<br>  
-                    6. If you are very sure about there should be some results come out, try to refresh the webpage and login again to see if it is ok.
+                    There are several scenarios that might not allow you to find your competitors' ads:<br>
+                    1. You didn't clear your search term; click the "Clear All" button.<br>
+                    2. You input an improper keyword; check our blog post "How To Search Smartly With Bigbigads".<br>
+                    3. Check if you chose the right "ad position", which you can pick from the dropdown on the right side of the
+                    search box.<br>
+                    4. Your competitor's ad has very low reach, so, depending on how you choose to sort the ads, they may
+                    not show up immediately in the search results. You can, however, bookmark your competitor and set an alert to
+                    be triggered once certain conditions are met.<br>
+                    5. Your competitor doesn't have a Facebook ad; you can verify this with our advanced subscription plan.<br>
+                    6. If you are positive that Bigbigads should be showing results when none are visible, refresh the webpage and
+                    log in again.
                 </p>
             </li>
             <li class="">
                 <span class="caret "></span>
                 <a href="javascript:;" class="pricing-qa_q">Do you offer yearly price plans?</a>
-                <p class="pricing-qa_a">Yes, we do offer a yearly plan. Please contact our online service team for more info. If you choose to pay on a monthly basis, your subscription can be cancelled at anytime by simply downgrading to the free Basic plan.
+                <p class="pricing-qa_a">Yes, we do offer a yearly plan. Please contact our online service team for more info. If you choose to pay on a monthly basis, your subscription can be cancelled at any time by simply downgrading to the free Basic plan.
                 </p>
             </li>
             <li class="">
                 <span class="caret "></span>
                 <a href="javascript:;" class="pricing-qa_q">What payment methods do you support?</a>
-                <p class="pricing-qa_a">We accept payments via Paypal now, please talk to our online service team if you have difficulty to pay – you can start a conversation by clicking the orange chat bubble on the down-right side of the screen.
+                <p class="pricing-qa_a">We currently accept payments via PayPal. Please talk to our online service team if you have any difficulty paying
+                – you can start a conversation by clicking the orange chat bubble on the bottom
+                -right side of the screen.
                 </p>
             </li>
         </ul>

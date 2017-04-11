@@ -17,7 +17,7 @@
             <li><a href="mailto:sale@bigbigads.com">Contact Us</a></li>
         </ul>
         <ul class="col-md-3 col-sm-6">
-            <li class="footer-title"> STAY CONNECTES</li>
+            <li class="footer-title"> STAY CONNECTED</li>
             <li>
                 <a href="https://www.facebook.com/1869675289915326" class="footer-icon demoicon icon-facebook"></a>
                 <a href="" class="footer-icon demoicon icon-linkedin2 hidden"></a>
