@@ -447,11 +447,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					format = [],
 					formatList='',
 					buttondesc = [];
-				var limitDate = moment().subtract(2, 'month').format('YYYY-MM-DD');
 				var selectStartDate;
 				var selectEndDate;
 				var freeMin = '2016-08-23';
-				var freeMax = limitDate;
+				var freeMax = moment().subtract(2, 'month').format('YYYY-MM-DD');
 
 				//广告类型
 				if (!$scope.filterOption.type) {
@@ -564,7 +563,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				//engagementsFilter
 				angular.forEach(option.engagements,function(item,key){
 					//还要排除null值
-					if ((item.min==="" || item.min===null) || (item.max==="" || item.max===null)) {
+					if ((item.min === "" || item.min === null) || (item.max === "" || item.max === null)) {
 						$scope.adSearcher.removeFilter(key);
 					}else{
 						$scope.adSearcher.addFilter({
@@ -574,35 +573,24 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 					}
 				}); 
-				$scope.freeLimitMessage = '';
+				$scope.isFreeLimitDate = false;
 				if (User.user.role.plan === 'free') {
 						if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0)) {
 							angular.forEach($scope.adSearcher.params.where, function(data) {
 								if (data.field === 'time') { 
-									selectStartDate = data.min;
-									selectEndDate = data.max;
 									$scope.adSearcher.removeFilter('time');
 								}
 							});
-							if (moment(selectStartDate).isBefore(limitDate) && selectStartDate) {
-								if (moment(limitDate).isBefore(selectEndDate)) {
-									freeMin = selectStartDate;
-									freeMax = limitDate;
-								} else {
-									freeMin = selectStartDate;
-									freeMax = selectEndDate;
-								}
-							}
 							$scope.adSearcher.addFilter({
 									field: "time",
 									min: freeMin,
 									max: freeMax,
 									role: "free"
 							});
-							$scope.freeLimitMessage = " Free level user can only see data 2 months before. So you see during in " + freeMin + " from " + freeMax + " ads.";
+							//暂时限定免费注册用户的所有请求都是在两个月之前的数据
+							$scope.isFreeLimitDate = true;
 						}
 				}
-
 				$scope.currSearchOption.filter.category = category.join(',');
 				$scope.currSearchOption.filter.format = format.join(',');
 				$scope.currSearchOption.filter.callToAction = buttondesc.join(',');
@@ -612,10 +600,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 							User.openSign();
 						}*/
 						//User.openUpgrade();
-						console.log(res);
-						if(res.data.code === -4001){
+						/*if(res.data.code === -4001){
 							User.openUpgrade();
-						}
+						}*/
 						if(res.data.desc === -4002){
 							User.openSearchResultUpgrade();
 						}			
@@ -767,17 +754,31 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				}else{
 					isLengthLimit = Util.isLengthLimit(value);
 					isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
+					isAdvanceFilterLimit = Util.isAdvanceFilterLimit($scope.filterOption);
 					/*if(!isNumberLimit) {
 						User.openUpgrade();
 						islegal = false;
 					}*/
+					if(($scope.filterOption.date.endDate !== null) && !isAdvanceFilterLimit) {
+						//临时去除free注册用户时间筛选框功能
+						User.openFreeDateLimit();
+                    	islegal = false;
+                	}else if(!isAdvanceFilterLimit) {
+						User.openUpgrade();
+						islegal = false;
+					}else if($scope.filterOption.date.endDate !== null) {
+						User.openFreeDateLimit();
+                    	islegal = false;
+					}
+
 					if(!isFilterLimit) {
+						console.log("filter");
 						User.openUpgrade();
 						islegal = false;
 					}
 					if(!isLengthLimit){
 						SweetAlert.swal("Text Limit: 300 Character Only");
-						islegal=false;
+						islegal = false;
 					}
 				}
 				$scope.islegal = islegal;
@@ -862,6 +863,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var category = [],
 					format = [],
 					buttondesc = [];
+				var selectStartDate;
+				var selectEndDate;
+				var freeMin = '2016-08-23';
+				var freeMax = moment().subtract(2, 'month').format('YYYY-MM-DD');
 
 				//广告类型
 				if (!$scope.filterOption.type) {
@@ -972,7 +977,8 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				}
 				//engagementsFilter
 				angular.forEach(option.engagements,function(key,item){
-					if (key.min==="" && key.max==="") {
+					if ((item.min === "" || item.min === null) || (item.max === "" || item.max === null)) {
+						console.log(key.min);
 						$scope.adSearcher.removeFilter(item);
 					}else{
 						$scope.adSearcher.addFilter({
@@ -982,12 +988,30 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 					}
 				});
+				$scope.isFreeLimitDate = false;
+				if (User.user.role.plan === 'free') {
+						if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0)) {
+							angular.forEach($scope.adSearcher.params.where, function(data) {
+								if (data.field === 'time') { 
+									$scope.adSearcher.removeFilter('time');
+								}
+							});
+							$scope.adSearcher.addFilter({
+									field: "time",
+									min: freeMin,
+									max: freeMax,
+									role: "free"
+							});
+							//暂时限定免费注册用户的所有请求都是在两个月之前的数据
+							$scope.isFreeLimitDate = true;
+						}
+				}
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
 				$scope.currSearchOption.callToAction = buttondesc.join(',');
 				$scope.adSearcher.filter(action ? action : 'search').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
-						SweetAlert.swal(res.data.desc);
+						//SweetAlert.swal(res.data.desc);
 					} else {
 						SweetAlert.swal(res.statusText);
 					}
@@ -1071,10 +1095,22 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var islegal = true;
 				var isFilterLimit;
 				isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
+				isAdvanceFilterLimit = Util.isAdvanceFilterLimit($scope.filterOption);
 				if(!isFilterLimit) {
 					User.openUpgrade();
 					islegal = false;
 				}	
+				if(($scope.filterOption.date.endDate !== null) && !isAdvanceFilterLimit) {
+						//临时去除free注册用户时间筛选框功能
+						User.openFreeDateLimit();
+                    	islegal = false;
+                	}else if(!isAdvanceFilterLimit) {
+						User.openUpgrade();
+						islegal = false;
+					}else if($scope.filterOption.date.endDate !== null) {
+						User.openFreeDateLimit();
+                    	islegal = false;
+				}
 				$scope.islegal = islegal;
 			};
 			$scope.User = User;
@@ -1445,7 +1481,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 				}
 				//engagementsFilter
 				angular.forEach(option.engagements,function(key,item){
-					if (key.min==="" && key.max==="") {
+					if ((item.min === "" || item.min === null) || (item.max === "" || item.max === null)) {
 						$scope.adSearcher.removeFilter(item);
 					}else{
 						$scope.adSearcher.addFilter({
