@@ -1248,8 +1248,8 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                 size: 'md',
                 animation: true,
                 controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
-                    $scope.goPlans = function() {
-                        $state.go("plans");
+                    $scope.goIndex = function() {
+                        window.open('/index',"_self");
                         $uibModalInstance.dismiss('success');
                     };
                     $scope.goPrice = function() {
@@ -1279,6 +1279,23 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                 }]
             });
         },
+        openFreeDateLimit:function() {
+            return $uibModal.open({
+                templateUrl: 'views/filter-data-limit.html',
+                size: 'md',
+                animation: true,
+                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
+                    $scope.goPlans = function() {
+                        $state.go("plans");
+                        $uibModalInstance.dismiss('success');
+                    };
+                    $scope.goIndex = function() {
+                        window.open('/index',"_self");
+                        $uibModalInstance.dismiss('success');
+                    };
+                }]
+            });
+        }
     };
     return user;
 }]);
