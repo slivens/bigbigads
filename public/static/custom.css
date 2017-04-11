@@ -659,6 +659,7 @@ footer a {
     padding: 3.75rem 0;
 }
 .pricing-card_top .pricing-tab-item{padding-bottom: 0px;}
+.pricing-card_top .pricing-tab-item p{padding:0 25px;}
 .pricing-card_bottom .pricing-tab-item{padding-top: 0px;}
 
 

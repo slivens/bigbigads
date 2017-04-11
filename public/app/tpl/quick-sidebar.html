@@ -25,7 +25,7 @@
                           </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.formatList" > -->
                 </div>
                 <div class="input-group callToAction_group">
-                    <span class="input-group-addon" id="calltoaction_addon"><i class="fa fa-flag"></i></span>
+                    <span class="input-group-addon" id="calltoaction_addon"><i class="fa glyphicon glyphicon-hand-down"></i></span>
                     <select select2 class="form-control has_left_icon callToAction_select2"  multiple="multiple" data-placeholder="Call to Action" ng-model="$parent.filterOption.callToAction">
                         <option ng-repeat="item in $parent.settings.searchSetting.buttondescList" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
                     </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.buttondescList" > -->
@@ -36,6 +36,15 @@
                         <option ng-repeat="item in $parent.settings.searchSetting.langList" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
                     </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" -->
 
+                </div>
+                <div>
+                    <div class="input-group">
+                    <span class="input-group-addon" id="language_addon"><i class="fa fa-flag"></i></span>
+                    <select  select2 class="form-control has_left_icon" id="language" multiple="multiple"  data-placeholder="Countrie or Region" ng-model="$parent.filterOption.state">
+                        <option ng-repeat="item in $parent.settings.searchSetting.country" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
+                    </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" -->
+
+                </div>
                 </div>
                 <hr>
 
@@ -203,8 +212,8 @@
                 </div>
                 <!--end advance filter div-->
                 <!--advance filter button-->
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseDiv" class="show-button collapsed" aria-expanded="false" aria-controls="collapseDiv">
-                    <h4 class="font-yellow-gold text-center">Advance Filter:<i class="glyphicon glyphicon-menu-up font-yellow-gold down-icon"></i></h4>
+                <a role="button" data-toggle="collapse" href="#collapseDiv" class="show-button collapsed" aria-expanded="false" aria-controls="collapseDiv">
+                    <h4 class="font-yellow-gold text-center">Advanced Filter&nbsp;<i class="glyphicon glyphicon-menu-up font-yellow-gold down-icon"></i></h4>
                 </a>
 
                 <hr>

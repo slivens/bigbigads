@@ -85,8 +85,12 @@ body {
 /*头部页眉*/
 .page-header{
     .page-header-top {
-        .page-logo {width: 330px;
-            .logo-default{margin: 15px 0 0 16px;}
+        height: 50px;
+        .page-logo {
+                width: 330px;
+                height: 50px;
+                margin-top: 2px;
+            .logo-default{margin: 0px 0 0 16px;}
         }
         .page-header-menu{margin: 0;
             .hor-menu{
@@ -95,8 +99,8 @@ body {
                         a{
                             display: inline-block;
                             padding: 0px 10px;
-                            height: 75px;
-                            line-height: 75px;
+                            height: 52px;
+                            line-height: 50px;
                             border-radius: 0px;
                             color:#555;
                             font-size: 1.6rem;
@@ -111,20 +115,31 @@ body {
                         }
 
                     }
-                    li:hover{a{color:#ea7e00 !important;
-                        background:none !important;
-                        i{color:#ea7e00;
+                    li:hover{
+                        a{
+                            color:#ea7e00 !important;
+                            background:none !important;
+                            i{color:#ea7e00;}
                         }
+                    }
+                    li.active,li.active:hover{
+                    a{
+                        background: none !important;
+                        border-bottom: 3px solid;
+                        cursor:default;
+                        color: #ea7e00;
+                    }
                     }
                 }
-                    li.active,li.active:hover{
-                        a{
-                            background: none !important;
-                            border-bottom: 3px solid;
-                            cursor:default;
-                            color: #ea7e00;
-                        }
-                    }
+
+            }
+        }
+        .top-menu{
+            margin-top:10px;
+            .navbar-nav{
+                li.dropdown{height: auto;
+                    .dropdown-toggle{padding: 0px;}
+                    .dropdown-menu-default{margin-top: 12px;}
                 }
             }
         }
@@ -290,7 +305,6 @@ body {
 .portlet-body{
     .input-group-addon{
         i{color: #ea7e00;}
-        border-right:1px solid #ccc;
     }
 }
 /*广告主卡*/
@@ -1039,6 +1053,8 @@ body.modal-open{
     .content{
         padding:20px;
         margin-left:$adser-analysis-sidebar-width !important;
+        .analysis-div{min-height: 450px;}
+        .content-loading{margin-top: 100px;}
     }
 }
 //placeholder颜色大小字体
@@ -1108,7 +1124,7 @@ color: $black_placeholder !important;
         }
         span.select2,.select2-selection{
             border-radius: 0 4px 4px 0;
-            border-left:0px;
+            // border-left:0px;
         }
         span.select2-container{
             width: 100% !important;
@@ -1118,7 +1134,7 @@ color: $black_placeholder !important;
             color: #000;
         }
         .has_left_icon{
-            border-left:0px;
+            // border-left:0px;
         }
     }
     .apply-button{

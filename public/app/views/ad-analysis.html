@@ -41,7 +41,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <!-- BEGIN: ACCORDION DEMO -->
-                <div class="portlet light bordered">
+                <div class="portlet light bordered analysis-div">
                     <div class="portlet-title">
                         <div class="caption font-yellow-gold">
                             <i class="icon-badge font-green-sharp"></i>
@@ -56,7 +56,7 @@
                     </div>
                     <div class="portlet-body">
 
-                        <div class="alert alert-warning ng-cloak" ng-show="card.end">ID {{id}} Not found!</div>
+                        <div class="ng-cloak content-loading text-center" ng-show="card.end"><img src="../assets/global/img/ajax-loading.gif"></div>
                         <div class="row" ng-show="!card.end">
                             <div class="col-xs-12" id="ad">
                                 <!--begin detal-->
@@ -136,25 +136,44 @@
                                                 </div>
                                                 <!-- end date, duration, viewcount -->
                                                 <!--begin country-->
-                                                <div class="overview-card clearfix ">
+                                                <div class="overview-card clearfix " ng-if="card.country">
                                                         <h4>
                                                             <i class="fa glyphicon glyphicon-flag font-yellow-gold fa-fw">
                                                             </i>
-                                                            <span class="overviewtitle">country:</span>
+                                                            <span class="overviewtitle">countrie or region:</span>
                                                         </h4>
-                                                        <p class="font-yellow-gold overview-data">{{ad.proxy_country}}</p> 
+                                                        
+                                                            <p  class="font-yellow-gold overview-data">
+                                                               <span ng-repeat="item in (card.country.split(',') | unique) track by $index">{{item}},&nbsp;&nbsp;</span> 
+                                                            </p> 
                                                 </div>
                                                 <!--end country-->
                                                 <!--begin langaue-->
                                                 <div class="overview-card clearfix table-hover">
                                                         <h4>
-                                                            <i class="fa glyphicon glyphicon-font font-yellow-gold fa-fw">
+                                                            <i class="fa fa-language font-yellow-gold fa-fw">
                                                             </i>
                                                             <span class="overviewtitle">language:</span>
                                                         </h4>
                                                         <p class="font-yellow-gold overview-data">{{ad.ad_lang}}</p> 
                                                 </div>
                                                 <!--end language-->
+
+                                                <!--begin ads type-->
+                                                <div class="overview-card clearfix table-hover">
+                                                        <h4>
+                                                            <i class="fa fa-picture-o font-yellow-gold fa-fw">
+                                                            </i>
+                                                            <span class="overviewtitle">ad type:</span>
+                                                        </h4>
+                                                        <p class="font-yellow-gold overview-data">
+                                                            <span ng-if="card.type=='SingleImage'">Image</span>
+                                                            <span ng-if="card.type=='SingleVideo'">Video</span>
+                                                            <span ng-if="card.type=='Canvas'">Canvas</span>
+                                                            <span ng-if="card.type=='Carousel'">Carousel</span>
+                                                        </p> 
+                                                </div>
+                                                <!--end ads type-->
                                                 <!--begin position-->
                                                 <div class="overview-card clearfix ">
                                                     <h4>

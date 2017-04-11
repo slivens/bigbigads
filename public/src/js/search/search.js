@@ -477,11 +477,12 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					$scope.adSearcher.removeFilter('ad_lang');
 				}
 				//国家
-				if (option.state) {
+				if (option.state && option.state.length) {
 					$scope.adSearcher.addFilter({
 						field: 'state',
-						value: option.state
+						value: option.state.join(',')
 					});
+					$scope.currSearchOption.filter.state = option.state.join(',');
 				} else {
 					$scope.adSearcher.removeFilter('state');
 				}
@@ -836,8 +837,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				if (option.lang && option.lang.length) {
 					$scope.adSearcher.addFilter({
 						field: 'ad_lang',
-						value: option.lang
+						value: option.lang.join(',')
 					});
+					$scope.currSearchOption.filter.lang = option.lang.join(',');
 				} else {
 					$scope.adSearcher.removeFilter('ad_lang');
 				}
@@ -845,8 +847,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				if (option.state) {
 					$scope.adSearcher.addFilter({
 						field: 'state',
-						value: option.state
+						value: option.state.join(',')
+
 					});
+					$scope.currSearchOption.filter.state = option.state.join(',');
 				} else {
 					$scope.adSearcher.removeFilter('state');
 				}
