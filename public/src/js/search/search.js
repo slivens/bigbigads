@@ -759,14 +759,14 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						User.openUpgrade();
 						islegal = false;
 					}*/
-					if(($scope.filterOption.date.endDate !== null) && !isAdvanceFilterLimit) {
+					if((User.info.user.role.plan === 'free') && ($scope.filterOption.date.endDate !== null) && !isAdvanceFilterLimit) {
 						//临时去除free注册用户时间筛选框功能
 						User.openFreeDateLimit();
                     	islegal = false;
                 	}else if(!isAdvanceFilterLimit) {
 						User.openUpgrade();
 						islegal = false;
-					}else if($scope.filterOption.date.endDate !== null) {
+					}else if((User.info.user.role.plan === 'free') && ($scope.filterOption.date.endDate !== null)) {
 						User.openFreeDateLimit();
                     	islegal = false;
 					}
@@ -1099,17 +1099,19 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					User.openUpgrade();
 					islegal = false;
 				}	
-				if(($scope.filterOption.date.endDate !== null) && !isAdvanceFilterLimit) {
+
+				if((User.info.user.role.plan === 'free') && ($scope.filterOption.date.endDate !== null) && !isAdvanceFilterLimit) {
 						//临时去除free注册用户时间筛选框功能
 						User.openFreeDateLimit();
                     	islegal = false;
                 	}else if(!isAdvanceFilterLimit) {
 						User.openUpgrade();
 						islegal = false;
-					}else if($scope.filterOption.date.endDate !== null) {
+					}else if((User.info.user.role.plan === 'free') && ($scope.filterOption.date.endDate !== null)) {
 						User.openFreeDateLimit();
                     	islegal = false;
-				}
+                    }
+				
 				$scope.islegal = islegal;
 			};
 			$scope.User = User;
