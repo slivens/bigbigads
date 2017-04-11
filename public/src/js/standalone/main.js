@@ -1122,7 +1122,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             pageTitle: 'User Account'
         }
     })
-
     // User Profile Help
     .state("profile.help", {
         url: "/help",
@@ -1130,15 +1129,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         data: {
             pageTitle: 'User Help'
         }
-    })
-    //权限升级提示模板
-    .state("upgrade", {
-        url: "views/upgrade",
-        templateUrl: "upgrade.html"
-    })
-    .state("sign", {
-        url: "views/sign-up",
-        templateUrl: "sign.html"
     });
     $locationProvider.html5Mode(true);
 
