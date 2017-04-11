@@ -5,7 +5,6 @@
         <!-- BEGIN: ACCORDION DEMO -->
         <div class="col-xs-12 ">
             <div class="mb10">
-                
                 <div class="clearfix">
                     <!-- BEGIN HEADER SEARCH BOX -->
                     <form class="search-form" ng-submit="islegal&&search('search')">
@@ -33,11 +32,13 @@
                     <!-- <button policy-lock class="btn blue btn-outline btn-md disabled" key="export">Export</button> -->
                     <!-- <button class="btn blue btn-outline btn-md " disabled="disabled">Subscribe</button> -->
                 </div>
+                <div class="margin-top-10" ng-if="User.login">
+                    <span class="font-yellow-gold" ng-show="currSearchOption.isdirty || adSearcher.searchOption.search.text">Tips: The free level user can only see data 2 months before.</span>
+                </div>
                 <div class="alert alert-warning margin-top-10" ng-show="currSearchOption.isdirty">
                     <div ng-if="currSearchOption.search.text">Search Text:{{currSearchOption.search.text}}</div>
                     <div ng-if="currSearchOption.filter.type">Media Type:{{currSearchOption.filter.type | mediaType}}</div>
-                    <div ng-if="!freeLimitMessage || currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Time Frame:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}}</div>
-                    <div ng-if="freeLimitMessage || currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Time Frame:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}} <span>{{freeLimitMessage}}<a ui-sref="plans"> Upgrade your account to see all.</a></span></div>
+                    <div ng-if="currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Time Frame:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}}</div>
                     <div ng-if="currSearchOption.filter.lang&&currSearchOption.filter.lang.length">Language:{{currSearchOption.filter.lang}}</div>
                     <div ng-if="currSearchOption.filter.state">Country:{{currSearchOption.filter.state}}</div>
                     <div ng-if="currSearchOption.domain.text">Domain:{{currSearchOption.domain.text}}({{currSearchOption.domain.exclude ? "Not Contain" : "Must Contain"}})</div>
@@ -76,7 +77,7 @@
             </div>
             <div class="xg-count-mt search-result">
                 <span ng-if="!adSearcher.ads.all_total_count&&adSearcher.ads.total_count!=0">Found <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> Matching Ads </span>
-                <span ng-if="adSearcher.ads.all_total_count&&adSearcher.ads.total_count!=0">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}}</span> Matching Ads/You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span>results <a class="font-yellow-gold xg-upgrade-button" ui-sref="plans"> Upgrade Now</a></span>
+                <span ng-if="adSearcher.ads.all_total_count&&adSearcher.ads.total_count!=0">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}} </span> Matching Ads/You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> results <a class="font-yellow-gold xg-upgrade-button" ui-sref="plans"> Upgrade Now</a></span>
                 <span ng-if="adSearcher.ads.total_count==0">Your search did not match any results.</span>
                 <!-- <button class="btn yellow-gold btn-lg" ng-click="showStatics()">analysis</button> -->
                 <!-- <i class="fa fa-hand-o-right font-yellow-gold xg-analysis" ng-click="showStatics()"></i> -->
@@ -91,8 +92,8 @@
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
 				<span class="sr-only">Loading...</span>
 			</div>
-            <div ng-if="adSearcher.isend" ng-include="'limited-banner.html'" ng-class='{"xg-limited-banner-mt6":adSearcher.isNoResult}'></div>
-            <div ng-if="(User.info.user.role.name !='Free') && adSearcher.isNoResult" class="text-center col-md-12" >
+            <div ng-if="!adSearcher.isNoResult && adSearcher.isend" ng-include="'limited-banner.html'" ng-class='{"xg-limited-banner-mt6":adSearcher.isNoResult}'></div>
+            <div ng-if="adSearcher.isNoResult" class="text-center col-md-12" >
                 <hr style="border-top:1px solid #dbdee6">
                 <div>
                    <img src="/assets/global/img/the_end.png">
@@ -326,8 +327,8 @@
     <div class="dashboard-stat dashboard-stat-v2 col-md-12 xg-limited-banner">
         <div ng-if="adSearcher.ads.total_count!=0">
             <div class="text-center col-md-12">
-                <p ng-if="User.info.user.role.name =='Standard'">You can only see 300 results per search in standard level.Please contact us if you need to see more: help@bigbigads.com</p>
-                <p ng-if="User.info.user.role.name =='Free'">You can only see 100 results per search in free level.Please contact us if you need to see more: help@bigbigads.com</p>
+                <p ng-if="User.info.user.role.name == 'Standard'">You can only see 300 results per search in standard level.Please contact us if you need to see more: help@bigbigads.com</p>
+                <p ng-if="User.info.user.role.name == 'Free'">You can only see 100 results per search in free level.Please contact us if you need to see more: help@bigbigads.com</p>
             </div>
             <div class="col-md-12">
                 <div class="pull-left col-md-5">
