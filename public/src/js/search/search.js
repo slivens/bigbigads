@@ -976,8 +976,8 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 				}
 				//engagementsFilter
-				angular.forEach(option.engagements,function(key,item){
-					if ((key.min === "" || key.min === null) || (key.max === "" || key.max === null)) {
+				angular.forEach(option.engagements,function(item,key){
+					if ((item.min === "" || item.min === null) || (item.max === "" || item.max === null)) {
 						$scope.adSearcher.removeFilter(item);
 					}else{
 						$scope.adSearcher.addFilter({
@@ -1479,8 +1479,8 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 					});
 				}
 				//engagementsFilter
-				angular.forEach(option.engagements,function(key,item){
-					if ((key.min === "" || key.min === null) || (key.max === "" || key.max === null)) {
+				angular.forEach(option.engagements,function(item,key){
+					if ((item.min === "" || item.min === null) || (item.max === "" || item.max === null)) {
 						$scope.adSearcher.removeFilter(item);
 					}else{
 						$scope.adSearcher.addFilter({
