@@ -1249,7 +1249,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                 animation: true,
                 controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
                     $scope.goIndex = function() {
-                        window.open('/index',"_self");
+                        window.open('/home',"_self");
                         $uibModalInstance.dismiss('success');
                     };
                     $scope.goPrice = function() {
@@ -1290,7 +1290,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                         $uibModalInstance.dismiss('success');
                     };
                     $scope.goIndex = function() {
-                        window.open('/index',"_self");
+                        window.open('/home',"_self");
                         $uibModalInstance.dismiss('success');
                     };
                 }]
