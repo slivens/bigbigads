@@ -18,7 +18,7 @@
 @include('tpl.header')
 <section class="search">
     <div class="container">
-    <div class="search-title">Facebook Ads has never been so easy</div>
+    <div class="search-title">Facebook Ads have never been so easy </div>
     <div class="search-title_sub">To get inspired</div>
     <form class="margin-bottom30 " style="margin: 0 16% 30px" action="/app/adsearch" method="GET">
         <div class="input-group" style="width: 100%">
@@ -87,26 +87,26 @@
         <div class="slider-right col-md-4 col-xs-4" >
             <ul class="slider-items">
                 <li class="active">
-                    <p class="slider-title">The Most Fresh Data</p>
-                    <p class="slider-desc">With 700K+ monthly updated database, bigbigads offer the most authentic and fresh data for your business. No more guessing which ad your competitor are making money from.
+                    <p class="slider-title">The Freshest Data</p>
+                    <p class="slider-desc">With a database that has 700K<sup>+</sup> monthly updates, Bigbigads offers the most authentic and freshest data for your business.  No more guessing which ads your competitors are making money with. 
 </p>
                 </li>
                 <li>
-                    <p class="slider-title">Strongest filter</p>
-                    <p class="slider-desc">Strongest filter ever to narrow down huge data in a lightning fast way. Say goodbye to terrible experience of the endless page down work. </p>
+                    <p class="slider-title">Superior filtering</p>
+                    <p class="slider-desc">Bigbigads’ filtering allows you to narrow down huge amounts of data in record time.  Say goodbye to endless scrolling.  </p>
                 </li>
                 <li>
-                    <p class="slider-title">Uncover More About An Ad</p>
-                    <p class="slider-desc">With our unique feature (Canvas/Carousel/Landing Page/Audience Targeting etc), you can reveal more comprehensive intelligence others never know. No more questioning why a logo only ad attract so many reactions. </p>
+                    <p class="slider-title">Uncover More About An Ad </p>
+                    <p class="slider-desc">With our unique features (Canvas/Carousel/Landing Page/Audience Targeting etc.), you can see the comprehensive info that others can’t.  There will be no more questioning as to why certain ads attract so many reactions.  </p>
                 </li>
                 <li>
                     <p class="slider-title">Easy To Start</p>
-                    <p class="slider-desc">X-generation database structure for highest search efficiency ever. User-friendly design, video tutorial, and article for usage. 
+                    <p class="slider-desc">Our user-friendly design, video tutorials & blog articles make it easy to get started, and we use next-generation data search for the highest search efficiency ever.   
 </p>
                 </li>
                 <li>
                     <p class="slider-title">Search, Save &amp; Success</p>
-                    <p class="slider-desc">Use the bookmark to save your favorite ad or advertiser, set an alert for tracking. Set up different file for each niche market, find out the winner and learn.</p>
+                    <p class="slider-desc">You can use the bookmark feature to save your favorite ad or advertiser.  You can also implement an alert for tracking. In addition, as you find winners, you can set up a different file for each niche market. </p>
                 </li>
             </ul>
             
@@ -117,7 +117,7 @@
 <section class="video">
     <div class="container">
         <div class="col-md-5">
-            <p class="video-title ">Keep you in pace with Facebook Ads!</p>
+            <p class="video-title ">Keep pace with Facebook Ads! </p>
             <a href="/app/adsearch" class="btn btn-lgm font_22">Try It Now</a>
         </div>
         <div class="col-md-1"></div>
@@ -133,14 +133,14 @@
 <section class="solution">
     <div class="container" style="width: 100%">
         <div class="solution-title">The Best Solution</div>
-        <div class="solution-title_sub">For Ad Buyer, Manufacturer, Ad Agency &amp; Researchers</div>
+        <div class="solution-title_sub">For Ad Buyers, Manufacturers, Ad Agencies and Researchers</div>
         <ul class="solution-itmes">
             <li class="solution-item">
                 <img src="static/images/solution1.png" class="img-circle bg"/>
                 <div class="solution-item_number clearfix">
                     <span class="pull-left">3,000,000</span>
                     <span class="solution-item_symbol pull-left">+</span></div>
-                <div class="solution-item_desc">Ad data</div>
+                <div class="solution-item_desc">Ads</div>
             </li>
             <li class="solution-item">
                 <img src="static/images/solution2.png"  class="img-circle bg"/>
@@ -149,7 +149,7 @@
                     <span class="solution-item_symbol pull-left">+</span>
                 </div>
               
-                <div class="solution-item_desc">Advertiser</div>
+                <div class="solution-item_desc"> Advertisers</div>
             </li>
             <li class="solution-item">
                 <img src="static/images/solution3.png"  class="img-circle bg"/>
@@ -157,14 +157,14 @@
                     <span class="pull-left">700,000</span>
                     <span class="solution-item_symbol pull-left">+</span>
                 </div>
-                <div class="solution-item_desc">Monthly Updated</div>
+                <div class="solution-item_desc">Monthly Updates </div>
             </li>
             <li class="solution-item">
                 <img src="static/images/solution4.png"  class="img-circle bg"/>
                 <div class="solution-item_number clearfix" style="width: 66px;margin:0 auto"><span class="pull-left">90</span>
                     <span class="solution-item_symbol pull-left">+</span>
                 </div>
-                <div class="solution-item_desc">Languages</div>
+                <div class="solution-item_desc"> Languages </div>
             </li>
         </ul>
     </div>

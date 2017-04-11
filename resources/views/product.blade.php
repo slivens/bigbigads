@@ -35,11 +35,11 @@
             <ul class="slider-items">
                 <li class="active">
                     <p class="slider-title">Advertiser Search</p>
-                    <p class="slider-desc">Find out all advertisers for a specific product or service.</p>
+                    <p class="slider-desc">Find all advertisers for a specific product or service. </p>
                 </li>
                 <li>
                     <p class="slider-title">Audience Targeting</p>
-                    <p class="slider-desc">Help you to know your customers and competitors better</p>
+                    <p class="slider-desc">Know your customers and competition better. </p>
                 </li>
                 <li>
                     <p class="slider-title">Niche Market Analysis</p>
@@ -58,12 +58,10 @@
     <p class="solution-product_title "><span>BIG BIG ADS</span> 
     </p>
     <h4 class="adsintroduce text-left">&nbsp;&nbsp;&nbsp;
-  &nbsp;Intelligence is power-if you have the right tools. Bigbigads transforms competitor intelligence data into meaningful insights that lead to competitive advantage for your company.</h4>
+  &nbsp;Intelligence is power – if you have the right tools. Bigbigads transforms competitor intelligence data into meaningful insights that lead to a competitive advantage for your company. </h4>
     <hr>
     <h4 class="adsintroduce text-left">&nbsp;&nbsp;&nbsp;
-  &nbsp;
-Successful Marketing requires fresh and accurate information so your ads are shown to the right audience with the most resonate images and call to action. With million+ monthly updated data and other unique features , Bigbigads guarantee you a systematic advantage over competitors.
-    </h4>
+  &nbsp;Successful marketing requires fresh and accurate information so your ads can be shown to the right audience with the most impactful images and calls to action. With 1 million<sup>+</sup> monthly updates ads and other unique features, Bigbigads guarantees you a systematic advantage over competitors. </h4>
 <!--Larger  Faster Easier
 Cross-Filtering \Niche Market analysis \ Data Exporting
 Bookmark to save and manage  Find an image that resonates  Custom Setting-->
@@ -75,8 +73,8 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
                 <i class="producticon demoicon icon-trophy"></i>
             </div>
             <div class=" clearfix card-right">
-                <h5>Larger</h5>
-                <p>Quantative & Qualitive data guarantee you the most reliable intelligence and best efforts </p>
+                <h5>Large</h5>
+                <p>Quantitative &amp; qualitative data guarantees you the most reliable intelligence and best results. </p>
             </div>
         </div>
         <div class="col-md-4">
@@ -84,8 +82,8 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
                 <i class="producticon demoicon icon-rocket"></i>
             </div>
             <div class="card-right">
-                <h5>Faster</h5>
-                <p>Highest Response speed ever to save your time</p>
+                <h5>Fast</h5>
+                <p>We have the highest response speed of any comparable software to save you time.</p>
             </div>
         </div>
         <div class="col-md-4">
@@ -93,8 +91,8 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
                 <i class="producticon demoicon icon-leaf"></i>
             </div>
             <div class="card-right">
-                <h5>Easier</h5>
-                <p>User-friendly design, very easy to use. No misunderstanding, confusing & inconvenience</p>
+                <h5>Easy</h5>
+                <p>Our user-friendly design is specially created to be as intuitive &amp; easy to use as possible. </p>
             </div>
         </div>
     </div>    
@@ -105,8 +103,8 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
                 <i class="producticon demoicon icon-filter"></i>
             </div>
             <div class="card-right ">
-                <h5>Cross-Filtering</h5>
-                <p>Strongest cross-filtering ever to narrow down the results, find out your winning ads in seconds.</p>
+                <h5>Cross Filtering</h5>
+                <p>Super-strong cross filtering allows you to narrow down results and find your winning ads in seconds.</p>
             </div>
         </div>
         <div class="col-md-4">
@@ -114,8 +112,8 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
                 <i class="producticon demoicon icon-stats-bars"></i>
             </div>
             <div>
-                <h5>Niche Market analysis</h5>
-                <p>Enter a niche keyword to learn the analysis for the market, top player, market share, ad structure</p>
+                <h5>Niche Market Analysi</h5>
+                <p>Enter a niche keyword to analyze the market, top player, market share &amp; ad structure.  </p>
             </div> 
         </div>
         <div class="col-md-4">
@@ -124,7 +122,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
             </div>
             <div  class="card-right">
                 <h5>Data Exporting</h5>
-                <p>Export data in .xls format for further analysis</p>
+                <p>You can export data into an .xls format spreadsheet for further analysis offline.</p>
             </div>
         </div>
     </div>
@@ -135,8 +133,8 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
                 <i class="producticon demoicon icon-price-tags"></i>
             </div>
             <div  class="card-right">
-                <h5>Bookmark to manage</h5>
-                <p>Save winning ad in your niche market, hop onto wave someone else created.</p>
+                <h5>Bookmark to Manage</h5>
+                <p>Save winning ads in your niche market and hop onto a wave that someone else created. </p>
             </div>
         </div>
         <div class="col-md-4">
@@ -144,8 +142,8 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
                 <i class="producticon demoicon icon-images"></i>
             </div>
             <div  class="card-right">
-                <h5>Find an image that resonates</h5>
-                <p>Send your brand voice to your customers through images, which they resonate with your brand.</p>
+                <h5>Find An Image That Resonates </h5>
+                <p>Easily see which images are getting the best engagement and use them to build engagement with your own target audience(s).</p>
             </div>
         </div>
         
@@ -155,8 +153,8 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
                 <i class="producticon demoicon icon-cogs"></i>
             </div>
             <div  class="card-right">
-                <h5>Custom Setting</h5>
-                <p>Customize your own searching filter default setting. Give different setting a name to relax your daily job.</p>
+                <h5>Custom Settings</h5>
+                <p>Customize your own search filter default settings and name the different settings to make your job easier. </p>
             </div>    
         </div>
     </div>
@@ -167,7 +165,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
         <a class="btn btn-clg" href="/app/adsearch">Try It Now</a>
     </div>
         
-        <p class="solution-product_tip text-center">No credit card required-Get started in seconds.</p>
+        <p class="solution-product_tip text-center">No credit card required. Get started in seconds. </p>
     </div>
     </div>
 
