@@ -1232,7 +1232,6 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
         },
         getPolicy:function(key) {
             var usage;
-
             if (!user.can(key)) //没有权限一定没有策略
                 return false;
             if (!user.info.user.usage[key])//没有策略不需要策略，组合权限不支持策略，所以也返回true
