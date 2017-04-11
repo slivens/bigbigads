@@ -40,5 +40,11 @@ return [
 		'merchant_id' => env('BRAINTREE_MERCHANT_ID'),
 		'public_key' => env('BRAINTREE_PUBLIC_KEY'),
 		'private_key' => env('BRAINTREE_PRIVATE_KEY'),
-	],
+    ],
+    'bigbigads' => [
+        'ad_search_url' => env('AD_SEARCH_URL', 'http://121.41.107.126:8080/search'),
+        'adser_search_url' => env('ADSER_SEARCH_URL', 'http://121.41.107.126:8080/adser_search'),
+        'adser_analysis_url' => env('ADSER_ANALYSIS_URL', 'http://xgrit.xicp.net:5000/adser_analysis'),
+        'trends_url' => env('TRENDS_URL',  'http://xgrit.xicp.net:5000/adsid_trend')
+    ]
 ];
