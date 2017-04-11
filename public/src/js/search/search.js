@@ -1,8 +1,8 @@
 if (!app)
 	var app = angular.module('MetronicApp');
 
-app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util', 'User',
-	function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q, Util, User) {
+app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util',
+	function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q, Util) {
 		//opt = {searchType:'adser', url:'/forward/adserSearch'}
 		var searcher = function(opt) {
 			var vm = this;
@@ -121,68 +121,17 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 			};
 			vm.isend = false;
 			vm.isNoResult = false;
-			vm.freeLimitMessage = '';
+			
 			vm.search = function(params, clear, action) {
 				var defer = $q.defer();
 				//获取广告搜索信息
 				var searchurl = settings.remoteurl + (opt && opt.url ? opt.url : '/forward/adsearch');
-				var limitDate = moment().subtract(2, 'month').format('YYYY-MM-DD');
-				var startDate;
-				var endDate;
-				var freeMin;
-				var freeMax;
 				if (action) {
 					params.action = action;
 				} else {
 					delete params.action;
 				}
 				vm.busy = true;
-				User.getInfo().then(function() {
-					if (!User.login) {
-						params.search_result = 'cache_ads';
-					} else {
-						if (User.user.role.plan==='free') {
-							if ((params.where.length>0) || (params.keys.length>0)) {
-								params.search_result = 'ads';
-								angular.forEach(params.where, function(data,index,array) {
-									if (data.field=='time') { 
-										startDate = data.min;
-										endDate = data.max;
-										vm.removeFilter('time');
-									}
-								});
-								if (moment(startDate).isBefore(limitDate) && startDate) {
-									if (moment(limitDate).isBefore(endDate)) {
-										freeMin = startDate;
-										freeMax = limitDate;
-									} else {
-										freeMin = startDate;
-										freeMax = endDate;
-									}
-								} else {
-									freeMin = '2016-08-23';
-									freeMax = limitDate;
-								}
-								vm.addFilter({
-										field: "time",
-										min: freeMin,
-										max: freeMax,
-										role: "free"
-								});
-								vm.freeLimitMessage = " Free level user can only see data 2 months before. So you see during in " + freeMin + " from " + freeMax + " ads.";				
-							} else {
-								params.search_result = 'cache_ads';
-							}
-						}
-						if (User.user.role.plan==='Standard') {
-							if ((params.where.length>0)||(params.keys.length>0)) {
-								params.search_result = 'ads';
-							} else {
-								params.search_result = 'cache_ads';
-							}
-						}
-					}
-				});
 				$http.post(
 					searchurl,
 					params
@@ -210,9 +159,12 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 								//      value.snapshot = JSON.parse(value.snapshot);
 							} else if (value.type == vm.ADS_CONT_TYPE.CANVAS) {
 								value.link = JSON.parse(value.link);
-								if(JSON.parse(value.local_picture) instanceof Object){
+								/*if(JSON.parse(value.local_picture) instanceof Object){
 									value.local_picture = JSON.parse(value.local_picture);
-								}				    
+								}*/				    
+								try{
+									value.local_picture = JSON.parse(value.local_picture);
+									}catch(err){console.log(err);}								
 								if (vm.getAdsType(value, vm.ADS_TYPE.rightcolumn)) {
 									value.watermark = JSON.parse(value.watermark);
 								}
@@ -249,7 +201,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				});
 				return defer.promise;
 			};
-
+			
 			vm.getMore = function() {
 				if (vm.busy)
 					return;
@@ -495,6 +447,11 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					format = [],
 					formatList='',
 					buttondesc = [];
+				var limitDate = moment().subtract(2, 'month').format('YYYY-MM-DD');
+				var selectStartDate;
+				var selectEndDate;
+				var freeMin = '2016-08-23';
+				var freeMax = limitDate;
 
 				//广告类型
 				if (!$scope.filterOption.type) {
@@ -617,6 +574,35 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 					}
 				}); 
+				$scope.freeLimitMessage = '';
+				if (User.user.role.plan === 'free') {
+						if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0)) {
+							angular.forEach($scope.adSearcher.params.where, function(data) {
+								if (data.field === 'time') { 
+									selectStartDate = data.min;
+									selectEndDate = data.max;
+									$scope.adSearcher.removeFilter('time');
+								}
+							});
+							if (moment(selectStartDate).isBefore(limitDate) && selectStartDate) {
+								if (moment(limitDate).isBefore(selectEndDate)) {
+									freeMin = selectStartDate;
+									freeMax = limitDate;
+								} else {
+									freeMin = selectStartDate;
+									freeMax = selectEndDate;
+								}
+							}
+							$scope.adSearcher.addFilter({
+									field: "time",
+									min: freeMin,
+									max: freeMax,
+									role: "free"
+							});
+							$scope.freeLimitMessage = " Free level user can only see data 2 months before. So you see during in " + freeMin + " from " + freeMax + " ads.";
+						}
+				}
+
 				$scope.currSearchOption.filter.category = category.join(',');
 				$scope.currSearchOption.filter.format = format.join(',');
 				$scope.currSearchOption.filter.callToAction = buttondesc.join(',');
@@ -626,10 +612,11 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 							User.openSign();
 						}*/
 						//User.openUpgrade();
-						if(res.data.desc === 'no permission of filter'){
+						console.log(res);
+						if(res.data.code === -4001){
 							User.openUpgrade();
 						}
-						if(res.data.desc === 'you reached search times today, default result will show'){
+						if(res.data.desc === -4002){
 							User.openSearchResultUpgrade();
 						}			
 						$scope.islegal = false;
