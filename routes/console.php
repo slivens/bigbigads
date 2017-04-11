@@ -19,6 +19,19 @@ Artisan::command('inspire {project}', function ($project) {
 })->describe('Display an inspiring quote');
 
 
+Artisan::command('bigbigads:resetpwd {email}', function($email) {
+    $user = App\User::where('email', $email)->first();
+    if ($user instanceof App\User) {
+        $user->password = bcrypt('bigbigads');
+        $user->save();
+        $this->info("$email reset password to 'bigbigads'");
+        /* $this->info($user->usage); */
+    } else {
+        $this->error("no such user:" . $email);
+        return;
+    }
+})->describe("重置密码为bigbigads");
+
 Artisan::command('bigbigads:change {email} {roleName}', function($email, $roleName) {
     try {
         $role = App\Role::where('name', $roleName)->first();
