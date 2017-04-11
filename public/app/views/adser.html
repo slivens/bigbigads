@@ -15,7 +15,7 @@
 <div class="row">
     <div class="col-md-12">
                 <div class="margin-top-10" ng-if="User.login">
-                    <span class="font-yellow-gold" ng-show="currSearchOption.isdirty">Tips: The free level user can only see data 2 months before.</span>
+                    <span class="font-yellow-gold" ng-show="User.info.user.role.name ==='Free && currSearchOption.isdirty">Tips: The free level user can only see data 2 months before.</span>
                 </div>
                 <div class="alert alert-warning margin-top-10 xg-alert" ng-show="currSearchOption.isdirty">
                     <!-- <div> -->
