@@ -216,7 +216,7 @@ class SearchController extends Controller
                 }
             }
 
-            $remoteurl = 'http://192.168.20.166:8080/search';
+            $remoteurl = 'http://121.41.107.126:8080/search';
         } else if ($action == "adserSearch") {
             //广告主分析
             try {
