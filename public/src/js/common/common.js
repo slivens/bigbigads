@@ -17,7 +17,7 @@ app.directive('lazyImg', ['$timeout', function($timeout) {
         scope:{
             lazyImg:'@'
         },
-		link:function($scope, element, attrs) {
+		link:function($scope, element) {
                 $timeout(function() {
                     element.attr('src', $scope.lazyImg);
                 });
@@ -621,7 +621,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 return angular.isArray(value);
             },
             isFilterLimit:function(filter,searchOption) {
-                if((User.info.user.role.name !='Free')||User.login) {
+                if((User.info.user.role.name != 'Free') || User.login) {
                     return true;
                 }
                 var isLimit = false;
@@ -630,36 +630,58 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 var isCallToActionLimit;
                 var isLangLimit; 
                 var isRangeSelectedLimit;  
-                    //console.log(filter);
-                if((filter.hasOwnProperty('formatSelected'))&&(filter.formatSelected.length===0)){
+                //console.log(filter);
+                if((filter.hasOwnProperty('formatSelected')) && (filter.formatSelected.length === 0)){
                     isFormatLimit = false;
                 }else if(filter.hasOwnProperty('formatSelected')){
                     isFormatLimit = true;
                 }
-                if((filter.hasOwnProperty('callToAction'))&&(filter.callToAction.length===0)){
+                if((filter.hasOwnProperty('callToAction')) && (filter.callToAction.length === 0)){
                     isCallToActionLimit = false;
                 }else if(filter.hasOwnProperty('callToAction')){
                     isCallToActionLimit = true;
                 }
-                if((filter.hasOwnProperty('lang'))&&(filter.lang.length===0)){
+                if((filter.hasOwnProperty('lang')) && (filter.lang.length === 0)){
                     isLangLimit = false;
                 }else if(filter.hasOwnProperty('lang')){
                     isLangLimit = true;
                 }
-                if((searchOption.hasOwnProperty('rangeselected'))&&(searchOption.rangeselected.length===0)){
+                if((searchOption.hasOwnProperty('rangeselected')) && (searchOption.rangeselected.length === 0)){
                     isRangeSelectedLimit = false;
-                }else if(searchOption.hasOwnProperty('rangeselected')){
+                }else if(searchOption.hasOwnProperty('rangeselected')) {
                     isRangeSelectedLimit = true;
                 }
-                if(filter.date.endDate!==null){
-                    isDateLimit = true;
-                }
-                if(isFormatLimit||isCallToActionLimit||isLangLimit||isDateLimit||isRangeSelectedLimit) isLimit=true;
-                if(isLimit){
+                if(isFormatLimit || isCallToActionLimit || isLangLimit || isRangeSelectedLimit) isLimit = true;
+                if(isLimit) {
                     return false;
                 }else {
                     return true;
                 }
+            },
+            isAdvanceFilterLimit:function(filter) {
+                if((User.info.user.role.name != 'Free') && (User.info.user.role.name != 'Standard')) {
+                    console.log(User.info.user.role.name != 'Free');
+                    console.log(User.info.user.role.name != 'Standard');
+                    return true;
+                }
+                var isLimit = false;
+                var isDurationLimit = false;
+                var isEngagementsLimit = false;
+                console.log(filter.duration.from);
+                console.log(filter.seeTimes.from);
+                if((filter.duration.from !== 0) || (filter.duration.to !== 180)) isLimit = true;
+                if((filter.seeTimes.from !== 0) || (filter.seeTimes.to !== 180)) isLimit = true;
+                angular.forEach(filter.engagements, function(data) {
+                    if (data.max || data.min) { 
+                        isEngagementsLimit = true;
+                    }
+                });
+                if(isDurationLimit || isEngagementsLimit) isLimit = true;
+                if(isLimit) {
+                    return false;
+                }else {
+                    return true;
+                }       
             }
         };
     }]);
