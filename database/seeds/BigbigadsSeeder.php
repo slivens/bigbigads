@@ -155,7 +155,7 @@ class BigbigadsSeeder extends Seeder
             'date_sort' => [true, true, true, true], 'likes_sort' => [true, true, true, true], 'shares_sort' => [true, true, true, true],  'comment_sort' => [true, true, true, true], 'duration_sort'=>[false, false, true, true], 'views_sort' => [true, true, true, true], 'engagements_sort' => [false, false, true, true], 'engagement_inc_sort' => [false, false, true, true], 'likes_inc_sort' => [false, false, true, true], 'views_inc_sort' => [false, false, true, true], 'shares_inc_sort'=>[false, false, true, true], 'comments_inc_sort' => [false, false, true, true],
             'timeline_filter' => [true, true, true, true], 'phone_filter' => [false, false, true, true], 'rightcolumn_filter' => [true, true, true, true]];
         //给权限指定策略，策略数组的第一个数值表示策略类型，Policy::DAY表示按天累计，Policy::VALUE表示是一个固定值，Policy::PERMANENT表示永久累计，后面数值同上。需要注意的是，只有角色有对应的权限，才会有检查策略。
-        $searchPolicy = ['search_times_perday' => [Policy::DAY, 50,1000, 3000, 5000], 'result_per_search' => [Policy::VALUE, 10, 1000, 2000, 5000], 'keyword_times_perday' => [Policy::DAY, 1000, 1000, 1000, 1000]];
+        $searchPolicy = ['search_times_perday' => [Policy::DAY, 100, 1000, 3000, 5000], 'result_per_search' => [Policy::VALUE, 100, 300, 2000, 5000], 'keyword_times_perday' => [Policy::DAY, 1000, 1000, 1000, 1000]];
         $this->insertPermissions('Advertisement', $search, $searchPermission,  $roles);
         $this->insertPolicies($searchPolicy, $roles);
 

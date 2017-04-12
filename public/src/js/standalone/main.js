@@ -1191,7 +1191,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             pageTitle: 'User Account'
         }
     })
-
     // User Profile Help
     .state("profile.help", {
         url: "/help",
@@ -1199,12 +1198,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         data: {
             pageTitle: 'User Help'
         }
-    })
-    //权限升级提示模板
-    .state("upgrade", {
-            url: "views/upgrade",
-            templateUrl: "upgrade.html"
-        });
+    });
     $locationProvider.html5Mode(true);
 
 }]);
@@ -1307,7 +1301,6 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
         },
         getPolicy:function(key) {
             var usage;
-
             if (!user.can(key)) //没有权限一定没有策略
                 return false;
             if (!user.info.user.usage[key])//没有策略不需要策略，组合权限不支持策略，所以也返回true
@@ -1323,12 +1316,49 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                 size: 'md',
                 animation: true,
                 controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
+                    $scope.goIndex = function() {
+                        window.open('/home',"_self");
+                        $uibModalInstance.dismiss('success');
+                    };
                     $scope.goPlans = function() {
                         $state.go("plans");
                         $uibModalInstance.dismiss('success');
                     };
-                    $scope.goLogin = function() {
-                        window.open('/login',"_self");
+                }]
+            });
+        },
+        openSign:function() {
+            return $uibModal.open({
+                templateUrl: 'views/sign.html',
+                size: 'md',
+                animation: true,
+            });
+        },
+        openSearchResultUpgrade:function() {
+            return $uibModal.open({
+                templateUrl: 'views/search-result-upgrade.html',
+                size: 'md',
+                animation: true,
+                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
+                    $scope.goPlans = function() {
+                        $state.go("plans");
+                        $uibModalInstance.dismiss('success');
+                    };
+                }]
+            });
+        },
+        openFreeDateLimit:function() {
+            return $uibModal.open({
+                templateUrl: 'views/filter-data-limit.html',
+                size: 'md',
+                animation: true,
+                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
+                    $scope.goPlans = function() {
+                        $state.go("plans");
+                        $uibModalInstance.dismiss('success');
+                    };
+                    $scope.goIndex = function() {
+                        window.open('/home',"_self");
                         $uibModalInstance.dismiss('success');
                     };
                 }]

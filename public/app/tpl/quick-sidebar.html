@@ -7,7 +7,7 @@
         <!-- </div> -->
         <div class="portlet-body form"> 
             <div class="filter-title">Filter</div>
-            <form role="form" ng-submit="$parent.islegal&&$parent.search('search')">
+            <form role="form" ng-submit="$parent.search('search')">
                 <div class="input-group">
                     <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-calendar"></i></span>
                     <input date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.date" options="daterangeOption" placeholder="Time Frame" aria-describedby="filterbydate_addon"/> 
@@ -28,7 +28,7 @@
                     <span class="input-group-addon" id="calltoaction_addon"><i class="fa glyphicon glyphicon-hand-down"></i></span>
                     <select select2 class="form-control has_left_icon callToAction_select2"  multiple="multiple" data-placeholder="Call to Action" ng-model="$parent.filterOption.callToAction">
                         <option ng-repeat="item in $parent.settings.searchSetting.buttondescList" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
-                    </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.buttondescList" > -->
+                    </select ><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.buttondescList" > -->
                 </div> 
                 <div class="input-group">
                     <span class="input-group-addon" id="language_addon"><i class="fa fa-language"></i></span>
@@ -211,11 +211,11 @@
                     </div>
                 </div>
                 <!--end advance filter div-->
+                
                 <!--advance filter button-->
                 <a role="button" data-toggle="collapse" href="#collapseDiv" class="show-button collapsed" aria-expanded="false" aria-controls="collapseDiv">
                     <h4 class="font-yellow-gold text-center">Advanced Filter&nbsp;<i class="glyphicon glyphicon-menu-up font-yellow-gold down-icon"></i></h4>
                 </a>
-
                 <hr>
 
                 <!--filter button-->
