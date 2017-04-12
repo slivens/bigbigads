@@ -83,7 +83,9 @@ class UserController extends Controller
         }
         $user->state = 1;
         $user->save();
-        return view('auth.verify')->with("user", $user);
+        Auth::login($user);
+        return redirect("/app");
+        //return view('auth.verify')->with("user", $user);
     }
 
     /**
