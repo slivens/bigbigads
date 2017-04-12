@@ -33,7 +33,7 @@
                     <!-- <button class="btn blue btn-outline btn-md " disabled="disabled">Subscribe</button> -->
                 </div>
                 <div class="margin-top-10" ng-if="User.login">
-                    <span class="font-yellow-gold" ng-show="User.info.user.role.name ==='Free && (currSearchOption.isdirty || adSearcher.searchOption.search.text)">Tips: The free level user can only see data 2 months before.</span>
+                    <span class="font-yellow-gold" ng-show="User.info.user.role.name ==='Free' && (currSearchOption.isdirty || adSearcher.searchOption.search.text)">Tips: The free level user can only see data 2 months before.</span>
                 </div>
                 <div class="alert alert-warning margin-top-10" ng-show="currSearchOption.isdirty">
                     <div ng-if="currSearchOption.search.text">Search Text:{{currSearchOption.search.text}}</div>
