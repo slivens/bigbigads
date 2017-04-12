@@ -71,8 +71,9 @@
 			</div>
             <div ng-if="(User.info.user.role.name =='Free') && adSearcher.isend" ng-include="'adser-limited-banner.html'" ng-class='{"xg-limited-banner-mt6":adSearcher.isNoResult}'></div>
             <div ng-if="(User.info.user.role.name !='Free') && adSearcher.isNoResult" class="text-center col-md-12" >
-                <div class="dashboard-stat dashboard-stat-v2 alert-warning">
-                    <h2>The end</h2>
+                <hr style="border-top:1px solid #dbdee6">
+                <div>
+                   <img src="/assets/global/img/the_end.png">
                 </div>
             </div>
         </div>

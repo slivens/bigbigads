@@ -636,6 +636,75 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
             }, {
                 key: "Others",
                 value: "Others"
+            }],
+            /*add country list*/
+            country:[
+            {
+                key:"Brazil",
+                value:"Brazil"
+            },{
+                key:"Canada",
+                value:"Canada"
+            },{
+                key:"Denmark",
+                value:"Denmark"
+            },{
+                key:"Finland",
+                value:"Finland"
+            },{
+                key:"France",
+                value:"France"
+            },{
+                key:"Germany",
+                value:"Germany"
+            },{
+                key:"Hongkong",
+                value:"Hongkong"
+            },{
+                key:"Indonesia",
+                value:"Indonesia"
+            },{
+                key:"India",
+                value:"India"
+            },{
+                key:"Italy",
+                value:"Italy"
+            },{
+                key:"Japan",
+                value:"Japan"
+            },{
+                key:"Korea",
+                value:"Korea"
+            },{
+                key:"Mexico",
+                value:"Mexico"
+            },{
+                key:"Norway",
+                value:"Norway"
+            },{
+                key:"Philippines",
+                value:"Philippines"
+            },{
+                key:"Russia",
+                value:"Russia"
+            },{
+                key:"Sweden",
+                value:"Sweden"
+            },{
+                key:"Thailand",
+                value:"Thailand"
+            },{
+                key:"United Kingdom",
+                value:"United Kingdom"
+            },{
+                key:"United States",
+                value:"United States"
+            },{
+                key:"Vietnam",
+                value:"Vietnam"
+            },{
+                key:"Taiwan",
+                value:"Taiwan"
             }]
         }
     };
