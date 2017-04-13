@@ -351,7 +351,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					option.filter.lang = search.lang.split(",");
 				}
 				if (search.state) {
-					option.filter.state = search.state;
+					option.filter.state = search.state.split(",");
 				}
 				if (search.domain) {
 					option.domain = JSON.parse(search.domain);
@@ -492,6 +492,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					$scope.currSearchOption.filter.state = option.state.join(',');
 				} else {
 					$scope.adSearcher.removeFilter('state');
+					$scope.currSearchOption.filter.state="";//清空国家搜索后，搜索状态还会残留[]，暂时不知道怎么去掉，所以加这句
 				}
 
 				//支持多项搜索，以","隔开

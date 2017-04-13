@@ -971,7 +971,7 @@ body.modal-open{
     padding: 4% 8% 2% 7%;
     background-color: rgba(255, 255, 255, 0.8);
     border-top: 3px dashed #3B3B3C;
-    margin: -76px 0 0 -3px !important;
+    //margin: -76px 0 0 -3px !important;
     z-index: 20;
     p {
         font-size: 30px;
@@ -1006,7 +1006,7 @@ body.modal-open{
         }
     }
     .xg-upgrade-banner-body {
-        max-height: 320px;
+       // max-height: 320px;
         padding: 20px;
         h5 {
             color: #242424 !important;
@@ -1033,6 +1033,11 @@ body.modal-open{
 .xg-upgrade-button {
     text-decoration: underline !important;
     font-weight: bold !important;
+}
+
+//注册弹框样式
+.modal-open{
+    .modal-dialog{width: 60%;}
 }
 
 //广告主分析样式
@@ -1189,4 +1194,33 @@ color: $black_placeholder !important;
     font-size: 1.125rem;
     font-weight: 400;
     color: #555;
+}
+
+
+//注册模块
+.register-form{
+    padding:10px 40px;
+    .form-title{font-weight: 400;}
+    .form-group{
+        .fa {
+            line-height: 28px;
+        }
+        .form-control {
+            height: 50px;
+            border-left: 2px solid #eb6130;
+        }
+    }
+    .button-div{
+        button{
+            height: 50px;width: 100%;
+            background: #eb6130;
+            border: 1px solid transparent;
+            color: #fff;
+        }
+    }
+    p{
+        font-size:14px;
+        font-weight:normal;
+    }
+
 }

@@ -1163,12 +1163,12 @@ body.login .backgrounddiv {
     position: fixed;
     overflow: hidden; }
 body.login .backgrounddiv img {
-      height: 106%;
-      min-width: 100%;
+      min-height: 101%;
+      min-width: 101%;
       position: absolute;
-      top: -3%;
+      top: 0%;
       left: 0%;
-      margin-left: -10%;
+     
       filter: blur(10px); }
 body.login .content {
     margin: 0 auto;
@@ -1219,7 +1219,15 @@ body.login .content .login-form .login-button button:hover {
         border: 1px solid transparent; }
 body.login .content .form-actions {
       padding-bottom: 0px;
-      background: none; }
+      background: none;
+       }
+body.login .content .form-actions.button-div{
+    border-top:1px solid #eee;
+}
+body.login .content .form-actions button.btn{
+    width:100%;
+    height: 50px;
+}
 body.login .content .login-footer {
       margin-top: 15px; }
 body.login .content .login-footer .create-account {
@@ -1248,3 +1256,46 @@ body.login .content .register-form .signup-btn {
       background: #eb6130;
       border: 1px solid transparent;
       color: #fff; }
+/*注册后跳转提示页面样式*/
+#app .navbar-static-top {
+  height: 52px; }
+#app .navbar-static-top .navbar-brand {
+    padding: 0px;
+    margin-top: 2px; }
+#app #app-navbar-collapse .navbar-nav {
+  margin-top: 10px; }
+#app #app-navbar-collapse .navbar-nav .btn {
+    line-height: 1rem;
+    color: #fff; }
+#app #app-navbar-collapse .navbar-nav .btn-empty {
+    color: #eb6130; }
+#app #app-navbar-collapse .navbar-nav .btn:hover {
+    color: #fff;
+    background: #eb6130; }
+#app .reset-content {
+    margin-top: 50px;
+    border: 1px solid #c2cad8;
+    border-radius: 7px;
+    width: 430px;
+    padding: 10px 36px;
+    background: #fff;
+    box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.1); }
+#app .reset-content .reset-title {
+    font-weight: 400;
+    color: #555; }
+#app .reset-content .input-icon {
+    border-radius: 4px;
+    position: relative; }
+#app .reset-content .input-icon .form-control {
+    height: 50px;
+    border-left: 2px solid #eb6130; }
+#app .reset-content .input-icon .fa {
+    line-height: 28px; }
+#app .reset-content .button-div {
+    border-top: 1px solid #eee;
+    margin-left: -40px;
+    margin-right: -40px;
+    padding: 0 25px; }
+#app .reset-content .button-div .btn {
+    height: 50px;
+    width: 100%; }

@@ -188,7 +188,7 @@ var Login = function() {
                 },
 
                 tnc: {
-                    required: true
+                    required: false
                 }
             },
 

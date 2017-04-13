@@ -46,7 +46,7 @@
             <li class="clearfix news">
                     <i class="icon " ></i>
                     <div class="about-time_cont ">
-                        <p class="about-time_title">We reach 2 Million ads collected </p>
+                        <p class="about-time_title"> We reach 2 Million ads archived </p>
                         <!-- <p class="about-time_desc">Bigbigads launches Bilty Brand Tools(formerly known as Bilty Enteri</p> -->
                         <p>
                             <span class="about-time_time">March, 2017</span>
@@ -73,7 +73,7 @@
             <li class="clearfix news">
                 <i class="icon " ></i>
                 <div class="about-time_cont ">
-                    <p class="about-time_title">We reach our first 1 Million ads collected</p>
+                    <p class="about-time_title">Data on 1 Million ads has been collected</p>
                     <!-- <p class="about-time_desc">Bigbigads launches Bilty Brand Tools(formerly known as Bilty Enteri</p> -->
                     <p>
                         <span class="about-time_time">December, 2016</span>

@@ -140,11 +140,11 @@
                                                         <h4>
                                                             <i class="fa glyphicon glyphicon-flag font-yellow-gold fa-fw">
                                                             </i>
-                                                            <span class="overviewtitle">countrie or region:</span>
+                                                            <span class="overviewtitle">Country or region:</span>
                                                         </h4>
                                                         
                                                             <p  class="font-yellow-gold overview-data">
-                                                               <span ng-repeat="item in (card.country.split(',') | unique) track by $index">{{item}},&nbsp;&nbsp;</span> 
+                                                               <span ng-repeat="item in (card.country.split(',') | unique) track by $index">{{item}}<span ng-if="$index<(card.country.split(',')).length-1">,&nbsp;&nbsp;</span></span> 
                                                             </p> 
                                                 </div>
                                                 <!--end country-->

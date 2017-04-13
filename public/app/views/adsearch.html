@@ -326,9 +326,12 @@
 <script type="text/ng-template" id="limited-banner.html">
     <div class="dashboard-stat dashboard-stat-v2 col-md-12 xg-limited-banner">
         <div ng-if="adSearcher.ads.total_count!=0">
-            <div class="text-center col-md-12">
+            <div class="text-center col-md-7">
                 <p ng-if="User.info.user.role.name == 'Standard'">You can only see 300 results per search in standard level.Please contact us if you need to see more: help@bigbigads.com</p>
                 <p ng-if="User.info.user.role.name == 'Free'">You can only see 100 results per search in free level.Please contact us if you need to see more: help@bigbigads.com</p>
+            </div>
+            <div class="col-md-5" ng-include="'tpl/register.html'">
+             
             </div>
             <div class="col-md-12">
                 <div class="pull-left col-md-5">
