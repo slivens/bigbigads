@@ -20,6 +20,7 @@ const revCollector = require('gulp-rev-collector');
 const jshint = require('gulp-jshint');
 const gulpsync = require('gulp-sync')(gulp);
 const htmlmin = require('gulp-htmlmin');
+const strip = require('gulp-strip-comments');
 
 var config = {
     script:{
@@ -148,6 +149,7 @@ gulp.task('rev',  function() {
     return gulp.src(['./assets/*.json',  './src/index.html']).pipe(revCollector({
                 replaceReved:true
                 }))
+                .pipe(strip())
                 .pipe(htmlmin({
                     collapseWhitespace:true
                 }))

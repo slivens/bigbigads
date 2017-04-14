@@ -27,6 +27,7 @@
     "gulp-rtlcss": "^0.1.4",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.9.1",
+    "gulp-strip-comments": "^2.4.5",
     "gulp-sync": "^0.1.4",
     "gulp-uglify": "^1.4.2",
     "jshint": "^2.9.4",
