@@ -493,7 +493,7 @@ footer a {
 }
 
 .footer-icon {
-    width: 2.2rem;
+    width: 2.2rem !important;
     height: 2.2rem;
     border-radius: 1.1rem;
     display: inline-block;
@@ -1170,6 +1170,23 @@ body.login .backgrounddiv img {
       left: 0%;
      
       filter: blur(10px); }
+body.login .submit-background{
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 999;
+    position: fixed;
+    overflow: hidden;
+    background: rgba(0,0,0,0.6); 
+}
+body.login .submit-background .img-loading{
+    width: 50px;
+    margin: 20% auto;
+    display: block;
+}
+
+
 body.login .content {
     margin: 0 auto;
     margin-bottom: 50px;
@@ -1256,6 +1273,9 @@ body.login .content .register-form .signup-btn {
       background: #eb6130;
       border: 1px solid transparent;
       color: #fff; }
+body.login .content .register-form .mt-checkbox{
+    margin-bottom: 0px;
+}
 /*注册后跳转提示页面样式*/
 #app .navbar-static-top {
   height: 52px; }
@@ -1299,3 +1319,32 @@ body.login .content .register-form .signup-btn {
 #app .reset-content .button-div .btn {
     height: 50px;
     width: 100%; }
+/*服务条款*/
+#times_service {
+  margin-bottom: 50px; }
+  #times_service .big-title {
+    font-size: 50px;
+    font-weight: 600; }
+  #times_service .border-line {
+    height: 3px;
+    width: 450px;
+    background: #ccc;
+    margin: 20px 0; }
+  #times_service .service-content {
+    margin-left: 34px; }
+  #times_service h3:before {
+    content: counter(mycounter) ".";
+    text-align: right;
+    width: 36px;
+    display: inline-block;
+    margin-left: -36px; }
+  #times_service h3 {
+    counter-increment: mycounter;
+    counter-reset: subcounter; }
+  #times_service p {
+    font-weight: 200;
+    font-size: 1rem; }
+  #times_service ul > li {
+    list-style-type: disc; }
+    #times_service ul > li p {
+      padding-left: 5px; }

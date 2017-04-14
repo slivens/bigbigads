@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="/assets/global/plugins/font-awesome/css/font-awesome.min.css">
     <link href="/css/app.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/static/custom.css">
+    <link rel="stylesheet" type="text/css" href="/static/demo.css">
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([

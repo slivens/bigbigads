@@ -185,7 +185,7 @@
                     <label class="control-label visible-ie8 visible-ie9">Email</label>
                     <div class="input-icon">
                         <i class="fa fa-envelope"></i>
-                        <input class="form-control placeholder-no-fix" type="text" placeholder="Email" name="email" value="{{old('email')}}" /> </div>
+                        <input class="form-control placeholder-no-fix" id="register-email" type="text" placeholder="Email" name="email" value="{{old('email')}}" /> </div>
 
                         @if ($errors->has('email'))
                             <span class="help-block">
@@ -223,7 +223,7 @@
                     <label class="control-label visible-ie8 visible-ie9">Username</label>
                     <div class="input-icon">
                         <i class="fa fa-user"></i>
-                        <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="name" value="{{old('name')}}" /> </div>
+                        <input class="form-control placeholder-no-fix" id="register-username" type="text" autocomplete="off" placeholder="Username" name="name" value="{{old('name')}}" /> </div>
 
                         @if ($errors->has('name'))
                             <span class="help-block">
@@ -256,17 +256,17 @@
                 </div> -->
 
                 <!--agree checkbox-->
-                <!-- <div class="form-group">
+                <div class="form-group">
                     <label class="mt-checkbox mt-checkbox-outline">
-                        <input type="checkbox" name="tnc" /> I agree to the
-                        <a href="javascript:;">Terms of Service </a> &
-                        <a href="javascript:;">Privacy Policy </a>
+                        <input type="checkbox" name="tnc" checked/> I agree to the
+                        <a href="{{url('/terms_service')}}">Terms of Service </a> &
+                        <a href="{{url('/privacy_policy')}}">Privacy Policy </a>
                         <span></span>
                     </label>
                     <div id="register_tnc_error"> </div>
-                </div> -->
+                </div>
 
-                <div class="form-actions button-div margin-top-20">
+                <div class="form-actions button-div">
                     <button type="submit" id="register-submit-btn" class="btn signup-btn margin-top-30"> Sign Up </button>
                 </div>
                 <div class="margin-top-30">
@@ -284,6 +284,10 @@
 
         <div class="backgrounddiv backstretch">
             <img src="/static/images/banner2.jpg">
+        </div>
+
+        <div class="submit-background hidden" id="submit-background">
+            <img src="/assets/global/img/ajax-modal-loading.gif" class="img-loading">
         </div>
         <!-- END LOGIN -->
         <!--[if lt IE 9]>
