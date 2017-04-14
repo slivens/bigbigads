@@ -59,7 +59,6 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
             bookmark.delBookmark(item);
     };
     bookmark.delBookmark = function(item) {
-        console.log(item);
         SweetAlert.swal({
             title: 'Are you sure?',
             text: 'By clicking Yes you would delete the whole '+item.name+' folder',
@@ -116,9 +115,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
         Bookmark.showDetail(bid).then(function(items) {
             var wanted = [];
             var wantedAdsers = [];
-            var adSearcher = new Searcher({
-                limit: [0, -1]
-            });
+            var adSearcher = new Searcher();
             var adserSearcher = new Searcher({
                 searchType: 'adser',
                 url: '/forward/adserSearch',
@@ -134,6 +131,14 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
             });
 
             //获取广告
+            $scope.adSearcher = adSearcher;
+            $scope.adSearcher.checkAndGetMore = function() {
+                if (!User.done) {
+                    adSearcher.getMore();
+                    return;
+                }
+                adSearcher.getMore();
+            };
             $scope.data.ads = {};
             if (wanted.length > 0) {
                 adSearcher.addFilter({
