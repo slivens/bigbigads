@@ -434,7 +434,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
         return {
             link: function(scope, element, attrs) {
                 element.bind('click', function() {
-                    if(!User.login){
+                    if(!User.login) {
                         User.openSign();
                     }else {
                         var url = "";
