@@ -90,7 +90,7 @@ class BookmarkItemController extends Controller
         $item = $class::where("id", $id)->first();
         /*if (!Auth::user()->can('delete', $item)) {
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
-        }*/
+        } */
         $item->delete();
         return ["code"=>0, "desc"=>"Success"];
     }

@@ -76,7 +76,7 @@ class BookmarkController extends Controller
         $bookmark = Bookmark::where("id", $id)->first();
         /*if (!Auth::user()->can('delete', $bookmark)) {
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
-        }*/
+        } */
         $bookmark->delete();
         return ["code"=>0, "desc"=>"Success"];
     }
