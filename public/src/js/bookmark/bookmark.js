@@ -139,6 +139,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                 }
                 adSearcher.getMore();
             };
+            
             $scope.data.ads = {};
             if (wanted.length > 0) {
                 adSearcher.addFilter({
