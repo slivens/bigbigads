@@ -71,7 +71,7 @@ class SearchController extends Controller
                     $params['search_result'] = 'cache_ads';
                 }          
             }
-            foreach($wheres as $key => $obj) {         
+            foreach($params['where'] as $key => $obj) {         
                     if ($obj['field'] == "duration_days" && !$user->can('duration_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
@@ -103,8 +103,13 @@ class SearchController extends Controller
                         if ($max->gt($freeEndDate)) {
                             $obj['max'] = $freeEndDate->format("Y-m-d");
                         }
-                    }          
+                    }
+                    if ($obj['field'] == "watermark_md5" && !$user->can('analysis_similar')) {
+                        $params['where'][$key]['field'] = "";
+                        $params['where'][$key]['value'] = "";
+                    }
             }
+            
         return $params;
     }
 
@@ -143,6 +148,15 @@ class SearchController extends Controller
         return $data;
     }
 
+    protected function checkAfterAdTrends($user, $data)
+    {   
+        if (!isset($data['info']))
+            return $data;
+        if (!$user->can('analysis_trend')){
+            $data['info'] = "";
+        }
+        return $data;
+    }
     public function search(Request $req, $action) {
         $json_data = json_encode($req->except(['action']));
         $remoteurl = "";
@@ -294,7 +308,11 @@ class SearchController extends Controller
         } else if ($action == 'adserSearch') {
             //TODO
         } else if ($action == 'trends') {
-            //TODO
+            try {
+                $result = $this->checkAfterAdTrends($user, json_decode($result, true));
+            } catch (\Exception $e) {
+                return $this->responseError($e->getMessage(),$e->getCode());
+            }
         }
         return $result;
     }
