@@ -257,7 +257,7 @@ class SearchController extends Controller
         if (Auth::check()) {
             //检查是否有该用户收藏
             for($i = 0; $i < 1; $i++) {//小技巧
-                if ($action == 'adsearch' && $act['action'] == 'search') {
+                if ($action == 'adsearch') {
                     $json = json_decode($result, true);
                     if (!isset($json['ads_info'])) 
                         break;
