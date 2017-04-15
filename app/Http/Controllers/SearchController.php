@@ -8,7 +8,7 @@ use App\Services\AnonymousUser;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use App\ActionLog;
+use App\Jobs\LogAction;
 use App\Role;
 use App\Plan;
 use Log;
@@ -45,7 +45,7 @@ class SearchController extends Controller
             if ($usage[2] >= intval($usage[1]))
                 throw new \Exception("you reached the limit", -2);
             $user->updateUsage($name, $usage[2] + 1, Carbon::now());
-            ActionLog::log($name, $params, "{$name}:"  . ($usage[2] + 1));
+            dispatch(new LogAction($name, $params, "{$name}:"  . ($usage[2] + 1), Auth::user()->id, $req->ip()));
             $user->setCache($name, $params);
             Log::debug("statics:" . $data);
         }
@@ -193,7 +193,7 @@ class SearchController extends Controller
                             return response(["code"=>-4002, "desc"=> "you reached search times today, default result will show"], 422);
                         Log::debug("adsearch " . $json_data . json_encode($usage));
                         $user->updateUsage('search_times_perday', $usage[2] + 1, Carbon::now());
-                        ActionLog::log("search_times_perday", $json_data, "search_times_perday:"  . ($usage[2] + 1));
+                        dispatch(new LogAction("search_times_perday", $json_data, "search_times_perday:"  . ($usage[2] + 1), Auth::user()->id, $req->ip()));
                     }
                     $user->setCache('adsearch.params', $json_data);
                 }

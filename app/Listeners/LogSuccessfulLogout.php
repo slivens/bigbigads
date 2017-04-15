@@ -5,7 +5,7 @@ namespace App\Listeners;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\ActionLog;
+use App\Jobs\LogAction;
 
 class LogSuccessfulLogout 
 {
@@ -30,6 +30,6 @@ class LogSuccessfulLogout
         $user = $event->user;
         if (is_null($user))
             return;
-        ActionLog::log(ActionLog::TYPE_USER_LOGOUT, json_encode(["name" => $user->name,  "email" => $user->email]), "", $user->id);
+        dispatch(new LogAction("USER_LOGOUT", json_encode(["name" => $user->name,  "email" => $user->email]), "", $user->id, Request()->ip()));
     }
 }
