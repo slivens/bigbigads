@@ -34,7 +34,7 @@
                         <div class="alert alert-warning" ng-if="data.ads.ads_info && data.ads.total_count != data.ads.wantedLength">
                             {{data.ads.wantedLength}} ads is wanted, but only find {{data.ads.total_count}}
                         </div>
-                        <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend" infinite-scroll-parent>
+                        <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
                             <div deckgrid source="data.ads.ads_info" class="deckgrid" cardTemplate="views/adsearch-card.html">
                             </div>
                             <div class="clearfix">
@@ -46,7 +46,6 @@
                         </div>
                         <div class="clearfix">
                         </div>
-                        <div class="clearfix"></div>
                     </uib-tab>
                     <uib-tab index="1" heading="Advertisers">
                         <div class="alert alert-info" ng-if="!User.can('advertiser_collect')">
