@@ -22,6 +22,7 @@ class AnonymousUser
     {
         $ip = $req->ip();
         $user = null; //Cache::get($ip);
+        //不需要统计匿名帐户的资源使用
         if (!is_null($user) && !is_null($user->date) && $user->date->isToday()) {
             //TODO:记录登陆动作
             Log::debug("$ip is still valid");
