@@ -71,7 +71,7 @@ class SearchController extends Controller
                     $params['search_result'] = 'cache_ads';
                 }          
             }
-            foreach($wheres as $key => $obj) {         
+            foreach($params['where'] as $key => $obj) {         
                     if ($obj['field'] == "duration_days" && !$user->can('duration_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
@@ -103,8 +103,13 @@ class SearchController extends Controller
                         if ($max->gt($freeEndDate)) {
                             $obj['max'] = $freeEndDate->format("Y-m-d");
                         }
-                    }          
+                    }
+                    if ($obj['field'] == "watermark_md5" && !$user->can('analysis_similar')) {
+                        $params['where'][$key]['field'] = "";
+                        $params['where'][$key]['value'] = "";
+                    }
             }
+            
         return $params;
     }
 
@@ -132,6 +137,10 @@ class SearchController extends Controller
      */
     protected function checkBeforeAdserSearch($user, $params)
     {
+        if(!$user->can('adser_search')){
+            throw new \Exception("no permission of adser_search", -4101);
+        }
+        
         return $params;
     }
 
@@ -139,10 +148,26 @@ class SearchController extends Controller
      * TODO:待补充和调用 
      */
     protected function checkAfterAdserSearch($user, $data)
-    {
+    {   
+        if(!$user->can('adser_search')){
+            $data['adser'] = null;
+            $date['count'] = 0;
+            $data['total_ads_count'] = 0;
+            $data['is_end'] = true;
+            $data['total_adser_count'] = 0;
+        }
         return $data;
     }
 
+    protected function checkAfterAdTrends($user, $data)
+    {   
+        if (!isset($data['info']))
+            return $data;
+        if (!$user->can('analysis_trend')){
+            $data['info'] = null;
+        }
+        return $data;
+    }
     public function search(Request $req, $action) {
         $json_data = json_encode($req->except(['action']));
         $remoteurl = "";
@@ -221,6 +246,11 @@ class SearchController extends Controller
         } else if ($action == "adserSearch") {
             //广告主分析
             try {
+                $json_data = json_encode($this->checkBeforeAdserSearch($user, $req->except(['action'])));
+            } catch(\Exception $e) {
+                return $this->responseError($e->getMessage(),$e->getCode());
+            }
+            try {
                 $this->updateUsage($req, "adser_search_times_perday", $json_data);
             } catch(\Exception $e) {
                 if ($e->getCode() == -1)
@@ -294,14 +324,22 @@ class SearchController extends Controller
                 //cache_ads接口返回时带有NUL不可见字符，会导致json解析错误
                 $result = trim($result);
                 $result = $this->checkAfterAdSearch($user, json_decode($result, true));
-                //var_dump($result);
             } catch (\Exception $e) {
                 return $this->responseError($e->getMessage(),$e->getCode());
             }
         } else if ($action == 'adserSearch') {
             //TODO
+            try {
+                $result = $this->checkAfterAdserSearch($user, json_decode($result, true));
+            } catch (\Exception $e) {
+                return $this->responseError($e->getMessage(),$e->getCode());
+            }
         } else if ($action == 'trends') {
-            //TODO
+            try {
+                $result = $this->checkAfterAdTrends($user, json_decode($result, true));
+            } catch (\Exception $e) {
+                return $this->responseError($e->getMessage(),$e->getCode());
+            }
         }
         return $result;
     }

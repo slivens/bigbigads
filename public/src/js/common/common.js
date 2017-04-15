@@ -430,15 +430,19 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('adserlink', ['$state', function($state) {
+    .directive('adserlink', ['$state','User', function($state, User) {
         return {
             link: function(scope, element, attrs) {
                 element.bind('click', function() {
-                    var url = "";
-                    var name = attrs.name.replace(/<[^>]+>/g,"");
-                    var username = attrs.username.replace(/<[^>]+>/g,"");
-                    url = $state.href('adser', {name:name, adser:username});
-                    window.open(url,'_blank');
+                    if(!User.login) {
+                        User.openSign();
+                    }else {
+                        var url = "";
+                        var name = attrs.name.replace(/<[^>]+>/g,"");
+                        var username = attrs.username.replace(/<[^>]+>/g,"");
+                        url = $state.href('adser', {name:name, adser:username});
+                        window.open(url,'_blank');
+                    }
                 });
             }
         };
@@ -660,15 +664,11 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             },
             isAdvanceFilterLimit:function(filter) {
                 if((User.info.user.role.name != 'Free') && (User.info.user.role.name != 'Standard')) {
-                    console.log(User.info.user.role.name != 'Free');
-                    console.log(User.info.user.role.name != 'Standard');
                     return true;
                 }
                 var isLimit = false;
                 var isDurationLimit = false;
                 var isEngagementsLimit = false;
-                console.log(filter.duration.from);
-                console.log(filter.seeTimes.from);
                 if((filter.duration.from !== 0) || (filter.duration.to !== 180)) isLimit = true;
                 if((filter.seeTimes.from !== 0) || (filter.seeTimes.to !== 180)) isLimit = true;
                 angular.forEach(filter.engagements, function(data) {
