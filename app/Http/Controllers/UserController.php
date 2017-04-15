@@ -112,7 +112,7 @@ class UserController extends Controller
         if (($user instanceof User) && $user->state == 1) {
             return view('auth.verify')->with('error', "You have verified, don't verify again!!!");
         }
-        Mail::to($user->email)->send(new RegisterVerify($user));//发送验证邮件
+        Mail::to($user->email)->queue(new RegisterVerify($user));//发送验证邮件
         return view('auth.verify')->with('info', "Your email {$request->email} has sent, please check your email. ");
     }
 }
