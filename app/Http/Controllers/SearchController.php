@@ -150,10 +150,11 @@ class SearchController extends Controller
     protected function checkAfterAdserSearch($user, $data)
     {   
         if(!$user->can('adser_search')){
-            $data['adser'] = [];
-            $date['count'] = [];
-            $data['total_ads_count'] = [];
-            $data['total_adser_count'] = [];
+            $data['adser'] = null;
+            $date['count'] = 0;
+            $data['total_ads_count'] = 0;
+            $data['is_end'] = true;
+            $data['total_adser_count'] = 0;
         }
         return $data;
     }
@@ -163,7 +164,7 @@ class SearchController extends Controller
         if (!isset($data['info']))
             return $data;
         if (!$user->can('analysis_trend')){
-            $data['info'] = [];
+            $data['info'] = null;
         }
         return $data;
     }
