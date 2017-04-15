@@ -241,6 +241,7 @@ class SearchController extends Controller
         } else {
             return response(["code"=>-1, "desc"=>"unsupported action"], 422);
         }
+        $t1 = microtime(true);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $remoteurl);
         /* curl_setopt($ch, CURLOPT_POST, TRUE); */
@@ -254,6 +255,12 @@ class SearchController extends Controller
         /* curl_setopt($ch, CURLOPT_TIMEOUT, 1); */ 
         $result = curl_exec($ch);
         curl_close($ch);
+        $t2 = microtime(true);
+        /* Log::debug("time cost:" . round($t2 - $t1, 3)); */
+        //执行时间超过0.5S的添加到日志中
+        if (($t2 - $t1) > 0.5) {
+            Log::warning("time cost:" . round($t2 - $t1, 3));
+        }
         if (Auth::check()) {
             //检查是否有该用户收藏
             for($i = 0; $i < 1; $i++) {//小技巧
