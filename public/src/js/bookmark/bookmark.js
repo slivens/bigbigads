@@ -133,13 +133,9 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
             //获取广告
             $scope.adSearcher = adSearcher;
             $scope.adSearcher.checkAndGetMore = function() {
-                if (!User.done) {
-                    adSearcher.getMore();
-                    return;
-                }
                 adSearcher.getMore();
             };
-            
+
             $scope.data.ads = {};
             if (wanted.length > 0) {
                 adSearcher.addFilter({
