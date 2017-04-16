@@ -1,5 +1,8 @@
 <?php
 
+use App\User;
+use App\Role;
+
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -8,6 +11,23 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @var string
      */
     protected $baseUrl = 'http://localhost';
+
+    public function fakeUser($roleName = 'Free')
+    {
+        $user = factory(App\User::class)->make(['email' => 'faker@bigbigads.com']);
+        if (!($user instanceof User)) {
+           $this->assertTrue(false);
+           return; 
+        }
+        $role = Role::where('name', $roleName)->first();
+        if (!($role instanceof Role)) {
+           $this->assertTrue(false);
+           return; 
+        }
+        $user->role_id = $role->id;
+        $user->initUsageByRole($user->role);
+        return $user;
+    }
 
     /**
      * Creates the application.

@@ -54,8 +54,8 @@ class UserController extends Controller
             if ($user['subscription_id'] != null) {
                 $user->load('subscription');//有订阅就把订阅信息也一起加载
             }
-            $res['permissions'] = $user->role->permissions->groupBy('key');
-            $res['groupPermissions'] = $user->role->permissions->groupBy('table_name');
+            $res['permissions'] = $user->getMergedPermissions()->groupBy('key');
+            $res['groupPermissions'] = $user->getMergedPermissions()->groupBy('table_name');
         } else {
             $user = AnonymousUser::user($req);
             $res['login'] = false;
