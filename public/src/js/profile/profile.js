@@ -38,17 +38,15 @@ app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope
         window.open("/pay?plan=" + id);
     };
     plans.isCurrentPlan = function(item) {
-        console.log(!User.user.subscription);//在这没有找到subscription这个属性，返回一定是false了
         /*if (!User.user.subscription)
             return false;*/
-        return User.user.role.plan == item.plan;
+        return User.user.role.display_name == item.name;
     };
 
     plans.annually = false;
 
     $scope.queryPromise = plans.get();
     $scope.queryPromise.then(function(items) {
-        // console.log(items);
         if(items.length > 0) {
             $scope.groupPermissions = items[items.length - 1].groupPermissions;
         }
