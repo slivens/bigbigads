@@ -98,8 +98,8 @@ class PlansSeeder extends Seeder
                 ],
                 [
                     "name" => "advanced_monthly",
-                    "display_name" => "Advanced Plan",
-                    "desc" => "Advanced Plan for one month",
+                    "display_name" => "Plus Plan",
+                    "desc" => "Plus Plan for one month",
                     "display_order" => 3, 
                     "type" => "REGULAR",
                     "frequency" => "MONTH",
@@ -111,8 +111,8 @@ class PlansSeeder extends Seeder
                 ],
                 [
                     "name" => "advanced",
-                    "display_name" => "Advanced Plan",
-                    "desc" => "Advanced Plan for one year",
+                    "display_name" => "advanced Plan",
+                    "desc" => "advanced Plan for one year",
                     "display_order" => 3, 
                     "type" => "REGULAR",
                     "frequency" => "YEAR",
@@ -124,8 +124,8 @@ class PlansSeeder extends Seeder
                 ],
                 [
                     "name" => "vip_monthly",
-                    "display_name" => "Vip Plan",
-                    "desc" => "VIP Plan for one month",
+                    "display_name" => "vip Plan",
+                    "desc" => "vip Plan for one month",
                     "display_order" => 4, 
                     "type" => "REGULAR",
                     "frequency" => "MONTH",
@@ -137,8 +137,8 @@ class PlansSeeder extends Seeder
                 ],
                 [
                     "name" => "vip",
-                    "display_name" => "VIP Plan",
-                    "desc" => "VIP Plan for one year",
+                    "display_name" => "vip Plan",
+                    "desc" => "vip Plan for one year",
                     "display_order" => 4, 
                     "type" => "REGULAR",
                     "frequency" => "YEAR",
@@ -147,7 +147,33 @@ class PlansSeeder extends Seeder
                     "amount" => 3588,
                     "currency" => "USD",
                     "role" => "Pro"
-                ]
+                ],
+                [
+                    "name" => "OuterTester_monthly",
+                    "display_name" => "OuterTester Plan",
+                    "desc" => "OuterTester  Plan for one month",
+                    "display_order" => 2, 
+                    "type" => "REGULAR",
+                    "frequency" => "MONTH",
+                    "frequency_interval" => 1,
+                    "cycles" => 0,
+                    "amount" => 99,
+                    "currency" => "USD",
+                    "role" => "OuterTester"
+                ],
+                [
+                    "name" => "OuterTester",
+                    "display_name" => "OuterTester Plan",
+                    "desc" => "OuterTester  Plan for one year",
+                    "display_order" => 2, 
+                    "type" => "REGULAR",
+                    "frequency" => "YEAR",
+                    "frequency_interval" => 1,
+                    "cycles" => 0,
+                    "amount" => 948,
+                    "currency" => "USD",
+                    "role" => "OuterTester"
+                ],
             ];
 
             //每次填充都会清空所有计划
@@ -163,7 +189,7 @@ class PlansSeeder extends Seeder
 
             //将计划绑定到对应的角色上，先清空再绑定
             Role::where('id', '>', 2)->update(['plan' => NULL]);
-            $roles = ["Free" => "free", "Standard" => "standard", "Advanced" => "advanced", "Pro" => "vip"];
+            $roles = ["Free" => "free", "Standard" => "standard", "Advanced" => "advanced", "Pro" => "vip", "OuterTester" => "OuterTester"];
             foreach ($roles as $key => $item) {
                 $role = Role::where('name', $key)->first();
                 $role->plan = $item;
