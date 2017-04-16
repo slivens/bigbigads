@@ -434,7 +434,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
         return {
             link: function(scope, element, attrs) {
                 element.bind('click', function() {
-                    if(!User.login) {
+                    if(!User.login){
                         User.openSign();
                     }else {
                         var url = "";
@@ -447,13 +447,18 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('canvaslink', ['$state', function($state) {
+    .directive('originlink', ['$state', function($state) {
         return {
             link: function(scope, element, attrs) {
-                element.bind('click', function() {
-                    var url = "https://facebook.com/"+attrs.id+"_"+attrs.eventid;
-                    window.open(url);
-                });
+                if(attrs.type == 4){
+                    element.attr("disabled", "disabled");
+                    element.css("cursor", "not-allowed");
+                }else{
+                    element.bind('click', function() {
+                        var url = "https://facebook.com/"+attrs.id+"_"+attrs.eventid;
+                        window.open(url);
+                    });
+                }
             }
         };
     }])
