@@ -5,7 +5,7 @@ namespace App\Listeners;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\ActionLog;
+use App\Jobs\LogAction;
 
 class LogSuccessfulLogin
 {
@@ -28,6 +28,6 @@ class LogSuccessfulLogin
     public function handle(Login $event)
     {
         $user = $event->user;
-        ActionLog::log(ActionLog::TYPE_USER_LOGIN, json_encode(["name" => $user->name, "email" => $user->email]));
+        dispatch(new LogAction("USER_LOGIN", json_encode(["name" => $user->name, "email" => $user->email]), "", $user->id, Request()->ip() ));
     }
 }

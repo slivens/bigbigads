@@ -67,9 +67,9 @@ class BookmarkItemController extends Controller
     public function update(Request $req, $id)
     {
         $bookmark = Bookmark::where("id", $id)->first();
-        if (!Auth::user()->can('update', $bookmark)) {
+        /*if (!Auth::user()->can('update', $bookmark)) {
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
-        }
+        }*/
         $update = false;
         foreach($req->all() as $key=>$value) {
             if (isset($bookmark[$key]) && $value != $bookmark->$key) {
@@ -88,9 +88,9 @@ class BookmarkItemController extends Controller
     {
         $class = $this->class;
         $item = $class::where("id", $id)->first();
-        if (!Auth::user()->can('delete', $item)) {
+        /*if (!Auth::user()->can('delete', $item)) {
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
-        }
+        } */
         $item->delete();
         return ["code"=>0, "desc"=>"Success"];
     }

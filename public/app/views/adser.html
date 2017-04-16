@@ -57,9 +57,10 @@
                     </div>
                 </form>
             </div>
-            <div class="xg-count-mt">
-                <span ng-if="adSearcher.ads.total_count!=0">About {{adSearcher.ads.total_count | adsCount}} results</span>
-                <span ng-if="adSearcher.ads.total_count==0">Your search did not match any results.</span>
+            <div class="xg-count-mt search-result">
+                <span ng-if="!adSearcher.ads.all_total_count && adSearcher.ads.total_count!=0">Found <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> Matching Ads </span>
+                <span ng-if="adSearcher.ads.all_total_count && adSearcher.ads.total_count != 0">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}} </span> Matching Ads/You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> results <a class="font-yellow-gold xg-upgrade-button" ui-sref="plans"> Upgrade Now</a></span>
+                <span ng-if="adSearcher.ads.total_count == 0">Your search did not match any results. </span>
             </div>
         </div>
         <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
@@ -111,7 +112,7 @@
             <div class="col-md-12 text-center xg-subscribe">
             </div>
         </div>
-        <div ng-if="adSearcher.ads.total_count==0">
+        <div ng-if="adSearcher.ads.total_count == 0">
             <div class="col-md-12 text-center xg-subscribe">
                 <a href="/product">Learn more about Bigbigads</a>
             </div>

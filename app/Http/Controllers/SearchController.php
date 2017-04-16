@@ -8,7 +8,7 @@ use App\Services\AnonymousUser;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use App\ActionLog;
+use App\Jobs\LogAction;
 use App\Role;
 use App\Plan;
 use Log;
@@ -45,7 +45,7 @@ class SearchController extends Controller
             if ($usage[2] >= intval($usage[1]))
                 throw new \Exception("you reached the limit", -2);
             $user->updateUsage($name, $usage[2] + 1, Carbon::now());
-            ActionLog::log($name, $params, "{$name}:"  . ($usage[2] + 1));
+            dispatch(new LogAction($name, $params, "{$name}:"  . ($usage[2] + 1), Auth::user()->id, $req->ip()));
             $user->setCache($name, $params);
             Log::debug("statics:" . $data);
         }
@@ -71,7 +71,7 @@ class SearchController extends Controller
                     $params['search_result'] = 'cache_ads';
                 }          
             }
-            foreach($wheres as $key => $obj) {         
+            foreach($params['where'] as $key => $obj) {         
                     if ($obj['field'] == "duration_days" && !$user->can('duration_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
@@ -103,8 +103,13 @@ class SearchController extends Controller
                         if ($max->gt($freeEndDate)) {
                             $obj['max'] = $freeEndDate->format("Y-m-d");
                         }
-                    }          
+                    }
+                    if ($obj['field'] == "watermark_md5" && !$user->can('analysis_similar')) {
+                        $params['where'][$key]['field'] = "";
+                        $params['where'][$key]['value'] = "";
+                    }
             }
+            
         return $params;
     }
 
@@ -132,6 +137,10 @@ class SearchController extends Controller
      */
     protected function checkBeforeAdserSearch($user, $params)
     {
+        if(!$user->can('adser_search')){
+            throw new \Exception("no permission of adser_search", -4101);
+        }
+        
         return $params;
     }
 
@@ -139,10 +148,26 @@ class SearchController extends Controller
      * TODO:待补充和调用 
      */
     protected function checkAfterAdserSearch($user, $data)
-    {
+    {   
+        if(!$user->can('adser_search')){
+            $data['adser'] = null;
+            $date['count'] = 0;
+            $data['total_ads_count'] = 0;
+            $data['is_end'] = true;
+            $data['total_adser_count'] = 0;
+        }
         return $data;
     }
 
+    protected function checkAfterAdTrends($user, $data)
+    {   
+        if (!isset($data['info']))
+            return $data;
+        if (!$user->can('analysis_trend')){
+            $data['info'] = null;
+        }
+        return $data;
+    }
     public function search(Request $req, $action) {
         $json_data = json_encode($req->except(['action']));
         $remoteurl = "";
@@ -193,7 +218,7 @@ class SearchController extends Controller
                             return response(["code"=>-4002, "desc"=> "you reached search times today, default result will show"], 422);
                         Log::debug("adsearch " . $json_data . json_encode($usage));
                         $user->updateUsage('search_times_perday', $usage[2] + 1, Carbon::now());
-                        ActionLog::log("search_times_perday", $json_data, "search_times_perday:"  . ($usage[2] + 1));
+                        dispatch(new LogAction("search_times_perday", $json_data, "search_times_perday:"  . ($usage[2] + 1), Auth::user()->id, $req->ip()));
                     }
                     $user->setCache('adsearch.params', $json_data);
                 }
@@ -221,6 +246,11 @@ class SearchController extends Controller
         } else if ($action == "adserSearch") {
             //广告主分析
             try {
+                $json_data = json_encode($this->checkBeforeAdserSearch($user, $req->except(['action'])));
+            } catch(\Exception $e) {
+                return $this->responseError($e->getMessage(),$e->getCode());
+            }
+            try {
                 $this->updateUsage($req, "adser_search_times_perday", $json_data);
             } catch(\Exception $e) {
                 if ($e->getCode() == -1)
@@ -241,6 +271,7 @@ class SearchController extends Controller
         } else {
             return response(["code"=>-1, "desc"=>"unsupported action"], 422);
         }
+        $t1 = microtime(true);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $remoteurl);
         /* curl_setopt($ch, CURLOPT_POST, TRUE); */
@@ -254,10 +285,16 @@ class SearchController extends Controller
         /* curl_setopt($ch, CURLOPT_TIMEOUT, 1); */ 
         $result = curl_exec($ch);
         curl_close($ch);
+        $t2 = microtime(true);
+        /* Log::debug("time cost:" . round($t2 - $t1, 3)); */
+        //执行时间超过0.5S的添加到日志中
+        if (($t2 - $t1) > 0.5) {
+            Log::warning("time cost:" . round($t2 - $t1, 3));
+        }
         if (Auth::check()) {
             //检查是否有该用户收藏
             for($i = 0; $i < 1; $i++) {//小技巧
-                if ($action == 'adsearch' && $act['action'] == 'search') {
+                if ($action == 'adsearch') {
                     $json = json_decode($result, true);
                     if (!isset($json['ads_info'])) 
                         break;
@@ -287,14 +324,22 @@ class SearchController extends Controller
                 //cache_ads接口返回时带有NUL不可见字符，会导致json解析错误
                 $result = trim($result);
                 $result = $this->checkAfterAdSearch($user, json_decode($result, true));
-                //var_dump($result);
             } catch (\Exception $e) {
                 return $this->responseError($e->getMessage(),$e->getCode());
             }
         } else if ($action == 'adserSearch') {
             //TODO
+            try {
+                $result = $this->checkAfterAdserSearch($user, json_decode($result, true));
+            } catch (\Exception $e) {
+                return $this->responseError($e->getMessage(),$e->getCode());
+            }
         } else if ($action == 'trends') {
-            //TODO
+            try {
+                $result = $this->checkAfterAdTrends($user, json_decode($result, true));
+            } catch (\Exception $e) {
+                return $this->responseError($e->getMessage(),$e->getCode());
+            }
         }
         return $result;
     }
