@@ -269,14 +269,14 @@ var Login = function() {
             handleForgetPassword();
             handleRegister();
 
-            switch (window.location.hash) {
-                case '#forget':
+            switch (window.location.pathname) {
+                case '/forget':
                     jQuery('.login-form').hide();
                     jQuery('.forget-form').show();
                     break;
-                case '#register':
-                jQuery('.login-form').hide();
-                jQuery('.register-form').show();
+                case '/register':
+                    jQuery('.login-form').hide();
+                    jQuery('.register-form').show();
                 break;
             }
         }

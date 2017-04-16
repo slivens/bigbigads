@@ -28,6 +28,9 @@ Route::get('/', function (Request $request) {
 });
 
 Auth::routes();
+Route::get('/forget', function() {
+    return view('auth.login');
+});
 Route::get('/home', function (Request $request) {
     $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
     return view('index')->with('recents', $recents);
