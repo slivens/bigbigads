@@ -1330,7 +1330,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
         openSign:function() {
             return $uibModal.open({
                 templateUrl: 'views/sign.html',
-                size: 'md',
+                size: '45',
                 animation: true,
             });
         },

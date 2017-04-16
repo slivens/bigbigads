@@ -98,9 +98,12 @@ body {
                 width: 330px;
                 height: 50px;
                 margin-top: 2px;
-            .logo-default{margin: 0px 0 0 16px;}
+            .logo-default{
+                margin: 0px 0 0 16px;
+            }
         }
-        .page-header-menu{margin: 0;
+        .page-header-menu{
+            margin: 0;
             .hor-menu{
                 .nav{
                     li{margin:0px;
@@ -1044,17 +1047,19 @@ body.modal-open{
 }
 
 //注册弹框样式
-.modal-open{
-    .modal-dialog{width: 45%;}
-    .register-form {padding: 10px 0px;}
-    .img-adscard{
+//自定义自己需要的宽度
+.modal-45{width: 45%;}
+.capacity-div{
+    .register-form {
+        padding: 10px 0px;}
+        .img-adscard{
         margin-top: 40px;
         box-shadow: 0px 1px 8px 2px rgba(0, 0, 0, 0.5);
-    }
-    .xg-upgrade-banner-foot{
-        p{margin-top:5px;
-            margin-bottom: 5px;}
-    }
+        }
+}
+.xg-upgrade-banner-foot{
+    p{margin-top:5px;
+        margin-bottom: 5px;}
 }
 
 //广告主分析样式
@@ -1215,7 +1220,9 @@ color: $black_placeholder !important;
 //注册模块
 .register-form{
     padding:10px 40px;
-    .form-title{font-weight: 600;}
+    .form-title{
+        font-weight: 600;
+    }
     .form-group{
         .fa {
             line-height: 28px;

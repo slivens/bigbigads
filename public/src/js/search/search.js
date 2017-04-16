@@ -1,8 +1,8 @@
 if (!app)
 	var app = angular.module('MetronicApp');
 
-app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util',
-	function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q, Util) {
+app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util','$filter',
+	function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q, Util,$filter) {
 		//opt = {searchType:'adser', url:'/forward/adserSearch'}
 		var searcher = function(opt) {
 			var vm = this;
@@ -149,9 +149,9 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 						angular.forEach(res.data.ads_info, function(value, key) {
 							if (value.type == vm.ADS_CONT_TYPE.CAROUSEL) {
 								value.watermark = JSON.parse(value.watermark);
-								value.link = JSON.parse(value.link);
-								value.buttonlink = JSON.parse(value.buttonlink);
-								value.buttondesc = JSON.parse(value.buttondesc);
+								value.link = $filter('unique')(JSON.parse(value.link));
+								value.buttonlink = $filter('unique')(JSON.parse(value.buttonlink));
+								value.buttondesc = $filter('unique')(JSON.parse(value.buttondesc));
 								value.name = JSON.parse(value.name);
 								value.description = JSON.parse(value.description);
 								value.local_picture = JSON.parse(value.local_picture);
