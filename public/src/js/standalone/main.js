@@ -702,7 +702,7 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
     })
     .filter('mediaType', function() {
         return function(type) {
-            var showType='';
+            var showType = '';
             switch(type){
                 case 'timeline': {showType = 'Newsfeed';break;}
                 case 'rightcolumn': {showType = 'Right Column';break;}
@@ -714,13 +714,22 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
     })
     .filter('adsCount', function() {
         return function(adsNumber) {
-            if(adsNumber===0) return adsNumber;
+            if(adsNumber === 0) return adsNumber;
             if(!adsNumber) return ;
             var countString = '';
             var re = /(?=(?!\b)(\d{3})+$)/g;
             adsNumber = String(adsNumber);
             countString = adsNumber.replace(re, ',');
             return countString;
+        };
+    })
+    .filter('noPrice', function() {
+        return function(price) {
+            if (price === 0) return price;
+            if (!price) return ;
+            if(price >= 299) return '???';
+            //不使用 === 判断是因为年月份计费时有小数
+            return price;
         };
     });
 /* Setup App Main Controller */
