@@ -289,7 +289,7 @@ class SearchController extends Controller
         /* Log::debug("time cost:" . round($t2 - $t1, 3)); */
         //执行时间超过0.5S的添加到日志中
         if (($t2 - $t1) > 0.5) {
-            Log::warning("time cost:" . round($t2 - $t1, 3));
+            Log::warning("<{$user->name}, {$user->email}> params:$json_data, time cost:" . round($t2 - $t1, 3));
         }
         if (Auth::check()) {
             //检查是否有该用户收藏
