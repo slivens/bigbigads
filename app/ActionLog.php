@@ -17,19 +17,19 @@ class ActionLog extends Model
     /* const TYPE_ADSER_SEARCH =  "ADSER_SEARCH"; */
     //
     //
-    public static function log($type, $param, $remark = "", $uid = -1, $ip = null) 
-    {
-        if ($ip == null) 
-            $ip = Request()->ip();
-        $action = new ActionLog();
-        if ($uid < 0 && Auth::user()) {
-            $uid = Auth::user()->id;
-        }
-        $action->user_id = $uid;
-        $action->type = $type;
-        $action->ip = $ip;
-        $action->param = $param;
-        $action->remark = $remark;
-        $action->save();
-    }
+    /* public static function log($type, $param, $remark, $uid, $ip) */ 
+    /* { */
+    /*     /1* if ($ip == null) *1/ */ 
+    /*     /1*     $ip = Request()->ip(); *1/ */
+    /*     $action = new ActionLog(); */
+    /*     /1* if ($uid < 0 && Auth::user()) { *1/ */
+    /*     /1*     $uid = Auth::user()->id; *1/ */
+    /*     /1* } *1/ */
+    /*     $action->user_id = $uid; */
+    /*     $action->type = $type; */
+    /*     $action->ip = $ip; */
+    /*     $action->param = $param; */
+    /*     $action->remark = $remark; */
+    /*     $action->save(); */
+    /* } */
 }

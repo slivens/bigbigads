@@ -43,6 +43,14 @@ body {
 .response-width {
     width:100%;
 }
+
+.half-opacity {   
+	filter:alpha(opacity=50); /* IE */  
+	-moz-opacity:0.5; /* 老版Mozilla */  
+	-khtml-opacity:0.5; /* 老版Safari */  
+	opacity: 0.5; /* 支持opacity的浏览器*/  
+}
+
 .navbar-fixed-top  {
     z-index:500 !important;
 }
@@ -1178,3 +1186,6 @@ color: $black_placeholder !important;
     font-weight: 400;
     color: #555;
 }
+
+
+
