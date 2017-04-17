@@ -14,7 +14,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     public function fakeUser($roleName = 'Free')
     {
-        $user = factory(App\User::class)->make(['email' => 'faker@bigbigads.com']);
+        $user = factory(App\User::class)->create(['email' => 'faker@bigbigads.com']);
         if (!($user instanceof User)) {
            $this->assertTrue(false);
            return; 
@@ -24,7 +24,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
            $this->assertTrue(false);
            return; 
         }
-        $user->role_id = $role->id;
+        $user->role()->associate($role);
         $user->initUsageByRole($user->role);
         return $user;
     }
