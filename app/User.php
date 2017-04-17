@@ -205,11 +205,20 @@ class User extends Authenticatable
 
     public function userCan($key)
     {
-        $arr = $this->permissions()->wherePivot('expired', null)->orWherePivot('expired', '>', Carbon::now())->get()->pluck('key')->toArray();
+        /* $arr = $this->permissions()->wherePivot('expired', null)->orWherePivot('expired', '>', Carbon::now())->get()->pluck('key')->toArray(); */
 
-        if (in_array($key, $arr))
-            return true;
-        return false;
+        /* if (in_array($key, $arr)) */
+        /*     return true; */
+
+        $item = $this->permissions()->where('key', $key)->first();//()->wherePivot('expired', null)->orWherePivot('expired', '>', Carbon::now())->where('key', $key)->count();
+        if (!($item instanceof Permission)) {
+            return false;
+        }
+        /* echo(json_encode($item)); */
+        if (!($item->pivot['expired'] == null || (new Carbon($item->pivot['expired']))->gt(Carbon::now()))) {
+            return false;
+        }
+        return true;
     }
 
     public function getPolicy($key)
@@ -237,7 +246,7 @@ class User extends Authenticatable
      */
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class);
+        return $this->belongsToMany(Permission::class)->withPivot(['expired']);
     }
 
     /**
