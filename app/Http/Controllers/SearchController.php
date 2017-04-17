@@ -277,19 +277,26 @@ class SearchController extends Controller
         /* curl_setopt($ch, CURLOPT_POST, TRUE); */
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_HEADER, 1);//获取头信息
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
             'Content-Length: ' . strlen($json_data))
         );
         /* curl_setopt($ch, CURLOPT_TIMEOUT, 1); */ 
-        $result = curl_exec($ch);
+        $response = curl_exec($ch);
+		if (curl_getinfo($ch, CURLINFO_HTTP_CODE) == '200') {
+			$headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+			$header = substr($response, 0, $headerSize);
+			$result = substr($response, $headerSize);
+		}
         curl_close($ch);
         $t2 = microtime(true);
         /* Log::debug("time cost:" . round($t2 - $t1, 3)); */
         //执行时间超过0.5S的添加到日志中
         if (($t2 - $t1) > 0.5) {
             Log::warning("<{$user->name}, {$user->email}> params:$json_data, time cost:" . round($t2 - $t1, 3));
+            Log::info($header);
         }
         if (Auth::check()) {
             //检查是否有该用户收藏
