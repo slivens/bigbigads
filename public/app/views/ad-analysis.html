@@ -41,7 +41,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <!-- BEGIN: ACCORDION DEMO -->
-                <div class="portlet light bordered">
+                <div class="portlet light bordered analysis-div">
                     <div class="portlet-title">
                         <div class="caption font-yellow-gold">
                             <i class="icon-badge font-green-sharp"></i>
@@ -56,7 +56,7 @@
                     </div>
                     <div class="portlet-body">
 
-                        <div class="alert alert-warning ng-cloak" ng-show="card.end">ID {{id}} Not found!</div>
+                        <div class="ng-cloak content-loading text-center" ng-show="card.end"><img src="../assets/global/img/ajax-loading.gif"></div>
                         <div class="row" ng-show="!card.end">
                             <div class="col-xs-12" id="ad">
                                 <!--begin detal-->
@@ -136,25 +136,49 @@
                                                 </div>
                                                 <!-- end date, duration, viewcount -->
                                                 <!--begin country-->
-                                                <div class="overview-card clearfix ">
+                                                <div class="overview-card clearfix " ng-if="card.country">
                                                         <h4>
                                                             <i class="fa glyphicon glyphicon-flag font-yellow-gold fa-fw">
                                                             </i>
-                                                            <span class="overviewtitle">country:</span>
+                                                            <span class="overviewtitle">Country or region:</span>
                                                         </h4>
-                                                        <p class="font-yellow-gold overview-data">{{ad.country}}</p> 
+                                                        
+                                                            <p  class="font-yellow-gold overview-data">
+                                                               <span ng-repeat="item in card.country.split(',')  track by $index" class="inline-block">
+                                                                    {{item}}
+                                                                    <span ng-if="$index<(card.country.split(',')).length-1">
+                                                                        ,&nbsp;&nbsp;
+                                                                    </span>
+                                                                </span> 
+                                                            </p> 
                                                 </div>
                                                 <!--end country-->
                                                 <!--begin langaue-->
                                                 <div class="overview-card clearfix table-hover">
                                                         <h4>
-                                                            <i class="fa glyphicon glyphicon-font font-yellow-gold fa-fw">
+                                                            <i class="fa fa-language font-yellow-gold fa-fw">
                                                             </i>
                                                             <span class="overviewtitle">language:</span>
                                                         </h4>
-                                                        <p class="font-yellow-gold overview-data">{{ad.ad_lang}}</p> 
+                                                        <p class="font-yellow-gold overview-data">{{card.ad_lang}}</p> 
                                                 </div>
                                                 <!--end language-->
+
+                                                <!--begin ads type-->
+                                                <div class="overview-card clearfix table-hover">
+                                                        <h4>
+                                                            <i class="fa fa-picture-o font-yellow-gold fa-fw">
+                                                            </i>
+                                                            <span class="overviewtitle">ad type:</span>
+                                                        </h4>
+                                                        <p class="font-yellow-gold overview-data">
+                                                            <span ng-if="card.type == 'SingleImage'">Image</span>
+                                                            <span ng-if="card.type == 'SingleVideo'">Video</span>
+                                                            <span ng-if="card.type == 'Canvas'">Canvas</span>
+                                                            <span ng-if="card.type == 'Carousel'">Carousel</span>
+                                                        </p> 
+                                                </div>
+                                                <!--end ads type-->
                                                 <!--begin position-->
                                                 <div class="overview-card clearfix ">
                                                     <h4>
@@ -163,16 +187,16 @@
                                                         <span class="overviewtitle">ad position:</span>
                                                     </h4>
                                                     <p class="font-yellow-gold overview-data">
-                                                        <span ng-if="card.show_way=='1'">
+                                                        <span ng-if="card.show_way == '1'">
                                                             News Feed
                                                         </span>
-                                                        <span ng-if="card.show_way=='2'">
+                                                        <span ng-if="card.show_way == '2'">
                                                             Mobile
                                                         </span>
-                                                        <span ng-if="card.show_way=='3'">
+                                                        <span ng-if="card.show_way == '3'">
                                                             News Feed&nbsp;<span class="overviewtitle">&amp;</span>&nbsp;Mobile
                                                         </span>
-                                                        <span ng-if="card.show_way=='4'">
+                                                        <span ng-if="card.show_way == '4'">
                                                             Right Column
                                                         </span>
                                                     </p> 
@@ -187,7 +211,7 @@
                                                         </h4>
                                                        
                                                         <p ng-if="Util.isArray(card.buttondesc)" class="viewbutton overview-data">
-                                                            <a ng-repeat="item in (card.buttondesc|unique) track by $index" ng-if="item"  class="xg-a-likepage xg-label ">{{item}}</a>
+                                                            <a ng-repeat="item in card.buttondesc track by $index" ng-if="item"  class="xg-a-likepage xg-label ">{{item}}</a>
                                                             
                                                         </p>
                                                         <p ng-if="!Util.isArray(card.buttondesc)" class="viewbutton overview-data">
@@ -253,7 +277,7 @@
                                             <h4 class="landpage-title">link</h4>
                                             <div ng-if="card.link">       
                                                 <table ng-if="Util.isArray(card.link)" class="table table-hover">
-                                                    <tr ng-repeat="item in (card.link|unique) track by $index">
+                                                    <tr ng-repeat="item in card.link track by $index">
                                                         <td ng-if="item"> 
                                                             <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                             <span ng-show="card.snapshot">
@@ -276,7 +300,7 @@
                                             <h4 class="landpage-title">buttonlink</h4>
                                             <div ng-if="card.buttonlink">
                                                 <table ng-if="Util.isArray(card.buttonlink)" class="table table-hover">
-                                                    <tr ng-repeat="item in (card.buttonlink|unique) track by $index" ng-if="item">
+                                                    <tr ng-repeat="item in card.buttonlink track by $index" ng-if="item">
                                                         <td >
                                                             <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                         </td>
@@ -292,14 +316,14 @@
                                             </div>   
                                             <h4 class="landpage-title">description</h4>
                                             <div ng-if="card.dest_site">
-                                                <table ng-if="Util.isArray(crad.dest_site)" class="table table-hover">
-                                                    <tr ng-repeat="item in (card.dest_site|unique) track by $index">
+                                                <table ng-if="Util.isArray(card.dest_site)" class="table table-hover">
+                                                    <tr ng-repeat="item in card.dest_site track by $index">
                                                         <td ng-if="item">
                                                             <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <table ng-if="!Util.isArray(crad.dest_site)" class="table table-hover">
+                                                <table ng-if="!Util.isArray(card.dest_site)" class="table table-hover">
                                                     <tr>
                                                         <td>
                                                             <a ng-href="{{card.dest_site}}" target="_blank" class="text-nowrap ">{{card.dest_site | limitTo:80}}...</a>

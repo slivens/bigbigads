@@ -46,6 +46,7 @@ var Login = function() {
             },
 
             submitHandler: function(form) {
+                 $("#submit-background").removeClass("hidden");
                 form.submit(); // form validation success, call ajax form submit
             }
         });
@@ -53,6 +54,7 @@ var Login = function() {
         $('.login-form input').keypress(function(e) {
             if (e.which == 13) {
                 if ($('.login-form').validate().form()) {
+                     $("#submit-background").removeClass("hidden");
                     $('.login-form').submit(); //form validation success, call ajax form submit
                 }
                 return false;
@@ -98,6 +100,7 @@ var Login = function() {
             },
 
             submitHandler: function(form) {
+                 $("#submit-background").removeClass("hidden");
                 form.submit();
             }
         });
@@ -122,8 +125,10 @@ var Login = function() {
             jQuery('.forget-form').hide();
             window.location.hash = "";
         });
+      
 
     }
+
 
     var handleRegister = function() {
 
@@ -223,13 +228,20 @@ var Login = function() {
             },
 
             submitHandler: function(form) {
-                form[0].submit();
+                $("#submit-background").removeClass("hidden");
+                //这个会报错，去掉[0],对功能不影响
+                //form[0].submit();
+                form.submit();
             }
         });
-
+        //自动填充用户名，用户名为邮箱前缀
+        $("#register-email").keyup(function(e){
+            $("#register-username").val($(this).val().split('@')[0]);
+        })
         $('.register-form input').keypress(function(e) {
             if (e.which == 13) {
                 if ($('.register-form').validate().form()) {
+                    $("#submit-background").removeClass("hidden");
                     $('.register-form').submit();
                 }
                 return false;

@@ -72,8 +72,10 @@
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
 				<span class="sr-only">Loading...</span>
 			</div>
+
             <div ng-if="!adSearcher.isNoResult && adSearcher.isend" ng-include="'adser-limited-banner.html'" ng-class='{"xg-limited-banner-mt6":adSearcher.isNoResult}'></div>
             <div ng-if="adSearcher.isNoResult" class="text-center col-md-12" >
+
                 <hr style="border-top:1px solid #dbdee6">
                 <div>
                    <img src="/assets/global/img/the_end.png">

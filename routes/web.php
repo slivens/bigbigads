@@ -61,7 +61,12 @@ Route::get('/pricing', function () {
 Route::get('/about', function () {
     return view('about');
 });
-
+Route::get('/terms_service',function(){
+    return view('auth/terms_service');
+});
+Route::get('/privacy_policy',function(){
+    return view('auth/privacy_policy');
+});
 
 
 Route::group(['prefix' => 'admin'], function () {

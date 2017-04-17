@@ -9,10 +9,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Bigbigads') }}</title>
-
+    <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen">
     <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap.css">
+    <link href="/dist/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css">
+    <link rel="stylesheet" type="text/css" href="/assets/global/plugins/font-awesome/css/font-awesome.min.css">
     <link href="/css/app.css" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="/static/custom.css">
+    <link rel="stylesheet" type="text/css" href="/static/demo.css">
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
@@ -36,7 +40,8 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        <!-- {{ config('app.name', 'Laravel') }} -->
+                        <img src="/assets/global/img/logo2.png" alt="">
                     </a>
                 </div>
 
@@ -50,8 +55,8 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
+                            <li><a href="{{ url('/login') }} " class="btn btn-empty w100">Login</a></li>
+                            <li><a href="{{ url('/register') }}" class="btn head-btn w100">Sign Up</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

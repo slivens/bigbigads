@@ -93,18 +93,25 @@ body {
 /*头部页眉*/
 .page-header{
     .page-header-top {
-        .page-logo {width: 330px;
-            .logo-default{margin: 15px 0 0 16px;}
+        height: 50px;
+        .page-logo {
+                width: 330px;
+                height: 50px;
+                margin-top: 2px;
+            .logo-default{
+                margin: 0px 0 0 16px;
+            }
         }
-        .page-header-menu{margin: 0;
+        .page-header-menu{
+            margin: 0;
             .hor-menu{
                 .nav{
                     li{margin:0px;
                         a{
                             display: inline-block;
                             padding: 0px 10px;
-                            height: 75px;
-                            line-height: 75px;
+                            height: 52px;
+                            line-height: 50px;
                             border-radius: 0px;
                             color:#555;
                             font-size: 1.6rem;
@@ -119,20 +126,31 @@ body {
                         }
 
                     }
-                    li:hover{a{color:#ea7e00 !important;
-                        background:none !important;
-                        i{color:#ea7e00;
+                    li:hover{
+                        a{
+                            color:#ea7e00 !important;
+                            background:none !important;
+                            i{color:#ea7e00;}
                         }
+                    }
+                    li.active,li.active:hover{
+                    a{
+                        background: none !important;
+                        border-bottom: 3px solid;
+                        cursor:default;
+                        color: #ea7e00;
+                    }
                     }
                 }
-                    li.active,li.active:hover{
-                        a{
-                            background: none !important;
-                            border-bottom: 3px solid;
-                            cursor:default;
-                            color: #ea7e00;
-                        }
-                    }
+
+            }
+        }
+        .top-menu{
+            margin-top:10px;
+            .navbar-nav{
+                li.dropdown{height: auto;
+                    .dropdown-toggle{padding: 0px;}
+                    .dropdown-menu-default{margin-top: 12px;}
                 }
             }
         }
@@ -298,7 +316,6 @@ body {
 .portlet-body{
     .input-group-addon{
         i{color: #ea7e00;}
-        border-right:1px solid #ccc;
     }
 }
 /*广告主卡*/
@@ -965,7 +982,7 @@ body.modal-open{
     padding: 4% 8% 2% 7%;
     background-color: rgba(255, 255, 255, 0.8);
     border-top: 3px dashed #3B3B3C;
-    margin: -76px 0 0 -3px !important;
+    //margin: -76px 0 0 -3px !important;
     z-index: 20;
     p {
         font-size: 30px;
@@ -1000,8 +1017,8 @@ body.modal-open{
         }
     }
     .xg-upgrade-banner-body {
-        max-height: 320px;
-        padding: 20px;
+       // max-height: 320px;
+        padding: 20px 40px;
         h5 {
             color: #242424 !important;
             font-weight: normal !important;
@@ -1029,6 +1046,33 @@ body.modal-open{
     font-weight: bold !important;
 }
 
+//注册弹框样式
+//自定义自己需要的宽度
+.modal-45{width: 45%;}
+.capacity-div{
+    .register-form {
+        padding: 10px 0px;}
+        .img-adscard{
+            width: 300px;
+            padding: 15px 20px;
+            margin: 30px auto;
+            box-shadow: 0px 1px 8px 2px rgba(0, 0, 0, 0.5);
+            .carousel-indicators{
+                li{
+                    border-color:#eb6130;
+                }
+                .active{
+                    background-color: #eb7e00;
+                }
+                
+            }
+        }
+}
+.xg-upgrade-banner-foot{
+    p{margin-top:5px;
+        margin-bottom: 5px;}
+}
+
 //广告主分析样式
 .adser-analysis-sidebar {
     padding-top:20px;
@@ -1052,6 +1096,8 @@ body.modal-open{
     .content{
         padding:20px;
         margin-left:$adser-analysis-sidebar-width !important;
+        .analysis-div{min-height: 450px;}
+        .content-loading{margin-top: 100px;}
     }
 }
 //placeholder颜色大小字体
@@ -1121,7 +1167,7 @@ color: $black_placeholder !important;
         }
         span.select2,.select2-selection{
             border-radius: 0 4px 4px 0;
-            border-left:0px;
+            // border-left:0px;
         }
         span.select2-container{
             width: 100% !important;
@@ -1131,7 +1177,7 @@ color: $black_placeholder !important;
             color: #000;
         }
         .has_left_icon{
-            border-left:0px;
+            // border-left:0px;
         }
     }
     .apply-button{
@@ -1182,6 +1228,36 @@ color: $black_placeholder !important;
     font-weight: 400;
     color: #555;
 }
+//注册模块
+.register-form{
+    padding:10px 40px;
+    .form-title{
+        font-weight: 600;
+    }
+    .form-group{
+        .fa {
+            line-height: 28px;
+        }
+        .form-control {
+            height: 50px;
+            border-left: 2px solid #eb6130;
+        }
+        .mt-checkbox{margin-bottom: 0px;}
+    }
+    .button-div{
+        border-top:1px solid #eee;
+        button{
+            height: 50px;width: 100%;
+            background: #eb6130;
+            border: 1px solid transparent;
+            font-size: 16px !important;
 
+            color: #fff;
+        }
+    }
+    p{
+        font-size:14px;
+        font-weight:normal;
+    }
 
-
+}
