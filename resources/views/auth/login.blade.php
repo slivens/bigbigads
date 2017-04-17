@@ -259,8 +259,8 @@
                 <div class="form-group">
                     <label class="mt-checkbox mt-checkbox-outline">
                         <input type="checkbox" name="tnc" checked/> I agree to the
-                        <a href="{{url('/terms_service')}}">Terms of Service </a> &
-                        <a href="{{url('/privacy_policy')}}">Privacy Policy </a>
+                        <a href="{{url('/terms_service')}}" target="_blank">Terms of Service </a> &
+                        <a href="{{url('/privacy_policy')}}" target="_blank">Privacy Policy </a>
                         <span></span>
                     </label>
                     <div id="register_tnc_error"> </div>

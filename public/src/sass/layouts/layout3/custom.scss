@@ -1053,8 +1053,19 @@ body.modal-open{
     .register-form {
         padding: 10px 0px;}
         .img-adscard{
-        margin-top: 40px;
-        box-shadow: 0px 1px 8px 2px rgba(0, 0, 0, 0.5);
+            width: 300px;
+            padding: 15px 20px;
+            margin: 30px auto;
+            box-shadow: 0px 1px 8px 2px rgba(0, 0, 0, 0.5);
+            .carousel-indicators{
+                li{
+                    border-color:#eb6130;
+                }
+                .active{
+                    background-color: #eb7e00;
+                }
+                
+            }
         }
 }
 .xg-upgrade-banner-foot{
@@ -1239,13 +1250,13 @@ color: $black_placeholder !important;
             height: 50px;width: 100%;
             background: #eb6130;
             border: 1px solid transparent;
-            font-size: 1.6rem !important;
+            font-size: 16px !important;
 
             color: #fff;
         }
     }
     p{
-        font-size:1.4rem;
+        font-size:14px;
         font-weight:normal;
     }
 
