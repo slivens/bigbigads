@@ -7,10 +7,31 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use TCG\Voyager\Traits\VoyagerUser;
 use Laravel\Cashier\Billable;
 use Illuminate\Support\Facades\Cache;
+use TCG\Voyager\Models\Permission;
+use Carbon\Carbon;
+use App\Policy;
 
 class User extends Authenticatable
 {
     use Notifiable, Billable;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'email', 'password',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     public function bookmarks()
     {
@@ -64,23 +85,6 @@ class User extends Authenticatable
         return in_array($name, $this->role->permissions->pluck('key')->toArray());
     }
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
 
     public function subscription()
     {
@@ -95,6 +99,9 @@ class User extends Authenticatable
         $items = $this->role->groupedPolicies();
         $value = json_decode($value, true);
         foreach ($items as $key => $item) {
+            //用户权限的默认值不允许重写
+            if ($this->userCan($key))
+                continue;
             $value[$key][0] = $item[0];
             $value[$key][1] = $item[1];
         }
@@ -118,18 +125,38 @@ class User extends Authenticatable
 
     public function getUsage($key)
     {
-        $items = $this->role->groupedPolicies();
-        if (!array_key_exists($key, $items)) {
-            return null;
-        }
-        //没有初始化则初始化，获取usage时都会先初始化，切换角色也重新初始化，一般不会发生这种事
+        //没有初始化则从根据角色初始化，获取usage时都会先初始化，切换角色也重新初始化，一般不会发生这种事
         if (!array_key_exists($key, $this->usage)) {
+            $items = $this->role->groupedPolicies();
+            if (!array_key_exists($key, $items)) {
+                return null;
+            }
             $item = $items[$key];
             $item[2] = 0;
         } else {
             $item = $this->usage[$key];
         }
         return $item;
+    }
+
+    /**
+     * 添加用户独有的策略
+     * @remark 添加策略不检查权限，但是在使用上必须检查权限
+     */
+    public function addUserUsage($key, $defaultValue, $used = 0, $extra = null)
+    {
+        $policy = Policy::where('key', $key)->first();
+        if (!($policy instanceof Policy)) {
+            return false;
+        }
+        $usage = $this->usage;
+        $usage[$key] = [$policy->type, $defaultValue, $used];
+        if ($extra) {
+            $usage[$key][3] = $extra;
+        }
+        $this->usage = $usage;
+        $this->save();
+        return true;
     }
 
     public function updateUsage($key, $used, $extra)
@@ -168,9 +195,76 @@ class User extends Authenticatable
 
     public function can($key, $arguments = [])
     {
+        //先检查角色
         $count = $this->role->permissions()->where('key', $key)->count();
         if ($count > 0)
             return true;
+        //再检查User自身
+        return $this->userCan($key);
+    }
+
+    public function userCan($key)
+    {
+        $arr = $this->permissions()->wherePivot('expired', null)->orWherePivot('expired', '>', Carbon::now())->get()->pluck('key')->toArray();
+
+        if (in_array($key, $arr))
+            return true;
         return false;
+    }
+
+    public function getPolicy($key)
+    {
+        $items = $this->role->groupedPolicies();
+        if (!array_key_exists($key, $items)) {
+            return null;
+        }
+    }
+
+    /**
+     * 用户权限与角色权限合并
+     * @warning 需要注意的是以属性形式表示只会加载一次，如果要在一次执行中做修改，那内部应该改用$this->permissions->all()
+     */
+    public function getMergedPermissions()
+    {
+        $rolePermissions = $this->role->permissions;
+        $userPermissions = $this->permissions()->wherePivot('expired', null)->orWherePivot('expired', '>', Carbon::now())->get();
+        $merged = $rolePermissions->merge($userPermissions);
+        return $merged;
+    }
+
+    /**
+     * 仅返回user本身的权限，不包含role的权限
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+
+    /**
+     * 动态添加权限
+     */
+    public function addPermission($key, $expired = null)
+    {
+        $permission = Permission::where('key', $key)->first();
+        if (!($permission instanceof Permission))
+            return false;
+        if ($this->permissions()->wherePivot('permission_id', $permission->id)->count() > 0) {
+            $this->permissions()->updateExistingPivot($permission->id, ['expired' => $expired]);
+            return true;
+        }
+        $this->permissions()->attach($permission->id, ['expired' => $expired]);
+        return true;
+    }
+
+    /**
+     * 动态删除权限
+     */
+    public function delPermission($key)
+    {
+        $permission = Permission::where('key', $key)->first();
+        if (!($permission instanceof Permission))
+            return false;
+        $this->permissions()->detach($permission->id);
+        return true;
     }
 }
