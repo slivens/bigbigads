@@ -1,8 +1,8 @@
 if (!app)
 	var app = angular.module('MetronicApp');
 
-app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util',
-	function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q, Util) {
+app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util','$filter',
+	function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q, Util,$filter) {
 		//opt = {searchType:'adser', url:'/forward/adserSearch'}
 		var searcher = function(opt) {
 			var vm = this;
@@ -152,9 +152,9 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 						angular.forEach(res.data.ads_info, function(value, key) {
 							if (value.type == vm.ADS_CONT_TYPE.CAROUSEL) {
 								value.watermark = JSON.parse(value.watermark);
-								value.link = JSON.parse(value.link);
-								value.buttonlink = JSON.parse(value.buttonlink);
-								value.buttondesc = JSON.parse(value.buttondesc);
+								value.link = $filter('unique')(JSON.parse(value.link));
+								value.buttonlink = $filter('unique')(JSON.parse(value.buttonlink));
+								value.buttondesc = $filter('unique')(JSON.parse(value.buttondesc));
 								value.name = JSON.parse(value.name);
 								value.description = JSON.parse(value.description);
 								value.local_picture = JSON.parse(value.local_picture);
@@ -354,7 +354,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					option.filter.lang = search.lang.split(",");
 				}
 				if (search.state) {
-					option.filter.state = search.state;
+					option.filter.state = search.state.split(",");
 				}
 				if (search.domain) {
 					option.domain = JSON.parse(search.domain);
@@ -488,13 +488,15 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					$scope.adSearcher.removeFilter('ad_lang');
 				}
 				//国家
-				if (option.state) {
+				if (option.state && option.state.length) {
 					$scope.adSearcher.addFilter({
 						field: 'state',
-						value: option.state
+						value: option.state.join(',')
 					});
+					$scope.currSearchOption.filter.state = option.state.join(',');
 				} else {
 					$scope.adSearcher.removeFilter('state');
+					$scope.currSearchOption.filter.state="";//清空国家搜索后，搜索状态还会残留[]，暂时不知道怎么去掉，所以加这句
 				}
 
 				//支持多项搜索，以","隔开
@@ -896,8 +898,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				if (option.lang && option.lang.length) {
 					$scope.adSearcher.addFilter({
 						field: 'ad_lang',
-						value: option.lang
+						value: option.lang.join(',')
 					});
+					$scope.currSearchOption.filter.lang = option.lang.join(',');
 				} else {
 					$scope.adSearcher.removeFilter('ad_lang');
 				}
@@ -905,8 +908,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				if (option.state) {
 					$scope.adSearcher.addFilter({
 						field: 'state',
-						value: option.state
+						value: option.state.join(',')
+
 					});
+					$scope.currSearchOption.filter.state = option.state.join(',');
 				} else {
 					$scope.adSearcher.removeFilter('state');
 				}
