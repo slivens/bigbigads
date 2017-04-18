@@ -1,25 +1,46 @@
-<form class="register-form" action="../register" method="post">
+<!-- <form class="register-form" action="../register" method="post"> -->
+    <form name="registerForm" class="register-form"  class="form-horizontal" ng-submit="processForm(registerForm.$valid)" ng-Controller="UserController" novalidate>
     <h3 class="form-title">Sign up to see more ads </h3>
     <br>
    <!--  <p class="text-left"> Enter your account details below: </p> -->
-    <div class="form-group">
+    <div class="form-group {{ registerForm.email.$dirty && registerForm.email.$invalid || registerError.email ? ' has-error' : '' }}">
         <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-        <label class="control-label visible-ie8 visible-ie9">Email</label>
+        <label class="control-label visible-ie8 visible-ie9" for="email">Email</label>
         <div class="input-icon">
             <i class="fa fa-envelope"></i>
-            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> </div>
+            <input class="form-control placeholder-no-fix" type="email" autocomplete="off" placeholder="Email" name="email" ng-model="formData.email" maxlength="40" ng-minlength="5" required />
+            <p class="help-block text-left">
+                <span ng-show="registerForm.email.$dirty && registerForm.email.$error.required">Email is required.</span>
+                <span ng-show="registerForm.email.$dirty && registerForm.email.$error.email">Invalid email.</span>
+                <span ng-show="registerForm.email.$dirty && registerForm.email.$error.minlength">Email is too short.</span>
+                <span ng-show="registerError.email">{{registerError.email.toString()}}</span>
+            </p>
+        </div> 
     </div>
-    <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">Username</label>
+    <div class="form-group {{ registerForm.name.$dirty && registerForm.name.$invalid || registerError.name ? ' has-error' : '' }}">
+        <label class="control-label visible-ie8 visible-ie9" for="name">Username</label>
         <div class="input-icon">
             <i class="fa fa-user"></i>
-            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="name" /> </div>
+            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="name" ng-model="formData.name" required  ng-maxlength="39" value="{{formData.email.split('@')[0]}}"/> 
+            <p class="help-block text-left">
+                <span ng-show="registerForm.name.$dirty && registerForm.name.$error.required">Username is required</span>
+                <span ng-show="registerForm.name.$dirty && registerForm.name.$error.maxlength">Username is too long</span>
+                <span ng-show="registerError.name">{{registerError.name.toString()}}</span>
+            </p>
+        </div>
+            
     </div>
-    <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">Password</label>
+    <div class="form-group {{ registerForm.password.$dirty && registerForm.password.$invalid || registerError.password ? ' has-error' : '' }}">
+        <label class="control-label visible-ie8 visible-ie9" for="password">Password</label>
         <div class="input-icon">
             <i class="fa fa-lock"></i>
-            <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Password" name="password" /> </div>
+            <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Password" name="password" ng-model="formData.password" required  ng-minlength= "6" ng-maxlength="72"/> </div>
+            <p class="help-block text-left">
+                <span ng-show="registerForm.password.$dirty && registerForm.password.$error.required">Password is required.</span>
+                <span ng-show="registerForm.password.$dirty && registerForm.password.$error.minlength">Password is too short.</span>
+                <span ng-show="registerForm.password.$dirty && registerForm.password.$error.maxlength">Password is too long.</span>
+                <span ng-show="registerError.password">{{registerError.password.toString()}}</span>
+            </p>
     </div>
 
     <!--no need to-->

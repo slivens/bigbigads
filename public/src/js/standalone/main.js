@@ -1227,7 +1227,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', funct
             created_at: User.login ? User.user.created_at : "2017-01-01 00:00:00"
           };
         //intercom生成的代码
-        var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pv0r2p1a';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}
+        var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function (){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pv0r2p1a';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}
    
     });
     setInterval(function() {
@@ -1376,8 +1376,34 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
     };
     return user;
 }]);
-
-MetronicApp.controller('UserController', ['$scope', 'User', function($scope, User) {
+MetronicApp.controller('UserController', ['$scope', '$http', 'User', function($scope,$http, User) {
  //   User.getInfo();
     $scope.User = User;
+    $scope.formData = {name:' ',email:'',password:''};
+    //$scope.formData.name = $scope.formData.email.split('@')[0];
+    $scope.registerError = {};
+    /*$scope.setName = function(){
+        if ($scope.formData.email && !$scope.formData.name) {$scope.formData.name = $scope.formData.email.split('@')[0];
+    };
+    };*/
+    $scope.processForm = function(isValid) {
+        if ($scope.formData.name == ' ') {$scope.formData.name = $scope.formData.email.split('@')[0];}
+        if (isValid) {
+            var params = 'name='+$scope.formData.name.toString()+'&email='+$scope.formData.email.toString()+'&password='+$scope.formData.password.toString();
+            $http({
+                method  : 'POST',
+                url     : '../register',
+                data    : params,  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+            })
+            .then(
+                function successCallback(response){
+                    $("html").html(response.data);
+                },
+                function errorCallback(response){
+                    $scope.registerError = response.data;
+                }
+            );
+        }
+    };
 }]);
