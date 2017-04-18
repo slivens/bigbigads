@@ -320,9 +320,9 @@ class BigbigadsSeeder extends Seeder
 
         Role::where('id', '>', 6)->update(['plan' => NULL]);
             $roles = ["OuterTester" => "standard"];
-            foreach ($roles as $key => $item) {
-                $role = Role::where('name', $key)->first();
-                $role->plan = $item;
+            $role = Role::where('OuterTester')->first();
+            if ($role instanceof Role) {
+                $role->plan = 'standard';
                 $role->save();
             }
     }
