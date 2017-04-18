@@ -289,7 +289,7 @@ class BigbigadsSeeder extends Seeder
         }
 
         //该部分应独立出来，但暂时不会编写种子填充的php artisan db:seed ，就先放到此处，这个日后教程做完补上
-        $role = Role::where('OuterTester')->first();
+        $role = Role::where('name', '=', 'OuterTester')->first();
         if ($role instanceof Role) {
             $role->plan = 'standard';
             $role->save();
