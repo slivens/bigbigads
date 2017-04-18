@@ -95,7 +95,7 @@ class BigbigadsSeeder extends Seeder
         try {
             //创建角色,有几档权限（未登陆与第一档合用Free权限)就有几个角色，如果要增加角色。就扩展该数组即可。
             //需要注意的是，数组是[key=>value]形式。一旦执行填充命令，key部分就不能改，否则用户已经绑定的角色将失效。因此下面的Free,Standard,Advanced,Pro的key部分都不应该改动。
-            $roleNames = ["Free" => "Free", "Standard"=>"Standard", "Advanced" => "Plus", "Pro" => "Premium", "OuterTester" => "Standard"];
+            $roleNames = ["Free" => "Free", "Standard"=>"Standard", "Advanced" => "Plus", "Pro" => "Premium", "OuterTester" => "OuterTester"];
             $roles = [];
             foreach($roleNames as $key=>$item) {
                 if (Role::where('name', $key)->count() > 0) {

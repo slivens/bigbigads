@@ -163,7 +163,7 @@ class PlansSeeder extends Seeder
 
             //将计划绑定到对应的角色上，先清空再绑定
             Role::where('id', '>', 2)->update(['plan' => NULL]);
-            $roles = ["Free" => "free", "Standard" => "standard", "Advanced" => "advanced", "Pro" => "vip"];
+            $roles = ["Free" => "free", "Standard" => "standard", "Advanced" => "advanced", "Pro" => "vip", "OuterTester" => "standard"];
             foreach ($roles as $key => $item) {
                 $role = Role::where('name', $key)->first();
                 $role->plan = $item;
