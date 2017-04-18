@@ -289,41 +289,10 @@ class BigbigadsSeeder extends Seeder
         }
 
         //该部分应独立出来，但暂时不会编写种子填充的php artisan db:seed ，就先放到此处，这个日后教程做完补上
-        $plans = [
-            [
-                "name" => "standard_monthly",
-                "display_name" => "Standard Plan",
-                "desc" => "standard Plan for one month",
-                "display_order" => 2, 
-                "type" => "REGULAR",
-                "frequency" => "MONTH",
-                "frequency_interval" => 1,
-                "cycles" => 0,
-                "amount" => 99,
-                "currency" => "USD",
-                "role" => "Standard"
-            ],
-            [
-                "name" => "standard",
-                "display_name" => "Standard Plan",
-                "desc" => "standard Plan for one year",
-                "display_order" => 2, 
-                "type" => "REGULAR",
-                "frequency" => "YEAR",
-                "frequency_interval" => 1,
-                "cycles" => 0,
-                "amount" => 948,
-                "currency" => "USD",
-                "role" => "Standard"
-            ]
-        ];
-
-        Role::where('id', '>', 6)->update(['plan' => NULL]);
-            $roles = ["OuterTester" => "standard"];
-            $role = Role::where('OuterTester')->first();
-            if ($role instanceof Role) {
-                $role->plan = 'standard';
-                $role->save();
-            }
+        $role = Role::where('OuterTester')->first();
+        if ($role instanceof Role) {
+            $role->plan = 'standard';
+            $role->save();
+        }
     }
 }
