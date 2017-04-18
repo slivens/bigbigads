@@ -31,7 +31,7 @@ class RegisterVerify extends Mailable
     public function build()
     {
         $user = $this->user;
-        $host = str_replace(request()->path(), "", request()->url()); 
+        $host = config('app.url');
         return $this->view('emails.register_verify')
             ->with([
                 'name' => $user->name,
