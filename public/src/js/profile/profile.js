@@ -40,7 +40,7 @@ app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope
     plans.isCurrentPlan = function(item) {
         /*if (!User.user.subscription)
             return false;*/
-        return User.user.role.display_name == item.name;
+        return User.user.role.plan == item.plan;
     };
 
     plans.annually = false;
