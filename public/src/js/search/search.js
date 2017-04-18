@@ -144,6 +144,9 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					if (clear && vm.isend) { //检测到结束就清空搜索结果
 						vm.ads = [];
 						vm.ads.total_count = 0;
+						if(res.data.hasOwnProperty('all_total_count')) {
+							vm.ads.all_total_count = res.data.all_total_count;
+						}
 					}
 					if (res.data.count) {
 						angular.forEach(res.data.ads_info, function(value, key) {
@@ -414,6 +417,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				// console.log("max search result:", policy.value, adSearcher.params.limit[0] + adSearcher.params.limit[1]);
 				if (adSearcher.params.limit[0] + adSearcher.params.limit[1] >= policy.value) {
 					//SweetAlert.swal("you reached search result limit(" + policy.value + ")");
+					User.openSearchResultUpgrade();
 					adSearcher.isend = true;
 					return;
 				}
@@ -756,7 +760,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				}else{
 					isLengthLimit = Util.isLengthLimit(value);
 					isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
-					isAdvanceFilterLimit = Util.isAdvanceFilterLimit($scope.filterOption);
+					isAdvanceFilterLimit = Util.isAdvanceFilterLimit($scope.adSearcher.searchOption.filter);
 					/*if(!isNumberLimit) {
 						User.openUpgrade();
 						islegal = false;
@@ -774,7 +778,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					}
 
 					if(!isFilterLimit) {
-						console.log("filter");
 						User.openUpgrade();
 						islegal = false;
 					}
@@ -1022,7 +1025,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				});
 				console.log("params", $scope.adSearcher.params);
 			};
-
 			$scope.search = function(action) {
 				var i;
 				var option = $scope.adSearcher.searchOption;

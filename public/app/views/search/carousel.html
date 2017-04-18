@@ -8,7 +8,7 @@
             <uib-slide ng-repeat="slide in card.watermark track by $index" index="$index">
                 <div class="text-center mt-element-overlay">
                     <div class="xg-margin-bottom">
-                        <a  fancybox ng-href="{{settings.imgRemoteBase + card.local_picture[$index].source}}" rel="group{{card.event_id}}">
+                        <a ng-href="{{card.link[$index]}}" rel="group{{card.event_id}}" target="_blank">
                             <!-- 为防止无限加载时图片加载后高度改变导致浏览位置变化，在加载图片前就设定好高度，这就要求图片URL一定要符合格式，否则不能正常显示 -->
                             <img class="img-loading" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" lazy-img="{{settings.imgRemoteBase + slide.source}}" width="{{slide.source | getImageSize:0}}px" height="{{slide.source | getImageSize:1}}px" alt="">
                         </a>
@@ -39,7 +39,7 @@
     <hr class="xg-p-margin">
     <div ng-if="card.link[card.active]">
         <i class="fa fa-link fa-fw"></i>
-        <a ng-href="{{card.link[card.active]}}" class="adlink xg-link-width">{{card.link[card.active] | clearHttps}}</a>
+        <a ng-href="{{card.link[card.active]}}" class="adlink xg-link-width" target="_blank">{{card.link[card.active] | clearHttps}}</a>
     </div>
     <div>
         <span ng-show="card.views">

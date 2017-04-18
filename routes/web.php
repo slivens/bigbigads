@@ -75,13 +75,17 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::get('/ranking', function(Request $req) {
     $maxCount = 100;//根据权限去判断
-
-    if (isset($req->category)) {
-        $items = App\CategoryTopAdvertiser::where('page_category', $req->category)->take($maxCount)->get();
-    } else {
-        $items = App\TopAdvertiser::take($maxCount)->get();
+    $user = Auth::user();
+    if($user->can('ranking')) {
+        if (isset($req->category)) {
+            $items = App\CategoryTopAdvertiser::where('page_category', $req->category)->take($maxCount)->get();
+        } else {
+            $items = App\TopAdvertiser::take($maxCount)->get();
+        }
+        return json_encode($items, JSON_UNESCAPED_UNICODE);
+    }else {
+        return response(["code"=>-4201, "desc"=>"no permission of ranking"], 422);
     }
-    return json_encode($items, JSON_UNESCAPED_UNICODE);
 });
 
 Route::get('/userinfo', 'UserController@logInfo');

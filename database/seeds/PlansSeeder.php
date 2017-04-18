@@ -98,8 +98,8 @@ class PlansSeeder extends Seeder
                 ],
                 [
                     "name" => "advanced_monthly",
-                    "display_name" => "Advanced Plan",
-                    "desc" => "Advanced Plan for one month",
+                    "display_name" => "Plus Plan",
+                    "desc" => "Plus Plan for one month",
                     "display_order" => 3, 
                     "type" => "REGULAR",
                     "frequency" => "MONTH",
@@ -111,8 +111,8 @@ class PlansSeeder extends Seeder
                 ],
                 [
                     "name" => "advanced",
-                    "display_name" => "Advanced Plan",
-                    "desc" => "Advanced Plan for one year",
+                    "display_name" => "advanced Plan",
+                    "desc" => "advanced Plan for one year",
                     "display_order" => 3, 
                     "type" => "REGULAR",
                     "frequency" => "YEAR",
@@ -124,8 +124,8 @@ class PlansSeeder extends Seeder
                 ],
                 [
                     "name" => "vip_monthly",
-                    "display_name" => "Vip Plan",
-                    "desc" => "VIP Plan for one month",
+                    "display_name" => "vip Plan",
+                    "desc" => "vip Plan for one month",
                     "display_order" => 4, 
                     "type" => "REGULAR",
                     "frequency" => "MONTH",
@@ -137,8 +137,8 @@ class PlansSeeder extends Seeder
                 ],
                 [
                     "name" => "vip",
-                    "display_name" => "VIP Plan",
-                    "desc" => "VIP Plan for one year",
+                    "display_name" => "vip Plan",
+                    "desc" => "vip Plan for one year",
                     "display_order" => 4, 
                     "type" => "REGULAR",
                     "frequency" => "YEAR",
