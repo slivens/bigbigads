@@ -103,19 +103,30 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     max: scope.ngMax,
                     min: scope.ngMin,
                     onChange: function(data) {
-                        if (data.from != scope.ngForm)
-                            scope.ngFrom = data.from;
-                        if (data.to != scope.ngTo)
-                            scope.ngTo = data.to;
+                        //必须在$apply触发$digist，才能将该scope的修改反映到与之绑定的外部变量
+                        //由于scope的修改，会导致scope.$watch监测到变化，所以在scope.$watch必须不应该重复赋值
+                        scope.$apply(function() {
+                            if (data.from != scope.ngForm)
+                                scope.ngFrom = data.from;
+                            if (data.to != scope.ngTo)
+                                scope.ngTo = data.to;
+                            });
                     }
                 });
                 slider = element.data('ionRangeSlider');
                 scope.$watch('ngFrom', function(newValue, oldValue) {
+                    //如果触发是由内部改变引起的就应该忽略，否则可能出现另外一个问题
+                    //就是在执行这一步时，用户再次拖动界面上的滑块，两者同时发生时将出现滑块不按用户拖动的方向走
+                    if (scope.ngFrom === newValue)
+                        return;
+                    // console.log("slider", scope.ngFrom, newValue);
                     slider.update({
                         from: newValue
                     });
                 });
                 scope.$watch('ngTo', function(newValue, oldValue) {
+                    if (scope.ngTo === newValue)
+                        return;
                     slider.update({
                         to: newValue
                     });
