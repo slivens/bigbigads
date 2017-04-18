@@ -78,19 +78,19 @@ class SearchController extends Controller
                     if ($obj['field'] == "see_times" && !$user->can('see_times_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
-                    if ($obj['field'] == "likes" && !$user->can('likes_inc_sort')) {
+                    if ($obj['field'] == "likes" && !$user->can('advance_likes_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
-                    if ($obj['field'] == "shares" && !$user->can('shares_inc_sort')) {
+                    if ($obj['field'] == "shares" && !$user->can('advance_shares_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
-                    if ($obj['field'] == "comments" && !$user->can('comments_inc_sort')) {
+                    if ($obj['field'] == "comments" && !$user->can('advance_comments_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
-                    if ($obj['field'] == "views" && !$user->can('views_inc_sort')) {
+                    if ($obj['field'] == "views" && !$user->can('advance_video_views_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
-                    if ($obj['field'] == "engagements" && !$user->can('engagement_inc_sort')) {
+                    if ($obj['field'] == "engagements" && !$user->can('advance_engagement_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
                     if (Auth::check() && $user->hasRole('Free') && $obj['field'] == "time") {

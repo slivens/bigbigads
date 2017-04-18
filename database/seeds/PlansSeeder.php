@@ -147,33 +147,7 @@ class PlansSeeder extends Seeder
                     "amount" => 3588,
                     "currency" => "USD",
                     "role" => "Pro"
-                ],
-                [
-                    "name" => "OuterTester_monthly",
-                    "display_name" => "OuterTester Plan",
-                    "desc" => "OuterTester  Plan for one month",
-                    "display_order" => 2, 
-                    "type" => "REGULAR",
-                    "frequency" => "MONTH",
-                    "frequency_interval" => 1,
-                    "cycles" => 0,
-                    "amount" => 99,
-                    "currency" => "USD",
-                    "role" => "OuterTester"
-                ],
-                [
-                    "name" => "OuterTester",
-                    "display_name" => "OuterTester Plan",
-                    "desc" => "OuterTester  Plan for one year",
-                    "display_order" => 2, 
-                    "type" => "REGULAR",
-                    "frequency" => "YEAR",
-                    "frequency_interval" => 1,
-                    "cycles" => 0,
-                    "amount" => 948,
-                    "currency" => "USD",
-                    "role" => "OuterTester"
-                ],
+                ]
             ];
 
             //每次填充都会清空所有计划
@@ -189,7 +163,7 @@ class PlansSeeder extends Seeder
 
             //将计划绑定到对应的角色上，先清空再绑定
             Role::where('id', '>', 2)->update(['plan' => NULL]);
-            $roles = ["Free" => "free", "Standard" => "standard", "Advanced" => "advanced", "Pro" => "vip", "OuterTester" => "OuterTester"];
+            $roles = ["Free" => "free", "Standard" => "standard", "Advanced" => "advanced", "Pro" => "vip"];
             foreach ($roles as $key => $item) {
                 $role = Role::where('name', $key)->first();
                 $role->plan = $item;

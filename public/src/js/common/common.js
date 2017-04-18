@@ -389,7 +389,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                         oldtop = 80;
                  }, 100);
                 //更新浮动
-                function updatefix(){
+                function updatefix() {
                     var top = element.parent()[0].getBoundingClientRect().top;
                     if (top < 0)
                         $(element).animate({ top: oldtop - top });
@@ -399,7 +399,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     //     scope.$digest();
                     // }
                 }
-                (function loop(){
+                (function loop() {
                     setTimeout(loop,1000);
                     updatefix();
                 })();
@@ -410,7 +410,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
         return {
             link: function(scope, element, attrs) {
                 element.bind('click', function() {
-                    if(attrs.title!==null||attrs.title!==underfind||attrs.title!==""){
+                    if(attrs.title!==null||attrs.title!==underfind||attrs.title!=="") {
                         var why_see = attrs.title.split("\n");
                         var show_length = 0;
                         var table = "";
@@ -445,7 +445,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
         return {
             link: function(scope, element, attrs) {
                 element.bind('click', function() {
-                    if(!User.login){
+                    if(!User.login) {
                         User.openSign();
                     }else {
                         var url = "";
@@ -461,7 +461,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
     .directive('originlink', ['$state', function($state) {
         return {
             link: function(scope, element, attrs) {
-                if(attrs.type == 4){
+                if(attrs.type == 4) {
                     element.attr("disabled", "disabled");
                     element.css("cursor", "not-allowed");
                 }else{
