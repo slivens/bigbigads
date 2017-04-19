@@ -591,7 +591,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 value: "Advertiser",
                 permission:"advertiser_search"
             }, {
-                key: "dest_site",
+                key: "link,buttonlink,dest_site",
                 value: "URL",
                 permission:"dest_site_search"
             }, {
