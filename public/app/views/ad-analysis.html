@@ -381,12 +381,18 @@
                                     <div ng-if="User.can('analysis_audience')">
                                         <table ng-if="card.whyseeads_all" class="table table-hover">
                                             <tr ng-repeat="item in card.whyseeads_all track by $index">
-                                                <td><a title="All ads by this audience" target="_blank" ng-href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a></td>
+                                                <td>
+                                                    <!-- <a title="All ads by this audience" target="_blank" ng-href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a> -->
+                                                    <a title="All ads by this audience">{{item}}</a>
+                                                </td>
                                             </tr>
                                         </table>
                                         <table ng-if="card.whyseeads" class="table table-hover">
                                             <tr ng-repeat="item in card.whyseeads track by $index">
-                                                <td><a title="All ads by this audience" target="_blank" ng-href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a></td>
+                                                <td>
+                                                    <!-- <a title="All ads by this audience" target="_blank" ng-href="adsearch?searchText={{item}}&searchFields=whyseeads,whyseeads_all">{{item}}</a> -->
+                                                    <a title="All ads by this audience">{{item}}</a>
+                                                </td>
                                             </tr>
                                         </table>
                                     </div>
