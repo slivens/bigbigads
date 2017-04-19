@@ -1377,16 +1377,12 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
     return user;
 }]);
 MetronicApp.controller('UserController', ['$scope', '$http', 'User', function($scope,$http, User) {
- //   User.getInfo();
     $scope.User = User;
     $scope.formData = {name:' ',email:'',password:''};
-    //$scope.formData.name = $scope.formData.email.split('@')[0];
     $scope.registerError = {};
-    /*$scope.setName = function(){
-        if ($scope.formData.email && !$scope.formData.name) {$scope.formData.name = $scope.formData.email.split('@')[0];
-    };
-    };*/
+    $scope.isShow = false;
     $scope.processForm = function(isValid) {
+        $scope.isShow = true;
         if ($scope.formData.name == ' ') {$scope.formData.name = $scope.formData.email.split('@')[0];}
         if (isValid) {
             var params = 'name='+$scope.formData.name.toString()+'&email='+$scope.formData.email.toString()+'&password='+$scope.formData.password.toString();
@@ -1401,6 +1397,7 @@ MetronicApp.controller('UserController', ['$scope', '$http', 'User', function($s
                     $("html").html(response.data);
                 },
                 function errorCallback(response){
+                    $scope.isShow = false; 
                     $scope.registerError = response.data;
                 }
             );
