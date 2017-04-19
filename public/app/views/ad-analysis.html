@@ -144,7 +144,7 @@
                                                         </h4>
                                                         
                                                             <p  class="font-yellow-gold overview-data">
-                                                               <span ng-repeat="item in card.country.split(',')  track by $index" class="inline-block">
+                                                               <span ng-repeat="item in (card.country.split(',') | unique)  track by $index" class="inline-block">
                                                                     {{item}}
                                                                     <span ng-if="$index<(card.country.split(',')).length-1">
                                                                         ,&nbsp;&nbsp;
@@ -211,7 +211,7 @@
                                                         </h4>
                                                        
                                                         <p ng-if="Util.isArray(card.buttondesc)" class="viewbutton overview-data">
-                                                            <a ng-repeat="item in card.buttondesc track by $index" ng-if="item"  class="xg-a-likepage xg-label ">{{item}}</a>
+                                                            <a ng-repeat="item in (card.buttondesc | unique) track by $index" ng-if="item"  class="xg-a-likepage xg-label ">{{item}}</a>
                                                             
                                                         </p>
                                                         <p ng-if="!Util.isArray(card.buttondesc)" class="viewbutton overview-data">
@@ -277,7 +277,7 @@
                                             <h4 class="landpage-title">link</h4>
                                             <div ng-if="card.link">       
                                                 <table ng-if="Util.isArray(card.link)" class="table table-hover">
-                                                    <tr ng-repeat="item in card.link track by $index">
+                                                    <tr ng-repeat="item in (card.link | unique) track by $index">
                                                         <td ng-if="item"> 
                                                             <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                             <span ng-show="card.snapshot">
@@ -300,7 +300,7 @@
                                             <h4 class="landpage-title">buttonlink</h4>
                                             <div ng-if="card.buttonlink">
                                                 <table ng-if="Util.isArray(card.buttonlink)" class="table table-hover">
-                                                    <tr ng-repeat="item in card.buttonlink track by $index" ng-if="item">
+                                                    <tr ng-repeat="item in (card.buttonlink | unique) track by $index" ng-if="item">
                                                         <td >
                                                             <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                         </td>
@@ -317,7 +317,7 @@
                                             <h4 class="landpage-title">description</h4>
                                             <div ng-if="card.dest_site">
                                                 <table ng-if="Util.isArray(card.dest_site)" class="table table-hover">
-                                                    <tr ng-repeat="item in card.dest_site track by $index">
+                                                    <tr ng-repeat="item in (card.dest_site | unique) track by $index">
                                                         <td ng-if="item">
                                                             <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                         </td>
