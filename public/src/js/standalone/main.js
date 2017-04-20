@@ -1385,16 +1385,16 @@ MetronicApp.controller('UserController', ['$scope', '$http', 'User', function($s
         $scope.isShow = true;
         if ($scope.formData.name == ' ') {$scope.formData.name = $scope.formData.email.split('@')[0];}
         if (isValid) {
-            var params = 'name='+$scope.formData.name.toString()+'&email='+$scope.formData.email.toString()+'&password='+$scope.formData.password.toString();
             $http({
                 method  : 'POST',
                 url     : '../register',
-                data    : params,  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+                data    : $scope.formData,  // pass in data as strings
+                headers : { 'X-Requested-With': 'XMLHttpRequest' }  // set the headers so angular passing info as form data (not request payload)
             })
             .then(
                 function successCallback(response){
-                    $("html").html(response.data);
+                    location.href = response.data.url;
+                    // $("html").html(response.data);
                 },
                 function errorCallback(response){
                     $scope.isShow = false; 
