@@ -1343,13 +1343,14 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                 animation: true,
                 controller:['$scope', function($scope){
                     var slides = $scope.slides=[];
+                    var i;
                     $scope.addSlide = function() {
-                        var newWidth = slides.length + 1;
+                        var imgItem = slides.length + 1;
                         slides.push({
-                        image:'adscard_0' + newWidth + '.jpg'
+                        image:'adscard_0' + imgItem + '.jpg'
                         });
                     };
-                    for (var i = 0; i < 4; i++) {
+                    for (i = 0; i < 4; i++) {
                         $scope.addSlide();
                     }
                 }]
