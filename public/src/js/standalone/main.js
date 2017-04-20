@@ -1406,7 +1406,7 @@ MetronicApp.controller('UserController', ['$scope', '$http', 'User', function($s
             })
             .then(
                 function successCallback(response){
-                    $("html").html(response.data);
+                    location.href = response.data.url;
                 },
                 function errorCallback(response){
                     $scope.isShow = false; 
