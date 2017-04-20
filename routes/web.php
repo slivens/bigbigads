@@ -120,12 +120,3 @@ Route::resource('BookmarkItem', 'BookmarkItemController');
 Route::any('/forward/{action}', 'SearchController@search');
 
 Route::any('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
-Route::any('/test', function() {
-    $user = factory(App\User::class)->create();
-    $user->initUsageByRole($user->role);
-    echo "val:" . $user->can('monitor_support');
-    $user->addPermission('monitor_support');
-    $user->load('permissions');
-    echo "new val:" . $user->can('monitor_support');
-    echo "end";
-});
