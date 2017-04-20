@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterVerify;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -67,12 +68,15 @@ class RegisterController extends Controller
         ]);
     }
 
-    protected function registered($required, $user)
+    protected function registered($request, $user)
     {
         if ($user->state == 0) {
             Auth::logout();
             $this->redirectTo = "/sendVerifyMail?email={$user->email}&token={$user->verify_token}";
-			// Authentication passed...
+            // Authentication passed...
+            if ($request->ajax()) {
+                return ['code' => 0, 'url' => $this->redirectTo];
+            }
 		}
     }
     /**
