@@ -1341,6 +1341,18 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                 templateUrl: 'views/sign.html',
                 size: 'customer',
                 animation: true,
+                controller:['$scope', function($scope){
+                    var slides = $scope.slides=[];
+                    $scope.addSlide = function() {
+                        var newWidth = slides.length + 1;
+                        slides.push({
+                        image:'adscard_0' + newWidth + '.jpg'
+                        });
+                    };
+                    for (var i = 0; i < 4; i++) {
+                        $scope.addSlide();
+                    }
+                }]
             });
         },
         openSearchResultUpgrade:function() {
