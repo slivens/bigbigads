@@ -1,13 +1,22 @@
-<div class="dashboard-stat dashboard-stat-v2 xg-upgrade-banner" >
-	<div class="xg-upgrade-banner-head" >
-		<h3 class="text-center">
-			<strong>Sign up a free account to see more.</strong>
-		</h3>
+<div class="capacity-div dashboard-stat dashboard-stat-v2 xg-upgrade-banner" >
+	<div class="xg-upgrade-banner-head text-center" >
+		<img src="../assets/global/img/logo2.png">
 	</div>
 	<div class="text-center xg-upgrade-banner-body">
-		<a class="btn btn-lg xg-subscribe-color" href="/register">Sign up</a>
-        <br><br>
+        <div class="row">
+			<div class="col-md-6 border-left">
+				<div uib-carousel active="0" interval="2500" no-wrap="false" no-transition="false" class="img-adscard">
+      				<div uib-slide ng-repeat="slide in slides track by $index" index="$index">
+        				<img ng-src="/static/images/show/{{slide.image}}" style="margin:auto;">
+  					</div>
+    			</div>
+				<!-- <img src="/static/images/show/adscard_01.jpg" > -->
+
+			</div>
+			<div class="col-md-6" ng-include="'tpl/register.html'">
+	         
+			</div>
+		</div>
     </div>
-    <br><br>
-    <div class="xg-upgrade-banner-foot"></div>
+    <div class="xg-upgrade-banner-foot"><p class="text-center">&copy;2017&nbsp;&nbsp;BIGBIGADS.COM</p></div>
 </div>

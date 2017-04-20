@@ -1264,5 +1264,12 @@ color: $black_placeholder !important;
         font-size:14px;
         font-weight:normal;
     }
-
+    //注册模块加载动画
+    .img-waiting{
+        width: 35px;
+    }
 }
+
+//注册弹框样式
+//自定义需要的宽度
+.modal-customer{min-width: 760px;width: 45%;}

@@ -30,6 +30,8 @@ class AnonymousUser
             $role = Role::where('name', 'Free')->with('permissions', 'policies')->first();
             $user = new AnonymousUser();
             $user->id = 0;
+            $user->name = "anonymous user";
+            $user->email = "anoymous@bigbigads.com";
             $user->role = $role;
             $user->usage = $role->groupedPolicies();
             $user->date  = Carbon::now();
