@@ -41,6 +41,10 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
                     $scope.promise.then(function() {
                         $scope.$emit('bookmarkAdded', item);
                         $uibModalInstance.dismiss('success');
+                        if(item.id){
+                            //区分是修改收藏夹名称还是广告搜索页新建收藏夹
+                            window.location.reload();
+                        }           
                     });
 
                 };
@@ -72,6 +76,7 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
         }, function(isConfirm) {
             if (isConfirm) {
                 bookmark.del(item);
+                window.location.reload();
             }
         });
     };
@@ -121,6 +126,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                 url: '/forward/adserSearch',
                 limit: [0, -1]
             });
+            $scope.loaded = false;
             angular.forEach(items, function(item) {
                 if (Number(item.type) === 0 && item.bid == bid) {
                     wanted.push(item.ident);
@@ -168,6 +174,10 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                     $scope.data.adsers = {};
                 });
             }
+
+            $scope.$watch('$viewContentLoaded', function() {  
+                $scope.loaded = true;
+            });  
         });
     }
 
