@@ -771,7 +771,7 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
     })
     .filter('mediaType', function() {
         return function(type) {
-            var showType='';
+            var showType = '';
             switch(type){
                 case 'timeline': {showType = 'Newsfeed';break;}
                 case 'rightcolumn': {showType = 'Right Column';break;}
@@ -783,13 +783,22 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
     })
     .filter('adsCount', function() {
         return function(adsNumber) {
-            if(adsNumber===0) return adsNumber;
+            if(adsNumber === 0) return adsNumber;
             if(!adsNumber) return ;
             var countString = '';
             var re = /(?=(?!\b)(\d{3})+$)/g;
             adsNumber = String(adsNumber);
             countString = adsNumber.replace(re, ',');
             return countString;
+        };
+    })
+    .filter('noPrice', function() {
+        return function(price) {
+            if (price === 0) return price;
+            if (!price) return ;
+            if(price >= 299) return '???';
+            //不使用 === 判断是因为年月份计费时有小数
+            return price;
         };
     });
 /* Setup App Main Controller */
@@ -1218,7 +1227,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', funct
             created_at: User.login ? User.user.created_at : "2017-01-01 00:00:00"
           };
         //intercom生成的代码
-        var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pv0r2p1a';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}
+        var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function (){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pv0r2p1a';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}
    
     });
     setInterval(function() {
@@ -1330,8 +1339,21 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
         openSign:function() {
             return $uibModal.open({
                 templateUrl: 'views/sign.html',
-                size: '45',
+                size: 'customer',
                 animation: true,
+                controller:['$scope', function($scope){
+                    var slides = $scope.slides=[];
+                    var i;
+                    $scope.addSlide = function() {
+                        var imgItem = slides.length + 1;
+                        slides.push({
+                        image:'adscard_0' + imgItem + '.jpg'
+                        });
+                    };
+                    for (i = 0; i < 4; i++) {
+                        $scope.addSlide();
+                    }
+                }]
             });
         },
         openSearchResultUpgrade:function() {
@@ -1367,8 +1389,30 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
     };
     return user;
 }]);
-
-MetronicApp.controller('UserController', ['$scope', 'User', function($scope, User) {
- //   User.getInfo();
+MetronicApp.controller('UserController', ['$scope', '$http', 'User', function($scope,$http, User) {
     $scope.User = User;
+    $scope.formData = {name:' ',email:'',password:''};
+    $scope.registerError = {};
+    $scope.isShow = false;
+    $scope.processForm = function(isValid) {
+        $scope.isShow = true;
+        if ($scope.formData.name == ' ') {$scope.formData.name = $scope.formData.email.split('@')[0];}
+        if (isValid) {
+            $http({
+                method  : 'POST',
+                url     : '../register',
+                data    : $scope.formData,  // pass in data as strings
+                headers : { 'X-Requested-With': 'XMLHttpRequest' }  // set the headers so angular passing info as form data (not request payload)
+            })
+            .then(
+                function successCallback(response){
+                    location.href = response.data.url;
+                },
+                function errorCallback(response){
+                    $scope.isShow = false; 
+                    $scope.registerError = response.data;
+                }
+            );
+        }
+    };
 }]);

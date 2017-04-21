@@ -17,33 +17,34 @@
                 </p>
                 <div class="row bg-default">
                     <div class="col-xs-2"></div>
-                    <div class="col-xs-2" ng-repeat="item in plans.items">
+
+                    <div class="col-xs-2" ng-repeat="item in plans.items" ng-show="item.id < 7">
                         <p>
-                        <h3 class="text-center">{{item.name}}</h3>
+                        <h3 class="text-center">{{item.display_name}}</h3>
                         
                         <h4 class="text-center">
                             <span ng-if="!item.plans">
                                 0
                             </span>
                             <span ng-if="item.plans && !plans.annually">
-                                ${{item.plans.monthly.amount}} / Month
+                                ${{item.plans.monthly.amount | noPrice}} / Month
                             </span>
                             <span ng-if="item.plans && plans.annually">
-                                ${{item.plans.annually.amount/12 | number:0}} / Month
+                                ${{item.plans.annually.amount/12 | number:0 | noPrice}} / Month
                             </span>
                         </h4>
                         <div>
-                        <a class="btn btn-block btn-primary" ng-class="{disabled:!userInfo || !userInfo.login || (item.name =='Advanced') || (item.name =='Pro')}"  ng-click="plans.goPlanID(item, plans.annually)" target="_blank" ng-show="userInfo.login&&!plans.isCurrentPlan(item)" >
+                        <a class="btn btn-block btn-primary" ng-class="{disabled:!userInfo || !userInfo.login || (item.name =='Advanced') || (item.name =='Pro')}"  ng-click="plans.goPlanID(item, plans.annually)" target="_blank" ng-show="userInfo.login && !plans.isCurrentPlan(item)" >
                             <span ng-if="(item.name =='Free') || (item.name =='Standard')">Select</span>
+
                             <span ng-if="(item.name =='Advanced') || (item.name =='Pro')">Coming Soon</span>
                         </a>
-                        <a class="btn btn-block btn-primary" ng-href="/login" ng-show="!userInfo.login&&!plans.isCurrentPlan(item)" ng-class="{disabled:(item.name =='Advanced') || (item.name =='Pro')}">
+                        <a class="btn btn-block btn-primary" ng-href="/login" ng-show="!userInfo.login && !plans.isCurrentPlan(item)" ng-class="{disabled:(item.name =='Advanced') || (item.name =='Pro')}">
                             <span ng-if="(item.name =='Free') || (item.name =='Standard')">Select</span>
                             <span ng-if="(item.name =='Advanced') || (item.name =='Pro')">Coming Soon</span>
                         </a>
 
                             <a  class="btn btn-block btn-default disabled" ng-show="plans.isCurrentPlan(item)">Current</a>
-                            
                         </div>
                         </p>
                     </div>

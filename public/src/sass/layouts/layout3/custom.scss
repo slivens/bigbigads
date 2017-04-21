@@ -1046,6 +1046,10 @@ body.modal-open{
     font-weight: bold !important;
 }
 
+.xg-page-spinner-bar {
+    position: relative !important;
+}
+
 //注册弹框样式
 //自定义自己需要的宽度
 .modal-45{width: 45%;}
@@ -1068,6 +1072,7 @@ body.modal-open{
             }
         }
 }
+
 .xg-upgrade-banner-foot{
     p{margin-top:5px;
         margin-bottom: 5px;}
@@ -1259,5 +1264,12 @@ color: $black_placeholder !important;
         font-size:14px;
         font-weight:normal;
     }
-
+    //注册模块加载动画
+    .img-waiting{
+        width: 35px;
+    }
 }
+
+//注册弹框样式
+//自定义需要的宽度
+.modal-customer{min-width: 760px;width: 45%;}

@@ -45,7 +45,7 @@ class SearchController extends Controller
             if ($usage[2] >= intval($usage[1]))
                 throw new \Exception("you reached the limit", -2);
             $user->updateUsage($name, $usage[2] + 1, Carbon::now());
-            dispatch(new LogAction($name, $params, "{$name}:"  . ($usage[2] + 1), Auth::user()->id, $req->ip()));
+            dispatch(new LogAction($name, $params, "{$name}:"  . ($usage[2] + 1), $user->id, $req->ip()));
             $user->setCache($name, $params);
             Log::debug("statics:" . $data);
         }
@@ -78,19 +78,19 @@ class SearchController extends Controller
                     if ($obj['field'] == "see_times" && !$user->can('see_times_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
-                    if ($obj['field'] == "likes" && !$user->can('likes_inc_sort')) {
+                    if ($obj['field'] == "likes" && !$user->can('advance_likes_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
-                    if ($obj['field'] == "shares" && !$user->can('shares_inc_sort')) {
+                    if ($obj['field'] == "shares" && !$user->can('advance_shares_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
-                    if ($obj['field'] == "comments" && !$user->can('comments_inc_sort')) {
+                    if ($obj['field'] == "comments" && !$user->can('advance_comments_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
-                    if ($obj['field'] == "views" && !$user->can('views_inc_sort')) {
+                    if ($obj['field'] == "views" && !$user->can('advance_video_views_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
-                    if ($obj['field'] == "engagements" && !$user->can('engagement_inc_sort')) {
+                    if ($obj['field'] == "engagements" && !$user->can('advance_engagement_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
                     if (Auth::check() && $user->hasRole('Free') && $obj['field'] == "time") {
@@ -218,7 +218,7 @@ class SearchController extends Controller
                             return response(["code"=>-4002, "desc"=> "you reached search times today, default result will show"], 422);
                         Log::debug("adsearch " . $json_data . json_encode($usage));
                         $user->updateUsage('search_times_perday', $usage[2] + 1, Carbon::now());
-                        dispatch(new LogAction("search_times_perday", $json_data, "search_times_perday:"  . ($usage[2] + 1), Auth::user()->id, $req->ip()));
+                        dispatch(new LogAction("search_times_perday", $json_data, "search_times_perday:"  . ($usage[2] + 1), $user->id, $req->ip()));
                     }
                     $user->setCache('adsearch.params', $json_data);
                 }
