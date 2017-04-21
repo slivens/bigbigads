@@ -60,9 +60,11 @@ class SearchController extends Controller
             $wheres = $params['where'];
             if(!Auth::check()) {
                 //throw new \Exception("no permission of search", -1);
-                $params['search_result'] = 'cache_ads';
-                $params['where'] = [];
-                $params['keys'] = [];
+                if((array_key_exists('action', $params)) && ($params['action'] != 'analysis')){
+                    $params['search_result'] = 'cache_ads';
+                    $params['where'] = [];
+                    $params['keys'] = [];
+                }        
                 return $params;
             }else if($user->hasRole('Free') || $user->hasRole('Standard')) {
                 if((array_key_exists('keys', $params) && count($params['keys']) > 0) || count($wheres) > 0){

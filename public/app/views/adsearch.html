@@ -20,7 +20,7 @@
                                     </span>
                                     <input type="text" class="form-control input-lg" placeholder="Enter a keyword，url or advertiser " ng-model="adSearcher.searchOption.search.text">
                                     <div class="input-group-btn">
-                                        <button type="submit" class="btn yellow-gold btn-lg" ng-click="searchCheck(adSearcher.searchOption.search.text)">
+                                        <button type="submit" class="btn yellow-gold btn-lg" ng-disabled="adSearcher.busy" ng-click="searchCheck(adSearcher.searchOption.search.text)">
                                         Search
                                         </button>
                                     </div>
@@ -84,10 +84,10 @@
             </div>
             <div class="xg-count-mt search-result">
                 <span ng-if="!adSearcher.ads.all_total_count&&adSearcher.ads.total_count!=0">Found <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> Matching Ads </span>
-                <span ng-if="adSearcher.ads.all_total_count&&adSearcher.ads.total_count!=0">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}} </span> Matching Ads/You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> results <a class="font-yellow-gold xg-upgrade-button" ui-sref="plans"> Upgrade Now</a></span>
-                <span ng-if="adSearcher.ads.total_count==0">Your search did not match any results.</span>
+                <span ng-if="adSearcher.ads.all_total_count">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}} </span> Matching Ads/You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> results <a class="font-yellow-gold xg-upgrade-button" ui-sref="plans"> Upgrade Now</a></span>
+                <span ng-if="(adSearcher.ads.all_total_count == 0) && (adSearcher.ads.total_count == 0)">Your search did not match any results.</span>
                 <!-- <button class="btn yellow-gold btn-lg" ng-click="showStatics()">analysis</button> -->
-                <!-- <i class="fa fa-hand-o-right font-yellow-gold xg-analysis" ng-click="showStatics()"></i> -->
+                <i class="fa fa-hand-o-right font-yellow-gold xg-analysis" ng-if="User.can('ad_analysis')" ng-click="showStatics()"></i>
             </div>
         </div>
         <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend" ng-class="{'half-opacity':adSearcher.busy && adSearcher.params.limit[0] === 0}">
