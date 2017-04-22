@@ -837,7 +837,7 @@ MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', '$st
         }else {
             $state.go("bookmark");
         }
-    }
+    };
     $scope.$on('$locationChangeSuccess', function() {
          tabmenu.name = $location.path();
     });
