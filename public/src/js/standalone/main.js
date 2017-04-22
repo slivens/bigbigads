@@ -1347,8 +1347,9 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
             return $uibModal.open({
                 templateUrl: 'views/sign.html',
                 size: 'customer',
+                backdrop: false,     
                 animation: true,
-                controller:['$scope', function($scope){
+                controller:['$scope', '$uibModalInstance', function($scope, $uibModalInstance){
                     var slides = $scope.slides=[];
                     var i;
                     $scope.addSlide = function() {
@@ -1360,6 +1361,9 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                     for (i = 0; i < 4; i++) {
                         $scope.addSlide();
                     }
+                    $scope.close = function() {
+                        $uibModalInstance.dismiss('cancle');
+                    };
                 }]
             });
         },
