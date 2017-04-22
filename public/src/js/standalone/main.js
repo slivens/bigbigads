@@ -821,7 +821,7 @@ MetronicApp.controller('HeaderController', ['$scope', function($scope) {
         Layout.initHeader(); // init header
     });
 }]);
-MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', function($scope, $location, User) {
+MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', '$state', function($scope, $location, User, $state) {
     var tabmenu = {
         name: $location.path()
     };
@@ -830,6 +830,13 @@ MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', func
     $scope.checkAccount = function() {
         if((User.info.user.role.name !='Free')&&(User.info.user.role.name !='Standard')) return;
         User.openUpgrade();
+    };
+    $scope.goBookMark = function() {
+        if(!User.login) {
+            User.openSign();
+        }else {
+            $state.go("bookmark");
+        }
     };
     $scope.$on('$locationChangeSuccess', function() {
          tabmenu.name = $location.path();
