@@ -1,7 +1,7 @@
 if (!app)
     var app = angular.module('MetronicApp');
 
-app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 'User', function(Resource, $uibModal, SweetAlert, BookmarkItem, User) {
+app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 'User', '$state', function(Resource, $uibModal, SweetAlert, BookmarkItem, User, $state) {
     var bookmark = new Resource('bookmark');
     bookmark.subItems = [];
     bookmark.editBookmarkByBid = function(bid) {
@@ -43,7 +43,7 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
                         $uibModalInstance.dismiss('success');
                         if(item.id){
                             //区分是修改收藏夹名称还是广告搜索页新建收藏夹
-                            window.location.reload();
+                            $state.reload();
                         }           
                     });
 
@@ -76,7 +76,7 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
         }, function(isConfirm) {
             if (isConfirm) {
                 bookmark.del(item);
-                window.location.reload();
+                $state.reload();
             }
         });
     };
@@ -174,10 +174,6 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                     $scope.data.adsers = {};
                 });
             }
-
-            $scope.$watch('$viewContentLoaded', function() {  
-                $scope.loaded = true;
-            });  
         });
     }
 
