@@ -1050,6 +1050,36 @@ body.modal-open{
     position: relative !important;
 }
 
+.xg-close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    .xg-close-icon {
+        overflow: hidden;
+        box-sizing: border-box;
+        padding: 0;
+        width: 16px;
+        height: 16px;
+        line-height: 16px !important;
+        cursor: pointer;
+        color: #abb1b8;
+        border: none;
+        background: none;
+        font-family: "Open Sans",sans-serif;
+        font-weight: 400;
+        font-size: 27px;
+        opacity: .5;
+    }
+}
+
+.xg-quick-sidebar-top75 {
+    top: 75px !important;
+}
+
+.xg-page-content-pt10 {
+    padding-top: 10px !important;
+}
+
 //注册弹框样式
 //自定义自己需要的宽度
 .modal-45{width: 45%;}
