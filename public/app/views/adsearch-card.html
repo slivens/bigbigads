@@ -43,7 +43,7 @@
                     <img src="../assets/global/img/input-spinner.gif" lazy-img="{{mother.settings.imgRemoteBase + card.small_photo}}" alt="" class="avatar">
                 </a>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9 xg-pt0">
                 <div class="margin-bottom-5 xg-overflow-hidden">
                     <a class="xg-adsername" adserlink name="{{card.adser_name}}" username="{{card.adser_username}}">
                         <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
@@ -51,7 +51,8 @@
                     </a>
                 </div>
                 <div class="pull-left">
-                    <a originlink class="xg-a-likepage xg-label" id="{{card.adser_username}}" eventid="{{card.event_id}}" type="{{card.show_way}}">Origin</a>
+                    <!-- <a originlink class="xg-sponsored" id="{{card.adser_username}}" eventid="{{card.event_id}}" type="{{card.show_way}}">Sponsored</a> -->
+                    <span class="xg-sponsored">Sponsored</span>
                 </div>
                 <div class="pull-right">
                     <a href="https://www.facebook.com/{{card.adser_username}}" class="xg-a-likepage xg-label" ng-show="card.likepage" target="_blank"> <i class="fa fa-thumbs-up blue xg-space"></i>Like Page</a>

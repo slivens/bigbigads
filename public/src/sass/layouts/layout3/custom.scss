@@ -977,6 +977,12 @@ body.modal-open{
     margin-top: 40px;
 }
 
+.xg-sponsored {
+    color: #90949c;
+    font-size: 12px;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
 //free:limited-banner
 .xg-limited-banner {
     padding: 4% 8% 2% 7%;
@@ -1078,6 +1084,10 @@ body.modal-open{
 
 .xg-page-content-pt10 {
     padding-top: 10px !important;
+}
+
+.xg-pt0 {
+    padding-left: 0px !important;
 }
 
 //注册弹框样式
