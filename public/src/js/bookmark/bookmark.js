@@ -1,7 +1,7 @@
 if (!app)
     var app = angular.module('MetronicApp');
 
-app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 'User', function(Resource, $uibModal, SweetAlert, BookmarkItem, User) {
+app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 'User', '$state', function(Resource, $uibModal, SweetAlert, BookmarkItem, User, $state) {
     var bookmark = new Resource('bookmark');
     bookmark.subItems = [];
     bookmark.editBookmarkByBid = function(bid) {
@@ -41,6 +41,10 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
                     $scope.promise.then(function() {
                         $scope.$emit('bookmarkAdded', item);
                         $uibModalInstance.dismiss('success');
+                        if(item.id){
+                            //区分是修改收藏夹名称还是广告搜索页新建收藏夹
+                            $state.reload();
+                        }           
                     });
 
                 };
@@ -72,6 +76,7 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
         }, function(isConfirm) {
             if (isConfirm) {
                 bookmark.del(item);
+                $state.reload();
             }
         });
     };
@@ -121,6 +126,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                 url: '/forward/adserSearch',
                 limit: [0, -1]
             });
+            $scope.loaded = false;
             angular.forEach(items, function(item) {
                 if (Number(item.type) === 0 && item.bid == bid) {
                     wanted.push(item.ident);
@@ -133,9 +139,10 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
             //获取广告
             $scope.adSearcher = adSearcher;
             $scope.adSearcher.checkAndGetMore = function() {
-                adSearcher.getMore();
+                if($scope.adSearcher.params.where.length > 0){
+                    adSearcher.getMore();
+                }
             };
-
             $scope.data.ads = {};
             if (wanted.length > 0) {
                 adSearcher.addFilter({

@@ -152,9 +152,9 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 						angular.forEach(res.data.ads_info, function(value, key) {
 							if (value.type == vm.ADS_CONT_TYPE.CAROUSEL) {
 								value.watermark = JSON.parse(value.watermark);
-								value.link = $filter('unique')(JSON.parse(value.link));
-								value.buttonlink = $filter('unique')(JSON.parse(value.buttonlink));
-								value.buttondesc = $filter('unique')(JSON.parse(value.buttondesc));
+								value.link = JSON.parse(value.link);
+								value.buttonlink = JSON.parse(value.buttonlink);
+								value.buttondesc = JSON.parse(value.buttondesc);
 								value.name = JSON.parse(value.name);
 								value.description = JSON.parse(value.description);
 								value.local_picture = JSON.parse(value.local_picture);
@@ -453,7 +453,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					buttondesc = [];
 				var selectStartDate;
 				var selectEndDate;
-				var freeMin = '2016-08-23';
+				var freeMin = '2016-01-01';
 				var freeMax = moment().subtract(2, 'month').format('YYYY-MM-DD');
 
 				//广告类型
@@ -765,6 +765,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						User.openUpgrade();
 						islegal = false;
 					}*/
+					if(!isAdvanceFilterLimit){
+						$scope.adSearcher.removeFilter('duration_days');
+						$scope.adSearcher.removeFilter('see_times');
+					}
 					if((User.info.user.role.plan === 'free') && ($scope.filterOption.date.endDate !== null) && !isAdvanceFilterLimit) {
 						//临时去除free注册用户时间筛选框功能
 						User.openFreeDateLimit();
@@ -1106,7 +1110,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					User.openUpgrade();
 					islegal = false;
 				}	
-
+				if(!isAdvanceFilterLimit){
+					$scope.adSearcher.removeFilter('duration_days');
+					$scope.adSearcher.removeFilter('see_times');
+				}
 				if((User.info.user.role.plan === 'free') && ($scope.filterOption.date.endDate !== null) && !isAdvanceFilterLimit) {
 						//临时去除free注册用户时间筛选框功能
 						User.openFreeDateLimit();
@@ -1277,7 +1284,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				'Last 7 Days': [moment().subtract(6, 'days'), moment()],
 				'Last 30 Days': [moment().subtract(29, 'days'), moment()],
 				'Last 90 Days': [moment().subtract(89, 'days'), moment()],
-				'All Times': ['2016-08-23', moment()]
+				'All Times': ['2016-01-01', moment()]
 			}
 		};
 		$scope.categoryOpt = {

@@ -60,9 +60,11 @@ class SearchController extends Controller
             $wheres = $params['where'];
             if(!Auth::check()) {
                 //throw new \Exception("no permission of search", -1);
-                $params['search_result'] = 'cache_ads';
-                $params['where'] = [];
-                $params['keys'] = [];
+                if((array_key_exists('action', $params)) && ($params['action'] != 'analysis')){
+                    $params['search_result'] = 'cache_ads';
+                    $params['where'] = [];
+                    $params['keys'] = [];
+                }        
                 return $params;
             }else if($user->hasRole('Free') || $user->hasRole('Standard')) {
                 if((array_key_exists('keys', $params) && count($params['keys']) > 0) || count($wheres) > 0){
@@ -298,13 +300,15 @@ class SearchController extends Controller
             Log::warning("<{$user->name}, {$user->email}> params:$json_data, time cost:" . round($t2 - $t1, 3));
             Log::info($header);
         }
+        $result = trim($result);
         if (Auth::check()) {
             //检查是否有该用户收藏
             for($i = 0; $i < 1; $i++) {//小技巧
                 if ($action == 'adsearch') {
                     $json = json_decode($result, true);
-                    if (!isset($json['ads_info'])) 
+                    if (!isset($json['ads_info'])) {
                         break;
+                    }
                     foreach($json['ads_info'] as $key => $item) {
                         if ($user->bookmarkItems()->where('type', 0)->where('ident', $item['event_id'])->count()) {
                             /* Log::debug($item['event_id'] . ' is in bookmark'); */
@@ -329,7 +333,6 @@ class SearchController extends Controller
         if ($action == 'adsearch') {
             try {
                 //cache_ads接口返回时带有NUL不可见字符，会导致json解析错误
-                $result = trim($result);
                 $result = $this->checkAfterAdSearch($user, json_decode($result, true));
             } catch (\Exception $e) {
                 return $this->responseError($e->getMessage(),$e->getCode());

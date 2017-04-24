@@ -591,7 +591,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 value: "Advertiser",
                 permission:"advertiser_search"
             }, {
-                key: "dest_site",
+                key: "link,buttonlink,dest_site",
                 value: "URL",
                 permission:"dest_site_search"
             }, {
@@ -821,7 +821,7 @@ MetronicApp.controller('HeaderController', ['$scope', function($scope) {
         Layout.initHeader(); // init header
     });
 }]);
-MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', function($scope, $location, User) {
+MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', '$state', function($scope, $location, User, $state) {
     var tabmenu = {
         name: $location.path()
     };
@@ -830,6 +830,13 @@ MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', func
     $scope.checkAccount = function() {
         if((User.info.user.role.name !='Free')&&(User.info.user.role.name !='Standard')) return;
         User.openUpgrade();
+    };
+    $scope.goBookMark = function() {
+        if(!User.login) {
+            User.openSign();
+        }else {
+            $state.go("bookmark");
+        }
     };
     $scope.$on('$locationChangeSuccess', function() {
          tabmenu.name = $location.path();
@@ -1340,8 +1347,9 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
             return $uibModal.open({
                 templateUrl: 'views/sign.html',
                 size: 'customer',
+                backdrop: false,     
                 animation: true,
-                controller:['$scope', function($scope){
+                controller:['$scope', '$uibModalInstance', function($scope, $uibModalInstance){
                     var slides = $scope.slides=[];
                     var i;
                     $scope.addSlide = function() {
@@ -1353,6 +1361,9 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                     for (i = 0; i < 4; i++) {
                         $scope.addSlide();
                     }
+                    $scope.close = function() {
+                        $uibModalInstance.dismiss('cancle');
+                    };
                 }]
             });
         },

@@ -166,6 +166,7 @@ class BigbigadsSeeder extends Seeder
         //广告主分析
         $this->insertAdsersPermissions($roles);
         //Export Permissions And Policies
+        
         $export = ['image_download', 'video_download', 'HD_video_download', 'Export'];
         $exportPermission = ['image_download'=>[false, true, true, true, true], 'video_download'=>[false, true, true, true, true], 'HD_video_download'=>[false, false, true, true, false], 'Export'=>[false, false, true, true, false]];
         $exportPolicy = ['image_download'=>[Policy::DAY, 0, 100, 500, 1000, 100], 'video_download'=>[Policy::DAY, 0, 100, 500, 1000, 100], 'HD_video_download'=>[Policy::DAY, 0, 0, 100, 500, 0], 'Export'=>[Policy::DAY, 0, 0, 10, 100, 0]];
@@ -192,7 +193,7 @@ class BigbigadsSeeder extends Seeder
         }
 
         $statics = ['search_statics', 'ad_analysis', 'adser_analysis', 'Realtime_AD_analysis'];
-        $staticsPermission = ['search_statics'=>[false, true, true, true, true], 'ad_analysis'=>[false, true, true, true, true], 'adser_analysis'=>[false, true, true, true, true], 'Realtime_AD_analysis'=>[false, false, false, true, false]];
+        $staticsPermission = ['search_statics'=>[false, true, true, true, true], 'ad_analysis'=>[false, false, false, true, false], 'adser_analysis'=>[false, true, true, true, true], 'Realtime_AD_analysis'=>[false, false, false, true, false]];
         foreach($statics as $key=>$item) {
             $permision = Permission::firstOrCreate([
                 'key'        => $item,

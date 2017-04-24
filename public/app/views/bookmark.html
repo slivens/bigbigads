@@ -20,9 +20,9 @@
     <!-- BEGIN MAIN CONTENT -->
     <div class="row">
         <div class="col-md-12">
-            <div class="alert alert-danger" ng-if="bookmark.error">
+            <!-- <div class="alert alert-danger" ng-if="bookmark.error">
                 You have not authroized!
-            </div>
+            </div> -->
             <div ng-if="!bookmark.error">
                 <uib-tabset active="bookmark.type">
                     <uib-tab index="0" heading="Ads">
@@ -73,7 +73,7 @@
 <!-- </button> -->
 
     <!--left bookmark list-->
-    <div class="page-quick-sidebar-wrapper" ng-if="!bookmark.error">
+    <div class="page-quick-sidebar-wrapper xg-quick-sidebar-top75" ng-if="!bookmark.error">
         <div class="page-quick-sidebar">
             <div class="portlet light">
                 <div class="portlet-body">
