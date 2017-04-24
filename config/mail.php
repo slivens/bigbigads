@@ -112,4 +112,21 @@ return [
 
     'sendmail' => '/usr/sbin/sendmail -bs',
 
+    /**
+     * 默认的Email只支持一个Driver，这里扩展成可以同时支持多个Driver，扩展的Driver只能使smtp
+     */
+    'addons' => [
+        'mail2' => [
+            'host' => env('MAIL2_HOST'),
+            'port' => env('MAIL2_PORT'),
+            'from' => [
+                'address' => env('MAIL2_ADDRESS', env('MAIL2_USERNAME')),
+                'name' => env('MAIL2_NAME', 'Bigbigads')
+            ],
+            'encryption' => env('MAIL2_ENCRYPTION', 'tls'),
+            'username' => env('MAIL2_USERNAME'),
+            'password' => env('MAIL2_PASSWORD'),
+        ]
+    ]
+
 ];
