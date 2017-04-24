@@ -881,7 +881,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     $stateProvider
     .state('/', {
             url: '/',
-            templateUrl: "views/adsearch.html",
+            templateUrl: "views/search.html",
             data: {
                 pageTitle: 'Advertise Search'
             },
@@ -919,7 +919,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     })
     .state('adsearch', {
             url: '/adsearch',
-            templateUrl: "views/adsearch.html",
+            templateUrl: "views/search.html",
             data: {
                 pageTitle: 'Advertise Search'
             },
