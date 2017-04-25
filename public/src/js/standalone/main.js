@@ -875,13 +875,51 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     var ts = Math.random();
     // Redirect any unmatched url
     $urlMatcherFactoryProvider.strictMode(false);
-    $urlRouterProvider.when("/", "/adsearch");
+    // $urlRouterProvider.when("/", "/adsearch");
     $urlRouterProvider.otherwise("/404.html");
     
     $stateProvider
+    .state('/', {
+            url: '/',
+            templateUrl: "views/search.html",
+            data: {
+                pageTitle: 'Advertise Search'
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: ' #ng_load_plugins_before',
+                        files: [
+                            '/node_modules/angular-deckgrid/angular-deckgrid.js',
+                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
+                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
+                            '../assets/global/plugins/select2/css/select2.min.css',
+                            '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
+                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
+                            '../assets/global/plugins/select2/js/select2.full.min.js',
+                            '../assets/pages/scripts/components-bootstrap-select.min.js',
+                            '../assets/pages/scripts/components-select2.min.js',
+
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
+                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
+                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
+                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
+                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
+                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinModern.css',
+                            '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
+                            '/node_modules/highcharts/highcharts.js',
+                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
+                            'js/bigbigads.js?r=' + ts
+                        ]
+                    });
+                }]
+            }
+    })
     .state('adsearch', {
             url: '/adsearch',
-            templateUrl: "views/adsearch.html",
+            templateUrl: "views/search.html",
             data: {
                 pageTitle: 'Advertise Search'
             },

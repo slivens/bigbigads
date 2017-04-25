@@ -257,7 +257,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				params.is_stat = 1;
 				promise = $http.post(searchurl, params);
 				promise.then(function(res) {
-					console.log(res);
+					//console.log(res);
 				});
 				return promise;
 			};
@@ -618,7 +618,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						SweetAlert.swal(res.statusText);
 					}
 				});
-				console.log("params", $scope.adSearcher.params);
+				//console.log("params", $scope.adSearcher.params);
 			};
 
 			$scope.search = function(action) {
@@ -1195,7 +1195,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			searcher.findSimilar = function(watermark) {
                 if (!watermark)
                     return false;
-                console.log("water", watermark);
+                //console.log("water", watermark);
 				var similarSearcher = new Searcher();
 				var similarPromise;
                 var md5;
