@@ -11,7 +11,6 @@ use App\User;
 use Carbon\Carbon;
 use Log;
 use App\Services\AnonymousUser;
-use Illuminate\Support\Facades\Mail;
 use App\Jobs\SendRegistMail;
 
 class UserController extends Controller
