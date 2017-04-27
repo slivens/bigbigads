@@ -59,6 +59,7 @@ class LoginController extends Controller
         if ($user->role_id != 3 && $user->expired  && $user->expired != '0000-00-00 00:00:00' && Carbon::now()->gt(new Carbon($user->expired))) {
             $role = Role::where('name', 'Free')->first();
             $user->role_id = $role->id;
+            $user->expired = null;
             $user->initUsageByRole($role);
             $user->save();
 			/* Artisan::queue('bigbigads:change', [ */

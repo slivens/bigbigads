@@ -1329,9 +1329,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			console.log($scope.$parent.filterOption);
 		};
 		$scope.User = User;
-		setTimeout(function() {
-			QuickSidebar.init(); // init quick sidebar        
-		}, 100);
+		// setTimeout(function() {
+		// 	QuickSidebar.init(); // init quick sidebar        
+		// }, 100);
 	});
 }]);
 
@@ -1520,7 +1520,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
                         Util.hint(res);
                 });
 
-				console.log("params", $scope.adSearcher.params);
+				// console.log("params", $scope.adSearcher.params);
 			};
 
 			$scope.search = function() {
