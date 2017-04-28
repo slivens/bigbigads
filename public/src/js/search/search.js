@@ -195,6 +195,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					}
 					// console.log(res.data);
 				}, function(res) {
+                    vm.isend = true;
 					defer.reject(res);
 					// console.log(res);
 				}).finally(function() {
@@ -609,8 +610,13 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						/*if(res.data.code === -4001){
 							User.openUpgrade();
 						}*/
-						if(res.data.desc === -4002){
-							User.openSearchResultUpgrade();
+						switch(res.data.code) {
+                            case -4002:
+                                User.openSearchResultUpgrade();
+                                break;
+                            case -5000:
+                                SweetAlert.swal(res.data.desc);
+                                break;
 						}			
 						$scope.islegal = false;
 						//SweetAlert.swal(res.data.desc);
@@ -1323,9 +1329,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			console.log($scope.$parent.filterOption);
 		};
 		$scope.User = User;
-		setTimeout(function() {
-			QuickSidebar.init(); // init quick sidebar        
-		}, 100);
+		// setTimeout(function() {
+		// 	QuickSidebar.init(); // init quick sidebar        
+		// }, 100);
 	});
 }]);
 
@@ -1514,7 +1520,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
                         Util.hint(res);
                 });
 
-				console.log("params", $scope.adSearcher.params);
+				// console.log("params", $scope.adSearcher.params);
 			};
 
 			$scope.search = function() {

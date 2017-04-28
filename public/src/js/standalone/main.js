@@ -992,9 +992,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             }
 
         })
-        .state('adserSearch', {
-            url: '/adserSearch',
-            templateUrl: "views/adser-search.html",
+        .state('ownerSearch', {
+            url: '/ownerSearch',
+            templateUrl: "views/owner-search.html",
             data: {
                 pageTitle: 'Advertiser Search'
             },
@@ -1309,7 +1309,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
            user.promise.then(function(res) {
                 user.info = res.data;
                 angular.extend(user, user.info);
-                console.log(user);
+                // console.log(user);
            }, function(res) {
                 user.info = {};
            }).finally(function() {

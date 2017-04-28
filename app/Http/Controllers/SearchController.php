@@ -51,6 +51,44 @@ class SearchController extends Controller
         }
     }
 
+
+    /**
+     * 攻击检测：目前检测非法请求参数和请求速率，检测到异常就记录到ActionLog
+	 * 假设：正常用户平均搜索一次加上查看也要5秒，一小时3600秒，720次。
+     * 累计次数，当当前时间与上个时间都在在(n - 1, n]小时，就累加；当前时间与上个时间不在同一个区间，重新计数。当计数超过720次时，记录到ACTION_LOG。
+     * @remark 对于攻击的检测，如果没有相应的单元测试手段，将很难覆盖测试
+     */
+    protected function checkAttack($req, $user)
+    {
+        //速率的计算
+        $key = 'attack_' . $req->ip();
+        $def = ['last' => Carbon::now()->toDateTimeString() , 'count' => 0];
+        $static = Cache::get($key, $def);
+        $last = new Carbon($static['last']);
+        $now = Carbon::now();
+        /* Log::debug("{$now->hour} and {$last->toDateTimeString()}"); */
+        if ($now->hour == $last->hour && $now->diffInHours($last, true) == 0) {
+            $static['count']++;
+        } else {
+            $static['count'] = 1;
+        }
+        $static['last'] = $now->toDateTimeString();
+        Cache::put($key, $static, 1440);
+        //每小时不应超过720（以整个小时作为样本)
+        if ($static['count'] >= 720) {
+            if ($static['count'] == 720) {
+                Log::debug("{$req->ip()} may attach the server");
+                dispatch(new LogAction("ATTACK_IP_RATE", json_encode($req->all()), json_encode($static), $user->id, $req->ip()));
+            }
+            return false;
+        }
+
+        //参数的判断，过于严格，开发阶段增加额外参数将导致较大的人力沟通，不利于开发，暂不实施
+        /* $allowed = ['action', 'is_stat', 'is_why_all', 'keys', 'limit', 'search_result', 'sort', 'topN', 'where']; */
+       
+        return true;
+    }
+
     /**
      * 广告搜索前先检查参数是否有对应权限，对于无权限的将该参数清空或者通过throw抛出错误;
      * @warning 需要特别注意，参数的'field'与权限值通常不相等。
@@ -170,6 +208,7 @@ class SearchController extends Controller
         }
         return $data;
     }
+
     public function search(Request $req, $action) {
         $json_data = json_encode($req->except(['action']));
         $remoteurl = "";
@@ -182,6 +221,9 @@ class SearchController extends Controller
             }else {
                 return ;
             }   
+        }
+        if (!$this->checkAttack($req, $user)) {
+            return $this->responseError("We detect your ip has abandom behavior", -5000);
         }
         if ($action == 'adsearch') {
             //检查权限（应该是根据GET的动作参数判断，否则客户端会出现一种情况，当查看收藏时，也会触发搜索资源统计)
@@ -298,7 +340,8 @@ class SearchController extends Controller
         //执行时间超过0.5S的添加到日志中
         if (($t2 - $t1) > 0.5) {
             Log::warning("<{$user->name}, {$user->email}> params:$json_data, time cost:" . round($t2 - $t1, 3));
-            Log::info($header);
+            if (isset($header))
+                Log::info($header);
         }
         $result = trim($result);
         if (Auth::check()) {

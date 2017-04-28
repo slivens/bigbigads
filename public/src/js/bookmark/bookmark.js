@@ -267,9 +267,9 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
     });
 
 
-    setTimeout(function() {
-        QuickSidebar.init(); // init quick sidebar        
-    }, 200);
+    // setTimeout(function() {
+    //     QuickSidebar.init(); // init quick sidebar        
+    // }, 200);
 }]);
 
 app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', 'User', '$q', 'SweetAlert',  function($scope, Bookmark, BookmarkItem, User, $q, SweetAlert) {

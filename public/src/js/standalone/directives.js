@@ -2,6 +2,8 @@
 GLobal Directives
 ***/
 
+if (!MetronicApp)
+    var MetronicApp = angular.module('MetronicApp');
 // Route State Load Spinner(used on page or content load)
 MetronicApp.directive('ngSpinnerBar', ['$rootScope', '$state',
     function($rootScope, $state) {
