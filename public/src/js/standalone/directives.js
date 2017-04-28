@@ -2,6 +2,8 @@
 GLobal Directives
 ***/
 
+import * as App from './app';
+
 if (!MetronicApp)
     var MetronicApp = angular.module('MetronicApp');
 // Route State Load Spinner(used on page or content load)

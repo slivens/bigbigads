@@ -7,6 +7,7 @@ module.exports = {
         vendor:[
             'bootstrap', 
             'bootstrap-switch',
+            'bootstrap-hover-dropdown',
             'jquery-slimscroll',
             'angular', 
             'angular-sanitize', 
