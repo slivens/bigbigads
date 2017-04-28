@@ -3,6 +3,9 @@ Metronic AngularJS App Main Script
 ***/
 import * as App from './app';
 import * as Layout from './layout';
+import moment from 'moment';
+window.moment = moment;
+
 /* Metronic App */
 var MetronicApp = angular.module("MetronicApp", [
     "ui.router",

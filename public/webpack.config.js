@@ -9,6 +9,7 @@ module.exports = {
             'bootstrap-switch',
             'bootstrap-hover-dropdown',
             'jquery-slimscroll',
+            'sweetalert',
             'angular', 
             'angular-sanitize', 
             'angular-touch', 
@@ -17,6 +18,7 @@ module.exports = {
             'ocLazyLoad', 
             'angular-resource', 
             'angular-ui-bootstrap',
+            'angular-sweetalert'
             ]
     },
     output: {
