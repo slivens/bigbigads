@@ -35,16 +35,15 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
         <!-- END GLOBAL MANDATORY STYLES -->
         <!-- BEGIN THEME GLOBAL STYLES -->
-        <link href="../dist/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css" />
-        <link href="../dist/global/css/plugins-md.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="../assets/global/css/plugins-md.css" rel="stylesheet" type="text/css" />
         <!-- END THEME GLOBAL STYLES -->
         <!-- BEGIN PAGE LEVEL STYLES -->
-        <link href="../dist/pages/css/blog.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/pages/css/blog.css" rel="stylesheet" type="text/css" />
         <!-- END PAGE LEVEL STYLES -->
         <!-- BEGIN THEME LAYOUT STYLES -->
-        <link href="../dist/layouts/layout3/css/layout.css" rel="stylesheet" type="text/css" />
-        <link href="../dist/layouts/layout3/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color" />
-        <link href="../dist/layouts/layout3/css/custom.css" rel="stylesheet" type="text/css" />
+        <link href="../static/layout.css" rel="stylesheet" type="text/css" />
+        <link href="../static/default.css" rel="stylesheet" type="text/css" id="style_color" />
         <link rel="stylesheet" type="text/css" href="../static/custom.css"><!-- 头部与足部样式 -->
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="/static/images/favicon.ico" /> </head>
@@ -318,18 +317,12 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- BEGIN CORE PLUGINS -->
         <script src="../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
         <script src="../assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="../assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
         <script src="../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
         <script src="../assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-        <script src="../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
         <!-- END CORE PLUGINS -->
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
-        <script src="/dist/app.js" type="text/javascript"></script>
         <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
-        <script src="/dist/layout.js" type="text/javascript"></script>
-        <script src="/dist/quick-sidebar.js" type="text/javascript"></script>
-        <script src="/dist/quick-nav.js" type="text/javascript"></script>
         <!-- END THEME LAYOUT SCRIPTS -->
     </body>
 

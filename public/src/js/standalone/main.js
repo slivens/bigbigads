@@ -1,10 +1,16 @@
+import "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css";
+import 'sweetalert/dist/sweetalert.css';
+import 'angular-busy/dist/angular-busy.min.css';
+import './../../sass/global/font.scss';
+import './../../sass/global/components-md.scss';
+import './../../sass/layouts/layout3/layout.scss';
+import './../../sass/layouts/layout3/themes/yellow-orange.scss';
+
 /***
 Metronic AngularJS App Main Script
 ***/
-import * as App from './app';
-import * as Layout from './layout';
-import moment from 'moment';
-window.moment = moment;
+window.moment = require('moment');
+
 
 /* Metronic App */
 var MetronicApp = angular.module("MetronicApp", [
@@ -808,7 +814,6 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope',  'User',function($scope, $rootScope, User) {
     $scope.$on('$viewContentLoaded', function() {
-        App.initComponents(); // init core components
         //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
     });
 }]);
@@ -822,7 +827,7 @@ initialization can be disabled and Layout.init() should be called on page load c
 /* Setup Layout Part - Header */
 MetronicApp.controller('HeaderController', ['$scope', function($scope) {
     $scope.$on('$includeContentLoaded', function() {
-        Layout.initHeader(); // init header
+        // Layout.initHeader(); // init header
     });
 }]);
 MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', '$state', function($scope, $location, User, $state) {
@@ -849,28 +854,16 @@ MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', '$st
 /* Setup Layout Part - Sidebar */
 MetronicApp.controller('SidebarController', ['$scope', function($scope) {
     $scope.$on('$includeContentLoaded', function() {
-        Layout.initSidebar($state); // init sidebar
+        // Layout.initSidebar($state); // init sidebar
     });
 }]);
 
-/* Setup Layout Part - Sidebar */
-MetronicApp.controller('PageHeadController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
-        Demo.init(); // init theme panel
-    });
-}]);
 
-/* Setup Layout Part - Theme Panel */
-MetronicApp.controller('ThemePanelController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
-        Demo.init(); // init theme panel
-    });
-}]);
 
 /* Setup Layout Part - Footer */
 MetronicApp.controller('FooterController', ['$scope', function($scope) {
     $scope.$on('$includeContentLoaded', function() {
-        Layout.initFooter(); // init footer
+        // Layout.initFooter(); // init footer
     });
 }]);
 

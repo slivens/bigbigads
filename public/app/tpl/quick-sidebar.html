@@ -7,7 +7,7 @@
         <!-- </div> -->
         <div class="portlet-body form"> 
             <div class="filter-title">Filter</div>
-            <form role="form" ng-submit="$parent.islegal&&$parent.search('search')">
+            <form role="form" ng-submit="submit()">
                 <div class="input-group">
                     <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-calendar"></i></span>
                     <input date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.date" options="daterangeOption" placeholder="Time Frame" aria-describedby="filterbydate_addon"/> 
@@ -220,7 +220,7 @@
 
                 <!--filter button-->
                 <div class="form-group clearfix filterapply-bitton">
-                    <button  type="submit" class="btn btn-lg yellow-gold" ng-show="!$parent.inAdvertiserMode" ng-click="$parent.searchCheck($parent.adSearcher.searchOption.search.text)">
+                    <button  type="submit" class="btn btn-lg yellow-gold" ng-show="!$parent.inAdvertiserMode" >
                         <!-- <i class="fa fa-filter" ></i> -->
                         Filter
                     </button>

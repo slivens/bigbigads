@@ -27,11 +27,10 @@
         <link href="./assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN THEME GLOBAL STYLES -->
-        <link href="./dist/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css" />
-        <link href="../dist/global/css/plugins-md.css" rel="stylesheet" type="text/css" />
+        <link href="./assets/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css" />
         <!-- END THEME GLOBAL STYLES -->
         <!-- BEGIN PAGE LEVEL STYLES -->
-        <link href="./dist/pages/css/login-3.css" rel="stylesheet" type="text/css" />
+        <link href="./assets/pages/css/login-3.css" rel="stylesheet" type="text/css" />
         <!-- END PAGE LEVEL STYLES -->
         <!-- BEGIN THEME LAYOUT STYLES -->
         <!-- END THEME LAYOUT STYLES -->
@@ -112,7 +111,7 @@
                     <!--create an acount-->
                     <div class="col-xs-12 text-left">
                     <p> Don't have an account?&nbsp;
-                        <a href="javascript:;" id="register-btn" href="{{url('/register')}}" >Sign Up</a>
+                        <a  id="register-btn" href="{{url('/register')}}" >Sign Up</a>
                     </p>
                     </div>
                 </div>
@@ -161,7 +160,7 @@
                     <button type="submit" class="btn submit-btn margin-top-30"> Submit </button>
                 </div>
                 <class class="margin-top-30">
-                    <p>Try again to <a id="back-btn" class="grey-salsa btn-outline">Sign in</a></p>
+                    <p>Try again to <a id="back-btn" class="grey-salsa btn-outline" href="{{url('/login')}}" >Sign in</a></p>
                 </class>
             </form>
             <!-- END FORGOT PASSWORD FORM -->
@@ -272,7 +271,7 @@
                 <div class="margin-top-30">
                 <p>
                         If you have the account click to
-                        <a id="register-back-btn" type="button" class=" grey-salsa btn-outline">Sign in </a> 
+                        <a id="register-back-btn" type="button" class=" grey-salsa btn-outline" href="{{url('/login')}}">Sign in </a> 
                 </p>
                 </div>
             </form>
@@ -298,19 +297,13 @@
         <!-- BEGIN CORE PLUGINS -->
         <script src="./assets/global/plugins/jquery.min.js" type="text/javascript"></script>
         <script src="./assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="./assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
         <script src="./assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
         <script src="./assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-        <script src="./assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
         <!-- END CORE PLUGINS -->
         <!-- BEGIN PAGE LEVEL PLUGINS -->
         <script src="./assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
         <script src="./assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
-        <script src="./assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL PLUGINS -->
-        <!-- BEGIN THEME GLOBAL SCRIPTS -->
-        <script src="./dist/app.js" type="text/javascript"></script>
-        <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
         <script src="./assets/pages/scripts/login.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL SCRIPTS -->
