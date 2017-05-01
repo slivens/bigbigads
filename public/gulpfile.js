@@ -75,7 +75,7 @@ gulp.task('sass:watch', function () {
 });
 
 gulp.task('clean', function() {
-        return gulp.src(['./app/js', './app/*.css', './assets/*.json'], {read:false}).pipe(clean());
+        return gulp.src(['./app/js', './app/*.css', './assets/*.json', './app/*.json', './app/**/*.html'], {read:false}).pipe(clean());
 })
 
 gulp.task('script',  function() {
@@ -114,29 +114,71 @@ gulp.task('lint', function()  {
 
 });
 
-//对JS与CSS生成版本号，防止缓存;源文件必须与目标文件分开，否则将只能替换一次
-gulp.task('rev',  function() {
-    return gulp.src(['./assets/*.json',  './app/manifest.json','./src/index.html']).pipe(revCollector({
-                replaceReved:true
-                }))
-                .pipe(strip())
-                .pipe(htmlmin({
-                    collapseWhitespace:true
-                }))
-                .pipe(gulp.dest('./app'));
+//压缩HTML和打版本
+gulp.task('html',  function() {
+    if (config.mode === "develop") {
+        gulp.src(['./src/404.html'])
+                    .pipe(gulp.dest('./app/'));
+        gulp.src(['./src/components/**/*.html'])
+                    .pipe(gulp.dest('./app/views'));
+        gulp.src(['./src/views/**/*.html'])
+                    .pipe(gulp.dest('./app/views'));
+        gulp.src(['./src/tpl/**/*.html'])
+                    .pipe(gulp.dest('./app/tpl'));
+        return gulp.src(['./app/manifest.json','./src/index.html']).pipe(revCollector({
+                    replaceReved:true
+                    }))
+                    .pipe(gulp.dest('./app'));
+    } else {
+        gulp.src(['./src/404.html'])
+                    .pipe(strip())
+                    .pipe(htmlmin({
+                        collapseWhitespace:true
+                    }))
+                    .pipe(gulp.dest('./app/'));
+        gulp.src(['./src/components/**/*.html'])
+                    .pipe(strip())
+                    .pipe(htmlmin({
+                        collapseWhitespace:true
+                    }))
+                    .pipe(gulp.dest('./app/views'));
+        gulp.src(['./src/views/**/*.html'])
+                    .pipe(strip())
+                    .pipe(htmlmin({
+                        collapseWhitespace:true
+                    }))
+                    .pipe(gulp.dest('./app/views'));
+        gulp.src(['./src/tpl/**/*.html'])
+                    .pipe(strip())
+                    .pipe(htmlmin({
+                        collapseWhitespace:true
+                    }))
+                    .pipe(gulp.dest('./app/tpl'));
+        return gulp.src(['./assets/*.json',  './app/manifest.json','./src/index.html']).pipe(revCollector({
+                    replaceReved:true
+                    }))
+                    .pipe(strip())
+                    .pipe(htmlmin({
+                        collapseWhitespace:true
+                    }))
+                    .pipe(gulp.dest('./app'));
+    }
 });
-
 
 gulp.task('script:watch', function() {
-    gulp.watch(['./src/js/**/*.js', './src/index.html'], ['lint', 'script']);
+    gulp.watch(['./src/js/**/*.js'], ['lint', 'script']);
 });
 
-gulp.task('watch', ['sass:watch', 'script:watch']);
+gulp.task('html:watch', function() {
+    gulp.watch(['./src/**/*.html'], ['html']);
+});
+
+gulp.task('watch', ['sass:watch', 'script:watch', 'html:watch']);
 
 gulp.task('config-product', function() {
     config.mode = "production";
 })
 
 
-gulp.task('production', gulpsync.sync([["config-product"], ['sass', 'script'], 'rev']));
-gulp.task('develop', ['sass', 'script']);
+gulp.task('production', gulpsync.sync([["config-product"], ['sass', 'script'], 'html']));
+gulp.task('develop', gulpsync.sync([['sass', 'script'], 'html']));

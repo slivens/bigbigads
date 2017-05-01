@@ -12,7 +12,7 @@ $php artisan key:generate
 $cd public
 $npm install
 $bower install
-$gulp production
+$npm run product
 ```
 
 复制`.env.example`为`.env`,`.env`配置，这里面主要包含AppID,数据库配置、SMTP配置、缓存配置、以及调试配置。在实践上`.env`通常包含敏感信息（AppID及数据库配置）以及跟本地环境强相关（每个机器的数据库可能都不一样），因此不会将它包含进仓库，而是提供`.env.example`作为范例。`.env`文件在`Laravel 5.3`下有详细的说法明，这里简单对配置下做下说明。
@@ -89,7 +89,7 @@ PAYPAL_MODE=sandbox
 在`public`目录下，执行
 
 ```
-$gulp production 
+$npm run product
 ```
 
 然后在工程根目录下，修改`.env`文件，核对以下字段是否设置同样的值
@@ -102,7 +102,7 @@ APP_DEBUG=false
 在`public`目录下，执行
 
 ```
-$gulp develop
+$npm run develop
 ``` 
 
 然后在工程根目录下，修改`.env`文件，核对以下字段是否设置同样的值
@@ -111,13 +111,15 @@ $gulp develop
 APP_DEBUG=true
 ```
 
-如果要修改`js`或`sass`文件，**修改前**单独开一个窗口，执行如下命令，监听文件有变化则重新生成目标文件
+如果要修改`js`，`sass`，或者`html`文件，**修改前**单独开一个窗口，执行如下命令，监听文件有变化则重新生成目标文件
 
 ```
 $gulp watch
 ```
 
 请配合`Chrome Devtool`做调试开发。
+
+> 有些文件现在是由`webpack`管理的，比如`main.js`，如果修改了该文件，那么需要使用`webpack`生成目标文件才行；
 
 ## 权限配置指南
 [参考对应WIKI:权限配置指南](http://git.papamk.com:81/bigbigads/bigbigads/wikis/%E6%9D%83%E9%99%90%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97)
