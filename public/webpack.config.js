@@ -17,7 +17,7 @@ module.exports = {
             'angular-touch', 
             'angular-busy', 
             'angular-ui-router', 
-            'ocLazyLoad', 
+            'oclazyload', 
             'angular-resource', 
             'angular-ui-bootstrap',
             'angular-sweetalert',
