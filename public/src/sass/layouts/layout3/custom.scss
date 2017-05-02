@@ -531,7 +531,7 @@ body {
     line-height:48px;
 }
 .img-loading {
-    background:#efefef url("../img/input-spinner.gif") no-repeat center center;
+    background:#efefef url("/images/input-spinner.gif") no-repeat center center;
 }
 //广告搜索相关类
 .aditem {
@@ -876,9 +876,6 @@ body.modal-open{
     content: url('../../../../assets/global/img/xgrit-img/icon-play.png');
 }
 
-.xg-icon-collect:before {
-    content: url('../../../../assets/global/svg/collect.svg');
-}
 
 .xg-icon-audience {
     background-image: url('../../../../assets/global/svg/detail-person.svg');

@@ -388,8 +388,8 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 	}
 ]);
 /* adsearch js */
-app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal', 
-		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal) {
+app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal',  '$window', 
+		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window) {
 			//搜索流程:location.search->searchOption->adSearcher.params
 			//将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
 
@@ -797,6 +797,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					}
 				}
 				$scope.islegal = islegal;
+                return islegal;
 			};
             $scope.Util = Util;
 			$scope.User = User;
@@ -1278,7 +1279,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 		}
 	])
 
-.controller('QuickSidebarController', ['$scope', 'settings', 'User', function($scope, settings, User) {
+.controller('QuickSidebarController', ['$scope', '$window', 'settings', 'User', function($scope, $window, settings, User) {
 
 	/* Setup Layout Part - Quick Sidebar */
 	//这个控制器与广告是强绑定的，这里直接指向$parent的这个方式是非常不友好的，加大了耦合
@@ -1329,9 +1330,17 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			console.log($scope.$parent.filterOption);
 		};
 		$scope.User = User;
-		// setTimeout(function() {
-		// 	QuickSidebar.init(); // init quick sidebar        
-		// }, 100);
+
+        $scope.submit = function() {
+            var legal = true;
+            if (!$scope.$parent.inAdvertiserMode) {
+                legal = $scope.$parent.searchCheck($scope.$parent.adSearcher.searchOption.search.text);
+            }
+            if (legal) {
+                angular.element($window).scrollTop(0);
+                $scope.$parent.search('search');
+            }
+        };
 	});
 }]);
 

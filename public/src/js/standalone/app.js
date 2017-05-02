@@ -133,6 +133,55 @@ var App = function() {
             }
         });
 
+        $('body').on('click', '.portlet > .portlet-title > .tools > a.reload', function(e) {
+            e.preventDefault();
+            var el = $(this).closest(".portlet").children(".portlet-body");
+            var url = $(this).attr("data-url");
+            var error = $(this).attr("data-error-display");
+            if (url) {
+                App.blockUI({
+                    target: el,
+                    animate: true,
+                    overlayColor: 'none'
+                });
+                $.ajax({
+                    type: "GET",
+                    cache: false,
+                    url: url,
+                    dataType: "html",
+                    success: function(res) {
+                        App.unblockUI(el);
+                        el.html(res);
+                        App.initAjax() // reinitialize elements & plugins for newly loaded content
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        App.unblockUI(el);
+                        var msg = 'Error on reloading the content. Please check your connection and try again.';
+                        if (error == "toastr" && toastr) {
+                            toastr.error(msg);
+                        } else if (error == "notific8" && $.notific8) {
+                            $.notific8('zindex', 11500);
+                            $.notific8(msg, {
+                                theme: 'ruby',
+                                life: 3000
+                            });
+                        } else {
+                            alert(msg);
+                        }
+                    }
+                });
+            } else {
+                // for demo purpose
+                App.blockUI({
+                    target: el,
+                    animate: true,
+                    overlayColor: 'none'
+                });
+                window.setTimeout(function() {
+                    App.unblockUI(el);
+                }, 1000);
+            }
+        });
 
         // load ajax data on page init
         $('.portlet .portlet-title a.reload[data-load="true"]').click();
@@ -699,6 +748,72 @@ var App = function() {
             App.scrollTo();
         },
 
+        // wrApper function to  block element(indicate loading)
+        blockUI: function(options) {
+            options = $.extend(true, {}, options);
+            var html = '';
+            if (options.animate) {
+                html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '">' + '<div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>' + '</div>';
+            } else if (options.iconOnly) {
+                html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="' + this.getGlobalImgPath() + 'loading-spinner-grey.gif" align=""></div>';
+            } else if (options.textOnly) {
+                html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><span>&nbsp;&nbsp;' + (options.message ? options.message : 'LOADING...') + '</span></div>';
+            } else {
+                html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="' + this.getGlobalImgPath() + 'loading-spinner-grey.gif" align=""><span>&nbsp;&nbsp;' + (options.message ? options.message : 'LOADING...') + '</span></div>';
+            }
+
+            if (options.target) { // element blocking
+                var el = $(options.target);
+                if (el.height() <= ($(window).height())) {
+                    options.cenrerY = true;
+                }
+                el.block({
+                    message: html,
+                    baseZ: options.zIndex ? options.zIndex : 1000,
+                    centerY: options.cenrerY !== undefined ? options.cenrerY : false,
+                    css: {
+                        top: '10%',
+                        border: '0',
+                        padding: '0',
+                        backgroundColor: 'none'
+                    },
+                    overlayCSS: {
+                        backgroundColor: options.overlayColor ? options.overlayColor : '#555',
+                        opacity: options.boxed ? 0.05 : 0.1,
+                        cursor: 'wait'
+                    }
+                });
+            } else { // page blocking
+                $.blockUI({
+                    message: html,
+                    baseZ: options.zIndex ? options.zIndex : 1000,
+                    css: {
+                        border: '0',
+                        padding: '0',
+                        backgroundColor: 'none'
+                    },
+                    overlayCSS: {
+                        backgroundColor: options.overlayColor ? options.overlayColor : '#555',
+                        opacity: options.boxed ? 0.05 : 0.1,
+                        cursor: 'wait'
+                    }
+                });
+            }
+        },
+
+        // wrApper function to  un-block element(finish loading)
+        unblockUI: function(target) {
+            if (target) {
+                $(target).unblock({
+                    onUnblock: function() {
+                        $(target).css('position', '');
+                        $(target).css('zoom', '');
+                    }
+                });
+            } else {
+                $.unblockUI();
+            }
+        },
 
         startPageLoading: function(options) {
             if (options && options.animate) {
