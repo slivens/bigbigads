@@ -1134,6 +1134,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                     }
 				
 				$scope.islegal = islegal;
+                return islegal;
 			};
 			$scope.User = User;
 			$scope.Searcher = Searcher;
