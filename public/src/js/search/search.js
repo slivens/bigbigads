@@ -596,6 +596,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                             case -4100:
                                 User.openSearchResultUpgrade();
                                 break;
+                            case -4200:	
                             case -5000:
                                 SweetAlert.swal(res.data.desc);
                                 break;
