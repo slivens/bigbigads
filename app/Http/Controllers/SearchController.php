@@ -212,6 +212,8 @@ class SearchController extends Controller
     public function search(Request $req, $action) {
         $json_data = json_encode($req->except(['action']));
         $remoteurl = "";
+        $isUpdateSearchTime = false;
+        $isWhereChange = false;
         $user = $this->user();
         if (!(Auth::check())) {
             //匿名用户只有adsearch动作，其它动作一律不允许
@@ -235,12 +237,21 @@ class SearchController extends Controller
             }
             if (in_array($act["action"], ['search'])) {
                 $lastParams = $user->getCache('adsearch.params');
+                $lastParamsArray = json_decode($lastParams, true);
                 //参数有变化，开始做搜索次数的判定
                 if ($lastParams != $json_data) {
                     $usage = $user->getUsage('search_times_perday');
                     if (!$usage) {
                         return $this->responseError("no search permission");
                     }
+                    if ($lastParamsArray['where'] != $req->where) {
+                        //free用户每次搜索都会强制带上time过滤，若where只有一个，说明是不带过滤条件，则不应该记录
+                        if ($user->hasRole('Free') && count($req->where) > 1) {
+                            $isWhereChange = true;
+                        }else if(!$user->hasRole('Free')) {
+                            $isWhereChange = true;
+                        }
+                    }    
                     //有搜索或者过滤条件
                     //if (count($req->keys) > 0 || count($req->where) > 0) {
                     if(count($req->keys) > 0){
@@ -259,10 +270,12 @@ class SearchController extends Controller
                             $usage[2] = 0;
                         }
                         if ($usage[2] >= intval($usage[1]))
-                            return response(["code"=>-4002, "desc"=> "you reached search times today, default result will show"], 422);
+                            return response(["code"=>-4100, "desc"=> "you reached search times today, default result will show"], 422);
                         Log::debug("adsearch " . $json_data . json_encode($usage));
                         $user->updateUsage('search_times_perday', $usage[2] + 1, Carbon::now());
-                        dispatch(new LogAction("search_times_perday", $json_data, "search_times_perday:"  . ($usage[2] + 1), $user->id, $req->ip()));
+                        $isUpdateSearchTime = true;
+                        $search_times_perday = $usage[2] + 1;
+                        //dispatch(new LogAction("search_times_perday", $json_data, "search_times_perday:"  . ($usage[2] + 1), $user->id, $req->ip()));
                     }
                     $user->setCache('adsearch.params', $json_data);
                 }
@@ -344,6 +357,29 @@ class SearchController extends Controller
                 Log::info($header);
         }
         $result = trim($result);
+        if ($action == 'adsearch') {
+            if (Auth::check()) {
+                $json = json_decode($result, true);
+                if ($user->hasRole('Free') && array_key_exists("all_total_count", $json)) {
+                    $searchResult = "total_count: " . $json['total_count'] . " ,all_total_count: " . $json['all_total_count'];
+                }else {
+                    $searchResult = "total_count: " . $json['total_count'];
+                }
+
+                //测试时发现$req->limit对比$lastParams的limit一直是相同的，很奇怪暂时使用这个intval($req->limit[0]) >= 0做判断
+                if (intval($req->limit[0]) >= 0 && !$isWhereChange && !$isUpdateSearchTime) {
+                    //所有的下拉请求都要记录,区分出是否有where和key变化，否则会同时一个动作记录多条
+                    dispatch(new LogAction("search_limit_change", $json_data, "limit: " . $req->limit[0], $user->id, $req->ip()));
+                }
+                //用户不带搜索词使用过滤时记录
+                if ($isWhereChange && !$isUpdateSearchTime) {
+                    dispatch(new LogAction("search_where_change", $json_data, $searchResult . ", where: " . json_encode($req->where), $user->id, $req->ip()));
+                }
+                if ($isUpdateSearchTime) {
+                    dispatch(new LogAction("search_times_perday", $json_data, "search_times_perday:" . $search_times_perday . ", " .$searchResult , $user->id, $req->ip()));
+                }
+            }
+        }
         if (Auth::check()) {
             //检查是否有该用户收藏
             for($i = 0; $i < 1; $i++) {//小技巧
