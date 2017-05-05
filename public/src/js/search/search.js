@@ -418,7 +418,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				// console.log("max search result:", policy.value, adSearcher.params.limit[0] + adSearcher.params.limit[1]);
 				if (adSearcher.params.limit[0] + adSearcher.params.limit[1] >= policy.value) {
 					//SweetAlert.swal("you reached search result limit(" + policy.value + ")");
-					User.openSearchResultUpgrade();
+					//User.openSearchResultUpgrade();
 					adSearcher.isend = true;
 					return;
 				}
@@ -580,24 +580,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 					}
 				}); 
-				$scope.isFreeLimitDate = false;
-				if (User.user.role.plan === 'free') {
-						if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0)) {
-							angular.forEach($scope.adSearcher.params.where, function(data) {
-								if (data.field === 'time') { 
-									$scope.adSearcher.removeFilter('time');
-								}
-							});
-							$scope.adSearcher.addFilter({
-									field: "time",
-									min: freeMin,
-									max: freeMax,
-									role: "free"
-							});
-							//暂时限定免费注册用户的所有请求都是在两个月之前的数据
-							$scope.isFreeLimitDate = true;
-						}
-				}
 				$scope.currSearchOption.filter.category = category.join(',');
 				$scope.currSearchOption.filter.format = format.join(',');
 				$scope.currSearchOption.filter.callToAction = buttondesc.join(',');
@@ -611,7 +593,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 							User.openUpgrade();
 						}*/
 						switch(res.data.code) {
-                            case -4002:
+                            case -4100:
                                 User.openSearchResultUpgrade();
                                 break;
                             case -5000:
@@ -687,7 +669,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				//域名
 				if (option.domain.text) {
 					keys.push({
-						string: option.domain.text,
+						string: option.domain.text ? option.domain.text : "",
 						search_fields: 'caption,link,dest_site,buttonlink',
 						relation: option.domain.exclude ? 'Not' : 'Must'
 					});
@@ -1006,6 +988,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 					}
 				});
+
 				$scope.isFreeLimitDate = false;
 				if (User.user.role.plan === 'free') {
 						if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0)) {
@@ -1082,7 +1065,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				//域名
 				if (option.domain.text) {
 					keys.push({
-						string: option.domain.text,
+						string: option.domain.text ? option.domain.text : "",
 						search_fields: 'caption,link,dest_site,buttonlink',
 						relation: option.domain.exclude ? 'Not' : 'Must'
 					});
@@ -1522,6 +1505,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 					});
 					}
 				});
+
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
 				$scope.currSearchOption.callToAction = buttondesc.join(',');
@@ -1562,7 +1546,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 				//域名
 				if (option.domain.text) {
 					keys.push({
-						string: option.domain.text,
+						string: option.domain.text ? option.domain.text : "",
 						search_fields: 'caption,link,dest_site,buttonlink',
 						relation: option.domain.exclude ? 'Not' : 'Must'
 					});
