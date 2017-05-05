@@ -357,6 +357,10 @@ class SearchController extends Controller
                 Log::info($header);
         }
         $result = trim($result);
+        $resultJson = json_decode($result, true);
+        if (array_key_exists('error', $resultJson)) {
+            return response(["code"=>-4200, "desc"=>"Your search term is not legal"], 422);
+        }
         if ($action == 'adsearch') {
             if (Auth::check()) {
                 $json = json_decode($result, true);
