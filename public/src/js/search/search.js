@@ -580,6 +580,24 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 					}
 				}); 
+				$scope.isFreeLimitDate = false;
+				if (User.user.role.plan === 'free') {
+						if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0)) {
+							angular.forEach($scope.adSearcher.params.where, function(data) {
+								if (data.field === 'time') { 
+									$scope.adSearcher.removeFilter('time');
+								}
+							});
+							$scope.adSearcher.addFilter({
+									field: "time",
+									min: freeMin,
+									max: freeMax,
+									role: "free"
+							});
+							//暂时限定免费注册用户的所有请求都是在两个月之前的数据
+							$scope.isFreeLimitDate = true;
+						}
+				}
 				$scope.currSearchOption.filter.category = category.join(',');
 				$scope.currSearchOption.filter.format = format.join(',');
 				$scope.currSearchOption.filter.callToAction = buttondesc.join(',');
