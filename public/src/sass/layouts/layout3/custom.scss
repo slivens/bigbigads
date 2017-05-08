@@ -1035,7 +1035,7 @@ body.modal-open{
     }
 }
 
-.xg-limited-banner-mt6 {
+.xg-mt80 {
     margin-top: 80px !important;    
 }
 
@@ -1232,6 +1232,48 @@ color: $black_placeholder !important;
         }
     }
 
+    /*覆盖select2 的原有样式*/
+    .select2-dropdown {
+        border-color:#66afe9 !important;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    }
+    .select2-container--default.select2-container--focus .select2-selection--multiple{
+        border-color:#66afe9;
+    }
+    .select2-container--default{
+        .select2-selection--multiple .select2-selection__choice{
+            color: #555;
+            border-radius: 4px;
+            cursor: default;
+            float: left;
+            margin: 5px 0 0 6px;
+            padding: 0 6px;
+            background-color: #eee;
+            border: 1px solid #eee;
+        }
+        .select2-results__option[aria-disabled=true] {
+            background-color: #e1e5ec;
+            color: #262626;
+            cursor: default;
+        }
+ 
+    }
+    form{
+        span.select2,.select2-selection{
+            border-radius: 0 4px 4px 0;
+            border-color:#ccc;
+        }
+        span.select2-container{
+            width: 100% !important;
+            li:first-child .select2-search__field{
+                width: 100% !important;
+            }
+            .select2-dropdown{
+                border-color:#66afe9;
+            }
+        }  
+    }    
+
 }
 
 //plan临时性css设置
@@ -1310,3 +1352,26 @@ color: $black_placeholder !important;
 //注册弹框样式
 //自定义需要的宽度
 .modal-customer{min-width: 760px;width: 45%;}
+
+.xg-audience-table {
+    color: #333333 !important;
+    font-weight: bold;   
+    margin-bottom: 0px !important;
+    tr td {
+        font-size: 16px !important;
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+    }
+}
+
+.xg-audience-foot {
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+}
+
+.alert-warning {
+    background-color: #f9e491;
+    border-color: #f9e491;
+    color: #c29d0b;
+}
