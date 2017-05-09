@@ -33,7 +33,7 @@
 
     </div>
 </section>
-<!-- 轮播图 -->
+<!-- bootstraps swiper-slide -->
 <section class="slider">
     <div class="container">
         <div class="col-md-7 col-xs-7 slider-left">
@@ -197,7 +197,7 @@
 @include('tpl.footer')
 <!-- Modal -->
 
-<!--弹窗播放-->
+<!--set modal to play video-->
 <div class="modal fade" id="md_video" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -224,7 +224,7 @@
     $('.slider-items li').click(function(){
         $('.slider-items li').removeClass('active');
         $(this).addClass('active');
-        slider.slideTo($(this).index('.slider-items li'), 1000, false);//切换到第一个slide，速度为1秒
+        slider.slideTo($(this).index('.slider-items li'), 1000, false);//switch to the first slide, the rate of 1 second.
     });
 
     var blog_slider = new Swiper('#blog_slider', {

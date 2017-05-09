@@ -12,7 +12,7 @@
 </head>
 <body>
 @include('tpl.header')
-<!-- 轮播图 -->
+<!-- swiper-wrapper -->
 <section class="slider">
     <div class="container">
         <div class="col-md-7 slider-left">
@@ -178,7 +178,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
     $('.slider-items li').click(function(){
         $('.slider-items li').removeClass('active');
         $(this).addClass('active');
-        slider.slideTo($(this).index('.slider-items li'), 1000, false);//切换到第一个slide，速度为1秒
+        slider.slideTo($(this).index('.slider-items li'), 1000, false);//switch to the first slide, the rate of 1 second.
     });
 </script>
 </body>
