@@ -96,18 +96,15 @@ class SearchController extends Controller
     protected function checkBeforeAdSearch($user, $params)
     {       
             $wheres = $params['where'];
-            /*var_dump($user);
-            var_dump(Auth::check());
-            die();*/
             if(!Auth::check()) {
                 //throw new \Exception("no permission of search", -1);
-                if((array_key_exists('action', $params)) && ($params['action'] != 'analysis')){
+                if((array_key_exists('action', $params)) && ($params['action'] != 'analysis')) {
                     $params['search_result'] = 'cache_ads';
                     $params['where'] = [];
                     $params['keys'] = [];
                 }        
                 return $params;
-            }else if($user->hasRole('Free') || $user->hasRole('Standard')) {
+            }else if(Auth::check() && ($user->hasRole('Free') || $user->hasRole('Standard'))) {
                 if((array_key_exists('keys', $params) && count($params['keys']) > 0) || count($wheres) > 0){
                     $params['search_result'] = 'ads';
                 }else {
@@ -214,7 +211,7 @@ class SearchController extends Controller
 
     //暂时能想到的策略是使用用户权限来记录写入log的用户行为，
     //将来可能会对where, limit, init的每日统计做出逻辑处理
-    protected function getUsagePerday($user, $logAction)
+    protected function checkAndUpdateUsagePerday($user, $logAction)
     {
         $logActionUsage = $user->getUsage($logAction);
         if (!$logActionUsage) {
@@ -408,18 +405,18 @@ class SearchController extends Controller
                 }
 
                 if (intval($req->limit[0]) == 0 && !$isWhereChange && !$isLogSearchTimes) {
-                    $searchInitPerday = $this->getUsagePerday($user, 'search_init_perday');
+                    $searchInitPerday = $this->checkAndUpdateUsagePerday($user, 'search_init_perday');
                     dispatch(new LogAction("SEARCH_INIT_PERDAY", $json_data, "search_init_perday : " . $searchInitPerday.",cache_total_count: " . $json['total_count'], $user->id, $req->ip()));
                 }
                 //测试时发现$req->limit对比$lastParams的limit一直是相同的，很奇怪暂时使用这个intval($req->limit[0]) >= 0做判断
                 if (intval($req->limit[0]) > 0 && !$isWhereChange && !$isLogSearchTimes) {
                     //所有的下拉请求都要记录,区分出是否有where和key变化，否则会同时一个动作记录多条
-                    $searchLimitPerday = $this->getUsagePerday($user, 'search_limit_perday');
+                    $searchLimitPerday = $this->checkAndUpdateUsagePerday($user, 'search_limit_perday');
                     dispatch(new LogAction("SEARCH_LIMIT_PERDAY", $json_data, "search_limit_perday: " . $searchLimitPerday, $user->id, $req->ip()));
                 }
                 //用户不带搜索词使用过滤时记录
                 if ($isWhereChange && !$isLogSearchTimes) {
-                    $searchWherePerday = $this->getUsagePerday($user, 'search_where_perday');
+                    $searchWherePerday = $this->checkAndUpdateUsagePerday($user, 'search_where_perday');
                     dispatch(new LogAction("SEARCH_WHERE_CHANGE_PERDAY", $json_data, "search_where_change_perday: " . $searchWherePerday . "," . $searchResult, $user->id, $req->ip()));
                 }
                 if ($isLogSearchTimes) {
