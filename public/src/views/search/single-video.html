@@ -8,8 +8,8 @@
             <!--     <img ng-src="settings.imgRemoteBase + card.watermark" alt=""> -->
                 <!--     <a class="playbtn"><i class="fa fa-play-circle-o fa-4x"></i></a> -->
             <!-- </div> -->
-            <video advideo ng-src="{{(settings.imgRemoteBase + card.local_picture.video) | trusted}}" 
-                    preload="none" controls="controls" preview="{{(settings.imgRemoteBase + card.watermark) | trusted}}">
+            <video advideo ng-src="{{(settings.videoRemoteBase + card.local_picture.video) | trusted}}" 
+                    preload="none" controls="controls" preview="{{card.watermark | trusted}}">
             </video>
         </div>
         <div class="h5">

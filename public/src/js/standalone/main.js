@@ -106,7 +106,13 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         layoutPath: '../assets/layouts/layout3',
         baseurl: '/app/',
         remoteurl: '', //根目录
-        imgRemoteBase: 'http://image1.bigbigads.com:88',
+        imgRemoteBase: [
+            'http://image1.bigbigads.com:88',
+            'http://image2.bigbigads.com:88',
+            'http://image3.bigbigads.com:88',
+            'http://image4.bigbigads.com:88',
+        ],
+        videoRemoteBase: 'http://image1.bigbigads.com:88',
         searchSetting: {
             pageCount: 10, //每一页的数据量
             durationRange:[0, 180],
