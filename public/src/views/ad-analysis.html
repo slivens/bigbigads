@@ -71,7 +71,9 @@
                                                     <table class="adscard-head">
                                                         <tr>
                                                             <td class="adscaed-img"><a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
-                                                        <img image="{{card.small_photo}}" avatar class="avatar" />
+                                                        <!-- <img image="{{card.small_photo}}" avatar class="avatar" /> -->
+                                                        <!-- 实际测试时发现上面的写法在指令中attrs.image获取到的是空，页面image="{{card.small_photo}}"表达式解析是正常的，而下面similar ad 一样的写法却可以获取到，就暂时写成固定的避规 -->
+                                                        <img src="{{settings.imgRemoteBase[0] + card.small_photo}}" class="avatar" />
                                                     </a></td>
                                                             <td class="adscard-name"><a class="xg-adsername inline-block detailusername" ui-sref="adser({name:card.adser_name, adser:card.adser_username})" target="_blank">
                                                         <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
@@ -79,10 +81,6 @@
                                                     </a></td>
                                                         </tr>
                                                     </table>
-                                                    
-                                                    
-                                                    
-                                                
                                                 </div>
                                                 <single-image ng-if="card.type == 'SingleImage'" card="card">
                                                 </single-image>
