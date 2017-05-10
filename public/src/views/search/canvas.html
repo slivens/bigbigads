@@ -9,7 +9,7 @@
             <div class="xg-margin-bottom">
                 <a ng-href="{{card.link[0]}}" target="_blank">
                     <!-- 为防止无限加载时图片加载后高度改变导致浏览位置变化，在加载图片前就设定好高度，这就要求图片URL一定要符合格式，否则不能正常显示 -->
-                    <img class="img-loading" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" lazy-img="{{card.watermark}}" alt="" width="{{card.watermark | getImageSize:0}}px" height="{{card.watermark | getImageSize:1}}px"  >
+                    <img class="img-loading" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" lazy-img="{{card.watermark}}" alt="" width="{{card.watermark | getImageSize:0}}px" height="{{card.watermark | getImageSize:1}}px" type="bba">
                 </a>
             </div>
         </div>
@@ -21,7 +21,7 @@
                 <div>
                     <a ng-href="{{card.link[$index]}}" target="_blank">
                         <!-- 为防止无限加载时图片加载后高度改变导致浏览位置变化，在加载图片前就设定好高度，这就要求图片URL一定要符合格式，否则不能正常显示 -->
-                        <img class="img-loading" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" lazy-img="{{card.watermark[$index]}}" width="{{card.watermark[$index] | getImageSize:0}}px" height="{{card.watermark[$index] | getImageSize:1}}px" alt="">
+                        <img class="img-loading" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" lazy-img="{{card.watermark[$index]}}" width="{{card.watermark[$index] | getImageSize:0}}px" height="{{card.watermark[$index] | getImageSize:1}}px" alt="" type="bba">
                     </a>
                 </div>
             </div>
