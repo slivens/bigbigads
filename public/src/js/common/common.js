@@ -17,12 +17,16 @@ app.directive('lazyImg', ['$timeout', 'Util', function($timeout, Util) {
         scope:{
             lazyImg:'@'
         },
-		link:function($scope, element) {
+		link:function($scope, element, attrs) {
             var imageSrc;
-            imageSrc = Util.getImageRandomSrc($scope.lazyImg);
+            if (attrs.type === 'bba') {
+                imageSrc = Util.getImageRandomSrc($scope.lazyImg);
+            } else {
+                imageSrc = $scope.lazyImg;
+            }
             $timeout(function() {   
                 element.attr('src', imageSrc);
-            });
+            });        
 		}
 	};
 }]);
@@ -469,8 +473,9 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
         return {
             link: function(scope, element, attrs) {
                 var imageSrc;
+                console.log(attrs.image);
                 imageSrc = Util.getImageRandomSrc(attrs.image);
-                element.attr('src', imageSrc);
+                element.attr("src", imageSrc);
             }
         };
     }])
