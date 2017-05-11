@@ -86,7 +86,7 @@
             </div>
         </div>
         <div infinite-scroll="adSearcher.getMore()" class="clearfix" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
-            <div deckgrid source="adSearcher.ads.adser" class="deckgrid clearfix" cardTemplate="views/adser-search-card.html">
+            <div deckgrid source="adSearcher.ads.adser" class="deckgrid clearfix" cardTemplate="{{'views/adser-search-card.html' | nocache}}">
             </div>
             <div class="clearfix">
             </div>
@@ -104,7 +104,7 @@
 			<!-- <i class="icon-grid"></i> -->
  <!-- </button> -->
 
- <div data-ng-include="'tpl/quick-sidebar.html'" data-ng-controller="QuickSidebarController" class="page-quick-sidebar-wrapper"></div>
+ <div data-ng-include="'tpl/quick-sidebar.html' | nocache" data-ng-controller="QuickSidebarController" class="page-quick-sidebar-wrapper"></div>
 
 </div>
 <!-- END MAIN CONTENT -->

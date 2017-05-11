@@ -300,7 +300,7 @@
                                                         <td ng-if="item"> 
                                                             <a ng-href="{{item}}" target="_blank" class="text-nowrap ">{{item | limitTo:80}}<span ng-show="item.length>80">...</span></a>
                                                             <span ng-show="card.snapshot">
-                                                                <i class="glyphicon glyphicon-eye-open linksnapshot-icon" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top"  popover-is-open="issnapshot" ng-mouseenter="issnapshot=true" ng-mouseleave="issnapshot=false" >  
+                                                                <i class="glyphicon glyphicon-eye-open linksnapshot-icon" uib-popover-template="'views/snapshot-popover.html' | nocache" popover-placement="top"  popover-is-open="issnapshot" ng-mouseenter="issnapshot=true" ng-mouseleave="issnapshot=false" >  
                                                                 </i>
                                                             </span>
                                                         </td>
@@ -311,7 +311,7 @@
                                                         <td>
                                                             <a ng-href="{{card.link}}" target="_blank" class="text-nowrap ">{{card.link | limitTo:80}}<span ng-show="card.link.length>80">...</span></a>
                                                             
-                                                            <i ng-show="card.snapshot" class="glyphicon glyphicon-eye-open linksnapshot-icon" uib-popover-template="'views/snapshot-popover.html'" popover-placement="top"  popover-is-open="issnapshot" ng-mouseenter="issnapshot=true" ng-mouseleave="issnapshot=false" ></i>
+                                                            <i ng-show="card.snapshot" class="glyphicon glyphicon-eye-open linksnapshot-icon" uib-popover-template="'views/snapshot-popover.html' | nocache" popover-placement="top"  popover-is-open="issnapshot" ng-mouseenter="issnapshot=true" ng-mouseleave="issnapshot=false" ></i>
                                                         </td>
                                                     </tr>
                                                 </table>

@@ -819,7 +819,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			});
 			$scope.$on('$viewContentLoaded', function() {
 				// initialize core components
-				App.initAjax();
 
 				// set default layout mode
 				$rootScope.settings.layout.pageContentWhite = true;
@@ -1279,7 +1278,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             });
 			$scope.$on('$viewContentLoaded', function() {
 				// initialize core components
-				App.initAjax();
 
 				// set default layout mode
 				$rootScope.settings.layout.pageContentWhite = true;
@@ -1605,7 +1603,6 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 			$scope.search();
 			$scope.$on('$viewContentLoaded', function() {
 				// initialize core components
-				App.initAjax();
 
 				// set default layout mode
 				$rootScope.settings.layout.pageContentWhite = true;
@@ -1964,8 +1961,6 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 
 			$scope.$on('$viewContentLoaded', function() {
 				// initialize core components
-				App.initAjax();
-
 				// set default layout mode
 				$rootScope.settings.layout.pageContentWhite = true;
 				$rootScope.settings.layout.pageBodySolid = false;
