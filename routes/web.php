@@ -119,3 +119,7 @@ Route::resource('BookmarkItem', 'BookmarkItemController');
 Route::any('/forward/{action}', 'SearchController@search');
 
 Route::any('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
+
+//邮件营销 
+Route::get('/edm', 'EDMController@index');
+Route::post('/edm/send', 'EDMController@send');
