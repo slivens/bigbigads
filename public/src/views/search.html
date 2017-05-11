@@ -96,7 +96,7 @@
             </div>
         </div>
         <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend" ng-class="{'half-opacity':adSearcher.busy && adSearcher.params.limit[0] === 0}">
-            <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid" cardTemplate="views/adsearch-card.html">
+            <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid" cardTemplate="{{'views/adsearch-card.html' | nocache}}">
             </div>
             <div class="clearfix">
             </div>
@@ -104,8 +104,8 @@
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
 				<span class="sr-only">Loading...</span>
 			</div>
-            <div ng-if="!User.login && !adSearcher.isNoResult && adSearcher.isend" ng-include="'search-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>
-            <div ng-if="User.login && !adSearcher.isNoResult && adSearcher.isend" ng-include="'search-results-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>    
+            <div ng-if="!User.login && !adSearcher.isNoResult && adSearcher.isend" ng-include="'search-limited-banner.html' | nocache" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>
+            <div ng-if="User.login && !adSearcher.isNoResult && adSearcher.isend" ng-include="'search-results-limited-banner.html' | nocache" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>    
             <div ng-if="adSearcher.isNoResult" class="text-center col-md-12" >
                 <hr style="border-top:1px solid #dbdee6">
                 <div>
@@ -343,7 +343,7 @@
                 <p ng-if="User.info.user.role.name == 'Standard'">You can only see 300 results per search in standard level.Please contact us if you need to see more: help@bigbigads.com</p>
                 <p ng-if="User.info.user.role.name == 'Free'">You can only see 100 results per search in free level.Please contact us if you need to see more: help@bigbigads.com</p>
             </div>
-            <div class="col-md-5" ng-include="'tpl/register.html'">
+            <div class="col-md-5" ng-include="'tpl/register.html' | nocache">
              
             </div>
             <div class="col-md-12">

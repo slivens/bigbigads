@@ -141,7 +141,7 @@ gulp.task('html',  function() {
                     .pipe(htmlmin({
                         collapseWhitespace:true
                     }))
-                    .pipe(gulp.dest('./app/views'));
+                    .pipe(gulp.dest('./app/components'));
         gulp.src(['./src/views/**/*.html'])
                     .pipe(strip())
                     .pipe(htmlmin({

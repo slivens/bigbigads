@@ -334,13 +334,30 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				}
 				if (search.searchFields && search.searchFields != searcher.defSearchFields) {
 					var range = search.searchFields.split(',');
-					angular.forEach(range, function(item1) {
-						for (i = 0; i < option.range.length; i++) {
-							if (option.range[i].key.indexOf(item1)>-1 && option.rangeselected.indexOf(option.range[i].key)==-1)
-									option.rangeselected.push(option.range[i].key);//原始range.key是多个单词组合而成
-								
+					var advertisement = {"description" : "description" , "name" : "name" , "caption" : "caption" , "message" : "message"};
+					var url = {"link" : "link" , "buttonlink" : "buttonlink" , "dest_site" : "dest_site"};
+					var advertiser = {"adser_name" : "adser_name" , "adser_username" : "adser_username"};
+					var isSelectAdvertisement = false;
+					var isSelectUrl = false;
+					var isSelectAdvertiser = false;
+					//使用indexOf方法判断不准确，刷新的时候会造成一个项变成两个项
+					angular.forEach(range, function(item) {
+						if (advertisement.hasOwnProperty(item)) {
+							isSelectAdvertisement = true;
 						}
+						if (advertiser.hasOwnProperty(item)) {
+							isSelectAdvertiser = true;
+						}
+						if (url.hasOwnProperty(item)) {
+							isSelectUrl = true;
+						}		
 					});
+					if (isSelectAdvertisement) 
+						option.rangeselected.push("description,name,caption,message");
+					if (isSelectAdvertiser) 
+						option.rangeselected.push("adser_name,adser_username");
+					if (isSelectUrl) 
+						option.rangeselected.push("link,buttonlink,dest_site");
 				}
 				if (search.startDate && search.endDate) {
 					option.filter.date.startDate = moment(search.startDate, 'YYYY-MM-DD');
@@ -372,22 +389,13 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					option.filter.callToAction=search.buttondesc.split(",");
 					//Util.matchkey(search.buttondesc, option.filter.buttondesc);
 				}
-				if (search.engagements) {
-					option.filter.engagements = JSON.parse(search.engagements);
-				}
-				if (search.duration) {
-					option.filter.duration = JSON.parse(search.duration);
-				}
-				if (search.seeTimes) {
-					option.filter.seeTimes = JSON.parse(search.seeTimes);
-				}
         };
 		return searcher;
 	}
 ]);
 /* adsearch js */
-app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal',  '$window', 
-		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window) {
+app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal',  '$window', 'TIMESTAMP',
+		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window, TIMESTAMP) {
 			//搜索流程:location.search->searchOption->adSearcher.params
 			//将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
 
@@ -612,6 +620,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                             case -4100:
                                 User.openSearchResultUpgrade();
                                 break;
+                            case -4199:
+                            	window.open('/login',"_self");
+                            	break;
                             case -4200:	
                             case -5000:
                                 SweetAlert.swal(res.data.desc);
@@ -672,6 +683,17 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 
 				}
+				/*if (option.rangeselected && option.search.text) {
+					angular.forEach(option.rangeselected, function(item) {
+							range.push(item);
+					});
+					option.search.fields = range.length ? range.join(',') : option.search.fields;
+					keys.push({
+						string: option.search.text,
+						search_fields: option.search.fields,
+						relation: "Must"
+					});
+				}*/
 				//域名
 				if (option.domain.text) {
 					keys.push({
@@ -679,7 +701,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						search_fields: 'caption,link,dest_site,buttonlink',
 						relation: option.domain.exclude ? 'Not' : 'Must'
 					});
-					console.log(keys);
 				}
 				//受众
 				if (option.audience.text) {
@@ -712,7 +733,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					return;
 				}
 				return $uibModal.open({
-					templateUrl: 'statics-dlg.html',
+					templateUrl: 'statics-dlg.html?t=' + TIMESTAMP,
 					size: 'lg',
 					animation: true,
 					controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
@@ -1198,7 +1219,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var similarPromise;
                 var md5;
                 if (watermark instanceof Array)
-                    md5 = watermark[0].source.match(/\/(\w+)\./);
+                    md5 = watermark[0].match(/\/(\w+)\./);
                 else 
                     md5 = watermark.match(/\/(\w+)\./);
 				if (md5 === null) {
@@ -1512,6 +1533,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 					});
 					}
 				});
+
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
 				$scope.currSearchOption.callToAction = buttondesc.join(',');
