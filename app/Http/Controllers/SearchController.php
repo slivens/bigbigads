@@ -107,13 +107,18 @@ class SearchController extends Controller
             }else if(Auth::check() && ($user->hasRole('Free') || $user->hasRole('Standard'))) {
                 if ((array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0)) {
                     $params['search_result'] = 'ads';
-                    $freeEndDate = Carbon::now()->modify('-60 days');
-                    foreach($params['where'] as $key => $obj) {
-                        if ($obj['field'] == "time" && $obj['role'] == 'free' && ($obj['min'] != '2016-01-01' || $obj['min'] != $freeEndDate)) {
-                            $obj['min'] = '2016-01-01';
-                            $obj['max'] = $freeEndDate;
+                    //免费用户限制在两个月前的时间内的数据，设置role = free 是为了让数据端识别并在一个请求内进行两次搜索，第一次是正常的搜索流程，第二次是获取全部的广告总数，
+                    //在一次请求内给出两个总数结果，total_count和all_total_count
+                    $freeEndDate = Carbon::now()->subMonths(2)->format("Y-m-d");
+                    if ($user->hasRole('Free')) {
+                        foreach($params['where'] as $key => $obj) {
+                            if ($obj['field'] == "time" && $obj['role'] == 'free' && ($obj['min'] != '2016-01-01' || $obj['max'] != $freeEndDate)) {
+                                $obj['min'] = '2016-01-01';
+                                $obj['max'] = $freeEndDate;
+                            }
                         }
                     }
+                    
                 }else {
                     $params['search_result'] = 'cache_ads';
                 }          
@@ -266,7 +271,7 @@ class SearchController extends Controller
             if ($action == 'adsearch') {
 
                 if (count($req->where) > 0 || count($req->keys) > 0) {
-                    //防止用户未登录直接使用url构造参数来获取数据
+                    //防止用户未登录直接使用url构造url参数来获取数据
                     //区分出获取广告分析的请求
                     foreach($req->where as $key => $obj) {         
                         if ($obj['field'] == "ads_id") {
