@@ -493,7 +493,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             return output;  
         };  
     })
-    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert' , 'User', '$state', 'settings', function($uibModal, $stateParams, SweetAlert, User, $state, settings) {
+    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert' , 'User', '$state', 'settings', 'TIMESTAMP', function($uibModal, $stateParams, SweetAlert, User, $state, settings, TIMESTAMP) {
         return {
             matchkey: function(origstr, destArr) {
                 var orig = origstr.split(',');
