@@ -291,12 +291,12 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('rankBoard', ['$compile', '$timeout', function($compile, $timeout) {
+    .directive('rankBoard', ['$compile', '$timeout', 'TIMESTAMP', function($compile, $timeout, TIMESTAMP) {
         return {
             scope: {
                 title: '@'
             },
-            templateUrl: 'tpl/dashboard.html',
+            templateUrl: 'tpl/dashboard.html?t=' + TIMESTAMP,
             transclude: true,
             link: function(scope, element, attrs) {
                 scope.title = attrs.title;
@@ -330,10 +330,10 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('singleImage', function() {
+    .directive('singleImage', ['TIMESTAMP', function(TIMESTAMP) {
         return {
             restrict: 'E',
-            templateUrl: 'views/search/single-image.html',
+            templateUrl: 'views/search/single-image.html?t=' + TIMESTAMP,
             replace: false,
             scope: {
                 card: '='
@@ -343,11 +343,11 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 $scope.Searcher = Searcher;
             }]
         };
-    })
-    .directive('singleVideo', function() {
+    }])
+    .directive('singleVideo', ['TIMESTAMP', function(TIMESTAMP) {
         return {
             restrict: 'E',
-            templateUrl: 'views/search/single-video.html',
+            templateUrl: 'views/search/single-video.html?t=' + TIMESTAMP,
             replace: false,
             scope: {
                 card: '='
@@ -357,11 +357,11 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 $scope.Searcher = Searcher;
             }]
         };
-    })
-    .directive('adcanvas', function() {
+    }])
+    .directive('adcanvas', ['TIMESTAMP', function(TIMESTAMP) {
         return {
             restrict: 'E',
-            templateUrl: 'views/search/canvas.html',
+            templateUrl: 'views/search/canvas.html?t=' + TIMESTAMP,
             replace: false,
             scope: {
                 card: '='
@@ -371,11 +371,11 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 $scope.Searcher = Searcher;
             }]
         };
-    })
-    .directive('carousel', function() {
+    }])
+    .directive('carousel', ['TIMESTAMP', function(TIMESTAMP) {
         return {
             restrict: 'E',
-            templateUrl: 'views/search/carousel.html',
+            templateUrl: 'views/search/carousel.html?t=' + TIMESTAMP,
             replace: false,
             scope: {
                 card: '='
@@ -384,7 +384,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 $scope.settings = settings;
             }]
         };
-    })
+    }])
     .directive('fixsidebar', ['$timeout', '$rootScope', function($timeout, $rootScope) {
         return {
             scope: true,
@@ -414,14 +414,14 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('audience', ['$uibModal', function($uibModal) {
+    .directive('audience', ['$uibModal', 'TIMESTAMP', function($uibModal, TIMESTAMP) {
         return {
             link: function(scope, element, attrs) {
                 element.bind('click', function() {
                     if(attrs.title) {
                         var why_see = attrs.title.split("\n");
                         return $uibModal.open({
-                            templateUrl: 'views/audience.html',
+                            templateUrl: 'views/audience.html?t=' + TIMESTAMP,
                             size: 'customer',     
                             animation: true,
                             controller:['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
@@ -545,7 +545,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             },
             openAd: function(id) {
                 return $uibModal.open({
-                    templateUrl: 'views/ad-analysis.html',
+                    templateUrl: 'views/ad-analysis.html?t=' + TIMESTAMP,
                     size: 'lg',
                     animation: true,
                     resolve: {
