@@ -765,7 +765,14 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 
 				});
 			};
-			$scope.searchCheck = function(value) {
+			
+            $scope.Util = Util;
+			$scope.User = User;
+			$scope.Searcher = Searcher;
+			//一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
+			User.getInfo().then(function() {
+				//根据search参数页面初始化
+				$scope.searchCheck = function(value) {
 				var islegal = true;
 				var isNumberLimit;
 				var isLengthLimit;
@@ -785,14 +792,14 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						$scope.adSearcher.removeFilter('duration_days');
 						$scope.adSearcher.removeFilter('see_times');
 					}
-					if((User.info.user.role.plan === 'free') && ($scope.filterOption.date.endDate !== null) && !isAdvanceFilterLimit) {
+					if((User.info.user.role.name === 'Free') && ($scope.filterOption.date.endDate !== null) && !isAdvanceFilterLimit) {
 						//临时去除free注册用户时间筛选框功能
 						User.openFreeDateLimit();
                     	islegal = false;
                 	}else if(!isAdvanceFilterLimit) {
 						User.openUpgrade();
 						islegal = false;
-					}else if((User.info.user.role.plan === 'free') && ($scope.filterOption.date.endDate !== null)) {
+					}else if((User.info.user.role.name === 'Free') && ($scope.filterOption.date.endDate !== null)) {
 						User.openFreeDateLimit();
                     	islegal = false;
 					}
@@ -806,15 +813,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						islegal = false;
 					}
 				}
-				$scope.islegal = islegal;
-                return islegal;
-			};
-            $scope.Util = Util;
-			$scope.User = User;
-			$scope.Searcher = Searcher;
-			//一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
-			User.getInfo().then(function() {
-				//根据search参数页面初始化
+					$scope.islegal = islegal;
+	                return islegal;
+				};
 				$scope.search();
 			});
 			$scope.$on('$viewContentLoaded', function() {
@@ -1118,7 +1119,19 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$state.reload();
 			};
 
-			$scope.searchCheck = function(value) {
+			
+			$scope.User = User;
+			$scope.Searcher = Searcher;
+
+        $scope.adSearcher.params.where.push({
+            field: 'adser_username',
+            value: $stateParams.adser
+        });
+
+        //一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
+        User.getInfo().then(function() {
+            //根据search参数页面初始化
+            $scope.searchCheck = function(value) {
 				var islegal = true;
 				var isFilterLimit;
 				isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
@@ -1131,14 +1144,14 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					$scope.adSearcher.removeFilter('duration_days');
 					$scope.adSearcher.removeFilter('see_times');
 				}
-				if((User.info.user.role.plan === 'free') && ($scope.filterOption.date.endDate !== null) && !isAdvanceFilterLimit) {
+				if((User.info.user.role.name === 'Free') && ($scope.filterOption.date.endDate !== null) && !isAdvanceFilterLimit) {
 						//临时去除free注册用户时间筛选框功能
 						User.openFreeDateLimit();
                     	islegal = false;
                 	}else if(!isAdvanceFilterLimit) {
 						User.openUpgrade();
 						islegal = false;
-					}else if((User.info.user.role.plan === 'free') && ($scope.filterOption.date.endDate !== null)) {
+					}else if((User.info.user.role.name === 'Free') && ($scope.filterOption.date.endDate !== null)) {
 						User.openFreeDateLimit();
                     	islegal = false;
                     }
@@ -1146,17 +1159,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$scope.islegal = islegal;
                 return islegal;
 			};
-			$scope.User = User;
-			$scope.Searcher = Searcher;
-
-        $scope.adSearcher.params.where.push({
-            field: 'adser_username',
-            value: $stateParams.adser
-        });
-
-        //一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
-        User.getInfo().then(function() {
-            //根据search参数页面初始化
             $scope.search();
         });
         // $scope.adSearcher.filter();
