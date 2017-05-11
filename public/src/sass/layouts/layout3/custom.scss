@@ -212,7 +212,7 @@ body {
     }
     .show-button.collapsed{
         .down-icon{
-            transform: rotate(-90deg);
+            transform: rotate(180deg);
             text-decoration: none;
         }
     }
@@ -1035,7 +1035,7 @@ body.modal-open{
     }
 }
 
-.xg-limited-banner-mt6 {
+.xg-mt80 {
     margin-top: 80px !important;    
 }
 
@@ -1061,11 +1061,10 @@ body.modal-open{
         overflow: hidden;
         box-sizing: border-box;
         padding: 0;
-        border-radius: 15px;
         line-height: 16px !important;
         cursor: pointer;
         color: #abb1b8;
-        border:none;
+        border: none;
         background: none;
         font-family: "Open Sans",sans-serif;
         font-weight: 100;
@@ -1118,15 +1117,6 @@ body.modal-open{
             }
             .carousel-indicators{
                 display: none;
-            }
-            .carousel-indicators{
-                li{
-                    border-color:#eb6130;
-                }
-                .active{
-                    background-color: #eb7e00;
-                }
-                
             }
         }
 }
@@ -1252,6 +1242,70 @@ color: $black_placeholder !important;
             font-weight: 500 !important;
         }
     }
+    /*统一placeholder字体颜色*/
+    .input-group{
+        input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { 
+        color: #999; 
+        } 
+        input:-moz-placeholder, textarea:-moz-placeholder { 
+        color: #999; 
+        } 
+        input::-moz-placeholder, textarea::-moz-placeholder { 
+        color: #999; 
+        } 
+        input:-ms-input-placeholder, textarea:-ms-input-placeholder { 
+        color: #999; 
+        }  
+    }
+
+    /*覆盖select2 的原有样式*/
+    .select2-dropdown {
+        border-color:#66afe9 !important;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    }
+    .select2-container--default.select2-container--focus .select2-selection--multiple{
+        border-color:#66afe9;
+    }
+    .select2 .select2-selection--multiple {
+        height: 34px;
+    }
+    .select2-container--default{
+        .select2-selection--multiple .select2-selection__choice{
+            color: #555;
+            border-radius: 4px;
+            cursor: default;
+            float: left;
+            margin: 5px 0 0 6px;
+            padding: 0 6px;
+            background-color: #eee;
+            border: 1px solid #eee;
+        }
+        .select2-results__option[aria-disabled=true] {
+            background-color: #e1e5ec;
+            color: #262626;
+            cursor: default;
+        }
+        .select2-selection__rendered{padding: 0px !important;}
+ 
+    }
+    form{
+        span.select2,.select2-selection{
+            border-radius: 0 4px 4px 0;
+            border-color:#ccc;
+        }
+        span.select2-container{
+            width: 100% !important;
+            li:first-child .select2-search__field{
+                width: 100% !important;
+                padding: 0 12px;
+                margin-top: 0;
+                line-height: 32px;
+            }
+            .select2-dropdown{
+                border-color:#66afe9;
+            }
+        }  
+    }    
 
 }
 
@@ -1337,7 +1391,30 @@ color: $black_placeholder !important;
 //自定义需要的宽度
 .modal-customer{min-width: 760px;width: 45%;}
 
+
 //强行覆盖样式
-.panel-collapse .selection .select2-selection .select2-selection__rendered li:first-child .select2-search__field{width: 100% !important;}
+// .panel-collapse .selection .select2-selection .select2-selection__rendered li:first-child .select2-search__field{width: 100% !important;}
 .modal-open .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field{width:10px !important;}
 
+.xg-audience-table {
+    color: #333333 !important;
+    font-weight: bold;   
+    margin-bottom: 0px !important;
+    tr td {
+        font-size: 16px !important;
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+    }
+}
+
+.xg-audience-foot {
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+}
+
+.alert-warning {
+    background-color: #f9e491;
+    border-color: #f9e491;
+    color: #c29d0b;
+}

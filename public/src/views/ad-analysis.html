@@ -71,7 +71,9 @@
                                                     <table class="adscard-head">
                                                         <tr>
                                                             <td class="adscaed-img"><a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
-                                                        <img src="{{settings.imgRemoteBase + card.small_photo}}" class="avatar" />
+                                                        <!-- <img image="{{card.small_photo}}" avatar class="avatar" /> -->
+                                                        <!-- 实际测试时发现上面的写法在指令中attrs.image获取到的是空，页面image="{{card.small_photo}}"表达式解析是正常的，而下面similar ad 一样的写法却可以获取到，就暂时写成固定的避规 -->
+                                                        <img src="{{settings.imgRemoteBase[0] + card.small_photo}}" class="avatar" />
                                                     </a></td>
                                                             <td class="adscard-name"><a class="xg-adsername inline-block detailusername" ui-sref="adser({name:card.adser_name, adser:card.adser_username})" target="_blank">
                                                         <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
@@ -79,10 +81,6 @@
                                                     </a></td>
                                                         </tr>
                                                     </table>
-                                                    
-                                                    
-                                                    
-                                                
                                                 </div>
                                                 <single-image ng-if="card.type == 'SingleImage'" card="card">
                                                 </single-image>
@@ -234,15 +232,35 @@
                                             <div  ng-if="card.similars.length > 0" ng-repeat="item in card.similars | limitTo:2 track by $index" class="aditem col-md-6 col-xs-12">
                                                 <div class="portlet light bordered">
                                                     <div class="margin-bottom-10 margin-top-10">
+                                                        <div class="margin-bottom-10 margin-top-10">
                                                         <table class="adscard-head">
                                                             <tr>
                                                                 <td class="adscaed-img">
-                                                                    <a ng-href="">
-                                                                        <img src="{{settings.imgRemoteBase + item.local_photo}}"  class="rounded avatar">
-                                                                    </a>
+                                                                    <div class="pull-right xg-audience-mr4"></div>
+                                                                    <br/>
+                                                                    <div>
+                                                                        <i class="fa fa-calendar font-yellow-gold fa-fw"></i><span>{{item.first_see}}~{{item.last_see}}</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <div class="pull-right">
+                                                                            <i class="xg-audience xg-icon xg-icon-audience font-yellow-gold" ng-if="User.can('audience_search') && (item.whyseeads_all || item.whyseeads)" audience title="{{item.whyseeads ? item.whyseeads : item.whyseeads_all}}"></i>
+                                                                            <a eventid="{{item.event_id}}" adlink class="font-yellow-gold "><i class="xg-icon xg-icon-analysis"></i></a> 
+                                                                        </div>
+                                                                        <div class="pull-left">
+                                                                            <i class="fa fa-clock-o font-yellow-gold fa-fw"></i><span>{{item.duration_days}}</span>
+                                                                            <i class="fa fa-eye font-yellow-gold  fa-fw"></i><span>{{item.see_date}}</span>
+                                                                        </div>
+                                                                        <div class="clearfix"></div>   
+                                                                    </div>
                                                                 </td>
-                                            
+                                                            </tr>
+                                                            <tr>
                                                                 <td class="adscard-img">  
+                                                                    <div class="col-md-3 text-center" >
+                                                                        <a ng-href="">
+                                                                            <img image="{{item.small_photo}}" avatar class="avatar">
+                                                                        </a>
+                                                                    </div>
                                                                     <a class="xg-adsername inline-block detailusername" ui-sref="adser({name:item.adser_name, adser:item.adser_username})">
                                                                         <span ng-bind-html="item.adser_name | toHtml" ng-show="item.adser_name">
                                                                             {{item.adser_name}}
@@ -252,6 +270,7 @@
                                                                 </td>
                                                             </tr> 
                                                         </table>
+                                                    </div>
                                                     </div>
                                                     <single-image ng-if="item.type == 'SingleImage'" card="item">
                                                     </single-image>

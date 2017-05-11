@@ -47,6 +47,9 @@
                     <div ng-if="currSearchOption.filter.format">Ad Type:{{currSearchOption.filter.format}}</div>
                     <div ng-if="currSearchOption.filter.callToAction">Call To Action:{{currSearchOption.filter.callToAction}}</div>
                     <div ng-if="currSearchOption.range">Search Mode:{{currSearchOption.range}}</div>
+                    <div ng-if="currSearchOption.filter.tracking && currSearchOption.filter.tracking.length">Tracking Tool: {{currSearchOption.filter.tracking}}</div>
+                    <div ng-if="currSearchOption.filter.affiliate && currSearchOption.filter.affiliate.length">affiliate: {{currSearchOption.filter.affiliate}}</div>
+                    <div ng-if="currSearchOption.filter.ecommerce && currSearchOption.filter.ecommerce.length">E_Commerce: {{currSearchOption.filter.ecommerce}}</div>
                     <div ng-if="currSearchOption.filter.isDurationDirty()">Duration Range:{{currSearchOption.filter.duration.from}}~{{currSearchOption.filter.duration.to}}</div>
                     <div ng-if="currSearchOption.filter.isSeeTimesDirty()">See Times Range:{{currSearchOption.filter.seeTimes.from}}~{{currSearchOption.filter.seeTimes.to}}</div>
                     <div ng-if="currSearchOption.filter.isEngagementsDirty()">Engagements Filters:
@@ -59,7 +62,7 @@
                 </div> 
                 <hr style="border-top:1px solid #dbdee6">
                     <div class="text-center">
-                        <div class="page-spinner-bar xg-page-spinner-bar" ng-show="currSearchOption.search.text && adSearcher.busy">
+                        <div class="page-spinner-bar xg-page-spinner-bar" ng-show="currSearchOption.search.text && adSearcher.busy && adSearcher.params.limit[0] === 0">
                             <div class="bounce1"></div>
                             <div class="bounce2"></div>
                             <div class="bounce3"></div>
@@ -82,10 +85,11 @@
                 </div>
                 </form>
             </div>
-            <div class="xg-count-mt search-result">
+            <div class="xg-count-mt search-result" ng-show="!adSearcher.busy">
                 <span ng-if="!adSearcher.ads.all_total_count&&adSearcher.ads.total_count!=0">Found <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> Matching Ads </span>
                 <span ng-if="adSearcher.ads.all_total_count">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}} </span> Matching Ads/You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> results <a class="font-yellow-gold xg-upgrade-button" ui-sref="plans"> Upgrade Now</a></span>
-                <span ng-if="(adSearcher.ads.all_total_count == 0) && (adSearcher.ads.total_count == 0)">Your search did not match any results.</span>
+                <span ng-if="adSearcher.ads.total_count == 0">Your search did not match any results.</span>
+                <!-- <span ng-if="(User.info.user.role.name != 'Free') && (adSearcher.ads.total_count == 0)">Your search did not match any results.</span> -->
                 <!-- <button class="btn yellow-gold btn-lg" ng-click="showStatics()">analysis</button> -->
                 <i class="fa fa-hand-o-right font-yellow-gold xg-analysis" ng-if="User.can('ad_analysis')" ng-click="showStatics()"></i>
             </div>
@@ -95,11 +99,12 @@
             </div>
             <div class="clearfix">
             </div>
-			<div class="text-center" ng-show="adSearcher.busy">
+			<div class="text-center" ng-show="adSearcher.busy && adSearcher.params.limit[0] !== 0">
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
 				<span class="sr-only">Loading...</span>
 			</div>
-            <div ng-if="!adSearcher.isNoResult && adSearcher.isend" ng-include="'limited-banner.html'" ng-class='{"xg-limited-banner-mt6":adSearcher.isNoResult}'></div>
+            <div ng-if="!User.login && !adSearcher.isNoResult && adSearcher.isend" ng-include="'search-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>
+            <div ng-if="User.login && !adSearcher.isNoResult && adSearcher.isend" ng-include="'search-results-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>    
             <div ng-if="adSearcher.isNoResult" class="text-center col-md-12" >
                 <hr style="border-top:1px solid #dbdee6">
                 <div>
@@ -330,7 +335,7 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="limited-banner.html">
+<script type="text/ng-template" id="search-limited-banner.html">
     <div class="dashboard-stat dashboard-stat-v2 col-md-12 xg-limited-banner">
         <div ng-if="adSearcher.ads.total_count!=0">
             <div class="text-center col-md-7">
@@ -351,6 +356,21 @@
             </div>
         </div>
         <div ng-if="adSearcher.ads.total_count==0">
+            <div class="col-md-12 text-center xg-subscribe">
+                <a href="/product">Learn more about Bigbigads</a>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="search-results-limited-banner.html">
+    <div class="dashboard-stat dashboard-stat-v2 col-md-12 xg-limited-banner">
+        <div ng-if="adSearcher.ads.total_count!=0">
+            <div class="text-center col-md-12">
+                <p ng-if="User.info.user.role.name == 'Standard'">You can only see 300 results per search in standard level. Please contact us if you need to see more: help@bigbigads.com</p>
+                <p ng-if="User.info.user.role.name == 'Free'">You can only see 100 results per search in free level. Please contact us if you need to see more: help@bigbigads.com</p>
+            </div>
+        </div>
+        <div>
             <div class="col-md-12 text-center xg-subscribe">
                 <a href="/product">Learn more about Bigbigads</a>
             </div>

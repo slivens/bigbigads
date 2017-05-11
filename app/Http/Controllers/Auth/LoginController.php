@@ -48,7 +48,7 @@ class LoginController extends Controller
         //没审核通过或被冻结就不允许登陆
         if ($user->state == 0) {
             Auth::logout();
-            $this->redirectTo = "/sendVerifyMail?email={$user->email}&token={$user->verify_token}";
+            $this->redirectTo = "/sendVerifyMail?email={$user->email}";
 			// Authentication passed...
         } else if ($user->state == 2) {
             Auth::logout();

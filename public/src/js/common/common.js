@@ -11,16 +11,22 @@ app.directive('sweetalert', ['SweetAlert', function(SweetAlert) {
         }
     };
 }]);
-app.directive('lazyImg', ['$timeout', function($timeout) {
+app.directive('lazyImg', ['$timeout', 'Util', function($timeout, Util) {
 	return {
         restrict:'A',
         scope:{
             lazyImg:'@'
         },
-		link:function($scope, element) {
-                $timeout(function() {
-                    element.attr('src', $scope.lazyImg);
-                });
+		link:function($scope, element, attrs) {
+            var imageSrc;
+            if (attrs.type === 'bba') {
+                imageSrc = Util.getImageRandomSrc($scope.lazyImg);
+            } else {
+                imageSrc = $scope.lazyImg;
+            }
+            $timeout(function() {   
+                element.attr('src', imageSrc);
+            });        
 		}
 	};
 }]);
@@ -297,13 +303,15 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('advideo', ['$compile', '$timeout', function($compile, $timeout) {
+    .directive('advideo', ['$compile', '$timeout', 'Util', function($compile, $timeout, Util) {
         return {
             restrict: 'EA',
             link: function(scope, element, attrs) {
                 var poster = $('<div class="advideo"></div>');
                 var img = $('<img/>');
-                img.attr('src', attrs.preview);
+                var imageSrc;
+                imageSrc = Util.getImageRandomSrc(attrs.preview);
+                img.attr('src', imageSrc);
                 poster.addClass('video');
                 poster.html('<a class="playbtn"><i class="fa xg-icon-play"></i></a>');
                 poster.append(img);
@@ -406,37 +414,25 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('audience', ['SweetAlert', function(SweetAlert) {
+    .directive('audience', ['$uibModal', function($uibModal) {
         return {
             link: function(scope, element, attrs) {
                 element.bind('click', function() {
-                    if(attrs.title!==null||attrs.title!==underfind||attrs.title!=="") {
+                    if(attrs.title) {
                         var why_see = attrs.title.split("\n");
-                        var show_length = 0;
-                        var table = "";
-                        var show_text = "";
-                        table_head = '<table class="table table-striped table-hover table-bordered text-left xg-audience-table"><tbody>';
-                        table_body = '';
-                        table_foot = '</tbody></table>';
-                        if(why_see.length>10) {
-                            show_length = 10;
-                            show_text = '<span class="font-yellow-gold">You can see all other audience target in the ad detail page.</span>';
-                        }else {
-                            show_length = why_see.length;
-                        }
-                        for(var i=0;i<show_length;i++) {
-                            table_body += '<tr><td>' + why_see[i] +'</td></tr>';
-                        }
-                        table = table_head + table_body + table_foot;
-                        SweetAlert.swal({
-                            html: true,
-                            title: '',
-                            text: table+show_text, 
-                            confirmButtonText: "close",
-                            closeOnConfirm: false,
-                            closeOnCancel: false                         
+                        return $uibModal.open({
+                            templateUrl: 'views/audience.html',
+                            size: 'customer',     
+                            animation: true,
+                            controller:['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+                                $scope.why_see = why_see;
+                                $scope.audienceLength = why_see.length;
+                                $scope.close = function() {
+                                    $uibModalInstance.dismiss('cancle');
+                                };
+                            }]
                         });
-                    }
+                    }       
                 });
             }
         };
@@ -473,6 +469,16 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
+    .directive('avatar', ['Util', function(Util){
+        return {
+            link: function(scope, element, attrs) {
+                var imageSrc;
+                console.log(attrs.image);
+                imageSrc = Util.getImageRandomSrc(attrs.image);
+                element.attr("src", imageSrc);
+            }
+        };
+    }])
     //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function () {  
         return function (collection) { 
@@ -487,7 +493,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             return output;  
         };  
     })
-    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert' , 'User', '$state', function($uibModal, $stateParams, SweetAlert, User, $state) {
+    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert' , 'User', '$state', 'settings', function($uibModal, $stateParams, SweetAlert, User, $state, settings) {
         return {
             matchkey: function(origstr, destArr) {
                 var orig = origstr.split(',');
@@ -698,7 +704,16 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 }else {
                     return true;
                 }       
-            }
+            },
+            getImageRandomSrc:function(src) {
+                //图片采用随机向4个域名发起请求的方式，
+                //视频由于设置了不预加载，便不采取这样的方式
+                var imageSrcIndex;
+                var imageSrc;
+                imageSrcIndex = parseInt(10 * Math.random()) % 4;
+                imageSrc = settings.imgRemoteBase[imageSrcIndex] + src;
+                return imageSrc;
+            },
         };
     }]);
 app.service('Resource', ['$resource', 'settings', 'SweetAlert', function($resource, settings, SweetAlert) {

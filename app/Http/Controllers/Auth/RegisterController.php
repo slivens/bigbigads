@@ -72,7 +72,7 @@ class RegisterController extends Controller
     {
         if ($user->state == 0) {
             Auth::logout();
-            $this->redirectTo = "/sendVerifyMail?email={$user->email}&token={$user->verify_token}";
+            $this->redirectTo = "/sendVerifyMail?email={$user->email}";
             // Authentication passed...
             if ($request->ajax()) {
                 return ['code' => 0, 'url' => $this->redirectTo];

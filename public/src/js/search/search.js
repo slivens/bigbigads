@@ -137,6 +137,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					params
 				).then(function(res) {
                     if (res.error) {
+                    	vm.isend = true;
 						defer.reject(res);
                         return;
                     }
@@ -160,14 +161,11 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 								value.local_picture = JSON.parse(value.local_picture);
 								// if (value.snapshot && value.snapshot != "")
 								//      value.snapshot = JSON.parse(value.snapshot);
-							} else if (value.type == vm.ADS_CONT_TYPE.CANVAS) {
-								value.link = JSON.parse(value.link);
-								/*if(JSON.parse(value.local_picture) instanceof Object){
+							} else if (value.type == vm.ADS_CONT_TYPE.CANVAS) {		    
+								try {
+									value.link = JSON.parse(value.link);
 									value.local_picture = JSON.parse(value.local_picture);
-								}*/				    
-								try{
-									value.local_picture = JSON.parse(value.local_picture);
-									}catch(err){console.log(err);}								
+									} catch(err) {console.log(err);}								
 								if (vm.getAdsType(value, vm.ADS_TYPE.rightcolumn)) {
 									value.watermark = JSON.parse(value.watermark);
 								}
@@ -418,7 +416,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				// console.log("max search result:", policy.value, adSearcher.params.limit[0] + adSearcher.params.limit[1]);
 				if (adSearcher.params.limit[0] + adSearcher.params.limit[1] >= policy.value) {
 					//SweetAlert.swal("you reached search result limit(" + policy.value + ")");
-					User.openSearchResultUpgrade();
+					//User.openSearchResultUpgrade();
 					adSearcher.isend = true;
 					return;
 				}
@@ -611,9 +609,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 							User.openUpgrade();
 						}*/
 						switch(res.data.code) {
-                            case -4002:
+                            case -4100:
                                 User.openSearchResultUpgrade();
                                 break;
+                            case -4200:	
                             case -5000:
                                 SweetAlert.swal(res.data.desc);
                                 break;
@@ -663,7 +662,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				if (option.search.text || range.length) {
 					option.search.fields = range.length ? range.join(',') : $scope.Searcher.defSearchFields;//默认值
 					keys.push({
-						string: option.search.text,
+						string: option.search.text ? option.search.text : "",
 						search_fields: option.search.fields,
 						relation: "Must"
 					});
@@ -673,17 +672,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 
 				}
-				/*if (option.rangeselected && option.search.text) {
-					angular.forEach(option.rangeselected, function(item) {
-							range.push(item);
-					});
-					option.search.fields = range.length ? range.join(',') : option.search.fields;
-					keys.push({
-						string: option.search.text,
-						search_fields: option.search.fields,
-						relation: "Must"
-					});
-				}*/
 				//域名
 				if (option.domain.text) {
 					keys.push({
@@ -691,6 +679,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						search_fields: 'caption,link,dest_site,buttonlink',
 						relation: option.domain.exclude ? 'Not' : 'Must'
 					});
+					console.log(keys);
 				}
 				//受众
 				if (option.audience.text) {
@@ -1006,6 +995,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 					}
 				});
+
 				$scope.isFreeLimitDate = false;
 				if (User.user.role.plan === 'free') {
 						if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0)) {
@@ -1071,7 +1061,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				if (option.search.text || range.length) {
 					option.search.fields = range.length ? range.join(',') : option.search.fields;
 					keys.push({
-						string: option.search.text,
+						string: option.search.text ? option.search.text : "",
 						search_fields: option.search.fields,
 						relation: "Must"
 					});
@@ -1551,7 +1541,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 				if (option.search.text || range.length) {
 					option.search.fields = range.length ? range.join(',') : option.search.fields;
 					keys.push({
-						string: option.search.text,
+						string: option.search.text ? option.search.text : "",
 						search_fields: option.search.fields,
 						relation: "Must"
 					});
@@ -1562,7 +1552,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 				//域名
 				if (option.domain.text) {
 					keys.push({
-						string: option.domain.text,
+						string: option.domain.text ? option.domain.text : "",
 						search_fields: 'caption,link,dest_site,buttonlink',
 						relation: option.domain.exclude ? 'Not' : 'Must'
 					});
