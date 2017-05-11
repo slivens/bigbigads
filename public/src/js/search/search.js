@@ -394,8 +394,8 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 	}
 ]);
 /* adsearch js */
-app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal',  '$window', 
-		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window) {
+app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal',  '$window', 'TIMESTAMP',
+		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window, TIMESTAMP) {
 			//搜索流程:location.search->searchOption->adSearcher.params
 			//将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
 
@@ -733,7 +733,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					return;
 				}
 				return $uibModal.open({
-					templateUrl: 'statics-dlg.html',
+					templateUrl: 'statics-dlg.html?t=' + TIMESTAMP,
 					size: 'lg',
 					animation: true,
 					controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {

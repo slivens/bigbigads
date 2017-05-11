@@ -27,7 +27,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- <meta content="width=device-width, initial-scale=1" name="viewport" /> -->
         <meta content="bigbigads" name="description" />
         <meta content="bigbigads" name="author" />
-        <!-- <meta http-equiv="cache-control"  content="no-cache" > -->
+        <meta http-equiv="cache-control"  content="no-cache" >
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
         <!-- <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" /> -->
         <!-- TODO:对于引用包的css文件与js文件，最终将通过webpack统一打包 -->
@@ -73,7 +73,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <div class="page-wrapper-row">
                 <div class="page-wrapper-top">
                     <!-- BEGIN HEADER -->
-                    <div data-ng-include="'tpl/header.html'" data-ng-controller="HeaderController" class="page-header"> </div>
+                    <div data-ng-include="'tpl/header.html' | nocache" data-ng-controller="HeaderController" class="page-header"> </div>
                     <!-- END HEADER -->
                 </div>
             </div>
