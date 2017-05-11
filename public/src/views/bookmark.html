@@ -36,7 +36,7 @@
                             {{data.ads.wantedLength}} ads is wanted, but only find {{data.ads.total_count}}
                         </div>
                         <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
-                            <div deckgrid source="data.ads.ads_info" class="deckgrid" cardTemplate="views/adsearch-card.html">
+                            <div deckgrid source="data.ads.ads_info" class="deckgrid" cardTemplate="{{'views/adsearch-card.html' | nocache}}">
                             </div>
                             <div class="clearfix">
                             </div>
@@ -58,7 +58,7 @@
                         <div class="alert alert-warning" ng-if="data.adsers.adser && data.adsers.total_adser_count != data.adsers.wantedLength">
                             {{data.adsers.wantedLength}} adsers is wanted, but only find {{data.adsers.total_adser_count}}
                         </div>
-                        <div deckgrid source="data.adsers.adser" class="deckgrid" cardTemplate="views/adser-search-card.html">
+                        <div deckgrid source="data.adsers.adser" class="deckgrid" cardTemplate="{{'views/adser-search-card.html' | nocache}}">
                         </div>
                     </uib-tab>
                 </uib-tabset>

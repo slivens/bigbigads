@@ -1275,7 +1275,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', funct
     }, 60000 * 5);
 }]);
 
-MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', '$uibModal', function($http, $q, $location, $rootScope, settings, ADS_TYPE ,$uibModal) {
+MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', '$uibModal', 'TIMESTAMP', function($http, $q, $location, $rootScope, settings, ADS_TYPE ,$uibModal, TIMESTAMP) {
     //获取信息完成后应该广播消息，然后其他需要在获取用户信息才能继续的操作就放到接收到广播后处理
     var infourl = settings.remoteurl  + "/userinfo";
     var user = {
@@ -1346,7 +1346,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
         },
         openUpgrade:function() {
             return $uibModal.open({
-                templateUrl: 'views/upgrade.html?t=' + settings.timestamp,
+                templateUrl: 'views/upgrade.html?t=' + TIMESTAMP,
                 size: 'md',
                 animation: true,
                 controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
@@ -1363,7 +1363,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
         },
         openSign:function() {
             return $uibModal.open({
-                templateUrl: 'views/sign.html?t=' + settings.timestamp,
+                templateUrl: 'views/sign.html?t=' + TIMESTAMP,
                 size: 'customer',
                 backdrop: false,     
                 animation: true,
@@ -1387,7 +1387,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
         },
         openSearchResultUpgrade:function() {
             return $uibModal.open({
-                templateUrl: 'views/search-result-upgrade.html?t=' + settings.timestamp,
+                templateUrl: 'views/search-result-upgrade.html?t=' + TIMESTAMP,
                 size: 'md',
                 animation: true,
                 controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
@@ -1400,7 +1400,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
         },
         openFreeDateLimit:function() {
             return $uibModal.open({
-                templateUrl: 'views/filter-data-limit.html?t=' + settings.timestamp,
+                templateUrl: 'views/filter-data-limit.html?t=' + TIMESTAMP,
                 size: 'md',
                 animation: true,
                 controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {

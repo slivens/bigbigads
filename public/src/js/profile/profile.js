@@ -66,7 +66,7 @@ app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope
         }
     });
 }]);
-app.controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', function($scope, $location, User, $uibModal) {
+app.controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', function($scope, $location, User, $uibModal, TIMESTAMP) {
     var profile = {
         init:function() {
             var search = $location.search();
@@ -88,7 +88,7 @@ app.controller('ProfileController', ['$scope', '$location', 'User', '$uibModal',
     });
     $scope.changePwd = function() {
         return $uibModal.open({
-            templateUrl:'views/profile/changepwd.html',
+            templateUrl:'views/profile/changepwd.html?t=' + TIMESTAMP,
             size:'md',
             animation:true,
             controller:'ChangepwdController'
@@ -107,8 +107,9 @@ app.controller('SubscriptionController', ['$scope', 'User', function($scope, Use
         $scope.subscription = User.user.subscription;
     });
 }]);
+//TODO:templateUrl通过依赖注入加时间戳
 app.component('billings', {
-    templateUrl:'components/billings.html',
+    templateUrl:'components/billings.html?t=',
     controller:'BillingsController',
     bindings:{
         shouldInit:'@'
