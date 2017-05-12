@@ -765,12 +765,8 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 
 				});
 			};
-			var isUserChanged = false;
-			$rootScope.$on('userChanged', function() {
-				isUserChanged = true;
-			});
 			$scope.searchCheck = function(value) {
-				if(isUserChanged) {
+				if(User.done) {
 					var islegal = true;
 					var isNumberLimit;
 					var isLengthLimit;
@@ -1124,13 +1120,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			$scope.clearSearch = function() {
 				$location.search({});
 				$state.reload();
-			};
-			$rootScope.$on('userChanged', function() {
-				isUserChanged = true;
-			});
-			
+			};	
 			$scope.searchCheck = function(value) {
-				if (isUserChanged) {
+				if (User.done) {
 					var islegal = true;
 					var isFilterLimit;
 					isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
@@ -1158,10 +1150,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					$scope.islegal = islegal;
 	                return islegal;
 	            } else {
-	            	SweetAlert.swal("no get userinfo");
+	            	SweetAlert.swal("getting userinfo, please try again");
 	            }   
 			};
-			
 			$scope.User = User;
 			$scope.Searcher = Searcher;
 
