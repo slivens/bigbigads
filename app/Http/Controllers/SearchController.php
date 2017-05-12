@@ -96,6 +96,12 @@ class SearchController extends Controller
     protected function checkBeforeAdSearch($user, $params)
     {       
             $wheres = $params['where'];
+            $resultPerSearch = $user->getUsage("result_per_search");
+            //防止恶意获取超出权限限制的数据
+            //测试下面的防止恶意获取超出权限的数据时应该把下面的if注释掉。
+            if (($params['limit'][0] % 10 != 0) || ($params['limit'][0] >= $resultPerSearch[1])) {
+                throw new \Exception("legal limit params", -4300);
+            }
             if(!Auth::check()) {
                 //throw new \Exception("no permission of search", -1);
                 if ((array_key_exists('action', $params)) && ($params['action'] != 'analysis')) {
@@ -161,7 +167,6 @@ class SearchController extends Controller
                         $params['where'][$key]['value'] = "";
                     }
             }
-            
         return $params;
     }
 
@@ -266,6 +271,7 @@ class SearchController extends Controller
         $isWhereChange = false;
         $user = $this->user();
         $isGetAdAnalysis = false;
+        $isShowBookmark = false;
         if (!(Auth::check())) {
             //匿名用户只有adsearch动作，其它动作一律不允许
             if ($action == 'adsearch') {
@@ -282,7 +288,7 @@ class SearchController extends Controller
                         return $this->responseError("You should sign in", -4199);
                     }
                 }
-                if(false === (($req->except(['action'])['limit'][0] % 10 === 0) && ($req->except(['action'])['limit'][0] < 300) && (intval($req->except(['action'])['limit'][1]) === 10)))
+                if(false === (($req->except(['action'])['limit'][0] % 10 === 0) && ($req->except(['action'])['limit'][0] < 100) && (intval($req->except(['action'])['limit'][1]) === 10)))
                     return ;//TODO:应该抛出错误，返回空白会导致维护困难
             }else {
                 return ;
@@ -311,9 +317,24 @@ class SearchController extends Controller
                     if ($lastParamsArray['where'] != $req->where && count($req->where) > 0) {
                         $isWhereChange = true;
                     }    
+                    
                     //有搜索或者过滤条件
                     //if (count($req->keys) > 0 || count($req->where) > 0) {
-                    if(count($req->keys) > 0){
+                    /*
+                    这里新加的部分是为了在后台拦截类似于postman这样的测试工具获取超过用户等级所对应的结果限制个数
+                    带词搜索只能获取前面有权限次数的数据，比如free用户只能结果拿到前100个的数据
+                    加上($lastParamsArray['limit'] == $req->limit) 是使用postman测试的时候发现，
+                    模拟下拉请求是会被统计到了SEARCH_TIMES_PERDAY结果，从逻辑上看，这是对的，因为两次请求参数里的
+                    Limit不一样，判断的是仅是判断是否有key,下拉应该会进入if条件里面，而实际上在页面上操作下拉请求并不会如此
+                    在这点上感觉很奇怪
+                    打印得到下面的判断结果
+                    */
+                    /*
+                    var_dump(intval($lastParamsArray['limit'][0]) == intval($req->limit[0])); --->false
+                    var_dump(intval($lastParamsArray['limit'][0]) != intval($req->limit[0])); --->true
+                    die();
+                    */
+                    if(count($req->keys) > 0 && ($lastParamsArray['limit'] == $req->limit)){
                         //正常搜索才变更每日搜索次数，如果是过滤则不更新每日搜索次数
                         //额外信息是由用户自己写入的，初始化时并不存在，当不存在时需要自己初始化。
                         if (count($usage) < 4) {
@@ -422,30 +443,50 @@ class SearchController extends Controller
             return $this->responseError("Your search term is not legal", -4200);
         }
         if ($action == 'adsearch') {
+
             if (Auth::check()) {
+                $user = Auth::user();
+                $resultPerSearchUsage = $user->getUsage('result_per_search');
                 $json = json_decode($result, true);
                 if ($user->hasRole('Free') && array_key_exists("all_total_count", $json)) {
                     $searchResult = "total_count: " . $json['total_count'] . " ,all_total_count: " . $json['all_total_count'];
                 }else {
                     $searchResult = "total_count: " . $json['total_count'];
                 }
-
-                if (intval($req->limit[0]) == 0 && !$isWhereChange && !$isLogSearchTimes) {
+                //由于收藏夹请求和广告搜索是同一个接口，仅是where条件不一样，需要另外做判断，否则会把进入广告收藏记录进初始化搜索页
+                //SEARCH_INIT_PERDAY里面
+                foreach ($req->where as $key) {
+                    if ($key['field'] == 'ads_id') {
+                        $isShowBookmark = true;
+                    }
+                }
+                if (intval($req->limit[0]) == 0 && !$isWhereChange && !$isLogSearchTimes && !$isShowBookmark) {
+                    //初始化的时候，搜索条件改变，应该重置result_per_search 已使用的次数
+                    $user->updateUsage('result_per_search', 10, Carbon::now());
                     $searchInitPerday = $this->checkAndUpdateUsagePerday($user, 'search_init_perday');
-                    dispatch(new LogAction("SEARCH_INIT_PERDAY", $json_data, "search_init_perday : " . $searchInitPerday.",cache_total_count: " . $json['total_count'], $user->id, $req->ip()));
+                    dispatch(new LogAction("SEARCH_INIT_PERDAY", $json_data, "search_init_perday : " . $searchInitPerday . ",cache_total_count: " . $json['total_count'], $user->id, $req->ip()));
                 }
                 //测试时发现$req->limit对比$lastParams的limit一直是相同的，很奇怪暂时使用这个intval($req->limit[0]) >= 0做判断
                 if (intval($req->limit[0]) > 0 && !$isWhereChange && !$isLogSearchTimes) {
                     //所有的下拉请求都要记录,区分出是否有where和key变化，否则会同时一个动作记录多条
+                    //用户不能获取到一个搜索词的超出权限限制的个数，主要是防止数据被恶意获取
                     $searchLimitPerday = $this->checkAndUpdateUsagePerday($user, 'search_limit_perday');
+                    if (intval($resultPerSearchUsage[2]) < intval($resultPerSearchUsage[1])) {
+                        $user->updateUsage('result_per_search', $resultPerSearchUsage[2] + 10, Carbon::now());
+                    } else {
+                        return $this->responseError("beyond result limit", -4400);
+                    }
                     dispatch(new LogAction("SEARCH_LIMIT_PERDAY", $json_data, "search_limit_perday: " . $searchLimitPerday, $user->id, $req->ip()));
                 }
                 //用户不带搜索词使用过滤时记录
                 if ($isWhereChange && !$isLogSearchTimes) {
+                    //搜索条件改变，应该重置result_per_search 已使用的次数
+                    $user->updateUsage('result_per_search', 10, Carbon::now());
                     $searchWherePerday = $this->checkAndUpdateUsagePerday($user, 'search_where_perday');
                     dispatch(new LogAction("SEARCH_WHERE_CHANGE_PERDAY", $json_data, "search_where_change_perday: " . $searchWherePerday . "," . $searchResult, $user->id, $req->ip()));
                 }
                 if ($isLogSearchTimes) {
+                    $user->updateUsage('result_per_search', 10, Carbon::now());
                     dispatch(new LogAction("SEARCH_TIMES_PERDAY", $json_data, "search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
                 }
             }
