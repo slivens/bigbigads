@@ -810,7 +810,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					$scope.islegal = islegal;
 	                return islegal;   
 				} else {
-					SweetAlert.swal("no get userinfo");
+					SweetAlert.swal("getting userinfo, please try again");
 				}	
 			};
             $scope.Util = Util;
