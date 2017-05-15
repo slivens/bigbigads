@@ -65,10 +65,29 @@ class UserController extends Controller
         return json_encode($res, JSON_UNESCAPED_UNICODE);
     }
 
-
     /**
-     * 发送验证邮件
+     * 用户邮箱注册验证
      */
+    public function registerVerify(Request $request)
+    {
+        if (!($request->has('email') && $request->has('token'))) {
+            return view('auth.verify')->with('error', "parameter error");
+        }
+        $user = User::where('email', $request->email)->where('verify_token', $request->token)->first();
+        if (!($user instanceof User)) {
+            return view('auth.verify')->with('error', "Verify failed");
+        }
+        if ($user->state == 1) {
+            return view('auth.verify')->with('error', "You have verified, don't verify again!!!");
+        }
+        $user->state = 1;
+        $user->save();
+        Auth::login($user);
+        return redirect("/app");
+        //return view('auth.verify')->with("user", $user);
+    }
+
+
     public function sendVerifyMail(Request $request) {
         if (!($request->has('email'))) {
             return view('auth.verify')->with('error', "parameter error");
