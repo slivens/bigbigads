@@ -5,7 +5,7 @@
             <div class="ribbon-sub ribbon-bookmark xg-collect-border"></div>
             <i class="fa fa-star"></i>
         </div>
-        <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning xg-collect" uib-popover-template="'views/bookmark-popover.html'" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.data.adsers.bookmark && card.adser_username">
+        <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning xg-collect" uib-popover-template="'views/bookmark-popover.html' | nocache" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.data.adsers.bookmark && card.adser_username">
             <div class="ribbon-sub ribbon-bookmark xg-collect-border"></div>
             <i class="fa fa-star" ng-class='{"font-white":!card.hasBookmark}' ></i>
         </div>
@@ -14,7 +14,7 @@
             <!-- avatar and adser info -->
             <div class="col-md-12 text-center ">
                 <a  ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
-                    <img src="../assets/global/img/input-spinner.gif" lazy-img="{{mother.settings.imgRemoteBase + card.small_photo}}" alt="" class="avatar">
+                    <img src="../assets/global/img/input-spinner.gif" lazy-img="{{card.small_photo}}" alt="" class="avatar" type="bba">
                 </a>
             </div>
             <!-- end avatar and adser info -->

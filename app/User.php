@@ -134,7 +134,12 @@ class User extends Authenticatable
             $item = $items[$key];
             $item[2] = 0;
         } else {
+            //测试的时候发现，新加入的权限和策略是直接进入到这个else分支，导致$item[2]没有初始化为0，会导致出现
+            //下标2未出现的错误。
             $item = $this->usage[$key];
+            if(count($item) < 3) {
+                $item[2] = 0;
+            }
         }
         return $item;
     }

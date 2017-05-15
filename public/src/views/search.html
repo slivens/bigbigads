@@ -47,9 +47,9 @@
                     <div ng-if="currSearchOption.filter.format">Ad Type:{{currSearchOption.filter.format}}</div>
                     <div ng-if="currSearchOption.filter.callToAction">Call To Action:{{currSearchOption.filter.callToAction}}</div>
                     <div ng-if="currSearchOption.range">Search Mode:{{currSearchOption.range}}</div>
-<!--                     <div ng-if="currSearchOption.filter.tracking && currSearchOption.filter.tracking.length">Tracking Tool: {{currSearchOption.filter.tracking}}</div>
+                    <div ng-if="currSearchOption.filter.tracking && currSearchOption.filter.tracking.length">Tracking Tool: {{currSearchOption.filter.tracking}}</div>
                     <div ng-if="currSearchOption.filter.affiliate && currSearchOption.filter.affiliate.length">affiliate: {{currSearchOption.filter.affiliate}}</div>
-                    <div ng-if="currSearchOption.filter.ecommerce && currSearchOption.filter.ecommerce.length">E_Commerce: {{currSearchOption.filter.ecommerce}}</div> -->
+                    <div ng-if="currSearchOption.filter.ecommerce && currSearchOption.filter.ecommerce.length">E_Commerce: {{currSearchOption.filter.ecommerce}}</div>
                     <div ng-if="currSearchOption.filter.isDurationDirty()">Duration Range:{{currSearchOption.filter.duration.from}}~{{currSearchOption.filter.duration.to}}</div>
                     <div ng-if="currSearchOption.filter.isSeeTimesDirty()">See Times Range:{{currSearchOption.filter.seeTimes.from}}~{{currSearchOption.filter.seeTimes.to}}</div>
                     <div ng-if="currSearchOption.filter.isEngagementsDirty()">Engagements Filters:
@@ -62,7 +62,7 @@
                 </div> 
                 <hr style="border-top:1px solid #dbdee6">
                     <div class="text-center">
-                        <div class="page-spinner-bar xg-page-spinner-bar" ng-show="currSearchOption.search.text && adSearcher.busy">
+                        <div class="page-spinner-bar xg-page-spinner-bar" ng-show="currSearchOption.search.text && adSearcher.busy && adSearcher.params.limit[0] === 0">
                             <div class="bounce1"></div>
                             <div class="bounce2"></div>
                             <div class="bounce3"></div>
@@ -95,11 +95,11 @@
             </div>
         </div>
         <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend" ng-class="{'half-opacity':adSearcher.busy && adSearcher.params.limit[0] === 0}">
-            <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid" cardTemplate="views/adsearch-card.html">
+            <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid" cardTemplate="{{'views/adsearch-card.html' | nocache}}">
             </div>
             <div class="clearfix">
             </div>
-			<div class="text-center" ng-show="adSearcher.busy">
+			<div class="text-center" ng-show="adSearcher.busy && adSearcher.params.limit[0] !== 0">
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
 				<span class="sr-only">Loading...</span>
 			</div>
@@ -121,7 +121,7 @@
 			<!-- <i class="icon-grid"></i> -->
  <!-- </button> -->
 
- <div data-ng-include="'tpl/quick-sidebar.html'" data-ng-controller="QuickSidebarController" class="page-quick-sidebar-wrapper xg-quick-sidebar-top75"></div>
+ <div data-ng-include="'tpl/quick-sidebar.html' | nocache" data-ng-controller="QuickSidebarController" class="page-quick-sidebar-wrapper xg-quick-sidebar-top75"></div>
 
  <!-- <button type="button" class="bg-yellow-gold statics-btn" ng-click="showStatics()"> -->
  <!--     <span class="sr-only">Toggle Statics Dialog</span> -->
@@ -342,7 +342,7 @@
                 <p ng-if="User.info.user.role.name == 'Standard'">You can only see 300 results per search in standard level.Please contact us if you need to see more: help@bigbigads.com</p>
                 <p ng-if="User.info.user.role.name == 'Free'">You can only see 100 results per search in free level.Please contact us if you need to see more: help@bigbigads.com</p>
             </div>
-            <div class="col-md-5" ng-include="'tpl/register.html'">
+            <div class="col-md-5" ng-include="'tpl/register.html' | nocache">
              
             </div>
             <div class="col-md-12">

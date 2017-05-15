@@ -11,16 +11,22 @@ app.directive('sweetalert', ['SweetAlert', function(SweetAlert) {
         }
     };
 }]);
-app.directive('lazyImg', ['$timeout', function($timeout) {
+app.directive('lazyImg', ['$timeout', 'Util', function($timeout, Util) {
 	return {
         restrict:'A',
         scope:{
             lazyImg:'@'
         },
-		link:function($scope, element) {
-                $timeout(function() {
-                    element.attr('src', $scope.lazyImg);
-                });
+		link:function($scope, element, attrs) {
+            var imageSrc;
+            if (attrs.type === 'bba') {
+                imageSrc = Util.getImageRandomSrc($scope.lazyImg);
+            } else {
+                imageSrc = $scope.lazyImg;
+            }
+            $timeout(function() {   
+                element.attr('src', imageSrc);
+            });        
 		}
 	};
 }]);
@@ -285,25 +291,27 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('rankBoard', ['$compile', '$timeout', function($compile, $timeout) {
+    .directive('rankBoard', ['$compile', '$timeout', 'TIMESTAMP', function($compile, $timeout, TIMESTAMP) {
         return {
             scope: {
                 title: '@'
             },
-            templateUrl: 'tpl/dashboard.html',
+            templateUrl: 'tpl/dashboard.html?t=' + TIMESTAMP,
             transclude: true,
             link: function(scope, element, attrs) {
                 scope.title = attrs.title;
             }
         };
     }])
-    .directive('advideo', ['$compile', '$timeout', function($compile, $timeout) {
+    .directive('advideo', ['$compile', '$timeout', 'Util', function($compile, $timeout, Util) {
         return {
             restrict: 'EA',
             link: function(scope, element, attrs) {
                 var poster = $('<div class="advideo"></div>');
                 var img = $('<img/>');
-                img.attr('src', attrs.preview);
+                var imageSrc;
+                imageSrc = Util.getImageRandomSrc(attrs.preview);
+                img.attr('src', imageSrc);
                 poster.addClass('video');
                 poster.html('<a class="playbtn"><i class="fa xg-icon-play"></i></a>');
                 poster.append(img);
@@ -322,10 +330,10 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('singleImage', function() {
+    .directive('singleImage', ['TIMESTAMP', function(TIMESTAMP) {
         return {
             restrict: 'E',
-            templateUrl: 'views/search/single-image.html',
+            templateUrl: 'views/search/single-image.html?t=' + TIMESTAMP,
             replace: false,
             scope: {
                 card: '='
@@ -335,11 +343,11 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 $scope.Searcher = Searcher;
             }]
         };
-    })
-    .directive('singleVideo', function() {
+    }])
+    .directive('singleVideo', ['TIMESTAMP', function(TIMESTAMP) {
         return {
             restrict: 'E',
-            templateUrl: 'views/search/single-video.html',
+            templateUrl: 'views/search/single-video.html?t=' + TIMESTAMP,
             replace: false,
             scope: {
                 card: '='
@@ -349,11 +357,11 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 $scope.Searcher = Searcher;
             }]
         };
-    })
-    .directive('adcanvas', function() {
+    }])
+    .directive('adcanvas', ['TIMESTAMP', function(TIMESTAMP) {
         return {
             restrict: 'E',
-            templateUrl: 'views/search/canvas.html',
+            templateUrl: 'views/search/canvas.html?t=' + TIMESTAMP,
             replace: false,
             scope: {
                 card: '='
@@ -363,11 +371,11 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 $scope.Searcher = Searcher;
             }]
         };
-    })
-    .directive('carousel', function() {
+    }])
+    .directive('carousel', ['TIMESTAMP', function(TIMESTAMP) {
         return {
             restrict: 'E',
-            templateUrl: 'views/search/carousel.html',
+            templateUrl: 'views/search/carousel.html?t=' + TIMESTAMP,
             replace: false,
             scope: {
                 card: '='
@@ -376,7 +384,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 $scope.settings = settings;
             }]
         };
-    })
+    }])
     .directive('fixsidebar', ['$timeout', '$rootScope', function($timeout, $rootScope) {
         return {
             scope: true,
@@ -406,14 +414,14 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('audience', ['$uibModal', function($uibModal) {
+    .directive('audience', ['$uibModal', 'TIMESTAMP', function($uibModal, TIMESTAMP) {
         return {
             link: function(scope, element, attrs) {
                 element.bind('click', function() {
                     if(attrs.title) {
                         var why_see = attrs.title.split("\n");
                         return $uibModal.open({
-                            templateUrl: 'views/audience.html',
+                            templateUrl: 'views/audience.html?t=' + TIMESTAMP,
                             size: 'customer',     
                             animation: true,
                             controller:['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
@@ -461,6 +469,16 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
+    .directive('avatar', ['Util', function(Util){
+        return {
+            link: function(scope, element, attrs) {
+                var imageSrc;
+                console.log(attrs.image);
+                imageSrc = Util.getImageRandomSrc(attrs.image);
+                element.attr("src", imageSrc);
+            }
+        };
+    }])
     //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function () {  
         return function (collection) { 
@@ -475,7 +493,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             return output;  
         };  
     })
-    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert' , 'User', '$state', function($uibModal, $stateParams, SweetAlert, User, $state) {
+    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert' , 'User', '$state', 'settings', 'TIMESTAMP', function($uibModal, $stateParams, SweetAlert, User, $state, settings, TIMESTAMP) {
         return {
             matchkey: function(origstr, destArr) {
                 var orig = origstr.split(',');
@@ -527,7 +545,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             },
             openAd: function(id) {
                 return $uibModal.open({
-                    templateUrl: 'views/ad-analysis.html',
+                    templateUrl: 'views/ad-analysis.html?t=' + TIMESTAMP,
                     size: 'lg',
                     animation: true,
                     resolve: {
@@ -686,7 +704,16 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 }else {
                     return true;
                 }       
-            }
+            },
+            getImageRandomSrc:function(src) {
+                //图片采用随机向4个域名发起请求的方式，
+                //视频由于设置了不预加载，便不采取这样的方式
+                var imageSrcIndex;
+                var imageSrc;
+                imageSrcIndex = parseInt(10 * Math.random()) % 4;
+                imageSrc = settings.imgRemoteBase[imageSrcIndex] + src;
+                return imageSrc;
+            },
         };
     }]);
 app.service('Resource', ['$resource', 'settings', 'SweetAlert', function($resource, settings, SweetAlert) {

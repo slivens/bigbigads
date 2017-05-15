@@ -98,15 +98,27 @@ class SearchController extends Controller
             $wheres = $params['where'];
             if(!Auth::check()) {
                 //throw new \Exception("no permission of search", -1);
-                if((array_key_exists('action', $params)) && ($params['action'] != 'analysis')){
+                if ((array_key_exists('action', $params)) && ($params['action'] != 'analysis')) {
                     $params['search_result'] = 'cache_ads';
                     $params['where'] = [];
                     $params['keys'] = [];
                 }        
                 return $params;
-            }else if($user->hasRole('Free') || $user->hasRole('Standard')) {
-                if((array_key_exists('keys', $params) && count($params['keys']) > 0) || count($wheres) > 0){
+            }else if(Auth::check() && ($user->hasRole('Free') || $user->hasRole('Standard'))) {
+                if ((array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0)) {
                     $params['search_result'] = 'ads';
+                    //免费用户限制在两个月前的时间内的数据，设置role = free 是为了让数据端识别并在一个请求内进行两次搜索，第一次是正常的搜索流程，第二次是获取全部的广告总数，
+                    //在一次请求内给出两个总数结果，total_count和all_total_count
+                    $freeEndDate = Carbon::now()->subMonths(2)->format("Y-m-d");
+                    if ($user->hasRole('Free')) {
+                        foreach($params['where'] as $key => $obj) {
+                            if ($obj['field'] == "time" && $obj['role'] == 'free' && ($obj['min'] != '2016-01-01' || $obj['max'] != $freeEndDate)) {
+                                $obj['min'] = '2016-01-01';
+                                $obj['max'] = $freeEndDate;
+                            }
+                        }
+                    }
+                    
                 }else {
                     $params['search_result'] = 'cache_ads';
                 }          
@@ -133,7 +145,7 @@ class SearchController extends Controller
                     if ($obj['field'] == "engagements" && !$user->can('advance_engagement_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
-                    if (Auth::check() && $user->hasRole('Free') && $obj['field'] == "time") {
+                    /*if (Auth::check() && $user->hasRole('Free') && $obj['field'] == "time") {
                         $freeEndDate = Carbon::now()->modify('-60 days');
                         $min = Carbon::parse($obj['min']);
                         $max = Carbon::parse($obj['max']);
@@ -143,7 +155,7 @@ class SearchController extends Controller
                         if ($max->gt($freeEndDate)) {
                             $obj['max'] = $freeEndDate->format("Y-m-d");
                         }
-                    }
+                    }*/
                     if ($obj['field'] == "watermark_md5" && !$user->can('analysis_similar')) {
                         $params['where'][$key]['field'] = "";
                         $params['where'][$key]['value'] = "";
@@ -209,6 +221,30 @@ class SearchController extends Controller
         return $data;
     }
 
+    //暂时能想到的策略是使用用户权限来记录写入log的用户行为，
+    //将来可能会对where, limit, init的每日统计做出逻辑处理
+    protected function checkAndUpdateUsagePerday($user, $logAction)
+    {
+        $logActionUsage = $user->getUsage($logAction);
+        if (!$logActionUsage) {
+            return $this->responseError("no search permission");
+        }            
+        if (count($logActionUsage) < 4) {
+                $carbon = Carbon::now();
+            } else {
+                //如果已经初始化过，就直接读取；为什么会有两种写法？这是由于从数据库反序列化后的格式跟缓存中的格式不一样导致的。
+                if ($logActionUsage[3] instanceof Carbon)
+                    $carbon = new Carbon($logActionUsage[3]->date, $logActionUsage[3]->timezone);
+                else
+                    $carbon = new Carbon($logActionUsage[3]['date'], $logActionUsage[3]['timezone']);
+            } 
+            if (!$carbon->isToday()) {
+                $logActionUsage[2] = 0;
+            }
+            $user->updateUsage($logAction, $logActionUsage[2] + 1, Carbon::now());
+            return $logActionUsage[2] + 1;
+    }
+
     /*
         1.用户包括进入搜索页和下拉滚动条的请求都记录，remark: limit:num
         2.用户空词加上过滤条件时做记录，remark: 搜索结果总数,where
@@ -220,7 +256,7 @@ class SearchController extends Controller
         1.页面初始化记录，      记录初始化次数，limit=0，where和keys为空；remark格式为：search_int_perday:num,cache_total_count
         2.搜索条件变化-where    记录空词条件下过滤条件变化，where不为空，keys为空；remark格式为：search_where_change_perday:num,total_count,all_total_count  
         3.搜索条件变化-key      记录搜索词+任意过滤条件，remark格式为：remark:search_times_perday:num,total_count,all_total_count
-        4.滚动条下拉发起请求    记录下拉发起请求，keys和where与上次搜索相同；remark格式:remark:search_limit_perday:num
+        4.滚动条下拉发起请求    记录下拉发起请求，keys和where与上次搜索相同；remark格式:remark:search_limit_change_perday:num
 
     */
     public function search(Request $req, $action) {
@@ -229,9 +265,23 @@ class SearchController extends Controller
         $isLogSearchTimes = false;
         $isWhereChange = false;
         $user = $this->user();
+        $isGetAdAnalysis = false;
         if (!(Auth::check())) {
             //匿名用户只有adsearch动作，其它动作一律不允许
             if ($action == 'adsearch') {
+
+                if (count($req->where) > 0 || count($req->keys) > 0) {
+                    //防止用户未登录直接使用url构造url参数来获取数据
+                    //区分出获取广告分析的请求
+                    foreach($req->where as $key => $obj) {         
+                        if ($obj['field'] == "ads_id") {
+                            $isGetAdAnalysis = true;
+                        }
+                    }
+                    if(!$isGetAdAnalysis){
+                        return $this->responseError("You should sign in", -4199);
+                    }
+                }
                 if(false === (($req->except(['action'])['limit'][0] % 10 === 0) && ($req->except(['action'])['limit'][0] < 300) && (intval($req->except(['action'])['limit'][1]) === 10)))
                     return ;//TODO:应该抛出错误，返回空白会导致维护困难
             }else {
@@ -258,13 +308,8 @@ class SearchController extends Controller
                     if (!$usage) {
                         return $this->responseError("no search permission");
                     }
-                    if ($lastParamsArray['where'] != $req->where) {
-                        //free用户每次搜索都会强制带上time过滤，若where只有一个，说明是不带过滤条件，则不应该记录
-                        if ($user->hasRole('Free') && count($req->where) > 1) {
-                            $isWhereChange = true;
-                        }else if(!$user->hasRole('Free')) {
-                            $isWhereChange = true;
-                        }
+                    if ($lastParamsArray['where'] != $req->where && count($req->where) > 0) {
+                        $isWhereChange = true;
                     }    
                     //有搜索或者过滤条件
                     //if (count($req->keys) > 0 || count($req->where) > 0) {
@@ -283,6 +328,7 @@ class SearchController extends Controller
                         if (!$carbon->isToday()) {
                             $usage[2] = 0;
                         }
+
                         if ($usage[2] >= intval($usage[1]))
                             return $this->responseError("you reached search times today, default result will show", -4100);
                         Log::debug("adsearch " . $json_data . json_encode($usage));
@@ -384,17 +430,23 @@ class SearchController extends Controller
                     $searchResult = "total_count: " . $json['total_count'];
                 }
 
+                if (intval($req->limit[0]) == 0 && !$isWhereChange && !$isLogSearchTimes) {
+                    $searchInitPerday = $this->checkAndUpdateUsagePerday($user, 'search_init_perday');
+                    dispatch(new LogAction("SEARCH_INIT_PERDAY", $json_data, "search_init_perday : " . $searchInitPerday.",cache_total_count: " . $json['total_count'], $user->id, $req->ip()));
+                }
                 //测试时发现$req->limit对比$lastParams的limit一直是相同的，很奇怪暂时使用这个intval($req->limit[0]) >= 0做判断
-                if (intval($req->limit[0]) >= 0 && !$isWhereChange && !$isLogSearchTimes) {
+                if (intval($req->limit[0]) > 0 && !$isWhereChange && !$isLogSearchTimes) {
                     //所有的下拉请求都要记录,区分出是否有where和key变化，否则会同时一个动作记录多条
-                    dispatch(new LogAction("SEARCH_LIMIT_PERDAY", $json_data, "limit: " . $req->limit[0], $user->id, $req->ip()));
+                    $searchLimitPerday = $this->checkAndUpdateUsagePerday($user, 'search_limit_perday');
+                    dispatch(new LogAction("SEARCH_LIMIT_PERDAY", $json_data, "search_limit_perday: " . $searchLimitPerday, $user->id, $req->ip()));
                 }
                 //用户不带搜索词使用过滤时记录
                 if ($isWhereChange && !$isLogSearchTimes) {
-                    dispatch(new LogAction("SEARCH_WHERE_PERDAY", $json_data, $searchResult . ", where: " . json_encode($req->where), $user->id, $req->ip()));
+                    $searchWherePerday = $this->checkAndUpdateUsagePerday($user, 'search_where_perday');
+                    dispatch(new LogAction("SEARCH_WHERE_CHANGE_PERDAY", $json_data, "search_where_change_perday: " . $searchWherePerday . "," . $searchResult, $user->id, $req->ip()));
                 }
                 if ($isLogSearchTimes) {
-                    dispatch(new LogAction("SEARCH_TIMES_PERDAY", $json_data, "search_times_perday:" . $searchTimesPerday . ", " .$searchResult , $user->id, $req->ip()));
+                    dispatch(new LogAction("SEARCH_TIMES_PERDAY", $json_data, "search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
                 }
             }
         }

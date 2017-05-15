@@ -1,7 +1,7 @@
 if (!app)
     var app = angular.module('MetronicApp');
 
-app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 'User', '$state', function(Resource, $uibModal, SweetAlert, BookmarkItem, User, $state) {
+app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 'User', '$state', 'TIMESTAMP', function(Resource, $uibModal, SweetAlert, BookmarkItem, User, $state, TIMESTAMP) {
     var bookmark = new Resource('bookmark');
     bookmark.subItems = [];
     bookmark.editBookmarkByBid = function(bid) {
@@ -22,7 +22,7 @@ app.factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 
             return;
         }
         return $uibModal.open({
-            templateUrl: 'views/bookmark-add-dialog.html',
+            templateUrl: 'views/bookmark-add-dialog.html?t=' + TIMESTAMP,
             size: 'sm',
             animation: true,
             controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {

@@ -79,6 +79,7 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
  END: BREAKING CHANGE in AngularJS v1.3.x:
 *********************************************/
 /* Setup global settings */
+MetronicApp.constant('TIMESTAMP', Date.parse(new Date()));
 MetronicApp.constant('ADS_TYPE', {
     timeline: 1,
     rightcolumn: 4,
@@ -95,6 +96,7 @@ MetronicApp.constant('POLICY_TYPE', {PERMANENT:0, MONTH:1, DAY:2, HOUR:3, VALUE:
 MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
     // supported languages
     var settings = {
+        timestamp:Date.parse(new Date()),
         layout: {
             pageSidebarClosed: false, // sidebar menu state
             pageContentWhite: true, // set page content layout
@@ -106,7 +108,13 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         layoutPath: '../assets/layouts/layout3',
         baseurl: '/app/',
         remoteurl: '', //根目录
-        imgRemoteBase: 'http://image1.bigbigads.com:88',
+        imgRemoteBase: [
+            'http://image1.bigbigads.com:88',
+            'http://image2.bigbigads.com:88',
+            'http://image3.bigbigads.com:88',
+            'http://image4.bigbigads.com:88',
+        ],
+        videoRemoteBase: 'http://image1.bigbigads.com:88',
         searchSetting: {
             pageCount: 10, //每一页的数据量
             durationRange:[0, 180],
@@ -723,6 +731,11 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
 
     return settings;
 }]);
+MetronicApp.filter('nocache', ['TIMESTAMP', function(TIMESTAMP) {
+    return function(url) {
+        return url + '?t=' + TIMESTAMP;  
+    };
+}]);
 MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
         return function(text) {　　
             return $sce.trustAsHtml(text);　　
@@ -868,17 +881,17 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 }]);
 
 /* Setup Rounting For All Pages */
-MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
-    var ts = Math.random();
+MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', 'TIMESTAMP', function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider, TIMESTAMP) {
+    var ts = TIMESTAMP;
     // Redirect any unmatched url
     $urlMatcherFactoryProvider.strictMode(false);
     // $urlRouterProvider.when("/", "/adsearch");
-    $urlRouterProvider.otherwise("/404.html");
+    $urlRouterProvider.otherwise("/404.html?t=" + ts);
     
     $stateProvider
     .state('/', {
             url: '/',
-            templateUrl: "views/search.html",
+            templateUrl: "views/search.html?t=" + ts,
             data: {
                 pageTitle: 'Advertise Search'
             },
@@ -913,7 +926,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     })
     .state('adsearch', {
             url: '/adsearch',
-            templateUrl: "views/search.html",
+            templateUrl: "views/search.html?t=" + ts,
             data: {
                 pageTitle: 'Advertise Search'
             },
@@ -948,7 +961,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('adser', {
             url: '/adsearch/{adser}/{name}',
-            templateUrl:"views/adser.html",
+            templateUrl:"views/adser.html?t=" + ts,
             data: {
                 pageTitle: 'Specific Advertise'
             },
@@ -973,7 +986,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            'js/bigbigads.js?r=' + Math.random()
+                            'js/bigbigads.js?t=' + ts
                         ]
                     });
                 }]
@@ -982,7 +995,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('ownerSearch', {
             url: '/ownerSearch',
-            templateUrl: "views/owner-search.html",
+            templateUrl: "views/owner-search.html?t=" + ts,
             data: {
                 pageTitle: 'Advertiser Search'
             },
@@ -1007,7 +1020,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            'js/bigbigads.js?r=' + Math.random()
+                            'js/bigbigads.js?t=' + ts
                         ]
                     });
                 }]
@@ -1015,7 +1028,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('adserAnalysis', {
             url: '/adserAnalysis/{username}',
-            templateUrl:"views/adser-analysis.html",
+            templateUrl:"views/adser-analysis.html?t=" + ts,
             data: {
                 pageTitle: 'Advertiser Analysis'
             },
@@ -1036,7 +1049,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/jqcloud2/dist/jqcloud.min.css',
                             '/node_modules/jqcloud2/dist/jqcloud.min.js',
                             '../assets/global/plugins/angular-jqcloud.js',
-                            'js/bigbigads.js?r=' + Math.random()
+                            'js/bigbigads.js?t=' + ts
                         ]
                     });
                 }]
@@ -1044,7 +1057,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('adAnalysis', {
             url:'/adAnalysis/{id}',
-            templateUrl:"views/ad-analysis.html",
+            templateUrl:"views/ad-analysis.html?t=" + ts,
             data: {
                 pageTitle: 'Advertise Analysis'
             },
@@ -1077,7 +1090,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('ranking', {
             url:'/ranking',
-            templateUrl:"views/ranking.html",
+            templateUrl:"views/ranking.html?t=" + ts,
             data: {
                 pageTitle: 'Ranking'
             },
@@ -1099,7 +1112,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            'js/bigbigads.js?r=' + Math.random()
+                            'js/bigbigads.js?t=' + ts
                         ]
                     });
                 }]
@@ -1107,7 +1120,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('bookmark', {
             url:'/bookmark',
-            templateUrl:"views/bookmark.html",
+            templateUrl:"views/bookmark.html?t=" + ts,
             data: {
                 pageTitle: 'Bookmark'
             },
@@ -1129,7 +1142,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            'js/bigbigads.js?r=' + Math.random()
+                            'js/bigbigads.js?t=' + ts
                         ]
                     });
                 }]
@@ -1138,7 +1151,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('plans', {
             url:'/plans',
-            templateUrl:"views/plans.html",
+            templateUrl:"views/plans.html?t=" + ts,
             data: {
                 pageTitle: 'Plans'
             },
@@ -1162,7 +1175,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                         '/node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
                         '/node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
 
-                            'js/bigbigads.js?r=' + Math.random()
+                            'js/bigbigads.js?t=' + ts
                         ]
                     });
                 }]
@@ -1172,7 +1185,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     // User Profile
     .state("profile", {
         url: "/profile",
-        templateUrl: "views/profile/main.html",
+        templateUrl: "views/profile/main.html?t=" + ts,
         data: {
             pageTitle: 'Profile'
         },
@@ -1191,7 +1204,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
                             '/node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
                             '/node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
-                            'js/bigbigads.js?r=' + Math.random()
+                            'js/bigbigads.js?t=' + ts
                     ]
                 });
             }]
@@ -1201,7 +1214,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     // User Profile Dashboard
     .state("profile.dashboard", {
         url: "/dashboard",
-        templateUrl: "views/profile/dashboard.html",
+        templateUrl: "views/profile/dashboard.html?t=" + ts,
         data: {
             pageTitle: 'User Profile'
         }
@@ -1210,7 +1223,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     // User Profile Account
     .state("profile.account", {
         url: "/account",
-        templateUrl: "views/profile/account.html",
+        templateUrl: "views/profile/account.html?t=" + ts,
         data: {
             pageTitle: 'User Account'
         }
@@ -1218,7 +1231,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     // User Profile Help
     .state("profile.help", {
         url: "/help",
-        templateUrl: "views/profile/help.html",
+        templateUrl: "views/profile/help.html?t=" + ts,
         data: {
             pageTitle: 'User Help'
         }
@@ -1226,9 +1239,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     $locationProvider.html5Mode(true);
 
 }]);
-MetronicApp.config([ function() {
-    // var scrollable = document.querySelector('#scrollable');
-  }]);
 
 /* Init global settings and run the app */
 MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', function($rootScope, settings, $state, User, SweetAlert) {
@@ -1265,7 +1275,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', funct
     }, 60000 * 5);
 }]);
 
-MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', '$uibModal', function($http, $q, $location, $rootScope, settings, ADS_TYPE ,$uibModal) {
+MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', '$uibModal', 'TIMESTAMP', function($http, $q, $location, $rootScope, settings, ADS_TYPE ,$uibModal, TIMESTAMP) {
     //获取信息完成后应该广播消息，然后其他需要在获取用户信息才能继续的操作就放到接收到广播后处理
     var infourl = settings.remoteurl  + "/userinfo";
     var user = {
@@ -1336,7 +1346,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
         },
         openUpgrade:function() {
             return $uibModal.open({
-                templateUrl: 'views/upgrade.html',
+                templateUrl: 'views/upgrade.html?t=' + TIMESTAMP,
                 size: 'md',
                 animation: true,
                 controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
@@ -1353,7 +1363,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
         },
         openSign:function() {
             return $uibModal.open({
-                templateUrl: 'views/sign.html',
+                templateUrl: 'views/sign.html?t=' + TIMESTAMP,
                 size: 'customer',
                 backdrop: false,     
                 animation: true,
@@ -1377,7 +1387,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
         },
         openSearchResultUpgrade:function() {
             return $uibModal.open({
-                templateUrl: 'views/search-result-upgrade.html',
+                templateUrl: 'views/search-result-upgrade.html?t=' + TIMESTAMP,
                 size: 'md',
                 animation: true,
                 controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
@@ -1390,7 +1400,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
         },
         openFreeDateLimit:function() {
             return $uibModal.open({
-                templateUrl: 'views/filter-data-limit.html',
+                templateUrl: 'views/filter-data-limit.html?t=' + TIMESTAMP,
                 size: 'md',
                 animation: true,
                 controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {

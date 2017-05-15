@@ -44,7 +44,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- BEGIN THEME LAYOUT STYLES -->
         <link href="../static/layout.css" rel="stylesheet" type="text/css" />
         <link href="../static/default.css" rel="stylesheet" type="text/css" id="style_color" />
-        <link rel="stylesheet" type="text/css" href="../static/custom.css"><!-- 头部与足部样式 -->
+        <link rel="stylesheet" type="text/css" href="../static/custom.css"><!-- the css of head and foot -->
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="/static/images/favicon.ico" /> </head>
     <!-- END HEAD -->
