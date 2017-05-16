@@ -15,6 +15,7 @@ class VerifyCsrfToken extends BaseVerifier
         "/forward/*",
         '/onPayment',
         '/onPayWebhooks',
-        '/register'
+        '/register',
+        '/mailgun/*'
     ];
 }

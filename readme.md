@@ -51,13 +51,20 @@ REDIS_HOST=127.0.0.1
 REDIS_PASSWORD=null
 REDIS_PORT=6379
 
-# E-MAIL配置
+# 既然需要同时使用多个mail driver，那么MAIL_DRIVER在smtp与mailgun之间调整便没有太大意义   
+# 因此将其设置为smtp，如果要调试，就设置为log                                             
 MAIL_DRIVER=smtp                                                                          
 MAIL_HOST=smtp.gmail.com                                                                  
 MAIL_PORT=587                                                                             
 MAIL_USERNAME=info@bigbigads.com                                                          
-MAIL_PASSWORD=info_password@1qaz2wsx                                                      
-MAIL_ENCRYPTION=tls
+MAIL_PASSWORD=                                                    
+MAIL_ENCRYPTION=tls                                                                       
+                                                                                          
+# mailgun作为一个独立驱动，与MAIL_DRIVER同时使用                                          
+# 如果不使用mailgun，就将MAILGUN_USERNAME设置为空                                         
+MAILGUN_USERNAME=test@ad.papamk.com                                                       
+MAILGUN_DOMAIN=ad.papamk.com #请使用二级域名，不能使用主域名，防止主域名被列入黑名单      
+MAILGUN_SECRET= #从mailgun获取       
 
 PUSHER_APP_ID=
 PUSHER_KEY=
