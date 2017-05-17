@@ -48,6 +48,7 @@ class MailgunWebhookController extends Controller
         $sign = hash_hmac("sha256", $request->timestamp . $request->token, $key);
         if ($sign != $request->signature) {
             Log::info("sign is not the same");
+            return;
         }
         if ($request->event === "bounced") {
             $this->onBounced($request);

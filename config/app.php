@@ -118,11 +118,14 @@ return [
     |
     | Available Settings: "single", "daily", "syslog", "errorlog"
     |
+    | log_max_files:the file number of logs, default is 5.
     */
 
     'log' => env('APP_LOG', 'single'),
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
+
+    'log_max_files' => 30,
 
     /*
     |--------------------------------------------------------------------------
