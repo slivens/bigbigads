@@ -410,7 +410,7 @@ class SearchController extends Controller
             //curl如果失败就直接返回错误了，这是个良性错误，当作成功处理，前端遇到此错误的策略应该是
             //先重试，再提示
             Log::info("curl failed:" . json_encode($response));
-            return $this->responseError("server is busy, please refresh again", -4201);
+            return $this->responseError("server is busy, please refresh again", -4202);
         }
         curl_close($ch);
         $t2 = microtime(true);
