@@ -66,7 +66,7 @@ class UserController extends Controller
     }
 
     /**
-     * 用户邮箱注册验证
+     * 用户进入邮箱后点开注册验证的链接完成验证
      */
     public function registerVerify(Request $request)
     {
@@ -88,6 +88,9 @@ class UserController extends Controller
     }
 
 
+    /**
+     * 发送验证邮件
+     */
     public function sendVerifyMail(Request $request) {
         if (!($request->has('email'))) {
             return view('auth.verify')->with('error', "parameter error");
