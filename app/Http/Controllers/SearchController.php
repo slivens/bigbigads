@@ -268,6 +268,10 @@ class SearchController extends Controller
         4.滚动条下拉发起请求    记录下拉发起请求，keys和where与上次搜索相同；remark格式:remark:search_limit_change_perday:num
 
     */
+    /*
+        free用户新增的all_total_count字段,要求过滤或者带有搜索词的请求前端必须带上time过滤,
+        限制上在两个月前的时间,否则为非法搜索.
+    */
     public function search(Request $req, $action) {
         $json_data = json_encode($req->except(['action']));
         $remoteurl = "";
