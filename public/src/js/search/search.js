@@ -150,15 +150,22 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 						}
 					}
 					if (res.data.count) {
+						//暂时无法保证数据端会出现某个字段json解析失败，全部做异常抛出。
+						//但是也把数据端的弊端屏蔽了，打算结合开发模式和生产模式，生产模式不做异常
+						//抛出，本地能知道数据源问题。
 						angular.forEach(res.data.ads_info, function(value, key) {
 							if (value.type == vm.ADS_CONT_TYPE.CAROUSEL) {
-								value.watermark = JSON.parse(value.watermark);
-								value.link = JSON.parse(value.link);
-								value.buttonlink = JSON.parse(value.buttonlink);
-								value.buttondesc = JSON.parse(value.buttondesc);
-								value.name = JSON.parse(value.name);
-								value.description = JSON.parse(value.description);
-								value.local_picture = JSON.parse(value.local_picture);
+								try {
+									value.watermark = JSON.parse(value.watermark);
+									value.link = JSON.parse(value.link);
+									value.buttonlink = JSON.parse(value.buttonlink);
+									value.buttondesc = JSON.parse(value.buttondesc);
+									value.name = JSON.parse(value.name);
+									value.description = JSON.parse(value.description);
+									value.local_picture = JSON.parse(value.local_picture);
+								} catch(err) {
+									console.log(err);
+								}
 								// if (value.snapshot && value.snapshot != "")
 								//      value.snapshot = JSON.parse(value.snapshot);
 							} else if (value.type == vm.ADS_CONT_TYPE.CANVAS) {		    
@@ -167,10 +174,18 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 									value.local_picture = JSON.parse(value.local_picture);
 									} catch(err) {console.log(err);}								
 								if (vm.getAdsType(value, vm.ADS_TYPE.rightcolumn)) {
-									value.watermark = JSON.parse(value.watermark);
+									try {
+										value.watermark = JSON.parse(value.watermark);
+									} catch(err) {
+										console.log(err);
+									}
 								}
 							} else if (value.type == vm.ADS_CONT_TYPE.SINGLE_VIDEO) {
-								value.local_picture = JSON.parse(value.local_picture);
+								try {
+									value.local_picture = JSON.parse(value.local_picture);
+								} catch(err) {
+									console.log(err);
+								}
 							}
 						});
 
