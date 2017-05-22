@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Inspiring;
 use App\Services\AnonymousUser;
+use App\Maillist;
 
 /*
 |--------------------------------------------------------------------------
@@ -109,3 +110,41 @@ Artisan::command('bigbigads:can {email} {priv}', function($email,  $priv) {
     }
 })->describe("检查用户权限");
 
+/**
+ * 邮件相关的操作，目前支持
+ * add 批量添加
+ * del 批量删除
+ * clear 全部删除
+ * 格式: email,group
+ */
+Artisan::command('bigbigads:email {op} {file=mail}', function($op,  $file) {
+    if ($op == 'add' || $op == 'del') {
+        if (!Storage::exists($file)) {
+            $this->info("$file is not found, please check the file is in 'storage/app'");
+            return;
+        }
+        $content = Storage::get($file);
+        $lines = explode("\n", $content);
+        foreach ($lines as $line) {
+            $item = explode(",", $line);
+            if (count($item) < 2)
+                break;
+            if ($op == 'add') {
+                Maillist::firstOrCreate([
+                    'email' => $item[0], 
+                    'category' => $item[1]
+                ]);
+                $this->info("{$item[1]}: {$item[0]} added");
+            } else {
+                Maillist::where([
+                    'email' => $item[0], 
+                    'category' => $item[1]
+                ])->delete();
+                $this->info("{$item[1]}: {$item[0]} deleted");
+            }
+        }
+    } else if ($op == 'clear') {
+        Maillist::where('id', '>', 0)->delete();
+        $this->info("the maillist is cleared");
+    }
+})->describe("批量添加文件");
