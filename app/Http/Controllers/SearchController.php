@@ -54,7 +54,7 @@ class SearchController extends Controller
 
     /**
      * 攻击检测：目前检测非法请求参数和请求速率，检测到异常就记录到ActionLog
-	 * 假设：正常用户平均搜索一次加上查看也要5秒，一小时3600秒，720次。
+     * 假设：正常用户平均搜索一次加上查看也要5秒，一小时3600秒，720次。
      * 累计次数，当当前时间与上个时间都在在(n - 1, n]小时，就累加；当前时间与上个时间不在同一个区间，重新计数。当计数超过720次时，记录到ACTION_LOG。
      * @remark 对于攻击的检测，如果没有相应的单元测试手段，将很难覆盖测试
      */
@@ -107,21 +107,30 @@ class SearchController extends Controller
             }else if(Auth::check() && ($user->hasRole('Free') || $user->hasRole('Standard'))) {
                 if ((array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0)) {
                     $params['search_result'] = 'ads';
+                    $isHasTime = false;
                     //免费用户限制在两个月前的时间内的数据，设置role = free 是为了让数据端识别并在一个请求内进行两次搜索，第一次是正常的搜索流程，第二次是获取全部的广告总数，
                     //在一次请求内给出两个总数结果，total_count和all_total_count
                     $freeEndDate = Carbon::now()->subMonths(2)->format("Y-m-d");
+                    //后台限制没有使用postman的接口测试工具做测试无效，深刻教训：以后的后台测试会以postman测试为准，使用dd打印会漏情况和测试无效。
+                    //分为两种情况：1.修改time的值
+                    //              2.直接删除where的time选项
                     if ($user->hasRole('Free')) {
                         foreach($params['where'] as $key => $obj) {
-                            if ($obj['field'] == "time" && $obj['role'] == 'free' && ($obj['min'] != '2016-01-01' || $obj['max'] != $freeEndDate)) {
-                                $obj['min'] = '2016-01-01';
-                                $obj['max'] = $freeEndDate;
+                            if (array_key_exists('min', $obj)) {
+                                $isHasTime = true;
+                                if ($obj['min'] != '2016-01-01' || $obj['max'] != $freeEndDate) {
+                                    $params['where'][$key]['min'] = '2016-01-01';
+                                    $params['where'][$key]['max'] = $freeEndDate;
+                                }          
                             }
                         }
+                        if (!$isHasTime) {
+                            throw new \Exception("legal time", -4198);
+                        }
                     }
-                    
-                }else {
+                } else {
                     $params['search_result'] = 'cache_ads';
-                }          
+                }         
             }
             foreach($params['where'] as $key => $obj) {         
                     if ($obj['field'] == "duration_days" && !$user->can('duration_filter')) {
@@ -259,6 +268,10 @@ class SearchController extends Controller
         4.滚动条下拉发起请求    记录下拉发起请求，keys和where与上次搜索相同；remark格式:remark:search_limit_change_perday:num
 
     */
+    /*
+        free用户新增的all_total_count字段,要求过滤或者带有搜索词的请求前端必须带上time过滤,
+        限制上在两个月前的时间,否则为非法搜索.
+    */
     public function search(Request $req, $action) {
         $json_data = json_encode($req->except(['action']));
         $remoteurl = "";
@@ -319,7 +332,7 @@ class SearchController extends Controller
                         if (count($usage) < 4) {
                             $carbon = Carbon::now();
                         } else {
-							//如果已经初始化过，就直接读取；为什么会有两种写法？这是由于从数据库反序列化后的格式跟缓存中的格式不一样导致的。
+                            //如果已经初始化过，就直接读取；为什么会有两种写法？这是由于从数据库反序列化后的格式跟缓存中的格式不一样导致的。
                             if ($usage[3] instanceof Carbon)
                                 $carbon = new Carbon($usage[3]->date, $usage[3]->timezone);
                             else
@@ -402,10 +415,10 @@ class SearchController extends Controller
         );
         /* curl_setopt($ch, CURLOPT_TIMEOUT, 1); */ 
         $response = curl_exec($ch);
-		if (curl_getinfo($ch, CURLINFO_HTTP_CODE) == '200') {
-			$headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-			$header = substr($response, 0, $headerSize);
-			$result = substr($response, $headerSize);
+        if (curl_getinfo($ch, CURLINFO_HTTP_CODE) == '200') {
+            $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+            $header = substr($response, 0, $headerSize);
+            $result = substr($response, $headerSize);
         } else {
             //curl如果失败就直接返回错误了，这是个良性错误，当作成功处理，前端遇到此错误的策略应该是
             //先重试，再提示
