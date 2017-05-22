@@ -10,15 +10,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class WeeklySelectedMail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $email;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($email)
     {
-        //
+        $this->email = $email;
     }
 
     /**
@@ -28,6 +29,6 @@ class WeeklySelectedMail extends Mailable
      */
     public function build()
     {
-        return $this->view('edm.weekly')->subject("每周精选");
+        return $this->view('edm.weekly')->with(['email' => $this->email]);
     }
 }

@@ -77,12 +77,12 @@ class EDMController extends Controller
         /* $to = 'm13799329269@163.com'; */
         if ($interval < 10) //间隔必须至少10秒
             $interval = 10;
-        $mail = new $mailConfig['class']();
-        $mail->build();
         if (!empty(env('MAILGUN_USERNAME'))) {
             $useMailgun = true;
         }
         foreach (array_keys($maillist) as $to) {
+            $mail = new $mailConfig['class']($to);
+            $mail->build();
             if ($useMailgun) {
                 Mailgun::later($warmTime, $mail->view, $mail->buildViewData(), function($message) use($to, $mailConfig, $request) {
                     $message->to($to)

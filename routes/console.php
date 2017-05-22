@@ -162,7 +162,7 @@ Artisan::command('bigbigads:email {op} {file=mail} {extParam=space}', function($
             $this->error("$className is not found");
             return;
         }
-        Mail::to($email)->send(new $className());
+        Mail::to($email)->send(new $className($email));
         $this->info("send to $email successfully");
     }
 })->describe("从文件中批量添加/删除邮件，以及测试邮件的发送(测试邮件阻塞直到发送出去方便测试)");
