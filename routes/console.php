@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Inspiring;
 use App\Services\AnonymousUser;
+use App\Maillist;
 
 /*
 |--------------------------------------------------------------------------
@@ -109,3 +110,59 @@ Artisan::command('bigbigads:can {email} {priv}', function($email,  $priv) {
     }
 })->describe("检查用户权限");
 
+/**
+ * 邮件相关的操作，目前支持:
+ * add 批量添加: php artisan bigbigads:email add <mail file name>
+ * del 批量删除: php artisan bigbigads:email del <mail file name>
+ * clear 全部删除: php artisan bigbigads:email clear
+ * dispatch 发送邮件测试: php artisan bigbigads:email dispatch m13799329269@qq.com weekly
+ * 格式: email,group
+ * 其中，group不应该以'#'开头，'#'开头的分组有特殊含义
+ */
+Artisan::command('bigbigads:email {op} {file=mail} {extParam=space}', function($op,  $file, $extParam) {
+    if ($op == 'add' || $op == 'del') {
+        if (!Storage::exists($file)) {
+            $this->info("$file is not found, please check the file is in 'storage/app'");
+            return;
+        }
+        $content = Storage::get($file);
+        $lines = explode("\n", $content);
+        foreach ($lines as $line) {
+            $item = explode(",", $line);
+            if (count($item) < 2)
+                break;
+            if ($op == 'add') {
+                Maillist::firstOrCreate([
+                    'email' => $item[0], 
+                    'category' => $item[1]
+                ]);
+                $this->info("{$item[1]}: {$item[0]} added");
+            } else {
+                Maillist::where([
+                    'email' => $item[0], 
+                    'category' => $item[1]
+                ])->delete();
+                $this->info("{$item[1]}: {$item[0]} deleted");
+            }
+        }
+    } else if ($op == 'clear') {
+        Maillist::where('id', '>', 0)->delete();
+        $this->info("the maillist is cleared");
+    } else if ($op == 'dispatch') {
+        //对于dispatch来说，$extParam是mail.edm的键值
+        $edmMails = config('mail.edm');
+        if (!array_key_exists($extParam, $edmMails)) {
+            $this->error("$extParam config is not in mail.edm");
+            return;
+        }
+        $mailConfig =$edmMails[$extParam];
+        $className = $mailConfig['class'];
+        $email = $file;
+        if (!class_exists($className)) {
+            $this->error("$className is not found");
+            return;
+        }
+        Mail::to($email)->send(new $className($email));
+        $this->info("send to $email successfully");
+    }
+})->describe("从文件中批量添加/删除邮件，以及测试邮件的发送(测试邮件阻塞直到发送出去方便测试)");

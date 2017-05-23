@@ -127,6 +127,13 @@ return [
             'username' => env('MAIL2_USERNAME'),
             'password' => env('MAIL2_PASSWORD'),
         ]
+    ],
+
+    'edm' => [
+        'weekly' => [
+            'name' => '每周精选',
+            'class' => App\Mail\WeeklySelectedMail::class
+        ]
     ]
 
 ];
