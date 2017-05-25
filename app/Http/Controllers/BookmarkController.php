@@ -19,6 +19,10 @@ class BookmarkController extends Controller
      */
     public function index(Request $req)
     {
+        //显示收藏夹之前需要检查是否为合法用户
+        if (intval($req->uid) != Auth::user()->id) {
+            return response(["code"=>-1, "desc"=>"No Permission"], 501);
+        }
         return Bookmark::where("uid", $req->uid)->get();
     }
 
@@ -53,6 +57,10 @@ class BookmarkController extends Controller
      */
     public function update(Request $req, $id)
     {
+        //编辑收藏夹之前需要检查是否为合法用户
+        if (intval($req->uid) != Auth::user()->id) {
+            return response(["code"=>-1, "desc"=>"No Permission"], 501);
+        }
         $bookmark = Bookmark::where("id", $id)->first();
         /*if (!Auth::user()->can('update', $bookmark)) {
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
@@ -73,6 +81,10 @@ class BookmarkController extends Controller
      */
     public function destroy($id)
     {
+        //删除收藏夹之前需要检查是否为合法用户
+        if ($id != Auth::user()->id) {
+            return response(["code"=>-1, "desc"=>"No Permission"], 501);
+        }
         $bookmark = Bookmark::where("id", $id)->first();
         /*if (!Auth::user()->can('delete', $bookmark)) {
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
