@@ -1250,7 +1250,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					field: "watermark_md5",
 					value: md5
 				});
-				similarPromise = similarSearcher.filter();
+				similarPromise = similarSearcher.filter('similar');
 				similarPromise.then(function(ads) {
 					$scope.card.similars = ads.ads_info;
 					console.log("similar", ads);
