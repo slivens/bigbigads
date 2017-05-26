@@ -54,7 +54,12 @@ body {
 .navbar-fixed-top  {
     z-index:500 !important;
 }
-
+/*定义文本溢出为省略号*/
+.text-ellipsis{
+    white-space:nowrap; 
+    overflow:hidden; 
+    text-overflow:ellipsis;
+}
 .page-tab-menu {
     background-color: $tabmenu-bg-color;
     .nav {
@@ -330,6 +335,10 @@ body {
             margin: 0 0 0 0;
             background: #f6f6f8;
             padding-bottom: 0px;
+            .adser-website_p{
+                width: 100%;
+                margin-top: 0px;
+            }
         }
         .avatar{
             height: 48px;
@@ -570,6 +579,12 @@ body {
     }
     video {
         max-width:100%;
+    }
+
+    .aditem-desc{
+        .h5{
+           min-height: 22px;
+        }
     }
 }
 
