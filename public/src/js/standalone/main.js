@@ -616,11 +616,11 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 key: "description,name,caption,message",
                 value: "Advertisement",
                 permission:"content_search"
-            }/*, {
+            }, {
                 key:"whyseeads,whyseeads_all",
                 value:"Audience",
                 permission:"audience_search"
-            }*/],
+            }],
             langList: [{
                 key: "English",
                 value: "English"
