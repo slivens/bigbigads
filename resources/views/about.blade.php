@@ -15,7 +15,7 @@
 @include('tpl.header')
 <section class="about text-center">
     <div class="container">
-        <h1>About US</h1>
+        <h1>About Us</h1>
         <p class="aboutus-text">Founded in AUG. 2016</p>
         <p>Bigbigads set up a goal of becoming a global pioneer in the ad intelligence industry.</p>
     </div>
