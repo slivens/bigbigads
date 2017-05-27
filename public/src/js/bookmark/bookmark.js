@@ -140,7 +140,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
             $scope.adSearcher = adSearcher;
             $scope.adSearcher.checkAndGetMore = function() {
                 if($scope.adSearcher.params.where.length > 0){
-                    adSearcher.getMore();
+                    adSearcher.getMore('bookmark');
                 }
             };
             $scope.data.ads = {};
@@ -149,7 +149,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                     field: 'ads_id',
                     value: wanted.join(',')
                 });
-                adSearcher.filter().then(function(data) {
+                adSearcher.filter('bookmark').then(function(data) {
                     $scope.data.ads = data;
                     $scope.data.ads.bookmark = true;
                     $scope.data.ads.wantedLength = wanted.length;
@@ -165,7 +165,7 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
                     field: 'adser_username',
                     value: wantedAdsers.join(',')
                 });
-                adserSearcher.filter().then(function(data) {
+                adserSearcher.filter('bookmark').then(function(data) {
                     $scope.data.adsers = data;
                     $scope.data.adsers.bookmark = true;
                     $scope.data.adsers.wantedLength = wantedAdsers.length;

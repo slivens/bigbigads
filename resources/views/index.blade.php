@@ -138,7 +138,7 @@
             <li class="solution-item">
                 <img src="static/images/solution1.png" class="img-circle bg"/>
                 <div class="solution-item_number clearfix">
-                    <span class="pull-left">3,000,000</span>
+                    <span class="pull-left">4,000,000</span>
                     <span class="solution-item_symbol pull-left">+</span></div>
                 <div class="solution-item_desc">Ads</div>
             </li>

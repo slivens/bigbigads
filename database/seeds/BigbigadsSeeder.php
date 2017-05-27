@@ -148,7 +148,8 @@ class BigbigadsSeeder extends Seeder
             'date_filter', 'format_filter', 'call_action_filter', 'duration_filter', 'see_times_filter', 'lang_filter', 'engagement_filter', 
             'date_sort', 'likes_sort','shares_sort',  'comment_sort', 'duration_sort', 'views_sort', 'engagements_sort', 'engagement_inc_sort', 'likes_inc_sort', 'views_inc_sort', 'shares_inc_sort', 'comments_inc_sort', 
             'timeline_filter', 'phone_filter', 'rightcolumn_filter', 'advance_likes_filter', 'advance_shares_filter', 'advance_comments_filter', 'advance_video_views_filter', 'advance_engagement_filter',
-            'search_init_perday', 'search_limit_perday', 'search_where_perday'];
+            'search_init_perday', 'search_limit_perday', 'search_where_perday', 'specific_adser_init_perday', 'specific_adser_limit_perday', 'specific_adser_where_perday',
+            ];
 
         //将权限分配到角色，有多少角色，数组长度就有多少，与上面的角色一一对应。true表示该角色有该权限，false表示该角色无此权限。
         $searchPermission = ['search_times_perday'=>[true, true, true, true, true, true], 'result_per_search'=>[true, true, true, true, true, true], 'search_filter'=>[false, true, true, true, true, true], 'search_sortby'=>[false, false, true, true, false, false], 'advanced_search'=>[false, false, true, true, false, false], 'save_search' => [false, true, true, true, true, true], 'keyword_times_perday' => [true, true, true, true, true, true],
@@ -156,9 +157,10 @@ class BigbigadsSeeder extends Seeder
             'date_filter' => [true, true, true, true, true, true], 'format_filter' => [true, true, true, true, true, true], 'call_action_filter' => [false, true, true, true, true, true], 'duration_filter' => [false, false, true, true, true, true], 'see_times_filter' => [false, false, true, true, true, true], 'lang_filter' => [false, true, true, true, true, true], 'engagement_filter' => [false, false, true, true, false, false], 
             'date_sort' => [true, true, true, true, true, true], 'likes_sort' => [true, true, true, true, true, true], 'shares_sort' => [true, true, true, true, true, true],  'comment_sort' => [true, true, true, true, true, true], 'duration_sort'=>[false, false, true, true, true, true], 'views_sort' => [true, true, true, true, true, true], 'engagements_sort' => [false, false, true, true, false, false], 'engagement_inc_sort' => [false, false, true, true, false, false], 'likes_inc_sort' => [false, false, true, true, false, false], 'views_inc_sort' => [false, false, true, true, false, false], 'shares_inc_sort'=>[false, false, true, true, false, false], 'comments_inc_sort' => [false, false, true, true, false, false],
             'timeline_filter' => [true, true, true, true, true, true], 'phone_filter' => [false, false, true, true, false, false], 'rightcolumn_filter' => [true, true, true, true, true, true], 'advance_likes_filter' => [false, false, true, true, true, true], 'advance_shares_filter' => [false, false, true, true, true, true], 'advance_comments_filter' => [false, false, true, true, true, true], 'advance_video_views_filter' => [false, false, true, true, true, true], 'advance_engagement_filter' => [false, false, true, true, true, true],
-            'search_init_perday' => [true, true, true, true, true, true], 'search_limit_perday' => [true, true, true, true, true, true], 'search_where_perday' => [true, true, true, true, true, true]];
+            'search_init_perday' => [true, true, true, true, true, true], 'search_limit_perday' => [true, true, true, true, true, true], 'search_where_perday' => [true, true, true, true, true, true], 'specific_adser_init_perday' => [true, true, true, true, true, true], 'specific_adser_limit_perday' => [true, true, true, true, true, true], 'specific_adser_where_perday' => [true, true, true, true, true, true]];
         //给权限指定策略，策略数组的第一个数值表示策略类型，Policy::DAY表示按天累计，Policy::VALUE表示是一个固定值，Policy::PERMANENT表示永久累计，后面数值同上。需要注意的是，只有角色有对应的权限，才会有检查策略。
-        $searchPolicy = ['search_times_perday' => [Policy::DAY, 100, 1000, 3000, 5000, 1000, 1000], 'result_per_search' => [Policy::VALUE, 100, 300, 2000, 5000, 300, 300], 'keyword_times_perday' => [Policy::DAY, 1000, 1000, 1000, 1000, 1000, 1000], 'search_init_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000], 'search_limit_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000], 'search_where_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000]];
+        $searchPolicy = ['search_times_perday' => [Policy::DAY, 100, 1000, 3000, 5000, 1000, 1000], 'result_per_search' => [Policy::VALUE, 100, 300, 2000, 5000, 300, 300], 'keyword_times_perday' => [Policy::DAY, 1000, 1000, 1000, 1000, 1000, 1000], 'search_init_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000], 'search_limit_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000], 'search_where_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000],
+                         'specific_adser_init_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000], 'specific_adser_limit_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000], 'specific_adser_where_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000]];
         $this->insertPermissions('Advertisement', $search, $searchPermission,  $roles);
         $this->insertPolicies($searchPolicy, $roles);
 
@@ -236,9 +238,10 @@ class BigbigadsSeeder extends Seeder
         }
 
         //收藏夹权限与策略
-        $bookmark = ['bookmark_support', 'bookmark_list', 'bookmark_adser_support', 'save_count','advertiser_collect'];
-        $bookmarkPermission = ['bookmark_support'=>[false, true, true, true, true, true], 'bookmark_list'=>[true, true, true, true, true, true], 'bookmark_adser_support'=>[false, true, true, true, true, true], 'save_count'=>[false, true, true, true, true, true],'advertiser_collect'=>[false, false, true, true, false, false]];
-        $bookmarkPolicy = ['bookmark_list'=>[Policy::PERMANENT, 1, 10, 100, 10000, 10, 10], 'save_ad_count'=>[Policy::PERMANENT, 0, 35, 1000, 5000, 35, 35], 'save_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000, 100, 100]];
+        $bookmark = ['bookmark_support', 'bookmark_list', 'bookmark_adser_support', 'save_count','advertiser_collect', 'bookmark_init_perday', 'bookmark_limit_perday'];
+        $bookmarkPermission = ['bookmark_support'=>[false, true, true, true, true, true], 'bookmark_list'=>[true, true, true, true, true, true], 'bookmark_adser_support'=>[false, true, true, true, true, true], 'save_count'=>[false, true, true, true, true, true],'advertiser_collect'=>[false, false, true, true, false, false],
+                               'bookmark_init_perday' => [true, true, true, true, true, true], 'bookmark_limit_perday' => [true, true, true, true, true, true]];
+        $bookmarkPolicy = ['bookmark_list'=>[Policy::PERMANENT, 1, 10, 100, 10000, 10, 10], 'save_ad_count'=>[Policy::PERMANENT, 0, 35, 1000, 5000, 35, 35], 'save_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000, 100, 100], 'bookmark_init_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000], 'bookmark_limit_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000]];
         foreach($bookmark as $key=>$item) {
             $permision = Permission::firstOrCreate([
                 'key'        => $item,

@@ -152,13 +152,18 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					if (res.data.count) {
 						angular.forEach(res.data.ads_info, function(value, key) {
 							if (value.type == vm.ADS_CONT_TYPE.CAROUSEL) {
-								value.watermark = JSON.parse(value.watermark);
-								value.link = JSON.parse(value.link);
-								value.buttonlink = JSON.parse(value.buttonlink);
-								value.buttondesc = JSON.parse(value.buttondesc);
-								value.name = JSON.parse(value.name);
-								value.description = JSON.parse(value.description);
-								value.local_picture = JSON.parse(value.local_picture);
+								//暂时无法保证数据端会出现某个字段json解析失败，全部做异常抛出。
+								//但是也把数据端的弊端屏蔽了，打算结合开发模式和生产模式，生产模式不做异常
+								//抛出，本地能知道数据源问题。
+								try {
+									value.watermark = JSON.parse(value.watermark);
+									value.link = JSON.parse(value.link);
+									value.buttonlink = JSON.parse(value.buttonlink);
+									value.buttondesc = JSON.parse(value.buttondesc);
+									value.name = JSON.parse(value.name);
+									value.description = JSON.parse(value.description);
+									value.local_picture = JSON.parse(value.local_picture);
+								} catch(err) {console.log(err);}	
 								// if (value.snapshot && value.snapshot != "")
 								//      value.snapshot = JSON.parse(value.snapshot);
 							} else if (value.type == vm.ADS_CONT_TYPE.CANVAS) {		    
@@ -167,10 +172,14 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 									value.local_picture = JSON.parse(value.local_picture);
 									} catch(err) {console.log(err);}								
 								if (vm.getAdsType(value, vm.ADS_TYPE.rightcolumn)) {
-									value.watermark = JSON.parse(value.watermark);
+									try {
+										value.watermark = JSON.parse(value.watermark);
+									} catch(err) {console.log(err);}
 								}
 							} else if (value.type == vm.ADS_CONT_TYPE.SINGLE_VIDEO) {
-								value.local_picture = JSON.parse(value.local_picture);
+								try {
+									value.local_picture = JSON.parse(value.local_picture);
+								} catch(err) {console.log(err);}
 							}
 						});
 
@@ -204,11 +213,11 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				return defer.promise;
 			};
 			
-			vm.getMore = function() {
+			vm.getMore = function(action) {
 				if (vm.busy)
 					return;
 				vm.params.limit[0] += settings.searchSetting.pageCount;
-				vm.search(vm.params, false);
+				vm.search(vm.params, false, action);
 			};
 			vm.filter = function(action) {
 				var promise;
@@ -412,7 +421,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			var adSearcher = $scope.adSearcher = new Searcher();
 			adSearcher.checkAndGetMore = function() {
 				if (!User.done) {
-					adSearcher.getMore();
+					adSearcher.getMore('search');
 					return;
 				}
 				var policy = User.getPolicy('result_per_search');
@@ -428,7 +437,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					adSearcher.isend = true;
 					return;
 				}
-				adSearcher.getMore();
+				adSearcher.getMore('search');
 			};
 			// $scope.adSearcher.search($scope.adSearcher.defparams, true);
 			$scope.reverseSort = function() {
@@ -607,6 +616,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$scope.currSearchOption.filter.category = category.join(',');
 				$scope.currSearchOption.filter.format = format.join(',');
 				$scope.currSearchOption.filter.callToAction = buttondesc.join(',');
+				console.log(action);
 				$scope.adSearcher.filter(action ? action : 'search').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
 						/*if(res.data.desc === 'no permission of search'){
@@ -819,7 +829,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			//一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
 			User.getInfo().then(function() {
 				//根据search参数页面初始化
-				$scope.search();
+				$scope.search('search');
 			});
 			$scope.$on('$viewContentLoaded', function() {
 				// initialize core components
@@ -850,7 +860,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 		var adSearcher = $scope.adSearcher = new Searcher();
 		adSearcher.checkAndGetMore = function() {
 				if (!User.done) {
-					adSearcher.getMore();
+					adSearcher.getMore('adser');
 					return;
 				}
 				var policy = User.getPolicy('result_per_search');
@@ -865,7 +875,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					adSearcher.isend = true;
 					return;
 				}
-				adSearcher.getMore();
+				adSearcher.getMore('adser');
 			};
 		// $scope.adSearcher.search($scope.adSearcher.defparams, true);
 		$scope.reverseSort = function() {
@@ -1041,7 +1051,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
 				$scope.currSearchOption.callToAction = buttondesc.join(',');
-				$scope.adSearcher.filter(action ? action : 'search').then(function() {}, function(res) {
+				console.log(action);
+				action = 'adser';
+				$scope.adSearcher.filter(action ? action : 'adser').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
 						//SweetAlert.swal(res.data.desc);
 					} else {
@@ -1164,7 +1176,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         //一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
         User.getInfo().then(function() {
             //根据search参数页面初始化
-            $scope.search();
+            $scope.search('adser');
         });
         // $scope.adSearcher.filter();
 	}])
@@ -1238,7 +1250,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					field: "watermark_md5",
 					value: md5
 				});
-				similarPromise = similarSearcher.filter();
+				similarPromise = similarSearcher.filter('similar');
 				similarPromise.then(function(ads) {
 					$scope.card.similars = ads.ads_info;
 					console.log("similar", ads);
