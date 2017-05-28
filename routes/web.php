@@ -31,6 +31,12 @@ Auth::routes();
 Route::get('/forget', function() {
     return view('auth.login');
 });
+
+Route::get('/socialite/{name}', 'UserController@socialiteRedirect');
+Route::get('/socialite/{name}/callback', 'UserController@socialiteCallback');
+Route::get('/socialite/{name}/bind', 'UserController@bindForm');
+Route::post('/socialite/{name}/bind', 'UserController@bind')->name('socialiteBindPost');
+
 Route::get('/home', function (Request $request) {
     $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
     return view('index')->with('recents', $recents);
