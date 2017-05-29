@@ -26,6 +26,7 @@ use App\Mail\RegisterVerify;
 Route::get('/', function (Request $request) {
     return redirect("/app");
 });
+Route::get('/message', 'Controller@messageView');
 
 Auth::routes();
 Route::get('/forget', function() {

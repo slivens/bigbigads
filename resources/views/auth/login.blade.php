@@ -81,12 +81,6 @@
                         @endif
                 </div>
 
-                <div class="form-group text-center">
-                    <a href="/socialite/github" class="github"><i class="fa fa-github fa-3x"></i></a>
-                    <a href="/socialite/facebook" class="facebook"><i class="fa fa-facebook-official fa-3x"></i></a>
-                    <a href="/socialite/linkedin" class="linkedin"><i class="fa fa-linkedin-square fa-3x"></i></a>
-                    <a href="/socialite/google" class="google-plus"><i class="fa fa-google-plus-square fa-3x"></i></a>
-                </div>
                 <!--remember me, forget password-->
                 <div class="form-actions row">
                     <div class="col-md-6 col-xs-6 rememberme-div">
@@ -109,6 +103,12 @@
                     <button type="submit" class="btn pull-right"> Login </button>
                 </div>
                 
+                <div class="form-group text-center">
+                    <!-- <a href="/socialite/github" class="github"><i class="fa fa-github fa-3x"></i></a> -->
+                    <a href="/socialite/facebook" class="facebook"><i class="fa fa-facebook-official fa-3x"></i></a>
+                    <a href="/socialite/linkedin" class="linkedin"><i class="fa fa-linkedin-square fa-3x"></i></a>
+                    <a href="/socialite/google" class="google-plus"><i class="fa fa-google-plus-square fa-3x"></i></a>
+                </div>
                 <div class="login-footer row">
                     <!--create an acount-->
                     <div class="col-xs-12 text-left">

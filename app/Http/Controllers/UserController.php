@@ -141,9 +141,13 @@ class UserController extends Controller
         $socialiteUser = Socialite::driver($name)->user();
         $email = $socialiteUser->email;
         $token = $socialiteUser->token;
+        $providerId = $socialiteUser->id;
+        if (empty($email)) {
+            return $this->message("sorry, no email information in your '$name' account");
+        }
         Log::debug("oauth:" . json_encode($socialiteUser));
         Cache::put($token, $socialiteUser, 5 * 60);
-        if (\App\Socialite::where(['email' => $email, 'provider' => $name])->count() > 0) {
+        if (\App\Socialite::where(['provider_id' => $providerId, 'provider' => $name])->count() > 0) {
             $user = User::where('email', $email)->first();
             Auth::login($user);
             /* dispatch(new LogAction("USER_LOGIN", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() )); */
@@ -174,51 +178,49 @@ class UserController extends Controller
             return view('auth.verify')->with('error', "the page is expired");
         }
         $email = $socialiteUser->email;
-        //没有帐号就创建帐号
+        $providerId = $socialiteUser->id;
+        //没有帐号就先创建帐号
         $user = User::where('email', $email)->first();
-        if ($user instanceof User) {
-            Log::debug("info:$email, {$request->password}");
-            if (!Auth::attempt(['email' => $email, 'password' => $request->password])) {
-                return back()->with('status', 'wrong password');
+        if (!$user instanceof User) {
+            $rules = [
+                'password' => 'required|min:6'
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return back()->with('status', 'password requires at least 6 characters');
             }
-             
-            //有帐号就检查是否绑定，已经绑定就直接登陆
-            $binded = false;
-            if (\App\Socialite::where(['email' => $email, 'provider' => $name])->count() > 0)
-                $binded = true;
-            if (!$binded) {
-                $item =  new \App\Socialite();
-                $item->provider = $name;
-                $item->email = $email;
-                $item->bind = $email;
-                $item->save();
-            }
-            Auth::login($user);
-            dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
-            return redirect('/app');
+
+            $userName = $socialiteUser->nickname;
+            if (empty($userName))
+                $userName= $socialiteUser->name;
+            $user = User::create([
+                'name' => $userName,
+                'email' => $email,
+                'password' => bcrypt($request->password),
+            ]);
+            $user->state = 1;//社交帐号直接通过验证
+            $user->role_id = 3;
+            $user->verify_token = str_random(40);
+            $user->save();
+            event(new Registered($user));
         }
 
-        $rules = [
-            'password' => 'required|min:6'
-        ];
-		$validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-            return back()->with('status', 'password requires at least 6 characters');
+        if (!Auth::attempt(['email' => $email, 'password' => $request->password])) {
+            return back()->with('status', 'wrong password');
         }
 
-        $name = $socialiteUser->nickname;
-        if (empty($name))
-            $name = $socialiteUser->name;
-        $user = User::create([
-            'name' => $name,
-            'email' => $email,
-            'password' => bcrypt($request->password),
-        ]);
-        $user->state = 1;//社交帐号直接通过验证
-        $user->role_id = 3;
-        $user->verify_token = str_random(40);
-        $user->save();
-        event(new Registered($user));
+        //有帐号就检查是否绑定，已经绑定就直接登陆
+        $binded = false;
+        if (\App\Socialite::where(['provider_id' => $providerId, 'provider' => $name])->count() > 0)
+            $binded = true;
+        if (!$binded) {
+            $item =  new \App\Socialite();
+            $item->provider_id = $providerId;
+            $item->provider = $name;
+            $item->bind = $email;
+            $item->remark = json_encode($socialiteUser);
+            $item->save();
+        }
         Auth::login($user);
         dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
         return redirect('/app');

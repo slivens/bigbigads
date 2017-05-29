@@ -15,9 +15,10 @@ class CreateSocialitesTable extends Migration
     {
         Schema::create('socialites', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('provider_id');
             $table->string('provider');
-            $table->string('email');
             $table->string('bind');
+            $table->text('remark');
             $table->timestamps();
         });
     }
