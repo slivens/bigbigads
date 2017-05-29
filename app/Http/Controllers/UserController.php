@@ -138,9 +138,10 @@ class UserController extends Controller
             return view('auth.verify')->with('error', "unsupported provider:$name");
         }
         
-        $socialiteUser = Socialite::driver('github')->user();
+        $socialiteUser = Socialite::driver($name)->user();
         $email = $socialiteUser->email;
         $token = $socialiteUser->token;
+        Log::debug("oauth:" . json_encode($socialiteUser));
         Cache::put($token, $socialiteUser, 5 * 60);
         if (\App\Socialite::where(['email' => $email, 'provider' => $name])->count() > 0) {
             $user = User::where('email', $email)->first();
@@ -204,9 +205,12 @@ class UserController extends Controller
         if ($validator->fails()) {
             return back()->with('status', 'password requires at least 6 characters');
         }
-  
+
+        $name = $socialiteUser->nickname;
+        if (empty($name))
+            $name = $socialiteUser->name;
         $user = User::create([
-            'name' => $socialiteUser->nickname,
+            'name' => $name,
             'email' => $email,
             'password' => bcrypt($request->password),
         ]);
