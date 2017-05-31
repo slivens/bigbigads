@@ -169,47 +169,11 @@ class SearchController extends Controller
                     }
             }
             //暂时没有想到一个优雅的方法来处理postman使用sort by的功能办法
-            switch ($params['sort']['field']) {
-                case 'last_view_date':
-                    $isCanSort = $user->can('date_sort');
-                    break;
-                case 'duration_days':
-                    $isCanSort = $user->can('duration_sort');
-                    break;
-                case 'engagements':
-                    $isCanSort = $user->can('engagements_sort');
-                    break;
-                case 'views':
-                    $isCanSort = $user->can('views_sort');
-                    break;
-                case 'engagements_per_7d':
-                    $isCanSort = $user->can('engagement_inc_sort');
-                    break;
-                case 'views_per_7d':
-                    $isCanSort = $user->can('views_inc_sort');
-                    break;
-                case 'likes':
-                    $isCanSort = $user->can('likes_sort');
-                    break;
-                case 'shares':
-                    $isCanSort = $user->can('shares_sort');
-                    break;
-                case 'comments':
-                    $isCanSort = $user->can('comment_sort');
-                    break;
-                case 'likes_per_7d':
-                    $isCanSort = $user->can('likes_inc_sort');
-                    break;
-                case 'shares_per_7d':
-                    $isCanSort = $user->can('shares_inc_sort');
-                    break;
-                case 'comments_per_7d':
-                    $isCanSort = $user->can('comments_inc_sort');
-                    break;
-                default:
-                    break;
-            }
-            if (!$isCanSort) {
+            $sortPermissions = ['last_view_date' => 'date_sort', 'duration_days' => 'duration_sort', 'engagements' => 'engagements_sort', 'views' => 'views_sort', 'engagements_per_7d' => 'engagement_inc_sort',
+                                'views_per_7d' => 'views_inc_sort', 'likes' => 'likes_sort', 'shares' => 'shares_sort', 'comments' => 'comment_sort', 'likes_per_7d' => 'likes_inc_sort', 'shares_per_7d' => 'shares_inc_sort',
+                                'comments_per_7d' => 'comments_inc_sort'];
+            $key = $sortPermissions[$params['sort']['field']];
+            if ($key && !$user->can($key)) {
                 throw new \Exception("no permission of sort", -4002);
             }
         return $params;
