@@ -12,7 +12,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen">
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="/static/bootstrap.css">
-    <link href="/dist/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css">
+    <link href="/assets/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css">
     <link rel="stylesheet" type="text/css" href="/assets/global/plugins/font-awesome/css/font-awesome.min.css">
     <link href="/css/app.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/static/custom.css">

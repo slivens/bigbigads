@@ -20,12 +20,7 @@
         <link href="./assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <link href="./assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
         <link href="./assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="./assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
         <!-- END GLOBAL MANDATORY STYLES -->
-        <!-- BEGIN PAGE LEVEL PLUGINS -->
-        <link href="./assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
-        <link href="./assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN THEME GLOBAL STYLES -->
         <link href="./assets/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css" />
         <!-- END THEME GLOBAL STYLES -->
@@ -103,10 +98,17 @@
                         </label>
                     </div> 
                 </div>
+
                 <div class="clearfix login-button">
                     <button type="submit" class="btn pull-right"> Login </button>
                 </div>
                 
+                <div class="form-group text-center">
+                    <!-- <a href="/socialite/github" class="github"><i class="fa fa-github fa-3x"></i></a> -->
+                    <a href="/socialite/facebook" class="facebook"><i class="fa fa-facebook-official fa-3x"></i></a>
+                    <a href="/socialite/linkedin" class="linkedin"><i class="fa fa-linkedin-square fa-3x"></i></a>
+                    <a href="/socialite/google" class="google-plus"><i class="fa fa-google-plus-square fa-3x"></i></a>
+                </div>
                 <div class="login-footer row">
                     <!--create an acount-->
                     <div class="col-xs-12 text-left">
