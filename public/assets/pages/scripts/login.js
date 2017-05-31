@@ -269,6 +269,13 @@ var Login = function() {
             handleForgetPassword();
             handleRegister();
 
+            if (window.sessionStorage.getItem('track')) {
+                var track = window.sessionStorage.getItem('track');
+                $('[name=track]').each(function() {
+                    $(this).val(track);
+                });
+            }
+
             switch (window.location.pathname) {
                 case '/forget':
                     jQuery('.login-form').hide();

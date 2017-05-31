@@ -171,7 +171,7 @@
                 {{ csrf_field() }}
                 <h3 class="form-title">Sign Up</h3>
                 <p> Enter your account details below: </p>
-
+                <input type="hidden" name="track" value="" />
                 <!--full name-->
                 <!-- <div class="form-group hidden">
                     <label class="control-label visible-ie8 visible-ie9">Full Name</label>
@@ -307,7 +307,7 @@
         <script src="./assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
-        <script src="./assets/pages/scripts/login.js" type="text/javascript"></script>
+        <script src="./assets/pages/scripts/login.js?v=1" type="text/javascript"></script>
         <!-- END PAGE LEVEL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <!-- END THEME LAYOUT SCRIPTS -->

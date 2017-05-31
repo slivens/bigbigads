@@ -22,3 +22,18 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'role_id' => 3
     ];
 });
+
+$factory->define(App\Affiliate::class, function (Faker\Generator $faker) {
+
+    return [
+        'email' => $faker->unique()->safeEmail,
+        'password' => bcrypt(str_random(10)),
+        'telephone' => $faker->phoneNumber,
+        'address' => $faker->address,
+        'track' => str_random(10),
+        'status' => 1,
+        'type' => rand(0, 1),
+    ];
+});
+
+

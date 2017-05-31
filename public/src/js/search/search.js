@@ -616,7 +616,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$scope.currSearchOption.filter.category = category.join(',');
 				$scope.currSearchOption.filter.format = format.join(',');
 				$scope.currSearchOption.filter.callToAction = buttondesc.join(',');
-				console.log(action);
+				// console.log(action);
 				$scope.adSearcher.filter(action ? action : 'search').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
 						/*if(res.data.desc === 'no permission of search'){
