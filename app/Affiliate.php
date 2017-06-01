@@ -15,5 +15,8 @@ class Affiliate extends Model
         'password'
     ];
 
-    
+    public function users()
+    {
+        return $this->hasMany('App\User');
+    }   
 }
