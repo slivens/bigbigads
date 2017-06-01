@@ -15,7 +15,7 @@
                 <div class="input-group">
                     <span class="input-group-addon" id="searchrange_addon"><i class="fa fa-search"></i></span>
                     <select id="search_range_select" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Search Mode" ng-model="$parent.searchOption.rangeselected" >
-                        <option ng-repeat="item in $parent.searchOption.range" policy-lock key="{{item.permission}}" trigger="disabled" value="{{item.key}}">{{item.value}}</option>
+                        <option ng-repeat="item in $parent.searchOption.range" policy-lock key="{{item.permission}}" trigger="disabled" value="{{item.key}}" ng-if="User.can(item.permission)">{{item.value}}</option>
                     </select>
                 </div>
                 <div class="input-group">
