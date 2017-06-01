@@ -104,10 +104,15 @@ class SearchController extends Controller
             }
             if(!Auth::check()) {
                 //throw new \Exception("no permission of search", -1);
-                if ((array_key_exists('action', $params)) && ($params['action'] != 'analysis')) {
+                /*
+                    排除analysis的原因是未登录用户是使用cache_ads的接口，无任何的过滤功能，
+                    会造成未登录的时候详情页打开都是第一个广告的Bug。
+                */
+                if ($action['action'] && $action['action'] != 'analysis') {
                     $params['search_result'] = 'cache_ads';
                     $params['where'] = [];
                     $params['keys'] = [];
+                    $params['sort']['field'] = 'last_view_date';
                 }        
                 return $params;
             }else if(Auth::check() && ($user->hasRole('Free') || $user->hasRole('Standard'))) {
@@ -168,7 +173,7 @@ class SearchController extends Controller
                         $params['where'][$key]['value'] = "";
                     }
             }
-            //暂时没有想到一个优雅的方法来处理postman使用sort by的功能办法
+            //使用数组来处理过滤参数和权限名称不一致的情况比使用switch更优雅。
             $sortPermissions = ['last_view_date' => 'date_sort', 'duration_days' => 'duration_sort', 'engagements' => 'engagements_sort', 'views' => 'views_sort', 'engagements_per_7d' => 'engagement_inc_sort',
                                 'views_per_7d' => 'views_inc_sort', 'likes' => 'likes_sort', 'shares' => 'shares_sort', 'comments' => 'comment_sort', 'likes_per_7d' => 'likes_inc_sort', 'shares_per_7d' => 'shares_inc_sort',
                                 'comments_per_7d' => 'comments_inc_sort'];
