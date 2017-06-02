@@ -519,7 +519,8 @@ body {
         content: '4 .column.column-1-4';
     }
 }
-    /*用于覆盖旋转木马的样式*/
+/*用于覆盖旋转木马的样式*/
+.aditem-desc{
     .carousel{
         .carousel-control{
             background: none;
@@ -560,6 +561,7 @@ body {
         } 
 
     }
+}
 .deckgrid {
     .column-1-4 {
         width:25%;
