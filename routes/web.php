@@ -22,15 +22,38 @@ use TCG\Voyager\Models\Post;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterVerify;
 
-
 Route::get('/', function (Request $request) {
-    return redirect("/app");
+    $url = '/app/';
+    if ($request->has('track')) {
+        //CPC的用户
+        $affiliate = App\Affiliate::where(['track' => $request->track, 'status' => 1])->first();
+        if ($affiliate instanceof App\Affiliate) {
+            $visited = App\AffiliateLog::where(['ip' => $request->ip(), 'track' => $request->track])->whereDate('created_at', DB::raw('CURDATE()'))->count();
+            if (!$visited) {
+                App\AffiliateLog::create(['ip' => $request->ip(), 'track' => $request->track]);
+                $affiliate->click++;
+                $affiliate->save();
+            }
+            $url .= "?track={$request->track}";
+        }
+    }
+    return redirect($url);
 });
+Route::get('/message', 'Controller@messageView');
 
 Auth::routes();
 Route::get('/forget', function() {
     return view('auth.login');
 });
+
+Route::get('/socialite/{name}', 'UserController@socialiteRedirect');
+Route::get('/socialite/{name}/callback', 'UserController@socialiteCallback');
+Route::get('/socialite/{name}/bind', 'UserController@bindForm');
+Route::post('/socialite/{name}/bind', 'UserController@bind')->name('socialiteBindPost');
+
+/**
+ * 前台主页
+ */
 Route::get('/home', function (Request $request) {
     $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
     return view('index')->with('recents', $recents);

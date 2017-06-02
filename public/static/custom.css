@@ -131,6 +131,18 @@ a:hover {
     color: #fff;
     border-color: #eb6130;
 }
+.github {
+    color:black;
+}
+.facebook {
+    color:rgba(58, 87, 150, 1);
+}
+.linkedin {
+    color:rgba(1, 101, 161, 1);
+}
+.google-plus {
+    color:rgba(202, 69, 58, 1);
+}
 
 /*header*/
 header {

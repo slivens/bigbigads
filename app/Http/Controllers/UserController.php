@@ -9,13 +9,19 @@ use Illuminate\Support\Facades\Cache;
 use App\Role;
 use App\User;
 use Carbon\Carbon;
-use Log;
 use App\Services\AnonymousUser;
 use App\Jobs\SendRegistMail;
+use Log;
+use Socialite;
+use Validator;
+use App\Jobs\LogAction;
+use Illuminate\Auth\Events\Registered;
 
 class UserController extends Controller
 {
     use ResetsPasswords;
+
+    protected $socialiteProviders = ['github', 'facebook', 'linkedin', 'google'];
 
     /**
      * 更改密码
@@ -102,4 +108,122 @@ class UserController extends Controller
         dispatch(new SendRegistMail($user));//Mail::to($user->email)->queue(new RegisterVerify($user));//发送验证邮件
         return view('auth.verify')->with('info', "Your email {$request->email} has sent, please check your email. ");
     }
+
+    /**
+     * 社交登陆重定向
+     * 支持:
+     * 1. Github
+     * 2. Facebook
+     * 3. LinkedIn
+     * 4. Google+
+     */
+    public function socialiteRedirect($name)
+    {
+        if (!in_array($name, $this->socialiteProviders)) {
+            return view('auth.verify')->with('error', "unsupported provider:$name");
+        }
+        return Socialite::driver($name)->redirect();
+    }
+
+    /**
+     * 社交帐号登陆成功后：
+     * 1. 如果原来没有帐号就要求设置密码创建新帐号
+     * 2. 如果原来已有帐号但要求输入密码完成绑定
+     * 3. 否则就是直接完成登陆跳到主页面
+     * 如果完成绑定一定会在\App\Socialite有记录，所以检查该表即可
+     */
+    public function socialiteCallback($name)
+    {
+        if (!in_array($name, $this->socialiteProviders)) {
+            return view('auth.verify')->with('error', "unsupported provider:$name");
+        }
+        
+        $socialiteUser = Socialite::driver($name)->user();
+        $email = $socialiteUser->email;
+        $token = $socialiteUser->token;
+        $providerId = $socialiteUser->id;
+        if (empty($email)) {
+            return $this->message("sorry, no email information in your '$name' account");
+        }
+        Log::debug("oauth:" . json_encode($socialiteUser));
+        Cache::put($token, $socialiteUser, 5 * 60);
+        if (\App\Socialite::where(['provider_id' => $providerId, 'provider' => $name])->count() > 0) {
+            $user = User::where('email', $email)->first();
+            Auth::login($user);
+            /* dispatch(new LogAction("USER_LOGIN", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() )); */
+            return redirect('/app');
+           }
+        return redirect()->action('UserController@bindForm', ['name' => $name, 'token' => $token, 'email' => $email]);
+    }
+
+    /**
+     * 绑定已有用户的表单
+     */
+    public function bindForm(Request $request, $name)
+    {
+        return view('auth.bind')->with('name', $name)->with('token', $request->token)->with('email', $request->email);
+    }
+
+    /**
+     * 社交帐号登陆成功后：
+     * 1. 如果原来没有帐号就要求设置密码创建新帐号
+     * 2. 如果原来已有帐号但要求输入密码完成绑定
+     * 3. 否则就是直接完成登陆跳到主页面
+     */
+    public function bind(Request $request, $name)
+    {
+        $token = $request->token;
+        $socialiteUser = Cache::get($token, null);
+        if ($socialiteUser== null) {
+            return view('auth.verify')->with('error', "the page is expired");
+        }
+        $email = $socialiteUser->email;
+        $providerId = $socialiteUser->id;
+        //没有帐号就先创建帐号
+        $user = User::where('email', $email)->first();
+        if (!$user instanceof User) {
+            $rules = [
+                'password' => 'required|min:6'
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return back()->with('status', 'password requires at least 6 characters');
+            }
+
+            $userName = $socialiteUser->nickname;
+            if (empty($userName))
+                $userName= $socialiteUser->name;
+            $user = User::create([
+                'name' => $userName,
+                'email' => $email,
+                'password' => bcrypt($request->password),
+            ]);
+            $user->state = 1;//社交帐号直接通过验证
+            $user->role_id = 3;
+            $user->verify_token = str_random(40);
+            $user->save();
+            event(new Registered($user));
+        }
+
+        if (!Auth::attempt(['email' => $email, 'password' => $request->password])) {
+            return back()->with('status', 'wrong password');
+        }
+
+        //有帐号就检查是否绑定，已经绑定就直接登陆
+        $binded = false;
+        if (\App\Socialite::where(['provider_id' => $providerId, 'provider' => $name])->count() > 0)
+            $binded = true;
+        if (!$binded) {
+            $item =  new \App\Socialite();
+            $item->provider_id = $providerId;
+            $item->provider = $name;
+            $item->bind = $email;
+            $item->remark = json_encode($socialiteUser);
+            $item->save();
+        }
+        Auth::login($user);
+        dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
+        return redirect('/app');
+    }
+
 }

@@ -616,11 +616,11 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 key: "description,name,caption,message",
                 value: "Advertisement",
                 permission:"content_search"
-            }/*, {
+            }, {
                 key:"whyseeads,whyseeads_all",
                 value:"Audience",
                 permission:"audience_search"
-            }*/],
+            }],
             langList: [{
                 key: "English",
                 value: "English"
@@ -1241,7 +1241,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
 }]);
 
 /* Init global settings and run the app */
-MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', function($rootScope, settings, $state, User, SweetAlert) {
+MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$location', '$window', function($rootScope, settings, $state, User, SweetAlert, $location, $window) {
+    if ($location.search().track)
+        $window.sessionStorage.setItem('track', $location.search().track);
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
     User.getInfo().then(function() {
@@ -1418,7 +1420,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
     };
     return user;
 }]);
-MetronicApp.controller('UserController', ['$scope', '$http', 'User', function($scope,$http, User) {
+MetronicApp.controller('UserController', ['$scope', '$http', '$window', 'User', function($scope, $http, $window, User) {
     $scope.User = User;
     $scope.formData = {name:' ',email:'',password:''};
     $scope.registerError = {};
@@ -1426,12 +1428,15 @@ MetronicApp.controller('UserController', ['$scope', '$http', 'User', function($s
     $scope.processForm = function(isValid) {
         $scope.isShow = true;
         if ($scope.formData.name == ' ') {$scope.formData.name = $scope.formData.email.split('@')[0];}
+        if ($window.sessionStorage.getItem("track")) {
+            $scope.formData.track = $window.sessionStorage.track;
+        }
         if (isValid) {
             $http({
                 method  : 'POST',
                 url     : '../register',
-                data    : $scope.formData,  // pass in data as strings
-                headers : { 'X-Requested-With': 'XMLHttpRequest' }  // set the headers so angular passing info as form data (not request payload)
+                data    : $scope.formData,  
+                headers : { 'X-Requested-With': 'XMLHttpRequest' }  // server need to know this is a ajax.
             })
             .then(
                 function successCallback(response){
