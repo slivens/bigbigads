@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Bookmark;
 class BookmarkItemController extends Controller
 {
     protected $name;
@@ -44,7 +45,13 @@ class BookmarkItemController extends Controller
      */
     public function store(Request $request)
     {
+        //按权限限制收藏广告
+        $save_ad_count = Auth::user()->getUsage('save_ad_count');
         $class = $this->class;
+        $item = $class::where("uid", Auth::user()->id)->get(); 
+        if (count($item) >= $save_ad_count[1]) {
+            return $this->responseError("You've reached your bookmark limits. Upgrade your account to bookmark more", -4499);
+        }
         $all = $request->all();
         $all['uid'] = Auth::user()->id;
         $item = $class::create($all);
