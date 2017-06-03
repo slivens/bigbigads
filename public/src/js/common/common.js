@@ -18,13 +18,14 @@ app.directive('lazyImg', ['$timeout', 'Util', function($timeout, Util) {
             lazyImg:'@'
         },
 		link:function($scope, element, attrs) {
-            var imageSrc;
-            if (attrs.type === 'bba') {
-                imageSrc = Util.getImageRandomSrc($scope.lazyImg);
-            } else {
-                imageSrc = $scope.lazyImg;
-            }
             $timeout(function() {   
+                var imageSrc;
+                var width = $(element).width();
+                if (attrs.type === 'bba') {
+                    imageSrc = Util.getImageRandomSrc('') + '/thumb.php?src='+ $scope.lazyImg.replace(/#.+\*.+$/, '') + '&size=' + width + 'x' ;
+                } else {
+                    imageSrc = $scope.lazyImg;
+                }
                 element.attr('src', imageSrc);
             });        
 		}
