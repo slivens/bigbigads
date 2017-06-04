@@ -10,9 +10,6 @@
     <link rel="stylesheet" type="text/css" href="./static/demo.css">
     <link rel="stylesheet" href="static/swiper.css">
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <script src="static/jquery-3.1.1.js"></script>
-    <script src="static/swiper.jquery.js"></script>
-    <script src="static/bootstrap.js"></script>
 </head>
 <body>
 @include('tpl.header')
@@ -217,23 +214,7 @@
         </div>
     </div>
 </div>
-<script>
-
-    var slider = new Swiper('#slider', {slidesPerView: 1});
-
-    $('.slider-items li').click(function(){
-        $('.slider-items li').removeClass('active');
-        $(this).addClass('active');
-        slider.slideTo($(this).index('.slider-items li'), 1000, false);//switch to the first slide, the rate of 1 second.
-    });
-
-    var blog_slider = new Swiper('#blog_slider', {
-        slidesPerView: 3,
-        nextButton: '.blog-slider-next',
-        prevButton: '.blog-slider-prev',
-        spaceBetween: 30,
-        loop: false 
-    });
-</script>
+<script type="text/javascript" src="js/vendor.js?v=1"></script>
+<script type="text/javascript" src="js/home.js?v=1"></script>
 </body>
 </html>

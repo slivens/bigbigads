@@ -6,18 +6,24 @@
   },
   "devDependencies": {
     "bootstrap-sass": "^3.3.7",
+    "del": "^2.2.2",
+    "extract-text-webpack-plugin": "^2.1.0",
     "gulp": "^3.9.1",
     "gulp-sass": "^3.1.0",
-    "jquery": "^3.1.0",
     "laravel-elixir": "^6.0.0-9",
     "laravel-elixir-vue-2": "^0.2.0",
     "laravel-elixir-webpack-official": "^1.0.2",
     "lodash": "^4.16.2",
     "vue": "^2.0.1",
-    "vue-resource": "^1.0.3"
+    "vue-resource": "^1.0.3",
+    "webpack-manifest-plugin": "^1.1.0"
   },
   "dependencies": {
     "angular-ui-grid": "^4.0.2",
-    "del": "^2.2.2"
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.0",
+    "swiper": "^3.4.2",
+    "vue": "^2.0.1",
+    "vue-resource": "^1.0.3"
   }
 }
