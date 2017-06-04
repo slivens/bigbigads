@@ -147,3 +147,16 @@ Route::any('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
 Route::get('/edm', 'EDMController@index');
 Route::post('/edm/send', 'EDMController@send');
 Route::post('/mailgun/webhook', 'MailgunWebhookController@onWebhook');
+Route::get('/image', function(Request $request) {
+    $src = asset($request->src);
+    $width = max(8, intval($request->width));
+    try {
+        $img = Image::make(file_get_contents($src));
+    } catch (\Exception $e) {
+        return "image not found:$src";
+    }
+    $img->widen($width);
+    $response = Response::make($img->encode('jpg', 75));
+    $response->header('Content-Type', 'image/jpg');
+    return $response;
+});

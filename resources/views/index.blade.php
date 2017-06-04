@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Bigbigads</title>
 
     <link rel="stylesheet" type="text/css" href="./dist/home.css">
@@ -35,7 +36,7 @@
             <div class="swiper-container" id="slider" >
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <img src="static/images/show/01.jpg"/>
+                        <img data-normal="static/images/show/01.jpg"/>
                         <div class="swiper-adsbar row absolute">
                             <div class="col-md-2 adsbigword">YES!</div>
                             <div class="col-md-6 adstext">I wanna learn my competitor's marketing strategy Now!</div>
@@ -44,7 +45,7 @@
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <img src="static/images/show/02.jpg"/>
+                        <img data-normal="static/images/show/02.jpg"/>
                         <div class="swiper-adsbar row">
                             <div class="col-md-2 adsbigword">yes!</div>
                             <div class="col-md-6 adstext">I'd like to save hundreds of hours doing tedious research!</div>
@@ -52,7 +53,7 @@
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <img src="static/images/show/03.jpg"/>
+                        <img data-normal="static/images/show/03.jpg"/>
                         <div class="swiper-adsbar row">
                             <div class="col-md-2 adsbigword">yes!</div>
                             <div class="col-md-6 adstext">Help me to know more!</div>
@@ -60,7 +61,7 @@
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <img src="static/images/show/04.jpg"/>
+                        <img data-normal="static/images/show/04.jpg"/>
                         <div class="swiper-adsbar row">
                             <div class="col-md-2 adsbigword">yes!</div>
                             <div class="col-md-6 adstext">I'd like to use your benefit to comfort my job!</div>
@@ -68,7 +69,7 @@
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <img src="static/images/show/05.jpg"/>
+                        <img data-normal="static/images/show/05.jpg"/>
                         <div class="swiper-adsbar row">
                             <div class="col-md-2 adsbigword">YES!</div>
                             <div class="col-md-6 adstext">I want to hop onto the wave someone else created!</div>
@@ -118,8 +119,8 @@
         <div class="col-md-1"></div>
         <div class="col-md-6 ">
             <div class="video-content">
-                
-           <iframe width="100%" height="360" src="https://www.youtube.com/embed/rEDusFMbVvk" frameborder="0" allowfullscreen></iframe> 
+            <img  width="100%" src="/images/youtube.jpeg" id="youtubeImage"  />     
+           <iframe id="youtubeFrame" class="hidden" width="100%" height="360" data-url="https://www.youtube.com/embed/rEDusFMbVvk?autoplay=1" frameborder="0" allowfullscreen></iframe> 
         <!-- <span class="video-content_play" data-toggle="modal" data-target="#md_video"></span> --></div>
     </div>
     </div>
@@ -131,14 +132,14 @@
         <div class="solution-title_sub">For Ad Buyers, Manufacturers, Ad Agencies and Researchers</div>
         <ul class="solution-itmes">
             <li class="solution-item">
-                <img src="static/images/solution1.png" class="img-circle bg"/>
+                <img data-normal="static/images/solution1.png" class="img-circle bg"/>
                 <div class="solution-item_number clearfix">
                     <span class="pull-left">4,000,000</span>
                     <span class="solution-item_symbol pull-left">+</span></div>
                 <div class="solution-item_desc">Ads</div>
             </li>
             <li class="solution-item">
-                <img src="static/images/solution2.png"  class="img-circle bg"/>
+                <img data-normal="static/images/solution2.png"  class="img-circle bg"/>
                 <div class="solution-item_number clearfix">       
                     <span class="pull-left">1,000,000</span>
                     <span class="solution-item_symbol pull-left">+</span>
@@ -147,7 +148,7 @@
                 <div class="solution-item_desc"> Advertisers</div>
             </li>
             <li class="solution-item">
-                <img src="static/images/solution3.png"  class="img-circle bg"/>
+                <img data-normal="static/images/solution3.png"  class="img-circle bg"/>
                 <div class="solution-item_number clearfix" style="width: 180px;margin:0 auto">
                     <span class="pull-left">700,000</span>
                     <span class="solution-item_symbol pull-left">+</span>
@@ -155,7 +156,7 @@
                 <div class="solution-item_desc">Monthly Updates </div>
             </li>
             <li class="solution-item">
-                <img src="static/images/solution4.png"  class="img-circle bg"/>
+                <img data-normal="static/images/solution4.png"  class="img-circle bg"/>
                 <div class="solution-item_number clearfix" style="width: 66px;margin:0 auto"><span class="pull-left">90</span>
                     <span class="solution-item_symbol pull-left">+</span>
                 </div>
@@ -174,7 +175,9 @@
 
                     @foreach ($recents as $post)
                     <div class="blog-slider_item swiper-slide">
-                        <img src="{{ Voyager::image($post->image) }}" alt="">
+                        @if (!empty($post->image))
+                        <img data-normal="{{ Voyager::image($post->image) }}" alt="{{$post->title}}" data-type="post">
+                        @endif
                         <a href="{{url('post', ['id' => $post->id])}}">
                             <p class="blog-slider_title">{{ $post->title }}</p>
                             <p class="blog-slider_time">{{ (new Carbon\Carbon($post->created_at))->toFormattedDateString() }}</p>
