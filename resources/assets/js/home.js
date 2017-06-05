@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import 'swiper/dist/css/swiper.css';
 import './../sass/custom.scss';
+import './../sass/demo.scss';
 import Swiper from 'swiper';
 import Layzr from 'layzr.js';
 import 'bootstrap';
@@ -30,14 +31,9 @@ import 'bootstrap';
 				slidesPerView: 1,
 				spaceBetween: 10
 			},
-			// when window width is <= 480px
-			480: {
-				slidesPerView: 2,
-				spaceBetween: 20
-			},
 			// when window width is <= 640px
 			640: {
-				slidesPerView: 3,
+				slidesPerView: 2,
 				spaceBetween: 30
 			}
 		}
@@ -55,7 +51,7 @@ import 'bootstrap';
 			var ele = $(element);
 			var normal = ele.data('normal');
 			ele.attr('data-normal', '/image?src=' + normal + '&width=' + ele.width());
-			console.log("post:", ele.attr('data-normal'));
+			// console.log("post:", ele.attr('data-normal'));
 		}
 	});
 	document.addEventListener('DOMContentLoaded', function(event) {
