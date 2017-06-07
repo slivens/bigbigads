@@ -519,7 +519,49 @@ body {
         content: '4 .column.column-1-4';
     }
 }
+/*用于覆盖旋转木马的样式*/
+.aditem-desc{
+    .carousel{
+        .carousel-control{
+            background: none;
+            width: 20%;
+            span{
+                transition: transform 0.2s;
+                opacity:50;
+                filter:alpha(opacity=0);
+            }
+            .glyphicon-chevron-left{left:10%}
+            .glyphicon-chevron-right{right:10%}
+        }
+        .carousel-control:hover{
+            span{
+                color:#eb6130;
+                opacity:100;
+                filter:alpha(opacity=100);
+                transform:scale(1.2)
+            }
+        }
+        .carousel-indicators{
+            li{
+                border:1px solid #efefef;
+                transition-duration: 0.2s;
+                transition: width 0.2s;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                background: rgba(255,255,255,0.5);
+                margin-left:2px;
+                margin-right: 2px; 
+            }
+            li.active{
+                width:14px;
+                height: 14px;
+                background: #f08751;
+                border: 1px solid rgba(240, 135, 81, 0.48);
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2)
+            }
+        } 
 
+    }
+}
 .deckgrid {
     .column-1-4 {
         width:25%;
@@ -534,6 +576,8 @@ body {
     .column-1-1 {
         width:100%;
     }
+    
+
 }
 
 .lh48 {
