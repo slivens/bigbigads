@@ -46,10 +46,10 @@ class BookmarkItemController extends Controller
     public function store(Request $request)
     {
         //按权限限制收藏广告
-        $save_ad_count = Auth::user()->getUsage('save_ad_count');
+        $saveAdCount = Auth::user()->getUsage('save_ad_count');
         $class = $this->class;
         $item = $class::where("uid", Auth::user()->id)->get(); 
-        if (count($item) >= $save_ad_count[1]) {
+        if (count($item) >= $saveAdCount[1]) {
             return $this->responseError("You've reached your bookmark limits. Upgrade your account to bookmark more", -4499);
         }
         $all = $request->all();

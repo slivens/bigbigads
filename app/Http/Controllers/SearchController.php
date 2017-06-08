@@ -139,7 +139,7 @@ class SearchController extends Controller
                                 }
                             }
                             if (!$isHasTime) {
-                                throw new \Exception("legal time", -4198);
+                                throw new \Exception("illegal time", -4198);
                             }
                         }
                     }

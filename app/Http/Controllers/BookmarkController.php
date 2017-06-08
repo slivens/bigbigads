@@ -44,15 +44,15 @@ class BookmarkController extends Controller
             按权限限制收藏夹目录数量及检测有效性
         */
         $bookmark = new Bookmark();
-        $bookmark_list_usage = Auth::user()->getUsage('bookmark_list');
-        $bookmark_lists = Bookmark::where("uid", Auth::user()->id)->get();
-        $bookmark_list_count = Bookmark::where("name", $request->name)
+        $bookmarkListUsage = Auth::user()->getUsage('bookmark_list');
+        $bookmarkLists = Bookmark::where("uid", Auth::user()->id)->get();
+        $bookmarkListCount = Bookmark::where("name", $request->name)
                                        ->where("uid", Auth::user()->id)
                                        ->count();
-        if (count($bookmark_lists) >= $bookmark_list_usage[1]) {
+        if (count($bookmarkLists) >= $bookmarkListUsage[1]) {
             return $this->responseError("You've reached your bookmark list limit. Upgrade your account to see more", -4498);
         }
-        if ($bookmark_list_count > 0) {
+        if ($bookmarkListCount > 0) {
             return $this->responseError("the bookmark list name had exist", -4496);
         }
         $validator = Validator::make($request->all(), ['name' => 'required|between:1,25']);
@@ -80,7 +80,7 @@ class BookmarkController extends Controller
     {
         //编辑收藏夹之前需要检查是否为合法用户
         if (intval($req->uid) != Auth::user()->id) {
-            return response(["code"=>-1, "desc"=>"No Permission"], 501);
+            return response(["code"=>-1, "desc"=>"No Permission"], 422);
         }
         $bookmark = Bookmark::where("id", $id)->first();
         /*if (!Auth::user()->can('update', $bookmark)) {
@@ -88,9 +88,6 @@ class BookmarkController extends Controller
         }*/
         //限制目录名称长度
         $validator = Validator::make($req->all(), ['name' => 'required|between:1,25']);
-        $bookmark_list_count = Bookmark::where("name", $req->name)
-                                       ->where("uid", Auth::user()->id)
-                                       ->count();
         if ($validator->fails()) 
         {
             return $this->responseError("The bookmark list name must be at least 1 characters and no more 25 characters. ", -4497);
