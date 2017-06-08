@@ -1443,9 +1443,6 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 			// };
 			//text为空时就表示没有这个搜索项了
 			$scope.initSearch = function() {
-				if (!User.login) {
-		            window.open('/login',"_self");
-		        }
 				var option = $scope.searchOption = $scope.adSearcher.searchOption = angular.copy($scope.adSearcher.defSearchOption);
 				$scope.filterOption = $scope.searchOption.filter;
 
@@ -1656,9 +1653,13 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 				$state.reload();
 			};
 
-			//根据search参数页面初始化
-
-			$scope.search();
+			User.getInfo().then(function() {
+            	//根据search参数页面初始化
+            	if (!User.login) {
+		            window.open('/login',"_self");
+		        }
+            	$scope.search();
+        	});
 			$scope.$on('$viewContentLoaded', function() {
 				// initialize core components
 
