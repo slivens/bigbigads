@@ -146,6 +146,8 @@ Route::any('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
 //邮件营销 
 Route::get('/edm', 'EDMController@index');
 Route::post('/edm/send', 'EDMController@send');
+Route::get('/edm/unsubscribe', 'EDMController@unsubscribe');
+
 Route::post('/mailgun/webhook', 'MailgunWebhookController@onWebhook');
 Route::get('/image', function(Request $request) {
     $src = asset($request->src);

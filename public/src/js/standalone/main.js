@@ -1245,7 +1245,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
     var days;
     if ($location.search().track) {
         days = $location.search().track.match(/\d\d$/);
-        days = days ? Number(days[0]) : 7;
+        days = days ? Number(days[0]) : 90;
         $window.localStorage.setItem('track', JSON.stringify({"code": $location.search().track, "expired": moment().add(days, 'days').format('YYYY-MM-DD')}));
     }
     $rootScope.$state = $state; // state to be accessed from view

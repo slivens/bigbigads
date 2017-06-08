@@ -98,4 +98,26 @@ class EDMController extends Controller
         }
         return back()->with("sent", array_keys($maillist));
     }
+
+    /**
+     * 取消订阅
+     * @var $request->email 邮件
+     * @var $request->token token(防止恶意指量取消订阅)
+     */
+    public function unsubscribe(Request $request)
+    {
+        if (!$request->has('email') || !$request->has('token'))
+            return $this->messageRaw('wrong params');
+        $user = User::where(['email' => $request->email, 'verify_token' => $request->token])->first();
+        if (!$user) {
+            return $this->messageRaw("user {$request->email} not found");
+        }
+        if (!$user->edm) {
+            return $this->messageRaw("{$request->email} is not on subscribtion");
+        }
+        $user->edm = 0;
+        $user->save();
+        //更好的做法是先提示是否确定取消订阅，确定后再取消
+        return $this->messageRaw("{$request->email} unsubscribe successfully", 'success');
+    }
 }
