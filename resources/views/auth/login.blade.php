@@ -104,6 +104,7 @@
                 </div>
                 
                 <div class="form-group text-center">
+                    <!-- 暂时注释社交登录部分 -->
                     <!-- <a href="/socialite/github" class="github"><i class="fa fa-github fa-3x"></i></a> -->
                     <a href="/socialite/facebook" class="facebook"><i class="fa fa-facebook-official fa-3x"></i></a>
                     <a href="/socialite/linkedin" class="linkedin"><i class="fa fa-linkedin-square fa-3x"></i></a>

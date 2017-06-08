@@ -823,6 +823,30 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					SweetAlert.swal("getting userinfo, please try again");
 				}	
 			};
+			//sort by 过滤free用户也需要加上time限制
+			$scope.sortBy = function(action) {
+				var freeMin = '2016-01-01';
+				var freeMax = moment().subtract(2, 'month').format('YYYY-MM-DD');
+				if (User.info.user.role.name === 'Free') {
+					$scope.adSearcher.addFilter({
+						field: "time",
+						min: freeMin,
+						max: freeMax,
+						role: "free"
+					});
+				}
+				//独立的filter，返回的异常上面的与$scope.filter无关
+				//由于select2插件添加点击事件无效，未登录用户点击sort by弹出注册框采用后台返回错误的形式打开
+				$scope.adSearcher.filter(action).then(function() {}, function(res) {
+					if (res.data instanceof Object) {
+						switch(res.data.code) {
+                            case -4199:
+                            	User.openSign();
+                            	break;
+						}
+					}
+				});
+			}
             $scope.Util = Util;
 			$scope.User = User;
 			$scope.Searcher = Searcher;
@@ -1167,12 +1191,24 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			};
 			$scope.User = User;
 			$scope.Searcher = Searcher;
-
+		
         $scope.adSearcher.params.where.push({
             field: 'adser_username',
             value: $stateParams.adser
         });
-
+        $scope.sortBy = function(action) {
+			var freeMin = '2016-01-01';
+			var freeMax = moment().subtract(2, 'month').format('YYYY-MM-DD');
+			if (User.info.user.role.name === 'Free') {
+				$scope.adSearcher.addFilter({
+					field: "time",
+					min: freeMin,
+					max: freeMax,
+					role: "free"
+				});
+			}
+			$scope.adSearcher.filter(action);
+		}
         //一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
         User.getInfo().then(function() {
             //根据search参数页面初始化
@@ -1373,8 +1409,8 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 	});
 }]);
 
-app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams',
-		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams) {
+app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User',
+		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User) {
 			//搜索流程:location.search->searchOption->adSearcher.params
 			//将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
             function searchToQuery(option, searcher) {
@@ -1617,9 +1653,13 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 				$state.reload();
 			};
 
-			//根据search参数页面初始化
-
-			$scope.search();
+			User.getInfo().then(function() {
+            	//根据search参数页面初始化
+            	if (!User.login) {
+		            window.open('/login',"_self");
+		        }
+            	$scope.search();
+        	});
 			$scope.$on('$viewContentLoaded', function() {
 				// initialize core components
 

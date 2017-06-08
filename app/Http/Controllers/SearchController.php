@@ -98,6 +98,7 @@ class SearchController extends Controller
             $wheres = $params['where'];
             $resultPerSearch = $user->getUsage('result_per_search');
             $isCanSort = true; 
+            $adsTypePermissions = ['timeline' => 'timeline_filter', 'rightcolumn' => 'rightcolumn_filter', 'phone' => 'phone_filter'];
             if (($params['limit'][0] % 10 != 0) || ($params['limit'][0] >= $resultPerSearch[1])) {
                 Log::warning("<{$user->name}, {$user->email}> request legal limit params : {$params['limit'][0]}");
                 throw new \Exception("Illegal limit params", -4300);
@@ -106,7 +107,7 @@ class SearchController extends Controller
                 //throw new \Exception("no permission of search", -1);
                 /*
                     排除analysis的原因是未登录用户是使用cache_ads的接口，无任何的过滤功能，
-                    会造成未登录的时候详情页打开都是第一个广告的Bug。
+                    会造成未登录的时候详情页打开都是显示第一个广告的Bug。
                 */
                 if ($action['action'] && $action['action'] != 'analysis') {
                     $params['search_result'] = 'cache_ads';
@@ -116,7 +117,7 @@ class SearchController extends Controller
                 }        
                 return $params;
             }else if(Auth::check() && ($user->hasRole('Free') || $user->hasRole('Standard'))) {
-                if ((array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0)) {
+                if (array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0 || (array_key_exists('sort', $params) && $params['sort']['field'] != 'last_view_date')) {
                     $params['search_result'] = 'ads';
                     $isHasTime = false;
                     //免费用户限制在两个月前的时间内的数据，设置role = free 是为了让数据端识别并在一个请求内进行两次搜索，第一次是正常的搜索流程，第二次是获取全部的广告总数，
@@ -138,7 +139,7 @@ class SearchController extends Controller
                                 }
                             }
                             if (!$isHasTime) {
-                                throw new \Exception("legal time", -4198);
+                                throw new \Exception("illegal time", -4198);
                             }
                         }
                     }
@@ -171,6 +172,13 @@ class SearchController extends Controller
                     if ($obj['field'] == "watermark_md5" && !$user->can('analysis_similar')) {
                         $params['where'][$key]['field'] = "";
                         $params['where'][$key]['value'] = "";
+                    }
+                    //拦截postman发起无权限ads type过滤的请求
+                    if ($obj['field'] == "ads_type") {
+                        $ads_type = $obj['value'];
+                        if (!$user->can($adsTypePermissions[$ads_type])) {
+                            throw new \Exception("no permission of ads type", -4003);
+                        }  
                     }
             }
             //使用数组来处理过滤参数和权限名称不一致的情况比使用switch更优雅。

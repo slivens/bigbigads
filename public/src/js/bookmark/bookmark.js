@@ -256,14 +256,21 @@ app.controller('BookmarkController', ['$scope', 'settings', '$http', 'Resource',
             $location.search("type", newValue);
         }
     });
-
+    /*if (!User.login) {
+        window.open('/login',"_self");
+    }*/
     User.getInfo().then(function() {
-        if (User.info.login)
-            Bookmark.get({
+        if (User.info.login) {
+           Bookmark.get({
                 uid: User.info.user.id
             }).then(function() {
                 init();
-            });
+            }); 
+        } else {
+            //防止未登录进入收藏页面
+            window.open('/login',"_self");
+        }
+            
     });
 
 
@@ -311,7 +318,10 @@ app.controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', '
             }
         }
         $scope.addPromise = $q.all(promises);
-        $scope.addPromise.finally(function() {
+        $scope.addPromise.then(function() {}, function() {
+            //返回错误或者已经达到收藏最大数量,收藏按钮不变黑。
+            noselect = true;
+        }).finally(function() {
             card.showBookmark = false; //耦合
             if (noselect)
                 card.hasBookmark = false;
