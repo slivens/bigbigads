@@ -1273,7 +1273,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var similarPromise;
                 var md5;
                 if (watermark instanceof Array)
-                    md5 = watermark[0].match(/\/(\w+)\./);
+                    md5 = watermark[0].source.match(/\/(\w+)\./);
                 else 
                     md5 = watermark.match(/\/(\w+)\./);
 				if (md5 === null) {

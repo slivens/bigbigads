@@ -448,7 +448,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 value: "Video",
             }, {
                 key: "Canvas",
-                value: "Canvas"
+                value: "Others"
             }, {
                 key: "SingleImage",
                 value: "Image"
@@ -1273,7 +1273,8 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
                 return;
             }
             if (!newInfo.login && oldInfo.login) {
-                SweetAlert.swal("you have logout because of no operation for a long time");
+                //暂时先注释，还在尝试解决
+                //SweetAlert.swal("you have logout because of no operation for a long time");
                 return;
             }
             // console.log("get info again:", oldInfo);
