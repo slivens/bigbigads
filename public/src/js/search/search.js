@@ -346,9 +346,11 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					var advertisement = {"description" : "description" , "name" : "name" , "caption" : "caption" , "message" : "message"};
 					var url = {"link" : "link" , "buttonlink" : "buttonlink" , "dest_site" : "dest_site"};
 					var advertiser = {"adser_name" : "adser_name" , "adser_username" : "adser_username"};
+					var audience = {"whyseeads" : "whyseeads" , "whyseeads_all" : "whyseeads_all"};
 					var isSelectAdvertisement = false;
 					var isSelectUrl = false;
 					var isSelectAdvertiser = false;
+					var isSelectAudience = false;
 					//使用indexOf方法判断不准确，刷新的时候会造成一个项变成两个项
 					angular.forEach(range, function(item) {
 						if (advertisement.hasOwnProperty(item)) {
@@ -359,7 +361,10 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 						}
 						if (url.hasOwnProperty(item)) {
 							isSelectUrl = true;
-						}		
+						}	
+						if (audience.hasOwnProperty(item)) {
+							isSelectAudience = true;
+						}	
 					});
 					if (isSelectAdvertisement) 
 						option.rangeselected.push("description,name,caption,message");
@@ -367,6 +372,8 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 						option.rangeselected.push("adser_name,adser_username");
 					if (isSelectUrl) 
 						option.rangeselected.push("link,buttonlink,dest_site");
+					if (isSelectAudience)
+						option.rangeselected.push("whyseeads,whyseeads_all");
 				}
 				if (search.startDate && search.endDate) {
 					option.filter.date.startDate = moment(search.startDate, 'YYYY-MM-DD');

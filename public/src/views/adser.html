@@ -29,7 +29,7 @@
                     <div ng-if="currSearchOption.domain.text">Domain:{{currSearchOption.domain.text}}({{currSearchOption.domain.exclude ? "Not Contain" : "Must Contain"}})</div>
                     <div ng-if="currSearchOption.audience.text">Audience:{{currSearchOption.audience.text}}({{currSearchOption.audience.exclude ? "Not Contain" : "Must Contain"}})</div>
                     <div ng-if="currSearchOption.category">Category:{{currSearchOption.category}}</div>
-                    <div ng-if="currSearchOption.format">Format:{{currSearchOption.format}}</div>
+                    <div ng-if="currSearchOption.format">Format:{{currSearchOption.format | formatType}}</div>
                     <div ng-if="currSearchOption.callToAction">Call To Action:{{currSearchOption.callToAction}}</div>
                     <div ng-if="currSearchOption.range">Range:{{currSearchOption.range}}</div>
                     <!-- <div ng-if="currSearchOption.filter.tracking">Tracking Tool: {{currSearchOption.filter.tracking}}</div>

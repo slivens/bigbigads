@@ -823,6 +823,19 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
             //不使用 === 判断是因为年月份计费时有小数
             return price;
         };
+    })
+    .filter('formatType', function() {
+        return function(type) {
+            var showType = '';
+            switch(type){
+                case 'Canvas': {showType = 'Others';break;}
+                case 'SingleVideo': {showType = 'Video';break;}
+                case 'SingleImage': {showType = 'Image';break;}
+                case 'Carousel': {showType = 'Carousel';break;}
+                default: break;
+            }
+            return showType;
+        };
     });
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope',  'User',function($scope, $rootScope, User) {
