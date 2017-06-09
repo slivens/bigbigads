@@ -1477,3 +1477,8 @@ color: $black_placeholder !important;
     border-color: #f9e491;
     color: #c29d0b;
 }
+
+//時間插件样式问题，强行覆盖
+.input-mini {
+    width: 100% !important;
+}
