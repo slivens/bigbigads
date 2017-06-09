@@ -17,6 +17,7 @@ use Validator;
 use App\Jobs\LogAction;
 use Illuminate\Auth\Events\Registered;
 
+use App\Jobs\ResendRegistMail;
 class UserController extends Controller
 {
     use ResetsPasswords;
@@ -106,6 +107,12 @@ class UserController extends Controller
             return view('auth.verify')->with('error', "You have verified, don't verify again!!!");
         }
         dispatch(new SendRegistMail($user));//Mail::to($user->email)->queue(new RegisterVerify($user));//发送验证邮件
+        //用户注册完后往队列加入一个2分钟延迟的任务，检测是否送达用户邮箱，否则的话使用gmail再重发一次
+        $twoMinutesDelayJob = (new ResendRegistMail($user, 'delivered', 2))->delay(Carbon::now()->addMinutes(2));
+        dispatch($twoMinutesDelayJob);
+        //用户注册完后往队列加入一个5分钟延迟的任务，检测是用户是否点击激活激活链接，否则的话使用gmail再重发一次
+        $fiveMinutesDelayJob = (new ResendRegistMail($user, 'opened', 5))->delay(Carbon::now()->addMinutes(5));
+        dispatch($fiveMinutesDelayJob);
         return view('auth.verify')->with('info', "Your email {$request->email} has sent, please check your email. ");
     }
 
