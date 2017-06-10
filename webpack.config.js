@@ -6,7 +6,7 @@ var ManifestPlugin = require('webpack-manifest-plugin');
 module.exports = {
     entry: {
         home: ['./resources/assets/js/home.js'],
-        vendor:['jquery', 'swiper', 'bootstrap']
+        vendor:['jquery', 'swiper', 'bootstrap', 'moment', 'js-url']
     },
     output: {
         path: path.resolve(__dirname, './public/dist'),
