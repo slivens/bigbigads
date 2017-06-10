@@ -4,6 +4,8 @@ import './../sass/custom.scss';
 import './../sass/demo.scss';
 import Swiper from 'swiper';
 import Layzr from 'layzr.js';
+import moment from 'moment';
+import 'js-url';
 import 'bootstrap';
 
 
@@ -64,5 +66,11 @@ import 'bootstrap';
 			.update() // track initial elements
 			.check() // check initial elements
 			.handlers(true) // bind scroll and resize handlers
+        var track = url("?track");
+        if (track) {
+            var days = track.match(/\d\d$/);
+            days = days ? Number(days[0]) : 90;
+            window.localStorage.setItem('track', JSON.stringify({"code": track, "expired": moment().add(days, 'days').format('YYYY-MM-DD')}));
+        }
 	})
 })();
