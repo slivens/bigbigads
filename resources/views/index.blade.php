@@ -4,13 +4,7 @@
     <meta charset="UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <link rel="stylesheet" type="text/css" href="./static/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="./static/custom.css">
-    <link rel="stylesheet" type="text/css" href="./static/demo.css">
     <link rel="stylesheet" href="./static/test.css">
-    <link rel="stylesheet" href="static/swiper.css">
-
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta http-equiv="cache-control"  content="no-cache">
     <title>Bigbigads</title>
