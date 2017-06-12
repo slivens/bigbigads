@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bigbigads</title>
     <link rel="stylesheet" type="text/css" href="./static/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="./static/custom.css">
     <link rel="stylesheet" type="text/css" href="./static/demo.css">
+    <link rel="stylesheet" href="./static/test.css">
     <link rel="stylesheet" href="static/swiper.css">
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
     <script src="static/jquery-3.1.1.js"></script>
@@ -18,14 +20,14 @@
 @include('tpl.header')
 <section class="search">
     <div class="container">
-    <div class="search-title">Facebook Ads have never been so easy </div>
-    <div class="search-title_sub">To get inspired</div>
-    <form class="margin-bottom30 " style="margin: 0 16% 30px" action="/app/adsearch" method="GET">
+    <div class="search-title">Largest Facebook Ad Examples</div>
+<!--     <div class="search-title_sub">To get inspired</div> -->
+    <!-- <form class="margin-bottom30 " style="margin: 0 16% 30px" action="/app/adsearch" method="GET">
         <div class="input-group" style="width: 100%">
             <input type="search" placeholder="Please enter a keyword " class="search-input pull-left" style="width:100%;" name="searchText"/>
             <input type="submit" class="btn search-btn pull-left" value="Search">
         </div>
-    </form>
+    </form> -->
         <div style="margin-bottom: 80px">
             <!-- <a class="btn  btn-clg" href="{{url('/register')}}">Try it For Free</a>
             <a class="search-more" href="">or Learn more</a> -->
@@ -42,53 +44,48 @@
                     <div class="swiper-slide">
                         <img src="static/images/show/01.jpg"/>
                         <div class="swiper-adsbar row absolute">
-                            <div class="col-md-2 adsbigword">YES!</div>
-                            <div class="col-md-6 adstext">I wanna learn my competitor's marketing strategy Now!</div>
+                            <div class="col-md-8 adstext">I wanna learn my competitor's marketing strategy Now!</div>
                             <div class="col-md-4 adsbutton text-center">
-                                <a href="/app/adsearch" class="btn btn-clg slider-btn">Try It Now </a></div>
+                                <a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started </a></div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <img src="static/images/show/02.jpg"/>
                         <div class="swiper-adsbar row">
-                            <div class="col-md-2 adsbigword">yes!</div>
-                            <div class="col-md-6 adstext">I'd like to save hundreds of hours doing tedious research!</div>
-                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Try It Now </a></div>
+                            <div class="col-md-8 adstext">I'd like to save hundreds of hours doing tedious research!</div>
+                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started </a></div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <img src="static/images/show/03.jpg"/>
                         <div class="swiper-adsbar row">
-                            <div class="col-md-2 adsbigword">yes!</div>
-                            <div class="col-md-6 adstext">Help me to know more!</div>
-                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Try It Now</a></div>
+                            <div class="col-md-8 adstext">Help me to know more!</div>
+                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started</a></div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <img src="static/images/show/04.jpg"/>
                         <div class="swiper-adsbar row">
-                            <div class="col-md-2 adsbigword">yes!</div>
-                            <div class="col-md-6 adstext">I'd like to use your benefit to comfort my job!</div>
-                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Try It Now</a></div>
+                            <div class="col-md-8 adstext">I'd like to use your benefit to comfort my job!</div>
+                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started</a></div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <img src="static/images/show/05.jpg"/>
                         <div class="swiper-adsbar row">
-                            <div class="col-md-2 adsbigword">YES!</div>
-                            <div class="col-md-6 adstext">I want to hop onto the wave someone else created!</div>
-                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Try It Now</a></div>
+                            <div class="col-md-8 adstext">I want to hop onto the wave someone else created!</div>
+                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started</a></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-1 col-xs-1"></div>
+        <div class="col-md-1 col-xs-1 slider-center"></div>
         <div class="slider-right col-md-4 col-xs-4" >
             <ul class="slider-items">
                 <li class="active">
-                    <p class="slider-title">The Freshest Data</p>
-                    <p class="slider-desc">With a database that has 700K<sup>+</sup> monthly updates, Bigbigads offers the most authentic and freshest data for your business.  No more guessing which ads your competitors are making money with. 
+                    <p class="slider-title">Facebook Marketing Strategy</p>
+                    <p class="slider-desc">In a digital world, your competitor’s marketing strategy is evolving quickly. Do you know what they are up to for an upcoming festival like Father’s Day, Christmas Eve or Valentine’s Day? Bigbigads does.  
 </p>
                 </li>
                 <li>
@@ -138,31 +135,29 @@
             <li class="solution-item">
                 <img src="static/images/solution1.png" class="img-circle bg"/>
                 <div class="solution-item_number clearfix">
-                    <span class="pull-left">4,000,000</span>
-                    <span class="solution-item_symbol pull-left">+</span></div>
+                    <span class="text-center">4,000,000<sup class="num_sup">+</sup></span>
+                </div>
                 <div class="solution-item_desc">Ads</div>
             </li>
             <li class="solution-item">
                 <img src="static/images/solution2.png"  class="img-circle bg"/>
                 <div class="solution-item_number clearfix">       
-                    <span class="pull-left">1,000,000</span>
-                    <span class="solution-item_symbol pull-left">+</span>
+                    <span class="text-center">1,000,000<sup class="num_sup">+</sup></span>
                 </div>
               
                 <div class="solution-item_desc"> Advertisers</div>
             </li>
             <li class="solution-item">
                 <img src="static/images/solution3.png"  class="img-circle bg"/>
-                <div class="solution-item_number clearfix" style="width: 180px;margin:0 auto">
-                    <span class="pull-left">700,000</span>
-                    <span class="solution-item_symbol pull-left">+</span>
+                <div class="solution-item_number clearfix">
+                    <span class="text-center">700,000<sup class="num_sup">+</sup></span>
                 </div>
                 <div class="solution-item_desc">Monthly Updates </div>
             </li>
             <li class="solution-item">
                 <img src="static/images/solution4.png"  class="img-circle bg"/>
-                <div class="solution-item_number clearfix" style="width: 66px;margin:0 auto"><span class="pull-left">90</span>
-                    <span class="solution-item_symbol pull-left">+</span>
+                <div class="solution-item_number clearfix">
+                    <span class="text-center">90<sup class="num_sup">+</sup></span>
                 </div>
                 <div class="solution-item_desc"> Languages </div>
             </li>

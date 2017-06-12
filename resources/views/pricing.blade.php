@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="./static/bootstrap.css">
     <link href="../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="./static/custom.css">
+       <link rel="stylesheet" href="./static/test.css">
     <link rel="stylesheet" type="text/css" href="./static/demo.css">
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
 </head>

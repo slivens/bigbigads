@@ -42,6 +42,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- BEGIN THEME LAYOUT STYLES -->
         <link href="./assets/layouts/layout3/css/layout.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" type="text/css" href="./static/custom.css"><!-- 头部与足部样式 -->
+           <link rel="stylesheet" href="./static/test.css">
         <link rel="stylesheet" type="text/css" href="./static/demo.css">
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="./static/images/favicon.ico" /> </head>
