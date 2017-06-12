@@ -411,8 +411,8 @@ iframe#_hjRemoteVarsFrame { display: none !important; width: 1px !important; hei
         </div>
     </div>
 </div>
-<script type="text/javascript" src="dist/vendor.js?v=4" defer></script>
-<script type="text/javascript" src="dist/home.js?v=4" defer></script>
+<script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
+<script type="text/javascript" src="dist/home.js?v=5" defer></script>
 </body>
 </html>
     <link href="./dist/home.css?v=1" rel="stylesheet">
