@@ -2,7 +2,10 @@
   "private": true,
   "scripts": {
     "prod": "gulp --production",
-    "dev": "gulp watch"
+    "dev": "gulp watch",
+    "webpack:build-dev":"NODE_ENV='development' webpack",
+    "webpack:build":"NODE_ENV='production' webpack -p",
+    "webpack:watch":"NODE_ENV='development' webpack --watch"
   },
   "devDependencies": {
     "bootstrap-sass": "^3.3.7",
@@ -12,6 +15,7 @@
     "file-loader": "^0.11.1",
     "gulp": "^3.9.1",
     "gulp-sass": "^3.1.0",
+    "gulp-util": "^3.0.8",
     "laravel-elixir": "^6.0.0-9",
     "laravel-elixir-vue-2": "^0.2.0",
     "laravel-elixir-webpack-official": "^1.0.2",
@@ -22,7 +26,9 @@
     "url-loader": "^0.5.8",
     "vue": "^2.0.1",
     "vue-resource": "^1.0.3",
-    "webpack-manifest-plugin": "^1.1.0"
+    "webpack-manifest-plugin": "^1.1.0",
+    "gulp-env": "^0.4.0",
+    "webpack": "^2.6.1"
   },
   "dependencies": {
     "angular-ui-grid": "^4.0.2",
@@ -33,7 +39,6 @@
     "moment": "^2.18.1",
     "swiper": "^3.4.2",
     "vue": "^2.0.1",
-    "vue-resource": "^1.0.3",
-    "webpack": "^2.6.1"
+    "vue-resource": "^1.0.3"
   }
 }
