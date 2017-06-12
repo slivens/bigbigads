@@ -1,15 +1,16 @@
     <div class="modal-header" >
         <h4 class="modal-title">Edit Folder</h4>
     </div>
-    <form role="form" ng-submit="save(item)" cg-busy="promise">
+    <form role="form" ng-submit="save(item)" cg-busy="promise" name="addBookmarkListForm">
     <div class="modal-body">
         <div class="form-group">
             <label>Name:</label>
-            <input type="text" class="form-control" ng-model="item.name" required>
+            <input type="text" class="form-control" ng-model="item.name" required ng-maxlength="25" name="name" id="name">
+            <span class="font-red" ng-show="addBookmarkListForm.name.$dirty && addBookmarkListForm.name.$error.maxlength">The bookmark list name should no more 25 character</span>
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="submit">Done</button>
+        <button class="btn btn-primary" type="submit" ng-disabled="addBookmarkListForm.$invalid">Done</button>
         <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
     </div>
     </form>

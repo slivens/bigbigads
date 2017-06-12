@@ -1,3 +1,4 @@
+/public/app/*
 /node_modules
 /public/storage
 /public/assets/*.css

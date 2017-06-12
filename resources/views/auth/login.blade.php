@@ -104,6 +104,7 @@
                 </div>
                 
                 <div class="form-group text-center">
+                    <!-- 暂时注释社交登录部分 -->
                     <!-- <a href="/socialite/github" class="github"><i class="fa fa-github fa-3x"></i></a> -->
                     <a href="/socialite/facebook" class="facebook"><i class="fa fa-facebook-official fa-3x"></i></a>
                     <a href="/socialite/linkedin" class="linkedin"><i class="fa fa-linkedin-square fa-3x"></i></a>
@@ -307,7 +308,7 @@
         <script src="./assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
-        <script src="./assets/pages/scripts/login.js?v=1" type="text/javascript"></script>
+        <script src="./assets/pages/scripts/login.js?v=2" type="text/javascript"></script>
         <!-- END PAGE LEVEL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <!-- END THEME LAYOUT SCRIPTS -->

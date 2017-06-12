@@ -1242,8 +1242,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
 
 /* Init global settings and run the app */
 MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$location', '$window', function($rootScope, settings, $state, User, SweetAlert, $location, $window) {
-    if ($location.search().track)
-        $window.sessionStorage.setItem('track', $location.search().track);
+    var days;
+    if ($location.search().track) {
+        days = $location.search().track.match(/\d\d$/);
+        days = days ? Number(days[0]) : 90;
+        $window.localStorage.setItem('track', JSON.stringify({"code": $location.search().track, "expired": moment().add(days, 'days').format('YYYY-MM-DD')}));
+    }
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
     User.getInfo().then(function() {
@@ -1428,8 +1432,14 @@ MetronicApp.controller('UserController', ['$scope', '$http', '$window', 'User', 
     $scope.processForm = function(isValid) {
         $scope.isShow = true;
         if ($scope.formData.name == ' ') {$scope.formData.name = $scope.formData.email.split('@')[0];}
-        if ($window.sessionStorage.getItem("track")) {
-            $scope.formData.track = $window.sessionStorage.track;
+        if ($window.localStorage.getItem("track")) {
+            var track = JSON.parse($window.localStorage.track);
+            var expired = track.expired;
+            if (moment().isBefore(expired)) {
+                $scope.formData.track = track.code;
+            } else {
+                $window.localStorage.removeItem("track");
+            }
         }
         if (isValid) {
             $http({

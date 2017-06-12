@@ -36,15 +36,20 @@ class Controller extends BaseController
         return response(["code"=>$code, "desc"=> $desc], 422);
     }
 
-    public function message($desc, $type = 'error')
+    public function message($desc, $type = 'danger')
     {
         return redirect()->action('Controller@messageView', ['type' => $type, 'desc' => $desc]);
+    }
+
+    public function messageRaw($desc, $type = 'danger')
+    {
+        return view('tpl.message')->with(['type' => $type, 'desc' => $desc]);
     }
 
     public function messageView(Request $request)
     {
         $type = $request->type;
         $desc = $request->desc;
-        return view('auth.verify')->with($type, $desc);
+        return view('tpl.message')->with(['type' => $type, 'desc' => $desc]);
     }
 }

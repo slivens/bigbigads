@@ -19,7 +19,9 @@
         "guzzlehttp/guzzle": "^6.2",
         "bogardo/mailgun": "^5.0",
         "php-http/guzzle6-adapter": "^1.1",
-        "laravel/socialite": "~2.0"
+        "laravel/socialite": "~2.0",
+        "intervention/image": "^2.3",
+        "intervention/imagecache": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

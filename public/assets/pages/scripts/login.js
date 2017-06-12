@@ -269,11 +269,13 @@ var Login = function() {
             handleForgetPassword();
             handleRegister();
 
-            if (window.sessionStorage.getItem('track')) {
-                var track = window.sessionStorage.getItem('track');
-                $('[name=track]').each(function() {
-                    $(this).val(track);
-                });
+            if (window.localStorage.getItem('track')) {
+                var track = JSON.parse(window.localStorage.getItem('track'));
+                if (Date.parse(new Date()) < Date.parse(track.expired)) {
+                    $('[name=track]').each(function() {
+                        $(this).val(track.code);
+                    });
+                }
             }
 
             switch (window.location.pathname) {

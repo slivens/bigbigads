@@ -22,8 +22,7 @@ use TCG\Voyager\Models\Post;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterVerify;
 
-Route::get('/', function (Request $request) {
-    $url = '/app/';
+function track(Request $request) {
     if ($request->has('track')) {
         //CPC的用户
         $affiliate = App\Affiliate::where(['track' => $request->track, 'status' => 1])->first();
@@ -34,8 +33,15 @@ Route::get('/', function (Request $request) {
                 $affiliate->click++;
                 $affiliate->save();
             }
-            $url .= "?track={$request->track}";
+            return true;
         }
+    }
+    return false;
+}
+Route::get('/', function (Request $request) {
+    $url = '/app/';
+    if (track($request)) {
+        $url .= "?track={$request->track}";
     }
     return redirect($url);
 });
@@ -56,6 +62,7 @@ Route::post('/socialite/{name}/bind', 'UserController@bind')->name('socialiteBin
  */
 Route::get('/home', function (Request $request) {
     $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
+    track($request);
     return view('index')->with('recents', $recents);
 });
 
@@ -146,4 +153,19 @@ Route::any('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
 //邮件营销 
 Route::get('/edm', 'EDMController@index');
 Route::post('/edm/send', 'EDMController@send');
+Route::get('/edm/unsubscribe', 'EDMController@unsubscribe');
+
 Route::post('/mailgun/webhook', 'MailgunWebhookController@onWebhook');
+Route::get('/image', function(Request $request) {
+    $src = asset($request->src);
+    $width = max(8, intval($request->width));
+    try {
+        $img = Image::make(file_get_contents($src));
+    } catch (\Exception $e) {
+        return "image not found:$src";
+    }
+    $img->widen($width);
+    $response = Response::make($img->encode('jpg', 75));
+    $response->header('Content-Type', 'image/jpg');
+    return $response;
+});
