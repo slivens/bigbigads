@@ -145,7 +145,7 @@ Route::get('logout', 'Auth\LoginController@logout');
 
 Route::resource('bookmark', 'BookmarkController');
 Route::resource('BookmarkItem', 'BookmarkItemController');
-
+Route::resource('rest/{resource}', 'CouponController');
 Route::any('/forward/{action}', 'SearchController@search');
 
 Route::any('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');

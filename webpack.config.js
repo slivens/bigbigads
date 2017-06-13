@@ -12,6 +12,7 @@ module.exports = {
     entry: {
         home: ['./resources/assets/js/home.js'],
         app: ['./resources/assets/js/app.js'],
+        pay: ['./resources/assets/js/pay.js'],
         vendor:['jquery', 'swiper', 'bootstrap', 'moment', 'js-url']
     },
     output: {
@@ -24,7 +25,7 @@ module.exports = {
             use: ExtractTextPlugin.extract({
                 use: 'css-loader'
             })
-        }, {
+            }, {
             test: /\.scss$/,
             use: ExtractTextPlugin.extract({
                 use: [{
@@ -39,13 +40,16 @@ module.exports = {
                     }
                 }],
                 fallback:"style-loader"
-            }),
-        }, {
-            test: /\.(png|jpg|svg|gif|eot|woff|woff2|ttf)$/,
-            loader: "file-loader"
-        },  { 
-            test: /\.vue$/, 
-            loader: 'vue-loader'
+                }),
+            }, {
+                test: /\.(png|jpg|svg|gif|eot|woff|woff2|ttf)$/,
+                loader: "file-loader"
+            },  { 
+                test: /\.vue$/, 
+                loader: 'vue-loader'
+            }, {
+                test: /\.js$/,
+                loader: 'babel-loader'
             }
         ]
     },

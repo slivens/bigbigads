@@ -1,8 +1,12 @@
-const elixir = require('laravel-elixir');
+// const elixir = require('laravel-elixir');
+const gutil = require("gulp-util");
+const env = require('gulp-env');
 const critical = require('critical');
+const webpack = require("webpack");
+const webpackConfig = require("./webpack.config.js");
 var gulp    = require('gulp'),
     htmlmin = require('gulp-htmlmin');
-require('laravel-elixir-vue-2');
+// require('laravel-elixir-vue-2');
 
 /*
  |--------------------------------------------------------------------------
@@ -15,10 +19,10 @@ require('laravel-elixir-vue-2');
  |
  */
 
-elixir(mix => {
-    mix.sass('app.scss')
-       .webpack('app.js');
-});
+// elixir(mix => {
+//     mix.sass('app.scss')
+//        .webpack('app.js');
+// });
 
 // Generate & Inline Critical-path CSS
 // gulp.task('critical',  function (cb) {
@@ -47,3 +51,40 @@ gulp.task('compress', function() {
                .pipe(htmlmin(opts))
                .pipe(gulp.dest('./storage/framework/views/'));
 });
+
+gulp.task('webpack:build-dev', function(cb) {
+    var myConfig = Object.create(webpackConfig);
+    webpack(myConfig, function(err, stats) {
+		if(err) throw new gutil.PluginError("webpack:build-dev", err);
+		gutil.log("[webpack:build-dev]", stats.toString({
+			colors: true
+		}));
+		cb();
+        });
+})
+
+gulp.task('webpack:build', function(cb) {
+    const envs = env.set({
+      NODE_ENV: 'production'
+        });
+	// modify some webpack config options
+	var myConfig = Object.create(webpackConfig);
+	myConfig.plugins = myConfig.plugins.concat(
+		new webpack.DefinePlugin({
+			"process.env": {
+				// This has effect on the react lib size
+				"NODE_ENV": JSON.stringify("production")
+			}
+		}),
+		new webpack.optimize.UglifyJsPlugin()
+	);
+
+	// run webpack
+	webpack(myConfig, function(err, stats) {
+		if(err) throw new gutil.PluginError("webpack:build", err);
+		gutil.log("[webpack:build]", stats.toString({
+			colors: true
+		}));
+		cb();
+	});
+})
