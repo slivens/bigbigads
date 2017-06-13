@@ -22,17 +22,21 @@ const app = new Vue({
         applyCoupon: function() {
             const that = this;
             that.loading = true;
-            axios.get(`/rest/coupon?where={"code":${this.coupon}}`)
+            axios.get(`/rest/coupon?where={"code":"${this.coupon}"}`)
                 .then(response => {
                     that.loading = false;
                     if (response.status === 200 && response.data.length > 0) {
                         that.couponObject = response.data[0];
-                        if (!that.checkDiscount())
+                        if (!that.checkDiscount()) {
+                            that.couponObject = null;
+                            that.coupon = "";
                             return;
+                        }
                         that.discount = that.getDiscount();
                     } else {
                         that.couponObject = null;
                         that.discount = 0;
+                        that.coupon = "";
                         that.errorMessage = "The coupon is not found";
 						that.$refs.modal.open();
                     }

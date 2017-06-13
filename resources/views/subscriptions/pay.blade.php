@@ -28,10 +28,16 @@ use \Illuminate\Support\Facades\Input;
             <span class="input-group-btn"><button type="button" v-bind:class="{'btn':true, 'btn-primary':true,  'disabled':loading || !coupon}" v-bind:disabled="loading || !coupon" v-on:click="applyCoupon">Apply</button></span>
         </div>
     </div>
+
     <div class="form-group">
             <label for="price" v-bind:extra='initAmount({{$plan->amount}})'>
-                Price:<span v-cloak >{{$plan->currency}} @{{ amount - discount }}</span>  
-                <span class="text-danger" v-cloak v-if="discount > 0">(Discount:{{$plan->currency}} @{{discount}})</span>
+                Cycle Price:<span v-cloak >{{$plan->currency}} @{{ amount }}</span>  
+            </label>
+    </div>
+    <div class="form-group">
+            <label v-if="discount > 0">
+                First Pay:<span v-cloak >{{$plan->currency}} @{{ amount - discount }}</span>  
+                <span class="text-danger" v-cloak >(Discount:{{$plan->currency}} @{{discount}})</span>
             </label>
     </div>
     <!--
@@ -92,7 +98,6 @@ use \Illuminate\Support\Facades\Input;
 	<sweet-modal icon="warning" ref="modal">
 		@{{errorMessage}}
 	</sweet-modal>
-@{{coupon}}
 </div>
 
 @endsection

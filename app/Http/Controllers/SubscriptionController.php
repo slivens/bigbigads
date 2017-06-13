@@ -11,6 +11,7 @@ use App\Role;
 use App\Plan;
 use App\Subscription;
 use App\Webhook;
+use App\Coupon;
 use App\Services\PaypalService;
 use Carbon\Carbon;
 
@@ -27,6 +28,25 @@ class SubscriptionController extends Controller
     }
 
     /**
+     * 正常来讲，前端已经做了各种错误提示和防止提交无效的coupon，所以后端简化处理，统一提示一致的错误
+     */
+    protected function checkCoupon($code, $price)
+    {
+        $coupon = Coupon::where('code', $code)->first();    
+        if (!$coupon)
+            return false;
+        if ($price < $coupon->total)
+            return false;
+        if ($coupon->used >= $coupon->uses)
+            return false;
+        if (!$coupon->start  || !$coupon->end)
+            return false;
+        $now = new Carbon();
+        if ($now->lt(new Carbon($coupon->start)) || $now->gt(new Carbon($coupon->end)))
+            return false;
+        return $coupon;
+    }
+    /**
      * 支付表单提示的处理
      * @warning 如果用户已经订阅了，不允许创建同样的订阅
      */
@@ -36,11 +56,27 @@ class SubscriptionController extends Controller
         if(empty( $req->input('planid') ) ){
             return redirect()->back()->withErrors(['message' => 'Invalid request']);
         }
+
         $plan = Plan::find(intval($req->input('planid')));
         $user = Auth::user();
-
+        $coupon = null;
+        $discount = 0;
+        //如果存在对应的优惠券就使用
+        if ($req->has('coupon')) {
+            $coupon = $this->checkCoupon($req->coupon, $plan->amount);
+            if (!$coupon)
+                return redirect()->back()->withErrors(['message' => 'Invalid coupon']);
+            if ($coupon->type == 0) {
+                $discount = floor($plan->amount * $coupon->discount / 100);
+            } else if ($coupon->type == 1) {
+                $discount = $coupon->discount;
+            }
+            if (Subscription::where('quantity', '>', 0)->where('user_id', $user->id)->where('coupon_id', $coupon->id)->count() >= $coupon->customer_uses)
+                return redirect()->back()->withErrors(['message' => 'You have used the coupon']);
+        }
+        
         $service = new \App\Services\PaypalService;
-        $approvalUrl = $service->createPayment($plan);
+        $approvalUrl = $service->createPayment($plan, $coupon ? ['setup_fee' => $plan->amount - $discount] : null);
         //由于此时订阅的相关ID没产生，所以没办法通过保存ID，此时就先通过token作为中转
 		$queryStr = parse_url($approvalUrl, PHP_URL_QUERY);
 		$queryTmpArr = explode("&", $queryStr);
@@ -57,8 +93,9 @@ class SubscriptionController extends Controller
         $subscription->plan = $plan->name;
         $subscription->payment_id = $queryArr['token'];
         $subscription->quantity = 0;
+        $subscription->coupon_id = $coupon ? $coupon->id : null;
+        $subscription->setup_fee = $plan->amount - $discount;
         $subscription->save();
-
         return redirect($approvalUrl);
     }
 
@@ -141,6 +178,10 @@ class SubscriptionController extends Controller
         $subscription->payment_id = $payment->getId();
         $subscription->quantity = 1;
         $subscription->save();
+        if ($subscription->coupon_id > 0) {
+            $subscription->coupon->used++;
+            $subscription->coupon->save();
+        }
         $user = $subscription->user;
         //原来有订阅的情况下，应该取消订阅,这步可以推到队列中去做
         if ($user->subscription_id > 0) {

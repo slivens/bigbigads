@@ -140,8 +140,10 @@ class PaypalService
 
     /**
      * 创建支付订单
+     * @var $param 计划的参数
+     * @var $extra 额外的参数，目前有'setup_fee'
      */
-    public function createPayment($param)
+    public function createPayment($param, $extra)
     {
         $apiContext = $this->getApiContext();
         $agreement = new Agreement();
@@ -165,6 +167,14 @@ class PaypalService
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
         $agreement->setPayer($payer);
+
+        if ($extra) {
+            Log::info("extra:" . json_encode($extra));
+            $merchantPreferences = new MerchantPreferences();
+            $merchantPreferences
+                ->setSetupFee(new Currency(array('value' => $extra['setup_fee'], 'currency' => 'USD')));
+            $agreement->setOverrideMerchantPreferences($merchantPreferences);
+        }
 
         // Add Shipping Address
         /* $shippingAddress = new ShippingAddress(); */
