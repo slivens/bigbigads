@@ -43,21 +43,21 @@ class EDMController extends Controller
         $maillist = [];
         foreach ($mailType as $item) {
             if ($item == '#0') {
-                $users = User::all();
+                $users = User::where('edm', 1)->get();
                 foreach ($users as $user) {
                     if (array_key_exists($user->email, $maillist)) 
                         continue;
                     $maillist[$user->email] = true;
                 }
             } else if ($item == '#1') {
-                $users = User::where('state', 1)->get();
+                $users = User::where('edm', 1)->where('state', 1)->get();
                 foreach ($users as $user) {
                     if (array_key_exists($user->email, $maillist)) 
                         continue;
                     $maillist[$user->email] = true;
                 }
             } else if ($item == '#2') {
-                $users = User::where('state', 0)->get();
+                $users = User::where('edm', 1)->where('state', 0)->get();
                 foreach ($users as $user) {
                     if (array_key_exists($user->email, $maillist)) 
                         continue;
@@ -80,7 +80,18 @@ class EDMController extends Controller
         if (!empty(env('MAILGUN_USERNAME'))) {
             $useMailgun = true;
         }
+
+        $host = config('app.url');
         foreach (array_keys($maillist) as $to) {
+
+            //只要点击取消订阅，mailgun都会记录，以后营销邮件都不会发出去;
+            //取消订阅是按照tag分类的，也就是说每周精选不要了；其他营销类邮件还是能发得出去；
+            //但是如果是本站用户，则edm设置为0后，就再也不会向其发送所有的营销类邮件了。
+            /* $user = User::where('email', $to)->first(); */
+            /* $token = ""; */
+            /* if ($user) */
+            /*     $token = $user->verify_token; */
+            /* $unsubscribeUrl = $host . "edm/unsubscribe?email={$to}&token={$token}" ; */
             $mail = new $mailConfig['class']($to);
             $mail->build();
             if ($useMailgun) {
@@ -100,17 +111,24 @@ class EDMController extends Controller
     }
 
     /**
-     * 取消订阅
+     * 自定义的取消订阅
      * @var $request->email 邮件
-     * @var $request->token token(防止恶意指量取消订阅)
+     * @var $request->token token(防止恶意批量取消订阅)
+     * @remark 目前使用的mailgun自带的取消订阅，在mailgun的webhook中处理，此处实际并没用上
      */
     public function unsubscribe(Request $request)
     {
-        if (!$request->has('email') || !$request->has('token'))
+        if (!$request->has('email') )
             return $this->messageRaw('wrong params');
-        $user = User::where(['email' => $request->email, 'verify_token' => $request->token])->first();
+        $token = $request->has('token') ? $request->token : '';
+        $user = User::where(['email' => $request->email])->first();
+        //如果不是本系统的用户，统一提示取消订阅成功（mailgun会阻止往取消订阅的用户发送邮件)
         if (!$user) {
-            return $this->messageRaw("user {$request->email} not found");
+            return $this->messageRaw("{$request->email} unsubscribe successfully", 'success');
+        }
+
+        if ($user && $user->verify_token != $token) {
+            return $this->messageRaw("{$request->email}:invalid params");
         }
         if (!$user->edm) {
             return $this->messageRaw("{$request->email} is not on subscribtion");

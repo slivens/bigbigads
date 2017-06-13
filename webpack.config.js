@@ -11,6 +11,7 @@ module.exports = {
     devtool: isProduction() ? 'cheap-module-source-map' : 'source-map',
     entry: {
         home: ['./resources/assets/js/home.js'],
+        app: ['./resources/assets/js/app.js'],
         vendor:['jquery', 'swiper', 'bootstrap', 'moment', 'js-url']
     },
     output: {
@@ -42,7 +43,11 @@ module.exports = {
         }, {
             test: /\.(png|jpg|svg|gif|eot|woff|woff2|ttf)$/,
             loader: "file-loader"
-        }]
+        },  { 
+            test: /\.vue$/, 
+            loader: 'vue-loader'
+            }
+        ]
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
@@ -59,5 +64,10 @@ module.exports = {
             'window.jQuery': 'jquery'
         }),
         new webpack.EnvironmentPlugin({NODE_ENV: 'development', DEBUG:true})
-    ]
+    ],
+    resolve: {
+      alias: {
+          'vue$': 'vue/dist/vue.common.js'
+        }
+    }
 }
