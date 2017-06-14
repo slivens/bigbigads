@@ -21,7 +21,8 @@
         "php-http/guzzle6-adapter": "^1.1",
         "laravel/socialite": "~2.0",
         "intervention/image": "^2.3",
-        "intervention/imagecache": "^2.3"
+        "intervention/imagecache": "^2.3",
+        "orangehill/iseed": "^2.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
