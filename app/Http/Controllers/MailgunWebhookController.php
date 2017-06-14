@@ -40,6 +40,16 @@ class MailgunWebhookController extends Controller
                 break;
         }
     }
+    
+    protected function onUnsubscribed(&$request)
+    {
+        Log::info("{$request->recipient} unsubscribed");
+        $user = \App\User::where("email", $request->recipient)->first();    
+        if (!$user)
+            return;
+        $user->edm = 0;
+        $user->save();
+    }
 
     /**
      * 目前只处理触发式邮件
@@ -59,6 +69,9 @@ class MailgunWebhookController extends Controller
             $this->onBounced($request);
         } else if ($request->event === "dropped") {
             $this->onDropped($request);
+        } else if ($request->event === "unsubscribed") {
+            $this->onUnsubscribed($request);
         }
+
     }
 }

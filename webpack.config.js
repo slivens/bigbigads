@@ -11,6 +11,8 @@ module.exports = {
     devtool: isProduction() ? 'cheap-module-source-map' : 'source-map',
     entry: {
         home: ['./resources/assets/js/home.js'],
+        app: ['./resources/assets/js/app.js'],
+        pay: ['./resources/assets/js/pay.js'],
         vendor:['jquery', 'swiper', 'bootstrap', 'moment', 'js-url']
     },
     output: {
@@ -23,7 +25,7 @@ module.exports = {
             use: ExtractTextPlugin.extract({
                 use: 'css-loader'
             })
-        }, {
+            }, {
             test: /\.scss$/,
             use: ExtractTextPlugin.extract({
                 use: [{
@@ -38,11 +40,18 @@ module.exports = {
                     }
                 }],
                 fallback:"style-loader"
-            }),
-        }, {
-            test: /\.(png|jpg|svg|gif|eot|woff|woff2|ttf)$/,
-            loader: "file-loader"
-        }]
+                }),
+            }, {
+                test: /\.(png|jpg|svg|gif|eot|woff|woff2|ttf)$/,
+                loader: "file-loader"
+            },  { 
+                test: /\.vue$/, 
+                loader: 'vue-loader'
+            }, {
+                test: /\.js$/,
+                loader: 'babel-loader'
+            }
+        ]
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
@@ -59,5 +68,10 @@ module.exports = {
             'window.jQuery': 'jquery'
         }),
         new webpack.EnvironmentPlugin({NODE_ENV: 'development', DEBUG:true})
-    ]
+    ],
+    resolve: {
+      alias: {
+          'vue$': 'vue/dist/vue.common.js'
+        }
+    }
 }

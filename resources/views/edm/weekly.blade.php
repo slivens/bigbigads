@@ -322,7 +322,7 @@
     <br>
     <br>
 	Want to change how you receive these emails?<br>
-    You can <a href="http://papamk.us15.list-manage.com/profile?u=559d9864c61f6b8d66832d2df&amp;id=8382d0b8a7&amp;e=[UNIQID]" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #FFFFFF;font-weight: normal;text-decoration: underline;">update your preferences</a> or <a href="http://papamk.us15.list-manage.com/unsubscribe?u=559d9864c61f6b8d66832d2df&amp;id=8382d0b8a7&amp;e=[UNIQID]&amp;c=724b7ad462" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #FFFFFF;font-weight: normal;text-decoration: underline;">unsubscribe from this list</a>
+    You can <a href="http://papamk.us15.list-manage.com/profile?u=559d9864c61f6b8d66832d2df&amp;id=8382d0b8a7&amp;e=[UNIQID]" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #FFFFFF;font-weight: normal;text-decoration: underline;">update your preferences</a> or <a href="%tag_unsubscribe_url%" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #FFFFFF;font-weight: normal;text-decoration: underline;">unsubscribe from this list</a>
     <br>
     <br>
      <a href="http://www.mailchimp.com/monkey-rewards/?utm_source=freemium_newsletter&amp;utm_medium=email&amp;utm_campaign=monkey_rewards&amp;aid=559d9864c61f6b8d66832d2df&amp;afl=1"><img src="https://cdn-images.mailchimp.com/monkey_rewards/MC_MonkeyReward_15.png" border="0" alt="Email Marketing Powered by MailChimp" title="MailChimp Email Marketing" width="139" height="54"></a>

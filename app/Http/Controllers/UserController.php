@@ -172,9 +172,11 @@ class UserController extends Controller
         $binded = false;
         $email = $socialiteUser->email;
         $providerId = $socialiteUser->id;
-
+        $edm = 1;
         if (empty($email)) {
+            //没有email的用户，不接受邮件营销
             $email = $socialiteUser->id . '@bigbigads.com';
+            $edm = 0;
         }
         //没有帐号就先创建匿名帐号
         $user = User::where('email', $email)->first();
@@ -189,6 +191,7 @@ class UserController extends Controller
             ]);
             $user->state = 1;//社交帐号直接通过验证
             $user->role_id = 3;
+            $user->edm = 0;
             $user->verify_token = str_random(40);
             $user->save();
             event(new Registered($user));
@@ -277,7 +280,7 @@ class UserController extends Controller
         }
         Auth::login($user);
         dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
-        return redirect('/app');
+        return redirect('/app/#');
     }
 
 }

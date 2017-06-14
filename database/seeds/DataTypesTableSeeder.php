@@ -1,105 +1,159 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use TCG\Voyager\Models\DataType;
 
 class DataTypesTableSeeder extends Seeder
 {
+
     /**
-     * Auto generated seed file.
+     * Auto generated seed file
      *
      * @return void
      */
     public function run()
     {
-        $dataType = DataType::firstOrNew([
-            'slug'                  => 'posts',
-        ]);
-        if (!$dataType->exists) {
-            $dataType->fill([
-                'name'                  => 'posts',
+        
+
+        \DB::table('data_types')->delete();
+        
+        \DB::table('data_types')->insert(array (
+            0 => 
+            array (
+                'id' => 1,
+                'name' => 'posts',
+                'slug' => 'posts',
                 'display_name_singular' => 'Post',
-                'display_name_plural'   => 'Posts',
-                'icon'                  => 'voyager-news',
-                'model_name'            => 'TCG\\Voyager\\Models\\Post',
-                'generate_permissions'  => 1,
-                'description'           => '',
-            ])->save();
-        }
-
-        $dataType = DataType::firstOrNew([
-            'slug'                  => 'pages',
-        ]);
-        if (!$dataType->exists) {
-            $dataType->fill([
-                'name'                  => 'pages',
+                'display_name_plural' => 'Posts',
+                'icon' => 'voyager-news',
+                'model_name' => 'TCG\\Voyager\\Models\\Post',
+                'description' => '',
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'created_at' => '2017-01-22 16:55:07',
+                'updated_at' => '2017-01-22 16:55:07',
+            ),
+            1 => 
+            array (
+                'id' => 2,
+                'name' => 'pages',
+                'slug' => 'pages',
                 'display_name_singular' => 'Page',
-                'display_name_plural'   => 'Pages',
-                'icon'                  => 'voyager-file-text',
-                'model_name'            => 'TCG\\Voyager\\Models\\Page',
-                'generate_permissions'  => 1,
-                'description'           => '',
-            ])->save();
-        }
-
-        $dataType = DataType::firstOrNew([
-            'slug'                  => 'users',
-        ]);
-        if (!$dataType->exists) {
-            $dataType->fill([
-                'name'                  => 'users',
+                'display_name_plural' => 'Pages',
+                'icon' => 'voyager-file-text',
+                'model_name' => 'TCG\\Voyager\\Models\\Page',
+                'description' => '',
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'created_at' => '2017-01-22 16:55:07',
+                'updated_at' => '2017-01-22 16:55:07',
+            ),
+            2 => 
+            array (
+                'id' => 3,
+                'name' => 'users',
+                'slug' => 'users',
                 'display_name_singular' => 'User',
-                'display_name_plural'   => 'Users',
-                'icon'                  => 'voyager-person',
-                'model_name'            => 'TCG\\Voyager\\Models\\User',
-                'generate_permissions'  => 1,
-                'description'           => '',
-            ])->save();
-        }
-
-        $dataType = DataType::firstOrNew([
-            'name'                  => 'categories',
-        ]);
-        if (!$dataType->exists) {
-            $dataType->fill([
-                'slug'                  => 'categories',
+                'display_name_plural' => 'Users',
+                'icon' => 'voyager-person',
+                'model_name' => 'TCG\\Voyager\\Models\\User',
+                'description' => '',
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'created_at' => '2017-01-22 16:55:07',
+                'updated_at' => '2017-04-25 15:03:58',
+            ),
+            3 => 
+            array (
+                'id' => 4,
+                'name' => 'categories',
+                'slug' => 'categories',
                 'display_name_singular' => 'Category',
-                'display_name_plural'   => 'Categories',
-                'icon'                  => 'voyager-categories',
-                'model_name'            => 'TCG\\Voyager\\Models\\Category',
-                'generate_permissions'  => 1,
-                'description'           => '',
-            ])->save();
-        }
-
-        $dataType = DataType::firstOrNew([
-            'slug'                  => 'menus',
-        ]);
-        if (!$dataType->exists) {
-            $dataType->fill([
-                'name'                  => 'menus',
+                'display_name_plural' => 'Categories',
+                'icon' => 'voyager-categories',
+                'model_name' => 'TCG\\Voyager\\Models\\Category',
+                'description' => '',
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'created_at' => '2017-01-22 16:55:07',
+                'updated_at' => '2017-01-22 16:55:07',
+            ),
+            4 => 
+            array (
+                'id' => 5,
+                'name' => 'menus',
+                'slug' => 'menus',
                 'display_name_singular' => 'Menu',
-                'display_name_plural'   => 'Menus',
-                'icon'                  => 'voyager-list',
-                'model_name'            => 'TCG\\Voyager\\Models\\Menu',
-                'generate_permissions'  => 1,
-                'description'           => '',
-            ])->save();
-        }
-
-        $dataType = DataType::firstOrNew([
-            'slug'                  => 'roles',
-        ]);
-        if (!$dataType->exists) {
-            $dataType->fill([
-                'name'                  => 'roles',
+                'display_name_plural' => 'Menus',
+                'icon' => 'voyager-list',
+                'model_name' => 'TCG\\Voyager\\Models\\Menu',
+                'description' => '',
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'created_at' => '2017-01-22 16:55:07',
+                'updated_at' => '2017-01-22 16:55:07',
+            ),
+            5 => 
+            array (
+                'id' => 6,
+                'name' => 'roles',
+                'slug' => 'roles',
                 'display_name_singular' => 'Role',
-                'display_name_plural'   => 'Roles',
-                'icon'                  => 'voyager-lock',
-                'model_name'            => 'TCG\\Voyager\\Models\\Role',
-                'generate_permissions'  => 1,
-                'description'           => '',
-            ])->save();
-        }
+                'display_name_plural' => 'Roles',
+                'icon' => 'voyager-lock',
+                'model_name' => 'TCG\\Voyager\\Models\\Role',
+                'description' => '',
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'created_at' => '2017-01-22 16:55:07',
+                'updated_at' => '2017-01-22 16:55:07',
+            ),
+            6 => 
+            array (
+                'id' => 7,
+                'name' => 'maillist',
+                'slug' => 'maillist',
+                'display_name_singular' => '邮件',
+                'display_name_plural' => '邮件列表',
+                'icon' => 'voyager-mail',
+                'model_name' => 'App\\Maillist',
+                'description' => '营销发送的自定义邮件列表',
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'created_at' => '2017-05-08 11:21:35',
+                'updated_at' => '2017-05-08 11:23:11',
+            ),
+            7 => 
+            array (
+                'id' => 9,
+                'name' => 'affiliates',
+                'slug' => 'affiliates',
+                'display_name_singular' => '联盟会员',
+                'display_name_plural' => '联盟会员',
+                'icon' => 'voyager-people',
+                'model_name' => 'App\\Affiliate',
+                'description' => '',
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'created_at' => '2017-05-30 22:58:36',
+                'updated_at' => '2017-05-30 23:00:04',
+            ),
+            8 => 
+            array (
+                'id' => 11,
+                'name' => 'coupons',
+                'slug' => 'coupons',
+                'display_name_singular' => '优惠券',
+                'display_name_plural' => '优惠券',
+                'icon' => 'voyager-ticket',
+                'model_name' => 'App\\Coupon',
+                'description' => '优惠券功能',
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'created_at' => '2017-06-12 14:31:07',
+                'updated_at' => '2017-06-12 14:38:06',
+            ),
+        ));
+        
+        
     }
 }

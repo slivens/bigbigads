@@ -2,9 +2,6 @@
 use \Illuminate\Support\Facades\Input;
 ?>
 @extends('layouts.app')
-<style>
-    a#braintree-paypal-button {margin-top: 48px;}
-</style>
 @section('content')
 <div class="container">
     @if ($errors->has('message'))
@@ -23,8 +20,24 @@ use \Illuminate\Support\Facades\Input;
     </div>
 
     <div class="form-group">
-            <label for="price">
-                Price:<span>{{$plan->currency}} {{$plan->amount}}</span>
+        <label for="plan">
+            Coupon
+        </label>
+        <div class="input-group">
+            <input type="text" class="form-control" v-model="coupon" name="coupon" >
+            <span class="input-group-btn"><button type="button" v-bind:class="{'btn':true, 'btn-primary':true,  'disabled':loading || !coupon}" v-bind:disabled="loading || !coupon" v-on:click="applyCoupon">Apply</button></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+            <label for="price" v-bind:extra='initAmount({{$plan->amount}})'>
+                Cycle Price:<span v-cloak >{{$plan->currency}} @{{ amount }}</span>  
+            </label>
+    </div>
+    <div class="form-group">
+            <label v-if="discount > 0">
+                First Pay:<span v-cloak >{{$plan->currency}} @{{ amount - discount }}</span>  
+                <span class="text-danger" v-cloak >(Discount:{{$plan->currency}} @{{discount}})</span>
             </label>
     </div>
     <!--
@@ -82,9 +95,14 @@ use \Illuminate\Support\Facades\Input;
             </div>
         </div>
     </form>
+	<sweet-modal icon="warning" ref="modal">
+		@{{errorMessage}}
+	</sweet-modal>
 </div>
 
 @endsection
 @section('script')
+<script type="text/javascript" src="dist/vendor.js"></script>
+<script type="text/javascript" src="dist/pay.js"></script>
 @endsection
 
