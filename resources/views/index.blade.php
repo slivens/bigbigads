@@ -2,15 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="./static/test.css">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta http-equiv="cache-control"  content="no-cache">
     <title>Bigbigads</title>
-
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-
     <style type="text/css">
 @media (max-width: 750px) {
 *, ::after, ::before { box-sizing: border-box; }
@@ -240,7 +236,7 @@ iframe#_hjRemoteVarsFrame { display: none !important; width: 1px !important; hei
                     <div class="swiper-slide">
                         <img data-normal="static/images/show/01.jpg"/>
                         <div class="swiper-adsbar row absolute">
-                            <div class="col-md-8 adstext">I wanna learn my competitor's marketing strategy Now!</div>
+                            <div class="col-md-8 adsshow-text">I wanna learn my competitor's marketing strategy Now!</div>
                             <div class="col-md-4 adsbutton text-center">
                                 <a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started </a></div>
                         </div>
@@ -248,28 +244,28 @@ iframe#_hjRemoteVarsFrame { display: none !important; width: 1px !important; hei
                     <div class="swiper-slide">
                         <img data-normal="static/images/show/02.jpg"/>
                         <div class="swiper-adsbar row">
-                            <div class="col-md-8 adstext">I'd like to save hundreds of hours doing tedious research!</div>
+                            <div class="col-md-8 adsshow-text">I'd like to save hundreds of hours doing tedious research!</div>
                             <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started </a></div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <img data-normal="static/images/show/03.jpg"/>
                         <div class="swiper-adsbar row">
-                            <div class="col-md-8 adstext">Help me to know more!</div>
+                            <div class="col-md-8 adsshow-text">Help me to know more!</div>
                             <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started</a></div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <img data-normal="static/images/show/04.jpg"/>
                         <div class="swiper-adsbar row">
-                            <div class="col-md-8 adstext">I'd like to use your benefit to comfort my job!</div>
+                            <div class="col-md-8 adsshow-text">I'd like to use your benefit to comfort my job!</div>
                             <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started</a></div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <img data-normal="static/images/show/05.jpg"/>
                         <div class="swiper-adsbar row">
-                            <div class="col-md-8 adstext">I want to hop onto the wave someone else created!</div>
+                            <div class="col-md-8 adsshow-text">I want to hop onto the wave someone else created!</div>
                             <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started</a></div>
                         </div>
                     </div>
