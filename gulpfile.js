@@ -64,17 +64,11 @@ gulp.task('webpack:build-dev', function(cb) {
 })
 
 gulp.task('webpack:build', function(cb) {
-    const envs = env.set({
-      NODE_ENV: 'production'
-        });
 	// modify some webpack config options
 	var myConfig = Object.create(webpackConfig);
 	myConfig.plugins = myConfig.plugins.concat(
 		new webpack.DefinePlugin({
-			"process.env": {
-				// This has effect on the react lib size
-				"NODE_ENV": JSON.stringify("production")
-			}
+            'process.env.NODE_ENV': JSON.stringify('production')
 		}),
 		new webpack.optimize.UglifyJsPlugin()
 	);

@@ -2,13 +2,12 @@
   "private": true,
   "scripts": {
     "prod": "gulp --production",
-    "dev": "gulp watch",
-    "webpack:build-dev": "NODE_ENV='development' webpack",
-    "webpack:build": "NODE_ENV='production' webpack -p",
-    "webpack:watch": "NODE_ENV='development' webpack --watch"
+    "dev": "gulp watch"
   },
   "devDependencies": {
     "babel-loader": "^7.0.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "bootstrap-sass": "^3.3.7",
     "css-loader": "^0.28.4",
     "del": "^2.2.2",
@@ -41,6 +40,7 @@
     "jquery": "^3.1.0",
     "js-url": "^2.3.0",
     "layzr.js": "^2.2.2",
+    "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "swiper": "^3.4.2",
     "vue": "2.3.3"
