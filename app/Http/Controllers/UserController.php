@@ -110,10 +110,10 @@ class UserController extends Controller
         //用户注册完后往队列加入一个2分钟延迟的任务，检测是否送达用户邮箱，否则的话使用gmail再重发一次
         $twoMinutesDelayJob = (new ResendRegistMail($user, 'delivered', 2))->delay(Carbon::now()->addMinutes(2));
         dispatch($twoMinutesDelayJob);
-        //用户注册完后往队列加入一个5分钟延迟的任务，检测是用户是否点击激活激活链接，否则的话使用gmail再重发一次
-        $fiveMinutesDelayJob = (new ResendRegistMail($user, 'opened', 5))->delay(Carbon::now()->addMinutes(5));
-        dispatch($fiveMinutesDelayJob);
-        return view('auth.verify')->with('info', "Your email {$request->email} has sent, please check your email. ");
+        $info = "Your email {$request->email} has sent, please check your email.";
+        $email = $request->email;
+        //return view('auth.verify')->with('info', "Your email {$request->email} has sent, please check your email.");
+        return view('auth.verify',compact('info','email'));
     }
 
     /**

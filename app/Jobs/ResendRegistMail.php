@@ -13,6 +13,7 @@ use Swift_Mailer;
 use Carbon\Carbon;
 // 若是像SendRegistMail那样引入会报错：Call to undefined method Bogardo\Mailgun\Facades\Mailgun::get()
 use Mailgun\Mailgun;
+//use Bogardo\Mailgun\Facades\Mailgun; 同样报错Call to undefined method Bogardo\Mailgun\Facades\Mailgun::get()
 use Log;
 class ResendRegistMail implements ShouldQueue
 {
@@ -73,11 +74,11 @@ class ResendRegistMail implements ShouldQueue
                 }
                 if (!$isAction) {
                     //第一次查询没有Delivered状态，第二次查询没有Opened的状态下使用gmail重发
-                    Log::debug("<$email> resend by gmail because of no $action " . Carbon::now());
+                    Log::warning("<$email> resend by gmail because of no $action.");
                     Mail::to($email)->send(new RegisterVerify($this->user));
                 } 
             } else {
-                Log::debug("mailgun query $email is no result " . Carbon::now());
+                Log::warning("mailgun query $email is no result.");
             }
         }
     }

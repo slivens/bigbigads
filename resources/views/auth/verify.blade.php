@@ -31,6 +31,9 @@
     var google_conversion_value = 12.00;
     var google_conversion_currency = "CNY";
     var google_remarketing_only = false;
+    if ({{ $email }}) {
+        var google_conversion_email = "{{ $email }}";
+    }
     /* ]]> */
     </script>
     <script type="text/javascript"  
@@ -39,7 +42,7 @@
     <noscript>
     <div style="display:inline;">
     <img height="1" width="1" style="border-style:none;" alt=""  
-    src="//www.googleadservices.com/pagead/conversion/850659212/?value=12.00&amp;currency_code=CNY&amp;label=ZVS0COmL-XEQjI_QlQM&amp;guid=ON&amp;amp;script=0"/>
+    src="//www.googleadservices.com/pagead/conversion/850659212/?value=12.00&amp;currency_code=CNY&amp;label=ZVS0COmL-XEQjI_QlQM&amp;guid=ON&amp;email={{ $email }}&amp;script=0"/>
     </div>
     </noscript>
     <script>
@@ -50,4 +53,26 @@
       ga('create', 'UA-87299802-3', 'auto');
       ga('send', 'pageview');
     </script>
+
+    <!-- 以下是适用于转化操作bigbigads注册(info)的Google AdWords转化跟踪代码。要开始跟踪此转化，您需要将代码复制并粘贴到要跟踪的网页的来源中。
+    相关提示请访问https://support.google.com/adwords/answer/6331314?&hl=zh_CN。 -->
+    <!-- Google Code for bigbigads&#27880;&#20876;(info) Conversion Page -->
+    <script type="text/javascript">
+    /* <![CDATA[ */
+    var google_conversion_id = 851092927;
+    var google_conversion_language = "en";
+    var google_conversion_format = "3";
+    var google_conversion_color = "ffffff";
+    var google_conversion_label = "ohi0CK6n93EQv8vqlQM";
+    var google_remarketing_only = false;
+    /* ]]> */
+    </script>
+    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+    </script>
+    <noscript>
+    <div style="display:inline;">
+    <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/851092927/?label=ohi0CK6n93EQv8vqlQM&amp;guid=ON&amp;script=0"/>
+    </div>
+    </noscript>
+
 @endsection
