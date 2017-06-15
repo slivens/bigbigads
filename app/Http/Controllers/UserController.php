@@ -210,7 +210,7 @@ class UserController extends Controller
             dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
         }
         Auth::login($user);
-        return redirect('/app');
+        return redirect('/app/#');
 
     }    
 
