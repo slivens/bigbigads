@@ -33,7 +33,6 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
         <link href="./assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <link href="./assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
-        <link href="./assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="./assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
         <!-- END GLOAL MANDATORY STYLES -->
         <!-- BEGIN PAGE LEVEL STYLES -->
@@ -41,9 +40,6 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- END PAGE LEVEL STYLES -->
         <!-- BEGIN THEME LAYOUT STYLES -->
         <link href="./assets/layouts/layout3/css/layout.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" type="text/css" href="./static/custom.css"><!-- 头部与足部样式 -->
-           <link rel="stylesheet" href="./static/test.css">
-        <link rel="stylesheet" type="text/css" href="./static/demo.css">
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="./static/images/favicon.ico" /> </head>
     <!-- END HEAD -->
@@ -139,3 +135,4 @@ License: You must have a valid license purchased only from themeforest(the above
     </body>
 
 </html>
+<link href="./dist/home.css?v=1" rel="stylesheet">

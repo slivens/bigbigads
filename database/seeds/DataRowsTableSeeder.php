@@ -1,130 +1,111 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use TCG\Voyager\Models\DataRow;
-use TCG\Voyager\Models\DataType;
 
 class DataRowsTableSeeder extends Seeder
 {
+
     /**
-     * Auto generated seed file.
+     * Auto generated seed file
      *
      * @return void
      */
     public function run()
     {
-        $postDataType = DataType::where('slug', 'posts')->firstOrFail();
-        $pageDataType = DataType::where('slug', 'pages')->firstOrFail();
-        $userDataType = DataType::where('slug', 'users')->firstOrFail();
-        $categoryDataType = DataType::where('slug', 'categories')->firstOrFail();
-        $menuDataType = DataType::where('slug', 'menus')->firstOrFail();
-        $roleDataType = DataType::where('slug', 'roles')->firstOrFail();
+        
 
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $postDataType->id,
-            'field'        => 'id',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'PRI',
+        \DB::table('data_rows')->delete();
+        
+        \DB::table('data_rows')->insert(array (
+            0 => 
+            array (
+                'id' => 1,
+                'data_type_id' => 1,
+                'field' => 'id',
+                'type' => 'PRI',
                 'display_name' => 'ID',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 0,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $postDataType->id,
-            'field'        => 'author_id',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 0,
+                'delete' => 1,
+                'details' => '',
+            ),
+            1 => 
+            array (
+                'id' => 2,
+                'data_type_id' => 1,
+                'field' => 'author_id',
+                'type' => 'text',
                 'display_name' => 'Author',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 0,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $postDataType->id,
-            'field'        => 'title',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 0,
+                'delete' => 1,
+                'details' => '',
+            ),
+            2 => 
+            array (
+                'id' => 3,
+                'data_type_id' => 1,
+                'field' => 'title',
+                'type' => 'text',
                 'display_name' => 'Title',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $postDataType->id,
-            'field'        => 'excerpt',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text_area',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            3 => 
+            array (
+                'id' => 4,
+                'data_type_id' => 1,
+                'field' => 'excerpt',
+                'type' => 'text_area',
                 'display_name' => 'excerpt',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $postDataType->id,
-            'field'        => 'body',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'rich_text_box',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            4 => 
+            array (
+                'id' => 5,
+                'data_type_id' => 1,
+                'field' => 'body',
+                'type' => 'rich_text_box',
                 'display_name' => 'Body',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $postDataType->id,
-            'field'        => 'image',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'image',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            5 => 
+            array (
+                'id' => 6,
+                'data_type_id' => 1,
+                'field' => 'image',
+                'type' => 'image',
                 'display_name' => 'Post Image',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '{
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{
 "resize": {
 "width": "1000",
 "height": "null"
@@ -149,78 +130,66 @@ class DataRowsTableSeeder extends Seeder
 }
 ]
 }',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $postDataType->id,
-            'field'        => 'slug',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+            ),
+            6 => 
+            array (
+                'id' => 7,
+                'data_type_id' => 1,
+                'field' => 'slug',
+                'type' => 'text',
                 'display_name' => 'slug',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '{"slugify": {"origin": "title", "forceUpdate": true}}',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $postDataType->id,
-            'field'        => 'meta_description',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text_area',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"slugify": {"origin": "title", "forceUpdate": true}}',
+            ),
+            7 => 
+            array (
+                'id' => 8,
+                'data_type_id' => 1,
+                'field' => 'meta_description',
+                'type' => 'text_area',
                 'display_name' => 'meta_description',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $postDataType->id,
-            'field'        => 'meta_keywords',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text_area',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            8 => 
+            array (
+                'id' => 9,
+                'data_type_id' => 1,
+                'field' => 'meta_keywords',
+                'type' => 'text_area',
                 'display_name' => 'meta_keywords',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $postDataType->id,
-            'field'        => 'status',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'select_dropdown',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            9 => 
+            array (
+                'id' => 10,
+                'data_type_id' => 1,
+                'field' => 'status',
+                'type' => 'select_dropdown',
                 'display_name' => 'status',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '{
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{
 "default": "DRAFT",
 "options": {
 "PUBLISHED": "published",
@@ -228,500 +197,432 @@ class DataRowsTableSeeder extends Seeder
 "PENDING": "pending"
 }
 }',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $postDataType->id,
-            'field'        => 'created_at',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
+            ),
+            10 => 
+            array (
+                'id' => 11,
+                'data_type_id' => 1,
+                'field' => 'created_at',
+                'type' => 'timestamp',
                 'display_name' => 'created_at',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $postDataType->id,
-            'field'        => 'updated_at',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            11 => 
+            array (
+                'id' => 12,
+                'data_type_id' => 1,
+                'field' => 'updated_at',
+                'type' => 'timestamp',
                 'display_name' => 'updated_at',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $pageDataType->id,
-            'field'        => 'id',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'PRI',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            12 => 
+            array (
+                'id' => 13,
+                'data_type_id' => 2,
+                'field' => 'id',
+                'type' => 'PRI',
                 'display_name' => 'id',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $pageDataType->id,
-            'field'        => 'author_id',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            13 => 
+            array (
+                'id' => 14,
+                'data_type_id' => 2,
+                'field' => 'author_id',
+                'type' => 'text',
                 'display_name' => 'author_id',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstorNew([
-            'data_type_id' => $pageDataType->id,
-            'field'        => 'title',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            14 => 
+            array (
+                'id' => 15,
+                'data_type_id' => 2,
+                'field' => 'title',
+                'type' => 'text',
                 'display_name' => 'title',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $pageDataType->id,
-            'field'        => 'excerpt',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text_area',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            15 => 
+            array (
+                'id' => 16,
+                'data_type_id' => 2,
+                'field' => 'excerpt',
+                'type' => 'text_area',
                 'display_name' => 'excerpt',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $pageDataType->id,
-            'field'        => 'body',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'rich_text_box',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            16 => 
+            array (
+                'id' => 17,
+                'data_type_id' => 2,
+                'field' => 'body',
+                'type' => 'rich_text_box',
                 'display_name' => 'body',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $pageDataType->id,
-                    'field'        => 'slug',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            17 => 
+            array (
+                'id' => 18,
+                'data_type_id' => 2,
+                'field' => 'slug',
+                'type' => 'text',
                 'display_name' => 'slug',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '{"slugify": {"origin": "title"}}',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $pageDataType->id,
-                    'field'        => 'meta_description',
-                ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"slugify": {"origin": "title"}}',
+            ),
+            18 => 
+            array (
+                'id' => 19,
+                'data_type_id' => 2,
+                'field' => 'meta_description',
+                'type' => 'text',
                 'display_name' => 'meta_description',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $pageDataType->id,
-                    'field'        => 'meta_keywords',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            19 => 
+            array (
+                'id' => 20,
+                'data_type_id' => 2,
+                'field' => 'meta_keywords',
+                'type' => 'text',
                 'display_name' => 'meta_keywords',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $pageDataType->id,
-                    'field'        => 'status',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'select_dropdown',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            20 => 
+            array (
+                'id' => 21,
+                'data_type_id' => 2,
+                'field' => 'status',
+                'type' => 'select_dropdown',
                 'display_name' => 'status',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '{
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{
 "default": "INACTIVE",
 "options": {
 "INACTIVE": "INACTIVE",
 "ACTIVE": "ACTIVE"
 }
 }',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $pageDataType->id,
-                    'field'        => 'created_at',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
+            ),
+            21 => 
+            array (
+                'id' => 22,
+                'data_type_id' => 2,
+                'field' => 'created_at',
+                'type' => 'timestamp',
                 'display_name' => 'created_at',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $pageDataType->id,
-                    'field'        => 'updated_at',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            22 => 
+            array (
+                'id' => 23,
+                'data_type_id' => 2,
+                'field' => 'updated_at',
+                'type' => 'timestamp',
                 'display_name' => 'updated_at',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $pageDataType->id,
-                    'field'        => 'image',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'image',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            23 => 
+            array (
+                'id' => 24,
+                'data_type_id' => 2,
+                'field' => 'image',
+                'type' => 'image',
                 'display_name' => 'image',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $userDataType->id,
-                    'field'        => 'id',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'PRI',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            24 => 
+            array (
+                'id' => 25,
+                'data_type_id' => 3,
+                'field' => 'id',
+                'type' => 'PRI',
                 'display_name' => 'id',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $userDataType->id,
-                    'field'        => 'name',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            25 => 
+            array (
+                'id' => 26,
+                'data_type_id' => 3,
+                'field' => 'name',
+                'type' => 'text',
                 'display_name' => 'name',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $userDataType->id,
-                    'field'        => 'email',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            26 => 
+            array (
+                'id' => 27,
+                'data_type_id' => 3,
+                'field' => 'email',
+                'type' => 'text',
                 'display_name' => 'email',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $userDataType->id,
-                    'field'        => 'password',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'password',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            27 => 
+            array (
+                'id' => 28,
+                'data_type_id' => 3,
+                'field' => 'password',
+                'type' => 'password',
                 'display_name' => 'password',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $userDataType->id,
-                    'field'        => 'remember_token',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 0,
+                'details' => '',
+            ),
+            28 => 
+            array (
+                'id' => 29,
+                'data_type_id' => 3,
+                'field' => 'remember_token',
+                'type' => 'text',
                 'display_name' => 'remember_token',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $userDataType->id,
-                    'field'        => 'created_at',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            29 => 
+            array (
+                'id' => 30,
+                'data_type_id' => 3,
+                'field' => 'created_at',
+                'type' => 'timestamp',
                 'display_name' => 'created_at',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $userDataType->id,
-                    'field'        => 'updated_at',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            30 => 
+            array (
+                'id' => 31,
+                'data_type_id' => 3,
+                'field' => 'updated_at',
+                'type' => 'timestamp',
                 'display_name' => 'updated_at',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $userDataType->id,
-                    'field'        => 'avatar',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'image',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            31 => 
+            array (
+                'id' => 32,
+                'data_type_id' => 3,
+                'field' => 'avatar',
+                'type' => 'image',
                 'display_name' => 'avatar',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $menuDataType->id,
-                    'field'        => 'id',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'PRI',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            32 => 
+            array (
+                'id' => 33,
+                'data_type_id' => 5,
+                'field' => 'id',
+                'type' => 'PRI',
                 'display_name' => 'id',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $menuDataType->id,
-                    'field'        => 'name',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            33 => 
+            array (
+                'id' => 34,
+                'data_type_id' => 5,
+                'field' => 'name',
+                'type' => 'text',
                 'display_name' => 'name',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $menuDataType->id,
-                    'field'        => 'created_at',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            34 => 
+            array (
+                'id' => 35,
+                'data_type_id' => 5,
+                'field' => 'created_at',
+                'type' => 'timestamp',
                 'display_name' => 'created_at',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $menuDataType->id,
-                    'field'        => 'updated_at',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            35 => 
+            array (
+                'id' => 36,
+                'data_type_id' => 5,
+                'field' => 'updated_at',
+                'type' => 'timestamp',
                 'display_name' => 'updated_at',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $categoryDataType->id,
-                    'field'        => 'id',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'PRI',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            36 => 
+            array (
+                'id' => 37,
+                'data_type_id' => 4,
+                'field' => 'id',
+                'type' => 'PRI',
                 'display_name' => 'id',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $categoryDataType->id,
-                    'field'        => 'parent_id',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'select_dropdown',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            37 => 
+            array (
+                'id' => 38,
+                'data_type_id' => 4,
+                'field' => 'parent_id',
+                'type' => 'select_dropdown',
                 'display_name' => 'parent_id',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '{
+                'required' => 0,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{
 "default": "__null__",
 "null": "__null__",
 "options": {
@@ -732,231 +633,852 @@ class DataRowsTableSeeder extends Seeder
 "label": "name"
 }
 }',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $categoryDataType->id,
-                    'field'        => 'order',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+            ),
+            38 => 
+            array (
+                'id' => 39,
+                'data_type_id' => 4,
+                'field' => 'order',
+                'type' => 'text',
                 'display_name' => 'order',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '{
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{
 "default": 1
 }
 ',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $categoryDataType->id,
-                    'field'        => 'name',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+            ),
+            39 => 
+            array (
+                'id' => 40,
+                'data_type_id' => 4,
+                'field' => 'name',
+                'type' => 'text',
                 'display_name' => 'name',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $categoryDataType->id,
-                    'field'        => 'slug',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            40 => 
+            array (
+                'id' => 41,
+                'data_type_id' => 4,
+                'field' => 'slug',
+                'type' => 'text',
                 'display_name' => 'slug',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $categoryDataType->id,
-                    'field'        => 'created_at',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            41 => 
+            array (
+                'id' => 42,
+                'data_type_id' => 4,
+                'field' => 'created_at',
+                'type' => 'timestamp',
                 'display_name' => 'created_at',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $categoryDataType->id,
-                    'field'        => 'updated_at',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            42 => 
+            array (
+                'id' => 43,
+                'data_type_id' => 4,
+                'field' => 'updated_at',
+                'type' => 'timestamp',
                 'display_name' => 'updated_at',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $roleDataType->id,
-                    'field'        => 'id',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'PRI',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            43 => 
+            array (
+                'id' => 44,
+                'data_type_id' => 6,
+                'field' => 'id',
+                'type' => 'PRI',
                 'display_name' => 'id',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $roleDataType->id,
-                    'field'        => 'name',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            44 => 
+            array (
+                'id' => 45,
+                'data_type_id' => 6,
+                'field' => 'name',
+                'type' => 'text',
                 'display_name' => 'Name',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $roleDataType->id,
-                    'field'        => 'created_at',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            45 => 
+            array (
+                'id' => 46,
+                'data_type_id' => 6,
+                'field' => 'created_at',
+                'type' => 'timestamp',
                 'display_name' => 'created_at',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $roleDataType->id,
-                    'field'        => 'updated_at',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            46 => 
+            array (
+                'id' => 47,
+                'data_type_id' => 6,
+                'field' => 'updated_at',
+                'type' => 'timestamp',
                 'display_name' => 'updated_at',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $roleDataType->id,
-                    'field'        => 'display_name',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            47 => 
+            array (
+                'id' => 48,
+                'data_type_id' => 6,
+                'field' => 'display_name',
+                'type' => 'text',
                 'display_name' => 'Display Name',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $postDataType->id,
-            'field'        => 'seo_title',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            48 => 
+            array (
+                'id' => 49,
+                'data_type_id' => 1,
+                'field' => 'seo_title',
+                'type' => 'text',
                 'display_name' => 'seo_title',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $postDataType->id,
-                    'field'        => 'featured',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'checkbox',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            49 => 
+            array (
+                'id' => 50,
+                'data_type_id' => 1,
+                'field' => 'featured',
+                'type' => 'checkbox',
                 'display_name' => 'featured',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-        $dataRow = DataRow::firstOrNew([
-                    'data_type_id' => $userDataType->id,
-                    'field'        => 'role_id',
-            ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            50 => 
+            array (
+                'id' => 51,
+                'data_type_id' => 3,
+                'field' => 'role_id',
+                'type' => 'text',
                 'display_name' => 'role_id',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
+                'required' => 0,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 0,
+                'details' => '',
+            ),
+            51 => 
+            array (
+                'id' => 52,
+                'data_type_id' => 3,
+                'field' => 'usage',
+                'type' => 'checkbox',
+                'display_name' => 'Usage',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            52 => 
+            array (
+                'id' => 53,
+                'data_type_id' => 3,
+                'field' => 'subscription_id',
+                'type' => 'checkbox',
+                'display_name' => 'Subscription Id',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            53 => 
+            array (
+                'id' => 54,
+                'data_type_id' => 3,
+                'field' => 'paypal_email',
+                'type' => 'checkbox',
+                'display_name' => 'Paypal Email',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            54 => 
+            array (
+                'id' => 55,
+                'data_type_id' => 3,
+                'field' => 'card_brand',
+                'type' => 'checkbox',
+                'display_name' => 'Card Brand',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            55 => 
+            array (
+                'id' => 56,
+                'data_type_id' => 3,
+                'field' => 'card_last_four',
+                'type' => 'checkbox',
+                'display_name' => 'Card Last Four',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            56 => 
+            array (
+                'id' => 57,
+                'data_type_id' => 3,
+                'field' => 'trial_ends_at',
+                'type' => 'checkbox',
+                'display_name' => 'Trial Ends At',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            57 => 
+            array (
+                'id' => 58,
+                'data_type_id' => 3,
+                'field' => 'state',
+                'type' => 'radio_btn',
+                'display_name' => '状态',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"default":"0","options":{"0":"等待邮箱验证","1":"正常","2":"冻结"}}',
+            ),
+            58 => 
+            array (
+                'id' => 59,
+                'data_type_id' => 3,
+                'field' => 'verify_token',
+                'type' => 'checkbox',
+                'display_name' => 'Verify Token',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            59 => 
+            array (
+                'id' => 60,
+                'data_type_id' => 3,
+                'field' => 'expired',
+                'type' => 'date',
+                'display_name' => 'Expired',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            60 => 
+            array (
+                'id' => 61,
+                'data_type_id' => 7,
+                'field' => 'id',
+                'type' => 'PRI',
+                'display_name' => 'Id',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            61 => 
+            array (
+                'id' => 62,
+                'data_type_id' => 7,
+                'field' => 'email',
+                'type' => 'text',
+                'display_name' => 'Email',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            62 => 
+            array (
+                'id' => 63,
+                'data_type_id' => 7,
+                'field' => 'created_at',
+                'type' => 'date',
+                'display_name' => '创建时间',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            63 => 
+            array (
+                'id' => 64,
+                'data_type_id' => 7,
+                'field' => 'updated_at',
+                'type' => 'date',
+                'display_name' => '更新时间',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            64 => 
+            array (
+                'id' => 65,
+                'data_type_id' => 7,
+                'field' => 'category',
+                'type' => 'text',
+                'display_name' => ' 分组',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            65 => 
+            array (
+                'id' => 66,
+                'data_type_id' => 9,
+                'field' => 'id',
+                'type' => 'PRI',
+                'display_name' => 'Id',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            66 => 
+            array (
+                'id' => 67,
+                'data_type_id' => 9,
+                'field' => 'email',
+                'type' => 'text',
+                'display_name' => 'Email',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            67 => 
+            array (
+                'id' => 68,
+                'data_type_id' => 9,
+                'field' => 'password',
+                'type' => 'password',
+                'display_name' => '密码',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"validation":{"rule":"min:6"}}',
+            ),
+            68 => 
+            array (
+                'id' => 69,
+                'data_type_id' => 9,
+                'field' => 'telephone',
+                'type' => 'text',
+                'display_name' => '电话',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            69 => 
+            array (
+                'id' => 70,
+                'data_type_id' => 9,
+                'field' => 'address',
+                'type' => 'text_area',
+                'display_name' => '地址',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            70 => 
+            array (
+                'id' => 71,
+                'data_type_id' => 9,
+                'field' => 'track',
+                'type' => 'text',
+                'display_name' => '跟踪码',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"description":"默认生成10位随机码，有效期7天，如果要修改有效期，在随机数末尾加2位数字。比如ycpOG2AAIb20表示20天有效期。"}',
+            ),
+            71 => 
+            array (
+                'id' => 72,
+                'data_type_id' => 9,
+                'field' => 'status',
+                'type' => 'radio_btn',
+                'display_name' => '状态',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"default":"0","options":{"0":"禁用","1":"启用"}}',
+            ),
+            72 => 
+            array (
+                'id' => 73,
+                'data_type_id' => 9,
+                'field' => 'type',
+                'type' => 'radio_btn',
+                'display_name' => '类型',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"default":0,"options":{"0":"CPC","1":"CPA"}}',
+            ),
+            73 => 
+            array (
+                'id' => 74,
+                'data_type_id' => 9,
+                'field' => 'share',
+                'type' => 'text',
+                'display_name' => '分成',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            74 => 
+            array (
+                'id' => 75,
+                'data_type_id' => 9,
+                'field' => 'balance',
+                'type' => 'text',
+                'display_name' => '余额',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            75 => 
+            array (
+                'id' => 77,
+                'data_type_id' => 9,
+                'field' => 'created_at',
+                'type' => 'timestamp',
+                'display_name' => '创建时间',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            76 => 
+            array (
+                'id' => 78,
+                'data_type_id' => 9,
+                'field' => 'updated_at',
+                'type' => 'timestamp',
+                'display_name' => '更新时间',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            77 => 
+            array (
+                'id' => 79,
+                'data_type_id' => 9,
+                'field' => 'click',
+                'type' => 'number',
+                'display_name' => '点击次数',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            78 => 
+            array (
+                'id' => 80,
+                'data_type_id' => 9,
+                'field' => 'action',
+                'type' => 'number',
+                'display_name' => '注册次数',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            79 => 
+            array (
+                'id' => 81,
+                'data_type_id' => 9,
+                'field' => 'name',
+                'type' => 'text',
+                'display_name' => '名称',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            80 => 
+            array (
+                'id' => 82,
+                'data_type_id' => 11,
+                'field' => 'id',
+                'type' => 'PRI',
+                'display_name' => 'Id',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            81 => 
+            array (
+                'id' => 83,
+                'data_type_id' => 11,
+                'field' => 'name',
+                'type' => 'text',
+                'display_name' => '名称',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            82 => 
+            array (
+                'id' => 84,
+                'data_type_id' => 11,
+                'field' => 'code',
+                'type' => 'text',
+                'display_name' => '折扣码',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            83 => 
+            array (
+                'id' => 85,
+                'data_type_id' => 11,
+                'field' => 'type',
+                'type' => 'radio_btn',
+                'display_name' => '类型',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"default":"0","options":{"0":"百分比","1":"固定金额"}}',
+            ),
+            84 => 
+            array (
+                'id' => 86,
+                'data_type_id' => 11,
+                'field' => 'discount',
+                'type' => 'text',
+                'display_name' => '折扣',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"description":"如果类型是固定金额，该值为固定金额;如果是百分比，范围应该在10~100，按百分比优惠"}',
+            ),
+            85 => 
+            array (
+                'id' => 87,
+                'data_type_id' => 11,
+                'field' => 'total',
+                'type' => 'text',
+                'display_name' => '满减金额',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            86 => 
+            array (
+                'id' => 88,
+                'data_type_id' => 11,
+                'field' => 'start',
+                'type' => 'timestamp',
+                'display_name' => '起始日期',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            87 => 
+            array (
+                'id' => 89,
+                'data_type_id' => 11,
+                'field' => 'end',
+                'type' => 'timestamp',
+                'display_name' => '结束日期',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            88 => 
+            array (
+                'id' => 90,
+                'data_type_id' => 11,
+                'field' => 'uses',
+                'type' => 'number',
+                'display_name' => '总数',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            89 => 
+            array (
+                'id' => 91,
+                'data_type_id' => 11,
+                'field' => 'customer_uses',
+                'type' => 'number',
+                'display_name' => '每个客户可使用数量',
+                'required' => 1,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '',
+            ),
+            90 => 
+            array (
+                'id' => 92,
+                'data_type_id' => 11,
+                'field' => 'used',
+                'type' => 'number',
+                'display_name' => '已使用',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            91 => 
+            array (
+                'id' => 93,
+                'data_type_id' => 11,
+                'field' => 'status',
+                'type' => 'radio_btn',
+                'display_name' => '状态',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"default":"0","options":{"0":"禁用","1":"启用"}}',
+            ),
+            92 => 
+            array (
+                'id' => 94,
+                'data_type_id' => 11,
+                'field' => 'created_at',
+                'type' => 'timestamp',
+                'display_name' => '创建时间',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+            93 => 
+            array (
+                'id' => 95,
+                'data_type_id' => 11,
+                'field' => 'updated_at',
+                'type' => 'timestamp',
+                'display_name' => '更新时间',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 1,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '',
+            ),
+        ));
+        
+        
     }
 }

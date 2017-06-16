@@ -109,7 +109,7 @@ app.controller('SubscriptionController', ['$scope', 'User', function($scope, Use
 }]);
 //TODO:templateUrl通过依赖注入加时间戳
 app.component('billings', {
-    templateUrl:'components/billings.html?t=',
+    templateUrl:'components/billings.html',
     controller:'BillingsController',
     bindings:{
         shouldInit:'@'

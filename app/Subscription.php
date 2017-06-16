@@ -12,4 +12,9 @@ class Subscription extends Model
     {
         return $this->belongsTo('\App\User');
     }
+
+    public function coupon()
+    {
+        return $this->belongsTo('\App\Coupon');
+    }
 }
