@@ -15,7 +15,7 @@
                 <a class="logo-head navbar-brand" href="/home" title=""></a>
             </div>
             <div class="collapse navbar-collapse clearfix bg_fff" id="example-navbar-collapse">
-                <div class=" pull-right ">
+                <div class=" pull-right meun_list">
                     <ul class=" head-nav navbar-nav">
                         <li class="{{ $request->path() == 'home' ? 'active':'' }}"><a href="/home">Home</a></li>
                         <li class="{{ $request->path() == 'product' ? 'active':'' }}"> <a href="{{url('/product')}}">Product</a></li>
