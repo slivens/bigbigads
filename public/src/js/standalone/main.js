@@ -1297,7 +1297,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                 angular.extend(user, user.info);
                 // console.log(user);
            }, function(res) {
-                user.info = {};
+                // user.info = {};
            }).finally(function() {
                 user.done = true;
                 $rootScope.$broadcast('userChanged', user.info);
