@@ -46,10 +46,11 @@ class ResendRegistMail implements ShouldQueue
         /*
             正常邮箱激活流程
             Accepted -- > Delivered ---> Opened -->Clicked
-        */
+         */
+
         if ($this->user->state != 1) {
-            $mailGunKey = env('MAILGUN_SECRET');
-            $mailGunClient = new Mailgun($mailGunKey);
+            /* $mailGunKey = env('MAILGUN_SECRET'); */
+            /* $mailGunClient = new Mailgun($mailGunKey); */
             $domain = env('MAILGUN_DOMAIN');
             $isAction = false;
             // 查询时间格式为 'Fri, 3 May 2013 09:00:00 -0000'
@@ -64,7 +65,7 @@ class ResendRegistMail implements ShouldQueue
             );
 
             # Make the call to the client.
-            $result = $mailGunClient->get("$domain/events", $queryString);
+            $result = Mailgun::api()->get("$domain/events", $queryString);
             //可能出现查询不到该邮件的记录，可能是出错或者是由gmail发送的
             //同时检查该用户的每一封邮箱tags标记，判定是否为注册邮箱
             if (count($result->http_response_body->items) > 0) {
