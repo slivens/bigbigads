@@ -12,7 +12,7 @@ use Swift_SmtpTransport;
 use Swift_Mailer;
 use Carbon\Carbon;
 // 若是像SendRegistMail那样引入会报错：Call to undefined method Bogardo\Mailgun\Facades\Mailgun::get()
-use Mailgun\Mailgun;
+use Mailgun;
 //use Bogardo\Mailgun\Facades\Mailgun; 同样报错Call to undefined method Bogardo\Mailgun\Facades\Mailgun::get()
 use Log;
 class ResendRegistMail implements ShouldQueue
@@ -66,14 +66,15 @@ class ResendRegistMail implements ShouldQueue
             # Make the call to the client.
             $result = $mailGunClient->get("$domain/events", $queryString);
             //可能出现查询不到该邮件的记录，可能是出错或者是由gmail发送的
+            //同时检查该用户的每一封邮箱tags标记，判定是否为注册邮箱
             if (count($result->http_response_body->items) > 0) {
                 foreach ($result->http_response_body->items as $item) {
-                    if ($item->event == $action) {
+                    if ($item->tags == 'registerVerify' && $item->event == $action) {
                         $isAction = true;
                     }
                 }
                 if (!$isAction) {
-                    //第一次查询没有Delivered状态，第二次查询没有Opened的状态下使用gmail重发
+                    //查询没有对应的Delivered状态使用gmail重发
                     Log::warning("<$email> resend by gmail because of no $action.");
                     Mail::to($email)->send(new RegisterVerify($this->user));
                 } 
