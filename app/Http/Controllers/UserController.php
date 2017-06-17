@@ -17,6 +17,7 @@ use Validator;
 use App\Jobs\LogAction;
 use Illuminate\Auth\Events\Registered;
 
+use App\Jobs\ResendRegistMail;
 class UserController extends Controller
 {
     use ResetsPasswords;
@@ -106,7 +107,13 @@ class UserController extends Controller
             return view('auth.verify')->with('error', "You have verified, don't verify again!!!");
         }
         dispatch(new SendRegistMail($user));//Mail::to($user->email)->queue(new RegisterVerify($user));//发送验证邮件
-        return view('auth.verify')->with('info', "Your email {$request->email} has sent, please check your email. ");
+        //用户注册完后往队列加入一个2分钟延迟的任务，检测是否送达用户邮箱，否则的话使用gmail再重发一次
+        $twoMinutesDelayJob = (new ResendRegistMail($user, 'delivered', 2))->delay(Carbon::now()->addMinutes(2));
+        dispatch($twoMinutesDelayJob);
+        $info = "Your email {$request->email} has sent, please check your email.";
+        $email = $request->email;
+        //return view('auth.verify')->with('info', "Your email {$request->email} has sent, please check your email.");
+        return view('auth.verify',compact('info','email'));
     }
 
     /**
@@ -126,11 +133,16 @@ class UserController extends Controller
     }
 
     /**
+     * (原始需求)
      * 社交帐号登陆成功后：
      * 1. 如果原来没有帐号就要求设置密码创建新帐号
      * 2. 如果原来已有帐号但要求输入密码完成绑定
      * 3. 否则就是直接完成登陆跳到主页面
-     * 如果完成绑定一定会在\App\Socialite有记录，所以检查该表即可
+     * (现有需求)[已实现]
+     * 社交帐号登陆成功后:
+     * 1. 如果原来没有帐号，如果有email生成对应帐户，否则根据唯一id生成<id>@bigbigads.com的帐户
+     * 2. 如果原来有帐号就直接绑定
+     * 3. 跳转到主页面
      */
     public function socialiteCallback($name)
     {
@@ -142,22 +154,69 @@ class UserController extends Controller
         $email = $socialiteUser->email;
         $token = $socialiteUser->token;
         $providerId = $socialiteUser->id;
-        if (empty($email)) {
-            return $this->message("sorry, no email information in your '$name' account");
-        }
+        /* if (empty($email)) { */
+        /*     return $this->message("sorry, no email information in your '$name' account"); */
+        /* } */
         Log::debug("oauth:" . json_encode($socialiteUser));
-        Cache::put($token, $socialiteUser, 5 * 60);
-        if (\App\Socialite::where(['provider_id' => $providerId, 'provider' => $name])->count() > 0) {
-            $user = User::where('email', $email)->first();
-            Auth::login($user);
-            /* dispatch(new LogAction("USER_LOGIN", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() )); */
-            return redirect('/app');
-           }
-        return redirect()->action('UserController@bindForm', ['name' => $name, 'token' => $token, 'email' => $email]);
+        return $this->autoBind($name, $socialiteUser);
+        /* return redirect()->action('UserController@bindForm', ['name' => $name, 'token' => $token, 'email' => $email]); */
     }
+
+
+    /**
+     * 根据新需求完成自动绑定
+     * @ref socialiteCallback
+     */
+    protected function autoBind($name, $socialiteUser)
+    {
+        $binded = false;
+        $email = $socialiteUser->email;
+        $providerId = $socialiteUser->id;
+        $edm = 1;
+        if (empty($email)) {
+            //没有email的用户，不接受邮件营销
+            $email = $socialiteUser->id . '@bigbigads.com';
+            $edm = 0;
+        }
+        //没有帐号就先创建匿名帐号
+        $user = User::where('email', $email)->first();
+        if (!$user instanceof User) {
+            $userName = $socialiteUser->nickname;
+            if (empty($userName))
+                $userName= $socialiteUser->name;
+            $user = User::create([
+                'name' => $userName,
+                'email' => $email,
+                'password' => bcrypt(str_random(10))
+            ]);
+            $user->state = 1;//社交帐号直接通过验证
+            $user->role_id = 3;
+            $user->edm = 0;
+            $user->verify_token = str_random(40);
+            $user->save();
+            event(new Registered($user));
+        }
+        //在有帐号的情况下，完成自动绑定并登陆
+        if (\App\Socialite::where(['provider_id' => $providerId, 'provider' => $name])->count() > 0) {
+            $binded = true;
+        }
+        if (!$binded) {
+            $item =  new \App\Socialite();
+            $item->provider_id = $providerId;
+            $item->provider = $name;
+            $item->bind = $email;
+            $item->remark = json_encode($socialiteUser);
+            $item->save();
+            dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
+        }
+        Auth::login($user);
+        return redirect('/app/#');
+
+    }    
 
     /**
      * 绑定已有用户的表单
+     * @deprecated 需求变更，抛弃
      */
     public function bindForm(Request $request, $name)
     {
@@ -165,10 +224,8 @@ class UserController extends Controller
     }
 
     /**
-     * 社交帐号登陆成功后：
-     * 1. 如果原来没有帐号就要求设置密码创建新帐号
-     * 2. 如果原来已有帐号但要求输入密码完成绑定
-     * 3. 否则就是直接完成登陆跳到主页面
+     * 提交绑定后的处理
+     * @deprecated 需求变更，抛弃
      */
     public function bind(Request $request, $name)
     {
@@ -223,7 +280,7 @@ class UserController extends Controller
         }
         Auth::login($user);
         dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
-        return redirect('/app');
+        return redirect('/app/#');
     }
 
 }

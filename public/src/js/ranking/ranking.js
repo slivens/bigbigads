@@ -51,7 +51,7 @@ app.controller('RankingController', ['$scope', 'settings', '$http', 'SweetAlert'
 
     function init() {
         //防止未登录进入广告主排名界面
-        User.getInfo.then(function() {
+        User.getInfo().then(function() {
             if (!User.login) {
                 window.open('/login',"_self");
             }

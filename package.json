@@ -5,13 +5,19 @@
     "dev": "gulp watch"
   },
   "devDependencies": {
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "bootstrap-sass": "^3.3.7",
     "css-loader": "^0.28.4",
     "del": "^2.2.2",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
     "gulp": "^3.9.1",
+    "gulp-env": "^0.4.0",
     "gulp-sass": "^3.1.0",
+    "gulp-util": "^3.0.8",
     "laravel-elixir": "^6.0.0-9",
     "laravel-elixir-vue-2": "^0.2.0",
     "laravel-elixir-webpack-official": "^1.0.2",
@@ -20,20 +26,24 @@
     "sass-loader": "^6.0.5",
     "style-loader": "^0.18.1",
     "url-loader": "^0.5.8",
-    "vue": "^2.0.1",
+    "vue-html-loader": "^1.2.4",
+    "vue-loader": "^12.2.1",
     "vue-resource": "^1.0.3",
+    "vue-style-loader": "^3.0.1",
+    "vue-template-compiler": "2.3.3",
+    "webpack": "^2.6.1",
     "webpack-manifest-plugin": "^1.1.0"
   },
   "dependencies": {
     "angular-ui-grid": "^4.0.2",
+    "axios": "^0.16.2",
     "bootstrap": "^3.3.7",
     "jquery": "^3.1.0",
     "js-url": "^2.3.0",
     "layzr.js": "^2.2.2",
+    "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "swiper": "^3.4.2",
-    "vue": "^2.0.1",
-    "vue-resource": "^1.0.3",
-    "webpack": "^2.6.1"
+    "vue": "2.3.3"
   }
 }
