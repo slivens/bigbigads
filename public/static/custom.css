@@ -170,6 +170,8 @@ header li.active  a{
     color: #eb6130;
 }
 
+
+
 .logo-head {
     display: block;
     float: left;
@@ -298,7 +300,12 @@ header li.active  a{
     background-attachment: scroll;
     width: 100%;
 }
-.swiper-adsbar{color: #fff;margin-left:0px;margin-right:0px;width: 100%;background: rgba(45, 46, 47, 0.63);}
+.swiper-adsbar{
+    color: #fff;
+    margin-left:0px;
+    margin-right:0px;
+    width: 100%;
+    background:#eb6130;}
 .swiper-adsbar div{padding-top: 15px;padding-bottom: 15px;}
 .swiper-adsbar .adsbigword{text-transform: uppercase;
     font-size: 3.125rem;
@@ -309,7 +316,12 @@ header li.active  a{
 .swiper-adsbar .adstext{    /*padding: 10px 0px;*/
     font-size: 1.06rem;
     padding-right: 0px;}
-.adsbutton .slider-btn{padding:10px 20px;font-weight: 600;margin: 0px auto;}
+.adsbutton .slider-btn{
+    padding:10px 20px;
+    font-weight: 600;
+    margin: 0px auto;
+    border:1px solid #fff;
+}
 .slider-left {
     box-shadow: 0 4px 8px 0 rgba(7, 17, 27, .1);
     border-radius: 4px;

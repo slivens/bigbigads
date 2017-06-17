@@ -4,27 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Product-Bigbigads</title>
-    <link rel="stylesheet" type="text/css" href="./static/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="./static/custom.css">
-    <link rel="stylesheet" type="text/css" href="./static/demo.css">
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <script src="static/jquery-3.1.1.js"></script>
-    <script src="static/bootstrap.js"></script>
 </head>
 <body>
 @include('tpl.header')
-<section class="about text-center">
+<section class="about text-center about-head">
     <div class="container">
-        <h1>About Us</h1>
+        <h1 class="ads-lg-text about-title">About Us</h1>
         <p class="aboutus-text">Founded in AUG. 2016</p>
-        <p>Bigbigads set up a goal of becoming a global pioneer in the ad intelligence industry.</p>
+        <p class="about-intro-text ads-def-text">Bigbigads set up a goal of becoming a global pioneer in the ad intelligence industry.</p>
     </div>
 
 </section>
 <section class="about-time">
     <div class="container">
         <div class="text-center mat-70">
-            <p class="color_active font_24">BIGBIGADS' STORY</p>
+            <p class="color_active font_24 ads-md-text">BIGBIGADS' STORY</p>
             <p class="color_tip mab-2"></p>
             <i class="icon icon-end"></i>
         </div>
@@ -117,5 +112,8 @@
 <script>
 
 </script>
+<script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
+<script type="text/javascript" src="dist/home.js?v=5" defer></script>
 </body>
 </html>
+<link href="./dist/home.css?v=1" rel="stylesheet">
