@@ -448,7 +448,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 value: "Video",
             }, {
                 key: "Canvas",
-                value: "Canvas"
+                value: "Others"
             }, {
                 key: "SingleImage",
                 value: "Image"
@@ -822,6 +822,19 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
             if(price >= 299) return '???';
             //不使用 === 判断是因为年月份计费时有小数
             return price;
+        };
+    })
+    .filter('formatType', function() {
+        return function(type) {
+            var showType = '';
+            switch(type){
+                case 'Canvas': {showType = 'Others';break;}
+                case 'SingleVideo': {showType = 'Video';break;}
+                case 'SingleImage': {showType = 'Image';break;}
+                case 'Carousel': {showType = 'Carousel';break;}
+                default: break;
+            }
+            return showType;
         };
     });
 /* Setup App Main Controller */
@@ -1273,7 +1286,8 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
                 return;
             }
             if (!newInfo.login && oldInfo.login) {
-                SweetAlert.swal("you have logout because of no operation for a long time");
+                //暂时先注释，还在尝试解决
+                //SweetAlert.swal("you have logout because of no operation for a long time");
                 return;
             }
             // console.log("get info again:", oldInfo);

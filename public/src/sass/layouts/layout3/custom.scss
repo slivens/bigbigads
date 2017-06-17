@@ -1482,3 +1482,8 @@ color: $black_placeholder !important;
     border-color: #f9e491;
     color: #c29d0b;
 }
+
+//时间插件默认input-mini被bootstrap-switch插件相同样式名覆盖只有45px的宽度，导致显示时间显示框宽度不够显示不全
+.input-mini {
+    width: 100% !important;
+}
