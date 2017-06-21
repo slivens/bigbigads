@@ -44,7 +44,9 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- BEGIN THEME LAYOUT STYLES -->
         <link rel="stylesheet" type="text/css" href="../static/custom.css"><!-- the css of head and foot -->
         <!-- END THEME LAYOUT STYLES -->
-        <link rel="shortcut icon" href="/static/images/favicon.ico" /> </head>
+        <link rel="shortcut icon" href="/static/images/favicon.ico" /> 
+        @include('tpl.script')
+    </head>
     <!-- END HEAD -->
 
     <body class="page-container-bg-solid page-md">

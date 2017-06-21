@@ -8,10 +8,10 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Bigbigads Blog List</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <meta content="Bigbigads Blog List"  name="description" />
+        <title>Bigbigads Blog | Largest Facebook Ad Examples</title>
+        <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
         <meta content="Bigbigads" name="author" />
         <!-- BEGIN PAGE LEVEL STYLES -->
         <link href="./assets/pages/css/blog.css" rel="stylesheet" type="text/css" />
@@ -19,7 +19,9 @@
         <!-- BEGIN THEME LAYOUT STYLES -->
         <link href="./assets/layouts/layout3/css/layout.css" rel="stylesheet" type="text/css" />
         <!-- END THEME LAYOUT STYLES -->
-        <link rel="shortcut icon" href="./static/images/favicon.ico" /> </head>
+        <link rel="shortcut icon" href="./static/images/favicon.ico" /> 
+        @include('tpl.script')
+    </head>
     <!-- END HEAD -->
 
     <body class="page-header-fixed page-sidebar-closed-hide-logo page-md">

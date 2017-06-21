@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta http-equiv="cache-control"  content="no-cache">
-    <title>Bigbigads</title>
+    <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
+
+	<title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
     <style type="text/css">
 @media (max-width: 750px) {
@@ -207,6 +209,7 @@ iframe#_hjRemoteVarsFrame { display: none !important; width: 1px !important; hei
 
 }
 </style>
+@include('tpl.script')
 </head>
 <body>
 @include('tpl.header')
@@ -328,14 +331,14 @@ iframe#_hjRemoteVarsFrame { display: none !important; width: 1px !important; hei
             <li class="solution-item">
                 <img data-normal="static/images/solution1.png" class="img-circle bg"/>
                 <div class="solution-item_number clearfix">
-                    <span class="text-center">4,000,000<sup class="num_sup">+</sup></span>
+                    <span class="text-center">5,000,000<sup class="num_sup">+</sup></span>
                 </div>
                 <div class="solution-item_desc">Ads</div>
             </li>
             <li class="solution-item">
                 <img data-normal="static/images/solution2.png"  class="img-circle bg"/>
                 <div class="solution-item_number clearfix">       
-                    <span class="text-center">1,000,000<sup class="num_sup">+</sup></span>
+                    <span class="text-center">1,300,000<sup class="num_sup">+</sup></span>
                 </div>
               
                 <div class="solution-item_desc"> Advertisers</div>

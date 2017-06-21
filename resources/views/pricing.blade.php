@@ -5,9 +5,15 @@
     <!--<meta name="viewport"-->
           <!--content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>pricing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bigbigads Pricing | Largest Facebook Ad Examples</title>
+    <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
+    <link rel="stylesheet" type="text/css" href="./static/bootstrap.css">
+    <link href="../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./static/custom.css">
+    <link rel="stylesheet" type="text/css" href="./static/demo.css">
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
+    @include('tpl.script')
 </head>
 <body>
 @include('tpl.header')
