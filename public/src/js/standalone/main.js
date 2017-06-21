@@ -204,6 +204,10 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 key: 'phone',
                 value: 'Mobile',
                 permission: 'phone_filter',
+            }, {
+                key: 'suggested app',
+                value: 'App',
+                permission: 'app_filter',
             }],
             categoryList: [{
                 key: "Advertising Agency",
@@ -723,7 +727,52 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
             },{
                 key:"Taiwan",
                 value:"Taiwan"
-            }]
+            }],
+            trackingList: [{
+                key: "CPV Lab",
+                value: "CPV Lab"
+            }, {
+                key: "iMobiTrax",
+                value: "iMobiTrax"
+            }, {
+                key: "prosper202",
+                value: "prosper202"
+            }, {
+                key: "voluum",
+                value: "voluum"
+            }, {
+                key: "thrive",
+                value: "thrive"
+            }, {
+                key: "google analytics",
+                value: "google analytics"
+            }],
+            affiliateList: [{
+                key: "oasis",
+                value: "oasis"
+            }, {
+                key: "ad4game",
+                value: "ad4game"
+            }],
+            E_CommerceList: [{
+                key: "teespring",
+                value: "teespring"
+            }, {
+                key: "teechip",
+                value: "teechip"
+            },{
+                key: "teezily",
+                value: "teezily"
+            },{
+                key: "shopify",
+                value: "shopify"
+            },{
+                key: "magento",
+                value: "magento"
+            },{
+                key: "wooCommerce",
+                value: "wooCommerce"
+            }],
         }
     };
 
@@ -799,6 +848,7 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
                 case 'timeline': {showType = 'Newsfeed';break;}
                 case 'rightcolumn': {showType = 'Right Column';break;}
                 case 'phone': {showType = 'Mobile';break;}
+                case 'suggested app': {showType = 'App';break;}
                 default: break;
             }
             return showType;
@@ -1264,15 +1314,15 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
     User.getInfo().then(function() {
-         window.intercomSettings = {
+        window.intercomSettings = {
             app_id: "pv0r2p1a",
             name: User.login ? User.user.name : "Anonymous",
-            email: User.login ? User.user.email : "anonymous@bigbigads.com", 
+            email: User.login ? User.user.email : "anonymous@bigbigads.com",
             created_at: User.login ? User.user.created_at : "2017-01-01 00:00:00"
           };
         //intercom生成的代码
         var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function (){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pv0r2p1a';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}
-   
+        
     });
     setInterval(function() {
         //每隔一段时间再次更新user信息，一方面是获取新权限，另一方面是防止session过期客户端不知道;

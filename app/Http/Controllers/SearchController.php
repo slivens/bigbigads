@@ -98,7 +98,7 @@ class SearchController extends Controller
             $wheres = $params['where'];
             $resultPerSearch = $user->getUsage('result_per_search');
             $isCanSort = true; 
-            $adsTypePermissions = ['timeline' => 'timeline_filter', 'rightcolumn' => 'rightcolumn_filter', 'phone' => 'phone_filter'];
+            $adsTypePermissions = ['timeline' => 'timeline_filter', 'rightcolumn' => 'rightcolumn_filter', 'phone' => 'phone_filter', 'suggested app' => 'app_filter'];
             if (($params['limit'][0] % 10 != 0) || ($params['limit'][0] >= $resultPerSearch[1])) {
                 Log::warning("<{$user->name}, {$user->email}> request legal limit params : {$params['limit'][0]}");
                 throw new \Exception("Illegal limit params", -4300);
@@ -314,8 +314,10 @@ class SearchController extends Controller
                         return $this->responseError("You should sign in", -4199);
                     }
                 }
-                if(false === (($req->except(['action'])['limit'][0] % 10 === 0) && ($req->except(['action'])['limit'][0] < 300) && (intval($req->except(['action'])['limit'][1]) === 10)))
-                    return ;//TODO:应该抛出错误，返回空白会导致维护困难
+                if (in_array($req->except(['action']), ['limit'])) {
+                    if(false === (($req->except(['action'])['limit'][0] % 10 === 0) && ($req->except(['action'])['limit'][0] < 300) && (intval($req->except(['action'])['limit'][1]) === 10)))
+                        return ;//TODO:应该抛出错误，返回空白会导致维护困难
+                }
             }else {
                 return ;
             }   
@@ -525,6 +527,7 @@ class SearchController extends Controller
             if (isset($header))
                 Log::info($header);
         }
+
         $result = trim($result);
         $resultJson = json_decode($result, true);
         if (array_key_exists('error', $resultJson)) {
