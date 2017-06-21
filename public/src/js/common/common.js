@@ -22,7 +22,13 @@ app.directive('lazyImg', ['$timeout', 'Util', function($timeout, Util) {
                 var imageSrc;
                 var width = $(element).width();
                 if (attrs.type === 'bba') {
-                    imageSrc = Util.getImageRandomSrc('') + '/thumb.php?src='+ $scope.lazyImg.replace(/#.+\*.+$/, '') + '&size=' + width + 'x' ;
+                    //处理默认图片不能显示问题
+                    if (!$scope.lazyImg) {
+                        $scope.lazyImg = '/watermark/default.jpg';    
+                        imageSrc = Util.getImageRandomSrc('') + $scope.lazyImg;              
+                    } else {
+                        imageSrc = Util.getImageRandomSrc('') + '/thumb.php?src='+ $scope.lazyImg.replace(/#.+\*.+$/, '') + '&size=' + width + 'x' ;
+                    }        
                 } else {
                     imageSrc = $scope.lazyImg;
                 }
