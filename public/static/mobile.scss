@@ -1,0 +1,314 @@
+/*index2 样式*/
+@function px($n) {
+    @return ($n / 37.5) + rem;
+}
+
+@media screen and (max-width: 769px) {
+    html {
+        font-size: calc(100vw / 10)
+    }
+    body {
+        font-size: 16px !important;
+    }
+    .ads-font-32{font-size: px(32);}
+    .ads-font-30{font-size: px(30);}
+    .ads-font-28{font-size: px(28);}
+    .ads-font-26{font-size: px(26);}
+    .ads-font-24{font-size: px(24);}
+    .ads-font-22{font-size: px(22);}
+    .ads-font-20{font-size: px(20);}
+    .ads-font-18{font-size: px(18);}
+    .ads-font-16{font-size: px(16);}
+    .ads-font-14{font-size: px(14);}
+    .ads-underline{
+        height: 1px;
+        width: 100%;
+        border-bottom:1px solid #eee;
+    }
+
+	/*文字动态切换*/
+	.word1:after{
+		content:"Ad Creatives";
+	}
+	.word2:after{
+		content:"Audience Targeting";
+	}
+	.word3.after{
+		content:"Ad Run Time";
+	}
+
+
+    /*通用橘色按钮*/
+    .reg-sub-btn{
+        width: 100%;
+        background: #eb6130;
+        color:#fff;
+        padding: px(14);
+        font-weight: 600;
+        font-size: px(18);
+        margin: px(20) 0;
+        small{
+            font-weight: 100;
+            font-size: px(14);
+            padding-left: px(4);
+        }
+    }
+    .btn:active, .btn:focus,  .btn:hover, .btn:visited{
+    	color:#fff !important;
+
+    }
+    /*居中*/
+    .ads-center{
+        display: block;
+        margin: 0 auto;
+    }
+     #new_index{
+        background: #f2f2f2;
+        color:#323232;
+        .header{
+            width: 100%;
+            padding: px(15);
+            background: #fff;
+            .header-login-button{
+    			display: block;
+    			margin-top: px(8);
+    			padding: px(4) px(15);
+    			border-radius: px(14);
+    			border:1px solid #eb6130;
+    			color:#eb6130;
+    			font-weight: 200;
+    		}
+            .ads-logo-png{
+                height: px(40);
+            }
+            
+          
+          
+        }
+        .content{
+        	font-size: px(16);
+            .register-div{
+                padding: px(15);
+                width: 100%;
+                background: url(/static/images/mobile/bg_01.jpg) no-repeat center;
+                background-size: 100% 100%;
+                min-height: 400px;
+                .ads-reg-title{
+                    margin-top: px(15);
+                }
+                .ads-reg-text{
+                    font-weight: 100;
+                }
+                .ads-reg-btn{
+                    background: #eb6130;
+                    padding: px(14) 0;
+                    width: 90%;
+                    display: block;
+                    margin: 0 auto;
+                    margin-top: px(16);
+    				background-image: linear-gradient(0deg,#3e5792,#4e6eb6);
+                    .reg-btn-icon{
+                        font-size: px(22);
+                        color: #fff;
+                    }
+                    .reg-btn-text{
+                        color: #fff;
+                        font-weight: 600;
+                        margin-left: px(10);
+                        vertical-align: bottom;
+                    }
+
+                }
+                .ads-reg-line{
+                    width: 60%;
+                    margin: 0 auto;
+                    display: flex;
+                    margin-top: px(10);
+                    .ads-underline{
+                        flex:1;
+                        margin:px(10) 0;
+                    }
+                    .reg-line-text{
+                        margin: 0 px(10);
+                        vertical-align: middle;
+                        font-weight: 200;
+                        color: #eee;
+                    }
+                }
+                .reg-input-form{
+                    width: 90%;
+                    margin: 0 auto;
+                    margin-top: px(15);
+                    .form-group{
+                        height: px(48);
+                        width: 100%;
+                        margin-bottom: px(15);
+                        input{
+                            height:100%;
+                            width: 100%;
+                        }
+                        .form-control{
+                        	font-size: px(14);
+                        }
+
+                    }
+                    .err-remin{
+                        	right: px(5);
+                        	top:px(5);
+                        	color:red;
+                        	font-size: px(14);
+                        	font-weight: 200;
+                        	background: #ccc;
+                        	border-radius: px(4);
+                        	margin-top: px(-10);
+                        	padding: 0 px(10);
+
+                       }
+                    .reg-inp-name{
+                        display: flex;
+                        .form-group{
+                            flex:1;
+                        }
+                        .from-group-fname{
+                            margin-right: px(10);
+                        }
+                    }
+                }
+            }
+            .introduce-div{
+    			background: url("/static/images/mobile/bg_02.png") repeat;
+                padding: px(15);
+                .introduce-title{
+                    margin-top: px(15);
+                    color: #ccc;
+    				font-weight: 600;
+                }
+                .instroduce-bigword{
+                	font-family: 'Open Sans', sans-serif;
+                    font-size: px(54);
+                    font-weight: 700;
+                    color: #eb6130;
+                    margin:px(10);
+                    transition:all 1s;
+                    &:after {
+                    	transition:all 1s;
+                    }
+                }
+                .instroduce-text{
+                    font-weight: 100;
+                }
+                .instroduce-data{
+                	.instroduce-data-title{
+                		margin-top: px(15);
+                	}
+                    .data-content{
+                    	background: rgba(255,255,255,.5);
+    					border-radius: px(8);
+    					margin-top: px(8);
+                        display: flex;
+                        .data-roomdiv{
+                            flex:1;
+                            text-align:center;
+                            padding: px(10) 0 px(5) 0;
+                            margin: px(10) 0;
+                            .data-number{
+                                font-weight: 600;
+                                font-size: px(28);
+                                margin-bottom: 0;
+                                color:#ccc;
+                            }
+                            .data-text{
+                                font-weight: 100;
+                                font-size: px(18);
+                            }
+                        }
+                        .data-roomdiv-left{
+                            border-right:1px dashed #ccc;
+                        }
+                    }
+                }
+                .introduce-reg-btn{
+                    width: 90%;
+                    margin: px(15) auto;
+                    display: block;
+                }
+            }
+            .ads-show{
+                padding: px(15);
+                background: #fff;
+                .show-content{
+                    padding: px(10);
+                    margin: px(10) 0;
+                }
+                .show-img{
+                    margin-top:px(15);
+                    height: px(200);
+                    width: px(200);
+                    border-radius: px(100);
+                    overflow: hidden;
+                    border:1px solid #ccc;
+                }
+                .show-ins-title{
+                    margin: px(20) 0;
+                }
+                .show-ins-text{
+                    font-weight: 200;
+                }
+            }
+        }
+        footer{
+            background: #333;
+            .container{
+            	padding: 0;
+            	.footer-top{
+            		padding: px(15) 0;
+            		background: #2c2c2c;
+            		color:#ccc;
+            		span{
+            			display: inline-block;
+            			padding: px(8) px(10);
+            			a{
+            				font-size: px(14);
+            				font-weight: 200;
+            				color:#ccc;
+            			}
+            		}
+            	}
+            	.footer-bottom{
+            		padding: px(15) 0;
+            		background: #171717;
+            		color:#fff;
+            		.footer-bottom-icon{
+	                    	.footer-icon{
+		                        display: inline-block;
+		                        height: px(30);
+		                        width: px(30);
+		                        border-radius: px(30);
+		                        color: #fff;
+		                        margin:0 px(10);
+		                        background: #5c5c5c;
+		                        overflow: hidden;
+		                        font-size: px(16);
+		                        line-height: px(30);
+		                        text-align: center;
+	                    	}
+                    }
+                    .footer-bottom-text{
+                    	font-size: px(14);
+                    }
+            	}
+            }
+            ul{
+                li{
+                    color: #fff;
+                    list-style-type: none;
+                    a{
+                        color: #fff;
+                    }
+                    
+                    
+                }
+            }
+        }
+    }
+}
