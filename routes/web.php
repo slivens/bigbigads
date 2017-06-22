@@ -169,3 +169,7 @@ Route::get('/image', function(Request $request) {
     $response->header('Content-Type', 'image/jpg');
     return $response;
 });
+
+Route::get('/mobile', function () {
+    return view('mobile');
+});
