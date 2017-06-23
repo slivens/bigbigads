@@ -3,13 +3,14 @@
 <head>
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1" name="viewport" />
-	<link rel="stylesheet" type="text/css" href="./static/bootstrap.css">
-	<link rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.min.css"> 
-	<link rel="stylesheet" type="text/css" href="./static/mobile.css">
-	<link rel="stylesheet" href="./static/animate.css">
-	<link rel="stylesheet" type="text/css" href="./static/demo.css">
+	<!-- <link rel="stylesheet" type="text/css" href="./static/bootstrap.css"> -->
+	<!-- <link rel="stylesheet" type="text/css" href="./static/mobile.css"> -->
+	<link rel="stylesheet" href="./static/animate.min.css">
+	<!-- <link rel="stylesheet" type="text/css" href="./static/demo.css"> -->
 	<link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" />
-	<title>bigbigads</title>
+	<meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
+	<title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
+	<link href="./dist/mobile.css?v=1" rel="stylesheet">
 </head>
 <body id="new_index">
 	<!--begin header-->
@@ -67,7 +68,7 @@
 		<div id="ads-register" class="register-div clearfix">
 			<p class="ads-font-28 text-center ads-reg-title">Your online advertising,<br> at its best. </p>
 			<p class="ads-reg-text ads-font-16 text-center">Bigbigads'  facebook ad examples make sure you to create your Low-Cost, High-Performance ad campaign. </p>
-			<!--<a class="ads-reg-btn btn">
+			<a class="ads-reg-btn btn" href="/socialite/facebook">
 				<i class="fa fa-facebook-square reg-btn-icon"></i>
 				<span class="ads-font-18 reg-btn-text">Sign Up With Facebook</span>
 			</a>
@@ -75,7 +76,7 @@
 				<span class="ads-underline"></span>
 				<span class="ads-font-16 reg-line-text">or</span> 
 				<span class="ads-underline"></span>
-			</p> -->
+			</p>
 			<form class="form-inline reg-input-form" method="POST" action="{{ url('/register') }}">
 				 {{ csrf_field() }}
 				<div class="reg-inp-email">
@@ -156,8 +157,8 @@
 	<div class="footer"></div>
 	<!--end header-->
 <script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
-<script type="text/javascript" src="dist/home.js?v=5" defer></script>
-<script src="./static/jquery-3.1.1.js"></script>
-<script src="./static/js/mobile.js"></script>
+<script type="text/javascript" src="dist/mobile.js?v=5" defer></script>
+<!-- <script src="./static/jquery-3.1.1.js"></script> -->
+<!-- <script src="./static/js/mobile.js"></script> -->
 </body>
 </html>

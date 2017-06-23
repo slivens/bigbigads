@@ -8,6 +8,7 @@ module.exports = {
 	devtool: isProduction ? false : 'source-map',
 	entry: {
 		home: ['./resources/assets/js/home.js'],
+		mobile: ['./resources/assets/js/mobile.js'],
 		pay: ['./resources/assets/js/pay.js'],
 		vendor: ['jquery', 'swiper', 'bootstrap', 'moment', 'js-url']
 	},

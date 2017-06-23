@@ -314,10 +314,8 @@ class SearchController extends Controller
                         return $this->responseError("You should sign in", -4199);
                     }
                 }
-                if (in_array($req->except(['action']), ['limit'])) {
-                    if(false === (($req->except(['action'])['limit'][0] % 10 === 0) && ($req->except(['action'])['limit'][0] < 300) && (intval($req->except(['action'])['limit'][1]) === 10)))
-                        return ;//TODO:应该抛出错误，返回空白会导致维护困难
-                }
+                if(false === (($req->except(['action'])['limit'][0] % 10 === 0) && ($req->except(['action'])['limit'][0] < 300) && (intval($req->except(['action'])['limit'][1]) === 10)))
+                    return ;//TODO:应该抛出错误，返回空白会导致维护困难
             }else {
                 return ;
             }   

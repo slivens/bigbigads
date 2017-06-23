@@ -754,7 +754,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 key: "ad4game",
                 value: "ad4game"
             }],
-            E_CommerceList: [{
+            eCommerceList: [{
                 key: "teespring",
                 value: "teespring"
             }, {
@@ -1313,7 +1313,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
     }
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
-    User.getInfo().then(function() {
+    /*User.getInfo().then(function() {
         window.intercomSettings = {
             app_id: "pv0r2p1a",
             name: User.login ? User.user.name : "Anonymous",
@@ -1323,7 +1323,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
         //intercom生成的代码
         var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function (){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pv0r2p1a';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}
         
-    });
+    });*/
     setInterval(function() {
         //每隔一段时间再次更新user信息，一方面是获取新权限，另一方面是防止session过期客户端不知道;
         if (!User.login)
