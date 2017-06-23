@@ -31,9 +31,9 @@
     var google_conversion_value = 12.00;
     var google_conversion_currency = "CNY";
     var google_remarketing_only = false;
-    var email = "{{ $email }}";
-    if (email) {
-        var google_conversion_email = email;
+    //待处理
+    if ({{ $email }}) {
+        var google_conversion_email = "{{ $email }}";
     }
     /* ]]> */
     </script>
@@ -68,9 +68,9 @@
     var google_conversion_label = "ohi0CK6n93EQv8vqlQM";
     var google_remarketing_only = false;
     var email = "{{ $email }}";
-    if (email) {
+    /*if (email) {
         var google_conversion_email = email;
-    }
+    }*/
     /* ]]> */
     </script>
     <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
