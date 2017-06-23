@@ -170,7 +170,8 @@ var Login = function() {
                 },
                 email: {
                     required: true,
-                    email: true
+                    email: true,
+                    checkEmail: true
                 },
                 address: {
                     required: false
@@ -260,6 +261,12 @@ var Login = function() {
             window.location.hash = '';
         });
     }
+
+    //由于mailgun对hotmail,outlook,live邮箱基本不可达，暂时过滤，提示不支持
+    jQuery.validator.addMethod("checkEmail", function(value, element) {
+        return this.optional( element ) || !/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@(hotmail|outlook|live)\.com$/.test( value );
+    }, "Sorry, we don't support hotmail/outlook/live now.");
+
 
     return {
         //main function to initiate the module

@@ -1493,6 +1493,16 @@ MetronicApp.controller('UserController', ['$scope', '$http', '$window', 'User', 
     $scope.formData = {name:' ',email:'',password:''};
     $scope.registerError = {};
     $scope.isShow = false;
+       
+    $scope.checkEmail = function() {
+        $scope.showHotmailMessage = false;
+        var emails = ['hotmail.com', 'live.com', 'outlook.com'];
+        angular.forEach(emails, function(item) {
+            if( $scope.formData.email && $scope.formData.email.split('@')[1] === item){
+                $scope.showHotmailMessage = true;
+            }
+        });
+    }
     $scope.processForm = function(isValid) {
         $scope.isShow = true;
         if ($scope.formData.name == ' ') {$scope.formData.name = $scope.formData.email.split('@')[0];}

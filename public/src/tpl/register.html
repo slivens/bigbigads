@@ -1,17 +1,18 @@
 <form name="registerForm" class="register-form form-horizontal" ng-submit="processForm(registerForm.$valid)" ng-Controller="UserController" novalidate>
-    <h3 class="form-title">Sign up to see more ads </h3>
+    <h3 class="form-title">Sign up to see more ads</h3>
     <br>
     <div ng-class="{'has-error':registerForm.email.$dirty && registerForm.email.$invalid || registerError.email,'form-group':true}">
         <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
         <label class="control-label visible-ie8 visible-ie9" for="email">Email</label>
         <div class="input-icon">
             <i class="fa fa-envelope"></i>
-            <input class="form-control placeholder-no-fix" type="email" autocomplete="off" placeholder="Email" name="email" ng-model="formData.email" maxlength="40" ng-minlength="5" required />
+            <input class="form-control placeholder-no-fix" type="email" autocomplete="off" placeholder="Email" name="email" ng-model="formData.email" maxlength="40" ng-minlength="5" required ng-change="checkEmail()"/>
             <p class="help-block text-left">
                 <span ng-show="registerForm.email.$dirty && registerForm.email.$error.required">Email is required.</span>
                 <span ng-show="registerForm.email.$dirty && registerForm.email.$error.email">Invalid email.</span>
                 <span ng-show="registerForm.email.$dirty && registerForm.email.$error.minlength">Email is too short.</span>
                 <span ng-show="registerError.email">{{registerError.email.toString()}}</span>
+                <span ng-show="showHotmailMessage" class="font-red">Sorry, we don't support hotmail/outlook/live now.</span>
             </p>
         </div> 
     </div>

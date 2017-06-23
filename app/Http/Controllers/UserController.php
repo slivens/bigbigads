@@ -18,6 +18,7 @@ use App\Jobs\LogAction;
 use Illuminate\Auth\Events\Registered;
 
 use App\Jobs\ResendRegistMail;
+use GuzzleHttp;
 class UserController extends Controller
 {
     use ResetsPasswords;
@@ -110,10 +111,10 @@ class UserController extends Controller
         //用户注册完后往队列加入一个2分钟延迟的任务，检测是否送达用户邮箱，否则的话使用gmail再重发一次
         $twoMinutesDelayJob = (new ResendRegistMail($user, 'delivered', 2))->delay(Carbon::now()->addMinutes(2));
         dispatch($twoMinutesDelayJob);
-        $info = "Your email {$request->email} has sent, please check your email.";
-        $email = $request->email;
-        //return view('auth.verify')->with('info', "Your email {$request->email} has sent, please check your email.");
-        return view('auth.verify',compact('info','email'));
+        //用户注册完后往队列加入一个5分钟延迟的任务，检测是用户是否点击激活激活链接，否则的话使用gmail再重发一次
+        $fiveMinutesDelayJob = (new ResendRegistMail($user, 'opened', 5))->delay(Carbon::now()->addMinutes(5));
+        dispatch($fiveMinutesDelayJob);
+        return view('auth.verify')->with('info', "Your email {$request->email} has sent, please check your email. ");
     }
 
     /**
@@ -172,11 +173,9 @@ class UserController extends Controller
         $binded = false;
         $email = $socialiteUser->email;
         $providerId = $socialiteUser->id;
-        $edm = 1;
+
         if (empty($email)) {
-            //没有email的用户，不接受邮件营销
             $email = $socialiteUser->id . '@bigbigads.com';
-            $edm = 0;
         }
         //没有帐号就先创建匿名帐号
         $user = User::where('email', $email)->first();
@@ -191,7 +190,6 @@ class UserController extends Controller
             ]);
             $user->state = 1;//社交帐号直接通过验证
             $user->role_id = 3;
-            $user->edm = 0;
             $user->verify_token = str_random(40);
             $user->save();
             event(new Registered($user));
@@ -208,9 +206,14 @@ class UserController extends Controller
             $item->remark = json_encode($socialiteUser);
             $item->save();
             dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
+            //社交登录请求转化代码页面
+            $domain = env('APP_URL');
+            $url = $domain . 'socialiteStat.html';
+            $client = new GuzzleHttp\Client();
+            $res = $client->request('GET', $url);
         }
         Auth::login($user);
-        return redirect('/app/#');
+        return redirect('/app');
 
     }    
 
@@ -280,7 +283,6 @@ class UserController extends Controller
         }
         Auth::login($user);
         dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
-        return redirect('/app/#');
+        return redirect('/app');
     }
-
 }
