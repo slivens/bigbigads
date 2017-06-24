@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import './../sass/demo.scss';
 import './../sass/mobile.scss';
-import 'animate.min.css/animate.min.css';
+import 'animate.css/animate.css';
 /*$(document).ready(function(){
 	changeWord(0)
 	$('a[href="#ads-register"]').on("click",linkToUp)

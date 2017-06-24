@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "angular-ui-grid": "^4.0.2",
-    "animate.min.css": "0.0.3",
+    "animate.css": "^3.5.2",
     "axios": "^0.16.2",
     "bootstrap": "^3.3.7",
     "jquery": "^3.1.0",
