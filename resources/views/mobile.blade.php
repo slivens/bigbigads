@@ -5,7 +5,7 @@
 	<meta content="width=device-width, initial-scale=1" name="viewport" />
 	<!-- <link rel="stylesheet" type="text/css" href="./static/bootstrap.css"> -->
 	<!-- <link rel="stylesheet" type="text/css" href="./static/mobile.css"> -->
-	<link rel="stylesheet" href="./static/animate.min.css">
+	<!-- <link rel="stylesheet" href="./static/animate.min.css"> -->
 	<!-- <link rel="stylesheet" type="text/css" href="./static/demo.css"> -->
 	<link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" />
 	<meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
@@ -14,7 +14,6 @@
 </head>
 <body id="new_index">
 	<!--begin header-->
-	<a href="#ads-register"><hr></a>
 	<div class="header clearfix">
 		<div class="pull-left">
 			<a class="ads-logo-link" href="/home" title="">
