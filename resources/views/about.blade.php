@@ -6,12 +6,12 @@
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
     <title>Bigbigads About | Largest Facebook Ad Examples</title>
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
-    <link rel="stylesheet" type="text/css" href="./static/bootstrap.css">
+    <!-- <link rel="stylesheet" type="text/css" href="./static/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="./static/custom.css">
-    <link rel="stylesheet" type="text/css" href="./static/demo.css">
+    <link rel="stylesheet" type="text/css" href="./static/demo.css"> -->
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <script src="static/jquery-3.1.1.js"></script>
-    <script src="static/bootstrap.js"></script>
+    <!--<script src="static/jquery-3.1.1.js"></script>-->
+    <!--<script src="static/bootstrap.js"></script>-->
     @include('tpl.script')
 </head>
 <body>
@@ -116,10 +116,6 @@
     </div>
 </section>
 @include('tpl.footer')
-<script src="static/jquery-3.1.1.js"></script>
-<script>
-
-</script>
 <script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
 <script type="text/javascript" src="dist/home.js?v=5" defer></script>
 </body>
