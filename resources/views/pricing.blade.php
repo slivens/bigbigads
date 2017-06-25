@@ -13,6 +13,7 @@
     <!-- <link rel="stylesheet" type="text/css" href="./static/custom.css">
     <link rel="stylesheet" type="text/css" href="./static/demo.css"> -->
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
+    <link href="./dist/home.css?v=1" rel="stylesheet">
     @include('tpl.script')
 </head>
 <body>
@@ -544,19 +545,8 @@
     </div>
 </section>
 @include('tpl.footer')
-<!-- 删除后报错：Uncaught ReferenceError: $ is not defined -->
-<script src="static/jquery-3.1.1.js"></script>
-<script src="static/swiper.jquery.js"></script>
-<script>
-    $(function () {
-        $('#qa li').click(function () {
-            $('#qa li').removeClass('active');
-            $(this).addClass('active');
-        })
-    })
-</script>
 </body>
 <script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
-<script type="text/javascript" src="dist/home.js?v=5" defer></script>
+<script type="text/javascript" src="dist/pricing.js?v=5" defer></script>
 </html>
-<link href="./dist/home.css?v=1" rel="stylesheet">
+

@@ -9,6 +9,7 @@
 
 	<title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
+    <link href="./dist/home.css?v=1" rel="stylesheet">
     <style type="text/css">
 @media (max-width: 750px) {
 *, ::after, ::before { box-sizing: border-box; }
@@ -430,4 +431,4 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 <script type="text/javascript" src="dist/home.js?v=5" defer></script>
 </body>
 </html>
-    <link href="./dist/home.css?v=1" rel="stylesheet">
+    

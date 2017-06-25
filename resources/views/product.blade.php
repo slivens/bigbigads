@@ -10,6 +10,7 @@
     <!-- <link rel="stylesheet" href="static/swiper.css"> -->
     <!-- <link rel="stylesheet" type="text/css" href="./static/demo.css"> -->
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
+    <link href="./dist/home.css?v=1" rel="stylesheet">
     @include('tpl.script')
 </head>
 <body>
@@ -172,19 +173,8 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
     </div>
 
 @include('tpl.footer')
-<script src="static/jquery-3.1.1.js"></script>
-<script src="static/swiper.jquery.js"></script>
-<script>
-    var slider = new Swiper('#slider', {});
-
-    $('.slider-items li').click(function(){
-        $('.slider-items li').removeClass('active');
-        $(this).addClass('active');
-        slider.slideTo($(this).index('.slider-items li'), 1000, false);//switch to the first slide, the rate of 1 second.
-    });
-</script>
 <script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
-<script type="text/javascript" src="dist/home.js?v=5" defer></script>
+<script type="text/javascript" src="dist/product.js?v=5" defer></script>
 </body>
 </html>
-<link href="./dist/home.css?v=1" rel="stylesheet">
+

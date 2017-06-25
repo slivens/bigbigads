@@ -20,6 +20,7 @@
         <link href="./assets/layouts/layout3/css/layout.css" rel="stylesheet" type="text/css" />
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="./static/images/favicon.ico" /> 
+        <link href="./dist/home.css?v=1" rel="stylesheet">
         @include('tpl.script')
     </head>
     <!-- END HEAD -->
@@ -115,4 +116,4 @@
     </body>
 
 </html>
-<link href="./dist/home.css?v=1" rel="stylesheet">
+
