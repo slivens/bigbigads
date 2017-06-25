@@ -5,8 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta http-equiv="cache-control"  content="no-cache">
-    <title>Bigbigads</title>
+    <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
+
+	<title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
+    <link href="./dist/home.css?v=1" rel="stylesheet">
     <style type="text/css">
 @media (max-width: 750px) {
 *, ::after, ::before { box-sizing: border-box; }
@@ -207,6 +210,23 @@ iframe#_hjRemoteVarsFrame { display: none !important; width: 1px !important; hei
 
 }
 </style>
+@include('tpl.script')
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '1555915891116409'); // Insert your pixel ID here. 
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
+/></noscript>
+<!-- DO NOT MODIFY -->
+<!-- End Facebook Pixel Code -->
 </head>
 <body>
 @include('tpl.header')
@@ -328,14 +348,14 @@ iframe#_hjRemoteVarsFrame { display: none !important; width: 1px !important; hei
             <li class="solution-item">
                 <img data-normal="static/images/solution1.png" class="img-circle bg"/>
                 <div class="solution-item_number clearfix">
-                    <span class="text-center">4,000,000<sup class="num_sup">+</sup></span>
+                    <span class="text-center">5,000,000<sup class="num_sup">+</sup></span>
                 </div>
                 <div class="solution-item_desc">Ads</div>
             </li>
             <li class="solution-item">
                 <img data-normal="static/images/solution2.png"  class="img-circle bg"/>
                 <div class="solution-item_number clearfix">       
-                    <span class="text-center">1,000,000<sup class="num_sup">+</sup></span>
+                    <span class="text-center">1,300,000<sup class="num_sup">+</sup></span>
                 </div>
               
                 <div class="solution-item_desc"> Advertisers</div>
@@ -411,4 +431,4 @@ iframe#_hjRemoteVarsFrame { display: none !important; width: 1px !important; hei
 <script type="text/javascript" src="dist/home.js?v=5" defer></script>
 </body>
 </html>
-    <link href="./dist/home.css?v=1" rel="stylesheet">
+    

@@ -59,7 +59,7 @@ class SendRegistMail implements ShouldQueue
         if ($useMailgun && !$this->forceDefault) {
             $verifyMail = new RegisterVerify($this->user);
             Mailgun::send($verifyMail->viewName, $verifyMail->params(), function($message) use($email) {
-                $message->to($email)->subject("Bigbigads:Please Verify Your Password")->tag(['registerVerify']);
+                $message->to($email)->subject("Bigbigads:Please verify your email address")->tag(['registerVerify']);
             });
         } else {
             Mail::to($email)->send(new RegisterVerify($this->user));//发送验证邮件

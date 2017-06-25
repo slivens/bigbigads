@@ -31,6 +31,7 @@
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="favicon.ico" />
         <link rel="stylesheet" type="text/css" href="./static/custom.css">
+        @include('tpl.script')
          </head>
     <!-- END HEAD -->
 
@@ -187,8 +188,7 @@
                     <label class="control-label visible-ie8 visible-ie9">Email</label>
                     <div class="input-icon">
                         <i class="fa fa-envelope"></i>
-                        <input class="form-control placeholder-no-fix" id="register-email" type="text" placeholder="Email" name="email" value="{{old('email')}}" /> </div>
-
+                        <input class="form-control placeholder-no-fix" id="register-email" type="text" placeholder="Email" name="email" value="{{old('email')}}" checkEmail/> </div>
                         @if ($errors->has('email'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('email') }}</strong>
