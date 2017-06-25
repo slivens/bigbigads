@@ -15,6 +15,10 @@
     <link rel="shortcut icon" type="image/x-icon" href="static/images/favicon.ico" media="screen">
     <style type="text/css">
         /*移动端维护页面*/
+        /*采用淘宝移动端适配方案
+        *设计稿采用iphone6，即宽度为375pt
+        *界面内容的大小设置应为（设计大小px/37.5）rem，也可采用css3的calc计算
+        */
         html {
             font-size: calc(100vw / 10);
             height: 100%
