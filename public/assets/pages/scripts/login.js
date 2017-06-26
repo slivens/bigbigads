@@ -170,7 +170,8 @@ var Login = function() {
                 },
                 email: {
                     required: true,
-                    email: true
+                    email: true,
+                    checkEmail: true
                 },
                 address: {
                     required: false
@@ -261,6 +262,12 @@ var Login = function() {
         });
     }
 
+    //由于mailgun对hotmail,outlook,live邮箱基本不可达，暂时过滤，提示不支持
+    jQuery.validator.addMethod("checkEmail", function(value, element) {
+        return this.optional( element ) || !/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@(hotmail|outlook|live)\.com$/.test( value );
+    }, "Sorry, we don't support hotmail/outlook/live now.");
+
+
     return {
         //main function to initiate the module
         init: function() {
@@ -276,6 +283,11 @@ var Login = function() {
                         $(this).val(track.code);
                     });
                 }
+                $('.socialite').each(function() {
+                    var href = $(this).attr('href');
+                    href += "?track=" + track.code;
+                    $(this).attr("href", href);
+                });
             }
 
             switch (window.location.pathname) {

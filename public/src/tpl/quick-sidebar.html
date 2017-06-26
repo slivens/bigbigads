@@ -12,6 +12,11 @@
                     <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-calendar"></i></span>
                     <input date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.date" options="daterangeOption" placeholder="Time Frame" aria-describedby="filterbydate_addon"/> 
                 </div>
+                <!-- 新增first_time时间过滤,仅内部使用 -->
+                <div class="input-group" ng-if="User.info.user.role.name ==='Pro'">
+                    <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-calendar"></i></span>
+                    <input date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.firstSee" options="daterangeOption" placeholder="First See Time Frame" aria-describedby="filterbydate_addon"/> 
+                </div>
                 <div class="input-group">
                     <span class="input-group-addon" id="searchrange_addon"><i class="fa fa-search"></i></span>
                     <select id="search_range_select" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Search Mode" ng-model="$parent.searchOption.rangeselected" >
@@ -37,15 +42,15 @@
                     </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" -->
 
                 </div>
-                <!-- <div>
+                <div ng-if="User.info.user.role.name ==='Pro'">
                     <div class="input-group">
                     <span class="input-group-addon" id="country_addon"><i class="fa fa-flag"></i></span>
                     <select  select2 class="form-control has_left_icon" id="country" multiple="multiple"  data-placeholder="Country or Region" ng-model="$parent.filterOption.state">
                         <option ng-repeat="item in $parent.settings.searchSetting.country" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
                     </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" -->
 
-                 <!--    </div>
-                </div>  -->
+                     </div>
+                </div>  
                 <hr>
 
                 
@@ -74,7 +79,36 @@
                     </div>
                 </div>
 
-                
+                 <!--begin emarketing filter div-->
+                <div ng-if="User.info.user.role.name ==='Pro'">
+                <div id="linkFilterDiv" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="trackingtools_addon"><i class="fa fa-share-alt-square"></i></span>
+                        <select id="tracking_tools_select" select2 class="form-control has_left_icon xg-input-w200"  multiple="multiple" data-placeholder="Tracking Tools" ng-model="$parent.filterOption.tracking">
+                            <option ng-repeat="item in $parent.settings.searchSetting.trackingList" policy-lock key="{{item.permission}}" trigger="lockButton" value="{{item.key}}">{{item.value}}</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="trackingtools_addon"><i class="fa fa-send-o"></i></span>
+                        <select id="tracking_tools_select" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Affiliate Network Filter" ng-model="$parent.filterOption.affiliate">
+                            <option ng-repeat="item in $parent.settings.searchSetting.affiliateList" policy-lock key="{{item.permission}}" trigger="lockButton" value="{{item.key}}">{{item.value}}</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="trackingtools_addon"><i class="fa fa-external-link-square"></i></span>
+                        <select id="tracking_tools_select" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Eshop Filter" ng-model="$parent.filterOption.ecommerce" style="width: 200px">
+                            <option ng-repeat="item in $parent.settings.searchSetting.E_CommerceList" policy-lock key="{{item.permission}}" trigger="lockButton" value="{{item.key}}">{{item.value}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <a role="button" data-toggle="collapse" data-target="#linkFilterDiv" class="show-button collapsed" aria-expanded="false" aria-controls="collapseDiv">
+                    <h4 class="font-yellow-gold text-center">Emarketing Filter&nbsp;<i class="glyphicon glyphicon-menu-up font-yellow-gold down-icon"></i></h4>
+                </a>
+                <hr>
+                </div>
+                <!--end emarketing filter div-->
+
                 <!--begin advance filter div-->
                 <div id="collapseDiv" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                         

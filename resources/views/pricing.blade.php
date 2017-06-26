@@ -5,16 +5,20 @@
     <!--<meta name="viewport"-->
           <!--content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>pricing</title>
-    <link rel="stylesheet" type="text/css" href="./static/bootstrap.css">
-    <link href="../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="./static/custom.css">
-    <link rel="stylesheet" type="text/css" href="./static/demo.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bigbigads Pricing | Largest Facebook Ad Examples</title>
+    <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
+    <!-- <link rel="stylesheet" type="text/css" href="./static/bootstrap.css"> -->
+    <!-- <link href="../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="./static/custom.css">
+    <link rel="stylesheet" type="text/css" href="./static/demo.css"> -->
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
+    <link href="./dist/home.css?v=1" rel="stylesheet">
+    @include('tpl.script')
 </head>
 <body>
 @include('tpl.header')
-<section class=" ">
+<section class="pricing-header">
     <div class="pricing"></div>
     <div class="container text-center mat-500" >
         <div class="pricing-tab">
@@ -28,26 +32,26 @@
         <div class="box-shadow radius" >
             <div class="clearfix pricing-card_top" style="background-color: #fff;">
                 <div class="col-md-6 col-xs-6 font_24 pricing-tab-item">
-                    <p class="pricing-item_title">STANDARD</p>
-                    <p class="mab-56">A starter level that's way better than what others offer. </p>
+                    <p class="pricing-item_title ads-ms-text">STANDARD</p>
+                    <p class="mab-56 ads-def-text">A starter level that's way better than what others offer. </p>
                 </div>
                 <div class="col-md-6 col-xs-6 font_24  border-left pricing-tab-item">
-                    <p class="pricing-item_title">PLUS</p>
-                    <p class="mab-56">Unblocked advanced features. Enjoy the next generation ad intelligence platform.</p>
+                    <p class="pricing-item_title ads-ms-text">PLUS</p>
+                    <p class="mab-56 ads-def-text">Unblocked advanced features. Enjoy the next generation ad intelligence platform.</p>
                 </div>
             </div>
             <div class="clearfix pricing-card_bottom" style="background-color: #fff;">
                 <div class="col-md-6 col-xs-6  font_24  pricing-tab-item">
-                    <p >$99/Month</p>
-                    <a href="/app/plans" class="btn font_22 pricing-item_btn">START NOW</a>
-                    <p class="color_tip">Data Update Frequency:</p>
-                    <p><strong>Weekly</strong></p>
+                    <p class="ads-def-text">$99/Month</p>
+                    <a href="/app/plans" class="btn font_22 pricing-item_btn ads-xs-text">START NOW</a>
+                    <p class="color_tip ads-ms-text">Data Update Frequency:</p>
+                    <p><strong class="ads-ms-text">Weekly</strong></p>
                 </div>
                 <div class="col-md-6 col-xs-6 font_24 border-left  pricing-tab-item">
-                    <p >$169/ Month</p>
-                    <a  class="btn pricing-item_btn btn_cannot">Coming Soon</a>
-                    <p class="color_tip">Data Update Frequency:</p>
-                    <p><strong>Daily</strong></p>
+                    <p class="ads-def-text">$169/ Month</p>
+                    <a  class="btn pricing-item_btn btn_cannot ads-xs-text">Coming Soon</a>
+                    <p class="color_tip ads-ms-text">Data Update Frequency:</p>
+                    <p><strong  class="ads-ms-text">Daily</strong></p>
                 </div>
             </div>
             
@@ -114,7 +118,7 @@
 <!--begin pricing table-->
 <section class="pricing-table clearfix">
     <div class="container">
-        <p class="pricing-qa_title">Plans &amp; pricing</p>
+        <p class="pricing-qa_title ads-md-text">Plans &amp; pricing</p>
         <div class="clearfix radius tabel-div">
             <table class="table">
             <tbody class="table-head text-center">
@@ -472,7 +476,7 @@
 <!--end pricing tabel-->
 <section class="pricing-qa clearfix">
     <div class="container">
-        <p class="pricing-qa_title">F.A.Q </p>
+        <p class="pricing-qa_title ads-lg-text">F.A.Q </p>
         <ul class="pricing-qa_item" id="qa">
             <li class="">
                 <div><span class="caret "></span>
@@ -501,8 +505,8 @@
                 <p class="pricing-qa_a">We've found thousands of winning ads for customers within the last 7 months! Collectively, we've helped them uncover over 81,000 ads with 1K<sup>+</sup>shares, over 12,000 ads with 10K<sup>+</sup>shares, and over 1200 ads with 100K<sup>+</sup>shares. Currently, Bigbigads is geared to help you find winning ads on Facebook, but let us know if you'd be interested in using Bigbigads to help you discover winning ads on other social networks. We're always looking to improve our product, and we're sure that we can make Bigbigads even better with your feedback! </p>
             </li>
             <li class="">
-                <span class="caret "></span>
-                <a href="javascript:;" class="pricing-qa_q">Where can I get my invoice?</a>
+                <div><span class="caret "></span>
+                <a href="javascript:;" class="pricing-qa_q">Where can I get my invoice?</a></div>
                 <p class="pricing-qa_a">You may view your invoices on the billing page. Go to the account menu on the top right side &amp; click "Billing".
                 </p>
             </li>
@@ -524,14 +528,14 @@
                 </p>
             </li>
             <li class="">
-                <span class="caret "></span>
-                <a href="javascript:;" class="pricing-qa_q">Do you offer yearly price plans?</a>
+                <div><span class="caret "></span>
+                <a href="javascript:;" class="pricing-qa_q">Do you offer yearly price plans?</a></div>
                 <p class="pricing-qa_a">Yes, we do offer a yearly plan. Please contact our online service team for more info. If you choose to pay on a monthly basis, your subscription can be cancelled at any time by simply downgrading to the free Basic plan.
                 </p>
             </li>
             <li class="">
-                <span class="caret "></span>
-                <a href="javascript:;" class="pricing-qa_q">What payment methods do you support?</a>
+                <div><span class="caret "></span>
+                <a href="javascript:;" class="pricing-qa_q">What payment methods do you support?</a></div>
                 <p class="pricing-qa_a">We currently accept payments via PayPal. Please talk to our online service team if you have any difficulty paying
                 – you can start a conversation by clicking the orange chat bubble on the bottom
                 -right side of the screen.
@@ -541,15 +545,8 @@
     </div>
 </section>
 @include('tpl.footer')
- <script src="static/jquery-3.1.1.js"></script>
-<script src="static/swiper.jquery.js"></script>
-<script>
-    $(function () {
-        $('#qa li').click(function () {
-            $('#qa li').removeClass('active');
-            $(this).addClass('active');
-        })
-    })
-</script>
 </body>
+<script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
+<script type="text/javascript" src="dist/pricing.js?v=5" defer></script>
 </html>
+

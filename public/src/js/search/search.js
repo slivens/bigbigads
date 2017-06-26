@@ -32,6 +32,11 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					startDate: null,
 					endDate: null
 				},
+				//新增first see时间过滤
+				firstSee: {
+					startDate: null,
+					endDate: null
+				},
 				category: settings.searchSetting.categoryList,
 				format: settings.searchSetting.formatList,
 				buttondesc: settings.searchSetting.buttondescList,
@@ -331,6 +336,19 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				if (option.filter.isSeeTimesDirty()) {
 					query.seeTimes = JSON.stringify(option.filter.seeTimes);
 				}
+				if (option.filter.tracking) {
+					query.tracking = option.filter.tracking;
+				}
+				if (option.filter.affiliate) {
+					query.affiliate = option.filter.affiliate;
+				}
+				if (option.filter.ecommerce) {
+					query.ecommerce = option.filter.ecommerce;
+				}
+				if (option.filter.firstSee.startDate && option.filter.firstSee.endDate) {
+					query.firstSeeStartDate = option.filter.firstSee.startDate.format('YYYY-MM-DD');
+					query.firstSeeEndDate = option.filter.firstSee.endDate.format('YYYY-MM-DD');
+				}
                 return query;
         };
         //将location的参数转换成搜索过滤项
@@ -404,6 +422,19 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				if (search.buttondesc) {
 					option.filter.callToAction=search.buttondesc.split(",");
 					//Util.matchkey(search.buttondesc, option.filter.buttondesc);
+				}
+				if (search.tracking) {
+					option.filter.tracking = search.tracking.split(",");
+				}
+				if (search.affiliate) {
+					option.filter.affiliate = search.affiliate.split(",");
+				}
+				if (search.ecommerce) {
+					option.filter.ecommerce = search.ecommerce.split(",");
+				}
+				if (search.firstSeeStartDate && search.firstSeeEndDate) {
+					option.filter.firstSee.startDate = moment(search.firstSeeStartDate, 'YYYY-MM-DD');
+					option.filter.firstSee.endDate = moment(search.firstSeeEndDate, 'YYYY-MM-DD');
 				}
         };
 		return searcher;
@@ -602,6 +633,53 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 					}
 				}); 
+
+				//tracking tools
+				if (option.tracking && option.tracking.length) {
+					$scope.adSearcher.addFilter({
+						field: 'tracking',
+						value: option.tracking.join(',')
+					});
+					$scope.currSearchOption.filter.tracking = option.tracking.join(',');
+				} else {
+					$scope.adSearcher.removeFilter("tracking");
+				}
+
+				//Affiliate
+				if (option.affiliate && option.affiliate.length) {
+					$scope.adSearcher.addFilter({
+						field: 'affiliate',
+						value: option.affiliate.join(',')
+					});
+					$scope.currSearchOption.filter.affiliate = option.affiliate.join(',');
+				} else {
+					$scope.adSearcher.removeFilter("affiliate");
+				}
+
+				//E_Commerce			
+				if (option.ecommerce && option.ecommerce.length) {
+					$scope.adSearcher.addFilter({
+						field: 'e_commerce',
+						value: option.ecommerce.join(',')
+					});
+					$scope.currSearchOption.filter.ecommerce = option.ecommerce.join(',');
+				} else {
+					$scope.adSearcher.removeFilter("ecommerce");
+				}
+
+				//日期范围
+				if (!option.firstSee.startDate || !option.firstSee.endDate) {
+					$scope.adSearcher.removeFilter('first_see');
+				} else {
+					var startDate = option.firstSee.startDate.format('YYYY-MM-DD');
+					var endDate = option.firstSee.endDate.format('YYYY-MM-DD');
+					$scope.adSearcher.addFilter({
+						field: "first_see",
+						min: startDate,
+						max: endDate
+					});
+				}
+
 				$scope.isFreeLimitDate = false;
 				if (User.user.role.plan === 'free') {
 						if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0)) {
@@ -1061,6 +1139,39 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					}
 				});
 
+				//tracking tools
+				if (option.tracking && option.tracking.length) {
+					$scope.adSearcher.addFilter({
+						field: 'tracking',
+						value: option.tracking.join(',')
+					});
+					$scope.currSearchOption.filter.tracking = option.tracking.join(',');
+				} else {
+					$scope.adSearcher.removeFilter("tracking");
+				}
+
+				//Affiliate
+				if (option.affiliate && option.affiliate.length) {
+					$scope.adSearcher.addFilter({
+						field: 'affiliate',
+						value: option.affiliate.join(',')
+					});
+					$scope.currSearchOption.filter.affiliate = option.affiliate.join(',');
+				} else {
+					$scope.adSearcher.removeFilter("affiliate");
+				}
+
+				//E_Commerce			
+				if (option.ecommerce && option.ecommerce.length) {
+					$scope.adSearcher.addFilter({
+						field: 'e_commerce',
+						value: option.ecommerce.join(',')
+					});
+					$scope.currSearchOption.filter.ecommerce = option.ecommerce.join(',');
+				} else {
+					$scope.adSearcher.removeFilter("ecommerce");
+				}
+
 				$scope.isFreeLimitDate = false;
 				if (User.user.role.plan === 'free') {
 						if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0)) {
@@ -1082,7 +1193,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');
 				$scope.currSearchOption.callToAction = buttondesc.join(',');
-				console.log(action);
 				action = 'adser';
 				$scope.adSearcher.filter(action ? action : 'adser').then(function() {}, function(res) {
 					if (res.data instanceof Object) {
@@ -1593,6 +1703,39 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 					});
 					}
 				});
+
+				//tracking tools
+				if (option.tracking && option.tracking.length) {
+					$scope.adSearcher.addFilter({
+						field: 'tracking',
+						value: option.tracking.join(',')
+					});
+					$scope.currSearchOption.filter.tracking = option.tracking.join(',');
+				} else {
+					$scope.adSearcher.removeFilter("tracking");
+				}
+
+				//Affiliate
+				if (option.affiliate && option.affiliate.length) {
+					$scope.adSearcher.addFilter({
+						field: 'affiliate',
+						value: option.affiliate.join(',')
+					});
+					$scope.currSearchOption.filter.affiliate = option.affiliate.join(',');
+				} else {
+					$scope.adSearcher.removeFilter("affiliate");
+				}
+
+				//E_Commerce			
+				if (option.ecommerce && option.ecommerce.length) {
+					$scope.adSearcher.addFilter({
+						field: 'e_commerce',
+						value: option.ecommerce.join(',')
+					});
+					$scope.currSearchOption.filter.ecommerce = option.ecommerce.join(',');
+				} else {
+					$scope.adSearcher.removeFilter("ecommerce");
+				}
 
 				$scope.currSearchOption.category = category.join(',');
 				$scope.currSearchOption.format = format.join(',');

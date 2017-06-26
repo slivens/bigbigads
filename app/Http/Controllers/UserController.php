@@ -18,6 +18,7 @@ use App\Jobs\LogAction;
 use Illuminate\Auth\Events\Registered;
 
 use App\Jobs\ResendRegistMail;
+use GuzzleHttp;
 class UserController extends Controller
 {
     use ResetsPasswords;
@@ -112,7 +113,6 @@ class UserController extends Controller
         dispatch($twoMinutesDelayJob);
         $info = "Your email {$request->email} has sent, please check your email.";
         $email = $request->email;
-        //return view('auth.verify')->with('info', "Your email {$request->email} has sent, please check your email.");
         return view('auth.verify',compact('info','email'));
     }
 
@@ -124,12 +124,15 @@ class UserController extends Controller
      * 3. LinkedIn
      * 4. Google+
      */
-    public function socialiteRedirect($name)
+    public function socialiteRedirect(Request $request, $name)
     {
         if (!in_array($name, $this->socialiteProviders)) {
             return view('auth.verify')->with('error', "unsupported provider:$name");
         }
-        return Socialite::driver($name)->redirect();
+        $socialite = Socialite::driver($name);
+        if ($request->has('track'))
+            $socialite->with(['state' => $request->track]);
+        return $socialite->redirect();
     }
 
     /**
@@ -150,7 +153,7 @@ class UserController extends Controller
             return view('auth.verify')->with('error', "unsupported provider:$name");
         }
         
-        $socialiteUser = Socialite::driver($name)->user();
+        $socialiteUser = Socialite::driver($name)->stateless()->user();
         $email = $socialiteUser->email;
         $token = $socialiteUser->token;
         $providerId = $socialiteUser->id;
@@ -158,23 +161,25 @@ class UserController extends Controller
         /*     return $this->message("sorry, no email information in your '$name' account"); */
         /* } */
         Log::debug("oauth:" . json_encode($socialiteUser));
-        return $this->autoBind($name, $socialiteUser);
+        Log::debug("request:" . json_encode(request()->all()));
+        return $this->autoBind(request(), $name, $socialiteUser);
         /* return redirect()->action('UserController@bindForm', ['name' => $name, 'token' => $token, 'email' => $email]); */
     }
 
 
     /**
      * 根据新需求完成自动绑定
+     * @var Request $request 
+     * @var String $name
      * @ref socialiteCallback
      */
-    protected function autoBind($name, $socialiteUser)
+    protected function autoBind(Request $request, $name, $socialiteUser)
     {
         $binded = false;
         $email = $socialiteUser->email;
         $providerId = $socialiteUser->id;
         $edm = 1;
         if (empty($email)) {
-            //没有email的用户，不接受邮件营销
             $email = $socialiteUser->id . '@bigbigads.com';
             $edm = 0;
         }
@@ -184,6 +189,7 @@ class UserController extends Controller
             $userName = $socialiteUser->nickname;
             if (empty($userName))
                 $userName= $socialiteUser->name;
+
             $user = User::create([
                 'name' => $userName,
                 'email' => $email,
@@ -193,6 +199,15 @@ class UserController extends Controller
             $user->role_id = 3;
             $user->edm = 0;
             $user->verify_token = str_random(40);
+            $user->regip = $request->ip();
+            if ($request->has('state')) {
+                $affiliate = \App\Affiliate::where(['track' => $request->state, 'status' => 1, 'type' => 1])->first();
+                if ($affiliate) {
+                    $user->affiliate_id = $affiliate->id;
+                    $affiliate->action++;
+                    $affiliate->save();
+                }
+            }
             $user->save();
             event(new Registered($user));
         }
@@ -208,6 +223,11 @@ class UserController extends Controller
             $item->remark = json_encode($socialiteUser);
             $item->save();
             dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
+            //社交登录请求转化代码页面
+            $domain = env('APP_URL');
+            $url = $domain . 'socialiteStat.html';
+            $client = new GuzzleHttp\Client();
+            $res = $client->request('GET', $url);
         }
         Auth::login($user);
         return redirect('/app/#');
@@ -282,5 +302,4 @@ class UserController extends Controller
         dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
         return redirect('/app/#');
     }
-
 }

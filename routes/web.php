@@ -169,3 +169,14 @@ Route::get('/image', function(Request $request) {
     $response->header('Content-Type', 'image/jpg');
     return $response;
 });
+
+Route::get('/mobile', function () {
+    return view('mobile');
+});
+
+/*移动端登录提示页面*/
+Route::get('/mobile_maintain', function () {
+    return view('mobile_maintain');
+});
+
+

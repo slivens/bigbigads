@@ -21,7 +21,9 @@
                 <div class="alert alert-info">
 联盟链接:<br/>
 @if($dataTypeContent->status > 0)
-{{env('APP_URL') . '?track=' . $dataTypeContent->track}}
+App: <br/>{{env('APP_URL') . '?track=' . $dataTypeContent->track}} <br/>
+
+Home: <br/>{{env('APP_URL') . 'home?track=' . $dataTypeContent->track}}
 @else
 <span class="label label-danger">禁用状态</span>
 @endif
