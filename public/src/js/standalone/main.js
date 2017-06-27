@@ -1452,6 +1452,15 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                     $scope.close = function() {
                         $uibModalInstance.dismiss('cancle');
                     };
+                    /*弹窗中的点击事件*/
+                    $scope.turnToEmail = function() {
+                        $scope.shortcutReg = 'hidden';
+                        $scope.useEmailReg = 'show';
+                    };
+                    $scope.turnToShotcut = function() {
+                        $scope.shortcutReg = 'show';
+                        $scope.useEmailReg = 'hidden';
+                    }
                 }]
             });
         },

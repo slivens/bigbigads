@@ -1,14 +1,14 @@
 <form name="registerForm" class="register-form form-horizontal" ng-submit="processForm(registerForm.$valid)" ng-Controller="UserController" novalidate>
     <h3 class="form-title">Get the ad intelligence for free!</h3>
-    <div class="reg-shortcut-div">
+    <div class="reg-shortcut-div" ng-class="$parent.$parent.shortcutReg">
         <a class="register-fbbtn btn register-but" href="/socialite/facebook">
             <i class="fa fa-facebook-square reg-btn-icon"></i>
-            <span class="ads-font-18 reg-btn-text">Sign Up With Facebook</span>
+            <span class=" reg-btn-text">Sign Up With Facebook</span>
         </a>
-        <button class="register-useEmail-btn btn register-but" ng-click="$parent.turnToEmail">
+        <a class="register-useEmail-btn btn register-but" ng-click="$parent.$parent.turnToEmail()">
             <i class="fa fa-envelope reg-btn-icon"></i>
-            <span class="ads-font-18 reg-btn-text">Sign Up With Emial</span>
-        </button>
+            <span class=" reg-btn-text">Sign Up With Emial</span>
+        </a>
         <div class="reg-underline-div">
             <span class="underline-line"></span>
             <span class="underline-text">OR</span>
@@ -18,7 +18,10 @@
             Sign In
         </a>
     </div>
-    <div class="reg-useEmail-div" ng-class="{{reg-useEmail}}">
+    <div class="reg-useEmail-div" ng-class="$parent.$parent.useEmailReg">
+    <span class="turn-back-span">
+        <i class="fa fa-arrow-left turn-back" ng-click="$parent.$parent.turnToShotcut()"></i>
+    </span>
         <div ng-class="{'has-error':registerForm.email.$dirty && registerForm.email.$invalid || registerError.email,'form-group':true}">
             <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
             <label class="control-label visible-ie8 visible-ie9" for="email">Email</label>
@@ -57,15 +60,6 @@
                 <span ng-show="registerError.password">{{registerError.password.toString()}}</span>
             </p>
         </div>
-        <!-- <div class="form-group text-left hidden">
-        <label class="mt-checkbox mt-checkbox-outline">
-            <input type="checkbox" name="tnc" checked/> I agree to the
-            <a href="../terms_service" target="_blank">Terms of Service </a> &
-            <a href="../privacy_policy" target="_blank">Privacy Policy </a>
-            <span></span>
-        </label>
-        <div id="register_tnc_error"> </div>
-    </div> -->
         <div class="form-actions clearfix button-div">
             <button type="submit" id="register-submit-btn" class="btn signup-btn pull-right margin-top-30" ng-disabled="isShow || registerForm.$invalid"><img src="/assets/global/img/ajax-modal-loading.gif" class="img-waiting" ng-show="isShow"> Sign Up </button>
         </div>
