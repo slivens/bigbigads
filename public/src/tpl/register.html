@@ -1,6 +1,5 @@
 <form name="registerForm" class="register-form form-horizontal" ng-submit="processForm(registerForm.$valid)" ng-Controller="UserController" novalidate>
     <h3 class="form-title">Get the ad intelligence for free!</h3>
-
     <div class="reg-shortcut-div">
         <a class="register-fbbtn btn register-but" href="/socialite/facebook">
             <i class="fa fa-facebook-square reg-btn-icon"></i>
@@ -10,19 +9,15 @@
             <i class="fa fa-envelope reg-btn-icon"></i>
             <span class="ads-font-18 reg-btn-text">Sign Up With Emial</span>
         </button>
-        
         <div class="reg-underline-div">
             <span class="underline-line"></span>
             <span class="underline-text">OR</span>
             <span class="underline-line"></span>
         </div>
-        
         <a ng-href="/login" class="register-but btn reg-toSigtIn-btn">
             Sign In
         </a>
     </div>
-    
-
     <div class="reg-useEmail-div" ng-class="{{reg-useEmail}}">
         <div ng-class="{'has-error':registerForm.email.$dirty && registerForm.email.$invalid || registerError.email,'form-group':true}">
             <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
@@ -62,9 +57,7 @@
                 <span ng-show="registerError.password">{{registerError.password.toString()}}</span>
             </p>
         </div>
-    
-
-    <!-- <div class="form-group text-left hidden">
+        <!-- <div class="form-group text-left hidden">
         <label class="mt-checkbox mt-checkbox-outline">
             <input type="checkbox" name="tnc" checked/> I agree to the
             <a href="../terms_service" target="_blank">Terms of Service </a> &
@@ -73,10 +66,9 @@
         </label>
         <div id="register_tnc_error"> </div>
     </div> -->
-
-    <div class="form-actions clearfix button-div">
-        <button type="submit" id="register-submit-btn" class="btn signup-btn pull-right margin-top-30" ng-disabled="isShow || registerForm.$invalid"><img src="/assets/global/img/ajax-modal-loading.gif" class="img-waiting" ng-show="isShow"> Sign Up </button>
-    </div>
+        <div class="form-actions clearfix button-div">
+            <button type="submit" id="register-submit-btn" class="btn signup-btn pull-right margin-top-30" ng-disabled="isShow || registerForm.$invalid"><img src="/assets/global/img/ajax-modal-loading.gif" class="img-waiting" ng-show="isShow"> Sign Up </button>
+        </div>
     </div>
     <p class="text-left">By signing up, I hereby agree to the Bigbigads <a href="../terms_service">Terms</a> and <a href="../privacy_policy">Privacy Policy</a>, and to receive emails & updates. </p>
     <p class="text-left">Already have an account? <a href="../login"> Sign In </a></p>

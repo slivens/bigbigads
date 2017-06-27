@@ -50,7 +50,8 @@
                 <span class="pull-left">Global Rank:</span><span class="pull-right"><a>{{card.global_rank}}</a></span>
             </div>
             <div  class="aditem-row">
-                <span class="pull-left">Minimum Advertise Number:</span><span class="pull-right"><a>{{card.min_ads_number}}</a></span>
+                <!-- 数据端字段调整 -->
+                <span class="pull-left">Advertise Number:</span><span class="pull-right"><a>{{card.ads_number}}</a></span>
             </div>
             <div class="">
                 <a ui-sref="adserAnalysis({username:card.adser_username})" class="btn btn-block yellow-gold" ng-if="card.adser_username">

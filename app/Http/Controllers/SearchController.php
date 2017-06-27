@@ -98,7 +98,7 @@ class SearchController extends Controller
             $wheres = $params['where'];
             $resultPerSearch = $user->getUsage('result_per_search');
             $isCanSort = true; 
-            $adsTypePermissions = ['timeline' => 'timeline_filter', 'rightcolumn' => 'rightcolumn_filter', 'phone' => 'phone_filter'];
+            $adsTypePermissions = ['timeline' => 'timeline_filter', 'rightcolumn' => 'rightcolumn_filter', 'phone' => 'phone_filter', 'suggested app' => 'app_filter'];
             if (($params['limit'][0] % 10 != 0) || ($params['limit'][0] >= $resultPerSearch[1])) {
                 Log::warning("<{$user->name}, {$user->email}> request legal limit params : {$params['limit'][0]}");
                 throw new \Exception("Illegal limit params", -4300);
@@ -525,6 +525,7 @@ class SearchController extends Controller
             if (isset($header))
                 Log::info($header);
         }
+
         $result = trim($result);
         $resultJson = json_decode($result, true);
         if (array_key_exists('error', $resultJson)) {

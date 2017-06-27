@@ -170,8 +170,8 @@ header {
     margin-bottom: 1px;
     box-shadow: 0 4px 8px 0 rgba(7, 17, 27, .1);
     overflow: hidden;
-    height: auto;
-    line-height: 46px;
+    height: auto !important;
+    line-height: 46px !important;
     .ads-menu-div{
         padding: 20px 0;
         .logo-head {
@@ -285,8 +285,8 @@ header {
 /*slider*/
 
 .slider {
-    background: #fff;
-    padding: 100px 0;
+    background: #fff !important;
+    padding: 100px 0 !important;
     .container{
         .slider-title{
             font-size: 48px;
@@ -438,14 +438,14 @@ header {
 
 /*video*/
 .home-getstart-btn{
-    padding: 20px 120px;
-    border-radius: 40px;
+    padding: 20px 120px !important;
+    border-radius: 40px !important;
     overflow: hidden;
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
     margin: 0 auto;
-    margin-bottom: 50px;
-    display: block;
+    margin-bottom: 50px !important;
+    display: block !important;
     .small-word{
         font-size: 1rem;
         font-weight: 200;
