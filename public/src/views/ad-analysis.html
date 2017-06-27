@@ -144,7 +144,7 @@
                                                         <p  class="font-yellow-gold overview-data">
                                                            <span ng-repeat="item in (card.country.split(',') | unique)  track by $index" class="inline-block">
                                                                 {{item}}
-                                                                <span ng-if="$index<(card.country.split(',')).length-1">
+                                                                <span ng-if="$index < (card.country.split(',')).length-1">
                                                                     ,&nbsp;&nbsp;
                                                                 </span>
                                                             </span> 
@@ -219,9 +219,9 @@
                                                         
                                                 </div>
                                                 <!--end buttonlink-->
-                                                <div class="overview-card clearfix " ng-if="card.show_way != '4'">
+                                                <div class="overview-card clearfix" ng-if="card.show_way != '4'">
                                                     <p class="viewbutton overview-data">
-                                                    <a href="https://www.facebook.com/{{id}}" class="xg-a-likepage xg-label" target="_blank">See Original Post</a>
+                                                        <a ng-href="https://www.facebook.com/{{id}}" class="xg-a-likepage xg-label" target="_blank">See Original Post</a>
                                                     </p>
                                                 </div>
                                             </div>
