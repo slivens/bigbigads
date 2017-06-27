@@ -242,7 +242,7 @@ header {
         padding-top: 180px;
     }
     .animaed_word{
-        font-size: 48px;
+        font-size: 3rem;
         font-weight: 600;
         color:#eb6130;
         margin: 0 auto;
@@ -270,7 +270,7 @@ header {
         background: rgba(0,0,0,.5);
         .intro-datarome{
             flex:1;
-            font-size: 28px;
+            font-size: 1.75rem;
             color:#ccc;
             font-weight: 600;
             padding:0 15px;
@@ -289,7 +289,7 @@ header {
     padding: 100px 0 !important;
     .container{
         .slider-title{
-            font-size: 48px;
+            font-size: 3rem;
             color: #000;
             font-weight: 600;
         }
@@ -307,12 +307,12 @@ header {
                     border:1px solid #ccc;
                 }
                 .introduce-title{
-                    font-size: 24px;
+                    font-size: 1.5rem;
                     margin-top: 40px;
                 }
                 .instroduce-text{
                     margin-top: 40px;
-                    font-size: 20px;
+                    font-size: 1.25rem;
                     font-weight: 200;
                     text-align:left;
                     color: #000;
@@ -658,12 +658,12 @@ header {
 }
 
 .solution-title {
-    font-size: 48px;
+    font-size: 3rem;
     padding-top: 100px;
 }
 
 .solution-title_sub {
-    font-size: 28px;
+    font-size: 1.75rem;
     margin-top: 20px;
     margin-bottom: 40px;
 }
@@ -691,7 +691,7 @@ header {
 }
 
 .solution-item_number {
-    font-size: 44px;
+    font-size: 2.75rem;
     word-break: break-all;
 }
 
@@ -699,11 +699,11 @@ header {
     margin-top: 0px;
     margin-left: -1px;
     display: inline-block;
-    font-size: 18px;
+    font-size: 1.125rem;
 }
 
 .solution-item_desc {
-    font-size: 24px;
+    font-size: 1.5rem;
 }
 
 
@@ -1681,6 +1681,38 @@ body.login .content {
     padding-left: 36px;
     padding-right: 36px;
     padding-bottom: 20px;
+        .register-fb-btn {
+        width: 100%;
+        background-image: linear-gradient(0deg, #3e5792, #4e6eb6);
+        color: #fff;
+        padding: 10px 0;
+        .reg-btn-icon{
+            font-size: 20px;
+            margin-right: 5px;
+        }
+        .reg-btn-text{
+            font-size: 18px;
+        }
+    }
+    .register-line{
+        margin: 0 auto;
+        padding: 15px 0;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        vertical-align: middle;
+        .underline{
+            border-bottom: 1px solid #eee;
+            height: 12px;
+            flex:1;
+        }
+        .line-word{
+            margin:0 20px;
+            font-size: 16px;
+            font-weight: 200;
+            color: #ccc;
+        }
+    }
 }
 
 body.login .content .form-title {
@@ -1798,9 +1830,11 @@ body.login .content .forget-form .form-actions {
     padding-bottom: 0px;
 }
 
-body.login .content .register-form .form-control {
-    height: 50px;
-}
+body.login .content .register-form {
+    .form-control {
+        height: 50px;
+    }
+} 
 
 body.login .content .register-form .fa {
     line-height: 28px;
@@ -1810,6 +1844,7 @@ body.login .content .register-form .signup-btn {
     background: #eb6130;
     border: 1px solid transparent;
     color: #fff;
+    font-size: 1rem;
 }
 
 body.login .content .register-form .mt-checkbox {
