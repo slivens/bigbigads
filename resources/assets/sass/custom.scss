@@ -470,10 +470,11 @@ header {
         }
         .ads-word-point{
             width: 100%;
+            display: block;
             .word-point-span{
                 display: inline-block;
                 margin-left:10px;
-                font-size: 1.25rem;
+                font-size: 1.125rem;
                 line-height: 30px;
                 i{
                     margin-right: 4px;
