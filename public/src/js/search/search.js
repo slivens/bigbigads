@@ -1,4 +1,4 @@
-if (!app)
+(!app)
 	var app = angular.module('MetronicApp');
 
 app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util','$filter',
@@ -872,7 +872,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					}else{
 						isLengthLimit = Util.isLengthLimit(value);
 						isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
-						isAdvanceFilterLimit = Util.isAdvanceFilterLimit($scope.adSearcher.searchOption.filter);
+						//isAdvanceFilterLimit = Util.isAdvanceFilterLimit($scope.adSearcher.searchOption.filter);
+						//临时去除对高级过滤的权限检查
+						isAdvanceFilterLimit = true;
 						/*if(!isNumberLimit) {
 							User.openUpgrade();
 							islegal = false;

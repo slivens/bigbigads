@@ -39,7 +39,9 @@ class ResendRegistMail implements ShouldQueue
      * @return void
      */
     public function handle()
-    {
+    {   
+        if (!$this->user)
+            return;
         $email = $this->user->email;
         $action = $this->action;
         $time = $this->time;
