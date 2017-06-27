@@ -345,39 +345,39 @@ iframe#_hjRemoteVarsFrame { display: none !important; width: 1px !important; hei
 					<tr>
 						<td class="pricing-td-title">Advanced Filter
 					</td>
-						<td>from top 3M</td>
-						<td>all 208M <sup>+</sup></td>
+						<td>Limited</td>
+						<td><i class="glyphicon glyphicon-ok"></i></td>
 					</tr>
 					<tr>
-						<td class="pricing-td-title">Audience & Interesty</td>
-						<td></td>
-						<td>1 000</td>
+						<td class="pricing-td-title">Audience & Interest</td>
+						<td>Limited</td>
+						<td><i class="glyphicon glyphicon-ok"></i></td>
 					</tr>
 					<tr>
 						<td class="pricing-td-title">Data Amount</td>
-						<td><i class="fa fa-check"></i></td>
-						<td><i class="fa fa-check"></i></td>
+						<td>Limited</td>
+						<td>5M<sup>+</sup></td>
 					</tr>
 					<tr>
 						<td class="pricing-td-title">Mobile Ads& App Ads
 						</td>
-						<td>200 000 rows</td>
-						<td>200 000 rows</td>
+						<td></td>
+						<td><i class="glyphicon glyphicon-ok"></i></td>
 					</tr>
 					<tr>
 						<td class="pricing-td-title">Bookmark</td>
-						<td> 200 000 rows</td>
-						<td>200 000 rows</td>
+						<td>Single</td>
+						<td>Multiple</td>
 					</tr>
 					<tr>
 						<td class="pricing-td-title">Landing Page</td>
-						<td></td>
-						<td>100 000 rows</td>
+						<td>Limited</td>
+						<td><i class="glyphicon glyphicon-ok"></i></td>
 					</tr>
 					<tr>
 						<td></td>
-						<td class="text-center"><a href="/register" class="btn">sign up</a></td>
-						<td class="text-center"><a href="/register" class="btn">sign up</a></td>
+						<td><a href="/register" class="btn">sign up</a></td>
+						<td><a href="/register" class="btn">sign up</a></td>
 					</tr>
 				</table>
 			</div>
