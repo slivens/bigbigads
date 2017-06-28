@@ -134,22 +134,23 @@
                                                 </div>
                                                 <!-- end date, duration, viewcount -->
                                                 <!--begin country-->
-                                                <!-- <div class="overview-card clearfix " ng-if="card.country">
+                                                <div ng-if="User.info.user.role.name ==='Pro'">
+                                                    <div class="overview-card clearfix " ng-if="card.country">
                                                         <h4>
                                                             <i class="fa glyphicon glyphicon-flag font-yellow-gold fa-fw">
                                                             </i>
                                                             <span class="overviewtitle">Country or region:</span>
                                                         </h4>
-                                                        
-                                                            <p  class="font-yellow-gold overview-data">
-                                                               <span ng-repeat="item in (card.country.split(',') | unique)  track by $index" class="inline-block">
-                                                                    {{item}}
-                                                                    <span ng-if="$index<(card.country.split(',')).length-1">
-                                                                        ,&nbsp;&nbsp;
-                                                                    </span>
-                                                                </span> 
-                                                            </p> 
-                                                </div> -->
+                                                        <p  class="font-yellow-gold overview-data">
+                                                           <span ng-repeat="item in (card.country.split(',') | unique)  track by $index" class="inline-block">
+                                                                {{item}}
+                                                                <span ng-if="$index < (card.country.split(',')).length-1">
+                                                                    ,&nbsp;&nbsp;
+                                                                </span>
+                                                            </span> 
+                                                        </p> 
+                                                    </div>
+                                                </div>
                                                 <!--end country-->
                                                 <!--begin langaue-->
                                                 <div class="overview-card clearfix table-hover">
@@ -218,6 +219,11 @@
                                                         
                                                 </div>
                                                 <!--end buttonlink-->
+                                                <div class="overview-card clearfix" ng-if="card.show_way != '4'">
+                                                    <p class="viewbutton overview-data">
+                                                        <a ng-href="https://www.facebook.com/{{id}}" class="xg-a-likepage xg-label" target="_blank">See Original Post</a>
+                                                    </p>
+                                                </div>
                                             </div>
                                             <!--end overview-->
                                         </div>

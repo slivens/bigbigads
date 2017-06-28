@@ -15,6 +15,9 @@
         <meta content="bigbigads" name="author" />
         <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+        <link href="./assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+
         <!-- END GLOBAL MANDATORY STYLES -->
         <!-- BEGIN THEME GLOBAL STYLES -->
         <link href="./assets/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css" />
