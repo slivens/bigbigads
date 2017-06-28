@@ -361,7 +361,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 					<tr class="pricing-td-title">
 						<td class="pricing-name"></td>
 						<td class="pricing-item">Free</td>
-						<td class="pricing-item">Advanced</td>
+						<td class="pricing-item">Standard</td>
 					</tr>
 					<tr>
 						<td class="pricing-td-title">Advanced Filter

@@ -8,6 +8,7 @@ import moment from 'moment';
 import 'js-url';
 import 'bootstrap';
 import 'animate.css/animate.min.css';
+import 'font-awesome/css/font-awesome.min.css'
 
 
 (function() {
@@ -77,24 +78,23 @@ import 'animate.css/animate.min.css';
 
     /*广告词动画切换*/
     toChangeWord(0);
-})();
-
-/*home界面的广告词切换*/
-function toChangeWord(item) {
-    var word = ["To see resonate image <br/>for ad designer",
-        " To see resonate text  <br/>for copywriter",
-        " To see resonate markeing strategy  <br/>for marketing planner",
-        " To see competitive intelligence  <br/>for ad buyer "
-    ];
-    if (word.length <= item) {
-        item = 0;
-    }
-    $("#changeWord").html(word[item]);
-    $("#changeWord").addClass("fadeIn");
-    setTimeout(function() {
-        $("#changeWord").removeClass("fadeIn");
+    /*home界面的广告词切换*/
+    function toChangeWord(item) {
+        var word = ["To see resonate image <br/>for ad designer",
+            " To see resonate text  <br/>for copywriter",
+            " To see resonate markeing strategy  <br/>for marketing planner",
+            " To see competitive intelligence  <br/>for ad buyer "
+        ];
+        if (word.length <= item) {
+            item = 0;
+        }
+        $("#changeWord").html(word[item]);
+        $("#changeWord").addClass("fadeIn");
         setTimeout(function() {
-            toChangeWord(item + 1);
-        }, 500);
-    }, 2500);
-}
+            $("#changeWord").removeClass("fadeIn");
+            setTimeout(function() {
+                toChangeWord(item + 1);
+            }, 500);
+        }, 2500);
+    }
+})();

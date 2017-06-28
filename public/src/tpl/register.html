@@ -1,11 +1,11 @@
 <form name="registerForm" class="register-form form-horizontal" ng-submit="processForm(registerForm.$valid)" ng-Controller="UserController" novalidate>
     <h3 class="form-title">Get the ad intelligence for free!</h3>
-    <div class="reg-shortcut-div" ng-class="$parent.$parent.shortcutReg">
-        <a class="register-fbbtn btn register-but" href="/socialite/facebook">
+    <div class="reg-shortcut-div" ng-class="shortcutReg">
+        <a class="register-fbbtn btn register-btn" ng-href="/socialite/facebook{{trackCode != null ? '?track='+trackCode : ''}}">
             <i class="fa fa-facebook-square reg-btn-icon"></i>
             <span class=" reg-btn-text">Sign Up With Facebook</span>
         </a>
-        <a class="register-useEmail-btn btn register-but" ng-click="$parent.$parent.turnToEmail()">
+        <a class="use-email-btn btn register-btn" ng-click="turnToEmail()">
             <i class="fa fa-envelope reg-btn-icon"></i>
             <span class=" reg-btn-text">Sign Up With Emial</span>
         </a>
@@ -14,20 +14,18 @@
             <span class="underline-text">OR</span>
             <span class="underline-line"></span>
         </div>
-        <a ng-href="/login" class="register-but btn reg-toSigtIn-btn">
+        <a ng-href="/login" class="register-btn btn to-sigtin-btn">
             Sign In
         </a>
     </div>
-    <div class="reg-useEmail-div" ng-class="$parent.$parent.useEmailReg">
+    <div class="reg-useEmail-div" ng-class="useEmailReg">
     <span class="turn-back-span">
-        <i class="fa fa-arrow-left turn-back" ng-click="$parent.$parent.turnToShotcut()"></i>
+        <i class="fa fa-arrow-left turn-back" ng-click="turnToShotcut()"></i>
     </span>
         <div ng-class="{'has-error':registerForm.email.$dirty && registerForm.email.$invalid || registerError.email,'form-group':true}">
-            <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-            <label class="control-label visible-ie8 visible-ie9" for="email">Email</label>
             <div class="input-icon">
                 <i class="fa fa-envelope"></i>
-                <input class="form-control placeholder-no-fix" type="email" autocomplete="off" placeholder="work Email" name="email" ng-model="formData.email" maxlength="40" ng-minlength="5" required />
+                <input class="form-control placeholder-no-fix" type="email" autocomplete="off" placeholder="Work Email" name="email" ng-model="formData.email" maxlength="40" ng-minlength="5" required />
                 <p class="help-block text-left">
                     <span ng-show="registerForm.email.$dirty && registerForm.email.$error.required">Email is required.</span>
                     <span ng-show="registerForm.email.$dirty && registerForm.email.$error.email">Invalid email.</span>
@@ -37,7 +35,6 @@
             </div>
         </div>
         <div ng-class="{'has-error':registerForm.name.$dirty && registerForm.name.$invalid || registerError.name,'form-group':true}">
-            <label class="control-label visible-ie8 visible-ie9" for="name">Username</label>
             <div class="input-icon">
                 <i class="fa fa-user"></i>
                 <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="name" ng-model="formData.name" required ng-maxlength="39" value="{{formData.email.split('@')[0]}}" />
@@ -49,7 +46,6 @@
             </div>
         </div>
         <div ng-class="{'has-error':registerForm.password.$dirty && registerForm.password.$invalid || registerError.password,'form-group':true}">
-            <label class="control-label visible-ie8 visible-ie9" for="password">Password</label>
             <div class="input-icon">
                 <i class="fa fa-lock"></i>
                 <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Password" name="password" ng-model="formData.password" required ng-minlength="6" ng-maxlength="72" /> </div>

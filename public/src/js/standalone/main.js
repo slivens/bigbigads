@@ -1437,7 +1437,7 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                 size: 'customer',
                 backdrop: false,     
                 animation: true,
-                controller:['$scope', '$uibModalInstance', function($scope, $uibModalInstance){
+                controller:['$scope', '$uibModalInstance', '$window', function($scope, $uibModalInstance, $window){
                     var slides = $scope.slides=[];
                     var i;
                     $scope.addSlide = function() {
@@ -1452,6 +1452,19 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                     $scope.close = function() {
                         $uibModalInstance.dismiss('cancle');
                     };
+
+                    //获取track码
+                    if ($window.localStorage.getItem('track')) {
+                        var track = JSON.parse($window.localStorage.getItem('track'));
+                        if (Date.parse(new Date()) < Date.parse(track.expired)) {
+                            $scope.trackCode = track.code;
+                        }
+                    } else {
+                        $scope.trackCode = null
+                    }
+
+                    
+                    
                     /*弹窗中的点击事件*/
                     $scope.turnToEmail = function() {
                         $scope.shortcutReg = 'hidden';

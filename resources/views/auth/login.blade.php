@@ -15,7 +15,6 @@
         <meta content="bigbigads" name="author" />
         <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
-        <link href="./assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <!-- END GLOBAL MANDATORY STYLES -->
         <!-- BEGIN THEME GLOBAL STYLES -->
         <link href="./assets/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css" />
@@ -107,8 +106,8 @@
                     <!-- 暂时注释社交登录部分 -->
                     <!-- <a href="/socialite/github" class="github"><i class="fa fa-github fa-3x"></i></a> -->
                     <a href="/socialite/facebook" class="register-fb-btn btn facebook socialite">
-                    <i class="fa fa-facebook-square reg-btn-icon"></i>
-                    <span class=" reg-btn-text">Log In With Facebook</span>
+                        <i class="fa fa-facebook-square reg-btn-icon"></i>
+                        <span class=" reg-btn-text">Log In With Facebook</span>
                     </a>
                     <a href="/socialite/linkedin" class="linkedin socialite hidden"><i class="fa fa-linkedin-square fa-3x"></i></a>
                     <a href="/socialite/google" class="google-plus socialite hidden"><i class="fa fa-google-plus-square fa-3x"></i></a>
@@ -153,10 +152,10 @@
             </form>
             <!-- END FORGOT PASSWORD FORM -->
             <!-- BEGIN REGISTRATION FORM -->
-            <form class="register-form" action="{{url('/register')}}" method="post">
+            <form class="register-form " action="{{url('/register')}}" method="post">
                 {{ csrf_field() }}
                 <h3 class="form-title">Sign Up</h3>
-                <a class="register-fb-btn btn" href="/socialite/facebook">
+                <a class="register-fb-btn btn  facebook socialite" href="/socialite/facebook">
                     <i class="fa fa-facebook-square reg-btn-icon"></i>
                     <span class=" reg-btn-text">Sign Up With Facebook</span>
                 </a>
@@ -266,6 +265,5 @@
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <!-- END THEME LAYOUT SCRIPTS -->
     </body>
-
 </html>
 <link href="./dist/home.css?v=1" rel="stylesheet">
