@@ -13,13 +13,11 @@
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="Bigbigads Login Description " name="description" />
         <meta content="bigbigads" name="author" />
-
         <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
-        <link href="./assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <link href="./assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
-        <link href="./assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
         <!-- END GLOBAL MANDATORY STYLES -->
         <!-- BEGIN THEME GLOBAL STYLES -->
         <link href="./assets/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css" />
@@ -30,7 +28,6 @@
         <!-- BEGIN THEME LAYOUT STYLES -->
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="favicon.ico" />
-        <link rel="stylesheet" type="text/css" href="./static/custom.css">
         @include('tpl.script')
          </head>
     <!-- END HEAD -->
@@ -103,13 +100,20 @@
                 <div class="clearfix login-button">
                     <button type="submit" class="btn pull-right"> Login </button>
                 </div>
-                
+                <div class="register-line">
+                    <span class="underline"></span>
+                    <span class="line-word">or</span>
+                    <span class="underline"></span>
+                </div>
                 <div class="form-group text-center">
                     <!-- 暂时注释社交登录部分 -->
                     <!-- <a href="/socialite/github" class="github"><i class="fa fa-github fa-3x"></i></a> -->
-                    <a href="/socialite/facebook" class="facebook socialite"><i class="fa fa-facebook-official fa-3x"></i></a>
-                    <a href="/socialite/linkedin" class="linkedin socialite"><i class="fa fa-linkedin-square fa-3x"></i></a>
-                    <a href="/socialite/google" class="google-plus socialite"><i class="fa fa-google-plus-square fa-3x"></i></a>
+                    <a href="/socialite/facebook" class="register-fb-btn btn facebook socialite">
+                        <i class="fa fa-facebook-square reg-btn-icon"></i>
+                        <span class=" reg-btn-text">Log In With Facebook</span>
+                    </a>
+                    <a href="/socialite/linkedin" class="linkedin socialite hidden"><i class="fa fa-linkedin-square fa-3x"></i></a>
+                    <a href="/socialite/google" class="google-plus socialite hidden"><i class="fa fa-google-plus-square fa-3x"></i></a>
                 </div>
                 <div class="login-footer row">
                     <!--create an acount-->
@@ -119,25 +123,7 @@
                     </p>
                     </div>
                 </div>
-                
-                <!-- <div class="login-options">
-                    <h4>Or login with</h4>
-                    <ul class="social-icons">
-                        <li>
-                            <a class="facebook" data-original-title="facebook" href="javascript:;"> </a>
-                        </li>
-                        <li>
-                            <a class="twitter" data-original-title="Twitter" href="javascript:;"> </a>
-                        </li>
-                        <li>
-                            <a class="googleplus" data-original-title="Goole Plus" href="javascript:;"> </a>
-                        </li>
-                        <li>
-                            <a class="linkedin" data-original-title="Linkedin" href="javascript:;"> </a>
-                        </li>
-                    </ul>
-                </div> -->
-                <!--forget password-->  
+                 
             </form>
             <!-- END LOGIN FORM -->
             <!-- BEGIN FORGOT PASSWORD FORM -->
@@ -169,9 +155,18 @@
             </form>
             <!-- END FORGOT PASSWORD FORM -->
             <!-- BEGIN REGISTRATION FORM -->
-            <form class="register-form" action="{{url('/register')}}" method="post">
+            <form class="register-form " action="{{url('/register')}}" method="post">
                 {{ csrf_field() }}
                 <h3 class="form-title">Sign Up</h3>
+                <a class="register-fb-btn btn  facebook socialite" href="/socialite/facebook">
+                    <i class="fa fa-facebook-square reg-btn-icon"></i>
+                    <span class=" reg-btn-text">Sign Up With Facebook</span>
+                </a>
+                <div class="register-line">
+                    <span class="underline"></span>
+                    <span class="line-word">or</span>
+                    <span class="underline"></span>
+                </div>
                 <p> Enter your account details below: </p>
                 <input type="hidden" name="track" value="" />
                 <!--full name-->
@@ -196,30 +191,6 @@
                         @endif
                 </div>
 
-                <!--address-->
-                <!-- <div class="form-group hidden">
-                    <label class="control-label visible-ie8 visible-ie9">Address</label>
-                    <div class="input-icon">
-                        <i class="fa fa-check"></i>
-                        <input class="form-control placeholder-no-fix" type="text" placeholder="Address" name="address" /> </div>
-                </div> -->
-
-                <!--city town-->
-                <!-- <div class="form-group hidden">
-                    <label class="control-label visible-ie8 visible-ie9">City/Town</label>
-                    <div class="input-icon">
-                        <i class="fa fa-location-arrow"></i>
-                        <input class="form-control placeholder-no-fix" type="text" placeholder="City/Town" name="city" /> </div>
-                </div> -->
-
-                <!--contry select-->
-                <!-- <div class="form-group hidden">
-                    <label class="control-label visible-ie8 visible-ie9">Country</label>
-                    <select name="country" id="country_list" class="select2 form-control">
-                        <option value=""></option>
-                        <option value="AF">Afghanistan</option>
-                    </select>
-                </div> -->
                 <!-- <p> Enter your account details below: </p> -->
                 <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                     <label class="control-label visible-ie8 visible-ie9">Username</label>
@@ -247,34 +218,19 @@
                         @endif
                 </div>
 
-                <!--comfirm password-->
-                <!-- <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">Re-type Your Password</label>
-                    <div class="controls">
-                        <div class="input-icon">
-                            <i class="fa fa-check"></i>
-                            <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Re-type Your Password" name="password_confirmation" /> </div>
-                    </div>
-                </div> -->
-
-                <!--agree checkbox-->
-                <div class="form-group">
-                    <label class="mt-checkbox mt-checkbox-outline">
-                        <input type="checkbox" name="tnc" checked/> I agree to the
-                        <a href="{{url('/terms_service')}}" target="_blank">Terms of Service </a> &
-                        <a href="{{url('/privacy_policy')}}" target="_blank">Privacy Policy </a>
-                        <span></span>
-                    </label>
-                    <div id="register_tnc_error"> </div>
-                </div>
-
                 <div class="form-actions button-div">
                     <button type="submit" id="register-submit-btn" class="btn signup-btn margin-top-30"> Sign Up </button>
                 </div>
+
+                <p class="text-center margin-top-15">By signing up, you agree to the
+                 <a href="terms_service">Terms and Conditions</a>
+                  and 
+                 <a href="privacy_policy ">Privacy Policy</a>. You also agree to receive product-related emails from Bigbigads from which you can unsubscribe at any time.
+                 </p>
                 <div class="margin-top-30">
                 <p>
                         If you have the account click to
-                        <a id="register-back-btn" type="button" class=" grey-salsa btn-outline" href="{{url('/login')}}">Sign in </a> 
+                        <a id="register-back-btn" type="button" class=" grey-salsa btn-outline" href="{{url('/login')}}">Log in </a> 
                 </p>
                 </div>
             </form>
@@ -282,7 +238,6 @@
         
         </div>
        
-
 
         <div class="backgrounddiv backstretch">
             <img src="/static/images/banner2.jpg">
@@ -313,5 +268,5 @@
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <!-- END THEME LAYOUT SCRIPTS -->
     </body>
-
 </html>
+<link href="./dist/home.css?v=1" rel="stylesheet">
