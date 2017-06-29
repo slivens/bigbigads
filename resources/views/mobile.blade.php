@@ -25,7 +25,7 @@
 		</a> -->
 
 		<!--toggle button-->
-		<!-- <a href="/login" class="header-login-button pull-right">Login</a href="/login"> -->
+		<a href="/login" class="header-login-button pull-right">Login</a href="/login">
 	</div>
 
 	<!--content-->
