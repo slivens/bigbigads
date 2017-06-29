@@ -34,7 +34,7 @@
 		<!--内容介绍框-->
 		<div class="introduce-div clearfix">
 			<p class="ads-font-32 introduce-title text-center">Largest Facebook Ad Examples To See:</p>
-			<p id="changeWord" class="instroduce-bigword text-center animated zoomIn">test</p>
+			<p id="changeWord" class="instroduce-bigword text-center animated">test</p>
 			<p class="text-center instroduce-text">which offer you systematic advantage compare to your competitors</p>
 			<div class="instroduce-data">
 				
@@ -64,8 +64,10 @@
 			</div>
 			<a href="#ads-register" class="btn introduce-reg-btn reg-sub-btn">Get Started <small>It's Free</small></a>
 		</div>
+
+		<!--begin register-->
 		<div id="ads-register" class="register-div clearfix">
-			<p class="ads-font-28 text-center ads-reg-title">Your online advertising,<br> at its best. </p>
+			<p class="ads-font-28 text-center ads-reg-title">Your online advertising,<br/> at its best. </p>
 			<p class="ads-reg-text ads-font-16 text-center">Bigbigads'  facebook ad examples make sure you to create your Low-Cost, High-Performance ad campaign. </p>
 			<a class="ads-reg-btn btn" href="/socialite/facebook">
 				<i class="fa fa-facebook-square reg-btn-icon"></i>
@@ -114,9 +116,6 @@
 							</span>
 					@endif
 				</div>
-
-
-
 				<button type="submit" class="btn reg-sub-btn ads-reg-button ">Try it Now <small>It's free</small></button>
 				<p class="reg-policy-text ads-font-14 text-center">By signing up, you agree to the
 				 <a href="terms_service">Terms and Conditions</a>
@@ -125,28 +124,29 @@
 				 </p>
 			</form>
 		</div>
+		<!--end register-->
 		<!--展示-->
 		<div class="ads-show">
 			<div class="show-content">
 				<p class="show-title ads-font-24 text-center">Leverage on your competitor's profitable marketing  now
 			</p>
-				<img src="static/images/mobile/show_01.png" alt="" class="show-img ads-center">
+				<img src="static/images/home/show_01.jpg" alt="" class="show-img ads-center">
 				<p class="ads-font-22 show-ins-title text-center">Facebook Marketing Strategy</p>
-				<p class="ads-font-16 show-ins-text text-center">In a digital world, your competitor’s marketing strategy is evolving quickly. Do you know what they are up to for an upcoming festival? Bigbigads does.</p>
+				<p class="ads-font-16 show-ins-text text-center">In a digital world, your competitor's marketing strategy is evolving quickly. Do you know what they are up to for an upcoming festival? Bigbigads does.</p>
 				<a href="#ads-register" class="btn introduce-reg-btn reg-sub-btn">Get Started <small>It's Free</small></a>
 			</div>
 			<div class="show-content">
 				<p class="show-title ads-font-24 text-center">Build a Better Ad Campaign Through Competitive Intelligence</p>
-				<img src="static/images/mobile/show_02.png" alt="" class="show-img ads-center">
+				<img src="static/images/home/show_02.jpg" alt="" class="show-img ads-center">
 				<p class="ads-font-22 show-ins-title text-center">Competitive Intelligence</p>
-				<p class="ads-font-16 show-ins-text text-center">Find new competitors you don't know, tracking the ad campaign of existing competitors, find out their winning ads, use the advantage to create your ads more efficiently. </p>
+				<p class="ads-font-16 show-ins-text text-center">Find new competitors you don't know, track the ad campaign of existing competitors, find their winning ads, use the advantage to create your ads more efficiently.</p>
 				<a href="#ads-register" class="btn introduce-reg-btn reg-sub-btn">Get Started <small>It's Free</small></a>
 			</div>
 			<div class="show-content">
 				<p class="show-title ads-font-24 text-center">Accelerate success for your facebook marketing</p>
-				<img src="static/images/mobile/show_03.png" alt="" class="show-img ads-center">
+				<img src="static/images/home/show_03.jpg" alt="" class="show-img ads-center">
 				<p class="ads-font-22 show-ins-title text-center">Creative inspiration</p>
-				<p class="ads-font-16 show-ins-text text-center">Find out hot sell product with social proof, Break through culture difference for the audience in a new geo, know what kind of ad resonate with the audience in a specific niche market, know your potential customer better.</p>
+				<p class="ads-font-16 show-ins-text text-center">Find out how to sell product with social proof, break through culture difference for the audience in a new geo, know what kind of ad resonates with the audience in a specific niche market, know your potential customer better.</p>
 			</div>
 			<a href="#ads-register" class="btn ads-font-22 introduce-reg-btn reg-sub-btn">Get Started <small>It's Free</small></a>
 		</div>
