@@ -283,6 +283,11 @@ var Login = function() {
                         $(this).val(track.code);
                     });
                 }
+                $('.socialite').each(function() {
+                    var href = $(this).attr('href');
+                    href += "?track=" + track.code;
+                    $(this).attr("href", href);
+                });
             }
 
             switch (window.location.pathname) {
