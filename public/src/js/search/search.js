@@ -495,7 +495,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				//存在广告主的情况下，直接搜广告主，去掉所有搜索条件，否则就按标准的搜索流程
 				queryToSearch(option, $scope.adSearcher);
 				//检查是否有track
-				Util.checkUrlTrack($location);
+				Util.trackState($location);
 			};
 			$scope.initSearch();
 

@@ -721,9 +721,8 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 imageSrc = settings.imgRemoteBase[imageSrcIndex] + src;
                 return imageSrc;
             },
-            checkUrlTrack:function(location) {
-                console.log(location);
-                console.log(location.search());
+            trackState:function(location) {
+                //console.log(location.search());
                 if (location.search().track) {
                     var url = settings.remoteurl + '/trackState';
                     $http({
