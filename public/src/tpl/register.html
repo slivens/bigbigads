@@ -1,6 +1,6 @@
 <form name="registerForm" class="register-form form-horizontal" ng-submit="processForm(registerForm.$valid)" ng-Controller="UserController" novalidate>
     <h3 class="form-title">Get the ad intelligence for free!</h3>
-    <div class="reg-shortcut-div" ng-class="shortcutReg">
+    <div class="reg-shortcut-div" ng-show="shortcutReg">
         <a class="register-fbbtn btn register-btn" ng-href="/socialite/facebook{{trackCode != null ? '?track='+trackCode : ''}}">
             <i class="fa fa-facebook-square reg-btn-icon"></i>
             <span class=" reg-btn-text">Sign Up With Facebook</span>
@@ -14,11 +14,11 @@
             <span class="underline-text">OR</span>
             <span class="underline-line"></span>
         </div>
-        <a ng-href="/login" class="register-btn btn to-sigtin-btn">
+        <a ng-href="/login" class="register-btn btn to-signin-btn">
             Sign In
         </a>
     </div>
-    <div class="reg-useEmail-div" ng-class="useEmailReg">
+    <div class="reg-email-div" ng-show="useEmailReg">
     <span class="turn-back-span">
         <i class="fa fa-arrow-left turn-back" ng-click="turnToShotcut()"></i>
     </span>

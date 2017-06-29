@@ -1460,19 +1460,19 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                             $scope.trackCode = track.code;
                         }
                     } else {
-                        $scope.trackCode = null
+                        $scope.trackCode = null;
                     }
 
-                    
-                    
                     /*弹窗中的点击事件*/
+                    $scope.shortcutReg = true; //初始化
+                    $scope.useEmailReg = false; //初始化
                     $scope.turnToEmail = function() {
-                        $scope.shortcutReg = 'hidden';
-                        $scope.useEmailReg = 'show';
+                        $scope.shortcutReg = false;
+                        $scope.useEmailReg = true;
                     };
                     $scope.turnToShotcut = function() {
-                        $scope.shortcutReg = 'show';
-                        $scope.useEmailReg = 'hidden';
+                        $scope.shortcutReg = true;
+                        $scope.useEmailReg = false;
                     }
                 }]
             });
