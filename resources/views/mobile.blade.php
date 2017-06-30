@@ -95,7 +95,7 @@
 				<div class="reg-inp-name">
   					<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
 	    					<label class="sr-only" for="reg-Name" class = "control-label">Name</label>
-	    					<input type="text" class="form-control" id="name" placeholder="Name" name="name" value="{{ old('name') }}" required autofocus>	
+	    					<input type="text" class="form-control" id="name" placeholder="Name" name="name" value="{{ old('name') }}" required>	
 	    					
   					</div>
   					@if ($errors->has('name'))
