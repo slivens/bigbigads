@@ -500,7 +500,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             return output;  
         };  
     })
-    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert' , 'User', '$state', 'settings', 'TIMESTAMP', function($uibModal, $stateParams, SweetAlert, User, $state, settings, TIMESTAMP) {
+    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert' , 'User', '$state', 'settings', 'TIMESTAMP', '$http',function($uibModal, $stateParams, SweetAlert, User, $state, settings, TIMESTAMP, $http) {
         return {
             matchkey: function(origstr, destArr) {
                 var orig = origstr.split(',');
@@ -721,6 +721,19 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 imageSrc = settings.imgRemoteBase[imageSrcIndex] + src;
                 return imageSrc;
             },
+            trackState:function(location) {
+                //console.log(location.search());
+                if (location.search().track) {
+                    var url = settings.remoteurl + '/trackState';
+                    $http({
+                        method: "post",
+                        params: {"track" : location.search().track},
+                        url: url
+                    }).success(function(data) {
+                        //defer.resolve(data);
+                    });
+                }
+            }
         };
     }]);
 app.service('Resource', ['$resource', 'settings', 'SweetAlert', function($resource, settings, SweetAlert) {

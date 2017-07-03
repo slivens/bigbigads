@@ -492,9 +492,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			$scope.initSearch = function() {
 				var option = $scope.searchOption = $scope.adSearcher.searchOption = angular.copy($scope.adSearcher.defSearchOption);
 				$scope.filterOption = $scope.searchOption.filter;
-
 				//存在广告主的情况下，直接搜广告主，去掉所有搜索条件，否则就按标准的搜索流程
 				queryToSearch(option, $scope.adSearcher);
+				//检查是否有track
+				Util.trackState($location);
 			};
 			$scope.initSearch();
 
@@ -1002,7 +1003,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         $scope.initSearch = function() {
             var option = $scope.searchOption = $scope.adSearcher.searchOption = angular.copy($scope.adSearcher.defSearchOption);
             $scope.filterOption = $scope.searchOption.filter;
-
             //存在广告主的情况下，直接搜广告主，去掉所有搜索条件，否则就按标准的搜索流程
             queryToSearch(option, $scope.adSearcher);
         };

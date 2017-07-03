@@ -230,153 +230,228 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 </head>
 <body>
 @include('tpl.header')
-<section class="search">
+<!--banner-->
+<section class="home-banner">
     <div class="container">
-    <div class="search-title">Largest Facebook Ad Examples</div>
-<!--     <div class="search-title_sub">To get inspired</div> -->
-    <!-- <form class="margin-bottom30 " style="margin: 0 16% 30px" action="/app/adsearch" method="GET">
-        <div class="input-group" style="width: 100%">
-            <input type="search" placeholder="Please enter a keyword " class="search-input pull-left" style="width:100%;" name="searchText"/>
-            <input type="submit" class="btn search-btn pull-left" value="Search">
-        </div>
-    </form> -->
-        <div style="margin-bottom: 80px">
-            <!-- <a class="btn  btn-clg" href="{{url('/register')}}">Try it For Free</a>
-            <a class="search-more" href="">or Learn more</a> -->
-        </div>
-
+    <div class="banner-title">Largest Facebook Ad Examples</div>
+    </div>
+    <div class="animaed_word animated" id="changeWord">
+    	
+    </div>
+    <div class="introduce-data">
+    	<div class="intro-data-top intro-data-div">
+    		<div class="intro-datarome bottom-dashed-line">
+    			5,000,000 <sup>+</sup>
+    			<p>Ads</p>
+    		</div>
+    		<div class="intro-datarome left-dashed-line">
+    			1,300,000 <sup>+</sup>
+    			<p>Advertisers</p>
+    		</div>
+    	</div>
+    	<div class="intro-data-bottom intro-data-div">
+    		<div class="intro-datarome">
+    			1,000,000 <sup>+</sup>
+    			<p>Monthly Updates</p>
+    		</div>
+    		<div class="intro-datarome left-dashed-line">
+    			90 <sup>+</sup>
+    			<p>Languages</p>
+    		</div>
+    	</div>
     </div>
 </section>
+
 <!-- bootstraps swiper-slide -->
+<!--ads-introduce-->
 <section class="slider">
     <div class="container">
-        <div class="col-md-7 col-xs-12 slider-left">
-            <div class="swiper-container" id="slider" >
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img data-normal="static/images/show/01.jpg"/>
-                        <div class="swiper-adsbar row absolute">
-                            <div class="col-md-8 adsshow-text">I wanna learn my competitor's marketing strategy Now!</div>
-                            <div class="col-md-4 adsbutton text-center">
-                                <a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started </a></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <img data-normal="static/images/show/02.jpg"/>
-                        <div class="swiper-adsbar row">
-                            <div class="col-md-8 adsshow-text">I'd like to save hundreds of hours doing tedious research!</div>
-                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started </a></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <img data-normal="static/images/show/03.jpg"/>
-                        <div class="swiper-adsbar row">
-                            <div class="col-md-8 adsshow-text">Help me to know more!</div>
-                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started</a></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <img data-normal="static/images/show/04.jpg"/>
-                        <div class="swiper-adsbar row">
-                            <div class="col-md-8 adsshow-text">I'd like to use your benefit to comfort my job!</div>
-                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started</a></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <img data-normal="static/images/show/05.jpg"/>
-                        <div class="swiper-adsbar row">
-                            <div class="col-md-8 adsshow-text">I want to hop onto the wave someone else created!</div>
-                            <div class="col-md-4 adsbutton text-center"><a href="/app/adsearch" class="btn btn-clg slider-btn">Get Started</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-1 col-xs-12"></div>
-        <div class="slider-right col-md-4 col-xs-12" >
-            <ul class="slider-items">
-                <li class="active">
-                    <p class="slider-title">Facebook Marketing Strategy</p>
-                    <p class="slider-desc">In a digital world, your competitor’s marketing strategy is evolving quickly. Do you know what they are up to for an upcoming festival like Father’s Day, Christmas Eve or Valentine’s Day? Bigbigads does.  
-</p>
-                </li>
-                <li>
-                    <p class="slider-title">Superior filtering</p>
-                    <p class="slider-desc">Bigbigads’ filtering allows you to narrow down huge amounts of data in record time.  Say goodbye to endless scrolling.  </p>
-                </li>
-                <li>
-                    <p class="slider-title">Uncover More About An Ad </p>
-                    <p class="slider-desc">With our unique features (Canvas/Carousel/Landing Page/Audience Targeting etc.), you can see the comprehensive info that others can’t.  There will be no more questioning as to why certain ads attract so many reactions.  </p>
-                </li>
-                <li>
-                    <p class="slider-title">Easy To Start</p>
-                    <p class="slider-desc">Our user-friendly design, video tutorials & blog articles make it easy to get started, and we use next-generation data search for the highest search efficiency ever.   
-</p>
-                </li>
-                <li>
-                    <p class="slider-title">Search, Save &amp; Success</p>
-                    <p class="slider-desc">You can use the bookmark feature to save your favorite ad or advertiser.  You can also implement an alert for tracking. In addition, as you find winners, you can set up a different file for each niche market. </p>
-                </li>
-            </ul>
-            
+        <p class="text-center slider-title">Leverage your competitor's <br/> profitable  marketing, now.
+		</p>
+        <div class="row ads-introduce">
+        	<div class="col-md-4 ads-introduce-div">
+        		<img src="./static/images/home/show_01.jpg" alt="" class="introduce-img">
+        		<p class="introduce-title text-center">Facebook Marketing Strategy</p>
+        		<p class="instroduce-text">In a digital world, your competitor's marketing strategy is evolving quickly. Do you know what they are up to for an upcoming festival? Bigbigads does.</p>
+        	</div>
+        	<div class="col-md-4 ads-introduce-div">
+        		<img src="./static/images/home/show_02.jpg" alt="" class="introduce-img">
+        		<p class="introduce-title text-center">Competitive Intelligence</p>
+        		<p class="instroduce-text">Find new competitors you don't know, track the ad campaign of existing competitors, find their winning ads, use the advantage to create your ads more efficiently.</p>
+        	</div>
+        	<div class="col-md-4 ads-introduce-div">
+        		<img src="./static/images/home/show_03.jpg" alt="" class="introduce-img">
+        		<p class="introduce-title text-center">Creative inspiration</p>
+        		<p class="instroduce-text">Find out how to sell product with social proof, break through culture difference for the audience in a new geo, know what kind of ad resonates with the audience in a specific niche market, know your potential customer better.</p>
+        	</div>
         </div>
     </div>
 </section>
+<a href="/register">
+	<button href='/register' class="btn home-getstart-btn text-center">
+	    	Get started now! <span class="small-word">It's free</span>
+	</button>
+</a>
 
+<!--video slider-->
 <section class="video">
     <div class="container">
-        <div class="col-md-5">
-            <p class="video-title ">Keep pace with Facebook Ads! </p>
-            <a href="/app/adsearch" class="btn btn-lgm font_22">Try It Now</a>
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-6 ">
+    	<p class="video-title text-center">The <span style="color: #eb6130">Best</span> Solution for</p>
+    	<p class="video-text text-center">Media Buyer; Advertiser; Publisher; Ad network;<br/> Ad agency; Designer; Copywriter; Students; Teachers...
+		</p>
+        <div class="clearfix">
             <div class="video-content">
-            <img  width="100%" data-normal="/images/youtube.jpeg" id="youtubeImage"  />     
-           <iframe id="youtubeFrame" class="hidden" width="100%" height="360" data-url="https://www.youtube.com/embed/rEDusFMbVvk?autoplay=1" frameborder="0" allowfullscreen></iframe> 
-        <!-- <span class="video-content_play" data-toggle="modal" data-target="#md_video"></span> --></div>
+            	<div id="youtubeImage"></div>     
+           		<iframe id="youtubeFrame" class="hidden" width="100%" height="100%" data-url="https://www.youtube.com/embed/rEDusFMbVvk?rel=0&amp;controls=1&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+
+        <!-- <span class="video-content_play" data-toggle="modal" data-target="#md_video"></span> -->
+        	</div>
+    	</div>
     </div>
+    <a href="/register">
+    	<button class="btn home-getstart-btn text-center" style="">
+    		Get started now! <span class="small-word">It's free</span>
+		</button>
+	</a>
+    <div class="video-ads-wrod">
+    	<div class="container">
+    	<p class="ads-word-text text-center">Sort Your Competitor's Ads By</p>
+    		<span class="ads-word-point text-center">
+    			<span class="word-point-span">
+    				<i class="glyphicon glyphicon-ok"></i>
+					Ad type
+    			</span>
+    			<span class="word-point-span">
+    				<i class="glyphicon glyphicon-ok"></i>
+					Ad Placement
+    			</span>
+    			<span class="word-point-span">
+    				<i class="glyphicon glyphicon-ok"></i>
+    				Call to action
+    			</span>
+    			<span class="word-point-span">
+    				<i class="glyphicon glyphicon-ok"></i>
+    				Language
+    			</span>
+    			<span class="word-point-span">
+    				<i class="glyphicon glyphicon-ok"></i>
+    				Engagement Index
+    			</span>
+    			<span class="word-point-span">
+    				<i class="glyphicon glyphicon-ok"></i>
+    				Tracking tool
+    			</span>
+    			<span class="word-point-span">
+    				<i class="glyphicon glyphicon-ok"></i>
+    				Eshop Platform
+    			</span>
+    		</span>
+    	</div>
     </div>
 </section>
 
-<section class="solution">
-    <div class="container" style="width: 100%">
-        <div class="solution-title">The Best Solution</div>
-        <div class="solution-title_sub">For Ad Buyers, Manufacturers, Ad Agencies and Researchers</div>
-        <ul class="solution-itmes">
-            <li class="solution-item">
-                <img data-normal="static/images/solution1.png" class="img-circle bg"/>
-                <div class="solution-item_number clearfix">
-                    <span class="text-center">5,000,000<sup class="num_sup">+</sup></span>
-                </div>
-                <div class="solution-item_desc">Ads</div>
-            </li>
-            <li class="solution-item">
-                <img data-normal="static/images/solution2.png"  class="img-circle bg"/>
-                <div class="solution-item_number clearfix">       
-                    <span class="text-center">1,300,000<sup class="num_sup">+</sup></span>
-                </div>
-              
-                <div class="solution-item_desc"> Advertisers</div>
-            </li>
-            <li class="solution-item">
-                <img data-normal="static/images/solution3.png"  class="img-circle bg"/>
-                <div class="solution-item_number clearfix">
-                    <span class="text-center">700,000<sup class="num_sup">+</sup></span>
-                </div>
-                <div class="solution-item_desc">Monthly Updates </div>
-            </li>
-            <li class="solution-item">
-                <img data-normal="static/images/solution4.png"  class="img-circle bg"/>
-                <div class="solution-item_number clearfix">
-                    <span class="text-center">90<sup class="num_sup">+</sup></span>
-                </div>
-                <div class="solution-item_desc"> Languages </div>
-            </li>
-        </ul>
-    </div>
+
+<!--pricing slider-->
+<section class="plans">
+	<div class="pricing-div">
+		<div class="pricing-top-div">
+			<div class="pricing-table">
+				<div class="pricing-table-title">Compare Plans</div>
+				<table cellspacing="0" cellpadding="0" class="table table-bordered">
+					<tr class="pricing-td-title">
+						<td class="pricing-name"></td>
+						<td class="pricing-item">Free</td>
+						<td class="pricing-item">Standard</td>
+					</tr>
+					<tr>
+						<td class="pricing-td-title">Advanced Filter
+					</td>
+						<td>Limited</td>
+						<td><i class="glyphicon glyphicon-ok"></i></td>
+					</tr>
+					<tr>
+						<td class="pricing-td-title">Audience & Interest</td>
+						<td>Limited</td>
+						<td><i class="glyphicon glyphicon-ok"></i></td>
+					</tr>
+					<tr>
+						<td class="pricing-td-title">Data Amount</td>
+						<td>Limited</td>
+						<td>5M<sup>+</sup></td>
+					</tr>
+					<tr>
+						<td class="pricing-td-title">Mobile Ads& App Ads
+						</td>
+						<td></td>
+						<td><i class="glyphicon glyphicon-ok"></i></td>
+					</tr>
+					<tr>
+						<td class="pricing-td-title">Bookmark</td>
+						<td>Single</td>
+						<td>Multiple</td>
+					</tr>
+					<tr>
+						<td class="pricing-td-title">Landing Page</td>
+						<td>Limited</td>
+						<td><i class="glyphicon glyphicon-ok"></i></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><a href="/register" class="btn">sign up</a></td>
+						<td><a href="/register" class="btn">sign up</a></td>
+					</tr>
+				</table>
+			</div>
+			<div class="pricing-question">
+				<div class="question-title">Frequently asked questions</div>
+				<p class="question-q">What forms of payment do you accept? </p>
+				<p class="question-a">
+					We currently accept PayPal. We'll try our best to offer more payment options soon.
+				</p>
+				<p class="question-q">Are prices shown in USD?</p> 
+				<p class="question-a">Yes. All plan prices are in USD.</p>
+
+				<p class="question-q">How long are these contracts? </p>
+				<p class="question-a">We support month-to-month subscriptions which can be canceled anytime. One-month purchases subscription will be launched when it's ready. </p>
+
+				<p class="question-q">Is there a free trial or demo? </p>
+				<p class="question-a">Yes, you are able to test out what Bigbigads has by signing up a free level account. That way you can be sure before you buy.</p>
+
+				<p class="question-q">Is there a discount for a yearly subscription? </p>
+				<p class="question-a">Yes, you get a savings of about 20% off on yearly plans. </p>
+			</div>
+		</div>
+		<div class="pricing-bottom">
+			<div class="discounts-title">Educational discounts</div>
+			<div class="discounts-div">
+				<div class="discounts-text-div">
+				<div class="discounts-text-title text-center">
+					Educational discounts
+				</div>
+					<p class="text-center discounts-text">If you are currently a student, 
+				<a href="mailto:sale@bigbigads.com">
+				email us a copy of your transcript
+				</a> 
+				to get 80% off our standard plan for use on non-commercial projects. If you are a teacher, 
+				<a href="mailto:sale@bigbigads.com">
+				send us a copy of your syllabus
+				</a> 
+				to set up a discounted plan that can be used by your students for their coursework.
+				</p>
+				</div>
+				
+				<div class="discounts-text-div text-center">
+					<p class="discounts-text-title">Buying for a team of 5 or more?</p>
+					<p class="discounts-text">We'll work with your specific needs to develop a plan that's right for your team. 
+					<a href="mailto:sale@bigbigads.com">Get in touch with us
+					</a> today to receive a custom quote.</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
+
+
 <!--blog slider-->
 <section class="blog">
     <div class="container ">

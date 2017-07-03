@@ -40,12 +40,17 @@ function track(Request $request) {
     return false;
 }
 Route::get('/', function (Request $request) {
-    $url = '/app/';
+    /*$url = '/app/';
     if (track($request)) {
         $url .= "?track={$request->track}";
     }
-    return redirect($url);
+    return redirect($url);*/
+    //需求改动，/跳转至index页面
+    $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
+    track($request);
+    return view('index')->with('recents', $recents);
 });
+
 Route::get('/message', 'Controller@messageView');
 
 Auth::routes();
@@ -171,7 +176,9 @@ Route::get('/image', function(Request $request) {
     return $response;
 });
 
-Route::get('/mobile', function () {
+Route::get('/mobile', function (Request $request) {
+    //手机端的跳转也支持track统计
+    track($request);
     return view('mobile');
 });
 
@@ -183,3 +190,11 @@ Route::get('/mobile_maintain', function () {
 Route::get('/config', function() {
     return Setting::select('key', 'value')->get()->groupBy('key');
 });
+
+/*
+    统计app的track
+*/
+Route::post('/trackState', function (Request $request) {
+    track($request); 
+});
+
