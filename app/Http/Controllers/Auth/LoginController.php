@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Log;
 use Artisan;
 use App\Jobs\LogAction;
 use App\Role;
+use Voyager;
 
 class LoginController extends Controller
 {
@@ -41,6 +43,26 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+    /**
+     * Validate the user login request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    protected function validateLogin(Request $request)
+    {
+        $captchaStr = Voyager::setting('captcha');
+        if ($captchaStr && strpos($captchaStr, 'login') !== FALSE) {
+            $this->validate($request, [
+                $this->username() => 'required', 'password' => 'required', 'captcha' => 'required|captcha'
+            ]);
+        } else {
+            $this->validate($request, [
+                $this->username() => 'required', 'password' => 'required'
+            ]);
+        }
     }
 
     protected function authenticated($request, $user)

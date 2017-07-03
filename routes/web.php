@@ -21,6 +21,7 @@ use App\Plan;
 use TCG\Voyager\Models\Post;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterVerify;
+use TCG\Voyager\Models\Setting;
 
 function track(Request $request) {
     if ($request->has('track')) {
@@ -179,4 +180,6 @@ Route::get('/mobile_maintain', function () {
     return view('mobile_maintain');
 });
 
-
+Route::get('/config', function() {
+    return Setting::select('key', 'value')->get()->groupBy('key');
+});
