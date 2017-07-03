@@ -290,6 +290,12 @@ var Login = function() {
                 });
             }
 
+            //生成验证码
+            $('.captcha').click(function() {
+                var ts = Date.parse(new Date());
+                $(this).attr('src', '/captcha?t=' + ts);
+            });
+
             switch (window.location.pathname) {
                 case '/forget':
                     jQuery('.login-form').hide();

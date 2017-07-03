@@ -15,7 +15,7 @@
         <meta content="bigbigads" name="author" />
         <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+        <!--<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />-->
         <link href="./assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
 
         <!-- END GLOBAL MANDATORY STYLES -->
@@ -78,7 +78,20 @@
                             </span>
                         @endif
                 </div>
-
+                @if (Voyager::setting('captcha') && strpos(Voyager::setting('captcha'), 'login') !== FALSE)
+                <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
+                    <label class="control-label visible-ie9">Captcha</label>
+                    <div class="input-group">
+                        <input class="form-control" type="text" autocomplete="off"  placeholder="captcha" name="captcha" /> 
+                        <span class="input-group-addon"><a href="javascript:"><img class="captcha" src="{{ captcha_src() }}" alt="captcha" /></a></span>
+                    </div>
+                        @if ($errors->has('captcha'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('captcha') }}</strong>
+                            </span>
+                        @endif
+                </div>
+                @endif
                 <!--remember me, forget password-->
                 <div class="form-actions row">
                     <div class="col-md-6 col-xs-6 rememberme-div">
@@ -146,6 +159,7 @@
                             </span>
                         @endif
                 </div>
+
                 <div class="form-actions margin-top-20 button-div">
                     <button type="submit" class="btn submit-btn margin-top-30"> Submit </button>
                 </div>
@@ -206,7 +220,7 @@
                 </div>
 
                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                    <label class="control-label visible-ie8 visible-ie9">Password</label>
+                    <label class="control-label visible-ie9">Password</label>
                     <div class="input-icon">
                         <i class="fa fa-lock"></i>
                         <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Password" name="password" /> </div>
