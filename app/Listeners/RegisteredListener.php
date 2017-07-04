@@ -7,6 +7,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Jobs\LogAction;
 
+use GuzzleHttp;
+
 class RegisteredListener
 {
     /**
@@ -34,5 +36,18 @@ class RegisteredListener
         $bookmark->uid = $user->id;
         $bookmark->name = "default";
         $bookmark->save();
+
+        /*
+            EMAIL_VERIFICATION=true  表示为开启邮箱验证
+            EMAIL_VERIFICATION=false 表示为关闭邮箱验证
+            当关闭邮箱验证时，采用GuzzleHttp请求来加载谷歌统计代码
+        */
+        $emailVerification = env('EMAIL_VERIFICATION');
+        $domain = env('APP_URL');
+        if (!$emailVerification) {
+            $url = $domain . 'registerStatistics.html';
+            $client = new GuzzleHttp\Client();
+            $res = $client->request('GET', $url);
+        }
     }
 }

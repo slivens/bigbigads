@@ -11,6 +11,8 @@ use App\Mail\RegisterVerify;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+use App\Jobs\SendRegistMail;
+
 class RegisterController extends Controller
 {
     /*
@@ -70,14 +72,23 @@ class RegisterController extends Controller
 
     protected function registered($request, $user)
     {
-        if ($user->state == 0) {
-            Auth::logout();
-            $this->redirectTo = "/sendVerifyMail?email={$user->email}";
-            // Authentication passed...
-            if ($request->ajax()) {
-                return ['code' => 0, 'url' => $this->redirectTo];
+        //临时新加需求,由于邮箱未送达率达到了近25%,暂时新加开关邮箱验证的功能，用户注册过后直接进入/app，对于state=0的用户
+        //暂时不做任何的限制
+        //后续需求会给出对这次放过的未进行邮箱验证的用户处理方式
+        $emailVerification = env('EMAIL_VERIFICATION');
+        if ($emailVerification) {
+            if ($user->state == 0) {
+                Auth::logout();
+                $this->redirectTo = "/sendVerifyMail?email={$user->email}";
+                // Authentication passed...
+                if ($request->ajax()) {
+                    return ['code' => 0, 'url' => $this->redirectTo];
+                }
             }
-		}
+        } else {
+            //照样发送激活邮件，绕过提示点击邮件激活的页面，为以后区别出恶意注册的用户
+            dispatch(new SendRegistMail($user));
+        } 
     }
     /**
      * Create a new user instance after a valid registration.

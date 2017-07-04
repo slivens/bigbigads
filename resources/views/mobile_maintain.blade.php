@@ -85,6 +85,7 @@
             height:0.64rem;
             line-height: 0.64rem; 
         }
+        @include('tpl.script')
     </style>
 </head>
 <!-- END HEAD -->
