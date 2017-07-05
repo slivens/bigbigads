@@ -1,11 +1,19 @@
-
 <!-- BEGIN HEADER TOP -->
 <div class="page-header-top navbar-fixed-top">
     <div class="container-fluid bg-white">
+        <!--mobile view open the filter buttom -->
+        <a ng-href="/mobile_maintain">
+            <div class="filter-button hidden fa fa-th-list">
+            </div>
+        </a>
         <!-- BEGIN LOGO -->
         <div class="page-logo">
-            <a href="/home">
-                <img src="{{settings.globalPath}}/img/logo2.png" alt="logo" class="logo-default"> </a>
+            <a ng-href="/home" class="mobile-hidden">
+                <img src="{{settings.globalPath}}/img/logo2.png" alt="logo" class="logo-default">
+            </a>
+            <a ng-href="/mobile" class="hidden mobile-show">
+                <img src="{{settings.globalPath}}/img/logo3.png" alt="logo" class="logo-default">
+            </a>
         </div>
         <!-- END LOGO -->
         <!-- BEGIN HEADER MENU -->
@@ -14,34 +22,32 @@
             <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
             <!-- DOC: Remove dropdown-menu-hover and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
             <div class="hor-menu" ng-controller="TabMenuController">
-
                 <!-- BEGIN MEGA MENU -->
-                    <ul class="nav navbar-nav">
-                        <li ng-class="{active:tabmenu.name == '/'}">
-                            <a ui-sref="/" ui-sref-opts="{reload:true}">Advertisment</a>
-                        </li>
-                        <li ng-class="{active:tabmenu.name == '/ownerSearch'}">
-                            <a ui-sref="ownerSearch" ui-sref-opts="{reload:true}" ng-show="User.can('adser_search')">Advertiser</a>
-                            <!--  暂时修改为无权限不显示菜单栏 -->
-                            <!-- <a href="#" ng-show="!User.can('adser_search')" ng-click="checkAccount()">Advertiser<i class="fa fa-lock fa-fw"></i></a> -->
-                        </li>
-                        <li ng-class="{active:tabmenu.name == '/ranking'}" >
-                            <a ui-sref="ranking" ui-sref-opts="{reload:true}" ng-show="User.can('ranking')">Billboard</a>
-                            <!-- <a href="#" ng-show="!User.can('ranking')" ng-click="checkAccount()">Billboard<i class="fa fa-lock fa-fw"></i></a> -->
-                        </li>
-                        <li ng-class="{active:tabmenu.name == '/bookmark'}">
-                            <a ng-click="goBookMark()">Bookmark</a>
-                        </li>
-                        <!-- <li class="disabled">
+                <ul class="nav navbar-nav">
+                    <li ng-class="{active:tabmenu.name == '/'}">
+                        <a ui-sref="/" ui-sref-opts="{reload:true}">Advertisment</a>
+                    </li>
+                    <li ng-class="{active:tabmenu.name == '/ownerSearch'}">
+                        <a ui-sref="ownerSearch" ui-sref-opts="{reload:true}" ng-show="User.can('adser_search')">Advertiser</a>
+                        <!--  暂时修改为无权限不显示菜单栏 -->
+                        <!-- <a href="#" ng-show="!User.can('adser_search')" ng-click="checkAccount()">Advertiser<i class="fa fa-lock fa-fw"></i></a> -->
+                    </li>
+                    <li ng-class="{active:tabmenu.name == '/ranking'}">
+                        <a ui-sref="ranking" ui-sref-opts="{reload:true}" ng-show="User.can('ranking')">Billboard</a>
+                        <!-- <a href="#" ng-show="!User.can('ranking')" ng-click="checkAccount()">Billboard<i class="fa fa-lock fa-fw"></i></a> -->
+                    </li>
+                    <li ng-class="{active:tabmenu.name == '/bookmark'}">
+                        <a ng-click="goBookMark()">Bookmark</a>
+                    </li>
+                    <!-- <li class="disabled">
                             <a href="#">Monitor<i class="fa fa-lock fa-fw"></i></a>
                         </li> -->
-                    </ul>
+                </ul>
                 <!-- END MEGA MENU -->
             </div>
             <!-- END MEGA MENU -->
         </div>
         <!-- END HEADER MENU -->
-
         <!-- BEGIN RESPONSIVE MENU TOGGLER -->
         <a href="javascript:;" class="menu-toggler"></a>
         <!-- END RESPONSIVE MENU TOGGLER -->
@@ -54,7 +60,8 @@
                 <!-- BEGIN USER LOGIN DROPDOWN -->
                 <li class="dropdown dropdown-user dropdown-dark">
                     <a class="btn font-white bg-yellow-gold" ng-href="/login" ng-if="!User.info.login">Login</a>
-                    <a href="javascript:;" class="dropdown-toggle" dropdown-menu-hover data-toggle="dropdown" data-close-others="true" ng-if="User.info.login">
+                    <a ng-href="/logout" class="btn font-white bg-yellow-gold hidden mobile-show" ng-if="User.info.login">Logout</a>
+                    <a href="javascript:;" class="dropdown-toggle mobile-hidden" dropdown-menu-hover data-toggle="dropdown" data-close-others="true" ng-if="User.info.login">
                         <!-- <img alt="" class="img-circle" src="{{settings.layoutPath}}/img/avatar9.jpg"> -->
                         <i class="icon-user"></i>
                         <span class="username username-hide-mobile">{{User.info.user.name}}</span>
@@ -90,8 +97,6 @@
             </ul>
         </div>
         <!-- END TOP NAVIGATION MENU -->
-
     </div>
-
 </div>
 <!-- END HEADER TOP -->
