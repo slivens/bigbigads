@@ -171,6 +171,8 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 									//数据端出现了一个carousel的caption为json的数据
 									if (value.caption.indexOf("[") === 0) {
 										value.caption = JSON.parse(value.caption);
+										//carousel页面无法引用到AdsearchController内的Util.isArray方法,不得已在AdsearchController内多加了个card.isCaptionJson的标示
+										value.isCaptionJson = true;
 									}
 								} catch(err) {console.log(err);}	
 								// if (value.snapshot && value.snapshot != "")
