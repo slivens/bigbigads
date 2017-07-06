@@ -85,8 +85,18 @@
             height:0.64rem;
             line-height: 0.64rem; 
         }
-        @include('tpl.script')
+        .continue-btn{
+            display: block;
+            padding: 0.25rem 0.533rem;
+            border-radius: 6px;
+            font-size: 0.5333rem;
+            font-weight: 600;
+            background: #eb6130;
+            color: #fff;
+            margin: 0.5333rem auto;
+        }
     </style>
+    @include('tpl.script')
 </head>
 <!-- END HEAD -->
 <body class=" page-500-full-page">
@@ -107,10 +117,15 @@
         </div>
         <div class="update_page-content clearfix">
             <div class="content-text">
-                <p class="text-center">We are redesigning the interface for our mobile app so you may find it's not available now.Please login our service using the desktop device.We are sorry for the inconvenience.
-                </p>
+                <div class="clearfix">
+                    <p class="text-center">We are redesigning the interface for our mobile app so you can only use basic function now. Please login to the desktop for full function.We are sorry for the inconvenience.
+                    </p>
+                    <a href="/app" class="btn continue-btn">Still Continue</a>
+                </div>
             </div>
+
         </div>
+        
         <div class="update_page-foot clearfix">
             <p class="text-center">&copy;2017 BIGBIGADS.COM</p>
         </div>

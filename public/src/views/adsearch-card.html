@@ -1,12 +1,12 @@
 <div class="a-card fade-in-up mt-element-ribbon">
-        <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning xg-collect" uib-popover-template="'views/bookmark-popover.html' | nocache" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.data.ads.bookmark">
-            <div class="ribbon-sub ribbon-bookmark xg-collect-border"></div>
-            <i class="fa fa-star" ng-class='{"font-white":!card.hasBookmark}'></i>
-        </div>
-        <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning xg-collect"  ng-if="mother.data.ads.bookmark" ng-click="mother.cancelBookmark(0, card)">
-            <div class="ribbon-sub ribbon-bookmark xg-collect-border" ></div>
-            <i class="fa fa-star"></i>
-        </div>
+    <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning xg-collect" uib-popover-template="'views/bookmark-popover.html' | nocache" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.data.ads.bookmark">
+        <div class="ribbon-sub ribbon-bookmark xg-collect-border"></div>
+        <i class="fa fa-star" ng-class='{"font-white":!card.hasBookmark}'></i>
+    </div>
+    <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning xg-collect" ng-if="mother.data.ads.bookmark" ng-click="mother.cancelBookmark(0, card)">
+        <div class="ribbon-sub ribbon-bookmark xg-collect-border"></div>
+        <i class="fa fa-star"></i>
+    </div>
     <div class="portlet light aditem xg-card-pt0">
         <div class="portlet-title xg-cardcontent-bbmn">
             <div class="pull-right xg-audience-mr4">
@@ -14,57 +14,56 @@
                     <i class="fa fa-users font-yellow-gold"></i>
                 </button> -->
             </div>
-            <!-- <span class="font-yellow_gold">ads_id:</span> --> 
+            <!-- <span class="font-yellow_gold">ads_id:</span> -->
             <br/>
-            <div>
+            <div class="ads-card-seetime">
                 <i class="fa fa-calendar font-yellow-gold fa-fw"></i><span>{{card.first_see}}~{{card.last_see}}</span>
             </div>
-            <div>
-            <div class="pull-right">
-                <i class="xg-audience xg-icon xg-icon-audience font-yellow-gold" ng-if="mother.User.can('audience_search') && (card.whyseeads_all || card.whyseeads)" audience title="{{card.whyseeads ? card.whyseeads : card.whyseeads_all}}"></i>
-                <a eventid="{{card.event_id}}" adlink class="font-yellow-gold "><i class="xg-icon xg-icon-analysis"></i></a> 
-            </div>
-            <div class="pull-left">
-                <i class="fa fa-clock-o font-yellow-gold fa-fw"></i><span>{{card.duration_days}}</span>
-                <i class="fa fa-eye font-yellow-gold  fa-fw"></i><span>{{card.see_date}}</span>
-            </div>
-            <div class="clearfix"></div>  
-            <div>
-                <!--<i class="fa fa-share-alt fa-3x font-yellow-gold"  ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.timeline)"></i>
-                <i class="fa fa-columns fa-3x font-yellow-gold"  ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.rightcolumn)"></i>
-                 <i class="fa fa-mobile font-yellow-gold  fa-3x" ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.mobile)"></i> -->
-            </div>
-        </div>
-
-        <!-- avatar and adser info -->
-        <div class="aditem-ader row margin-bottom-10">
-            <div class="col-md-3 text-center" >
-                <a  ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
-                    <img src="../assets/global/img/input-spinner.gif" lazy-img="{{card.small_photo}}" alt="" class="avatar" width="{{card.small_photo | getImageSize:0}}px"  type="bba">
-                </a>
-            </div>
-            <div class="col-md-9 xg-pt0">
-                <div class="margin-bottom-5 xg-overflow-hidden">
-                    <a class="xg-adsername" adserlink name="{{card.adser_name}}" username="{{card.adser_username}}">
-                        <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
-                        <span ng-show="!card.adser_name">{{card.adser_username}}</span>
-                    </a>
+            <div class="ads-card-info">
+                <div class="pull-right">
+                    <i class="xg-audience xg-icon xg-icon-audience font-yellow-gold" ng-if="mother.User.can('audience_search') && (card.whyseeads_all || card.whyseeads)" audience title="{{card.whyseeads ? card.whyseeads : card.whyseeads_all}}"></i>
+                    <a eventid="{{card.event_id}}" adlink class="font-yellow-gold "><i class="xg-icon xg-icon-analysis"></i></a>
                 </div>
                 <div class="pull-left">
-                    <!-- <a originlink class="xg-sponsored" id="{{card.adser_username}}" eventid="{{card.event_id}}" type="{{card.show_way}}">Sponsored</a> -->
-                    <span class="xg-sponsored">Sponsored</span>
+                    <i class="fa fa-clock-o font-yellow-gold fa-fw"></i><span>{{card.duration_days}}</span>
+                    <i class="fa fa-eye font-yellow-gold  fa-fw"></i><span>{{card.see_date}}</span>
                 </div>
-                <div class="pull-right">
-                    <a href="https://www.facebook.com/{{card.adser_username}}" class="xg-a-likepage xg-label" ng-show="card.likepage" target="_blank"> <i class="fa fa-thumbs-up blue xg-space"></i>Like Page</a>
+                <div class="clearfix"></div>
+                <div>
+                    <!--<i class="fa fa-share-alt fa-3x font-yellow-gold"  ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.timeline)"></i>
+                <i class="fa fa-columns fa-3x font-yellow-gold"  ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.rightcolumn)"></i>
+                 <i class="fa fa-mobile font-yellow-gold  fa-3x" ng-show="mother.Searcher.getAdsType(card, mother.Searcher.ADS_TYPE.mobile)"></i> -->
                 </div>
             </div>
+            <!-- avatar and adser info -->
+            <div class="aditem-ader row margin-bottom-10">
+                <div class="col-md-3 text-center">
+                    <a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
+                        <img src="../assets/global/img/input-spinner.gif" lazy-img="{{card.small_photo}}" alt="" class="avatar" width="{{card.small_photo | getImageSize:0}}px" type="bba">
+                    </a>
+                </div>
+                <div class="col-md-9 xg-pt0">
+                    <div class="margin-bottom-5 xg-overflow-hidden">
+                        <a class="xg-adsername" adserlink name="{{card.adser_name}}" username="{{card.adser_username}}">
+                            <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
+                            <span ng-show="!card.adser_name">{{card.adser_username}}</span>
+                        </a>
+                    </div>
+                    <div class="pull-left">
+                        <!-- <a originlink class="xg-sponsored" id="{{card.adser_username}}" eventid="{{card.event_id}}" type="{{card.show_way}}">Sponsored</a> -->
+                        <span class="xg-sponsored">Sponsored</span>
+                    </div>
+                    <div class="pull-right">
+                        <a href="https://www.facebook.com/{{card.adser_username}}" class="xg-a-likepage xg-label" ng-show="card.likepage" target="_blank"> <i class="fa fa-thumbs-up blue xg-space"></i>Like Page</a>
+                    </div>
+                </div>
+            </div>
+            <!-- end avatar and adser info -->
+            <single-image ng-if="card.type == 'SingleImage'" card="card">
+            </single-image>
+            <single-video ng-if="card.type == 'SingleVideo'" card="card"></single-video>
+            <carousel ng-if="card.type == 'Carousel'" card="card">
+            </carousel>
+            <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
         </div>
-        <!-- end avatar and adser info -->
-        <single-image ng-if="card.type == 'SingleImage'" card="card">
-        </single-image>
-        <single-video ng-if="card.type == 'SingleVideo'" card="card"></single-video>
-        <carousel ng-if="card.type == 'Carousel'" card="card">
-        </carousel>
-        <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
     </div>
-</div>
