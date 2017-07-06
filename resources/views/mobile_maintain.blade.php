@@ -96,6 +96,7 @@
             margin: 0.5333rem auto;
         }
     </style>
+    @include('tpl.script')
 </head>
 <!-- END HEAD -->
 <body class=" page-500-full-page">
