@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Jobs\LogAction;
 
 use GuzzleHttp;
-
+use Voyager;
 class RegisteredListener
 {
     /**
@@ -37,17 +37,10 @@ class RegisteredListener
         $bookmark->name = "default";
         $bookmark->save();
 
-        /*
-            EMAIL_VERIFICATION=true  表示为开启邮箱验证
-            EMAIL_VERIFICATION=false 表示为关闭邮箱验证
-            当关闭邮箱验证时，采用GuzzleHttp请求来加载谷歌统计代码
-        */
-        $emailVerification = env('EMAIL_VERIFICATION');
         $domain = env('APP_URL');
-        if (!$emailVerification) {
-            $url = $domain . 'registerStatistics.html';
-            $client = new GuzzleHttp\Client();
-            $res = $client->request('GET', $url);
-        }
+        //注册和社交登录的统计代码是一样的，请求同一个页面就行了，仅仅是query参数不同
+        $url = $domain . 'socialiteStat.html?query=email';
+        $client = new GuzzleHttp\Client();
+        $res = $client->requestAsync('GET', $url);
     }
 }

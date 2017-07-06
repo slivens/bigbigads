@@ -168,6 +168,10 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 									value.name = JSON.parse(value.name);
 									value.description = JSON.parse(value.description);
 									value.local_picture = JSON.parse(value.local_picture);
+									//数据端出现了一个carousel的caption为json的数据
+									if (value.caption.indexOf("[") === 0) {
+										value.caption = JSON.parse(value.caption);
+									}
 								} catch(err) {console.log(err);}	
 								// if (value.snapshot && value.snapshot != "")
 								//      value.snapshot = JSON.parse(value.snapshot);
@@ -290,6 +294,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
         //将搜索过滤项转换成location的参数
         searcher.searchToQuery = searcher.prototype.searchToQuery = function(option) {
 				var query = {};
+				
 				if (option.search.text)
 					query.searchText = option.search.text;
 				if (angular.isDefined(option.rangeselected) && option.rangeselected.length) {
@@ -665,7 +670,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 					$scope.currSearchOption.filter.ecommerce = option.ecommerce.join(',');
 				} else {
-					$scope.adSearcher.removeFilter("ecommerce");
+					$scope.adSearcher.removeFilter("e_commerce");
 				}
 
 				//日期范围
@@ -1171,7 +1176,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					});
 					$scope.currSearchOption.filter.ecommerce = option.ecommerce.join(',');
 				} else {
-					$scope.adSearcher.removeFilter("ecommerce");
+					$scope.adSearcher.removeFilter("e_commerce");
 				}
 
 				$scope.isFreeLimitDate = false;
@@ -1736,7 +1741,7 @@ app.controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Se
 					});
 					$scope.currSearchOption.filter.ecommerce = option.ecommerce.join(',');
 				} else {
-					$scope.adSearcher.removeFilter("ecommerce");
+					$scope.adSearcher.removeFilter("e_commerce");
 				}
 
 				$scope.currSearchOption.category = category.join(',');

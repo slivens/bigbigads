@@ -71,8 +71,8 @@ class LoginController extends Controller
         if ($user->state == 0) {
             //临时新加需求，由于邮箱未送达率达到了近25%,暂时新加开关邮箱验证的功能，用户注册过后直接进入/app，对于state=0的用户
             //暂时不做任何的限制
-            $emailVerification = env('EMAIL_VERIFICATION');
-            if ($emailVerification) {
+            $emailVerification = Voyager::setting('email_verification');
+            if ($emailVerification != "false") {
                 Auth::logout();
                 $this->redirectTo = "/sendVerifyMail?email={$user->email}";
             }           
