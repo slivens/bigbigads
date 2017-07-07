@@ -35,7 +35,15 @@
 		</p>
       </div>
     <!-- End Carousel -->
-    <div class="aditem-caption margin-top-10" ng-if="card.caption">
+    <!-- 
+    无法引用到AdsearchController内的Util.isArray方法,不得已在AdsearchController内多加了个card.isCaptionJson的标示  
+    <span>{{mother.mother.Util.isArray(card.caption)}}</span>
+    <span>{{Util.isArray(card.caption)}}</span>
+     -->
+    <div class="aditem-caption margin-top-10" ng-if="card.caption && card.isCaptionJson">
+        <label class="xg-label-caption label label-sm label-warning" ng-bind-html="card.caption[card.active] | toHtml"></label>
+    </div>
+    <div class="aditem-caption margin-top-10" ng-if="card.caption && !card.isCaptionJson">
         <label class="xg-label-caption label label-sm label-warning" ng-bind-html="card.caption | toHtml"></label>
     </div>
 </div>
@@ -67,7 +75,7 @@
     </div>
 </div>
 
-<div class="carousel-caption" ng-show="card.caption">
+<!-- <div class="carousel-caption" ng-show="card.caption">
     {{card.caption}}
-</div>
+</div> -->
 

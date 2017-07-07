@@ -17,35 +17,9 @@
         </div>
     </div>
 </div>
-<!-- google 插件代码，跟踪用户行为，需要放在注册，购买后的提示页面 -->
-    <!-- Google Code for  
-    &#32654;&#21152;&#20197;&#22806;&#65292;&#33521;&#35821;&#65292;&#22810;&#29256;&#26412;&#24191;&#21578;&#25991;&#26696;&#23545;&#24212;&#19981;&#21516;&#20851;&#38190;&#35789;&#32452;&#21512;&#65292;&#25628;&#32034;+&#23637;&#31034;    
-    &#27880;&#20876;&#36319;&#36394; Conversion Page -->
-    <script type="text/javascript">
-    /* <![CDATA[ */
-    var google_conversion_id = 850659212;
-    var google_conversion_language = "en";
-    var google_conversion_format = "3";
-    var google_conversion_color = "ffffff";
-    var google_conversion_label = "ZVS0COmL-XEQjI_QlQM";
-    var google_conversion_value = 12.00;
-    var google_conversion_currency = "CNY";
-    var google_remarketing_only = false;
-    var email = "{{ $email }}";
-    if (email) {
-        var google_conversion_email = email;
-    }
-    /* ]]> */
-    </script>
-    <script type="text/javascript"  
-    src="//www.googleadservices.com/pagead/conversion.js">
-    </script>
-    <noscript>
-    <div style="display:inline;">
-    <img height="1" width="1" style="border-style:none;" alt=""  
-    src="//www.googleadservices.com/pagead/conversion/850659212/?value=12.00&amp;currency_code=CNY&amp;label=ZVS0COmL-XEQjI_QlQM&amp;guid=ON&amp;email={{ $email }}&amp;script=0"/>
-    </div>
-    </noscript>
+<!-- 需求改变，两段谷歌统计代码已经移到RegisterListenter内，手动点击激活链接发现会报错:
+    Undefined variable: email (View: E:\wamp64\www\bigbigads_new\resources\views\auth\verify.blade.php
+-->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -54,31 +28,4 @@
       ga('create', 'UA-87299802-3', 'auto');
       ga('send', 'pageview');
     </script>
-
-<!-- 需求给的另一段谷歌分析代码 -->
-<!-- 以下是适用于转化操作bigbigads注册(info)的Google AdWords转化跟踪代码。要开始跟踪此转化，您需要将代码复制并粘贴到要跟踪的网页的来源中。
-相关提示请访问https://support.google.com/adwords/answer/6331314?&hl=zh_CN。 -->
-<!-- Google Code for bigbigads&#27880;&#20876;(info) Conversion Page -->
-    <script type="text/javascript">
-    /* <![CDATA[ */
-    var google_conversion_id = 851092927;
-    var google_conversion_language = "en";
-    var google_conversion_format = "3";
-    var google_conversion_color = "ffffff";
-    var google_conversion_label = "ohi0CK6n93EQv8vqlQM";
-    var google_remarketing_only = false;
-    var email = "{{ $email }}";
-    if (email) {
-        var google_conversion_email = email;
-    }
-    /* ]]> */
-    </script>
-    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
-    </script>
-    <noscript>
-    <div style="display:inline;">
-    <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/851092927/?label=ohi0CK6n93EQv8vqlQM&amp;guid=ON&amp;script=0"/>
-    </div>
-    </noscript>
-
 @endsection

@@ -225,13 +225,12 @@ class UserController extends Controller
             dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
             //社交登录请求转化代码页面
             $domain = env('APP_URL');
-            $url = $domain . 'socialiteStat.html';
+            $url = $domain . 'socialiteStat.html?query=socialte_' . $name;
             $client = new GuzzleHttp\Client();
-            $res = $client->request('GET', $url);
-        }
+            $res = $client->requestAsync('GET', $url);
+        } 
         Auth::login($user);
         return redirect('/app/#');
-
     }    
 
     /**
