@@ -13,7 +13,7 @@
     <link href="./dist/home.css?v=1" rel="stylesheet">
     @include('tpl.script')
 </head>
-<body>
+<body class="product">
 @include('tpl.header')
 <!-- swiper-wrapper -->
 <section class="slider">
