@@ -43,8 +43,7 @@
     "url-loader": "^0.5.8",
     "webpack": "^2.4.1",
     "webpack-manifest-plugin": "^1.1.0",
-    "node-sass": "^4.5.2",
-    "gulp-minify-html": "^1.0.6"
+    "node-sass": "^4.5.2"
   },
   "dependencies": {
     "angular": "1.5.8",
