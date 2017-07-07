@@ -55,7 +55,6 @@
     }
     .btn:active, .btn:focus,  .btn:hover, .btn:visited{
     	color:#fff !important;
-
     }
     /*居中*/
     .ads-center{
@@ -100,13 +99,11 @@
                     font-weight: 100;
                 }
                 .ads-reg-btn{
-                    background: #eb6130;
                     padding: px(14) 0;
                     width: 90%;
                     display: block;
                     margin: 0 auto;
                     margin-top: px(16);
-    				background-image: linear-gradient(0deg,#3e5792,#4e6eb6);
                     .reg-btn-icon{
                         font-size: px(22);
                         color: #fff;
@@ -118,6 +115,14 @@
                         vertical-align: bottom;
                     }
 
+                }
+                /*facebook 登陆背景色*/
+                .reg-with-fb{
+                    background-image: linear-gradient(0deg,#3e5792,#4e6eb6);
+                }
+                /*领英按钮背景色*/
+                .reg-with-linkedin{
+                    background: #0077b5;
                 }
                 .ads-reg-line{
                     width: 60%;

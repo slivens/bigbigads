@@ -5,6 +5,10 @@
             <i class="fa fa-facebook-square reg-btn-icon"></i>
             <span class=" reg-btn-text">Sign Up With Facebook</span>
         </a>
+        <a class="register-inbtn btn register-btn" ng-href="/socialite/linkedin{{trackCode != null ? '?track='+trackCode : ''}}">
+            <i class="fa fa-linkedin-square reg-btn-icon"></i>
+            <span class=" reg-btn-text">Sign Up With Linkedin</span>
+        </a>
         <a class="use-email-btn btn register-btn" ng-click="turnToEmail()">
             <i class="fa fa-envelope reg-btn-icon"></i>
             <span class=" reg-btn-text">Sign Up With Emial</span>
@@ -61,5 +65,5 @@
         </div>
     </div>
     <p class="text-left">By signing up, I hereby agree to the Bigbigads <a href="../terms_service">Terms</a> and <a href="../privacy_policy">Privacy Policy</a>, and to receive emails &amp; updates. </p>
-    <p class="text-left">Already have an account? <a href="../login"> Sign In </a></p>
+   <!--  <p class="text-left">Already have an account? <a href="../login"> Sign In </a></p> -->
 </form>

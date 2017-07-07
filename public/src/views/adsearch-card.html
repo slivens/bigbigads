@@ -44,10 +44,14 @@
                 </div>
                 <div class="col-md-9 xg-pt0">
                     <div class="margin-bottom-5 xg-overflow-hidden">
-                        <a class="xg-adsername" adserlink name="{{card.adser_name}}" username="{{card.adser_username}}">
+                        <a class="xg-adsername mobile-hidden" adserlink name="{{card.adser_name}}" username="{{card.adser_username}}">
                             <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
                             <span ng-show="!card.adser_name">{{card.adser_username}}</span>
                         </a>
+                        <span class="xg-adsername mobile-show">
+                            <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
+                            <span ng-show="!card.adser_name">{{card.adser_username}}</span>
+                        </span>
                     </div>
                     <div class="pull-left">
                         <!-- <a originlink class="xg-sponsored" id="{{card.adser_username}}" eventid="{{card.event_id}}" type="{{card.show_way}}">Sponsored</a> -->
