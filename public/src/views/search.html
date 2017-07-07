@@ -97,7 +97,7 @@
                 </div>
             </div>
             <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend" ng-class="{'half-opacity':adSearcher.busy && adSearcher.params.limit[0] === 0}">
-                <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid" cardTemplate="{{'views/adsearch-card.html' | nocache}}">
+                <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid clearfix" cardTemplate="{{'views/adsearch-card.html' | nocache}}">
                 </div>
                 <div class="clearfix">
                 </div>
