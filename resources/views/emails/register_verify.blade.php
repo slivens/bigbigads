@@ -26,7 +26,7 @@
             </table>
             <table style="width:580px;margin:0 auto;margin-top:20px">
                 <tr>
-                    <td style="padding:30">
+                    <td style="padding:30px">
                         <table>
                             <tr>
                                 <td style="text-align:left">
