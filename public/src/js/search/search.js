@@ -228,7 +228,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				if (vm.busy)
 					return;
 				vm.params.limit[0] += settings.searchSetting.pageCount;
-				vm.search(vm.params, false, action);
+				return vm.search(vm.params, false, action);
 			};
 			vm.filter = function(action) {
 				var promise;
@@ -448,8 +448,8 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 	}
 ]);
 /* adsearch js */
-app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal',  '$window', 'TIMESTAMP',
-		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window, TIMESTAMP) {
+app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal',  '$window', 'TIMESTAMP', '$timeout',
+		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window, TIMESTAMP, $timeout) {
 			//搜索流程:location.search->searchOption->adSearcher.params
 			//将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
 
@@ -461,10 +461,16 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 searcher.queryToSearch($location.search(), option);
             }
 			var adSearcher = $scope.adSearcher = new Searcher();
+            adSearcher.throttle = false;
 			adSearcher.checkAndGetMore = function() {
-
+                adSearcher.throttle = true;
 				if (!User.done) {
-					adSearcher.getMore('search');
+                    adSearcher.getMore('search').then(function() {
+                        $timeout(function() {
+                            adSearcher.throttle = false;    
+                            console.log("stop throttle");
+                        }, 100)
+                    });
 					return;
 				}
 				var policy = User.getPolicy('result_per_search');
@@ -480,7 +486,13 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					adSearcher.isend = true;
 					return;
 				}
-				adSearcher.getMore('search');
+				adSearcher.getMore('search').then(function() {
+                        $timeout(function() {
+                            adSearcher.throttle = false;    
+                            console.log("stop throttle");
+                        }, 100)
+                    });
+
 			};
 			// $scope.adSearcher.search($scope.adSearcher.defparams, true);
 			$scope.reverseSort = function() {
