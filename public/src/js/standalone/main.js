@@ -904,6 +904,7 @@ initialization can be disabled and Layout.init() should be called on page load c
 MetronicApp.controller('HeaderController', ['$scope', function($scope) {
     $scope.$on('$includeContentLoaded', function() {
         // Layout.initHeader(); // init header
+
     });
 }]);
 MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', '$state', function($scope, $location, User, $state) {
@@ -1463,17 +1464,6 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
                         $scope.trackCode = null;
                     }
 
-                    /*弹窗中的点击事件*/
-                    $scope.shortcutReg = true; //初始化
-                    $scope.useEmailReg = false; //初始化
-                    $scope.turnToEmail = function() {
-                        $scope.shortcutReg = false;
-                        $scope.useEmailReg = true;
-                    };
-                    $scope.turnToShotcut = function() {
-                        $scope.shortcutReg = true;
-                        $scope.useEmailReg = false;
-                    }
                 }]
             });
         },
@@ -1524,7 +1514,7 @@ MetronicApp.controller('UserController', ['$scope', '$http', '$window', 'User', 
                 $scope.showHotmailMessage = true;
             }
         });
-    }
+    };
     $scope.processForm = function(isValid) {
         $scope.isShow = true;
         if ($scope.formData.name == ' ') {$scope.formData.name = $scope.formData.email.split('@')[0];}
@@ -1555,4 +1545,15 @@ MetronicApp.controller('UserController', ['$scope', '$http', '$window', 'User', 
             );
         }
     };
+    /*弹窗中的点击事件*/
+    $scope.shortcutReg = true; //初始化
+    $scope.useEmailReg = false; //初始化
+    $scope.turnToEmail = function() {
+        $scope.shortcutReg = false;
+        $scope.useEmailReg = true;
+    };
+    $scope.turnToShotcut = function() {
+        $scope.shortcutReg = true;
+        $scope.useEmailReg = false;
+    }
 }]);
