@@ -546,6 +546,7 @@ header {
 }
 
 
+
 /*home pricing*/
 
 .pricing-div {
@@ -753,7 +754,13 @@ footer a {
     margin-right: 8px;
 }
 
-
+.product{
+    .slider{
+        .slider-title{
+            font-size: 28px;
+        }
+    } 
+}
 /*product*/
 
 .solution-product {
