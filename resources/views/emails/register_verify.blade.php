@@ -17,11 +17,10 @@
 								<td colspan="2" style="padding-top: 20px">
 									<p style="font-size: 22px;line-height: 26px;color: #444">Please take a second to make sure we've got your email right.</p>
 									<a href="{{$link}}" style="padding:14px 20px 14px 20px;border-radius:4px;font-weight:bold;font-size:18px;line-height:22px;color:#ffffff;display:block;text-align:center;max-width:400px;background: #eb6130;text-decoration-line: none;margin: 0px auto;margin-top: 40px;" target="_blank">Confirm your email
-																		</a>
+									</a>
 								</td>
 							</tr>
 						</table>
-						
 					</td>
 				</tr>
 			</table>
@@ -42,16 +41,15 @@
 										171&nbsp;&nbsp;WANCHAI&nbsp;ROAD,&nbsp;WANCHAI HONG KONG</p>
 									<p>
 										<a href="http://www.bigbigads.com/blog">Blog</a>
-										&nbsp;·&nbsp;
+										&nbsp;.&nbsp;
 										<a href="http://www.bigbigads.com/privacy_policy" target="_blank">Privacy Policy</a>
-										&nbsp;·&nbsp;<a href="http://www.bigbigads.com/terms_service" target="_blank">Terms &amp; Conditions</a>
+										&nbsp;.&nbsp;<a href="http://www.bigbigads.com/terms_service" target="_blank">Terms &amp; Conditions</a>
 									</p>
 								</td>
 							</tr>
 						</table>
 					</td>
 				</tr>
-
 			</table>
 		</td>
 	</tr>

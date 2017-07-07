@@ -21,7 +21,7 @@
                                 <div class="input-group-btn">
                                     <button type="submit" class="btn yellow-gold btn-lg " ng-disabled="adSearcher.busy" ng-click="searchCheck(adSearcher.searchOption.search.text)">
                                         <span class="search-btn-text mobile-hidden">Search</span>
-                                        <i class="fa fa-search search-btn-icon hidden mobile-show"></i>
+                                        <i class="fa fa-search search-btn-icon mobile-show"></i>
                                     </button>
                                     
                                 </div>
@@ -31,6 +31,7 @@
                         <!-- <button policy-lock class="btn blue btn-outline btn-md disabled" key="export">Export</button> -->
                         <!-- <button class="btn blue btn-outline btn-md " disabled="disabled">Subscribe</button> -->
                     </div>
+
                     <div class="margin-top-10" ng-if="User.login">
                         <span class="font-yellow-gold" ng-show="User.info.user.role.name ==='Free' && (currSearchOption.isdirty || adSearcher.searchOption.search.text)">Tips: The free level user can only see data 2 months before.</span>
                     </div>
@@ -86,6 +87,7 @@
                     </form>
                 </div>
                 <div class="xg-count-mt search-result" ng-show="!adSearcher.busy">
+
                     <span ng-if="!adSearcher.ads.all_total_count&&adSearcher.ads.total_count!=0">Found <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> Matching Ads </span>
                     <span ng-if="adSearcher.ads.all_total_count">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}} </span> Matching Ads/You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> results <a class="font-yellow-gold xg-upgrade-button" ui-sref="plans"> Upgrade Now</a></span>
                     <span ng-if="adSearcher.ads.total_count == 0">Your search did not match any results.</span>
@@ -119,7 +121,8 @@
     <!-- <span class="sr-only">Toggle Filter Sidebar</span> -->
     <!-- <i class="icon-grid"></i> -->
     <!-- </button> -->
-    <div data-ng-include="'tpl/quick-sidebar.html' | nocache" data-ng-controller="QuickSidebarController" class="page-quick-sidebar-wrapper xg-quick-sidebar-top52" ng-class="showSider"></div>
+
+    <div data-ng-include="'tpl/quick-sidebar.html' | nocache" data-ng-controller="QuickSidebarController" class="page-quick-sidebar-wrapper xg-quick-sidebar-top52"></div>
     <!-- <button type="button" class="bg-yellow-gold statics-btn" ng-click="showStatics()"> -->
     <!--     <span class="sr-only">Toggle Statics Dialog</span> -->
     <!--     <i class="icon-bar-chart font-white fa-2x"></i> -->

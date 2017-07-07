@@ -121,11 +121,14 @@
                 <div class="form-group text-center">
                     <!-- 暂时注释社交登录部分 -->
                     <!-- <a href="/socialite/github" class="github"><i class="fa fa-github fa-3x"></i></a> -->
-                    <a href="/socialite/facebook" class="register-fb-btn btn facebook socialite">
+                    <a href="/socialite/facebook" class="register-btn register-fb-btn btn  socialite">
                         <i class="fa fa-facebook-square reg-btn-icon"></i>
                         <span class=" reg-btn-text">Log In With Facebook</span>
                     </a>
-                    <a href="/socialite/linkedin" class="linkedin socialite hidden"><i class="fa fa-linkedin-square fa-3x"></i></a>
+                    <a href="/socialite/linkedin" class="register-btn register-linkedin-btn btn  socialite">
+                        <i class="fa fa-linkedin-square reg-btn-icon"></i>
+                        <span class=" reg-btn-text">Log In With Linknedin</span>
+                    </a>
                     <a href="/socialite/google" class="google-plus socialite hidden"><i class="fa fa-google-plus-square fa-3x"></i></a>
                 </div>
                 <div class="login-footer row">
@@ -172,10 +175,14 @@
             <form class="register-form " action="{{url('/register')}}" method="post">
                 {{ csrf_field() }}
                 <h3 class="form-title">Sign Up</h3>
-                <a class="register-fb-btn btn  facebook socialite" href="/socialite/facebook">
+                <a href="/socialite/facebook" class="register-btn register-fb-btn btn  facebook socialite" >
                     <i class="fa fa-facebook-square reg-btn-icon"></i>
                     <span class=" reg-btn-text">Sign Up With Facebook</span>
                 </a>
+                <a href="/socialite/linkedin" class="register-btn register-linkedin-btn btn  socialite">
+                        <i class="fa fa-linkedin-square reg-btn-icon"></i>
+                        <span class=" reg-btn-text">Log In With Linknedin</span>
+                    </a>
                 <div class="register-line">
                     <span class="underline"></span>
                     <span class="line-word">or</span>
