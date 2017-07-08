@@ -198,3 +198,6 @@ Route::post('/trackState', function (Request $request) {
     track($request); 
 });
 
+Route::get('/welcome', function () {
+    return view('welcome');
+});
