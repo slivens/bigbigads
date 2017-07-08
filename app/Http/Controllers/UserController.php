@@ -19,6 +19,7 @@ use Illuminate\Auth\Events\Registered;
 
 use App\Jobs\ResendRegistMail;
 use GuzzleHttp;
+use BrowserDetect;
 class UserController extends Controller
 {
     use ResetsPasswords;
@@ -222,7 +223,11 @@ class UserController extends Controller
             $item->bind = $email;
             $item->remark = json_encode($socialiteUser);
             $item->save();
-            dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
+            if (BrowserDetect::isMobile()) {
+                dispatch(new LogAction("USER_BIND_SOCIALITE_MOBILE_" . $name, json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
+            } else {
+                dispatch(new LogAction("USER_BIND_SOCIALITE_" . $name, json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
+            }
             //社交登录请求转化代码页面，需求变更，弃用，改为跳转至注册欢迎页面
             /*$domain = env('APP_URL');
             $url = $domain . 'socialiteStat.html?query=socialte_' . $name;
@@ -303,4 +308,5 @@ class UserController extends Controller
         dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
         return redirect('/app/#');
     }
+
 }
