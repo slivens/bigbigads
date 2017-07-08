@@ -953,9 +953,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				});
 			}
 			$scope.upgrade = function() {
-				if (/iphone|nokia|sony|ericsson|mot|samsung|sgh|lg|philips|panasonic|alcatel|lenovo|cldc|midp|wap|mobile/i.test(navigator.userAgent.toLowerCase())) {
-			        window.open('/mobile_maintain', "_self");
-			    }
+				if (Util.isMobile) {
+					window.open('/mobile_maintain', "_self");
+				}
 			    $state.go("plans");
 			};
             $scope.Util = Util;
@@ -1352,6 +1352,12 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			}
 			$scope.adSearcher.filter(action);
 		}
+		$scope.upgrade = function() {
+			if (Util.isMobile) {
+				window.open('/mobile_maintain', "_self");
+			}
+		    $state.go("plans");
+		};
         //一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
         User.getInfo().then(function() {
             //根据search参数页面初始化
