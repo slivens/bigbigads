@@ -223,11 +223,13 @@ class UserController extends Controller
             $item->remark = json_encode($socialiteUser);
             $item->save();
             dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
-            //社交登录请求转化代码页面
-            $domain = env('APP_URL');
+            //社交登录请求转化代码页面，需求变更，弃用，改为跳转至注册欢迎页面
+            /*$domain = env('APP_URL');
             $url = $domain . 'socialiteStat.html?query=socialte_' . $name;
             $client = new GuzzleHttp\Client();
-            $res = $client->requestAsync('GET', $url);
+            $res = $client->requestAsync('GET', $url);*/
+            Auth::login($user);
+            return redirect('welcome?socialte=' . $name);
         } 
         Auth::login($user);
         return redirect('/app/#');

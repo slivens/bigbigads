@@ -952,6 +952,12 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					}
 				});
 			}
+			$scope.upgrade = function() {
+				if (/iphone|nokia|sony|ericsson|mot|samsung|sgh|lg|philips|panasonic|alcatel|lenovo|cldc|midp|wap|mobile/i.test(navigator.userAgent.toLowerCase())) {
+			        window.open('/mobile_maintain', "_self");
+			    }
+			    $state.go("plans");
+			};
             $scope.Util = Util;
 			$scope.User = User;
 			$scope.Searcher = Searcher;

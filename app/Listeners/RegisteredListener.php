@@ -36,11 +36,12 @@ class RegisteredListener
         $bookmark->uid = $user->id;
         $bookmark->name = "default";
         $bookmark->save();
-
-        $domain = env('APP_URL');
+        //需求变更，弃用
+        /*$domain = env('APP_URL');
         //注册和社交登录的统计代码是一样的，请求同一个页面就行了，仅仅是query参数不同
         $url = $domain . 'socialiteStat.html?query=email';
         $client = new GuzzleHttp\Client();
         $res = $client->requestAsync('GET', $url);
+        return redirect('welcome?socialte=email');*/
     }
 }
