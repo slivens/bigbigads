@@ -228,7 +228,7 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				if (vm.busy)
 					return;
 				vm.params.limit[0] += settings.searchSetting.pageCount;
-				return vm.search(vm.params, false, action);
+				vm.search(vm.params, false, action);
 			};
 			vm.filter = function(action) {
 				var promise;
@@ -448,8 +448,8 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 	}
 ]);
 /* adsearch js */
-app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal',  '$window', 'TIMESTAMP', '$timeout',
-		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window, TIMESTAMP, $timeout) {
+app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal',  '$window', 'TIMESTAMP',
+		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window, TIMESTAMP) {
 			//搜索流程:location.search->searchOption->adSearcher.params
 			//将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
 
@@ -461,16 +461,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 searcher.queryToSearch($location.search(), option);
             }
 			var adSearcher = $scope.adSearcher = new Searcher();
-            adSearcher.throttle = false;
 			adSearcher.checkAndGetMore = function() {
-                adSearcher.throttle = true;
+
 				if (!User.done) {
-                    adSearcher.getMore('search').then(function() {
-                        $timeout(function() {
-                            adSearcher.throttle = false;    
-                            console.log("stop throttle");
-                        }, 100)
-                    });
+					adSearcher.getMore('search');
 					return;
 				}
 				var policy = User.getPolicy('result_per_search');
@@ -486,13 +480,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					adSearcher.isend = true;
 					return;
 				}
-				adSearcher.getMore('search').then(function() {
-                        $timeout(function() {
-                            adSearcher.throttle = false;    
-                            console.log("stop throttle");
-                        }, 100)
-                    });
-
+				adSearcher.getMore('search');
 			};
 			// $scope.adSearcher.search($scope.adSearcher.defparams, true);
 			$scope.reverseSort = function() {
@@ -953,7 +941,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				});
 			}
 			$scope.upgrade = function() {
-				if (Util.isMobile) {
+				if (Util.isMobile()) {
 					window.open('/mobile_maintain', "_self");
 				}
 			    $state.go("plans");
@@ -1353,7 +1341,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			$scope.adSearcher.filter(action);
 		}
 		$scope.upgrade = function() {
-			if (Util.isMobile) {
+			if (Util.isMobile()) {
 				window.open('/mobile_maintain', "_self");
 			}
 		    $state.go("plans");
