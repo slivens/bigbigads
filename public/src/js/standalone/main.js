@@ -1536,7 +1536,8 @@ MetronicApp.controller('UserController', ['$scope', '$http', '$window', 'User', 
             })
             .then(
                 function successCallback(response){
-                    location.href = response.data.url;
+                    //location.href = response.data.url;
+                    location.href = "/welcome?source=email";
                 },
                 function errorCallback(response){
                     $scope.isShow = false; 
