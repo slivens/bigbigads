@@ -35,6 +35,8 @@ class SendRegistMail implements ShouldQueue
      */
     public function handle()
     {
+        if (!$this->user)
+            return;
         $email = $this->user->email;
         $useMailgun = false;
         /* $useMail2 = false; */

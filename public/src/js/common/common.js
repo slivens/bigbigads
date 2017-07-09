@@ -733,6 +733,13 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                         //defer.resolve(data);
                     });
                 }
+            },
+            isMobile:function() {
+                if (/iphone|nokia|sony|ericsson|mot|samsung|sgh|lg|philips|panasonic|alcatel|lenovo|cldc|midp|wap|mobile/i.test(navigator.userAgent.toLowerCase())) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         };
     }]);
