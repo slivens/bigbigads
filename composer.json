@@ -23,7 +23,8 @@
         "intervention/image": "^2.3",
         "intervention/imagecache": "^2.3",
         "orangehill/iseed": "^2.4",
-        "mews/captcha": "^2.1"
+        "mews/captcha": "^2.1",
+        "greggilbert/recaptcha": "^2.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -54,15 +54,18 @@ class LoginController extends Controller
     protected function validateLogin(Request $request)
     {
         $captchaStr = Voyager::setting('captcha');
+        $rules = [$this->username() => 'required', 'password' => 'required'];
+        $messages = [];
         if ($captchaStr && strpos($captchaStr, 'login') !== FALSE) {
-            $this->validate($request, [
-                $this->username() => 'required', 'password' => 'required', 'captcha' => 'required|captcha'
-            ]);
-        } else {
-            $this->validate($request, [
-                $this->username() => 'required', 'password' => 'required'
-            ]);
-        }
+            $captchaType = Voyager::setting('captcha_type');
+            if ($captchaType === 'recaptcha') {
+                $rules['g-recaptcha-response'] = 'required|recaptcha';
+                $messages['g-recaptcha-response.required'] = "validate you are not a robot";
+            } else {
+                $rules['captcha'] = 'required|captcha';
+            }
+        } 
+        $this->validate($request, $rules, $messages);
     }
 
     protected function authenticated($request, $user)
