@@ -70,7 +70,7 @@
             <div class="xg-count-mt search-result" ng-show="!adSearcher.busy">
                 <span ng-if="!adSearcher.ads.all_total_count && adSearcher.ads.total_count != 0">Found <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> Matching Ads </span>
 
-                <span ng-if="adSearcher.ads.all_total_count">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}} </span> Matching Ads/You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> results <a class="font-yellow-gold xg-upgrade-button" ui-sref="plans"> Upgrade Now</a></span>
+                <span ng-if="adSearcher.ads.all_total_count">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}} </span> Matching Ads/You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> results <a class="font-yellow-gold xg-upgrade-button" ng-click="upgrade()"> Upgrade Now</a></span>
 
                 <span ng-if="adSearcher.ads.total_count == 0">Your search did not match any results. </span>
             </div>
@@ -80,7 +80,7 @@
             </div>
             <div class="clearfix">
             </div>
-			<div class="text-center" ng-show="adSearcher.busy">
+			<div class="text-center" ng-show="adSearcher.busy && adSearcher.params.limit[0] !== 0">
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
 				<span class="sr-only">Loading...</span>
 			</div>

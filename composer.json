@@ -24,7 +24,8 @@
         "intervention/imagecache": "^2.3",
         "orangehill/iseed": "^2.4",
         "mews/captcha": "^2.1",
-        "greggilbert/recaptcha": "^2.2"
+        "greggilbert/recaptcha": "^2.2",
+        "hisorange/browser-detect": "2.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

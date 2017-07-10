@@ -185,7 +185,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Orangehill\Iseed\IseedServiceProvider::class
+        Orangehill\Iseed\IseedServiceProvider::class,
+        hisorange\BrowserDetect\Provider\BrowserDetectService::class,
     ],
 
     /*
@@ -237,7 +238,8 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
-        'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class
+        'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
+        'BrowserDetect' => hisorange\BrowserDetect\Facade\Parser::class
     ],
 
 ];
