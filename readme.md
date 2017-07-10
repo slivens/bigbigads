@@ -299,7 +299,7 @@ $NODE_ENV='production' webpack -p #生产环境
 
 ## Design Documents
 [Bigbigads原型设计.rp](/uploads/068102ffa932509f98fed02efb76029b/Bigbigads原型设计.rp)
-[bigbigads设计.asta](/uploads/1ca44d34c686fecbb6ca07a91faf0fb6/bigbigads设计.asta)
+[bigbigads设计.asta](/uploads/9c4876c4cff4d2fa4059bf744bd652b7/bigbigads设计.asta)
 [bigbigads_plan_new.pdf](/uploads/0bd89378aafdb23d60ac644317e08be6/bigbigads_plan_new.pdf)
 
 ## Admin Tutorial
