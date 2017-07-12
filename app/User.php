@@ -49,9 +49,9 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function aff()
+    public function affiliates()
     {
-        return $this->belongsTo('App\Affiliate', 'aff_id');
+        return $this->hasMany('App\Affiliate', 'email', 'email');
     }
 
     /**

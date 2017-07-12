@@ -16,17 +16,14 @@ class UserObserver
     public function created(User $user)
     {
         // 创建用户时同时创建推荐码
-        $aff = Affiliate::create([
+        $affiliate = Affiliate::create([
             'name'      => $user->name,
             'email'     => $user->email,
             'password'  => $user->password,
             'track'     => str_random(10),
             'status'    => 1,
-            'type'      => 0
+            'type'      => 1
         ]);
-
-        $user->aff_id = $aff->id;
-        $user->save();
     }
 
     /**
@@ -38,13 +35,11 @@ class UserObserver
     public function updated(User $user)
     {
         // 更新用户时同时更新关联推荐码的字段
-        $aff = Affiliate::find($user->aff_id);
-
-        $aff->name = $user->name;
-        $aff->email = $user->email;
-        $aff->password = $user->password;
-
-        $aff->save();
+        Affiliate::where('email', $user->email)->update([
+            'name'     => $user->name,
+            'email'    => $user->email,
+            'password' => $user->password
+        ]);
     }
 
     /**
@@ -56,7 +51,6 @@ class UserObserver
     public function deleting(User $user)
     {
         // 删除用户时同时删除关联推荐码
-        $aff = Affiliate::find($user->aff_id);
-        $aff->delete();
+        Affiliate::where('email', $user->email)->delete();
     }
 }

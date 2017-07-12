@@ -13,22 +13,19 @@ class UsersGenerateTrackSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::where('aff_id', null)->get();
+        $users = User::has('affiliates', '=', 0)->get();
 
         foreach ($users as $user) {
-            $aff = Affiliate::create([
+            $affiliate = $user->affiliates()->create([
                 'name'      => $user->name,
                 'email'     => $user->email,
                 'password'  => $user->password,
                 'track'     => str_random(10),
                 'status'    => 1,
-                'type'      => 0
+                'type'      => 1
             ]);
 
-            $user->aff_id = $aff->id;
-            $user->save();
-
-            echo 'Generate track "' . $aff->track . '" to ' . $user->email . "\n";
+            echo 'Generate track "' . $affiliate->track . '" to ' . $user->email . "\n";
         }
 
         echo 'Generate track complete!' . "\n";

@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class WordpressController extends Controller
 {
-    function getTrackId () {
+    function getTrackId (Request $request) {
         if (Auth::user()) {
             $user = User::find(Auth::user()->id);
-            $aff = $user->aff;
-            $track = $aff ? $aff->track : '';
+            $affiliates = $user->affiliates;
+
+            // 返回用户第一个 affiliate 的 track
+            $track = $affiliates[0] ? $affiliates[0]->track : '';
         } else {
             $track = '';
         }
