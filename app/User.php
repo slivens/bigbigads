@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cache;
 use TCG\Voyager\Models\Permission;
 use Carbon\Carbon;
 use App\Policy;
+use App\Affiliate;
 
 class User extends Authenticatable
 {
@@ -46,6 +47,11 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function aff()
+    {
+        return $this->belongsTo('App\Affiliate', 'aff_id');
     }
 
     /**

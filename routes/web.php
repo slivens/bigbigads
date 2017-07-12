@@ -23,22 +23,6 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterVerify;
 use TCG\Voyager\Models\Setting;
 
-function track(Request $request) {
-    if ($request->has('track')) {
-        //CPC的用户
-        $affiliate = App\Affiliate::where(['track' => $request->track, 'status' => 1])->first();
-        if ($affiliate instanceof App\Affiliate) {
-            $visited = App\AffiliateLog::where(['ip' => $request->ip(), 'track' => $request->track])->whereDate('created_at', DB::raw('CURDATE()'))->count();
-            if (!$visited) {
-                App\AffiliateLog::create(['ip' => $request->ip(), 'track' => $request->track]);
-                $affiliate->click++;
-                $affiliate->save();
-            }
-            return true;
-        }
-    }
-    return false;
-}
 Route::get('/', function (Request $request) {
     /*$url = '/app/';
     if (track($request)) {
@@ -47,9 +31,8 @@ Route::get('/', function (Request $request) {
     return redirect($url);*/
     //需求改动，/跳转至index页面
     $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
-    track($request);
     return view('index')->with('recents', $recents);
-});
+})->middleware('track');
 
 Route::get('/message', 'Controller@messageView');
 
@@ -68,9 +51,8 @@ Route::post('/socialite/{name}/bind', 'UserController@bind')->name('socialiteBin
  */
 Route::get('/home', function (Request $request) {
     $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
-    track($request);
     return view('index')->with('recents', $recents);
-});
+})->middleware('track');
 
 Route::get('/blog', function () {
 
@@ -178,9 +160,8 @@ Route::get('/image', function(Request $request) {
 
 Route::get('/mobile', function (Request $request) {
     //手机端的跳转也支持track统计
-    track($request);
     return view('mobile');
-});
+})->middleware('track');
 
 /*移动端登录提示页面*/
 Route::get('/mobile_maintain', function () {
@@ -195,6 +176,8 @@ Route::get('/config', function() {
     统计app的track
 */
 Route::post('/trackState', function (Request $request) {
-    track($request); 
-});
+})->middleware('track');
 
+// Wordpress
+Route::get('/wordpress/get_track_id', 'WordpressController@getTrackId');
+Route::get('/wordpress/track_notice', 'WordpressController@trackNotice')->middleware('track');

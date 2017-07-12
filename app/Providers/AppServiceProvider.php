@@ -2,9 +2,13 @@
 
 namespace App\Providers;
 
+use App\User;
+use TCG\Voyager\Models\User as VoyagerUser;
+use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
 use App\BookmarkItem;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -14,11 +18,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // 监听 User 模型事件
+        User::observe(UserObserver::class);
+        VoyagerUser::observe(UserObserver::class);
+
 		//Braintree支付注册
 		\Braintree_Configuration::environment(config('services.braintree.environment'));
 		\Braintree_Configuration::merchantId(config('services.braintree.merchant_id'));
 		\Braintree_Configuration::publicKey(config('services.braintree.public_key'));
 		\Braintree_Configuration::privateKey(config('services.braintree.private_key'));
+
         //收藏夹不允许重复记录，会影响到权限统计，因此在创建的时候就要检查
         BookmarkItem::creating(function($newItem) {
             $count = BookmarkItem::where('bid', $newItem->bid)->where('type', $newItem->type)->where('ident', $newItem->ident)->count();
