@@ -21,12 +21,12 @@ class WordpressController extends Controller
     }
 
     function trackNotice (Request $request) {
-        $url = $request->input('url');
-        $track = $request->input('track');
+        // $url = $request->input('url');
+        // $track = $request->input('track');
 
-        return response()->json([
-            'url' => $url,
-            'track' => $track
-        ]);
+        // return response()->json([
+        //     'url' => $url,
+        //     'track' => $track
+        // ]);
     }
 }
