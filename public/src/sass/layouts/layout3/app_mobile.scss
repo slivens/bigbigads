@@ -376,4 +376,33 @@
             }
         }
     }
+
+    //拉到底部的提示部分
+    .dashboard-stat {
+        padding: 0;
+        p {
+            font-size: px(22);
+        }
+        .help-block {
+            font-size: px(14);
+            font-weight: 200;
+        }
+        .register-form {
+            padding: 0;
+            .form-title {
+                margin-top: px(30);
+                margin-bottom: px(20);
+                text-align: center;
+            }
+            .register-btn {
+                font-size: px(20) !important;
+            }
+        }
+        .reg-remind-text{
+            font-size: px(14);
+            font-size: 200;
+            text-align: center;
+        }
+    }
+
 }

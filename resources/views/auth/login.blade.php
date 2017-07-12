@@ -35,8 +35,8 @@
 
     <body class=" login">
         <!-- BEGIN LOGO -->
-            
-        
+
+
         <div class="logo text-center">
             <a href="/" style="color:white;text-decoration:none;" class="bigbigads-logo">
                 <!-- <h2 style="font-family:'Times New Roman'">Bigbigads</h2> -->
@@ -80,6 +80,17 @@
                         @endif
                 </div>
                 @if (Voyager::setting('captcha') && strpos(Voyager::setting('captcha'), 'login') !== FALSE)
+                @if (Voyager::setting('captcha_type') === 'recaptcha')
+
+                <div class="form-group{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
+                    {!! Recaptcha::render() !!}
+                        @if ($errors->has('g-recaptcha-response'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                            </span>
+                        @endif
+                </div>
+                @else
                 <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
                     <label class="control-label visible-ie9">Captcha</label>
                     <div class="input-group">
@@ -93,6 +104,7 @@
                         @endif
                 </div>
                 @endif
+                @endif
                 <!--remember me, forget password-->
                 <div class="form-actions row">
                     <div class="col-md-6 col-xs-6 rememberme-div">
@@ -102,7 +114,7 @@
                         </label>
                     </div>
                     <div class="forget-password col-md-6 col-xs-6 text-right">
-                    
+
                         <label>
                             <a href="javascript:;" id="forget-password" href="{{ url('/password/reset') }}">
                                 Forget your password?
@@ -140,7 +152,7 @@
                     </p>
                     </div>
                 </div>
-                 
+
             </form>
             <!-- END LOGIN FORM -->
             <!-- BEGIN FORGOT PASSWORD FORM -->
@@ -257,9 +269,9 @@
                 </div>
             </form>
             <!-- END REGISTRATION FORM -->
-        
+
         </div>
-       
+
 
         <div class="backgrounddiv backstretch">
             <img src="/static/images/banner2.jpg">

@@ -75,20 +75,27 @@ class RegisterController extends Controller
         //临时新加需求,由于邮箱未送达率达到了近25%,暂时新加开关邮箱验证的功能，用户注册过后直接进入/app，对于state=0的用户
         //暂时不做任何的限制
         //后续需求会给出对这次放过的未进行邮箱验证的用户处理方式
+
+        //暂定注册流程 注册 -> 欢迎界面 
+        dispatch(new SendRegistMail($user));
+        return redirect('welcome?socialte=email');
+        /* 需求变更，暂时抛弃，以后流程会再更改，加入新用户引导的部分
         $emailVerification = Voyager::setting('email_verification');
         if ($emailVerification != "false") {
             if ($user->state == 0) {
-                Auth::logout();
-                $this->redirectTo = "/sendVerifyMail?email={$user->email}";
-                // Authentication passed...
-                if ($request->ajax()) {
-                    return ['code' => 0, 'url' => $this->redirectTo];
-                }
-            }
+                 Auth::logout();
+                 $this->redirectTo = "/sendVerifyMail?email={$user->email}";
+                 // Authentication passed...
+                 if ($request->ajax()) {
+                     return ['code' => 0, 'url' => $this->redirectTo];
+                 }
+             }
         } else {
             //照样发送激活邮件，绕过提示点击邮件激活的页面，为以后区别出恶意注册的用户
+            //更改需求，跳转至欢迎页面
             dispatch(new SendRegistMail($user));
-        } 
+            return redirect('welcome?socialte=email');
+        }*/  
     }
     /**
      * Create a new user instance after a valid registration.

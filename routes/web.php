@@ -181,3 +181,7 @@ Route::post('/trackState', function (Request $request) {
 // Wordpress
 Route::get('/wordpress/get_track_id', 'WordpressController@getTrackId');
 Route::get('/wordpress/track_notice', 'WordpressController@trackNotice')->middleware('track');
+
+Route::get('/welcome', function () {
+    return view('welcome');
+});
