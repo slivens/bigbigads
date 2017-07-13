@@ -8,7 +8,7 @@ use App\Affiliate;
 class UserObserver
 {
     /**
-     * 监听用户创建的事件。
+     * 监听用户创建事件。
      *
      * @param  User  $user
      * @return void
@@ -32,14 +32,16 @@ class UserObserver
      * @param  User  $user
      * @return void
      */
-    public function updated(User $user)
+    public function updating(User $newUser)
     {
-        // 更新用户时同时更新关联推荐码的字段
-        Affiliate::where('email', $user->email)->update([
-            'name'     => $user->name,
-            'email'    => $user->email,
-            'password' => $user->password
-        ]);
+        $oldUser = User::find($newUser->id);
+
+        if ($oldUser->email != $newUser->email) {
+            // 更新用户时同时更新关联推荐码的字段
+            Affiliate::where('email', $oldUser->email)->update([
+                'email' => $newUser->email
+            ]);
+        }
     }
 
     /**
@@ -48,9 +50,9 @@ class UserObserver
      * @param  User  $user
      * @return void
      */
-    public function deleting(User $user)
-    {
-        // 删除用户时同时删除关联推荐码
-        Affiliate::where('email', $user->email)->delete();
-    }
+    // public function deleting(User $user)
+    // {
+    //     // 删除用户时同时删除关联推荐码
+    //     Affiliate::where('email', $user->email)->delete();
+    // }
 }

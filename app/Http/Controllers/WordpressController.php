@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 class WordpressController extends Controller
 {
-    function getTrackId (Request $request) {
+    public function getTrackId(Request $request)
+    {
         if (Auth::user()) {
             $user = User::find(Auth::user()->id);
             $affiliates = $user->affiliates;
@@ -22,7 +23,8 @@ class WordpressController extends Controller
         return 'var track_id = \'' . $track . '\';';
     }
 
-    function trackNotice (Request $request) {
+    public function trackNotice(Request $request)
+    {
         // $url = $request->input('url');
         // $track = $request->input('track');
 
