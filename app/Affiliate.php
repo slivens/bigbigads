@@ -8,7 +8,7 @@ class Affiliate extends Model
 {
 
     protected $fillable = [
-        'email', 'password', 'telephone', 'address', 'track', 'status', 'type', 'click', 'action', 'share', 'balance'
+        'name', 'email', 'password', 'telephone', 'address', 'track', 'status', 'type', 'click', 'action', 'share', 'balance'
     ];
 
     protected $hidden = [
