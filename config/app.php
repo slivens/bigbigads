@@ -176,6 +176,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
+        Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -237,7 +238,8 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
-        'BrowserDetect' => hisorange\BrowserDetect\Facade\Parser::class,
+        'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
+        'BrowserDetect' => hisorange\BrowserDetect\Facade\Parser::class
     ],
 
 ];

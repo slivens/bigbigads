@@ -84,6 +84,7 @@ return [
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
     'captcha' => "invalid captcha", //added by liuwc
+    'recaptcha' => "failed to validate you are not a robot", //added by liuwc
 
     /*
     |--------------------------------------------------------------------------
