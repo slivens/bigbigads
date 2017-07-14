@@ -143,6 +143,38 @@
         }
     }
 </style>
+<!-- 根据谷歌Tag Assistant插件提示做修改 -->
+<!-- 谷歌统计代码 -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-87299802-3', 'auto');
+  ga('send', 'pageview');
+
+  /*
+    for example
+    ga('send', {
+    hitType: 'event',
+    eventCategory: 'conversion',
+    eventAction: 'register',
+    eventLabel: 'social_facebook'
+  });
+  */
+  /*发送谷歌事件*/
+  //需求更改，询问google客服得知以异步的请求谷歌统计和转化代码是在48小时后生效且不一定成功
+  var href = window.location.href;
+  var params = href.split("?");
+  //重定向的url参数不知为何自动加了#_=_
+  var query = params[1].split("#");
+  var socialite = query[0].split("=");
+  //测试发现有fb像素发送请求有问题
+  //window.socialiteLogin = socialite[1];
+  if (socialite[0] === 'socialite') {
+      ga('send', 'event', 'conversion', 'register', socialite[1]);
+  }
+</script>
 </head>
 <!-- END HEAD -->
 <body class=" page-500-full-page">
@@ -174,12 +206,10 @@
         </div>
     </div>
 </body>
-
-<!-- google 插件代码，跟踪用户行为，需要放在注册，购买后的提示页面 -->
     <!-- Google Code for  
     &#32654;&#21152;&#20197;&#22806;&#65292;&#33521;&#35821;&#65292;&#22810;&#29256;&#26412;&#24191;&#21578;&#25991;&#26696;&#23545;&#24212;&#19981;&#21516;&#20851;&#38190;&#35789;&#32452;&#21512;&#65292;&#25628;&#32034;+&#23637;&#31034;    
     &#27880;&#20876;&#36319;&#36394; Conversion Page -->
-<!-- 谷歌账号1转化代码 -->
+<!-- google 1 translate -->
 <script type="text/javascript">
     /* <![CDATA[ */
     var google_conversion_id = 850659212;
@@ -196,7 +226,7 @@
 </script>
 
 <!-- Google Code for bigbigads&#27880;&#20876;(info) Conversion Page -->
-<!-- 谷歌账号2转化代码 -->
+<!-- google 2 translate -->
 <script type="text/javascript">
 /* <![CDATA[ */
 var google_conversion_id = 851092927;
@@ -205,61 +235,34 @@ var google_conversion_format = "3";
 var google_conversion_color = "ffffff";
 var google_conversion_label = "ohi0CK6n93EQv8vqlQM";
 var google_remarketing_only = false;
+var google_conversion_value = 0;
 /* ]]> */
 </script>
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>
 
-<!-- 谷歌统计代码 -->
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-87299802-3', 'auto');
-  ga('send', 'pageview');
-
-  /*
-    for example
-    ga('send', {
-    hitType: 'event',
-    eventCategory: 'conversion',
-    eventAction: 'register',
-    eventLabel: 'social_facebook'
-  });
-  */
-  /*发送谷歌事件*/
-  //需求更改，询问google客服得知以异步的请求谷歌统计和转化代码是在48小时后生效且不一定成功
-  var href = window.location.href;
-  var params = href.split("?");
-  //重定向的url参数不知为何自动加了#_=_
-  var query = params[1].split("#");
-  var socialte = query[0].split("=");
-  window.socialte = socialte[1];
-  if (socialte[0] === 'socialte' ) {
-      ga('send', 'event', 'conversion', 'register', socialte[1]);
-  }
-</script>
-
-
-<!-- fb像素代码 -->
+<!-- fb track -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
 n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','https://connect.facebook.net/en_US/fbevents.js');
-
-//console.log(window.socialte);
-if (window.socialte === 'facebook') {
-  fbq('init', '1555915891116409'); // Insert your pixel ID here. 
-  fbq('track', 'PageView');
-  fbq('track', 'CompleteRegistration', {
-  value: 25.00,
-  currency: 'USD'
-});
-}
-
+fbq('init', '1555915891116409'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+</script>
+<script type="text/javascript">
+fbq('track', 'CompleteRegistration');
 </script>
 
+<script>
+(function(h,o,t,j,a,r){
+    h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+    h._hjSettings={hjid:455748,hjsv:5};
+    a=o.getElementsByTagName('head')[0];
+    r=o.createElement('script');r.async=1;
+    r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+    a.appendChild(r);
+})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
 </html>

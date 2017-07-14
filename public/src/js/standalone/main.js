@@ -886,6 +886,29 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
             }
             return showType;
         };
+    })
+    .filter('adsTypes', function() {
+        //广告的类型show_way字段调整为从右到左 比特位分别表示 时间线 手机端 右边栏 安卓
+        //后续还会继续添加类型
+        return function(showWay) {
+            if (!showWay) return;
+            var binary = showWay.toString(2);
+            var adsTypesNumber = binary.split("").reverse();
+            var showString = "";
+            var adsTypesString = ["News Feed", "Mobile", "Right Column"/*, "Andorid"*/];
+            var index;
+            //广告可能同时出现在多个位置
+            for (index = 0; index < adsTypesNumber.length; index++) {
+                if (adsTypesNumber[index] === "1") {
+                    if (!showString) {
+                        showString = adsTypesString[index];
+                    } else {
+                        showString = showString + ' & ' + adsTypesString[index];
+                    }
+                }
+            }
+            return showString;
+        }
     });
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope',  'User',function($scope, $rootScope, User) {
@@ -1314,17 +1337,29 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
     }
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
-    /*User.getInfo().then(function() {
-        window.intercomSettings = {
-            app_id: "pv0r2p1a",
-            name: User.login ? User.user.name : "Anonymous",
-            email: User.login ? User.user.email : "anonymous@bigbigads.com",
-            created_at: User.login ? User.user.created_at : "2017-01-01 00:00:00"
-          };
-        //intercom生成的代码
-        var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function (){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pv0r2p1a';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}
-        
-    });*/
+    //使用boot方法启动是另一套js
+    var APP_ID = "pv0r2p1a";
+    var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;
+    s.src='https://widget.intercom.io/widget/' + APP_ID;
+    var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}
+    User.getInfo().then(function() {
+        if (User.login) {
+            //intercom文档建议使用boot方式来启动，配合shutdown方法关闭会话，提高安全性
+            window.Intercom('boot', {
+              app_id: "pv0r2p1a",
+              email: User.user.email,
+              name: User.user.name,
+              created_at: User.user.created_at,
+              user_hash: User.emailHmac //intercom开启验证用户email的hash值,提高安全性
+            });
+        } else {
+            window.Intercom('boot', {
+              app_id: "pv0r2p1a",
+            });          
+        }
+        //intercom生成的代码 
+        //var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function (){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pv0r2p1a';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}
+    });
     setInterval(function() {
         //每隔一段时间再次更新user信息，一方面是获取新权限，另一方面是防止session过期客户端不知道;
         if (!User.login)
@@ -1505,7 +1540,11 @@ MetronicApp.controller('UserController', ['$scope', '$http', '$window', 'User', 
     $scope.formData = {name:' ',email:'',password:''};
     $scope.registerError = {};
     $scope.isShow = false;
-       
+    $scope.logout = function() {
+        //根据intercom的文档，用户退出应使用shutdown方法关闭本次会话
+        Intercom('shutdown');
+        window.open('/logout',"_self");
+    }   
     $scope.checkEmail = function() {
         $scope.showHotmailMessage = false;
         var emails = ['hotmail.com', 'live.com', 'outlook.com'];
