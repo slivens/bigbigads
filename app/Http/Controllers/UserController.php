@@ -153,8 +153,11 @@ class UserController extends Controller
         if (!in_array($name, $this->socialiteProviders)) {
             return view('auth.verify')->with('error', "unsupported provider:$name");
         }
-        
-        $socialiteUser = Socialite::driver($name)->stateless()->user();
+        try {  
+            $socialiteUser = Socialite::driver($name)->stateless()->user();
+        } catch(\Exception $e) {
+            return view('auth.verify')->with('error', "$name login encounter some errors, please login again");
+        }
         $email = $socialiteUser->email;
         $token = $socialiteUser->token;
         $providerId = $socialiteUser->id;
