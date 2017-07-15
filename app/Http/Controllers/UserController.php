@@ -137,8 +137,9 @@ class UserController extends Controller
             return view('auth.verify')->with('error', "unsupported provider:$name");
         }
         $socialite = Socialite::driver($name);
-        if ($request->has('track'))
-            $socialite->with(['state' => $request->track]);
+        if ($request->has('track')) {
+            $request->session()->set('track', $request->track);
+        }
         return $socialite->redirect();
     }
 
@@ -154,13 +155,16 @@ class UserController extends Controller
      * 2. 如果原来有帐号就直接绑定
      * 3. 跳转到主页面
      */
-    public function socialiteCallback($name)
+    public function socialiteCallback(Request $request, $name)
     {
         if (!in_array($name, $this->socialiteProviders)) {
             return view('auth.verify')->with('error', "unsupported provider:$name");
         }
-        
-        $socialiteUser = Socialite::driver($name)->stateless()->user();
+        try {  
+            $socialiteUser = Socialite::driver($name)->user();
+        } catch(\Exception $e) {
+            return view('auth.verify')->with('error', "$name login encounter some errors, please login again");
+        }
         $email = $socialiteUser->email;
         $token = $socialiteUser->token;
         $providerId = $socialiteUser->id;
@@ -169,7 +173,7 @@ class UserController extends Controller
         /* } */
         Log::debug("oauth:" . json_encode($socialiteUser));
         Log::debug("request:" . json_encode(request()->all()));
-        return $this->autoBind(request(), $name, $socialiteUser);
+        return $this->autoBind($request, $name, $socialiteUser);
         /* return redirect()->action('UserController@bindForm', ['name' => $name, 'token' => $token, 'email' => $email]); */
     }
 
@@ -207,8 +211,9 @@ class UserController extends Controller
             $user->edm = 0;
             $user->verify_token = str_random(40);
             $user->regip = $request->ip();
-            if ($request->has('state')) {
-                $affiliate = \App\Affiliate::where(['track' => $request->state, 'status' => 1, 'type' => 1])->first();
+            $track = $request->session()->pull('track', null);
+            if ($track) {
+                $affiliate = \App\Affiliate::where(['track' => $track, 'status' => 1, 'type' => 1])->first();
                 if ($affiliate) {
                     $user->affiliate_id = $affiliate->id;
                     $affiliate->action++;
