@@ -120,6 +120,13 @@ class SearchController extends Controller
                 if (array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0 || (array_key_exists('sort', $params) && $params['sort']['field'] != 'last_view_date')) {
                     $params['search_result'] = 'ads';
                     $isHasTime = false;
+                    //新增free用户在总搜索次数在没有超过10次(暂定)的情况下，结合voyager setting
+                    //来控制是否强制在两个月内的数据
+                    $isLimitGetAllAds = true;
+                    $searchTotalTimes = $user->getUsage('search_total_times');
+                    if ($searchTotalTimes[2] < 10 && \Voyager::setting('free_role_get_all_ads') == "true") {
+                        $isLimitGetAllAds = false;
+                    }
                     //免费用户限制在两个月前的时间内的数据，设置role = free 是为了让数据端识别并在一个请求内进行两次搜索，第一次是正常的搜索流程，第二次是获取全部的广告总数，
                     //在一次请求内给出两个总数结果，total_count和all_total_count
                     $freeEndDate = Carbon::now()->subMonths(2)->format("Y-m-d");
@@ -132,10 +139,12 @@ class SearchController extends Controller
                             foreach($params['where'] as $key => $obj) {
                                 if (array_key_exists('min', $obj)) {
                                     $isHasTime = true;
-                                    if ($obj['min'] != '2016-01-01' || $obj['max'] != $freeEndDate) {
-                                        $params['where'][$key]['min'] = '2016-01-01';
-                                        $params['where'][$key]['max'] = $freeEndDate;
-                                    }          
+                                    if ($isLimitGetAllAds) {
+                                        if ($obj['min'] != '2016-01-01' || $obj['max'] != $freeEndDate) {
+                                            $params['where'][$key]['min'] = '2016-01-01';
+                                            $params['where'][$key]['max'] = $freeEndDate;
+                                        }  
+                                    }        
                                 }
                             }
                             if (!$isHasTime) {
@@ -535,6 +544,7 @@ class SearchController extends Controller
             if (Auth::check()) {
                 $act = $req->only('action');
                 $resultPerSearchUsage = $user->getUsage('result_per_search');
+                $searchTotalTimes = $user->getUsage('search_total_times');
                 $json = json_decode($result, true);
                 if ($user->hasRole('Free') && array_key_exists("all_total_count", $json)) {
                     $searchResult = "total_count: " . $json['total_count'] . " ,all_total_count: " . $json['all_total_count'];
@@ -572,7 +582,15 @@ class SearchController extends Controller
                         case 'search': {
                             //搜索条件改变，应该重置result_per_search 已使用的次数
                             $user->updateUsage('result_per_search', 10, Carbon::now());
-                            dispatch(new LogAction("SEARCH_TIMES_PERDAY", $json_data, "search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
+                            //统计用户的总搜索次数
+                            $user->updateUsage('search_total_times', $searchTotalTimes[2] + 1, Carbon::now());
+                            //log区分用户是否使用热词
+                            if (count($req->keys) > 0 && array_key_exists('isHotWord', $req->keys[0]) && $req->keys[0]['isHotWord']) {
+                                dispatch(new LogAction("HOT_SEARCH_TIMES_PERDAY", $json_data, "hot_search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
+                            } else {
+                                dispatch(new LogAction("SEARCH_TIMES_PERDAY", $json_data, "search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
+                            }
+                            //dispatch(new LogAction("SEARCH_TIMES_PERDAY", $json_data, "search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
                             break;
                         }
                         default:
