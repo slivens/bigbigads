@@ -119,7 +119,8 @@
 								<strong>{{ $errors->first('password') }}</strong>
 							</span>
 					@endif
-				</div>
+                </div>
+                <input type="hidden" name="track" value="{{ request()->get('track')}}" />
 				<button type="submit" class="btn reg-sub-btn ads-reg-button ">Try it Now <small>It's free</small></button>
 				<p class="reg-policy-text ads-font-14 text-center">By signing up, you agree to the
 				 <a href="terms_service">Terms and Conditions</a>
