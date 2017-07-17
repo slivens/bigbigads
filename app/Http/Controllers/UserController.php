@@ -235,9 +235,9 @@ class UserController extends Controller
             $item->remark = json_encode($socialiteUser);
             $item->save();
             if (BrowserDetect::isMobile()) {
-                dispatch(new LogAction(ActionLog::ACTION_USER_BIND_SOCIALITE_MOBILE . "_" . strtoupper($name), json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
+                dispatch(new LogAction(ActionLog::ACTION_USER_BIND_SOCIALITE_MOBILE_BASE . strtoupper($name), json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
             } else {
-                dispatch(new LogAction(ActionLog::ACTION_USER_BIND_SOCIALITE . "_" . strtoupper($name), json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
+                dispatch(new LogAction(ActionLog::ACTION_USER_BIND_SOCIALITE_BASE . strtoupper($name), json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
             }
             //社交登录请求转化代码页面，需求变更，弃用，改为跳转至注册欢迎页面
             /*$domain = env('APP_URL');
