@@ -9,7 +9,7 @@ class HotWordController extends Controller
 {
     //
     public function getHotWord() {
-        $HotWord = HotWord::all();
-        return $HotWord;
+        $hotWords = HotWord::all();
+        return $hotWords;
     }
 }
