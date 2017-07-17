@@ -494,7 +494,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			};
 			//获取Hotword 
 			$scope.getHotWord = function() {
-				var hotWord = new Resource('hotWord');
+				var hotWord = new Resource('hotword');
 				$scope.colMd = 0;
 				$scope.colSm = 0;
 				hotWord.get().then(function(data) {

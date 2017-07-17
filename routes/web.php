@@ -186,4 +186,4 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('hotWord', 'HotWordController@getHotWord');
+Route::get('hotword', 'HotWordController@getHotWord');
