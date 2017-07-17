@@ -503,9 +503,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 	                angular.forEach(data, function(items) {
 	                	//暂时设定为一行的hotword，粗略计算长度，超过后不加入hotword内
 	                	//等给出具体美工稿可能会更改
-	                	if (items.keyword.length > 12) {
+	                	if (items.keyword.length > 15) {
 	                		$scope.colMd += 2;
 	                		$scope.colSm += 4;
+	                		console.log("2 4");
 	                	} else {
 	                		$scope.colMd += 1;
 	                		$scope.colSm += 3;

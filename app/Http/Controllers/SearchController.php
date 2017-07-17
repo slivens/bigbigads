@@ -79,7 +79,7 @@ class SearchController extends Controller
         if ($static['count'] >= 720) {
             if ($static['count'] == 720) {
                 Log::debug("{$req->ip()} may attach the server");
-                dispatch(new LogAction("ATTACK_IP_RATE", json_encode($req->all()), json_encode($static), $user->id, $req->ip()));
+                dispatch(new LogAction(ActionLog::ACTION_ATTACK_IP_RATE, json_encode($req->all()), json_encode($static), $user->id, $req->ip()));
             }
             return false;
         }
@@ -558,14 +558,14 @@ class SearchController extends Controller
                             //页面初始化，应该重置result_per_search 已使用的次数
                             $user->updateUsage('result_per_search', 10, Carbon::now());
                             $searchInitPerday = $this->checkAndUpdateUsagePerday($user, 'search_init_perday');
-                            dispatch(new LogAction("SEARCH_INIT_PERDAY", $json_data, "search_init_perday : " . $searchInitPerday.",cache_total_count: " . $json['total_count'], $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_INIT_PERDAY, $json_data, "search_init_perday : " . $searchInitPerday.",cache_total_count: " . $json['total_count'], $user->id, $req->ip()));
                             break;
                         }               
                         case 'where': {
                             //搜索条件改变，应该重置result_per_search 已使用的次数
                             $user->updateUsage('result_per_search', 10, Carbon::now());
                             $searchWherePerday = $this->checkAndUpdateUsagePerday($user, 'search_where_perday');
-                            dispatch(new LogAction("SEARCH_WHERE_CHANGE_PERDAY", $json_data, "search_where_change_perday: " . $searchWherePerday . "," . $searchResult, $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_WHERE_CHANGE_PERDAY, $json_data, "search_where_change_perday: " . $searchWherePerday . "," . $searchResult, $user->id, $req->ip()));
                             break;
                         }
                         case 'scroll': {
@@ -577,18 +577,19 @@ class SearchController extends Controller
                                 return $this->responseError("beyond result limit", -4400);
                             }
                             $searchLimitPerday = $this->checkAndUpdateUsagePerday($user, 'search_limit_perday');
-                            dispatch(new LogAction("SEARCH_LIMIT_PERDAY", $json_data, "search_limit_perday: " . $searchLimitPerday, $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_LIMIT_PERDAY, $json_data, "search_limit_perday: " . $searchLimitPerday, $user->id, $req->ip()));
                             break;
                         }
                         case 'search': {
                             //搜索条件改变，应该重置result_per_search 已使用的次数
                             $user->updateUsage('result_per_search', 10, Carbon::now());
-                            //统计用户的总搜索次数
-                            $user->updateUsage('search_total_times', $searchTotalTimes[2] + 1, Carbon::now());
                             //log区分用户是否使用热词
                             if (count($req->keys) > 0 && array_key_exists('isHotWord', $req->keys[0]) && $req->keys[0]['isHotWord']) {
                                 dispatch(new LogAction(ActionLog::ACTION_HOT_SEARCH_TIMES_PERDAY, $json_data, "hot_search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
                             } else {
+                                //统计用户的总搜索次数,
+                                //新增需求 -> 热词搜索不纳入用户搜索总数统计中
+                                $user->updateUsage('search_total_times', $searchTotalTimes[2] + 1, Carbon::now());
                                 dispatch(new LogAction(ActionLog::ACTION_SEARCH_TIMES_PERDAY, $json_data, "search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
                             }
                             //dispatch(new LogAction("SEARCH_TIMES_PERDAY", $json_data, "search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
@@ -603,14 +604,14 @@ class SearchController extends Controller
                         case 'init': {
                             $user->updateUsage('result_per_search', 10, Carbon::now());
                             $searchInitPerdayAdser = $this->checkAndUpdateUsagePerday($user, 'specific_adser_init_perday');
-                            dispatch(new LogAction("SEARCH_INIT_PERDAY_ADSER", $json_data, "search_init_perday_adser : " . $searchInitPerdayAdser.",cache_total_count: " . $json['total_count'], $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_INIT_PERDAY_ADSER, $json_data, "search_init_perday_adser : " . $searchInitPerdayAdser.",cache_total_count: " . $json['total_count'], $user->id, $req->ip()));
                             break;
                         }               
                         case 'where': {
                             //搜索条件改变，应该重置result_per_search 已使用的次数
                             $user->updateUsage('result_per_search', 10, Carbon::now());
                             $searchWherePerdayAdser = $this->checkAndUpdateUsagePerday($user, 'specific_adser_where_perday');
-                            dispatch(new LogAction("SEARCH_WHERE_CHANGE_PERDAY_ADSER", $json_data, "search_where_change_perday_adser: " . $searchWherePerdayAdser . "," . $searchResult, $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_WHERE_CHANGE_PERDAY_ADSER, $json_data, "search_where_change_perday_adser: " . $searchWherePerdayAdser . "," . $searchResult, $user->id, $req->ip()));
                             break;
                         }
                         case 'scroll': {
@@ -621,7 +622,7 @@ class SearchController extends Controller
                                 return $this->responseError("beyond result limit", -4400);
                             }
                             $searchLimitPerdayAdser = $this->checkAndUpdateUsagePerday($user, 'specific_adser_limit_perday');
-                            dispatch(new LogAction("SEARCH_LIMIT_PERDAY_ADSER", $json_data, "search_limit_perday_adser: " . $searchLimitPerdayAdser, $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_LIMIT_PERDAY_ADSER, $json_data, "search_limit_perday_adser: " . $searchLimitPerdayAdser, $user->id, $req->ip()));
                             break;
                         }
                         default:
@@ -632,12 +633,12 @@ class SearchController extends Controller
                     switch ($subAction) {
                         case 'init': {
                             $searchInitPerdayBookmark = $this->checkAndUpdateUsagePerday($user, 'bookmark_init_perday');
-                            dispatch(new LogAction("SEARCH_INIT_PERDAY_BOOKMARK", $json_data, "search_init_perday_bookmark : " . $searchInitPerdayBookmark, $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_INIT_PERDAY_BOOKMARK, $json_data, "search_init_perday_bookmark : " . $searchInitPerdayBookmark, $user->id, $req->ip()));
                             break;
                         }               
                         case 'scroll': {
                             $searchLimitPerdayBookmark = $this->checkAndUpdateUsagePerday($user, 'bookmark_limit_perday');
-                            dispatch(new LogAction("SEARCH_LIMIT_PERDAY_BOOKMARK", $json_data, "search_limit_perday_bookmark: " . $searchLimitPerdayBookmark, $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_LIMIT_PERDAY_BOOKMARK, $json_data, "search_limit_perday_bookmark: " . $searchLimitPerdayBookmark, $user->id, $req->ip()));
                             break;
                         }
                         default:
