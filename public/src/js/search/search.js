@@ -506,7 +506,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 	                	if (items.keyword.length > 15) {
 	                		$scope.colMd += 2;
 	                		$scope.colSm += 4;
-	                		console.log("2 4");
 	                	} else {
 	                		$scope.colMd += 1;
 	                		$scope.colSm += 3;
