@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use App\Jobs\LogAction;
 use App\Role;
 use App\Plan;
+use App\ActionLog;
 use Log;
 
 class SearchController extends Controller
@@ -586,9 +587,9 @@ class SearchController extends Controller
                             $user->updateUsage('search_total_times', $searchTotalTimes[2] + 1, Carbon::now());
                             //log区分用户是否使用热词
                             if (count($req->keys) > 0 && array_key_exists('isHotWord', $req->keys[0]) && $req->keys[0]['isHotWord']) {
-                                dispatch(new LogAction("HOT_SEARCH_TIMES_PERDAY", $json_data, "hot_search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
+                                dispatch(new LogAction(ActionLog::ACTION_HOT_SEARCH_TIMES_PERDAY, $json_data, "hot_search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
                             } else {
-                                dispatch(new LogAction("SEARCH_TIMES_PERDAY", $json_data, "search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
+                                dispatch(new LogAction(ActionLog::ACTION_SEARCH_TIMES_PERDAY, $json_data, "search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
                             }
                             //dispatch(new LogAction("SEARCH_TIMES_PERDAY", $json_data, "search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
                             break;

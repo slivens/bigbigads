@@ -8,15 +8,20 @@ use Illuminate\Support\Facades\Auth;
 
 class ActionLog extends Model
 {
-    const TYPE_USERS = "USERS";
-    const TYPE_USER_LOGIN = "USER_LOGIN";
-    const TYPE_USER_LOGOUT = "USER_LOGOUT";
-    const TYPE_USER_REGISTERED = "USER_REGISTERED";
-    /* const TYPE_AD_SEARCH = "AD_SEARCH"; */
-    /* const TYPE_AD_KEYWORD = "AD_KEYWORD"; */
-    /* const TYPE_ADSER_SEARCH =  "ADSER_SEARCH"; */
-    //
-    //
+    // 登陆相关
+    const ACTION_USER_LOGIN = "USER_LOGIN";
+    const ACTION_USER_LOGOUT = "USER_LOGOUT";
+    const ACTION_USER_REGISTERED = "USER_REGISTERED";
+
+    /**
+     * 每日搜索次数(用户使用热词时，由单独的热词统计次数)
+     */
+    const ACTION_SEARCH_TIMES_PERDAY = "SEARCH_TIMES_PERDAY";
+    /**
+     * 热词的每日搜索次数
+     */
+    const ACTION_HOT_SEARCH_TIMES_PERDAY = "HOT_SEARCH_TIMES_PERDAY";
+
     /* public static function log($type, $param, $remark, $uid, $ip) */ 
     /* { */
     /*     /1* if ($ip == null) *1/ */ 
