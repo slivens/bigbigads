@@ -276,19 +276,19 @@ var Login = function() {
             handleForgetPassword();
             handleRegister();
 
-            if (window.localStorage.getItem('track')) {
-                var track = JSON.parse(window.localStorage.getItem('track'));
-                if (Date.parse(new Date()) < Date.parse(track.expired)) {
-                    $('[name=track]').each(function() {
-                        $(this).val(track.code);
-                    });
-                }
-                $('.socialite').each(function() {
-                    var href = $(this).attr('href');
-                    href += "?track=" + track.code;
-                    $(this).attr("href", href);
-                });
-            }
+            // if (window.localStorage.getItem('track')) {
+            //     var track = JSON.parse(window.localStorage.getItem('track'));
+            //     if (Date.parse(new Date()) < Date.parse(track.expired)) {
+            //         $('[name=track]').each(function() {
+            //             $(this).val(track.code);
+            //         });
+            //     }
+            //     $('.socialite').each(function() {
+            //         var href = $(this).attr('href');
+            //         href += "?track=" + track.code;
+            //         $(this).attr("href", href);
+            //     });
+            // }
 
             //生成验证码
             $('.captcha').click(function() {
