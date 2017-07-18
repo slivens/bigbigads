@@ -19,7 +19,7 @@ use Illuminate\Auth\Events\Registered;
 
 use App\Jobs\ResendRegistMail;
 use GuzzleHttp;
-use BrowserDetect;
+use Jenssegers\Agent\Agent;
 class UserController extends Controller
 {
     use ResetsPasswords;
@@ -234,7 +234,8 @@ class UserController extends Controller
             $item->bind = $email;
             $item->remark = json_encode($socialiteUser);
             $item->save();
-            if (BrowserDetect::isMobile()) {
+            $agent = new Agent();     
+            if ($agent->isMobile() || $agent->isTablet()) {
                 dispatch(new LogAction(ActionLog::ACTION_USER_BIND_SOCIALITE_MOBILE_BASE . strtoupper($name), json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
             } else {
                 dispatch(new LogAction(ActionLog::ACTION_USER_BIND_SOCIALITE_BASE . strtoupper($name), json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));

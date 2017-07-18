@@ -25,7 +25,7 @@
         "orangehill/iseed": "^2.4",
         "mews/captcha": "^2.1",
         "greggilbert/recaptcha": "^2.2",
-        "hisorange/browser-detect": "2.*"
+        "jenssegers/agent": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

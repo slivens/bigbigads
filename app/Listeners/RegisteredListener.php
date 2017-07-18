@@ -9,7 +9,8 @@ use App\Jobs\LogAction;
 
 use GuzzleHttp;
 use Voyager;
-use BrowserDetect;
+use Jenssegers\Agent\Agent;
+use App\ActionLog;
 class RegisteredListener
 {
     /**
@@ -31,10 +32,11 @@ class RegisteredListener
     public function handle(Registered $event)
     {
         $user = $event->user;
-        if (BrowserDetect::isMobile()) {
-            dispatch(new LogAction("USER_REGISTERED_MOBILE", json_encode(["name" => $user->name, "email" => $user->email]), "", $user->id, Request()->ip()));
+        $agent = new Agent();
+        if ($agent->isMobile() || $agent->isTablet()) {
+            dispatch(new LogAction(ActionLog::ACTION_USER_REGISTERED_MOBILE, json_encode(["name" => $user->name, "email" => $user->email]), "", $user->id, Request()->ip()));
         } else {
-            dispatch(new LogAction("USER_REGISTERED", json_encode(["name" => $user->name, "email" => $user->email]), "", $user->id, Request()->ip()));
+            dispatch(new LogAction(ActionLog::ACTION_USER_REGISTERED, json_encode(["name" => $user->name, "email" => $user->email]), "", $user->id, Request()->ip()));
         }
         
         //创建默认的收藏夹
