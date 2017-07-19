@@ -14,7 +14,7 @@ class HomeController extends Controller
         return view('index')->with('recents', $recents);
     }
 
-    public function totalCount()
+    public function getTotalCount()
     {
         $client = new Client();
         $url = env('TOTAL_COUNT_URL', 'http://127.0.0.1:8080/total_count');
