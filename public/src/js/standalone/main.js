@@ -1361,12 +1361,12 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
 
             user.promise = $http.get(infourl);
             user.promise.then(function (res) {
-                // Issue #10 User 获取用户信息时，与 sessionStorage 比对，发现不一致就更新
-                if (JSON.stringify(res.data) != sessionStorage.user) {
+                // Issue #10 User 获取用户信息时，与 localStorage 比对，发现不一致就更新
+                if (JSON.stringify(res.data) != localStorage.user) {
                     user.info = res.data;
 
                     // Issue #10 更新会话存储的用户信息
-                    sessionStorage.user = JSON.stringify(user.info)
+                    localStorage.user = JSON.stringify(user.info)
 
                     angular.extend(user, user.info)
                 }
@@ -1508,9 +1508,9 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
         }
     };
 
-    // Issue #10 User factory 初始化时，从 sessionStorage 获取用户信息，获取得到就设置 done 和 retreived
-    if (sessionStorage.user) {
-        user.info = JSON.parse(sessionStorage.user)
+    // Issue #10 User factory 初始化时，从 localStorage 获取用户信息，获取得到就设置 done 和 retreived
+    if (localStorage.user) {
+        user.info = JSON.parse(localStorage.user)
 
         angular.extend(user, user.info)
 
