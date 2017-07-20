@@ -1344,9 +1344,12 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
             // console.log("get info again:", oldInfo);
         });
     }, 60000 * 5);
+
+    // Issue #10 run初始化时，调用User.getInfo(true)强制获取一次用户信息
+    User.getInfo(true)
 }]);
 
-MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', '$uibModal', 'TIMESTAMP', function($http, $q, $location, $rootScope, settings, ADS_TYPE ,$uibModal, TIMESTAMP) {
+MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', '$uibModal', 'TIMESTAMP', function($window, $http, $q, $location, $rootScope, settings, ADS_TYPE ,$uibModal, TIMESTAMP) {
     //获取信息完成后应该广播消息，然后其他需要在获取用户信息才能继续的操作就放到接收到广播后处理
     var infourl = settings.remoteurl  + "/userinfo";
     var user = {
@@ -1354,21 +1357,27 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
         done:false,
         info:{},
         getInfo:function(refresh) {
-            if (!refresh && user.retreived)
-                return user.promise;
-           user.promise = $http.get(infourl);
-           user.promise.then(function(res) {
-                user.info = res.data;
-                angular.extend(user, user.info);
-                // console.log(user);
-           }, function(res) {
-                // user.info = {};
-           }).finally(function() {
-                user.done = true;
-                $rootScope.$broadcast('userChanged', user.info);
-           });
-           user.retreived = true;
-           return user.promise;
+            if (!refresh && user.retreived) return user.promise
+
+            user.promise = $http.get(infourl);
+            user.promise.then(function (res) {
+                // Issue #10 User 获取用户信息时，与 localStorage 比对，发现不一致就更新
+                if (JSON.stringify(res.data) != $window.localStorage.user) {
+                    user.info = res.data;
+
+                    // Issue #10 更新会话存储的用户信息
+                    $window.localStorage.user = JSON.stringify(user.info)
+
+                    angular.extend(user, user.info)
+                }
+            }, function(res) {
+                    // user.info = {};
+            }).finally(function() {
+                    user.done = true;
+                    $rootScope.$broadcast('userChanged', user.info);
+            });
+            user.retreived = true;
+            return user.promise;
         },
         // goLoginPage:function() {
         //     $location.url("/login");
@@ -1498,6 +1507,17 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
             });
         }
     };
+
+    // Issue #10 User factory 初始化时，从 localStorage 获取用户信息，获取得到就设置 done 和 retreived
+    if ($window.localStorage.user) {
+        user.info = JSON.parse($window.localStorage.user)
+
+        angular.extend(user, user.info)
+
+        user.done = true
+        user.retreived = true
+    }
+
     return user;
 }]);
 MetronicApp.controller('UserController', ['$scope', '$http', '$window', 'User', function($scope, $http, $window, User) {

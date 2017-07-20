@@ -23,16 +23,12 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterVerify;
 use TCG\Voyager\Models\Setting;
 
-Route::get('/', function (Request $request) {
-    /*$url = '/app/';
-    if (track($request)) {
-        $url .= "?track={$request->track}";
-    }
-    return redirect($url);*/
-    //需求改动，/跳转至index页面
-    $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
-    return view('index')->with('recents', $recents);
-})->middleware('track');
+// 前台主页
+Route::get('/', 'HomeController@index')->middleware('track');
+Route::get('/home', 'HomeController@index')->middleware('track');
+
+// 用于前台主页动态获取广告总数
+Route::get('/home/get_total_count', 'HomeController@getTotalCount');
 
 Route::get('/message', 'Controller@messageView');
 
@@ -45,14 +41,6 @@ Route::get('/socialite/{name}', 'UserController@socialiteRedirect');
 Route::get('/socialite/{name}/callback', 'UserController@socialiteCallback');
 Route::get('/socialite/{name}/bind', 'UserController@bindForm');
 Route::post('/socialite/{name}/bind', 'UserController@bind')->name('socialiteBindPost');
-
-/**
- * 前台主页
- */
-Route::get('/home', function (Request $request) {
-    $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
-    return view('index')->with('recents', $recents);
-})->middleware('track');
 
 Route::get('/blog', function () {
 
