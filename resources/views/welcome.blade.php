@@ -160,11 +160,7 @@
   //需求更改，询问google客服得知以异步的请求谷歌统计和转化代码是在48小时后生效且不一定成功
   var href = window.location.href;
   var params = href.split("?");
-  //重定向的url参数不知为何自动加了#_=_
-  var query = params[1].split("#");
-  var socialite = query[0].split("=");
-  //测试发现有fb像素发送请求有问题
-  //window.socialiteLogin = socialite[1];
+  var socialite = params[1].split("=");
   if (socialite[0] === 'socialite') {
       ga('send', 'event', 'conversion', 'register', socialite[1]);
   }

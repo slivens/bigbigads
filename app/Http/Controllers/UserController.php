@@ -20,6 +20,7 @@ use Illuminate\Auth\Events\Registered;
 use App\Jobs\ResendRegistMail;
 use GuzzleHttp;
 use Jenssegers\Agent\Agent;
+use App\ActionLog;
 class UserController extends Controller
 {
     use ResetsPasswords;
@@ -246,7 +247,7 @@ class UserController extends Controller
             $client = new GuzzleHttp\Client();
             $res = $client->requestAsync('GET', $url);*/
             Auth::login($user);
-            return redirect('welcome?socialite=' . $name);
+            return redirect('welcome#?socialite=' . $name);
         } 
         Auth::login($user);
         return redirect('/app/#');
