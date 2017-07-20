@@ -24,7 +24,7 @@
         </div>
         <div class="h5">
             <div class="pull-right" ng-if="card.buttondesc[card.active]!=''">
-                <a href="{{card.buttonlink[card.active]}}" class="xg-a-likepage xg-label" target="_blank">{{card.buttondesc[card.active]}}</a>
+                <a ng-href="{{card.buttonlink[card.active]}}" class="xg-a-likepage xg-label" target="_blank">{{card.buttondesc[card.active]}}</a>
             </div>
             <div class="xg-span-name xg-overflow-hidden">
                 <span ng-bind-html="card.name[card.active] | toHtml"></span>

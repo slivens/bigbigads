@@ -907,18 +907,21 @@ body.modal-open {
 //xgrit 卡片样式修改
 //仿fb
 .xg-span-message {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: normal;
-    line-height: 1.38;
+    line-height: 17px;
     word-wrap: break-word;
     margin: 10px 0 !important;
+    color:#666;
+    font-family: helvetica, arial, sans-serif !important;
 }
 
 .xg-span-name {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     line-height: 22px;
-    color: #1d2129;
+    color: #666;
+    font-family: Georgia, 'lucida grande',tahoma,verdana,arial,sans-serif;
 }
 
 .xg-video-name-mh20 {
@@ -926,16 +929,17 @@ body.modal-open {
 }
 
 .xg-span-description {
-    line-height: 16px;
+    line-height: 17px;
     max-height: 80px;
     overflow: hidden;
-    color: #1d2129;
+    color: #666;
     // font-size: 12px;
     font-size: 1.4rem;
+    font-family: helvetica, arial, sans-serif !important;
 }
 
 .xg-label-caption {
-    color: #90949c !important;
+    color: #444 !important;
     background-color: #fff !important;
     box-shadow: none !important;
     font-size: 11px;

@@ -7,7 +7,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Jobs\LogAction;
 
-use BrowserDetect;
+use Jenssegers\Agent\Agent;
+use App\ActionLog;
 class LogSuccessfulLogin
 {
     /**
@@ -29,10 +30,11 @@ class LogSuccessfulLogin
     public function handle(Login $event)
     {
         $user = $event->user;
-        if (BrowserDetect::isMobile()) {
-            dispatch(new LogAction("USER_LOGIN_MOBILE", json_encode(["name" => $user->name, "email" => $user->email]), "", $user->id, Request()->ip() ));
+        $agent = new Agent();
+        if ($agent->isMobile() || $agent->isTablet()) {
+            dispatch(new LogAction(ActionLog::ACTION_USER_LOGIN_MOBILE, json_encode(["name" => $user->name, "email" => $user->email]), "", $user->id, Request()->ip() ));
         } else {
-            dispatch(new LogAction("USER_LOGIN", json_encode(["name" => $user->name, "email" => $user->email]), "", $user->id, Request()->ip() ));
+            dispatch(new LogAction(ActionLog::ACTION_USER_LOGIN, json_encode(["name" => $user->name, "email" => $user->email]), "", $user->id, Request()->ip() ));
         }
     }
 }

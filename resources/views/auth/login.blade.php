@@ -132,7 +132,6 @@
                     <span class="underline"></span>
                 </div>
                 <div class="form-group text-center">
-                    <!-- 暂时注释社交登录部分 -->
                     <!-- <a href="/socialite/github" class="github"><i class="fa fa-github fa-3x"></i></a> -->
                     <a href="/socialite/facebook" class="register-btn register-fb-btn btn  socialite disabled">
                         <i class="fa fa-facebook-square reg-btn-icon"></i>
@@ -324,6 +323,16 @@
         <!-- END PAGE LEVEL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <!-- END THEME LAYOUT SCRIPTS -->
+        <script>
+            (function(h,o,t,j,a,r){
+                h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                h._hjSettings={hjid:455748,hjsv:5};
+                a=o.getElementsByTagName('head')[0];
+                r=o.createElement('script');r.async=1;
+                r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                a.appendChild(r);
+            })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+        </script>
     </body>
 </html>
 

@@ -186,7 +186,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Orangehill\Iseed\IseedServiceProvider::class,
-        hisorange\BrowserDetect\Provider\BrowserDetectService::class,
+        Jenssegers\Agent\AgentServiceProvider::class
     ],
 
     /*
@@ -239,7 +239,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
-        'BrowserDetect' => hisorange\BrowserDetect\Facade\Parser::class
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
     ],
 
 ];

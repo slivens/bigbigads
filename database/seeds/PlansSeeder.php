@@ -20,7 +20,7 @@ class PlansSeeder extends Seeder
             $plans = [
                 [
                     "name" => "free",
-                    "display_name" => "Free",
+                    "display_name" => "Free Level",
                     "desc" => "Free Plan",
                     "display_order" => 0, 
                     "type" => "REGULAR",
@@ -33,7 +33,7 @@ class PlansSeeder extends Seeder
                 ],
                 [
                     "name" => "free_monthly",
-                    "display_name" => "Free",
+                    "display_name" => "Free Level",
                     "desc" => "Free Plan for an month",
                     "display_order" => 0, 
                     "type" => "REGULAR",
@@ -46,7 +46,7 @@ class PlansSeeder extends Seeder
                 ],
                 [
                     "name" => "start_monthly",
-                    "display_name" => "Start Plan",
+                    "display_name" => "Start Level",
                     "desc" => "Start Plan for one month",
                     "display_order" => 1, 
                     "type" => "REGULAR",
@@ -59,7 +59,7 @@ class PlansSeeder extends Seeder
                 ],
                 [
                     "name" => "start",
-                    "display_name" => "Start Plan",
+                    "display_name" => "Start Level",
                     "desc" => "Start Plan for one year",
                     "display_order" => 1, 
                     "type" => "REGULAR",

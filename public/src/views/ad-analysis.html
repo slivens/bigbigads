@@ -186,7 +186,7 @@
                                                         <span class="overviewtitle">ad position:</span>
                                                     </h4>
                                                     <p class="font-yellow-gold overview-data">
-                                                        <span ng-if="card.show_way == '1'">
+                                                        <!-- <span ng-if="card.show_way == '1'">
                                                             News Feed
                                                         </span>
                                                         <span ng-if="card.show_way == '2'">
@@ -197,7 +197,8 @@
                                                         </span>
                                                         <span ng-if="card.show_way == '4'">
                                                             Right Column
-                                                        </span>
+                                                        </span> -->
+                                                        {{card.show_way | adsTypes}}
                                                     </p> 
                                                 </div>
                                                 <!--end position-->

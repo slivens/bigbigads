@@ -78,7 +78,7 @@ class RegisterController extends Controller
 
         //暂定注册流程 注册 -> 欢迎界面 
         dispatch(new SendRegistMail($user));
-        return redirect('welcome?socialte=email');
+        return redirect('welcome?socialite=email');
         /* 需求变更，暂时抛弃，以后流程会再更改，加入新用户引导的部分
         $emailVerification = Voyager::setting('email_verification');
         if ($emailVerification != "false") {

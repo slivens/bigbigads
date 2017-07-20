@@ -19,7 +19,8 @@ use Illuminate\Auth\Events\Registered;
 
 use App\Jobs\ResendRegistMail;
 use GuzzleHttp;
-use BrowserDetect;
+use Jenssegers\Agent\Agent;
+use App\ActionLog;
 class UserController extends Controller
 {
     use ResetsPasswords;
@@ -64,6 +65,12 @@ class UserController extends Controller
             }
             $res['permissions'] = $user->getMergedPermissions()->groupBy('key');
             $res['groupPermissions'] = $user->getMergedPermissions()->groupBy('table_name');
+            //提供用户邮箱的hamc，用于intercom的用户验证
+            $res['emailHmac'] = hash_hmac(
+                                    'sha256',
+                                    $user->email,
+                                    'sh7oS9Q3bk0m-Vs3pEeUjCOMKGjoyjf1bVcTfCiY'
+                                );
         } else {
             $user = AnonymousUser::user($req);
             $res['login'] = false;
@@ -228,10 +235,11 @@ class UserController extends Controller
             $item->bind = $email;
             $item->remark = json_encode($socialiteUser);
             $item->save();
-            if (BrowserDetect::isMobile()) {
-                dispatch(new LogAction("USER_BIND_SOCIALITE_MOBILE_" . $name, json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
+            $agent = new Agent();     
+            if ($agent->isMobile() || $agent->isTablet()) {
+                dispatch(new LogAction(ActionLog::ACTION_USER_BIND_SOCIALITE_MOBILE_BASE . strtoupper($name), json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
             } else {
-                dispatch(new LogAction("USER_BIND_SOCIALITE_" . $name, json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
+                dispatch(new LogAction(ActionLog::ACTION_USER_BIND_SOCIALITE_BASE . strtoupper($name), json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
             }
             //社交登录请求转化代码页面，需求变更，弃用，改为跳转至注册欢迎页面
             /*$domain = env('APP_URL');
@@ -239,7 +247,7 @@ class UserController extends Controller
             $client = new GuzzleHttp\Client();
             $res = $client->requestAsync('GET', $url);*/
             Auth::login($user);
-            return redirect('welcome?socialte=' . $name);
+            return redirect('welcome#?socialite=' . $name);
         } 
         Auth::login($user);
         return redirect('/app/#');
