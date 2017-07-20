@@ -448,8 +448,8 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 	}
 ]);
 /* adsearch js */
-app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal',  '$window', 'TIMESTAMP', 'Resource',
-		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window, TIMESTAMP, Resource) {
+app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal',  '$window', 'TIMESTAMP',
+		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window, TIMESTAMP) {
 			//搜索流程:location.search->searchOption->adSearcher.params
 			//将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
 
@@ -493,7 +493,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 
 			};
 			//获取Hotword 
-			$scope.getHotWord = function() {
+			/*$scope.getHotWord = function() {
 				var hotWord = new Resource('hotword');
 				$scope.colMd = 0;
 				$scope.colSm = 0;
@@ -528,7 +528,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$scope.adSearcher.searchOption.search.isHotWord = true;
 				//rmz
 				$scope.search('search');
-			};
+			};*/
 			//text为空时就表示没有这个搜索项了
 			$scope.initSearch = function() {
 				var option = $scope.searchOption = $scope.adSearcher.searchOption = angular.copy($scope.adSearcher.defSearchOption);
@@ -537,7 +537,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				queryToSearch(option, $scope.adSearcher);
 				//检查是否有track
 				Util.trackState($location);
-				$scope.getHotWord();
+				//$scope.getHotWord();
 			};
 			$scope.initSearch();
 
@@ -732,23 +732,23 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 									$scope.adSearcher.removeFilter('time');
 								}
 							});
-							//新增需求，对于免费用户，搜索总数不到10次的给予全部的广告结果
-							searchTotalTimes = User.getPolicy('search_total_times');
-							if (searchTotalTimes[2] > 10) {
-								$scope.adSearcher.addFilter({
-										field: "time",
-										min: freeMin,
-										max: freeMax,
-										role: "free"
-								});
-							} else {
-								$scope.adSearcher.addFilter({
-										field: "time",
-										min: freeMin,
-										max: moment().format('YYYY-MM-DD'),
-										role: "free"
-								});
-							}
+                            //新增需求，对于免费用户，搜索总数不到10次的给予全部的广告结果
+                            searchTotalTimes = User.getPolicy('search_total_times');
+                            if (searchTotalTimes[2] > 10) {
+                                $scope.adSearcher.addFilter({
+                                        field: "time",
+                                        min: freeMin,
+                                        max: freeMax,
+                                        role: "free"
+                                });
+                            } else {
+                                $scope.adSearcher.addFilter({
+                                        field: "time",
+                                        min: freeMin,
+                                        max: moment().format('YYYY-MM-DD'),
+                                        role: "free"
+                                });
+                            }
 							//暂时限定免费注册用户的所有请求都是在两个月之前的数据
 							$scope.isFreeLimitDate = true;
 						}
@@ -823,20 +823,20 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				if (option.search.text || range.length) {
 					option.search.fields = range.length ? range.join(',') : $scope.Searcher.defSearchFields;//默认值
 					//存在isHotWord便新增isHotWord参数作为后端log统计标记
-					if (option.search.isHotWord) {
+					/*if (option.search.isHotWord) {
 						keys.push({
 							string: option.search.text ? option.search.text : "",
 							search_fields: option.search.fields,
 							relation: "Must",
 							isHotWord: true
 						});
-					} else {
+					} else {*/
 						keys.push({
 							string: option.search.text ? option.search.text : "",
 							search_fields: option.search.fields,
 							relation: "Must"
 						});
-					}
+					// }
 					//alert-warning range显示文本
 					angular.forEach(option.range,function(item){
 						if (range.indexOf(item.key)>-1)range_value.push(item.value);
