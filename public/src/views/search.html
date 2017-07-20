@@ -95,7 +95,7 @@
                 <div class="xg-count-mt search-result" ng-show="!adSearcher.busy">
 
                     <span ng-if="(adSearcher.ads.all_total_count == adSearcher.ads.total_count || !adSearcher.ads.all_total_count) && adSearcher.ads.total_count != 0">Found <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> Matching Ads </span>
-                    <span ng-if="adSearcher.ads.all_total_count && adSearcher.ads.all_total_count != adSearcher.ads.total_count">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}} </span> Matching Ads/You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> results <a class="font-yellow-gold xg-upgrade-button" ng-click="upgrade()"> Upgrade Now</a></span>
+                    <span ng-if="adSearcher.ads.all_total_count && adSearcher.ads.all_total_count != adSearcher.ads.total_count">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}} </span> Matching Ads, You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> results <a class="font-yellow-gold xg-upgrade-button" ng-click="upgrade()"> Upgrade Now</a></span>
                     <span ng-if="adSearcher.ads.total_count == 0">Your search did not match any results.</span>
                     <!-- <span ng-if="(User.info.user.role.name != 'Free') && (adSearcher.ads.total_count == 0)">Your search did not match any results.</span> -->
                     <!-- <button class="btn yellow-gold btn-lg" ng-click="showStatics()">analysis</button> -->
