@@ -17,13 +17,16 @@ class HomeController extends Controller
     public function getTotalCount()
     {
         $client = new Client();
-        $url = env('TOTAL_COUNT_URL', 'http://127.0.0.1:8080/total_count');
+        $url = env('ADSER_SEARCH_URL', 'http://127.0.0.1:8080/adser_search');
         $res = $client->request('POST', $url, [
-            'json' => [
-                'search_result' => 'total_count'
-            ]
+            'body' => '{}'
         ]);
 
-        return response()->json(json_decode($res->getBody()));
+        $data = json_decode($res->getBody(), true);
+
+        return response()->json([
+            'total_ads_count'   => $data['total_ads_count'],
+            'total_adser_count' => $data['total_adser_count'],
+        ]);
     }
 }
