@@ -1349,7 +1349,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
     User.getInfo(true)
 }]);
 
-MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', '$uibModal', 'TIMESTAMP', function($http, $q, $location, $rootScope, settings, ADS_TYPE ,$uibModal, TIMESTAMP) {
+MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', '$uibModal', 'TIMESTAMP', function($window, $http, $q, $location, $rootScope, settings, ADS_TYPE ,$uibModal, TIMESTAMP) {
     //获取信息完成后应该广播消息，然后其他需要在获取用户信息才能继续的操作就放到接收到广播后处理
     var infourl = settings.remoteurl  + "/userinfo";
     var user = {
@@ -1362,11 +1362,11 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
             user.promise = $http.get(infourl);
             user.promise.then(function (res) {
                 // Issue #10 User 获取用户信息时，与 localStorage 比对，发现不一致就更新
-                if (JSON.stringify(res.data) != localStorage.user) {
+                if (JSON.stringify(res.data) != $window.localStorage.user) {
                     user.info = res.data;
 
                     // Issue #10 更新会话存储的用户信息
-                    localStorage.user = JSON.stringify(user.info)
+                    $window.localStorage.user = JSON.stringify(user.info)
 
                     angular.extend(user, user.info)
                 }
@@ -1509,8 +1509,8 @@ MetronicApp.factory('User', ['$http', '$q', '$location', '$rootScope', 'settings
     };
 
     // Issue #10 User factory 初始化时，从 localStorage 获取用户信息，获取得到就设置 done 和 retreived
-    if (localStorage.user) {
-        user.info = JSON.parse(localStorage.user)
+    if ($window.localStorage.user) {
+        user.info = JSON.parse($window.localStorage.user)
 
         angular.extend(user, user.info)
 

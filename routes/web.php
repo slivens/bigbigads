@@ -26,7 +26,7 @@ use TCG\Voyager\Models\Setting;
 // 前台主页
 Route::get('/', 'HomeController@index')->middleware('track');
 Route::get('/home', 'HomeController@index')->middleware('track');
-Route::get('/home/total_count', 'HomeController@totalCount');
+Route::get('/home/get_total_count', 'HomeController@getTotalCount');
 
 Route::get('/message', 'Controller@messageView');
 
@@ -171,3 +171,6 @@ Route::get('/wordpress/track_notice', 'WordpressController@trackNotice')->middle
 Route::get('/welcome', function () {
     return view('welcome');
 });
+
+// 获取发送邮件模版
+Route::get('/generate_mail_content', 'GenerateMailContentController@index');
