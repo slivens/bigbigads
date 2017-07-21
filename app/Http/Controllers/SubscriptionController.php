@@ -22,9 +22,14 @@ class SubscriptionController extends Controller
      */
     public function form(Request $req)
     {
-        $planid = $req->plan;
-        $plan = Plan::find($planid);
-        return view('subscriptions.pay', ['plan'=>$plan]);
+        //暂时当$planid不存在时重定向到404页面
+        if ($req->plan) {
+            $planid = $req->plan;
+            $plan = Plan::find($planid);
+            return view('subscriptions.pay', ['plan'=>$plan]);
+        } else {
+            return view('errors.404');
+        }
     }
 
     /**

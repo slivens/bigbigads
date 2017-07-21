@@ -101,7 +101,7 @@ Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
 Route::get('/plans', 'SubscriptionController@plans');
 
 Route::group(['middleware'=>'auth'], function() {
-    Route::get('/pay', 'SubscriptionController@form');
+    //Route::get('/pay', 'SubscriptionController@form');
     Route::post('/pay', 'SubscriptionController@pay');
     Route::get('/billings', 'SubscriptionController@billings');
 	Route::get('/invoice/{invoice}', function (Request $request, $invoiceId) {
@@ -114,6 +114,9 @@ Route::group(['middleware'=>'auth'], function() {
     Route::post('changepwd', 'UserController@changepwd');
 
 });
+
+//pay页面需要支持不登录可访问
+Route::get('/pay', 'SubscriptionController@form');
 
 Route::get('/onPay', 'SubscriptionController@onPay');
 
@@ -175,3 +178,9 @@ Route::get('/welcome', function () {
 });
 
 Route::get('hotword', 'HotWordController@getHotWord');
+
+//该路由应由前端页面自己填写，这里仅是示例
+Route::get('/test2', function () {
+    return view('registerNoPwd');//新页面地址
+});
+Route::post('/quickRegister', 'UserController@quickRegister');//快速注册表单提交位置

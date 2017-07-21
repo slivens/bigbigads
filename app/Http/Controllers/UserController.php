@@ -322,4 +322,31 @@ class UserController extends Controller
         return redirect('/app/#');
     }
 
+    public function quickRegister(Request $request)
+    {
+        //新需求，新增快捷注册，页面异步请求，用户无需填写密码，由前端页面生成
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:6',
+        ]);
+        if ($validator->fails()) 
+        {
+            return ['code' => -1, 'desc' => $validator->messages()];
+        }
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role_id' => 3, 
+        ]);
+        event(new Registered($user));
+        dispatch(new SendRegistMail($user));
+        $twoMinutesDelayJob = (new ResendRegistMail($user, 'delivered', 2))->delay(Carbon::now()->addMinutes(2));
+        dispatch($twoMinutesDelayJob);
+        Auth::login($user);
+        //返回成功信息通信前端注册成功
+        return ['code' => 0, 'desc' => 'register success'];
+    
+    }
 }
