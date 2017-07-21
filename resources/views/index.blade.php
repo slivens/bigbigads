@@ -287,7 +287,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         </div>
     </div>
 </section>
-<a href="/plan">
+<a href="/register">
 	<button class="btn home-getstart-btn text-center">
 	    	Get started now! <span class="small-word">It's free</span>
 	</button>
@@ -308,7 +308,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         	</div>
     	</div>
     </div>
-    <a href="/plan">
+    <a href="/register">
     	<button class="btn home-getstart-btn text-center" style="">
     		Get started now! <span class="small-word">It's free</span>
 		</button>
@@ -397,8 +397,8 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 					</tr>
 					<tr>
 						<td></td>
-						<td><a href="/plan" class="btn">sign up</a></td>
-						<td><a href="/plan" class="btn">sign up</a></td>
+						<td><a href="/register" class="btn">sign up</a></td>
+						<td><a href="/register" class="btn">sign up</a></td>
 					</tr>
 				</table>
 			</div>
