@@ -9,6 +9,7 @@ import 'font-awesome/css/font-awesome.min.css';
 })*/
 (function() {
     changeWord(0)
+    getAdsCount() //获取广告数和广告主数量
     $('a[href="#ads-register"]').on("click", linkToUp)
 
     /*动态换词*/
@@ -43,5 +44,36 @@ import 'font-awesome/css/font-awesome.min.css';
                 return false;
             }
         }
+    }
+
+     /*异步获取广告数*/
+    function getAdsCount() {
+
+        /*采用fetch获取数据*/
+        //需要跨域请求，有待解决
+        var data = {
+            method: "get",
+        }
+        fetch('home/get_total_count', data).then(function(response) {
+            return response.json();
+        }).then(function(json) {
+            try {
+                var adscount = estimationThousand(json.total_ads_count);
+                var adsercount = estimationThousand(json.total_adser_count);
+                $("#adsnumber").html(adscount);
+                $("#adsernumber").html(adsercount);
+            } catch (e) {
+                $("#adsnumber").html("5,300,000");
+            }
+        }).catch(function(ex) {
+            $("#adsnumber").html("5,300,000");
+        });
+    }
+    //估算到千位
+    function estimationThousand(num){
+        var count = parseInt(Math.round(num / 1000));
+        count = count.toString().replace(/(^|\s)\d+/g, (m) => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','));
+        count = count + ",000";
+        return count;
     }
 })();

@@ -236,16 +236,16 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
     <div class="banner-title">Largest Facebook Ad Examples</div>
     </div>
     <div class="animaed_word animated" id="changeWord">
-    	
+    	To see competitive intelligence  <br/>for ad buyer
     </div>
     <div class="introduce-data">
     	<div class="intro-data-top intro-data-div">
     		<div class="intro-datarome bottom-dashed-line">
-    			5,000,000 <sup>+</sup>
+    			<span id="adsnumber">5,300,000</span> <sup>+</sup>
     			<p>Ads</p>
     		</div>
     		<div class="intro-datarome left-dashed-line">
-    			1,300,000 <sup>+</sup>
+    			<span id="adsernumber">1,300,000</span> <sup>+</sup>
     			<p>Advertisers</p>
     		</div>
     	</div>
@@ -287,8 +287,8 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         </div>
     </div>
 </section>
-<a href="/register">
-	<button href='/register' class="btn home-getstart-btn text-center">
+<a href="/plan">
+	<button class="btn home-getstart-btn text-center">
 	    	Get started now! <span class="small-word">It's free</span>
 	</button>
 </a>
@@ -308,7 +308,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         	</div>
     	</div>
     </div>
-    <a href="/register">
+    <a href="/plan">
     	<button class="btn home-getstart-btn text-center" style="">
     		Get started now! <span class="small-word">It's free</span>
 		</button>
@@ -397,8 +397,8 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 					</tr>
 					<tr>
 						<td></td>
-						<td><a href="/register" class="btn">sign up</a></td>
-						<td><a href="/register" class="btn">sign up</a></td>
+						<td><a href="/plan" class="btn">sign up</a></td>
+						<td><a href="/plan" class="btn">sign up</a></td>
 					</tr>
 				</table>
 			</div>
