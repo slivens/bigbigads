@@ -1,18 +1,35 @@
-/*home 界面*/
-
-@function px($n) {
-    @return ($n / 37.5) + rem;
-}
-
 @media screen and (max-width: 769px) {
-    html {
-        font-size: calc(100vw / 10)
-    }
-    body {
-        font-size: 16px !important;
-    }
     header {
         height: px(64);
+        .ads-menu-div{
+            padding: px(2) 0;
+            height: px(44);
+            display: flex;
+            align-items: center;
+            .logo-head{
+                background-repeat: no-repeat;
+                margin-left: px(10);
+                max-height: px(40);
+                background-size: auto 100%;
+            }
+        } 
+        .menu_list{
+            flex:1;
+            text-align: left;
+            display: flex;
+            justify-content:flex-end;
+            .btn-empty{
+                width: auto;
+                height: auto;
+                padding: px(6) px(14) !important;
+                font-size: px(14);
+                border-radius:px(14);
+                line-height: px(16);
+                border:1px solid #eb6130;
+                color: #eb6130;
+                margin-right: px(15); 
+            }
+        }
     }
     /*字体大小*/
     .ads-lg-text {

@@ -23,6 +23,12 @@ app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope
 
         return true;
     };
+    $scope.showPlanItem = function(){
+        $scope.turnAdsCard = "transform-turn";
+    };
+    $scope.hiddenPlanItem = function(){
+        $scope.turnAdsCard = "";
+    }
 
     plans.goPlanID = function(item) {
         var id;
