@@ -31,7 +31,7 @@
     <!--content-->
     <div class="content">
         
-        <!--内容介绍框-->
+        <!-- Content introduction -->
         <div class="introduce-div clearfix">
             <p class="ads-font-32 introduce-title text-center">Largest Facebook Ad Examples To See:</p>
             <p id="changeWord" class="instroduce-bigword text-center animated">Eshop Platform</p>
@@ -78,6 +78,10 @@
             <a class="ads-reg-btn btn reg-with-linkedin" href="/socialite/linkedin?track={{request()->get('track')}}">
                 <i class="fa fa-linkedin-square reg-btn-icon"></i>
                 <span class="ads-font-18 reg-btn-text">Sign Up With Linkedin</span>
+            </a>
+            <a class="ads-reg-btn btn reg-sub-btn" href="/socialite/google?track={{request()->get('track')}}">
+                <i class="fa fa-google-plus-square reg-btn-icon"></i>
+                <span class="ads-font-18 reg-btn-text">Sign Up With Google+</span>
             </a>
             <p class="ads-reg-line text-center">
                 <span class="ads-underline"></span>
