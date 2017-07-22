@@ -60,8 +60,8 @@ Route::get('/product', function () {
     return view('product');
 });
 
-Route::get('/pricing', function () {
-    return view('pricing');
+Route::get('/plan', function () {
+    return view('plan');
 });
 
 Route::get('/about', function () {
