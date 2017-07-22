@@ -1,3 +1,7 @@
+/*定义移动端计算rem函数*/
+@function px($n) {
+    @return ($n / 37.5) + rem;
+}
 html {
     font-size: 16px;
     color: #333;
@@ -163,17 +167,200 @@ a:hover {
     color: rgba(202, 69, 58, 1);
 }
 
+/*定义全局通用文字大小，与移动端的配套*/
+.ads-font-48{
+    font-size: 48px;
+}
+.ads-font-46{
+    font-size: 46px;
+}
+.ads-font-44{
+    font-size: 44px;
+}
+.ads-font-42{
+    font-size: 42px;
+}
+.ads-font-40{
+    font-size: 40px;
+}
+.ads-font-38{
+    font-size: 38px;
+}
+.ads-font-36{
+    font-size: 36px;
+}
+.ads-font-34{
+    font-size: 34px;
+}
+.ads-font-32{
+    font-size: 32px;
+}
+.ads-font-30{
+    font-size: 30px;
+}
+.ads-font-28{
+    font-size: 28px;
+}
+.ads-font-26{
+    font-size: 26px;
+}
+.ads-font-24{
+    font-size: 24px;
+}
+.ads-font-22{
+    font-size: 22px;
+}
+.ads-font-20{
+    font-size: 20px;
+}
+.ads-font-18{
+    font-size: 18px;
+}
+.ads-font-16{
+    font-size: 16px;
+}
+.ads-font-14{
+    font-size: 14px;
+}
+.ads-font-12{
+    font-size: 12px;
+}
+.ads-weight-200{
+    font-weight: 200;
+}
+.ads-weight-400{
+    font-weight: 400;
+}
+.ads-weight-600{
+    font-weight: 600;
+}
+.mobile-show{
+    display: block !important;
+}
+/*
+* 移动端字体适配
+* 移动端参考iphone 6 画稿
+* 定义全局方法 使px转成rem
+*/
+
+@media screen and (max-width: 768px) {
+    html {
+        font-size: calc(100vw / 10)
+    }
+    body {
+        font-size: 16px !important;
+    }
+    .ads-font-48 {
+        font-size: px(48);
+    }
+    .ads-font-46 {
+        font-size: px(46);
+    }
+    .ads-font-44 {
+        font-size: px(44);
+    }
+    .ads-font-42 {
+        font-size: px(42);
+    }
+    .ads-font-40 {
+        font-size: px(40);
+    }
+    .ads-font-38 {
+        font-size: px(38);
+    }
+    .ads-font-36 {
+        font-size: px(36);
+    }
+    .ads-font-34 {
+        font-size: px(34);
+    }
+    .ads-font-32 {
+        font-size: px(32);
+    }
+    .ads-font-30 {
+        font-size: px(30);
+    }
+    .ads-font-28 {
+        font-size: px(28);
+    }
+    .ads-font-26 {
+        font-size: px(26);
+    }
+    .ads-font-24 {
+        font-size: px(24);
+    }
+    .ads-font-22 {
+        font-size: px(22);
+    }
+    .ads-font-20 {
+        font-size: px(20);
+    }
+    .ads-font-18 {
+        font-size: px(18);
+    }
+    .ads-font-16 {
+        font-size: px(16);
+    }
+    .ads-font-14 {
+        font-size: px(14);
+    }
+    .ads-font-12 {
+        font-size: px(12);
+    }
+    .mobile_show{
+            display: block !important;
+    }
+    .mobile-hidden{
+        display: none !important;
+    }
+}
+
 
 /*header*/
 
 header {
     margin-bottom: 1px;
     box-shadow: 0 4px 8px 0 rgba(7, 17, 27, .1);
-    overflow: hidden;
     height: auto !important;
     line-height: 46px !important;
     .ads-menu-div {
         padding: 20px 0;
+        .menu_list {
+            position: relative;
+            .dropdown-toggle{
+                line-height: 0;
+            }
+            .dropdown-menu{
+                z-index: 99;
+            }
+            .dropdown-menu{
+                min-width: auto;
+                    margin: 0;
+                    padding: 0;
+                    overflow: hidden;
+                li{
+                    height: 40px;
+                    a{
+                        padding: 15px 20px !important;
+                        display: inline-block;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    }
+
+                }
+                li:hover{
+                    background: #eb6130;
+                    a{
+                        color: #fff;
+                        background: #eb6130;
+
+                    }
+                }
+            }
+        }
+        
         .logo-head {
             display: block;
             float: left;
@@ -185,7 +372,6 @@ header {
         a {
             display: inline-block;
             margin: 0 6px;
-            font-size: 0.75rem;
         }
     }
 }
@@ -200,8 +386,7 @@ header {
     color: #eb6130;
     margin-right: 10px;
     margin-left: 70px;
-    padding: 0.5rem 0.75rem !important;
-    font-size: 0.75rem;
+    padding: 8px 12px !important;
     font-weight: 600;
     line-height: 1.44;
 }
@@ -215,8 +400,7 @@ header {
     width: 6.25rem;
     margin-left: 0;
     margin-right: 0;
-    padding: 0.5rem 0.75rem !important;
-    font-size: 0.75rem;
+    padding: 8px 12px !important;
     font-weight: 600;
 }
 
@@ -1162,108 +1346,6 @@ footer a {
 
 /*pricing table*/
 
-.pricing-table {
-    margin-top: 5.25rem;
-}
-
-.pricing-table .tabel-div {
-    overflow: hidden;
-}
-
-.pricing-table table {
-    margin-bottom: 0px;
-}
-
-.pricing-table .table-head {
-    background: #f08751;
-    color: #fff;
-}
-
-.pricing-table .table-head .table-title {
-    line-height: 60px;
-    font-size: 1.5rem;
-}
-
-.pricing-table .table-head .table-title td {
-    padding: 20px 0px;
-}
-
-.pricing-table .table-title2 td {
-    height: 40px;
-    font-size: 1rem;
-    font-family: "Open Sans", sans-serif;
-    font-weight: 300;
-    color: #E87E04
-}
-
-.pricing-table .table-head tr>td {
-    border-bottom: 0px;
-    border-top: 0px;
-}
-
-.pricing-table .table-content td {
-    padding-bottom: 10px;
-    padding-top: 10px;
-}
-
-.pricing-table .text-content2 {
-    background: #f6f6f6;
-    padding: 16px 0;
-}
-
-.pricing-table .text-content2 .pricingitme-name {
-    padding-left: 15px;
-    font-size: 1.125rem;
-    font-weight: 400;
-    color: #555;
-}
-
-.pricing-table .pricingitme-name {
-    text-align: left;
-    font-size: 1rem;
-    color: #333;
-    font-weight: 0;
-    padding-top: 8px;
-    padding-left: 30px;
-}
-
-.pricing-table .pricing-field {
-    margin-left: 5px;
-    color: #333;
-    font-size: 14px;
-}
-
-.pricing-table .right {
-    color: #68b325;
-    font-size: 14px;
-}
-
-.pricing-table .error {
-    height: 8px;
-    width: 8px;
-    display: inline-block;
-    border-radius: 4px;
-    background: #ccc;
-}
-
-.pricing-table .table-footer a {
-    padding: 5px 10px;
-    border-radius: 4px;
-    border: 1px solid transparent;
-    background: #eb6130;
-    color: #fff
-}
-
-.pricing-table .table-footer a:hover {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, .2), 0 3px 6px rgba(0, 0, 0, .26);
-}
-
-.pricing-table .table-footer>tr>td {
-    border-bottom: 0px;
-    border-top: 0px;
-    background: #f6f6f6
-}
-
 .table-footer .footertop td {
     padding-top: 20px;
 }
@@ -1994,5 +2076,12 @@ body.login .content .register-form .mt-checkbox {
 * 前台界面移动端适配
 * 单独从文件app_mobile.scss引入，方便维护
 * 该文件应该放在尾部，避免被样式覆盖
+* 移动端px转rem单位函数为px()
 */
 @import 'app_mobile';
+
+/*
+* 编写的scss文件应单独文件编写，在此处引入
+* 引入plan（pricing）页面的样式pricing.scss
+*/
+@import 'pricing';

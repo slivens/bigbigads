@@ -1,4 +1,7 @@
-
+/*定义移动端计算rem函数*/
+@function px($n) {
+    @return ($n / 37.5) + rem;
+}
 // Extra small screen / phone
 $screen-xs-min: 480px !default;
 // Small screen / tablet  
@@ -25,6 +28,155 @@ $tabmenu-font-color: white;
 $adser-analysis-sidebar-width:150px;
 //广告分析样式
 $ad-analysis-sidebar-width:150px;
+
+/*定义全局通用文字大小，与移动端的配套*/
+.ads-font-48{
+    font-size: 48px;
+}
+.ads-font-46{
+    font-size: 46px;
+}
+.ads-font-44{
+    font-size: 44px;
+}
+.ads-font-42{
+    font-size: 42px;
+}
+.ads-font-40{
+    font-size: 40px;
+}
+.ads-font-38{
+    font-size: 38px;
+}
+.ads-font-36{
+    font-size: 36px;
+}
+.ads-font-34{
+    font-size: 34px;
+}
+.ads-font-32{
+    font-size: 32px;
+}
+.ads-font-30{
+    font-size: 30px;
+}
+.ads-font-28{
+    font-size: 28px;
+}
+.ads-font-26{
+    font-size: 26px;
+}
+.ads-font-24{
+    font-size: 24px;
+}
+.ads-font-22{
+    font-size: 22px;
+}
+.ads-font-20{
+    font-size: 20px;
+}
+.ads-font-18{
+    font-size: 18px;
+}
+.ads-font-16{
+    font-size: 16px;
+}
+.ads-font-14{
+    font-size: 14px;
+}
+.ads-font-12{
+    font-size: 12px;
+}
+.ads-weight-200{
+    font-weight: 200;
+}
+.ads-weight-400{
+    font-weight: 400;
+}
+.ads-weight-600{
+    font-weight: 600;
+}
+.mobile-show{
+    display: block !important;
+}
+/*
+* 移动端字体适配
+* 移动端参考iphone 6 画稿
+* 定义全局方法 使px转成rem
+*/
+
+@media screen and (max-width: 768px) {
+    html {
+        font-size: calc(100vw / 10)
+    }
+    body {
+        font-size: 16px !important;
+    }
+    .ads-font-48 {
+        font-size: px(48);
+    }
+    .ads-font-46 {
+        font-size: px(46);
+    }
+    .ads-font-44 {
+        font-size: px(44);
+    }
+    .ads-font-42 {
+        font-size: px(42);
+    }
+    .ads-font-40 {
+        font-size: px(40);
+    }
+    .ads-font-38 {
+        font-size: px(38);
+    }
+    .ads-font-36 {
+        font-size: px(36);
+    }
+    .ads-font-34 {
+        font-size: px(34);
+    }
+    .ads-font-32 {
+        font-size: px(32);
+    }
+    .ads-font-30 {
+        font-size: px(30);
+    }
+    .ads-font-28 {
+        font-size: px(28);
+    }
+    .ads-font-26 {
+        font-size: px(26);
+    }
+    .ads-font-24 {
+        font-size: px(24);
+    }
+    .ads-font-22 {
+        font-size: px(22);
+    }
+    .ads-font-20 {
+        font-size: px(20);
+    }
+    .ads-font-18 {
+        font-size: px(18);
+    }
+    .ads-font-16 {
+        font-size: px(16);
+    }
+    .ads-font-14 {
+        font-size: px(14);
+    }
+    .ads-font-12 {
+        font-size: px(12);
+    }
+    .mobile_show{
+            display: block !important;
+    }
+    .mobile-hidden{
+        display: none !important;
+    }
+}
+
 body {
     min-width: 800px;
 }
@@ -907,21 +1059,18 @@ body.modal-open {
 //xgrit 卡片样式修改
 //仿fb
 .xg-span-message {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: normal;
-    line-height: 17px;
+    line-height: 1.38;
     word-wrap: break-word;
     margin: 10px 0 !important;
-    color:#666;
-    font-family: helvetica, arial, sans-serif !important;
 }
 
 .xg-span-name {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     line-height: 22px;
-    color: #666;
-    font-family: Georgia, 'lucida grande',tahoma,verdana,arial,sans-serif;
+    color: #1d2129;
 }
 
 .xg-video-name-mh20 {
@@ -929,17 +1078,16 @@ body.modal-open {
 }
 
 .xg-span-description {
-    line-height: 17px;
+    line-height: 16px;
     max-height: 80px;
     overflow: hidden;
-    color: #666;
+    color: #1d2129;
     // font-size: 12px;
     font-size: 1.4rem;
-    font-family: helvetica, arial, sans-serif !important;
 }
 
 .xg-label-caption {
-    color: #444 !important;
+    color: #90949c !important;
     background-color: #fff !important;
     box-shadow: none !important;
     font-size: 11px;
@@ -1707,3 +1855,6 @@ color: $black_placeholder !important;
 * 该文件应该放在尾部，避免被样式覆盖
 */
 @import 'app_mobile';
+
+/*plans 界面样式*/
+@import 'plans';
