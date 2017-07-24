@@ -1551,6 +1551,10 @@ MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope'
 
         user.done = true
         user.retreived = true
+
+        var defer = $q.defer()
+        user.promise = defer.promise
+        defer.resolve()
     }
 
     return user;
