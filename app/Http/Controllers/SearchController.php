@@ -54,6 +54,37 @@ class SearchController extends Controller
 
 
     /**
+     * @param string $ident 根据标识监测一定时间段的访问次数，$ident为IP地址则根据IP限制，为email则根据该email限制
+     * @param App\User $user 
+     */
+    protected function throttleByIdent($ident, $user)
+    {
+        //速率的计算
+        $key = 'attack_' . $ident;
+        $def = ['last' => Carbon::now()->toDateTimeString() , 'count' => 0];
+        $cache = Cache::get($key, $def);
+        $last = new Carbon($cache['last']);
+        $now = Carbon::now();
+        /* Log::debug("{$now->hour} and {$last->toDateTimeString()}"); */
+        if ($now->hour == $last->hour && $now->diffInHours($last, true) == 0) {
+            $cache['count']++;
+        } else {
+            $cache['count'] = 1;
+        }
+        $cache['last'] = $now->toDateTimeString();
+        Cache::put($key, $cache, 1440);
+        //每小时不应超过720（以整个小时作为样本)
+        if ($cache['count'] >= 720) {
+            if ($cache['count'] == 720) {
+                Log::debug("{$ident} may attack the server");
+                dispatch(new LogAction(ActionLog::ACTION_ATTACK_RATE, json_encode(request()->all()), $ident . ':' . json_encode($cache), $user->id, request()->ip()));
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 攻击检测：目前检测非法请求参数和请求速率，检测到异常就记录到ActionLog
      * 假设：正常用户平均搜索一次加上查看也要5秒，一小时3600秒，720次。
      * 累计次数，当当前时间与上个时间都在在(n - 1, n]小时，就累加；当前时间与上个时间不在同一个区间，重新计数。当计数超过720次时，记录到ACTION_LOG。
@@ -61,33 +92,38 @@ class SearchController extends Controller
      */
     protected function checkAttack($req, $user)
     {
-        //速率的计算
-        $key = 'attack_' . $req->ip();
-        $def = ['last' => Carbon::now()->toDateTimeString() , 'count' => 0];
-        $static = Cache::get($key, $def);
-        $last = new Carbon($static['last']);
-        $now = Carbon::now();
-        /* Log::debug("{$now->hour} and {$last->toDateTimeString()}"); */
-        if ($now->hour == $last->hour && $now->diffInHours($last, true) == 0) {
-            $static['count']++;
-        } else {
-            $static['count'] = 1;
-        }
-        $static['last'] = $now->toDateTimeString();
-        Cache::put($key, $static, 1440);
-        //每小时不应超过720（以整个小时作为样本)
-        if ($static['count'] >= 720) {
-            if ($static['count'] == 720) {
-                Log::debug("{$req->ip()} may attach the server");
-                dispatch(new LogAction(ActionLog::ACTION_ATTACK_IP_RATE, json_encode($req->all()), json_encode($static), $user->id, $req->ip()));
-            }
+        if (!$this->throttleByIdent($req->ip(), $user))
             return false;
-        }
+        if ($this->isAnonymous())
+            return true;
+        return $this->throttleByIdent($user->email, $user);
+        //速率的计算
+        /* $key = 'attack_' . $req->ip(); */
+        /* $def = ['last' => Carbon::now()->toDateTimeString() , 'count' => 0]; */
+        /* $static = Cache::get($key, $def); */
+        /* $last = new Carbon($static['last']); */
+        /* $now = Carbon::now(); */
+        /* /1* Log::debug("{$now->hour} and {$last->toDateTimeString()}"); *1/ */
+        /* if ($now->hour == $last->hour && $now->diffInHours($last, true) == 0) { */
+        /*     $static['count']++; */
+        /* } else { */
+        /*     $static['count'] = 1; */
+        /* } */
+        /* $static['last'] = $now->toDateTimeString(); */
+        /* Cache::put($key, $static, 1440); */
+        /* //每小时不应超过720（以整个小时作为样本) */
+        /* if ($static['count'] >= 720) { */
+        /*     if ($static['count'] == 720) { */
+        /*         Log::debug("{$req->ip()} may attack the server"); */
+        /*         dispatch(new LogAction(ActionLog::ACTION_ATTACK_IP_RATE, json_encode($req->all()), json_encode($static), $user->id, $req->ip())); */
+        /*     } */
+        /*     return false; */
+        /* } */
 
-        //参数的判断，过于严格，开发阶段增加额外参数将导致较大的人力沟通，不利于开发，暂不实施
-        /* $allowed = ['action', 'is_stat', 'is_why_all', 'keys', 'limit', 'search_result', 'sort', 'topN', 'where']; */
+        /* //参数的判断，过于严格，开发阶段增加额外参数将导致较大的人力沟通，不利于开发，暂不实施 */
+        /* /1* $allowed = ['action', 'is_stat', 'is_why_all', 'keys', 'limit', 'search_result', 'sort', 'topN', 'where']; *1/ */
        
-        return true;
+        /* return true; */
     }
 
     /**
