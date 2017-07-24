@@ -1,4 +1,13 @@
+@function px($n) {
+    @return ($n / 37.5) + rem;
+}
 @media screen and (max-width: 769px) {
+    html {
+        font-size: calc(100vw / 10);
+    }
+    body {
+        font-size: 16px !important;
+    }
     header {
         height: px(64);
         .ads-menu-div{
@@ -13,7 +22,7 @@
                 background-size: auto 100%;
             }
         } 
-        .menu_list{
+        .menu-list{
             flex:1;
             text-align: left;
             display: flex;
@@ -387,6 +396,7 @@
         .content {
             width: 100%;
             padding: px(15);
+            margin-bottom: 0;
             .login-form {
                 padding-top: px(30);
                 .form-title {
@@ -428,6 +438,11 @@
                 .signup-btn {
                     font-size: px(16) !important;
                 }
+                .button-div{
+                    padding: 0px 0px 25px 0px;
+                    margin-left: 0; 
+                    margin-right: 0px; 
+                }
             }
             .forget-form {
                 .form-actions {
@@ -435,6 +450,7 @@
                         font-size: px(16);
                     }
                 }
+                
             }
         }
     }
