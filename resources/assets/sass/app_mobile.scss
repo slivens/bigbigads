@@ -1,11 +1,10 @@
+
 @media screen and (max-width: 769px) {
     header {
         height: px(64);
         .ads-menu-div{
             padding: px(2) 0;
             height: px(44);
-            display: flex;
-            align-items: center;
             .logo-head{
                 background-repeat: no-repeat;
                 margin-left: px(10);
@@ -13,12 +12,10 @@
                 background-size: auto 100%;
             }
         } 
-        .menu_list{
+        .menu-list{
             flex:1;
             text-align: left;
-            display: flex;
-            justify-content:flex-end;
-            .btn-empty{
+            .login-btn{
                 width: auto;
                 height: auto;
                 padding: px(6) px(14) !important;
@@ -28,6 +25,9 @@
                 border:1px solid #eb6130;
                 color: #eb6130;
                 margin-right: px(15); 
+            }
+            .register-btn{
+                display: none;
             }
         }
     }
@@ -119,33 +119,49 @@
         }
     }
     /*product*/
-    .solution-product {
-        margin: 0;
-        .solution-product_title {
-            font-size: 0;
-            padding-top: px(20);
-            margin-bottom: px(20);
-        }
-        .adsintroduce {
-            font-size: px(16);
-            font-weight: 200;
-        }
-        .productcard {
-            .produ-item-title {
-                margin-bottom: px(16);
+    .product{
+        .slider{
+            padding: px(20) 0 !important;
+            .container{padding: 0;}
+            .swiper-wrapper{
+                .swiper-slide{
+                    img{width: 100%;
+                        height: auto;}
+                }
             }
-            .product-btn {
-                margin: px(20) 0;
-                width: 100%;
-                padding: px(20);
-                border-radius: px(4);
+            .slider-right{
+                display: none;
             }
-            .solution-product_tip {
-                line-height: px(44);
+        }
+        .solution-product {
+            margin: 0;
+            .solution-product_title {
+                font-size: 0;
+                padding-top: px(20);
                 margin-bottom: px(20);
+            }
+            .adsintroduce {
+                font-size: px(16);
+                font-weight: 200;
+            }
+            .productcard {
+                .produ-item-title {
+                    margin-bottom: px(16);
+                }
+                .product-btn {
+                    margin: px(20) 0;
+                    width: 100%;
+                    padding: px(20);
+                    border-radius: px(4);
+                }
+                .solution-product_tip {
+                    line-height: px(44);
+                    margin-bottom: px(20);
+                }
             }
         }
     }
+    
     /*pricing*/
     .pricing-header {
         .pricing {
@@ -387,6 +403,7 @@
         .content {
             width: 100%;
             padding: px(15);
+            margin-bottom: 0;
             .login-form {
                 padding-top: px(30);
                 .form-title {
@@ -428,6 +445,11 @@
                 .signup-btn {
                     font-size: px(16) !important;
                 }
+                .button-div{
+                    padding: 0px 0px 25px 0px;
+                    margin-left: 0; 
+                    margin-right: 0px; 
+                }
             }
             .forget-form {
                 .form-actions {
@@ -435,6 +457,7 @@
                         font-size: px(16);
                     }
                 }
+                
             }
         }
     }

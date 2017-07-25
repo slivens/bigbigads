@@ -1,7 +1,10 @@
-
 (function() {
-        $('#qa li').click(function () {
-            $('#qa li').removeClass('active');
-            $(this).addClass('active');
-        }); 
+    $("#stand-card .adscard-btn").on("click", turnToPricing);
+    $("#pricingcard-back").on("click", turnToStand);
+    function turnToPricing() {
+        $("#stand-card-div").addClass("transform-rotatey");
+    }
+    function turnToStand() {
+        $("#stand-card-div").removeClass("transform-rotatey");
+    }
 })();
