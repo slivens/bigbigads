@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <p class="ads-font-32 text-center instroduce-data-title">The Best Solution</p>
-                <p class="text-center">For Advertisers，Agencies，Ad network & Publishers
+                <p class="text-center">For Advertisers，Agencies，Ad network &amp; Publishers
                 </p>
             </div>
             <a href="#ads-register" class="btn introduce-reg-btn reg-sub-btn">Get Started <small>It's Free</small></a>
@@ -181,7 +181,7 @@
                         <td><i class="glyphicon glyphicon-ok"></i></td>
                     </tr>
                     <tr>
-                        <td class="pricing-td-title">Audience & Interest</td>
+                        <td class="pricing-td-title">Audience &amp; Interest</td>
                         <td>Limited</td>
                         <td><i class="glyphicon glyphicon-ok"></i></td>
                     </tr>
@@ -191,7 +191,7 @@
                         <td>5M<sup>+</sup></td>
                     </tr>
                     <tr>
-                        <td class="pricing-td-title">Mobile Ads& App Ads
+                        <td class="pricing-td-title">Mobile Ads &amp; App Ads
                         </td>
                         <td></td>
                         <td><i class="glyphicon glyphicon-ok"></i></td>

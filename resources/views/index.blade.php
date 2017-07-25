@@ -228,7 +228,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 <!-- DO NOT MODIFY -->
 <!-- End Facebook Pixel Code -->
 </head>
-<body>
+<body id="home">
 @include('tpl.header')
 <!--banner-->
 <section class="home-banner">
@@ -370,7 +370,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 						<td><i class="glyphicon glyphicon-ok"></i></td>
 					</tr>
 					<tr>
-						<td class="pricing-td-title">Audience & Interest</td>
+						<td class="pricing-td-title">Audience &amp; Interest</td>
 						<td>Limited</td>
 						<td><i class="glyphicon glyphicon-ok"></i></td>
 					</tr>
@@ -380,7 +380,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 						<td>5M<sup>+</sup></td>
 					</tr>
 					<tr>
-						<td class="pricing-td-title">Mobile Ads& App Ads
+						<td class="pricing-td-title">Mobile Ads &amp; App Ads
 						</td>
 						<td></td>
 						<td><i class="glyphicon glyphicon-ok"></i></td>
