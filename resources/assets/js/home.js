@@ -11,6 +11,7 @@ import 'animate.css/animate.min.css';
 import 'font-awesome/css/font-awesome.min.css'
 
 
+
 (function() {
     var slider = new Swiper('#slider', {
         slidesPerView: 1
@@ -78,6 +79,8 @@ import 'font-awesome/css/font-awesome.min.css'
 
     /*广告词动画切换*/
     toChangeWord(0);
+    /*获取广告数量*/
+    getAdsCount();
     /*home界面的广告词切换*/
     function toChangeWord(item) {
         var word = ["To see resonate image <br/>for ad designer",
@@ -97,4 +100,37 @@ import 'font-awesome/css/font-awesome.min.css'
             }, 500);
         }, 2500);
     }
-})();
+    /*异步获取广告数*/
+    function getAdsCount() {
+
+        /*采用fetch获取数据*/
+        //需要跨域请求，有待解决
+        var data = {
+            method: "get",
+        }
+        fetch('home/get_total_count', data).then(function(response) {
+            return response.json();
+        }).then(function(json) {
+            try {
+                var adscount = estimationThousand(json.total_ads_count);
+                var adsercount = estimationThousand(json.total_adser_count);
+                $("#adsnumber").html(adscount);
+                $("#adsernumber").html(adsercount);
+            } catch (e) {
+                $("#adsnumber").html("5,300,000");
+            }
+        }).catch(function(ex) {
+            $("#adsnumber").html("5,300,000");
+        });
+    }
+    //估算到千位
+    function estimationThousand(num){
+        var count = parseInt(Math.round(num / 1000));
+        count = count.toString().replace(/(^|\s)\d+/g, (m) => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','));
+        count = count + ",000";
+        return count;
+    }
+
+    
+    })();
+    
