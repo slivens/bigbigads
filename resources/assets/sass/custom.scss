@@ -231,29 +231,6 @@ header {
 }
 
 /*home 页面*/
-/*home页面的container定义*/
-#home {
-    @media (min-width: 768px) {
-        .container {
-            width: 750px;
-        }
-    }
-    @media (min-width: 768px) {}
-    .container {
-        width: 750px;
-    }
-    @media (min-width: 992px) {
-        .container {
-            width: 970px;
-        }
-    }
-    @media (min-width: 1200px) {
-        .container {
-            width: 1170px;
-        }
-    }
-}
-
 /*home-banner*/
 .home-banner {
     background: url('./images/home/banner01.jpg') center center no-repeat;
