@@ -28,6 +28,10 @@ class Controller extends BaseController
         return $user;
     }
 
+    public function isAnonymous()
+    {
+        return $this->user() instanceof AnonymousUser;
+    }
     /**
      * 目前错误的返回统一以422作为Response返回码
      */

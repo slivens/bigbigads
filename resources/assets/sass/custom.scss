@@ -104,9 +104,6 @@ a:hover {
     margin-top: -31.25rem;
 }
 
-.w100 {
-    width: 6.25rem;
-}
 
 .bg_fff {
     background-color: #fff;
@@ -174,6 +171,8 @@ header {
     line-height: 46px !important;
     .ads-menu-div {
         padding: 20px 0;
+        display: flex;
+        align-items: center;
         .logo-head {
             display: block;
             float: left;
@@ -187,39 +186,42 @@ header {
             margin: 0 6px;
             font-size: 0.75rem;
         }
+        .menu-list{
+            flex:1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .login-btn {
+            width: 100px;
+            background: transparent;
+            border: 1px solid #eb6130;
+            color: #eb6130;
+            margin-right: 10px;
+            margin-left: 70px;
+            padding: 0.5rem 0.75rem !important;
+            font-size: 0.75rem;
+            font-weight: 600;
+            line-height: 1.44;
+        }
+        .login-btn:hover {
+            color: #fff;
+            background: #eb6130;
+        }
+        .register-btn {
+            width: 100px;
+            margin-left: 0;
+            margin-right: 0;
+            padding: 0.5rem 0.75rem !important;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
     }
 }
 
 .navbar-toggle .icon-bar {
     background-color: #eb6130;
 }
-
-.btn-empty {
-    background: transparent;
-    border: 1px solid #eb6130;
-    color: #eb6130;
-    margin-right: 10px;
-    margin-left: 70px;
-    padding: 0.5rem 0.75rem !important;
-    font-size: 0.75rem;
-    font-weight: 600;
-    line-height: 1.44;
-}
-
-.btn-empty:hover {
-    color: #fff;
-    background: #eb6130;
-}
-
-.head-btn {
-    width: 6.25rem;
-    margin-left: 0;
-    margin-right: 0;
-    padding: 0.5rem 0.75rem !important;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
 .margin-top14 {
     margin-top: 14px;
 }
@@ -228,9 +230,8 @@ header {
     margin-bottom: 30px;
 }
 
-
+/*home 页面*/
 /*home-banner*/
-
 .home-banner {
     background: url('./images/home/banner01.jpg') center center no-repeat;
     min-width: 100%;

@@ -40,7 +40,7 @@ class ActionLog extends Model
     /*
      * 恶意攻击记录
      */
-    const ACTION_ATTACK_IP_RATE = "ATTACK_IP_RATE";
+    const ACTION_ATTACK_RATE = "ATTACK_RATE";
 
     /*
      * 收藏夹记录

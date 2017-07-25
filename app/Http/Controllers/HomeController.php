@@ -17,7 +17,7 @@ class HomeController extends Controller
     public function getTotalCount()
     {
         $client = new Client();
-        $url = env('ADSER_SEARCH_URL', 'http://127.0.0.1:8080/adser_search');
+        $url = config("services.bigbigads.adser_search_url");//env('ADSER_SEARCH_URL', 'http://127.0.0.1:8080/adser_search');
         $res = $client->request('POST', $url, [
             'body' => '{}'
         ]);
