@@ -179,8 +179,4 @@ Route::get('/welcome', function () {
 
 Route::get('hotword', 'HotWordController@getHotWord');
 
-//该路由应由前端页面自己填写，这里仅是示例
-Route::get('/test2', function () {
-    return view('registerNoPwd');//新页面地址
-});
 Route::post('/quickRegister', 'UserController@quickRegister');//快速注册表单提交位置
