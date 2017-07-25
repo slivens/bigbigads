@@ -260,6 +260,54 @@
                     font-weight: 200;
                 }
             }
+            .pricing-div{
+                .btn-orange{
+                    background: #eb6130;
+                }
+                .pricing-title {
+                    font-size: px(22);
+                    font-weight: 600;
+                    text-align: center;
+                    color: #53555c;
+                    padding: px(15) 0;
+                    border-bottom: 2px solid #53555c;
+                    margin-bottom: 20px;
+                }
+                .pricing-table {
+                    .table {
+                        tr {
+                            td {
+                                padding: px(10);
+                                color: #535b60;
+                                font-weight: 200;
+                                text-align: center;
+                                vertical-align: middle;
+                            }
+                            .pricing-td-title {
+                                font-weight: 600;
+                                text-align: left;
+                            }
+                        }
+                        .pricing-td-title td {
+                            font-weight: 600;
+                            text-align: center;
+                        }
+                    }
+                }
+                .pricing-question{
+                    .question-q {
+                        font-weight: 600;
+                        margin: 10px 0;
+                    }
+
+                }
+                .pricing-discounts{
+                    .discounts-text-title {
+                        font-weight: 600;
+                        font-size: px(18);
+                    } 
+                }  
+            }
         }
         footer{
             background: #333;

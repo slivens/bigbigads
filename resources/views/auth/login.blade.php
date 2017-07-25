@@ -141,7 +141,10 @@
                         <i class="fa fa-linkedin-square reg-btn-icon"></i>
                         <span class=" reg-btn-text">Log In With Linknedin</span>
                     </a>
-                    <a href="/socialite/google" class="google-plus socialite hidden"><i class="fa fa-google-plus-square fa-3x"></i></a>
+                    <a href="/socialite/google" class="register-btn btn">
+                        <i class="fa fa-google-plus-square reg-btn-icon"></i>
+                        <span class="reg-btn-text">Log In With Google+</span>
+                    </a>
                 </div>
                 <div class="login-footer row">
                     <!--create an acount-->
@@ -192,9 +195,13 @@
                     <span class=" reg-btn-text">Sign Up With Facebook</span>
                 </a>
                 <a href="/socialite/linkedin" class="register-btn register-linkedin-btn btn  socialite disabled">
-                        <i class="fa fa-linkedin-square reg-btn-icon"></i>
-                        <span class=" reg-btn-text">Log In With Linknedin</span>
-                    </a>
+                    <i class="fa fa-linkedin-square reg-btn-icon"></i>
+                    <span class=" reg-btn-text">Sign Up With Linknedin</span>
+                </a>
+                <a href="/socialite/google" class="register-btn btn">
+                    <i class="fa fa-google-plus-square reg-btn-icon"></i>
+                    <span class="reg-btn-text">Sign Up With Google+</span>
+                </a>
                 <div class="register-line">
                     <span class="underline"></span>
                     <span class="line-word">or</span>
