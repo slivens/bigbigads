@@ -28,7 +28,7 @@ Route::get('/', 'HomeController@index')->middleware('track');
 Route::get('/home', 'HomeController@index')->middleware('track');
 
 // 用于前台主页动态获取广告总数
-Route::get('/home/get_total_count', 'HomeController@getTotalCount');
+Route::get('/get_total_count', 'HomeController@getTotalCount');
 
 Route::get('/message', 'Controller@messageView');
 
@@ -179,8 +179,4 @@ Route::get('/welcome', function () {
 
 Route::get('hotword', 'HotWordController@getHotWord');
 
-//该路由应由前端页面自己填写，这里仅是示例
-Route::get('/test2', function () {
-    return view('registerNoPwd');//新页面地址
-});
 Route::post('/quickRegister', 'UserController@quickRegister');//快速注册表单提交位置
