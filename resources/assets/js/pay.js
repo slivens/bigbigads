@@ -1,19 +1,28 @@
 import Vue from 'vue'
 import axios from 'axios'
 import moment from 'moment'
-import { SweetModal} from 'sweet-modal-vue'
+import { SweetModal } from 'sweet-modal-vue'
+import 'bootstrap/dist/css/bootstrap.css';
+import './../sass/demo.scss';
+import './../sass/pay.scss';
+import 'font-awesome/css/font-awesome.min.css';
 // Vue.component('coupon', require('./components/Coupon.vue'));
 
 const app = new Vue({
     el: '#app',
     data: {
         couponObject:null,
-        coupon:'',
+        coupon:'', 
         loading:false,
         amount:0,
         discount:0,
         inited:true,
-		errorMessage:""
+		errorMessage:"",
+        email:'',
+        emailErr:false,
+        emailMessage:"Required",
+        ipAddr:"0.0.0.0",
+        showLoading:true,//showLoding 控制的是hidden的样式，当为true的时候，为隐藏！
     },
 	components: {
 		SweetModal
@@ -47,6 +56,69 @@ const app = new Vue({
                     that.loading = false;
                     that.couponObject = null;
                 });
+        },
+        toRegister:function(){
+            const that = this;
+            var userEmail = that.email;
+            var userName = userEmail.split("@")[0];
+            that.showLoading = false;
+            if(isEmail(userEmail)){
+                //如果符合需求，进行注册
+                axios.post('/quickRegister',{'email':userEmail,'password':userEmail, 'name':userName}).then(
+                    response =>{
+                        if(response.status === 200){
+                            //该邮箱已经被注册
+                            if(response.data.code === -1){
+                                that.showLoading = true;
+                                that.emailErr = true;
+                                //that.emailMessage = response.data.desc.email[0];
+                                that.emailMessage =  "Already Registered";
+                            }
+                            else if(response.data.code === 0)
+                            {
+                                //注册成功，提交表单
+                                document.getElementById("checkout").submit();
+                            }
+                            else{
+                                that.showLoading = true;
+                                that.errorMessage = "There was an error, please check it";
+                                that.$refs.modal.open();
+                            }
+                        }
+                        else
+                        {
+                            alert("error");
+                        }
+                    }).catch(error => {
+                    // console.log(error);
+                    that.loading = false;
+                    that.couponObject = null;
+                });
+            }
+            else{
+                that.showLoading = true;
+                that.errorMessage = "Invalid";
+                that.$refs.modal.open();
+            }
+        },
+        //输入事件，判断邮箱格式
+        emailEnter:function(){
+            const that = this;
+            var userEmail = that.email;
+            if(!isEmail(userEmail)){
+                that.emailErr=true;
+                that.emailMessage="Invalid"
+                return false;
+            }
+            else{
+                that.emailErr=false;
+                return true;
+            }
+        },
+        //支付按钮点击
+        toPay:function(){
+            this.showLoading = false;
+            document.getElementById("checkout").submit();
         },
         initAmount:function(amount) {
             this.amount = amount
@@ -91,5 +163,22 @@ const app = new Vue({
                 return obj.discount;
             return 0;
         }
+    },
+    mounted () {
+        try{
+            this.ipAddr = returnCitySN.cip;
+        }
+        catch(e){
+            this.ipAddr = '0.0.0.0';
+        }
+        
     }
 })
+
+/*判断邮箱*/
+function isEmail(szMail){ 
+var szReg=/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/; 
+var bChk=szReg.test(szMail); 
+return bChk; 
+} 
+

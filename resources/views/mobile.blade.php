@@ -208,8 +208,8 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td><a href="/register" class="btn btn-orange">Sign Up</a></td>
-                        <td><a href="/register" class="btn btn-orange">Buy Now</a></td>
+                        <td><a href="/plan" class="btn btn-orange">Sign Up</a></td>
+                        <td><a href="/plan" class="btn btn-orange">Buy Now</a></td>
                     </tr>
                 </table>
             </div>

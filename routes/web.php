@@ -28,7 +28,7 @@ Route::get('/', 'HomeController@index')->middleware('track');
 Route::get('/home', 'HomeController@index')->middleware('track');
 
 // 用于前台主页动态获取广告总数
-Route::get('/home/get_total_count', 'HomeController@getTotalCount');
+Route::get('/get_total_count', 'HomeController@getTotalCount');
 
 Route::get('/message', 'Controller@messageView');
 
@@ -60,8 +60,8 @@ Route::get('/product', function () {
     return view('product');
 });
 
-Route::get('/pricing', function () {
-    return view('pricing');
+Route::get('/plan', function () {
+    return view('plan');
 });
 
 Route::get('/about', function () {

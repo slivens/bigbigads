@@ -9,7 +9,7 @@
 
 	<title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <link href="./dist/home.css?v=1" rel="stylesheet">
+    <link href="./dist/home.css?v=2" rel="stylesheet">
     <style type="text/css">
 
 	</style>
@@ -90,7 +90,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         </div>
     </div>
 </section>
-<a href="/register">
+<a href="/plan">
 	<button class="btn home-getstart-btn text-center">
 	    	Get started now! <span class="small-word">It's free</span>
 	</button>
@@ -111,7 +111,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         	</div>
     	</div>
     </div>
-    <a href="/register">
+    <a href="/plan">
     	<button class="btn home-getstart-btn text-center" style="">
     		Get started now! <span class="small-word">It's free</span>
 		</button>
@@ -200,8 +200,8 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 					</tr>
 					<tr>
 						<td></td>
-						<td><a href="/register" class="btn">sign up</a></td>
-						<td><a href="/register" class="btn">sign up</a></td>
+						<td><a href="/plan" class="btn">sign up</a></td>
+						<td><a href="/plan" class="btn">sign up</a></td>
 					</tr>
 				</table>
 			</div>
@@ -305,8 +305,8 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         </div>
     </div>
 </div>
-<script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
-<script type="text/javascript" src="dist/home.js?v=5" defer></script>
+<script type="text/javascript" src="dist/vendor.js?v=5.1" defer></script>
+<script type="text/javascript" src="dist/home.js?v=5.1" defer></script>
 </body>
 </html>
     

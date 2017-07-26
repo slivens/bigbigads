@@ -54,7 +54,7 @@ import 'font-awesome/css/font-awesome.min.css';
         var data = {
             method: "get",
         }
-        fetch('home/get_total_count', data).then(function(response) {
+        fetch('/get_total_count', data).then(function(response) {
             return response.json();
         }).then(function(json) {
             try {
