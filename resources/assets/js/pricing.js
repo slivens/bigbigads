@@ -1,10 +1,12 @@
 (function() {
-    $("#stand-card .adscard-btn").on("click", turnToPricing);
-    $("#pricingcard-back").on("click", turnToStand);
+    $("#stand-card .adscard-btn").on("click", turnToPricing)
+    $("#pricingcard-back").on("click", turnToStand)
+
     function turnToPricing() {
-        $("#stand-card-div").addClass("transform-rotatey");
+        $("#stand-card-div").addClass("transform-rotatey")
     }
+
     function turnToStand() {
-        $("#stand-card-div").removeClass("transform-rotatey");
+        $("#stand-card-div").removeClass("transform-rotatey")
     }
-})();
+})()
