@@ -23,9 +23,10 @@ class SubscriptionController extends Controller
     public function form(Request $req)
     {
         //暂时当$planid不存在时重定向到404页面
-        if ($req->plan) {
+        if ($req->plan || $req->name) {
             $planid = $req->plan;
-            $plan = Plan::find($planid);
+            $name = $req->name;
+            $plan = Plan::where('id',$planid)->orwhere('name',$name)->first();//find($planid);
             return view('subscriptions.pay', ['plan'=>$plan]);
         } else {
             return view('errors.404');

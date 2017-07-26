@@ -123,7 +123,7 @@
                             ?
                             </div>
                         </div>
-                        <a href="/pay?plan=379">
+                        <a href="/pay?name=standard_monthly">
                         <div class="pricing-info-div row">
                             <div class="col-xs-7 pricing-cost-div">
                                 <div class="ads-font-24 pricing-name">Monthly</div>
@@ -137,7 +137,7 @@
                             
                         </div>
                         </a>
-                        <a href="/pay?plan=380">
+                        <a href="/pay?name=standard_quarter_monthly">
                             <div class="pricing-info-div row">
                                 <div class="col-xs-7 pricing-cost-div">
                                     <div class="ads-font-24 pricing-name">Quarterly</u></div>
@@ -151,7 +151,7 @@
                                 </div>
                             </div>
                         </a>
-                        <a href="/pay?plan=381">
+                        <a href="/pay?name=standard">
                         <div class="pricing-info-div row">
                             <div class="col-xs-7 pricing-cost-div">
                                 <div class="ads-font-24 pricing-name">Annual</div>
