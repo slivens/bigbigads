@@ -1,334 +1,257 @@
-/*pay界面样式*/
-
-.pay-font-32 {
-    font-size: 32px;
-}
-.pay-font-30 {
-    font-size: 30px;
-}
-.pay-font-28 {
-    font-size: 28px;
-}
-.pay-font-26 {
-    font-size: 26px;
-}
-.pay-font-24 {
-    font-size: 24px;
-}
-.pay-font-22 {
-    font-size: 22px;
-}
-.pay-font-20 {
-    font-size: 20px;
-}
-.pay-font-18 {
-    font-size: 18px;
-}
-.pay-font-16 {
-    font-size: 16px;
-}
-.pay-font-14 {
-    font-size: 14px;
-}
-.border-left{
-    border-left: 1px solid #ccc;
-}
-//金钱文字
-.cost-number{
-    color:#e87e04;
-    font-weight: 600;
-    margin-left: 0 5px;
-}
-.or-line{
-    width: 100%;
-    display: flex;
-    margin: 15px 0;
-    .under-line{
-        flex:1;
-        border-bottom: 1px solid #ccc;
-    }
-    .under-line-word{
-        color: #ccc;
-        padding: 0 15px;
-        line-height: 1px;
+/*基本样式*/
+@import 'base';
+#app {
+    .border-left {
+        border-left: 1px solid #ccc;
     }
 
-}
-.pay-alert-gray{
-    background: #fafafa;
-    border-color: #e5e5e5;
-    color: #999fa0;
-}
+    //金钱文字
+    .cost-number {
+        color: #e87e04;
+        font-weight: 600;
+        margin-left: 0 5px;
+    }
 
-//隐藏页头
-#app{
-    .navbar-static-top{
+    .or-line {
+        width: 100%;
+        display: flex;
+        margin: 15px 0;
+        .under-line {
+            flex: 1;
+            border-bottom: 1px solid #ccc;
+        }
+        .under-line-word {
+            color: #ccc;
+            padding: 0 15px;
+            line-height: 1px;
+        }
+    }
+
+    .pay-alert-gray {
+        background: #fafafa;
+        border-color: #e5e5e5;
+        color: #999fa0;
+    }
+
+    .navbar-static-top {
         display: none;
     }
-}
-.pay-div {
-    max-width: 800px;
-    margin: 0 auto;
-    .pay-head{
-        width: 100%;
-        height: 250px;
-        background: url("./images/pay/pay_banner01.jpg") no-repeat center;
-        background-size:100% 100%;
-        margin-bottom: 20px;
-    }
-    .pay-overview{
-        .overview-describe{
-            div{
-                color:#333;
-            }
-            .overview-cost{
-                font-weight: 600;
-            }
-        }
-        .notice-pay-cycle{
-            text-transform:lowercase;
-        }
-        .overview-notice{
-            p{
-                margin: 0;
-            }
-        }
-    }
-    .overview-head {
-        
-    }
-    .pay-email{
-        .pay-email-div{
-           position: relative;
-            .email-remain{
-                 position: absolute;
-                right: 5px;
-                top:0px;
-                font-weight: 200;
-                margin: 0;
-            }
-        }
-        .email-text{
-            font-weight: bold;
-        }
-        .email-remain{
-            margin-top: 5px;
-            padding-left: 10px;
-            display: none;
-        }
-        .Random-psw-div{
-            display: flex;
-            .Random-psw{
-                margin-left: 5px;
 
-            }
-            
-            .cahange-btn-div{
-                flex:1;
-                justify-content: right;
-                align-items: center;
-                .change-btn{
-                    height: 26px;
-                    width: 26px;
-                    font-size: 26px;
-                    padding: 0;
+    .pay-div {
+        max-width: 800px;
+        margin: 0 auto;
+        .pay-head {
+            width: 100%;
+            height: 250px;
+            background: url("./images/pay/pay_banner01.jpg") no-repeat center;
+            background-size: 100% 100%;
+            margin-bottom: 20px;
+        }
+        .pay-overview {
+            .overview-describe {
+                div {
+                    color: #333;
+                }
+                .overview-cost {
+                    font-weight: 600;
                 }
             }
-
-        }
-        
-    }
-    .pay-payment{
-        background: #fff;
-        border-color: #efefef;
-        .paypal-btn{
-            height: 44px;
-            width: 228px;
-            margin-top: 15px;
-            border:0px;
-            background: url(./images/pay/paypal_btn02.png);
-        }
-        .paypal-btn[disabled="disabled"]{
-            cursor: not-allowed;
-        }
-        .pay-creditcard{
-            padding-top: 20px;
-            position:relative;
-            .creditcard-btn{
-                .credit-icon{
-                    margin-right: 10px;
-                    top:4px;
+            .notice-pay-cycle {
+                text-transform: lowercase;
+            }
+            .overview-notice {
+                p {
+                    margin: 0;
                 }
             }
-            .safety-signs{
-                margin-top: 20px;
+        }
+        .overview-head {}
+        .pay-email {
+            .pay-email-div {
+                position: relative;
+                .email-remain {
+                    position: absolute;
+                    right: 5px;
+                    top: 0px;
+                    font-weight: 200;
+                    margin: 0;
+                }
             }
-            .creditcard-disable{
-                position:  absolute;
-                top: -6px;
-                left: 0;
-                width: 100%;
-                height:137px;
-                background: rgba(0,0,0,.2);
-                color: #fff;
-                font-weight: 600;
-                justify-content:center;
+            .email-text {
+                font-weight: bold;
+            }
+            .email-remain {
+                margin-top: 5px;
+                padding-left: 10px;
+                display: none;
+            }
+            .Random-psw-div {
                 display: flex;
-                align-items:center;
+                .Random-psw {
+                    margin-left: 5px;
+                }
+
+                .cahange-btn-div {
+                    flex: 1;
+                    justify-content: right;
+                    align-items: center;
+                    .change-btn {
+                        height: 26px;
+                        width: 26px;
+                        font-size: 26px;
+                        padding: 0;
+                    }
+                }
+            }
+        }
+        .pay-payment {
+            background: #fff;
+            border-color: #efefef;
+            .paypal-btn {
+                height: 44px;
+                width: 228px;
+                margin-top: 15px;
+                border: 0px;
+                background: url(./images/pay/paypal_btn02.png);
+            }
+            .paypal-btn[disabled="disabled"] {
                 cursor: not-allowed;
             }
-        }
-    }
-    .pay-coupon{
-        .navbar-form{
-            padding: 0;
-            display: flex;
-            margin-left: 0;
-            margin-right: 0;
-            .form-group{
-                flex:1;
-                input{
+            .pay-creditcard {
+                padding-top: 20px;
+                position: relative;
+                .creditcard-btn {
+                    .credit-icon {
+                        margin-right: 10px;
+                        top: 4px;
+                    }
+                }
+                .safety-signs {
+                    margin-top: 20px;
+                }
+                .creditcard-disable {
+                    position: absolute;
+                    top: -6px;
+                    left: 0;
                     width: 100%;
+                    height: 137px;
+                    background: rgba(0, 0, 0, .2);
+                    color: #fff;
+                    font-weight: 600;
+                    justify-content: center;
+                    display: flex;
+                    align-items: center;
+                    cursor: not-allowed;
                 }
             }
-            button{
-                margin-left: 10px;
+        }
+        .pay-coupon {
+            .navbar-form {
+                padding: 0;
+                display: flex;
+                margin-left: 0;
+                margin-right: 0;
+                .form-group {
+                    flex: 1;
+                    input {
+                        width: 100%;
+                    }
+                }
+                button {
+                    margin-left: 10px;
+                }
+            }
+
+            .coupon-text {
+                font-weight: bold;
             }
         }
-
-        .coupon-text{
-            font-weight: bold;
+        .pay-footer {
+            color: #555;
+            text-align: center;
+            padding: 15px;
+            span {
+                border-color: #555;
+                padding: 0 10px;
+                a {
+                    color: #555;
+                }
+                a:hover {
+                    color: #ccc;
+                }
+            }
         }
     }
-    .pay-footer{
-        color: #555;
-        text-align: center;
-        padding: 15px;
-        span{
-            border-color: #555;
-            padding: 0 10px;
-            a{
-                color:#555;
-
-            }
-            a:hover{
-                color: #ccc;
-            }
-        }
-    }
-}
-.pay-loading{
+    .pay-loading {
         position: fixed;
         width: 100%;
         height: 100%;
         top: 0;
         left: 0;
-        background-color: rgba(255,255,255,0.7);
+        background-color: rgba(255, 255, 255, 0.7);
         display: flex;
-            align-items: center;
+        align-items: center;
         justify-content: center;
         flex-direction: column;
         justify-content: center;
-        .loading-text{
+        .loading-text {
             color: #31708f;
         }
+    }
+    /*pay 标题字体*/
+    .paypage-title {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        display: block;
+        color: #333;
+    }
 
-    }
-/*pay 标题字体*/
+    @media screen and (max-width: 767px) {
+        .pay-div {
+            .pay-head {
+                height: px(110);
+            }
+            .pay-overview {
 
-.paypage-title {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 15px;
-    display: block;
-    color: #333;
-}
-@function px($n) {
-    @return ($n / 37.5) + rem;
-}
-@media screen and (max-width: 767px) {
-    html {
-        font-size: calc(100vw / 10)
-    }
-    body {
-        font-size: 16px !important;
-    }
-    .pay-font-32 {
-        font-size: px(32);
-    }
-    .pay-font-30 {
-        font-size: px(30);
-    }
-    .pay-font-28 {
-        font-size: px(28);
-    }
-    .pay-font-26 {
-        font-size: px(26);
-    }
-    .pay-font-24 {
-        font-size: px(24);
-    }
-    .pay-font-22 {
-        font-size: px(22);
-    }
-    .pay-font-20 {
-        font-size: px(20);
-    }
-    .pay-font-18 {
-        font-size: px(18);
-    }
-    .pay-font-16 {
-        font-size: px(16);
-    }
-    .pay-font-14 {
-        font-size: px(14);
-    }
-    .pay-div{
-        .pay-head{
-            height: px(110);
-        }
-        .pay-overview{
-            
-            .descr-right-text{
-                margin-top: px(15);
-            }
-            ul{
-                padding: 0;
-            }
-            .overview-notice{
-                margin-top: px(15);
-                text-align: left;
-                p{
-                   margin: 0; 
+                .descr-right-text {
+                    margin-top: px(15);
                 }
-                
+                ul {
+                    padding: 0;
+                }
+                .overview-notice {
+                    margin-top: px(15);
+                    text-align: left;
+                    p {
+                        margin: 0;
+                    }
+                }
             }
-        }
-        .pay-email{
-            .email-text{
-                margin-top: px(15);
+            .pay-email {
+                .email-text {
+                    margin-top: px(15);
+                }
             }
-        }
-        .pay-coupon{
-            .coupon-describe{
-                margin-top: px(15);
-                padding-top: px(15);
+            .pay-coupon {
+                .coupon-describe {
+                    margin-top: px(15);
+                    padding-top: px(15);
+                }
+                .navbar-form {
+                    .form-group {
+                        margin-bottom: 0;
+                    }
+                }
             }
-            .navbar-form {
-                .form-group{
-                    margin-bottom: 0;
+            .pay-payment {
+                .payment-right-div {
+                    margin-top: px(15);
+                }
+                ul {
+                    padding-left: px(15);
                 }
             }
         }
-        .pay-payment{
-            .payment-right-div{
-                margin-top: px(15);
-            }
-            ul{
-                padding-left: px(15);
-            }
-        }
-        
     }
-
 }

@@ -27,7 +27,11 @@ class SubscriptionController extends Controller
             $planid = $req->plan;
             $name = $req->name;
             $plan = Plan::where('id',$planid)->orwhere('name',$name)->first();//find($planid);
-            return view('subscriptions.pay', ['plan'=>$plan]);
+            if(is_null($plan)){
+                return view('errors.404');
+            } else {
+                return view('subscriptions.pay', ['plan'=>$plan]);
+            }
         } else {
             return view('errors.404');
         }

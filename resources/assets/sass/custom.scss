@@ -1,3 +1,8 @@
+/*
+* 引入全局通用的样式，以后可能还会增加
+*/
+@import 'base';
+
 html {
     font-size: 16px;
     color: #333;
@@ -1886,12 +1891,6 @@ body.login .content .register-form .mt-checkbox {
 }
 
 /*
-* 引入全局通用的样式，以后可能还会增加
-*/
-@import 'base';
-
-
-/*
 * 前台界面的移动端适配
 * 该适配本为临时版本，以后pc端向移动端靠近时，该文件将会被逐渐取缔
 * 以后新页面编写 应独立出scss编写样式，并在这引用
@@ -1903,4 +1902,4 @@ body.login .content .register-form .mt-checkbox {
 * 编写的scss文件应单独文件编写，在此处引入
 * 引入plan（pricing）页面的样式pricing.scss
 */
-@import 'pricing';
+@import 'plan';
