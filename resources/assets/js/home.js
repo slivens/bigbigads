@@ -114,13 +114,15 @@ import 'font-awesome/css/font-awesome.min.css'
             try {
                 var adscount = estimationThousand(json.total_ads_count);
                 var adsercount = estimationThousand(json.total_adser_count);
-                $("#adsnumber").html(adscount);
-                $("#adsernumber").html(adsercount);
+                $("#adsnumber").html(adscount + "<sup>+</sup>");
+                $("#adsernumber").html(adsercount + "<sup>+</sup>");
             } catch (e) {
-                $("#adsnumber").html("5,300,000");
+                $("#adsnumber").html("5,300,000" + "<sup>+</sup>");
+                $("#adsernumber").html("1,300,000" + "<sup>+</sup>");
             }
         }).catch(function(ex) {
-            $("#adsnumber").html("5,300,000");
+            $("#adsnumber").html("5,300,000" + "<sup>+</sup>");
+            $("#adsernumber").html("1,300,000" + "<sup>+</sup>");
         });
     }
     //估算到千位

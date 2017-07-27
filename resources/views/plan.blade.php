@@ -7,7 +7,7 @@
     <title>Bigbigads Pricing | Largest Facebook Ad Examples</title>
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <link href="./dist/home.css?v=1" rel="stylesheet">
+    <link href="./dist/home.css?v=2.0.1" rel="stylesheet">
     @include('tpl.script')
 </head>
 <body id="pricing">
@@ -177,6 +177,6 @@
 @include('tpl.footer')
 </body>
 <script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
-<script type="text/javascript" src="dist/pricing.js?v=5" defer></script>
+<script type="text/javascript" src="dist/plan.js?v=2.0.1" defer></script>
 </html>
 

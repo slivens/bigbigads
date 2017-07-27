@@ -7,6 +7,13 @@ import './../sass/demo.scss';
 import './../sass/pay.scss';
 import 'font-awesome/css/font-awesome.min.css';
 // Vue.component('coupon', require('./components/Coupon.vue'));
+/*判断邮箱*/
+
+function isEmail(szMail) {
+    var szReg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+    var bChk = szReg.test(szMail);
+    return bChk;
+}
 
 const app = new Vue({
     el: '#app',
@@ -17,16 +24,16 @@ const app = new Vue({
         amount:0,
         discount:0,
         inited:true,
-		errorMessage:"",
+        errorMessage:"",
         email:'',
         emailErr:false,
         emailMessage:"Required",
         ipAddr:"0.0.0.0",
         showLoading:true,//showLoding 控制的是hidden的样式，当为true的时候，为隐藏！
     },
-	components: {
-		SweetModal
-	},
+    components: {
+        SweetModal
+    },
     methods: {
         applyCoupon: function() {
             const that = this;
@@ -47,7 +54,7 @@ const app = new Vue({
                         that.discount = 0;
                         that.coupon = "";
                         that.errorMessage = "The coupon is not found";
-						that.$refs.modal.open();
+                        that.$refs.modal.open();
                     }
                         
                     // console.log(response);
@@ -57,14 +64,21 @@ const app = new Vue({
                     that.couponObject = null;
                 });
         },
-        toRegister:function(){
+        toRegister: function(){
             const that = this;
             var userEmail = that.email;
             var userName = userEmail.split("@")[0];
+            var regTrack = "";
+            var track = JSON.parse(window.localStorage.getItem('track')); //获取联盟会员的track码
+            if(track){
+                if (Date.parse(new Date()) < Date.parse(track.expired)) {
+                    regTrack = track.code;
+                }
+            }
             that.showLoading = false;
             if(isEmail(userEmail)){
                 //如果符合需求，进行注册
-                axios.post('/quickRegister',{'email':userEmail,'password':userEmail, 'name':userName}).then(
+                axios.post('/quick_register',{'email':userEmail,'password':userEmail, 'name':userName, 'track': regTrack}).then(
                     response =>{
                         if(response.status === 200){
                             //该邮箱已经被注册
@@ -77,22 +91,28 @@ const app = new Vue({
                             else if(response.data.code === 0)
                             {
                                 //注册成功，提交表单
-                                document.getElementById("checkout").submit();
+                                toCheckout();
                             }
                             else{
                                 that.showLoading = true;
-                                that.errorMessage = "There was an error, please check it";
+                                that.errorMessage = "There was an error, please check it!";
                                 that.$refs.modal.open();
+                                that.email = "";
                             }
                         }
                         else
                         {
-                            alert("error");
+                            that.showLoading = true;
+                            that.errorMessage = "There was an error, please try again later!";
+                            that.$refs.modal.open();
+                            that.email = "";
                         }
                     }).catch(error => {
                     // console.log(error);
-                    that.loading = false;
-                    that.couponObject = null;
+                    that.showLoading = true;
+                    that.errorMessage = "There was an error, please try again later!";
+                    that.$refs.modal.open();
+                    that.email = "";
                 });
             }
             else{
@@ -102,7 +122,7 @@ const app = new Vue({
             }
         },
         //输入事件，判断邮箱格式
-        emailEnter:function(){
+        onEmailEnter: function(){
             const that = this;
             var userEmail = that.email;
             if(!isEmail(userEmail)){
@@ -116,14 +136,14 @@ const app = new Vue({
             }
         },
         //支付按钮点击
-        toPay:function(){
+        toCheckout: function(){
             this.showLoading = false;
-            document.getElementById("checkout").submit();
+            this.$refs.checkout.submit();
         },
-        initAmount:function(amount) {
+        initAmount: function(amount) {
             this.amount = amount
         },
-        checkDiscount:function() {
+        checkDiscount: function() {
             let obj = this.couponObject;
             if (obj.status === 0) {
                 this.errorMessage = "The coupon is invalid";
@@ -175,10 +195,4 @@ const app = new Vue({
     }
 })
 
-/*判断邮箱*/
-function isEmail(szMail){ 
-var szReg=/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/; 
-var bChk=szReg.test(szMail); 
-return bChk; 
-} 
 
