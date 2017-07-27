@@ -88,5 +88,4 @@ module.exports = {
             'vue$': 'vue/dist/vue.common.js',
         }
     },
->>>>>>> origin/feature-pay-new
 }
