@@ -179,4 +179,4 @@ Route::get('/welcome', function () {
 
 Route::get('hotword', 'HotWordController@getHotWord');
 
-Route::post('/quickRegister', 'UserController@quickRegister');//快速注册表单提交位置
+Route::post('/quick_register', 'UserController@quickRegister');//快速注册表单提交位置

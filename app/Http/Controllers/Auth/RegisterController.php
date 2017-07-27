@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 
 use App\Jobs\SendRegistMail;
 use Voyager;
+
+use App\AppRegistersUsers;
 class RegisterController extends Controller
 {
     /*
@@ -27,6 +29,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+    use AppRegistersUsers;
 
     /**
      * Bigbigads的login与register是同一个页面，重定向
@@ -103,16 +106,17 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data)
-    {
+    //移到AppRegistersUsers中 
+    /*protected function create(array $data)
+    {   
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'role_id' => 3, //不知为何没生效，默认设置为免费用户，下面再设置一遍
-        ]);
+        ]);*/
         /* $user->role_id = 3; */
-        $user->verify_token = str_random(40);
+        /*$user->verify_token = str_random(40);
         $user->regip = request()->ip();
         if (array_key_exists('track', $data)) {
             $affiliate = \App\Affiliate::where(['track' => $data['track'], 'status' => 1, 'type' => 1])->first();
@@ -122,8 +126,8 @@ class RegisterController extends Controller
                 $affiliate->save();
             }
         }
-        $user->save();
+        $user->save();*/
         /* Mail::to($user->email)->send(new RegisterVerify($user));//发送验证邮件 */
-        return $user;
-    }
+     /*   return $user;
+    }*/
 }
