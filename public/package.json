@@ -12,6 +12,12 @@
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^0.28.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
     "extract-text-webpack-plugin": "^2.1.0",
     "gulp": "^3.9.0",
     "gulp-clean": "^0.3.2",
@@ -37,13 +43,13 @@
     "html-webpack-plugin": "^2.28.0",
     "jshint": "^2.9.4",
     "merge-stream": "^1.0.1",
+    "node-sass": "^4.5.2",
     "run-sequence": "^1.2.2",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.16.1",
     "url-loader": "^0.5.8",
     "webpack": "^2.4.1",
-    "webpack-manifest-plugin": "^1.1.0",
-    "node-sass": "^4.5.2"
+    "webpack-manifest-plugin": "^1.1.0"
   },
   "dependencies": {
     "angular": "1.5.8",
