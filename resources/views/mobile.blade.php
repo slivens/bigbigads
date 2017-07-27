@@ -10,7 +10,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" />
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
     <title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
-    <link href="./dist/mobile.css?v=1" rel="stylesheet">
+    <link href="./dist/mobile.css?v=2.0.1" rel="stylesheet">
 </head>
 <body id="new_index">
     <!--begin header-->
@@ -41,12 +41,12 @@
                 <div class="data-content data-top">
                     <div class="data-roomdiv data-roomdiv-left">
                         <p class="data-number">
-                        <span id="adsnumber">5,000,000</span><sup>+</sup></p>
+                        <span id="adsnumber">&nbsp;</span></p>
                         <p class="data-text">Ads</p>
                     </div>
                     <div class="data-roomdiv">
                         <p class="data-number">
-                        <span class="" id="adsernumber">1,300,000</span><sup>+</sup></p>
+                        <span class="" id="adsernumber">&nbsp;</span></p>
                         <p class="data-text">Advertisers</p>
                     </div>
                 </div>
@@ -208,8 +208,8 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td><a href="/register" class="btn btn-orange">Sign Up</a></td>
-                        <td><a href="/register" class="btn btn-orange">Buy Now</a></td>
+                        <td><a href="/plan" class="btn btn-orange">Sign Up</a></td>
+                        <td><a href="/plan" class="btn btn-orange">Buy Now</a></td>
                     </tr>
                 </table>
             </div>
@@ -265,7 +265,7 @@
     <div class="footer"></div>
     <!--end header-->
 <script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
-<script type="text/javascript" src="dist/mobile.js?v=5" defer></script>
+<script type="text/javascript" src="dist/mobile.js?v=2.0.1" defer></script>
 <!-- <script src="./static/jquery-3.1.1.js"></script> -->
 <!-- <script src="./static/js/mobile.js"></script> -->
 </body>

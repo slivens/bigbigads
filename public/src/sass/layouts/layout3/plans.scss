@@ -1,0 +1,417 @@
+#plans {
+    .btn {
+        background: #eb6130;
+        color: #fff;
+        transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 2px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.18);
+    }
+    .btn:hover {
+        color: #fff;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.26);
+    }
+    .pricing-adscard {
+        margin-top: 50px;
+        margin-bottom: 80px;
+        p{
+            margin: 0 0 10px;
+        }
+        .card-div {
+            width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.3);
+            .adscard-head {
+                padding-bottom: 0px;
+                .adscard-text {
+                    min-height: 44px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                hr {
+                    margin-bottom: 5px;
+                }
+                .pricing-money-p {
+                    margin: 0 0 10px;
+                }
+            }
+            .table {
+                border-color: #f5f5fc;
+                tr {
+                    td {
+                        border-color: #f5f5fc;
+                        padding-left: 50px;
+                        color: #787878;
+                        font-size: 18px;
+                    }
+                    td:hover {
+                        color: #555;
+                    }
+                }
+                tr:nth-child(odd) {
+                    background: #fbfbfd;
+                }
+            }
+            .adscard-foot {
+                border-color: #f5f5fc;
+                display: flex;
+                justify-content: center;
+                .adscard-btn {
+                    padding: 15px 20px;
+                    margin-top: 20px;
+                    margin-bottom: 15px;
+                    width: 100%;
+                    margin: 0px 27px;
+                }
+            }
+        }
+        .pricing-card {
+            background: #fff;
+            transition: 0.6s;
+            transform-style: preserve-3d;
+            transform: rotateY(180deg);
+
+            .card-banner {
+                margin: 15px 20px;
+                background: #28b873;
+                color: #fff;
+                height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+                .inon-tri-let {
+                    position: absolute;
+                    height: 0px;
+                    width: 0px;
+                    border: 15px solid transparent;
+                    border-left: 15px solid #fff;
+                    left: 0px;
+                    top: 0px;
+                }
+                .inon-tri-right {
+                    position: absolute;
+                    height: 0px;
+                    width: 0px;
+                    border: 15px solid transparent;
+                    border-right: 15px solid #fff;
+                    right: 0px;
+                    top: 0px;
+                }
+                .inon-mark {
+                    position: absolute;
+                    height: 20px;
+                    width: 20px;
+                    right: -20px;
+                    top: 5px;
+                    border-radius: 10px;
+                    border: 1px solid #28b873;
+                    color: #28b873;
+                    display: flex;
+                    justify-content: center;
+                    cursor: pointer;
+                }
+            }
+            .pricing-info-div {
+                position: relative;
+                padding: 5px 5px;
+                height: 120px;
+                border: 1px solid #ccc;
+                margin: 10px 10px;
+                transition: 0.2s;
+                .pricing-cost-div {
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    color: #ccc;
+                    .pricing-name {
+                        color: #000;
+                    }
+                    .pricing-money {
+                        color: #000;
+                    }
+                }
+                .select-btn-div {
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    .select-btn {
+                        border-radius: 18px;
+                    }
+                }
+                .info-mark {
+                    position: absolute;
+                    background: #28b873;
+                    color: #fff;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    transform: rotate(-90deg);
+                    width: 100px;
+                    height: 20px;
+                    top: 45px;
+                    left: -50px;
+                    border-radius: 4px 4px 0 0;
+                    display: none;
+                    transition: 0.2s;
+                }
+            }
+            .pricing-info-div:hover {
+                border: 4px solid #28b873;
+                margin: 10px 7px;
+                .info-mark {
+                    display: flex;
+                }
+            }
+            .pricing-info-div:focus {
+                border: 4px solid #28b873;
+                margin: 20px 7px;
+                .info-mark {
+                    display: flex;
+                }
+            }
+        }
+
+        .adscard-free {
+            .adscard-head {
+                background: #3d5aa5;
+                color: #fff;
+            }
+            .adscard-btn {
+                background: #3d5aa5;
+            }
+        }
+        .adscard-stand {
+            /*3D旋转特效*/
+            -webkit-perspective: 1000;
+            -moz-perspective: 1000;
+            -ms-perspective: 1000;
+            perspective: 1000;
+            -ms-transform: perspective(1000px);
+            -moz-transform: perspective(1000px);
+            -moz-transform-style: preserve-3d;
+            -ms-transform-style: preserve-3d;
+            .stand-card-div {
+                margin: 0 auto;
+                transition: 0.6s;
+                transform-style: preserve-3d;
+                position: relative;
+                box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.3);
+            }
+            .card-div {
+                backface-visibility: hidden;
+                -webkit-backface-visibility: hidden;
+                /* Chrome 和 Safari */
+                -moz-backface-visibility: hidden;
+                /* Firefox */
+                -ms-backface-visibility: visible;
+                /*IE 对此渲染貌似是相反的，原因不明*/
+                top: 0;
+                left: 0;
+                box-shadow: none;
+            }
+            .pricing-card {
+                position: absolute;
+                z-index: -1;
+                transform: rotateY(180deg);
+                .pricingcrad-back {
+                    position: absolute;
+                    left: 15px;
+                    top: 15px;
+                    height: 30px;
+                    width: 30px;
+                    border-radius: 15px;
+                    color: #ccc;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    transition: 0.2s;
+                    cursor: pointer;
+                }
+                .pricingcrad-back:hover {
+                    transform: scale(1.2);
+                    color: #eb6130;
+                    border: 1px solid #ccc;
+                }
+            }
+            .stand-card {
+                position: static;
+            }
+            .adscard-head {
+                background: #eb6130;
+                color: #fff;
+            }
+        }
+        .stand-card-div.transform-turn {
+            transform: rotateY(180deg);
+            .pricing-card {
+                position: static;
+            }
+            .stand-card {
+                position: absolute;
+                z-index: -2;
+            }
+        }
+    }
+    .plans-table {
+        margin-top: 0;
+        padding: 15px;
+        .table-head {
+            background: #f08751;
+            color: #fff;
+            .table-title td {
+                padding: 20px 0px;
+                font-size: 24px;
+                color: #fff;
+                font-weight: 600;
+            }
+        }
+        .pricing-table-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-align: center;
+            color: #53555c;
+            padding: 15px 0;
+            border-bottom: 2px solid #53555c;
+            margin-bottom: 20px;
+        }
+        .table {
+            width: 100%;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.3);
+            margin-top: 50px;
+            tr {
+                td {
+                    padding: 10px;
+                    color: #535b60;
+                    font-weight: 200;
+                    text-align: center;
+                    vertical-align: middle;
+                }
+                .pricing-td-title {
+                    font-weight: 600;
+                    text-align: left;
+                }
+            }
+            .pricingitme-name {
+                text-align: left;
+                font-size: 16px;
+                color: #333;
+                font-weight: 0;
+                padding-top: 8px;
+                padding-left: 30px;
+            }
+            .text-content2 {
+                background: #f6f6f6;
+                padding: 16px 0;
+                font-size: 20px;
+                .pricingitme-name {
+                    padding-left: 15px;
+                    font-size: 20px;
+                    font-weight: 400;
+                    color: #555;
+                }
+            }
+
+            .pricing-td-title {
+                text-align: left;
+                td {
+                    font-weight: 600;
+                    text-align: center;
+                }
+            }
+            .right {
+                color: #68b325;
+                font-size: 14px;
+            }
+            .error {
+                height: 8px;
+                width: 8px;
+                display: inline-block;
+                border-radius: 4px;
+                background: #ccc;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #plans {
+        .pricing-adscard {
+            .card-div {
+                .table {
+                    tr {
+                        td {
+                            padding-left: px(25);
+                        }
+                    }
+                }
+            }
+            .stand-card-div {
+                .card-div {
+                    margin-top: px(30);
+                }
+            }
+            .stand-card-div.transform-rotatey {
+                transform: rotateY(180deg);
+                .pricing-card {
+                    position: static;
+                    z-index: 1;
+                }
+                .stand-card {
+                    position: absolute;
+                    z-index: -2;
+                    display: none;
+                }
+            }
+            .pricing-card {
+                .pricingcrad-back {
+                    font-size: px(18);
+                    left: px(10) !important;
+                    top: px(20) !important;
+                }
+                .card-banner {
+                    font-size: px(14);
+                    font-weight: 200;
+                }
+                .pricing-info-div {
+                    padding-left: px(15);
+                    padding-right: px(15);
+                    margin-left: 0;
+                    margin-right: 0;
+                    height: px(117);
+                    .pricing-cost-div {
+                        padding: 0;
+                    }
+                    .select-btn-div {
+                        padding: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    #plans {
+        .pricing-adscard {
+            .stand-card-div {
+                width: 404px;
+            }
+            .card-div {
+                //固定死高度与宽度
+                height: 520px;
+                width: 404px;
+                .pricing-info-div {
+                    height: 117px;
+                }
+            }
+        }
+    }
+}

@@ -21,9 +21,12 @@ use App\Jobs\ResendRegistMail;
 use GuzzleHttp;
 use Jenssegers\Agent\Agent;
 use App\ActionLog;
+
+use App\AppRegistersUsers;
 class UserController extends Controller
 {
     use ResetsPasswords;
+    use AppRegistersUsers;
 
     protected $socialiteProviders = ['github', 'facebook', 'linkedin', 'google'];
 
@@ -115,10 +118,7 @@ class UserController extends Controller
         if (($user instanceof User) && $user->state == 1) {
             return view('auth.verify')->with('error', "You have verified, don't verify again!!!");
         }
-        dispatch(new SendRegistMail($user));//Mail::to($user->email)->queue(new RegisterVerify($user));//发送验证邮件
-        //用户注册完后往队列加入一个2分钟延迟的任务，检测是否送达用户邮箱，否则的话使用gmail再重发一次
-        $twoMinutesDelayJob = (new ResendRegistMail($user, 'delivered', 2))->delay(Carbon::now()->addMinutes(2));
-        dispatch($twoMinutesDelayJob);
+        $this->registerDispatch($user);
         $info = "Your email {$request->email} has sent, please check your email.";
         $email = $request->email;
         return view('auth.verify',compact('info','email'));
@@ -322,4 +322,38 @@ class UserController extends Controller
         return redirect('/app/#');
     }
 
+    public function quickRegister(Request $request)
+    {
+        //新需求，新增快捷注册，页面异步请求，用户无需填写密码，由前端页面生成
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:6',
+        ]);
+        if ($validator->fails()) 
+        {
+            return ['code' => -1, 'desc' => $validator->messages()];
+        }
+        // create 接受的是数组
+        $data['name'] = $request->name;
+        $data['email'] = $request->email;
+        $data['password'] = $request->password; 
+        if ($request->track) {
+            $data['track'] = $request->track;
+        }
+        $user = $this->create($data);
+        event(new Registered($user));
+        $this->registerDispatch($user);
+        Auth::login($user);
+        //返回成功信息通信前端注册成功
+        return ['code' => 0, 'desc' => 'register success'];
+    
+    }
+
+    public function registerDispatch($user) {
+        dispatch(new SendRegistMail($user));//Mail::to($user->email)->queue(new RegisterVerify($user));//发送验证邮件
+        //用户注册完后往队列加入一个2分钟延迟的任务，检测是否送达用户邮箱，否则的话使用gmail再重发一次
+        $twoMinutesDelayJob = (new ResendRegistMail($user, 'delivered', 2))->delay(Carbon::now()->addMinutes(2));
+        dispatch($twoMinutesDelayJob);
+    }
 }

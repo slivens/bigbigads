@@ -23,6 +23,12 @@ app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope
 
         return true;
     };
+    $scope.showPlanItem = function(){
+        $scope.isTurn = true;
+    };
+    $scope.hiddenPlanItem = function(){
+        $scope.isTurn = false;
+    }
 
     plans.goPlanID = function(item) {
         var id;

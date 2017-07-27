@@ -1,3 +1,5 @@
+/*引入公用样式*/
+@import 'base';
 
 // Extra small screen / phone
 $screen-xs-min: 480px !default;
@@ -25,6 +27,7 @@ $tabmenu-font-color: white;
 $adser-analysis-sidebar-width:150px;
 //广告分析样式
 $ad-analysis-sidebar-width:150px;
+
 body {
     min-width: 800px;
 }
@@ -907,21 +910,18 @@ body.modal-open {
 //xgrit 卡片样式修改
 //仿fb
 .xg-span-message {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: normal;
-    line-height: 17px;
+    line-height: 1.38;
     word-wrap: break-word;
     margin: 10px 0 !important;
-    color:#666;
-    font-family: helvetica, arial, sans-serif !important;
 }
 
 .xg-span-name {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     line-height: 22px;
-    color: #666;
-    font-family: Georgia, 'lucida grande',tahoma,verdana,arial,sans-serif;
+    color: #1d2129;
 }
 
 .xg-video-name-mh20 {
@@ -929,17 +929,16 @@ body.modal-open {
 }
 
 .xg-span-description {
-    line-height: 17px;
+    line-height: 16px;
     max-height: 80px;
     overflow: hidden;
-    color: #666;
+    color: #1d2129;
     // font-size: 12px;
     font-size: 1.4rem;
-    font-family: helvetica, arial, sans-serif !important;
 }
 
 .xg-label-caption {
-    color: #444 !important;
+    color: #90949c !important;
     background-color: #fff !important;
     box-shadow: none !important;
     font-size: 11px;
@@ -1707,3 +1706,6 @@ color: $black_placeholder !important;
 * 该文件应该放在尾部，避免被样式覆盖
 */
 @import 'app_mobile';
+
+/*plans 界面样式*/
+@import 'plans';

@@ -1,13 +1,5 @@
-@function px($n) {
-    @return ($n / 37.5) + rem;
-}
+
 @media screen and (max-width: 769px) {
-    html {
-        font-size: calc(100vw / 10);
-    }
-    body {
-        font-size: 16px !important;
-    }
     header {
         height: px(64);
         .ads-menu-div{

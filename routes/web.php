@@ -28,7 +28,7 @@ Route::get('/', 'HomeController@index')->middleware('track');
 Route::get('/home', 'HomeController@index')->middleware('track');
 
 // 用于前台主页动态获取广告总数
-Route::get('/home/get_total_count', 'HomeController@getTotalCount');
+Route::get('/get_total_count', 'HomeController@getTotalCount');
 
 Route::get('/message', 'Controller@messageView');
 
@@ -60,8 +60,8 @@ Route::get('/product', function () {
     return view('product');
 });
 
-Route::get('/pricing', function () {
-    return view('pricing');
+Route::get('/plan', function () {
+    return view('plan');
 });
 
 Route::get('/about', function () {
@@ -101,7 +101,7 @@ Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
 Route::get('/plans', 'SubscriptionController@plans');
 
 Route::group(['middleware'=>'auth'], function() {
-    Route::get('/pay', 'SubscriptionController@form');
+    //Route::get('/pay', 'SubscriptionController@form');
     Route::post('/pay', 'SubscriptionController@pay');
     Route::get('/billings', 'SubscriptionController@billings');
 	Route::get('/invoice/{invoice}', function (Request $request, $invoiceId) {
@@ -114,6 +114,9 @@ Route::group(['middleware'=>'auth'], function() {
     Route::post('changepwd', 'UserController@changepwd');
 
 });
+
+//pay页面需要支持不登录可访问
+Route::get('/pay', 'SubscriptionController@form');
 
 Route::get('/onPay', 'SubscriptionController@onPay');
 
@@ -175,3 +178,5 @@ Route::get('/welcome', function () {
 });
 
 Route::get('hotword', 'HotWordController@getHotWord');
+
+Route::post('/quick_register', 'UserController@quickRegister');//快速注册表单提交位置
