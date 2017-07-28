@@ -31,7 +31,6 @@ new Vue({
         email: '',
         emailErr: false,
         emailMessage: "Required",
-        ipAddr: "0.0.0.0",
         showLoading: true // showLoding 控制的是hidden的样式，当为true的时候，为隐藏！
     },
     components: {
@@ -184,12 +183,4 @@ new Vue({
             return 0
         }
     },
-    mounted() {
-        try {
-            /* eslint-disable no-undef */
-            this.ipAddr = returnCitySN.cip
-        } catch (e) {
-            this.ipAddr = '0.0.0.0'
-        }
-    }
 })

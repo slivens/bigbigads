@@ -10,7 +10,7 @@
     <!-- <link rel="stylesheet" href="static/swiper.css"> -->
     <!-- <link rel="stylesheet" type="text/css" href="./static/demo.css"> -->
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <link href="./dist/home.css?v=1" rel="stylesheet">
+    <link href="./dist/home.css?v=2.0.1" rel="stylesheet">
     @include('tpl.script')
 </head>
 <body class="product">

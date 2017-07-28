@@ -42,7 +42,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="../assets/pages/css/blog.css" rel="stylesheet" type="text/css" />
         <!-- END PAGE LEVEL STYLES -->
         <!-- BEGIN THEME LAYOUT STYLES -->
-        <link rel="stylesheet" type="text/css" href="../static/custom.css"><!-- the css of head and foot -->
+        <link rel="stylesheet" type="text/css" href="./../dist/home.css?v=2.0.1"><!-- the css of head and foot -->
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="/static/images/favicon.ico" /> 
         @include('tpl.script')
