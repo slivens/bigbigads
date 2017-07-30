@@ -485,32 +485,6 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('hotword', ['Util', function(Util) {
-        return {
-            link: function(scope, element, attrs) {
-                if (!attrs.value) return;
-                var length;
-                var color = ['#31b6eb', '#b47fd4', '#4f76dd', '#f8d282'];
-                var btnColor = '#000';
-                var colSx = attrs.colSx;
-                length = attrs.value.length;
-                //由于hotword可能长度大于宽度，需要动态加上宽度
-                if (length > 15) {
-                    element.addClass("col-md-2 col-sm-4");
-                } else {
-                    element.addClass("col-md-1 col-sm-3");
-                }
-                if (attrs.index) {
-                    btnColor = color[attrs.index % 4];
-                    element.css("color", btnColor);
-                }
-                //暂时设定手机端超过一行的hotward隐藏
-                if (Util.isMobile() && colSx > 12) {
-                    element.addClass("hide");
-                }
-            }
-        };        
-    }])
     //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function () {  
         return function (collection) { 

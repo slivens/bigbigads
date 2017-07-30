@@ -27,11 +27,9 @@
                                 </div>
                             </div>
                         </form>
-                        <!-- 先注释，转美工做样式设计
-                        <ol class="breadcrumb row">
-                            <li ng-repeat="item in hotword track by $index" class="text-center btn btn-default" hotword value="{{item.keyword}}" index="{{$index}}" colMd ="{{colMd}}" colSx="{{colSx}}" ng-disabled="adSearcher.busy" ng-click="quickSearch(item.keyword)">{{item.keyword}}</li>
-                        </ol> 
-                        -->
+                        <nav class="hotwords">
+                            <a ng-repeat="item in adSearcher.hotword track by $index" value="{{item.keyword}}" ng-disabled="adSearcher.busy" ng-click="quickSearch(item.keyword)">{{item.keyword}}</a>
+                        </nav> 
                         <!-- END HEADER SEARCH BOX -->
                         <!-- <button policy-lock class="btn blue btn-outline btn-md disabled" key="export">Export</button> -->
                         <!-- <button class="btn blue btn-outline btn-md " disabled="disabled">Subscribe</button> -->

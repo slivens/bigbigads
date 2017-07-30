@@ -285,7 +285,16 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				//$scope.filterOption.engagements.likes.min=$scope.filterOption.engagements.likes.max='';
 				value.min=value.max="";
 			};
-		};
+			//请求热词数据
+            vm.getHotWord = function() {
+                var url = settings.remoteurl + '/' + 'hotword' ;
+                $http.get(url,{}).success(function(data) {
+                    vm.hotword = data;
+                }).error(function(e){
+                    console.log(e);
+                });
+            };
+        };
 		searcher.ADS_TYPE = searcher.prototype.ADS_TYPE = ADS_TYPE;
 		//函数的静态方法以及对象的方法
 		searcher.getAdsType = searcher.prototype.getAdsType = function(item, type) {
@@ -492,43 +501,12 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$scope.adSearcher.filter();
 
 			};
-			//获取Hotword 
-			/*$scope.getHotWord = function() {
-				var hotWord = new Resource('hotword');
-				$scope.colMd = 0;
-				$scope.colSm = 0;
-				hotWord.get().then(function(data) {
-	                //$scope.keyword = data;
-	                $scope.hotword = [];
-	                angular.forEach(data, function(items) {
-	                	//暂时设定为一行的hotword，粗略计算长度，超过后不加入hotword内
-	                	//等给出具体美工稿可能会更改
-	                	if (items.keyword.length > 15) {
-	                		$scope.colMd += 2;
-	                		$scope.colSm += 4;
-	                	} else {
-	                		$scope.colMd += 1;
-	                		$scope.colSm += 3;
-	                	}
-	                	if (Util.isMobile()) {
-	                		if ($scope.colSm <= 12) {
-	                			$scope.hotword.push(items);
-	                		}
-	                	} else {
-	                		if ($scope.colMd <= 12) {
-	                			$scope.hotword.push(items);
-	                		}
-	                	}
-	                });
-	            });
-			};
 			$scope.quickSearch = function(word) {
 				//热词引导搜索，且加上isHotWord标示位用于log统计
 				$scope.adSearcher.searchOption.search.text = word;
 				$scope.adSearcher.searchOption.search.isHotWord = true;
-				//rmz
 				$scope.search('search');
-			};*/
+			};
 			//text为空时就表示没有这个搜索项了
 			$scope.initSearch = function() {
 				var option = $scope.searchOption = $scope.adSearcher.searchOption = angular.copy($scope.adSearcher.defSearchOption);
@@ -537,7 +515,8 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				queryToSearch(option, $scope.adSearcher);
 				//检查是否有track
 				Util.trackState($location);
-				//$scope.getHotWord();
+                //获取热词
+                $scope.adSearcher.getHotWord();
 			};
 			$scope.initSearch();
 
@@ -823,20 +802,20 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				if (option.search.text || range.length) {
 					option.search.fields = range.length ? range.join(',') : $scope.Searcher.defSearchFields;//默认值
 					//存在isHotWord便新增isHotWord参数作为后端log统计标记
-					/*if (option.search.isHotWord) {
+					if (option.search.isHotWord) {
 						keys.push({
 							string: option.search.text ? option.search.text : "",
 							search_fields: option.search.fields,
 							relation: "Must",
-							isHotWord: true
+							isHotWord: option.search.isHotWord
 						});
-					} else {*/
+					} else {
 						keys.push({
 							string: option.search.text ? option.search.text : "",
 							search_fields: option.search.fields,
 							relation: "Must"
 						});
-					// }
+					}
 					//alert-warning range显示文本
 					angular.forEach(option.range,function(item){
 						if (range.indexOf(item.key)>-1)range_value.push(item.value);
