@@ -347,8 +347,8 @@ class SearchController extends Controller
         if (!(Auth::check())) {
             //匿名用户只有adsearch动作，其它动作一律不允许
             if ($action == 'adsearch') {
-
-                if (count($req->where) > 0 || count($req->keys) > 0) {
+                try {
+                    if (count($req->where) > 0 || count($req->keys) > 0) {
                     //防止用户未登录直接使用url构造url参数来获取数据
                     //区分出获取广告分析的请求
                     foreach($req->where as $key => $obj) {         
@@ -359,9 +359,13 @@ class SearchController extends Controller
                     if(!$isGetAdAnalysis){
                         return $this->responseError("You should sign in", -4199);
                     }
+                    }
+                    if(false === (($req->except(['action'])['limit'][0] % 10 === 0) && ($req->except(['action'])['limit'][0] < 300) && (intval($req->except(['action'])['limit'][1]) === 10)))
+                        return ;//TODO:应该抛出错误，返回空白会导致维护困难
+                } catch (\Exception $e) {
+                    //记录匿名用户伪造url参数的情况
+                    Log::warning("{$req->ip()} : <{$user->name}, {$user->email}> Anonymous user illegal request params: $json_data");
                 }
-                if(false === (($req->except(['action'])['limit'][0] % 10 === 0) && ($req->except(['action'])['limit'][0] < 300) && (intval($req->except(['action'])['limit'][1]) === 10)))
-                    return ;//TODO:应该抛出错误，返回空白会导致维护困难
             }else {
                 return ;
             }   
@@ -552,31 +556,37 @@ class SearchController extends Controller
         );
         /* curl_setopt($ch, CURLOPT_TIMEOUT, 1); */ 
         $response = curl_exec($ch);
-        if (curl_getinfo($ch, CURLINFO_HTTP_CODE) == '200' || curl_getinfo($ch, CURLINFO_HTTP_CODE) == '201') {
-            $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-            $header = substr($response, 0, $headerSize);
-            $result = substr($response, $headerSize);
-        } else {
-            //curl如果失败就直接返回错误了，这是个良性错误，当作成功处理，前端遇到此错误的策略应该是
-            //先重试，再提示
-            Log::info("curl failed:" . json_encode($response));
-            return $this->responseError("server is busy, please refresh again", -4202);
-        }
-        curl_close($ch);
-        $t2 = microtime(true);
-        /* Log::debug("time cost:" . round($t2 - $t1, 3)); */
-        //执行时间超过0.5S的添加到日志中
-        if (($t2 - $t1) > 0.5) {
-            Log::warning("<{$user->name}, {$user->email}> params:$json_data, time cost:" . round($t2 - $t1, 3));
-            if (isset($header))
-                Log::info($header);
-        }
+        try {
+            if (curl_getinfo($ch, CURLINFO_HTTP_CODE) == '200' || curl_getinfo($ch, CURLINFO_HTTP_CODE) == '201') {
+                $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+                $header = substr($response, 0, $headerSize);
+                $result = substr($response, $headerSize);
+            } else {
+                //curl如果失败就直接返回错误了，这是个良性错误，当作成功处理，前端遇到此错误的策略应该是
+                //先重试，再提示
+                Log::info("curl failed:" . json_encode($response));
+                return $this->responseError("server is busy, please refresh again", -4202);
+            }
+            curl_close($ch);
+            $t2 = microtime(true);
+            /* Log::debug("time cost:" . round($t2 - $t1, 3)); */
+            //执行时间超过0.5S的添加到日志中
+            if (($t2 - $t1) > 0.5) {
+                Log::warning("<{$user->name}, {$user->email}> params:$json_data, time cost:" . round($t2 - $t1, 3));
+                if (isset($header))
+                    Log::info($header);
+            }
 
-        $result = trim($result);
-        $resultJson = json_decode($result, true);
-        if (array_key_exists('error', $resultJson)) {
-            return $this->responseError("Your search term is not legal", -4200);
+            $result = trim($result);
+            $resultJson = json_decode($result, true);
+            if (array_key_exists('error', $resultJson)) {
+                return $this->responseError("Your search term is not legal", -4200);
+            }
+        } catch (Exception $e) {
+            //记录下当搜索结果发生错误时用户的请求参数
+            Log::warning("<{$user->name}, {$user->email}> something error in search result. params:$json_data");
         }
+        
         if ($action == 'adsearch') {
             if (Auth::check()) {
                 $act = $req->only('action');
@@ -609,7 +619,7 @@ class SearchController extends Controller
                             if (intval($resultPerSearchUsage[2]) < intval($resultPerSearchUsage[1])) {
                                 $user->updateUsage('result_per_search', $resultPerSearchUsage[2] + 10, Carbon::now());
                             } else {
-                                Log::warning("{$req->ip()} : <{$user->name}, {$user->email}> Illegal request limit: {$req->limit}");
+                                Log::warning("{$req->ip()} : <{$user->name}, {$user->email}> Illegal request limit: {$req->limit['0']}");
                                 return $this->responseError("beyond result limit", -4400);
                             }
                             $searchLimitPerday = $this->checkAndUpdateUsagePerday($user, 'search_limit_perday');
@@ -654,7 +664,7 @@ class SearchController extends Controller
                             if (intval($resultPerSearchUsage[2]) < intval($resultPerSearchUsage[1])) {
                                 $user->updateUsage('result_per_search', $resultPerSearchUsage[2] + 10, Carbon::now());
                             } else {
-                                Log::warning("{$req->ip()} : <{$user->name}, {$user->email}> Illegal request limit: {$req->limit}");
+                                Log::warning("{$req->ip()} : <{$user->name}, {$user->email}> Illegal request limit: {$req->limit['0']}");
                                 return $this->responseError("beyond result limit", -4400);
                             }
                             $searchLimitPerdayAdser = $this->checkAndUpdateUsagePerday($user, 'specific_adser_limit_perday');

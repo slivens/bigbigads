@@ -42,7 +42,7 @@
                     </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" -->
 
                 </div>
-                <div ng-if="User.info.user.role.name ==='Pro'">
+                <div ng-if="User.info.user.role.name ==='Pro' || User.info.user.role.name ==='OuterTester'">
                     <div class="input-group">
                     <span class="input-group-addon" id="country_addon"><i class="fa fa-flag"></i></span>
                     <select  select2 class="form-control has_left_icon" id="country" multiple="multiple"  data-placeholder="Country or Region" ng-model="$parent.filterOption.state">

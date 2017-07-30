@@ -30,6 +30,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 /></noscript>
 <!-- DO NOT MODIFY -->
 <!-- End Facebook Pixel Code -->
+<script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
 </head>
 <body>
 @include('tpl.header')
