@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="./static/custom.css">
     <link rel="stylesheet" type="text/css" href="./static/demo.css"> -->
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <link href="./dist/home.css?v=1" rel="stylesheet">
+    <link href="./dist/home.css?v=2.0.1" rel="stylesheet">
     <!--<script src="static/jquery-3.1.1.js"></script>-->
     <!--<script src="static/bootstrap.js"></script>-->
     @include('tpl.script')

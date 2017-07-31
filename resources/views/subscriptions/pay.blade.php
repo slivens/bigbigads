@@ -125,6 +125,17 @@ use \Illuminate\Support\Facades\Input;
                                         <input type="button" border="0" alt="PayPal - The safer, easier way to pay online!" class="btn paypal-btn" value="" v-on:click="toCheckout" >
                                     </div>
                                     @endif
+                                    <!-- Begin DigiCert site seal HTML and JavaScript -->
+                                    <div id="DigiCertClickID_-MoxKleO" data-language="en">
+                                        <a href="https://www.digicert.com/ev-ssl-certification.htm"></a>
+                                    </div>
+                                    <script type="text/javascript">
+                                    var
+                                     __dcid = __dcid || [];__dcid.push(["DigiCertClickID_-MoxKleO", "10",
+                                    "m", "black", "-MoxKleO"]);(function(){var
+                                    cid=document.createElement("script");cid.async=true;cid.src="//seal.digicert.com/seals/cascade/seal.min.js";var s = document.getElementsByTagName("script");var ls = s[(s.length - 1)];ls.parentNode.insertBefore(cid, ls.nextSibling);}());
+                                    </script>
+                                    <!-- End DigiCert site seal HTML and JavaScript -->
                                 </div>
                             </div>
                             <div class="or-line">
