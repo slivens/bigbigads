@@ -19,7 +19,7 @@
 <!--end pricing tabel-->
 <section class="pricing-content container">
     <div class="content-title text-center">
-        <p class="title-main ads-font-28">Would you like to know what's your competior's profitable marketing strategy now?</p>
+        <p class="title-main ads-font-28">Would you like to know what's your competitor’s profitable marketing strategy now?</p>
         <p class="title-second ads-font-24">Join thousands of paid users to reveal it.</p>
     </div>
     <div class="pricing-adscard row">
@@ -86,7 +86,7 @@
                             <td>Data Update Frequence: Daily</td>
                         </tr>
                         <tr>
-                            <td>Full Data Access(6 Milions+)</td>
+                            <td>Full Data Access(6 Millions+)</td>
                         </tr>
                         <tr  class="ads-tr-a">
                             <td>See latest data</td>
