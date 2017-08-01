@@ -182,5 +182,5 @@ new Vue({
                 return obj.discount
             return 0
         }
-    },
+    }
 })
