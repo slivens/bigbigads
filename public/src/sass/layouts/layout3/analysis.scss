@@ -1,0 +1,177 @@
+#an-analysis {
+    background: #fff;
+    .analy-overview {
+
+        /*广告卡主题*/
+        .analy-adscard {
+            display: flex;
+            justify-content: center;
+            .adscard-body {
+                width: 450px;
+                padding: 12px;
+                border: 1px solid #e5e5e5;
+                border-radius: 3px;
+            }
+        }
+
+        .adscard-header {
+            display: flex;
+            img {
+                height: 40px;
+                width: 40px;
+                margin-right: 8px;
+            }
+            .card-adsername-div {
+                flex: 1;
+                align-items: cener;
+                .card-adsername {
+                    margin: 0;
+                    color: #365899;
+                }
+                .card-time {
+                    margin: 0;
+                    color: #90949c;
+                }
+            }
+        }
+        .adscard-contend {
+            p {
+                margin: 0;
+                margin-bottom: 8px;
+                font-size: 15px;
+                color: #1d2129;
+            }
+            single-image,
+            adcanvas,
+            carousel {
+                .mt-element-overlay {
+
+                    img {
+                        border: 1px solid rgba(0, 0, 0, .1);
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+            }
+            single-video {
+                .advideo {
+                    border: 1px solid rgba(0, 0, 0, .1);
+                    position: relative;
+                    .playbtn {
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        z-index: 99;
+                        height: 50px;
+                        width: 50px;
+                        margin-left: -25px;
+                        margin-top: -25px;
+                        .fa {
+                            height: 50px;
+                            width: 50px;
+                        }
+                    }
+                    img {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+                video {
+                    width: 100% !important;
+                    height: auto;
+                }
+            }
+            .xg-span-description {
+                font-size: 13px;
+            }
+            .aditem-caption {
+                font-size: 12px;
+                color: #90949c;
+            }
+        }
+    }
+    .charts-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #eb6130;
+        margin: 8px;
+    }
+    .charts-subtitle {
+        font-size: 16px;
+        color: #ccc;
+        margin: 8px;
+        margin-bottom: 15px;
+    }
+    .analy-charts-row2 {
+        margin-top: 30px;
+    }
+    .charts-wrapper {
+        display: flex;
+        justify-content: center;
+        .charts-line {
+            flex: 1;
+            height: 100%;
+        }
+        .charts-pie {
+            flex: 1;
+            height: 300px;
+        }
+        .charts-bar {
+            flex: 1;
+            height: 300px;
+        }
+    }
+    .cahrts-stat-row {
+        margin-top: 30px;
+        .charts-stat-bar {
+            padding: 20px;
+            .stat-wrapper {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+                .stat-icon {
+                    margin-right: 8px;
+                    color: #eb6130;
+                }
+                .stat-name {
+                    flex: 1;
+                    overflow: hidden;
+                    text-overflow:ellipsis;
+					white-space: nowrap;
+                }
+                .stat-progress {
+                	margin-left: 8px;
+                    width: 600px;
+                    margin-bottom: 0px;
+                    border-radius: 8px !important;
+                    height: 16px;
+                    overflow: hidden;
+                }
+                .stat-number {
+                    width: 100px;
+                    margin-left: 20px;
+                }
+            }
+        }
+    }
+
+    /*
+	* 移动端适配 iphone 6 画稿
+	* px 转 rem 函数为px()
+	*/
+    @media screen and (max-width: 768px) {
+        .cahrts-stat-row {
+            .charts-stat-bar {
+                padding: 0;
+                .stat-wrapper {
+                    .stat-number {
+                        width: px(50);
+                    }
+                    .stat-progress {
+                        width: px(150);
+                    }
+                }
+            }
+        }
+    }
+}
