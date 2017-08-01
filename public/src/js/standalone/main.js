@@ -1005,6 +1005,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             '/node_modules/highcharts/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
+                            '/node_modules/highcharts/modules/map.js',
                             'js/bigbigads.js?r=' + ts
                         ]
                     });
@@ -1040,6 +1041,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             '/node_modules/highcharts/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
+                            '/node_modules/highcharts/highcharts.js',
+                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
+                            '/node_modules/highcharts/modules/map.js',
                             'js/bigbigads.js?r=' + ts
                         ]
                     });
@@ -1073,6 +1077,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
+                            '/node_modules/highcharts/highcharts.js',
+                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
                             'js/bigbigads.js?t=' + ts
                         ]
                     });
@@ -1166,9 +1172,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            '/node_modules/highcharts/highcharts.js',
-                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            '/node_modules/highcharts/modules/map.js',
+                            //'/node_modules/highcharts/highcharts.js',
+                            //'/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
+                            //'/node_modules/highcharts/modules/map.js',
                             '/node_modules/highcharts/css/highcharts.css',
                             '../assets/global/scripts/world.min.js',
                             'js/bigbigads.js?r=' + Math.random()

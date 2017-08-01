@@ -514,7 +514,6 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
     .directive('highmap', function() {
         return {
             link: function(scope, element, attrs) {
-                console.log("123");
                 var data = [
                     {
                         "hc-key": "af",
