@@ -1412,134 +1412,271 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         });
         // $scope.adSearcher.filter();
 	}])
-	.controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window', '$http', 'Util','User', 
-		function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $window, $http, Util, User) {
-			var searcher = $scope.adSearcher = new Searcher();
-			// $scope.adSearcher.search($scope.adSearcher.defparams, true);
-			$scope.reverseSort = function() {
-				$scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;
-				$scope.adSearcher.filter();
-			};
-            $scope.User = User;
-            $scope.Util=Util;
-			$scope.card = {
-				end: true,
-				similars: []
-			};
-			$scope.id = $stateParams.id;
-			$scope.adSearcher.addFilter({
-				field: 'ads_id',
-				value: $scope.id
-			});
-			var promise = $scope.adSearcher.filter("analysis");
-			//$rootScope.$broadcast("loading");
-			promise.then(function(ads) {
-				//只取首条消息
-				$scope.card = $scope.ad = ads.ads_info[0];
-				//表示广告在分析模式下，view根据这个字段区别不同的显示
-				$scope.card.indetail = true;
-				$scope.card.end = false;
-				if ($scope.card.whyseeads_all)
-					$scope.card.whyseeads_all = $scope.card.whyseeads_all.split('\n');
-				if ($scope.card.whyseeads)
-					$scope.card.whyseeads = $scope.card.whyseeads.split('\n');
-				searcher.findSimilar($scope.card.watermark);
-			}, function(res) {
-                // console.log("error res:", res);
-				$scope.card.end = true;
-                if (res.status != 200) {
-                    Util.hint(res);
+	.controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window', '$http', 'Util', 'User',
+    function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $window, $http, Util, User) {
+        var searcher = $scope.adSearcher = new Searcher();
+        // $scope.adSearcher.search($scope.adSearcher.defparams, true);
+        var numdata=[33,34];
+        $scope.reverseSort = function() {
+            $scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;
+            $scope.adSearcher.filter();
+        };
+        $scope.User = User;
+        $scope.Util = Util;
+        $scope.card = {
+            end: true,
+            similars: []
+        };
+        $scope.id = $stateParams.id;
+        $scope.adSearcher.addFilter({
+            field: 'ads_id',
+            value: $scope.id
+        });
+        var promise = $scope.adSearcher.filter("analysis");
+        //$rootScope.$broadcast("loading");
+        promise.then(function(ads) {
+            //只取首条消息
+            $scope.card = $scope.ad = ads.ads_info[0];
+            //表示广告在分析模式下，view根据这个字段区别不同的显示
+            $scope.card.indetail = true;
+            $scope.card.end = false;
+            if ($scope.card.whyseeads_all)
+                $scope.card.whyseeads_all = $scope.card.whyseeads_all.split('\n');
+            if ($scope.card.whyseeads)
+                //$scope.card.whyseeads = $scope.card.whyseeads.split('\n');
+            	$scope.card.whyseeads = JSON.parse($scope.card.whyseeads);
+                numdata = $scope.card.whyseeads.gender;
+                
+                //计算interesting的总数
+                if($scope.card.whyseeads.interests){
+                	var interestsCount = 0;
+					for (var key in $scope.card.whyseeads.interests)              
+				    {
+				        interestsCount += $scope.card.whyseeads.interests[key];
+				    }
+				    $scope.interestsCount = interestsCount
                 }
-			}).finally(function() {
-		//		$rootScope.$broadcast("completed");
-			});
+                 
+                /*图标性别比例*/
+                $scope.pieCharts.series[0].data[0][1]=numdata[0];
+                $scope.pieCharts.series[0].data[1][1]=numdata[1];
+                /*年龄分布*/
+                $scope.barCharts.series[0].data=$scope.card.whyseeads.age.map(v => v[0]);
+                $scope.barCharts.series[1].data=$scope.card.whyseeads.age.map(v => v[1]);
 
-			$scope.goback = function() {
-				$window.history.back();
-			};
+            searcher.findSimilar($scope.card.watermark);
+        }, function(res) {
+            // console.log("error res:", res);
+            $scope.card.end = true;
+            if (res.status != 200) {
+                Util.hint(res);
+            }
+        }).finally(function() {
+            //		$rootScope.$broadcast("completed");
+        });
 
-			/**
-			 * 查找相似图
-			 */
-			searcher.findSimilar = function(watermark) {
-                if (!watermark)
-                    return false;
-                //console.log("water", watermark);
-				var similarSearcher = new Searcher();
-				var similarPromise;
-                var md5;
-                if (watermark instanceof Array)
-                    md5 = watermark[0].source.match(/\/(\w+)\./);
-                else 
-                    md5 = watermark.match(/\/(\w+)\./);
-				if (md5 === null) {
-					return false;
-				}
-				// console.log(md5);
-				md5 = md5[1];
+        $scope.goback = function() {
+            $window.history.back();
+        };
 
-				similarSearcher.addFilter({
-					field: "watermark_md5",
-					value: md5
-				});
-				similarPromise = similarSearcher.filter('similar');
-				similarPromise.then(function(ads) {
-					$scope.card.similars = ads.ads_info;
-					console.log("similar", ads);
-				});
-				return similarPromise;
-			};
-            /**
-             * 加载广告趋势
-             */
-            searcher.getTrends = function(eventid) {
-                // eventid = "118849271971984";//for test
-                var params = {
-                    search_result:"adsid_trend",
-                    where:[
-                    {
-                        field:"ads_id",
-                        value:eventid
-                    }
-                    ],
-                    event_id:eventid
-                };
-                return $http.post(settings.remoteurl + "/forward/trends", params);
-            };
-            searcher.isLoadingCharts = true;
-            searcher.getTrends($scope.id).then(function(res) {
-                // console.log(res);
-                var data = res.data;
-                if (!data.info) {
-                    searcher.noTrends = true;
-                    return;
-                }
-                if (data.info.comments)
-                    searcher.commentsTrend = Util.initTrend(data.info.comments, "comments", $scope.id);
-                if (data.info.engagements)
-                    searcher.engagementsTrend = Util.initTrend(data.info.engagements, "engagements", $scope.id);
-                if (data.info.likes) 
-                    searcher.likesTrend = Util.initTrend(data.info.likes, "likes", $scope.id);
-                if (data.info.shares)
-                    searcher.sharesTrend = Util.initTrend(data.info.shares, "shares", $scope.id);
-                if (data.info.views)
-                    searcher.viewsTrend = Util.initTrend(data.info.views, "views", $scope.id);
-            }).finally(function() {
-                searcher.isLoadingCharts = false;
+        /**
+         * 查找相似图
+         */
+        searcher.findSimilar = function(watermark) {
+            if (!watermark)
+                return false;
+            //console.log("water", watermark);
+            var similarSearcher = new Searcher();
+            var similarPromise;
+            var md5;
+            if (watermark instanceof Array)
+                md5 = watermark[0].source.match(/\/(\w+)\./);
+            else
+                md5 = watermark.match(/\/(\w+)\./);
+            if (md5 === null) {
+                return false;
+            }
+            // console.log(md5);
+            md5 = md5[1];
+
+            similarSearcher.addFilter({
+                field: "watermark_md5",
+                value: md5
             });
-			$scope.$on('$viewContentLoaded', function() {
-				// initialize core components
+            similarPromise = similarSearcher.filter('similar');
+            similarPromise.then(function(ads) {
+                $scope.card.similars = ads.ads_info;
+                console.log("similar", ads);
+            });
+            return similarPromise;
+        };
+        /**
+         * 加载广告趋势
+         */
+        searcher.getTrends = function(eventid) {
+            // eventid = "118849271971984";//for test
+            var params = {
+                search_result: "adsid_trend",
+                where: [{
+                    field: "ads_id",
+                    value: eventid
+                }],
+                event_id: eventid
+            };
+            return $http.post(settings.remoteurl + "/forward/trends", params);
+        };
+        searcher.isLoadingCharts = true;
+        searcher.getTrends($scope.id).then(function(res) {
+            // console.log(res);
+            var data = res.data;
+            if (!data.info) {
+                searcher.noTrends = true;
+                return;
+            }
+            if (data.info.comments)
+                searcher.commentsTrend = Util.initTrend(data.info.comments, "comments", $scope.id);
+            if (data.info.engagements)
+                searcher.engagementsTrend = Util.initTrend(data.info.engagements, "engagements", $scope.id);
+            if (data.info.likes)
+                searcher.likesTrend = Util.initTrend(data.info.likes, "likes", $scope.id);
+            if (data.info.shares)
+                searcher.sharesTrend = Util.initTrend(data.info.shares, "shares", $scope.id);
+            if (data.info.views)
+                searcher.viewsTrend = Util.initTrend(data.info.views, "views", $scope.id);
+        }).finally(function() {
+            searcher.isLoadingCharts = false;
+        });
+        $scope.$on('$viewContentLoaded', function() {
+            // initialize core components
 
-				// set default layout mode
-				$rootScope.settings.layout.pageContentWhite = true;
-				$rootScope.settings.layout.pageBodySolid = false;
-				$rootScope.settings.layout.pageSidebarClosed = false;
-			});
+            // set default layout mode
+            $rootScope.settings.layout.pageContentWhite = true;
+            $rootScope.settings.layout.pageBodySolid = false;
+            $rootScope.settings.layout.pageSidebarClosed = false;
+        });
+        $scope.pieCharts = {
+            chart: {
+                plotBackgroundColor: null,
+                //plotBorderWidth: null,
+                //plotShadow: false
+                type: 'bar'
+            },
+            colors: ['rgb(63, 169, 197)', 'rgb(116, 204, 220)'],
+            title: false,
+            credits: false, //角标
+            //legend: false, 图例
+            tooltip: {
+                pointFormat: '{point.y}, {point.percentage:.1f}%'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: false, //点击可选
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false //显示注释
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                innerSize: '60%',
+                dataLabels: false,
+                data: [
+                    ['Male', numdata[0]],
+                    ['Female', numdata[1]]
+                ]
+            }]
+        };
 
 
+		$scope.lineCharts = {
+		    chart: {
+		        type: 'area',
+		        spacingBottom: 0
+		    },
+		    title: false,
+		    subtitle: false,
+		    legend: false,
+		    xAxis: {
+		        categories: ['7.20', '7.21', '7.22', '7.23', '7.24', '7.25', '7.27', '7.28']
+		    },
+		    yAxis: {
+		        title: false,
+		    },
+		    tooltip: {
+		        formatter: function() {
+		            return '<b>' + this.series.name + '</b><br/>' +
+		                this.x + ': ' + this.y;
+		        }
+		    },
+		    plotOptions: {
+		        area: {
+		            fillOpacity: 0.5
+		        }
+		    },
+		    credits: {
+		        enabled: false
+		    },
+		    series: [{
+		        name: 'testword',
+		        data: [20, 110, 164, 400, 411, 504, 299, 355, 197]
+		    }]
 		}
-	])
+        $scope.barCharts = {
 
+            chart: {
+                type: 'bar'
+            },
+            tooltip: {
+                pointFormat: '{point.y}, {point.percentage:.1f}%'
+            },
+            colors: ['rgb(63, 169, 197)', 'rgb(116, 204, 220)'],
+            title: false,
+            credits: false,
+            xAxis: {
+                categories: ['18-24', '25-34', '35-44', '45-54', '55-64', '65+']
+            },
+            yAxis: {
+                min: 0,
+                // max: self.interestsCount,
+                // endOnTick: false,
+                title: false,
+
+            },
+            legend: {
+            reversed: true
+        	},
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+            series: [{
+                name: 'Male',
+                data: [
+                    [8, 4],
+                    [6, 12],
+                    [10, 8],
+                    [0, 0],
+                    [0, 0],
+                    [0, 0]
+                ].map(v => v[0])
+            }, {
+                name: 'Female',
+                data: [
+                    [8, 4],
+                    [6, 12],
+                    [10, 8],
+                    [0, 0],
+                    [0, 0],
+                    [0, 0]
+                ].map(v => v[1])
+            }]
+        };
+
+    }
+])
 .controller('QuickSidebarController', ['$scope', '$window', 'settings', 'User', function($scope, $window, settings, User) {
 
 	/* Setup Layout Part - Quick Sidebar */
