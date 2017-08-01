@@ -1442,7 +1442,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             $scope.card.end = false;
             if ($scope.card.whyseeads_all)
                 $scope.card.whyseeads_all = $scope.card.whyseeads_all.split('\n');
-            if ($scope.card.whyseeads)
+            if ($scope.card.whyseeads) {
                 //$scope.card.whyseeads = $scope.card.whyseeads.split('\n');
             	$scope.card.whyseeads = JSON.parse($scope.card.whyseeads);
                 numdata = $scope.card.whyseeads.gender;
@@ -1463,7 +1463,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 /*年龄分布*/
                 $scope.barCharts.series[0].data=$scope.card.whyseeads.age.map(v => v[0]);
                 $scope.barCharts.series[1].data=$scope.card.whyseeads.age.map(v => v[1]);
-
+            }
             searcher.findSimilar($scope.card.watermark);
         }, function(res) {
             // console.log("error res:", res);

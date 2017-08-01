@@ -511,6 +511,69 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };        
     }])
+    .directive('highmap', function() {
+        return {
+            link: function(scope, element, attrs) {
+                console.log("123");
+                var data = [
+                    {
+                        "hc-key": "af",
+                        "value": 53,
+                    },
+                    {
+                        "hc-key": "al",
+                        "value": 117
+                    },
+                    {
+                        "hc-key": "dz",
+                        "value": 9999
+                    },
+                    {
+                        "hc-key": "gb",
+                        "value": 342
+                    },
+                    {
+                        "hc-key": "tw",
+                        "value": 181
+                    }
+                ];  
+                element.highcharts('Map', {
+                    title : {
+                        text : 'Highmaps basic demo'
+                    },
+                    subtitle : {
+                        text : ''
+                    },
+                    colorAxis: {
+                        min: 0
+                    },
+                    series : [{
+                        data : data,
+                        mapData: Highcharts.maps['custom/world'],
+                        joinBy: 'hc-key',
+                        name: 'Random data',
+                        states: {
+                            hover: {
+                                color: '#BADA55'
+                            }
+                        },
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.hc-key}'
+                        }
+                    }]
+                });
+                element.next("#big").bind('click', function() {
+                    //地图放大
+                    element.highcharts().mapZoom(0.5);
+                });
+                element.next().next("#small").bind('click', function() {
+                    //地图缩小
+                    element.highcharts().mapZoom(1.5);
+                });    
+            }
+        };
+    })
     //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function () {  
         return function (collection) { 
