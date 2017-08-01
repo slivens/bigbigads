@@ -47,10 +47,25 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-       $this->app->bind('mailgun.client', function() {
-           return \Http\Adapter\Guzzle6\Client::createWithConfig([
-               // your Guzzle6 configuration
-           ]);
-       }); 
-    }
+        $this->app->bind('mailgun.client', function() {
+            return \Http\Adapter\Guzzle6\Client::createWithConfig([
+                // your Guzzle6 configuration
+            ]);
+        }); 
+        $this->app->resolving('payum.builder', function(\Payum\Core\PayumBuilder $payumBuilder) {
+            $config = [
+					'factory' => 'paypal_express_checkout',
+					'username' => env('PAYPAL_EC_USERNAME'),
+					'password' => env('PAYPAL_EC_PASSWORD'),
+					'signature' => env('PAYPAL_EC_SIGNATURE'),
+					'sandbox' => env('PAYPAL_EC_ENV') === 'sandbox'
+				];
+			$payumBuilder
+				// this method registers filesystem storages, consider to change them to something more
+				// sophisticated, like eloquent storage
+				->addDefaultStorages()
+
+                ->addGateway('paypal_ec', $config);
+		});
+	}
 }

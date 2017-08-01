@@ -14,8 +14,10 @@ use App\Webhook;
 use App\Coupon;
 use App\Services\PaypalService;
 use Carbon\Carbon;
+use Payum\LaravelPackage\Controller\PayumController;
+use Payum\Core\Request\GetHumanStatus;
 
-class SubscriptionController extends Controller
+class SubscriptionController extends PayumController
 {
     /**
      * 显示支付表单
@@ -235,5 +237,33 @@ class SubscriptionController extends Controller
                 return null;
             }
         }
+    }
+
+    public function prepareCheckout(Request $request)
+    {
+        if (!$request->has('amount'))
+            return "amount parameter is required";
+        $storage = $this->getPayum()->getStorage('Payum\Core\Model\ArrayObject');
+        $details = $storage->create();
+        $details['PAYMENTREQUEST_0_CURRENCYCODE'] = 'USD';
+        $details['PAYMENTREQUEST_0_AMT'] = $request->amount;
+        $storage->update($details);
+        $captureToken = $this->getPayum()->getTokenFactory()->createCaptureToken('paypal_ec', $details, 'payment_done');
+        return redirect($captureToken->getTargetUrl());
+    }
+
+    public function done(Request $request)
+    {
+        /* $request->attributes->set('payum_token', $request->payumToken); */
+        /* die("xx"); */
+        $token = $this->getPayum()->getHttpRequestVerifier()->verify($request);
+        $gateway = $this->getPayum()->getGateway($token->getGatewayName());
+
+        $gateway->execute($status = new GetHumanStatus($token));
+
+        return \Response::json(array(
+            'status' => $status->getValue(),
+            'details' => iterator_to_array($status->getFirstModel())
+        ));
     }
 }

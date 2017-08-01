@@ -25,7 +25,9 @@
         "orangehill/iseed": "^2.4",
         "mews/captcha": "^2.1",
         "greggilbert/recaptcha": "^2.2",
-        "jenssegers/agent": "^2.5"
+        "jenssegers/agent": "^2.5",
+        "payum/payum-laravel-package": "^1.0",
+        "payum/paypal-express-checkout-nvp": "^1.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
