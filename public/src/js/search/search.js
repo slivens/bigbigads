@@ -290,8 +290,6 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
                 var url = settings.remoteurl + '/' + 'hotword' ;
                 $http.get(url,{}).then(function(data) {
                     vm.hotword = data.data;
-                }, function(e) {
-                	console.log(e);
                 });
             };
         };
