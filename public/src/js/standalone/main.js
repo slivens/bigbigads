@@ -899,7 +899,8 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
             var index;
             //广告可能同时出现在多个位置
             for (index = 0; index < adsTypesNumber.length; index++) {
-                if (adsTypesNumber[index] === "1") {
+                //Andorid 标示暂不显示
+                if (adsTypesNumber[index] === "1" && index != 3) {
                     if (!showString) {
                         showString = adsTypesString[index];
                     } else {
