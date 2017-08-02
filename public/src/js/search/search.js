@@ -288,10 +288,10 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 			//请求热词数据
             vm.getHotWord = function() {
                 var url = settings.remoteurl + '/' + 'hotword' ;
-                $http.get(url,{}).success(function(data) {
-                    vm.hotword = data;
-                }).error(function(e){
-                    console.log(e);
+                $http.get(url,{}).then(function(data) {
+                    vm.hotword = data.data;
+                }, function(e) {
+                	console.log(e);
                 });
             };
         };
@@ -501,12 +501,18 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$scope.adSearcher.filter();
 
 			};
-			$scope.quickSearch = function(word) {
-				//热词引导搜索，且加上isHotWord标示位用于log统计
-				$scope.adSearcher.searchOption.search.text = word;
-				$scope.adSearcher.searchOption.search.isHotWord = true;
-				$scope.search('search');
-			};
+            $scope.quickSearch = function(word) {
+                //热词引导搜索，且加上isHotWord标示位用于log统计
+                if(User.done) {
+                    if(!User.login) {
+                        User.openSign();
+                        return;
+                    }
+                    $scope.adSearcher.searchOption.search.text = word;
+                    $scope.adSearcher.searchOption.search.isHotWord = true;
+                    $scope.search('search');
+                }
+            };
 			//text为空时就表示没有这个搜索项了
 			$scope.initSearch = function() {
 				var option = $scope.searchOption = $scope.adSearcher.searchOption = angular.copy($scope.adSearcher.defSearchOption);

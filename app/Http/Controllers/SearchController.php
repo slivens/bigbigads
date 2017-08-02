@@ -337,7 +337,8 @@ class SearchController extends Controller
         限制上在两个月前的时间,否则为非法搜索.
     */
     public function search(Request $req, $action) {
-        $json_data = json_encode($req->except(['action']));
+        $reqParams = $req->except(['action']);
+        $jsonData = json_encode($reqParams);
         $remoteurl = "";
         //$isLogSearchTimes = false;
         $isWhereChange = false;
@@ -360,11 +361,11 @@ class SearchController extends Controller
                         return $this->responseError("You should sign in", -4199);
                     }
                     }
-                    if(false === (($req->except(['action'])['limit'][0] % 10 === 0) && ($req->except(['action'])['limit'][0] < 300) && (intval($req->except(['action'])['limit'][1]) === 10)))
+                    if(false === (($reqParams['limit'][0] % 10 === 0) && ($reqParams['limit'][0] < 300) && (intval($reqParams['limit'][1]) === 10)))
                         return ;//TODO:应该抛出错误，返回空白会导致维护困难
                 } catch (\Exception $e) {
                     //记录匿名用户伪造url参数的情况
-                    Log::warning("{$req->ip()} : <{$user->name}, {$user->email}> Anonymous user illegal request params: $json_data");
+                    Log::warning("{$req->ip()} : <{$user->name}, {$user->email}> Anonymous user illegal request params: $jsonData");
                 }
             }else {
                 return ;
@@ -382,7 +383,7 @@ class SearchController extends Controller
                 return $this->responseError("Illegal search request", -6000);
             }
             try {
-                $json_data = json_encode($this->checkBeforeAdSearch($user, $req->except(['action']), $act));
+                $jsonData = json_encode($this->checkBeforeAdSearch($user, $reqParams, $act));
             } catch(\Exception $e) {
                 return $this->responseError($e->getMessage(),$e->getCode());
             }
@@ -390,7 +391,7 @@ class SearchController extends Controller
                 $lastParams = $user->getCache('adsearch.params');
                 $lastParamsArray = json_decode($lastParams, true);
                 //参数有变化，开始做搜索次数的判定
-                if ($lastParams != $json_data) {
+                if ($lastParams != $jsonData) {
                     $usage = $user->getUsage('search_times_perday');
                     if (!$usage) {
                         return $this->responseError("no search permission");
@@ -418,7 +419,7 @@ class SearchController extends Controller
 
                         if ($usage[2] >= intval($usage[1]))
                             return $this->responseError("you reached search times today, default result will show", -4100);
-                        Log::debug("adsearch " . $json_data . json_encode($usage));
+                        Log::debug("adsearch " . $jsonData . json_encode($usage));
                         $user->updateUsage('search_times_perday', $usage[2] + 1, Carbon::now());
                         //$isLogSearchTimes = true;
                         $searchTimesPerday = $usage[2] + 1;
@@ -443,12 +444,12 @@ class SearchController extends Controller
                             $subAction = 'where';
                         }
                     }
-                    $user->setCache('adsearch.params', $json_data);
+                    $user->setCache('adsearch.params', $jsonData);
                 }
             } else if (in_array($act["action"], ['adser'])) {
                 $lastParams = $user->getCache('adser.params');
                 $lastParamsArray = json_decode($lastParams, true);
-                if ($lastParams != $json_data) {
+                if ($lastParams != $jsonData) {
                     //需要另外判断免费用户，每次过滤都会带有ads_id和time
                     if ($user->hasRole('Free')) {
                         //特定adser 页面初始化
@@ -485,11 +486,11 @@ class SearchController extends Controller
                             }
                         }
                     } 
-                    $user->setCache('adser.params', $json_data);                   
+                    $user->setCache('adser.params', $jsonData);                   
                 }
             } else if ($act["action"] == "statics") {
                 try {
-                    $this->updateUsage($req, "keyword_times_perday", $json_data);
+                    $this->updateUsage($req, "keyword_times_perday", $jsonData);
                 } catch(\Exception $e) {
                     if ($e->getCode() == -1)
                         return response(["code"=>-1, "desc"=>"no permission"], 422);
@@ -498,7 +499,7 @@ class SearchController extends Controller
                 }
             } else if ($act["action"] == "analysis") {
                 try {
-                    $this->updateUsage($req, "ad_analysis_times_perday", $json_data);
+                    $this->updateUsage($req, "ad_analysis_times_perday", $jsonData);
                 } catch(\Exception $e) {
                     if ($e->getCode() == -1)
                         return response(["code"=>-1, "desc"=>"no permission"], 422);
@@ -517,12 +518,12 @@ class SearchController extends Controller
         } else if ($action == "adserSearch") {
             //广告主分析
             try {
-                $json_data = json_encode($this->checkBeforeAdserSearch($user, $req->except(['action'])));
+                $jsonData = json_encode($this->checkBeforeAdserSearch($user, $reqParams));
             } catch(\Exception $e) {
                 return $this->responseError($e->getMessage(),$e->getCode());
             }
             try {
-                $this->updateUsage($req, "adser_search_times_perday", $json_data);
+                $this->updateUsage($req, "adser_search_times_perday", $jsonData);
             } catch(\Exception $e) {
                 if ($e->getCode() == -1)
                     return response(["code"=>-1, "desc"=>"no permission"], 422);
@@ -547,12 +548,12 @@ class SearchController extends Controller
         curl_setopt($ch, CURLOPT_URL, $remoteurl);
         /* curl_setopt($ch, CURLOPT_POST, TRUE); */
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
         curl_setopt($ch, CURLOPT_HEADER, 1);//获取头信息
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
-            'Content-Length: ' . strlen($json_data))
+            'Content-Length: ' . strlen($jsonData))
         );
         /* curl_setopt($ch, CURLOPT_TIMEOUT, 1); */ 
         $response = curl_exec($ch);
@@ -572,7 +573,7 @@ class SearchController extends Controller
             /* Log::debug("time cost:" . round($t2 - $t1, 3)); */
             //执行时间超过0.5S的添加到日志中
             if (($t2 - $t1) > 0.5) {
-                Log::warning("<{$user->name}, {$user->email}> params:$json_data, time cost:" . round($t2 - $t1, 3));
+                Log::warning("<{$user->name}, {$user->email}> params:$jsonData, time cost:" . round($t2 - $t1, 3));
                 if (isset($header))
                     Log::info($header);
             }
@@ -584,7 +585,7 @@ class SearchController extends Controller
             }
         } catch (Exception $e) {
             //记录下当搜索结果发生错误时用户的请求参数
-            Log::warning("<{$user->name}, {$user->email}> something error in search result. params:$json_data");
+            Log::warning("<{$user->name}, {$user->email}> something error in search result. params:$jsonData");
         }
         
         if ($action == 'adsearch') {
@@ -604,14 +605,14 @@ class SearchController extends Controller
                             //页面初始化，应该重置result_per_search 已使用的次数
                             $user->updateUsage('result_per_search', 10, Carbon::now());
                             $searchInitPerday = $this->checkAndUpdateUsagePerday($user, 'search_init_perday');
-                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_INIT_PERDAY, $json_data, "search_init_perday : " . $searchInitPerday.",cache_total_count: " . $json['total_count'], $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_INIT_PERDAY, $jsonData, "search_init_perday : " . $searchInitPerday.",cache_total_count: " . $json['total_count'], $user->id, $req->ip()));
                             break;
                         }               
                         case 'where': {
                             //搜索条件改变，应该重置result_per_search 已使用的次数
                             $user->updateUsage('result_per_search', 10, Carbon::now());
                             $searchWherePerday = $this->checkAndUpdateUsagePerday($user, 'search_where_perday');
-                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_WHERE_CHANGE_PERDAY, $json_data, "search_where_change_perday: " . $searchWherePerday . "," . $searchResult, $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_WHERE_CHANGE_PERDAY, $jsonData, "search_where_change_perday: " . $searchWherePerday . "," . $searchResult, $user->id, $req->ip()));
                             break;
                         }
                         case 'scroll': {
@@ -623,7 +624,7 @@ class SearchController extends Controller
                                 return $this->responseError("beyond result limit", -4400);
                             }
                             $searchLimitPerday = $this->checkAndUpdateUsagePerday($user, 'search_limit_perday');
-                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_LIMIT_PERDAY, $json_data, "search_limit_perday: " . $searchLimitPerday, $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_LIMIT_PERDAY, $jsonData, "search_limit_perday: " . $searchLimitPerday, $user->id, $req->ip()));
                             break;
                         }
                         case 'search': {
@@ -631,12 +632,12 @@ class SearchController extends Controller
                             $user->updateUsage('result_per_search', 10, Carbon::now());
                             //log区分用户是否使用热词
                             if (count($req->keys) > 0 && array_key_exists('isHotWord', $req->keys[0]) && $req->keys[0]['isHotWord']) {
-                                dispatch(new LogAction(ActionLog::ACTION_HOT_SEARCH_TIMES_PERDAY, $json_data, "hot_search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
+                                dispatch(new LogAction(ActionLog::ACTION_HOT_SEARCH_TIMES_PERDAY, $jsonData, "hot_search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
                             } else {
                                 //统计用户的总搜索次数,
                                 //新增需求 -> 热词搜索不纳入用户搜索总数统计中
                                 $user->updateUsage('search_total_times', $searchTotalTimes[2] + 1, Carbon::now());
-                                dispatch(new LogAction(ActionLog::ACTION_SEARCH_TIMES_PERDAY, $json_data, "search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
+                                dispatch(new LogAction(ActionLog::ACTION_SEARCH_TIMES_PERDAY, $jsonData, "search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
                             }
                             //dispatch(new LogAction("SEARCH_TIMES_PERDAY", $json_data, "search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
                             break;
@@ -650,14 +651,14 @@ class SearchController extends Controller
                         case 'init': {
                             $user->updateUsage('result_per_search', 10, Carbon::now());
                             $searchInitPerdayAdser = $this->checkAndUpdateUsagePerday($user, 'specific_adser_init_perday');
-                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_INIT_PERDAY_ADSER, $json_data, "search_init_perday_adser : " . $searchInitPerdayAdser.",cache_total_count: " . $json['total_count'], $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_INIT_PERDAY_ADSER, $jsonData, "search_init_perday_adser : " . $searchInitPerdayAdser.",cache_total_count: " . $json['total_count'], $user->id, $req->ip()));
                             break;
                         }               
                         case 'where': {
                             //搜索条件改变，应该重置result_per_search 已使用的次数
                             $user->updateUsage('result_per_search', 10, Carbon::now());
                             $searchWherePerdayAdser = $this->checkAndUpdateUsagePerday($user, 'specific_adser_where_perday');
-                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_WHERE_CHANGE_PERDAY_ADSER, $json_data, "search_where_change_perday_adser: " . $searchWherePerdayAdser . "," . $searchResult, $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_WHERE_CHANGE_PERDAY_ADSER, $jsonData, "search_where_change_perday_adser: " . $searchWherePerdayAdser . "," . $searchResult, $user->id, $req->ip()));
                             break;
                         }
                         case 'scroll': {
@@ -668,7 +669,7 @@ class SearchController extends Controller
                                 return $this->responseError("beyond result limit", -4400);
                             }
                             $searchLimitPerdayAdser = $this->checkAndUpdateUsagePerday($user, 'specific_adser_limit_perday');
-                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_LIMIT_PERDAY_ADSER, $json_data, "search_limit_perday_adser: " . $searchLimitPerdayAdser, $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_LIMIT_PERDAY_ADSER, $jsonData, "search_limit_perday_adser: " . $searchLimitPerdayAdser, $user->id, $req->ip()));
                             break;
                         }
                         default:
@@ -679,12 +680,12 @@ class SearchController extends Controller
                     switch ($subAction) {
                         case 'init': {
                             $searchInitPerdayBookmark = $this->checkAndUpdateUsagePerday($user, 'bookmark_init_perday');
-                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_INIT_PERDAY_BOOKMARK, $json_data, "search_init_perday_bookmark : " . $searchInitPerdayBookmark, $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_INIT_PERDAY_BOOKMARK, $jsonData, "search_init_perday_bookmark : " . $searchInitPerdayBookmark, $user->id, $req->ip()));
                             break;
                         }               
                         case 'scroll': {
                             $searchLimitPerdayBookmark = $this->checkAndUpdateUsagePerday($user, 'bookmark_limit_perday');
-                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_LIMIT_PERDAY_BOOKMARK, $json_data, "search_limit_perday_bookmark: " . $searchLimitPerdayBookmark, $user->id, $req->ip()));
+                            dispatch(new LogAction(ActionLog::ACTION_SEARCH_LIMIT_PERDAY_BOOKMARK, $jsonData, "search_limit_perday_bookmark: " . $searchLimitPerdayBookmark, $user->id, $req->ip()));
                             break;
                         }
                         default:
