@@ -86,7 +86,7 @@ getAdsCount()
 function toChangeWord(item) {
     var word = ["To see resonate image <br/>for ad designer",
         " To see resonate text  <br/>for copywriter",
-        " To see resonate markeing strategy  <br/>for marketing planner",
+        " To see resonate marketing strategy  <br/>for marketing planner",
         " To see competitive intelligence  <br/>for ad buyer "
     ]
     if (word.length <= item) {
