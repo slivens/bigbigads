@@ -1414,6 +1414,8 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 	}])
 	.controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window', '$http', 'Util', 'User',
     function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $window, $http, Util, User) {
+        // angualr 页面中使用Math.ceil() 无效
+        $scope.ceil = Math.ceil;
         var searcher = $scope.adSearcher = new Searcher();
         // $scope.adSearcher.search($scope.adSearcher.defparams, true);
         var numdata=[33,34];
@@ -1438,6 +1440,42 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             //只取首条消息
             $scope.card = $scope.ad = ads.ads_info[0];
             //表示广告在分析模式下，view根据这个字段区别不同的显示
+            if($scope.card.impression){
+            	var arr=JSON.parse(ads.ads_info[0].impression);
+            	var keyValue;
+            	var newKeyValue;
+            	for(var key in arr){
+            		try{
+            			keyValue = key.split("-")[1]+"-"+key.split("-")[2];
+            		}
+            		catch(e){
+            			keyValue = false;
+            		}
+            		newKeyValue = key;
+            	}
+            	var adsLineChar=[];
+            	// 返回的keyValue 类似 7-21
+            	if(keyValue){
+            		var dataArr = getDataArr(30);
+            		var hasKey = false;
+            		var arrKey = 0;
+            		for(var key in dataArr){
+            			if(dataArr[key] == keyValue){
+            				hasKey = true;
+            			}
+            			if(hasKey && arr[newKeyValue][arrKey] != undefined){
+            				adsLineChar.push([dataArr[key],arr[newKeyValue][arrKey]]);
+            				arrKey += 1;
+            			} else if(hasKey && arrKey < 7){
+            				adsLineChar.push([dataArr[key],'']);
+            				arrKey += 1
+            			}
+            		} 
+            	}
+            	console.log(adsLineChar);
+            	
+
+            }
             $scope.card.indetail = true;
             $scope.card.end = false;
             if ($scope.card.whyseeads_all)
@@ -1465,6 +1503,79 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 $scope.barCharts.series[0].data=$scope.card.whyseeads.age.map(v => v[0]);
                 $scope.barCharts.series[1].data=$scope.card.whyseeads.age.map(v => v[1]);
                 }
+                // 地图图标数据
+		        $scope.adsMapChart.series[0].data=  [
+			        {
+			            "code": "AF",
+			            "value": 53,
+			            "name": "Afghanistan"
+			        },
+			        {
+			            "code": "AL",
+			            "value": 117,
+			            "name": "Albania"
+			        },
+			        {
+			            "code": "DZ",
+			            "value": 501,
+			            "name": "Algeria"
+			        },
+			        {
+			            "code": "AS",
+			            "value": 342,
+			            "name": "American Samoa"
+			        },
+			        {
+			            "code": "AD",
+			            "value": 181,
+			            "name": "Andorra"
+			        },
+			        {
+			        	"code": "US",
+			        	"value": "1001"
+			        }
+			    ]
+			    // 点击广告国家分布表格
+			    $scope.adsVisitCountryData = [
+			    {
+			    	"country": "US",
+			    	"value": 1001
+			    },{
+			    	"country": "ZA",
+			    	"value": 501
+			    },{
+			    	"country": "CN",
+			    	"value": 1031
+			    },{
+			    	"country": "JP",
+			    	"value": 100
+			    },{
+			    	"country": "WE",
+			    	"value": 1031
+			    },{
+			    	"country": "AW",
+			    	"value": 1031
+			    },{
+			    	"country": "test1",
+			    	"value": 1031
+			    },{
+			    	"country": "test2",
+			    	"value": 1031
+			    },{
+			    	"country": "test3",
+			    	"value": 1031
+			    },{
+			    	"country": "test4",
+			    	"value": 1031
+			    },{
+			    	"country": "test5",
+			    	"value": 199
+			    }]
+			    var adsVisitCountryCount = 0;
+			    for(var key in $scope.adsVisitCountryData){
+			    	adsVisitCountryCount += $scope.adsVisitCountryData[key].value;
+			    }
+			    $scope.adsVisitCountryCount = adsVisitCountryCount
             }
             searcher.findSimilar($scope.card.watermark);
         }, function(res) {
@@ -1480,6 +1591,21 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         $scope.goback = function() {
             $window.history.back();
         };
+        /*
+        * 从当前时间开始，获取过去的天数
+        * 返回数组
+        * n为要返回过去的天数
+        */
+        var getDataArr = function(n){
+        	var arr=[]
+        	
+        	for(var i = 0; i <= n; i ++ ){
+        		var now = new Date;
+				now.setDate(now.getDate() - (n - i));
+				arr.push(((now.getMonth()+1) < 10? '0' + (now.getMonth()+1).toString() : (now.getMonth()+1).toString()) + "-" + (now.getDate().toString() < 10? '0'+ now.getDate().toString() : now.getDate()))  
+        	}
+        	return arr;	
+        }
 
         /**
          * 查找相似图
@@ -1556,6 +1682,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             $rootScope.settings.layout.pageBodySolid = false;
             $rootScope.settings.layout.pageSidebarClosed = false;
         });
+        /*
+        * 分析图表
+        */
+        // 饼图
         $scope.pieCharts = {
             chart: {
                 plotBackgroundColor: null,
@@ -1590,8 +1720,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 ]
             }]
         };
-
-
+        // 折线
 		$scope.lineCharts = {
 		    chart: {
 		        type: 'area',
@@ -1601,7 +1730,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 		    subtitle: false,
 		    legend: false,
 		    xAxis: {
-		        categories: ['7.20', '7.21', '7.22', '7.23', '7.24', '7.25', '7.27', '7.28']
+		        categories: getDataArr(15)
 		    },
 		    yAxis: {
 		        title: false,
@@ -1625,6 +1754,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 		        data: [20, 110, 164, 400, 411, 504, 299, 355, 197]
 		    }]
 		}
+		// 条状
         $scope.barCharts = {
 
             chart: {
@@ -1676,7 +1806,68 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 ].map(v => v[1])
             }]
         };
-
+        // 地图图表
+	    $scope.adsMapChart ={
+                chart : {
+                    borderWidth : 0  //边框
+                },
+                colors: ['rgba(19,64,117,0.05)', 'rgba(19,64,117,0.2)', 'rgba(19,64,117,0.4)',
+                         'rgba(19,64,117,0.5)', 'rgba(19,64,117,0.6)', 'rgba(19,64,117,0.8)', 'rgba(19,64,117,1)'],
+                title : {
+                    text : false
+                },
+                credits: false,
+                mapNavigation: {
+                    enabled: false  //缩放
+                },
+                legend: {
+                    title: {
+                        text: 'HIts Per Month',
+                        style: {
+                            color: 'black'
+                        }
+                    },
+                    align: 'left',
+                    verticalAlign: 'bottom',
+                    floating: true,
+                    layout: 'vertical',
+                    valueDecimals: 0,
+                    backgroundColor: 'rgba(255, 255, 255, 0.85)',
+                    symbolRadius: 0,
+                    symbolHeight: 14
+                },
+                colorAxis: {
+                    dataClasses: [{
+                        to: 100
+                    }, {
+                        from: 100,
+                        to: 500
+                    }, {
+                        from: 500,
+                        to: 1000
+                    }, {
+                        from: 1000,
+                        to: 2000
+                    }, {
+                        from: 2000
+                    }]
+                },
+                series : [{
+                    data : [],
+                    mapData: Highcharts.maps['custom/world'],
+                    joinBy: ['iso-a2', 'code'],
+                    animation: false, // 取消掉动画，不然地图会重绘，第二次加载很别扭
+                    name: 'Population density',
+                    states: {
+                        hover: {
+                            color: '#BADA55'
+                        }
+                    },
+                    tooltip: {
+                        valueSuffix: '/month'
+                    }
+                }]
+        }
     }
 ])
 .controller('QuickSidebarController', ['$scope', '$window', 'settings', 'User', function($scope, $window, settings, User) {
