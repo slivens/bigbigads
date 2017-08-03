@@ -120,6 +120,10 @@
             flex: 1;
             height: 300px;
         }
+        .charts-adsmap{
+            flex:1;
+            height: 400px;
+        }
     }
     .cahrts-stat-row {
         margin-top: 30px;
@@ -150,6 +154,52 @@
                 .stat-number {
                     width: 100px;
                     margin-left: 20px;
+                }
+            }
+        }
+    }
+    .analy-table{
+        .analy-adstable{
+            thead{
+                background: #7cb5ec;
+            }
+            .analy-td1{
+                width: 10%;
+                min-width: 20px;
+                text-align: center;
+            }
+            .analy-td2{
+                width: 30%;
+                min-width: 40px;
+            }
+            .analy-td3{
+                width: 20%;
+                min-width: 30px;
+            }
+            .progress-wrapper{
+                height: 20px;
+                display: flex;
+                align-items:center;
+                .percent-number{
+                    padding: 5px;
+                }
+                .progress{
+                    flex: 1;
+                    height: 80%;
+                    margin-bottom: 0
+                }
+            }
+            tfoot{
+                background: #b0d5f9;
+                .table-turnpage{
+                    display: flex;
+                    justify-content: flex-end;
+                    .page-num{
+                        margin-right: 10px;
+                    }
+                    .turnpage-button{
+                        margin: 0 5px;
+                    }
                 }
             }
         }
