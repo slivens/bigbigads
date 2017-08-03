@@ -66,6 +66,9 @@
                                 <strong>{{ $errors->first('email') }}</strong>
                             </span>
                         @endif
+                        @if (isset($referer))
+                            <input type="hidden" value="{{$referer}}" name="referer">
+                        @endif
                 </div>
                 <div class="form-group">
                     <label class="control-label visible-ie8 visible-ie9">Password</label>
