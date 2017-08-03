@@ -40,7 +40,7 @@
                 <span class="ads-weight-bold">Ad placement: </span>
                 <span>{{card.show_way | adsTypes}}</span></p>
             <p>
-                <span class="ads-weight-bold">Objective:</span> 
+                <span class="ads-weight-bold">Objective:</span>
                 <span ng-if="card.objective">{{card.objective}}</span>
                 <span ng-if="!card.objective" class="text-danger">No Data</span>
             </p>
@@ -56,9 +56,15 @@
         <div class="col-md-6 charts-left">
             <p class="charts-title">How are site sessions trending?</p>
             <p class="charts-subtitle">Last 30 days VS. previous period</p>
-            <div class="charts-wrapper">
-                <highchart class="charts-line" config="lineCharts"></highchart>
+            <div class="charts-wrapper" ng-if="card.impression">
+                <highchart class="charts-line" config="lineCharts" ></highchart>
             </div>
+            <div ng-if="!card.impression" class="analy-nodata">
+                <img src="../static/images/analysis/bg_nodata.png" alt="">
+                <br>
+                <span class="ads-font-26 ads-weight-600 text-danger">No Enough Data</span>
+            </div>
+            
         </div>
         <div class="col-md-6 charts-right">
             <p class="charts-title">What are the top countries by sessions?</p>
@@ -74,11 +80,16 @@
                 <p class="charts-title">How are site sessions trending?</p>
                 <p class="charts-subtitle">Last 30 days VS. previous period</p>
             </div>
-            <div class="col-md-6 charts-wrapper">
+            <div class="col-md-6 charts-wrapper" ng-if="card.whyseeads">
                 <highchart class="charts-pie" config="pieCharts"></highchart>
             </div>
-            <div class="col-md-6 charts-wrapper">
+            <div class="col-md-6 charts-wrapper" ng-if="card.whyseeads">
                 <highchart class="charts-bar" config="barCharts"></highchart>
+            </div>
+            <div ng-if="!card.whyseeads" class="analy-nodata">
+                <img src="../static/images/analysis/bg_nodata.png" alt="">
+                <br>
+                <span class="ads-font-26 ads-weight-600 text-danger">No Enough Data</span>
             </div>
         </div>
         <div class="col-md-6 analy-table">
@@ -122,8 +133,12 @@
             </table>
         </div>
     </div>
-    <div class="row cahrts-stat-row" ng-if="card.whyseeads.interests" mg-init="abc = 0 ">
+    <div class="row cahrts-stat-row"  mg-init="abc = 0 ">
         <div class="col-md-12">
+            <p class="charts-title">How are site sessions trending?</p>
+            <p class="charts-subtitle">Last 30 days VS. previous period</p>
+        </div>
+        <div class="col-md-12" ng-if="card.whyseeads.interests">
             <P class="charts-title">CATEGORY DISTRIBUTION</P>
             <div class="charts-stat-bar">
                 <div class="stat-wrapper" ng-repeat="(key,value) in card.whyseeads.interests track by $index">
@@ -136,6 +151,11 @@
                     <div class="stat-number">{{((value / interestsCount) * 100).toFixed(2)}}%</div>
                 </div>
             </div>
+        </div>
+        <div ng-if="!card.whyseeads.interests" class="analy-nodata">
+            <img src="../static/images/analysis/bg_nodata.png" alt="">
+            <br>
+            <span class="ads-font-26 ads-weight-600 text-danger">No Enough Data</span>
         </div>
     </div>
 </div>

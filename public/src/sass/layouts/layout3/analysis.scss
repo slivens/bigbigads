@@ -204,6 +204,15 @@
             }
         }
     }
+    /*没数据样式*/
+    .analy-nodata{
+        width: 100%;
+        min-height:300px;
+        display: flex;
+        align-items:center;
+        justify-content:center;
+        flex-direction: column;
+    }
 
     /*
 	* 移动端适配 iphone 6 画稿

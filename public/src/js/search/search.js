@@ -1440,42 +1440,96 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             //只取首条消息
             $scope.card = $scope.ad = ads.ads_info[0];
             //表示广告在分析模式下，view根据这个字段区别不同的显示
+            // 广告impression
             if($scope.card.impression){
             	var arr=JSON.parse(ads.ads_info[0].impression);
-            	var keyValue;
-            	var newKeyValue;
+            	var tiem
             	for(var key in arr){
-            		try{
-            			keyValue = key.split("-")[1]+"-"+key.split("-")[2];
-            		}
-            		catch(e){
-            			keyValue = false;
-            		}
-            		newKeyValue = key;
+            		time = key;
             	}
-            	var adsLineChar=[];
-            	// 返回的keyValue 类似 7-21
-            	if(keyValue){
-            		var dataArr = getDataArr(30);
-            		var hasKey = false;
-            		var arrKey = 0;
-            		for(var key in dataArr){
-            			if(dataArr[key] == keyValue){
-            				hasKey = true;
-            			}
-            			if(hasKey && arr[newKeyValue][arrKey] != undefined){
-            				adsLineChar.push([dataArr[key],arr[newKeyValue][arrKey]]);
-            				arrKey += 1;
-            			} else if(hasKey && arrKey < 7){
-            				adsLineChar.push([dataArr[key],'']);
-            				arrKey += 1
-            			}
-            		} 
+                var impressionArr = getImpressionArr(time, 7, arr[time])
+            	if(impressionArr){
+            		$scope.lineCharts.xAxis.categories = impressionArr.map(v => v[0]);
+            		$scope.lineCharts.series[0].data = impressionArr.map(v => v[1]);
+            	} else{
+            		$scope.card.impression = false; //对于提供时间错误的，或则数据长度小于3的则不显示
             	}
-            	console.log(adsLineChar);
-            	
-
+            } 
+            // 地图图标数据
+            $scope.adsMapChart.series[0].data=  [
+                {
+                    "code": "AF",
+                    "value": 53,
+                    "name": "Afghanistan"
+                },
+                {
+                    "code": "AL",
+                    "value": 117,
+                    "name": "Albania"
+                },
+                {
+                    "code": "DZ",
+                    "value": 501,
+                    "name": "Algeria"
+                },
+                {
+                    "code": "AS",
+                    "value": 342,
+                    "name": "American Samoa"
+                },
+                {
+                    "code": "AD",
+                    "value": 181,
+                    "name": "Andorra"
+                },
+                {
+                    "code": "US",
+                    "value": "1001"
+                }
+            ]
+            // 点击广告国家分布表格
+            $scope.adsVisitCountryData = [
+                {
+                    "country": "US",
+                    "value": 1001
+                },{
+                    "country": "ZA",
+                    "value": 501
+                },{
+                    "country": "CN",
+                    "value": 1031
+                },{
+                    "country": "JP",
+                    "value": 100
+                },{
+                    "country": "WE",
+                    "value": 1031
+                },{
+                    "country": "AW",
+                    "value": 1031
+                },{
+                    "country": "test1",
+                    "value": 1031
+                },{
+                    "country": "test2",
+                    "value": 1031
+                },{
+                    "country": "test3",
+                    "value": 1031
+                },{
+                    "country": "test4",
+                    "value": 1031
+                },{
+                    "country": "test5",
+                    "value": 199
+                }
+            ]
+            var adsVisitCountryCount = 0;
+            for(var key in $scope.adsVisitCountryData){
+                adsVisitCountryCount += $scope.adsVisitCountryData[key].value;
             }
+            $scope.adsVisitCountryCount = adsVisitCountryCount
+
             $scope.card.indetail = true;
             $scope.card.end = false;
             if ($scope.card.whyseeads_all)
@@ -1503,79 +1557,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 $scope.barCharts.series[0].data=$scope.card.whyseeads.age.map(v => v[0]);
                 $scope.barCharts.series[1].data=$scope.card.whyseeads.age.map(v => v[1]);
                 }
-                // 地图图标数据
-		        $scope.adsMapChart.series[0].data=  [
-			        {
-			            "code": "AF",
-			            "value": 53,
-			            "name": "Afghanistan"
-			        },
-			        {
-			            "code": "AL",
-			            "value": 117,
-			            "name": "Albania"
-			        },
-			        {
-			            "code": "DZ",
-			            "value": 501,
-			            "name": "Algeria"
-			        },
-			        {
-			            "code": "AS",
-			            "value": 342,
-			            "name": "American Samoa"
-			        },
-			        {
-			            "code": "AD",
-			            "value": 181,
-			            "name": "Andorra"
-			        },
-			        {
-			        	"code": "US",
-			        	"value": "1001"
-			        }
-			    ]
-			    // 点击广告国家分布表格
-			    $scope.adsVisitCountryData = [
-			    {
-			    	"country": "US",
-			    	"value": 1001
-			    },{
-			    	"country": "ZA",
-			    	"value": 501
-			    },{
-			    	"country": "CN",
-			    	"value": 1031
-			    },{
-			    	"country": "JP",
-			    	"value": 100
-			    },{
-			    	"country": "WE",
-			    	"value": 1031
-			    },{
-			    	"country": "AW",
-			    	"value": 1031
-			    },{
-			    	"country": "test1",
-			    	"value": 1031
-			    },{
-			    	"country": "test2",
-			    	"value": 1031
-			    },{
-			    	"country": "test3",
-			    	"value": 1031
-			    },{
-			    	"country": "test4",
-			    	"value": 1031
-			    },{
-			    	"country": "test5",
-			    	"value": 199
-			    }]
-			    var adsVisitCountryCount = 0;
-			    for(var key in $scope.adsVisitCountryData){
-			    	adsVisitCountryCount += $scope.adsVisitCountryData[key].value;
-			    }
-			    $scope.adsVisitCountryCount = adsVisitCountryCount
             }
             searcher.findSimilar($scope.card.watermark);
         }, function(res) {
@@ -1592,19 +1573,39 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             $window.history.back();
         };
         /*
-        * 从当前时间开始，获取过去的天数
-        * 返回数组
-        * n为要返回过去的天数
+        * 返回广告impression的数组
+        * 提供开始时间，与开始时间之后每天的访问量
+        * 返回的数组为最后一次访问的前七天
+        * time为开始时间，n为截取的数组长度,需要是7天，也可能是十天，data原始数据
         */
-        var getDataArr = function(n){
-        	var arr=[]
-        	
-        	for(var i = 0; i <= n; i ++ ){
-        		var now = new Date;
-				now.setDate(now.getDate() - (n - i));
-				arr.push(((now.getMonth()+1) < 10? '0' + (now.getMonth()+1).toString() : (now.getMonth()+1).toString()) + "-" + (now.getDate().toString() < 10? '0'+ now.getDate().toString() : now.getDate()))  
-        	}
-        	return arr;	
+        var getImpressionArr = function(time, n, data) {
+            
+            if (data.length < 3) return false; // 对于长度小于3的不作处理
+            else {
+                var newTime
+                try {
+                    //获取的时间格式可能为2017-01-01，需将其转换
+                    newTime = new Date(time.split("-")[0], time.split("-")[1] - 1, time.split("-")[2])
+                } catch (e) {
+                    return false;
+                }
+                var arr = []
+                /*
+                * 给的数组长度可能大于7，也可能小于7
+                * 数组长度大于n则循环数组
+                */
+                for (var i = 0; i < ( n > data.length ? n : data.length ); i++) {
+                    var arrTime = ((newTime.getMonth() + 1) < 10 ? '0' + (newTime.getMonth() + 1).toString() : (newTime.getMonth() + 1).toString()) + "-" + (newTime.getDate().toString() < 10 ? '0' + newTime.getDate().toString() : newTime.getDate())
+                    if (arr.length < n) {
+                        arr.push([arrTime, data[i] != undefined ? data[i] : ''])
+                    } else {
+                        arr.push([arrTime, data[i] != undefined ? data[i] : ''])
+                        arr.shift() //加入新的，并删除第一个元素
+                    }
+                    newTime.setDate(newTime.getDate() + 1);
+                }
+                return arr;
+            }
         }
 
         /**
@@ -1730,7 +1731,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 		    subtitle: false,
 		    legend: false,
 		    xAxis: {
-		        categories: getDataArr(15)
+		        categories:[]
 		    },
 		    yAxis: {
 		        title: false,
@@ -1750,7 +1751,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 		        enabled: false
 		    },
 		    series: [{
-		        name: 'testword',
+		        name: 'Impression',
 		        data: [20, 110, 164, 400, 411, 504, 299, 355, 197]
 		    }]
 		}
