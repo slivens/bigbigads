@@ -193,7 +193,6 @@ use \Illuminate\Support\Facades\Input;
     </div>
 </body>
 </html>
-<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script> 
 <script type="text/javascript" src="dist/vendor.js?v=1"></script>
 <script type="text/javascript" src="dist/pay.js?v=2.0.1"></script>
  
