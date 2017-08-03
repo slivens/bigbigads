@@ -144,7 +144,7 @@
                         <i class="fa fa-linkedin-square reg-btn-icon"></i>
                         <span class=" reg-btn-text">Log In With Linknedin</span>
                     </a>
-                    <a href="/socialite/google" class="register-btn btn">
+                    <a href="/socialite/google" class="register-btn btn socialite disabled">
                         <i class="fa fa-google-plus-square reg-btn-icon"></i>
                         <span class="reg-btn-text">Log In With Google+</span>
                     </a>
@@ -201,7 +201,7 @@
                     <i class="fa fa-linkedin-square reg-btn-icon"></i>
                     <span class=" reg-btn-text">Sign Up With Linknedin</span>
                 </a>
-                <a href="/socialite/google" class="register-btn btn">
+                <a href="/socialite/google" class="register-btn btn socialite disabled">
                     <i class="fa fa-google-plus-square reg-btn-icon"></i>
                     <span class="reg-btn-text">Sign Up With Google+</span>
                 </a>

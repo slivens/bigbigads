@@ -117,7 +117,7 @@
 
 @media screen and (max-width: 768px) {
     html {
-        font-size: calc(100vw / 10)
+        font-size: calc(100vw / 10) !important;
     }
     body {
         font-size: 16px !important;
