@@ -161,7 +161,6 @@ use \Illuminate\Support\Facades\Input;
                             <hr>
                             <h4>Terms of Sales:</h4>
                             <ul class="ads-font-14">
-                                <li>Your IP is <span>@{{ipAddr}}</span> - This has been recorded. All attempts at fraud will be prosecuted.</li>
                                 <li>This product is created and sold by BIGBIGADS.INC,the product's vendor.</li>
                                 <li>If you're not fully satisfied with BIGBIGADS‘ service within 7 days, we'll refund 100% of your purchase price! First-time buyers only.</li>
                                 <li>Please send Email to help@bigbigads.com for any advice or support request.</li>
