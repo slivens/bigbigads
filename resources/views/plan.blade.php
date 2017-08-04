@@ -10,18 +10,13 @@
     <link href="./dist/home.css?v=2.0.1" rel="stylesheet">
     @include('tpl.script')
 </head>
-<body id="pricing">
+<body id="plan">
 @include('tpl.header')
-<section class="pricing-banner hidden">
-    <p class="text-center ads-font-44 pricing-banner-text">Facebook Adervertising Made Easy</p>
+<section class="plan-header text-center">
+    <p class="ads-font-36 ads-weight-400 header-title">What Are You Waiting For?</p>
+    <p class="ads-font-20 ads-weight-400 header-suptitle">Join thousands of users to know your competitor's profitable marketing strategy now.</p>
 </section>
-
-<!--end pricing tabel-->
-<section class="pricing-content container">
-    <div class="content-title text-center">
-        <p class="title-main ads-font-28">Would you like to know what's your competitor’s profitable marketing strategy now?</p>
-        <p class="title-second ads-font-24">Join thousands of paid users to reveal it.</p>
-    </div>
+<section class="plan-content container">
     <div class="pricing-adscard row">
         <div class="col-md-6 adscard-free">
             <div class="card-div panel">
@@ -46,7 +41,7 @@
                         <td>Limited Dtata Access</td>
                     </tr>
                     <tr class="ads-tr-a">
-                        <td>See data from 2 months before</td>
+                        <td>See data from 2 moths before</td>
                     </tr>
                     <tr>
                         <td>Single Bookmark Folder</td>
@@ -86,7 +81,7 @@
                             <td>Data Update Frequence: Daily</td>
                         </tr>
                         <tr>
-                            <td>Full Data Access(6 Millions+)</td>
+                            <td>Full Dara Access(6 Millions+)</td>
                         </tr>
                         <tr  class="ads-tr-a">
                             <td>See latest data</td>
@@ -101,7 +96,7 @@
                             <td>Mobile Ads &amp; App Ads</td>
                         </tr>
                         <tr  class="ads-tr-a">
-                            <td>Search for Audience &amp; Interests</td>
+                            <td>Search for Aundience &amp; Interests</td>
                         </tr>
                     </table>
                     <div class="panel-body adscard-foot ">
@@ -171,6 +166,339 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+<section class="plan-table">
+    <div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1 table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td class="ads-font-12 ads-weidth-600 text-center">FEATURES</td>
+                        <td class="ads-font-24 ads-weidth-600 text-center">Free</td>
+                        <td class="ads-font-24 ads-weidth-600 text-center">
+                            Lite
+                            <p class="plan-small">coming soon</p>
+                        </td>
+                        <td class="ads-font-24 ads-weidth-600 text-center">Standard</td>
+                        <td class="ads-font-24 ads-weidth-600 text-center">
+                            Plus</p>
+                            <p class="plan-small">coming soon</p>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-item-title">
+                        <td>Data Time Interval</td>
+                        <td>3 Months</td>
+                        <td>2 weeks</td>
+                        <td>Daily</td>
+                        <td>Daily</td>
+                    </tr>
+                    <tr>
+                        <td>Search Mode</td>
+                        <td><i class="plan-right"></i></td>
+                        <td><i class="plan-right"></i></td>
+                        <td><i class="plan-right"></i></td>
+                        <td><i class="plan-right"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Sort by Filter</td>
+                        <td><i class="plan-right"></i></td>
+                        <td><i class="plan-right"></i></td>
+                        <td><i class="plan-right"></i></td>
+                        <td><i class="plan-right"></i></td>
+                    </tr>
+                    <tr class="table-item-title">
+                        <td>Call to Action Filter</td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    <tr class="table-item-title">
+                        <td>Language Filter
+                            <span class="plan-beta">BETA<span>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    <tr class="table-item-title">
+                        <td>Ad Placement Filter</td>
+                        <td><i class="plan-error"></i></td>
+                        <td><i class="plan-right"></i></td>
+                        <td><i class="plan-right"></i></td>
+                        <td><i class="plan-right"></i></td>
+                    </tr>
+                    <tr class="table-item-title">
+                        <td>Ad Type Filter</td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    <tr class="table-item-title">
+                        <td>Objective Filter
+                            <span class="plan-small">coming soon</span>
+                        </td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Customized Ad Duration Filter
+</td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Customized Ad Engagement Filter
+</td>
+                        <td><i class="plan-error"></i></td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    <tr class="table-item-title">
+                        <td>Country Filter
+                            <span class="plan-beta">BETA<span>
+                        </td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Audience Filter
+                            <span class="plan-beta">BETA<span>
+                        </td>
+                        <td><i class="plan-error"></i></td>
+                        <td><i class="plan-error"></i></td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Customized Time Filter</td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    <tr class="table-item-title">
+                        <td>Eshop Platform Filter
+                            <span class="plan-beta">BETA<span>
+                        </td>
+                        <td><i class="plan-error"></i></td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AD insight <span class="plan-small">coming soon</span></td>
+                        <td>LImited</td>
+                        <td>LImited</td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    <tr class="table-item-title">
+                        <td>Ad Bookmark</td>
+                        <td>Single</td>
+                        <td>
+                            Multiple
+                        </td>
+                        <td>
+                            Multiple
+                        </td>
+                        <td>
+                            Unlimited
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Advanced Sort by Filter</td>
+                        <td><i class="plan-error"></i></td>
+                        <td>
+                            <i class="plan-error">
+                        </td>
+                        <td>
+                            <i class="plan-error">
+                        </td>
+                        <td><i class="plan-right"></i></td>
+                    </tr>
+                    <tr class="table-item-title">
+                        <td>Keyword Analysis</td>
+                        <td><i class="plan-error"></i></td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Advertiser Search</td>
+                        <td><i class="plan-error"></i></td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Advertiser Analysis</td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    <tr class="table-item-title">
+                        <td >competitor Analysis</td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Advertiser Bookmark</td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-error"></i>
+                        </td>
+                        <td>
+                            <i class="plan-right"></i>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="text-center" id="app-to-top">
+                        <td class="tfoot-item-titel">
+                            
+                        </td>
+                        <td>
+                            
+                            <a href="#plan" class="btn">Start Now</a>
+                        </td>
+                        <td>
+                            <a href="#plan" class="btn">Start Now</a></td>
+                        <td>
+                            <a href="#plan" class="btn">Start Now</a></td>
+                        <td>
+                            <a href="#plan" class="btn">Start Now</a></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
         </div>
     </div>
 </section>
