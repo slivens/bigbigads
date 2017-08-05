@@ -174,13 +174,13 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
                     </tr>
                     <tr>
                         <td class="pricing-td-title">Audience &amp; Interest</td>
-                        <td>Limited</td>
+                        <td></td>
                         <td><i class="glyphicon glyphicon-ok"></i></td>
                     </tr>
                     <tr>
                         <td class="pricing-td-title">Data Amount</td>
                         <td>Limited</td>
-                        <td>5M<sup>+</sup></td>
+                        <td>8M<sup>+</sup></td>
                     </tr>
                     <tr>
                         <td class="pricing-td-title">Mobile Ads &amp; App Ads
