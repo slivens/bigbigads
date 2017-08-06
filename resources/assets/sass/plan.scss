@@ -1,5 +1,45 @@
-#pricing {
-    background: #f5f5f7;
+#plan {
+    background: #fff;
+    .plan-right{
+        display: block;
+        margin: 0 auto;
+        height: 20px;
+        width: 20px;
+        background: url(./images/svg/right_01.svg) no-repeat center center;
+    }
+    .plan-error{
+        display: block;
+        margin: 0 auto;
+        height: 20px;
+        width: 20px;
+        background: url(./images/svg/error_01.svg) no-repeat center center;
+    }
+    .plan-beta{
+        padding: 0px 6px;
+        border-radius: 8px;
+        margin-left: 5px;
+        background: #28b873;
+        font-size: 12px;
+        font-weight: 200;
+        color:#fff;
+    }
+    .plan-header{
+        background: #F4F7F9;
+        padding: 50px 0;
+        .header-title{
+            color: #1D96F3;
+        }
+        .header-suptitle{
+            color: #98A7B4;
+            margin-top: 30px;
+        }
+    }
+    .plan-small{
+        color: #1D96F3;
+        font-size: 12px;
+        font-weight: 200;
+        margin-left: 5px;
+    }
     .pricing-banner {
         width: 100%;
         background: url(./images/pricing/pricing_banner.jpg) no-repeat bottom center;
@@ -179,11 +219,11 @@
 
         .adscard-free {
             .adscard-head {
-                background: #3d5aa5;
+                background:#1D96F3;
                 color: #fff;
             }
             .adscard-btn {
-                background: #3d5aa5;
+                background:#1D96F3;
             }
         }
         .adscard-stand {
@@ -258,11 +298,75 @@
             }
         }
     }
+    .plan-table{
+        margin-bottom: 50px;
+        .table{
+            ul{
+                padding: 0;
+                margin: 0;
+            }
+            
+            td{
+                vertical-align: middle;
+                text-align: center;
+                color: #565E66;
+            }
+            thead{
+                td{
+                    vertical-align: top;
+                    p{
+                        margin-bottom: 0;
+                    }
+                }
+                td:first-child{
+                    color:#98A7B4;
+                    text-align: left;
+                    font-weight: 400;
+                    vertical-align: middle;
+                }
+
+            }
+            tbody{
+                td{
+                    font-weight: 200;
+                    vertical-align: middle;
+                    text-align: center;
+                    color: #1D96F3;
+                }
+                tr{
+                    td:first-child{
+                        text-align: left;
+                        color: #565E66;
+                        font-size: 16px;
+                        font-weight: 400;
+                    }
+                }
+            }
+            tfoot{
+                td{
+                    padding-top:15px;
+                    padding-bottom: 15px; 
+                    vertical-align: top;
+                    border:none;
+                    .btn{
+                        margin-top: 20px;
+                    }
+                }
+                td:first-child{
+                    color:#98A7B4;
+                    text-align: left;
+                    font-weight: 400;
+                    padding: 0;
+                }
+                
+            }
+        }
+    }
 }
 
 
 @media screen and (max-width: 768px) {
-    #pricing {
+    #plan {
         .pricing-banner {
             min-height: px(120);
             background-size: auto 100%;
@@ -342,7 +446,7 @@
 */
 
 @media screen and (min-width: 1024px) {
-    #pricing {
+    #plan {
         .pricing-adscard {
             .stand-card-div {
                 width: 404px;

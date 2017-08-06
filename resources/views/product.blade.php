@@ -115,7 +115,7 @@ Bookmark to save and manage  Find an image that resonates  Custom Setting-->
                 <i class="producticon demoicon icon-stats-bars"></i>
             </div>
             <div class="card-right ">
-                <h5 class="ads-ms-text produ-item-title">Niche Market Analysi</h5>
+                <h5 class="ads-ms-text produ-item-title">Niche Market Analyze</h5>
                 <p class="ads-def-text">Enter a niche keyword to analyze the market, top player, market share &amp; ad structure.  </p>
             </div> 
         </div>
