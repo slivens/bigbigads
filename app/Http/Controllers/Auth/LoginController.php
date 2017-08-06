@@ -108,7 +108,7 @@ class LoginController extends Controller
 
     public function showLoginForm(Request $request)
     {
-        if ($request->server('HTTP_REFERER')) {
+        if ($request->server('HTTP_REFERER') && $request->server('HTTP_REFERER') != env('APP_URL')) {
             return view('auth.login')->with('referer', $request->server('HTTP_REFERER'));
         } else {
             return view('auth.login');

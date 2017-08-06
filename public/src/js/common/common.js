@@ -691,21 +691,22 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 }
             },
             isAdvanceFilterLimit:function(filter) {
-                if((User.info.user.role.name != 'Free') && (User.info.user.role.name != 'Standard')) {
+                //需求变更，free用户无高级过滤权限
+                if (User.info.user.role.name != 'Free') {
                     return true;
                 }
                 var isLimit = false;
                 var isDurationLimit = false;
                 var isEngagementsLimit = false;
-                if((filter.duration.from !== 0) || (filter.duration.to !== 180)) isLimit = true;
-                if((filter.seeTimes.from !== 0) || (filter.seeTimes.to !== 180)) isLimit = true;
+                if ((filter.duration.from !== 0) || (filter.duration.to !== 180)) isLimit = true;
+                if ((filter.seeTimes.from !== 0) || (filter.seeTimes.to !== 180)) isLimit = true;
                 angular.forEach(filter.engagements, function(data) {
                     if (data.max || data.min) { 
                         isEngagementsLimit = true;
                     }
                 });
-                if(isDurationLimit || isEngagementsLimit) isLimit = true;
-                if(isLimit) {
+                if (isDurationLimit || isEngagementsLimit) isLimit = true;
+                if (isLimit) {
                     return false;
                 }else {
                     return true;
