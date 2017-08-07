@@ -97,5 +97,21 @@ class LoginController extends Controller
             /* ]); */ 
             dispatch(new LogAction("USER_EXPIRED", json_encode(["name" => $user->name, "email" => $user->email, "expired" => $user->expired ]), "", $user->id, Request()->ip() ));
         }
+        
+        if ($request->has('referer')) {
+            $url = env('APP_URL');
+            if (strstr($request->referer, $url)) {
+                return redirect($request->referer);
+            }
+        }
+    }
+
+    public function showLoginForm(Request $request)
+    {
+        if ($request->server('HTTP_REFERER') && $request->server('HTTP_REFERER') != env('APP_URL')) {
+            return view('auth.login')->with('referer', $request->server('HTTP_REFERER'));
+        } else {
+            return view('auth.login');
+        }
     }
 }
