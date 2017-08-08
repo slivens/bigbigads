@@ -1327,17 +1327,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                     $scope.adSearcher.removeFilter("audience_gender");
                 }
 
-                //Audience Interest
-                /*if (option.audienceInterest && option.audienceInterest.length) {
-                    $scope.adSearcher.addFilter({
-                        field: 'audience_interest',
-                        value: option.audienceInterest.join(',')
-                    });
-                    $scope.currSearchOption.filter.audienceInterest = option.audienceInterest.join(',');
-                } else {
-                    $scope.adSearcher.removeFilter("audience_interest");
-                }*/
-
                 //objective
                 if (option.objective && option.objective.length) {
                     $scope.adSearcher.addFilter({

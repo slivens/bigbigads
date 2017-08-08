@@ -177,7 +177,8 @@ class SearchController extends Controller
                                 if (array_key_exists('field', $obj) && $obj['field'] === 'time' && array_key_exists('min', $obj)) {
                                     $isHasTime = true;
                                     if ($isLimitGetAllAds) {
-                                        if ($obj['min'] != '2016-01-01' || $obj['max'] != $freeEndDate) {
+                                        // 解决bug当用户使用advance过滤时同样有min,max键值出现时被错误覆盖
+                                        if (array_key_exists('field', $obj) && $obj['field'] === 'time' && array_key_exists('min', $obj)) {
                                             $params['where'][$key]['min'] = '2016-01-01';
                                             $params['where'][$key]['max'] = $freeEndDate;
                                         }  
