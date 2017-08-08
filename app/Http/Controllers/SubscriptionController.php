@@ -14,8 +14,12 @@ use App\Webhook;
 use App\Coupon;
 use App\Services\PaypalService;
 use Carbon\Carbon;
+use Payum\LaravelPackage\Controller\PayumController;
+use Payum\Core\Request\GetHumanStatus;
+use Payum\Core\Model\CreditCard;
+use Payum\Core\Model\Payment;
 
-class SubscriptionController extends Controller
+class SubscriptionController extends PayumController
 {
     /**
      * 显示支付表单
@@ -235,5 +239,87 @@ class SubscriptionController extends Controller
                 return null;
             }
         }
+    }
+
+    protected function preparePaypalCheckout(Request $request)
+    {
+        if (!$request->has('amount'))
+            return "amount parameter is required";
+        $storage = $this->getPayum()->getStorage('Payum\Core\Model\ArrayObject');
+        $details = $storage->create();
+        $details['PAYMENTREQUEST_0_CURRENCYCODE'] = 'USD';
+        $details['PAYMENTREQUEST_0_AMT'] = $request->amount;
+        $storage->update($details);
+        $captureToken = $this->getPayum()->getTokenFactory()->createCaptureToken('paypal_ec', $details, 'paypal_done');
+        return redirect($captureToken->getTargetUrl());
+    }
+
+    protected function prepareStripeCheckout(Request $request)
+    {
+        if (!$request->has('amount'))
+            return "amount parameter is required";
+		$storage = $this->getPayum()->getStorage(Payment::class);
+		$payment = $storage->create();
+		$payment->setNumber(uniqid());
+		$payment->setCurrencyCode('USD');
+		$payment->setTotalAmount(floatVal($request->amount) * 100); 
+		$payment->setDescription('A description');
+		$payment->setClientId('anId');
+		$payment->setClientEmail('foo@example.com');
+        $payment->setDetails([]);
+
+		/* $card = new CreditCard(); */
+		/* $card->setNumber('4242424242424242'); */
+		/* $card->setExpireAt(new \DateTime('2018-10-10')); */
+		/* $card->setSecurityCode(123); */
+
+		/* $payment->setCreditCard($card); */
+		$storage->update($payment);
+
+        $captureToken = $this->getPayum()->getTokenFactory()->createCaptureToken('stripe', $payment, 'stripe_done');
+        return redirect($captureToken->getTargetUrl());
+    }
+
+    public function prepareCheckout(Request $request, $method)
+    {
+        switch ($method) {
+        case 'paypal':
+            return $this->preparePaypalCheckout($request);
+        case 'stripe':
+            return $this->prepareStripeCheckout($request);
+        }
+
+        return 'unknown payment method';
+    }
+
+    public function onPaypalDone(Request $request)
+    {
+        $token = $this->getPayum()->getHttpRequestVerifier()->verify($request);
+        $gateway = $this->getPayum()->getGateway($token->getGatewayName());
+
+        $gateway->execute($status = new GetHumanStatus($token));
+
+        return \Response::json(array(
+            'status' => $status->getValue(),
+            'details' => iterator_to_array($status->getFirstModel())
+        ));
+    }
+
+    public function onStripeDone(Request $request)
+    {
+        $token = $this->getPayum()->getHttpRequestVerifier()->verify($request);
+        $gateway = $this->getPayum()->getGateway($token->getGatewayName());
+
+        $gateway->execute($status = new GetHumanStatus($token));
+        $payment = $status->getFirstModel();
+
+        return \Response::json([
+            'status' => $status->getValue(),
+            'order' => [
+                'total_amount' => $payment->getTotalAmount(),
+                'currency_code' => $payment->getCurrencyCode(),
+                'details' => $payment->getDetails()
+            ]
+        ]);
     }
 }

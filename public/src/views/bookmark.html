@@ -1,22 +1,22 @@
 <div ng-controller="BookmarkController" ng-class='{"ml-sidebar":!bookmark.error}' class="bookmark">
 
-<!-- BEGIN PAGE BREADCRUMB -->
-<div class="clearfix">
-    <div class="pull-right bookmark-edit" ng-show="bookmark.bid > 0">
-        <a ng-click="bookmark.editBookmarkByBid(bookmark.bid)" class="btn btn-primary"><i class="fa fa-pencil fa-fw"></i></a> 
-        <a ng-click="bookmark.delBookmarkByBid(bookmark.bid)" class="btn btn-danger"><i class="fa fa-trash fa-fw"></i></a>
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <div class="clearfix">
+        <div class="pull-right bookmark-edit" ng-show="bookmark.bid > 0">
+            <a ng-click="bookmark.editBookmarkByBid(bookmark.bid)" class="btn btn-primary"><i class="fa fa-pencil fa-fw"></i></a>
+            <a ng-click="bookmark.delBookmarkByBid(bookmark.bid)" class="btn btn-danger"><i class="fa fa-trash fa-fw"></i></a>
+        </div>
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                Bookmark
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                {{bookmark.currItem.name}}
+            </li>
+        </ul>
     </div>
-<ul class="page-breadcrumb breadcrumb">
-    <li>
-        Bookmark
-        <i class="fa fa-circle"></i>
-    </li>
-    <li>
-        {{bookmark.currItem.name}}       
-    </li>
-</ul>
-</div>
-<!-- END PAGE BREADCRUMB -->
+    <!-- END PAGE BREADCRUMB -->
     <!-- BEGIN MAIN CONTENT -->
     <div class="row">
         <div class="col-md-12">
@@ -26,7 +26,6 @@
             <div ng-if="!bookmark.error">
                 <uib-tabset active="bookmark.type">
                     <uib-tab index="0" heading="Ads">
-
                         <div class="alert alert-info" ng-if="!data.ads.ads_info">
                             No ads yet!
                         </div>
@@ -34,33 +33,38 @@
                         <div class="alert alert-warning" ng-if="data.ads.ads_info && data.ads.total_count != data.ads.wantedLength">
                             {{data.ads.wantedLength}} ads is wanted, but only find {{data.ads.total_count}}
                         </div>
-                        <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
-                            <div deckgrid source="data.ads.ads_info" class="deckgrid" cardTemplate="{{'views/adsearch-card.html' | nocache}}">
-                            </div>
-                            <div class="clearfix">
-                            </div>
-                            <div class="text-center" ng-show="adSearcher.busy">
-                                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-                                <span class="sr-only">Loading...</span>
-                            </div>          
-                        </div>
-                        <div class="clearfix">
-                        </div>
                     </uib-tab>
                     <uib-tab index="1" heading="Advertisers">
                         <div class="alert alert-info" ng-if="!User.can('advertiser_collect')">
                             Please upgrade your account!
                         </div>
-                        <div class="alert alert-info" ng-if="User.can('advertiser_collect') && !data.adsers.adser" >
+                        <div class="alert alert-info" ng-if="User.can('advertiser_collect') && !data.adsers.adser">
                             No advertisers yet!
                         </div>
                         <div class="alert alert-warning" ng-if="data.adsers.adser && data.adsers.total_adser_count != data.adsers.wantedLength">
                             {{data.adsers.wantedLength}} adsers is wanted, but only find {{data.adsers.total_adser_count}}
                         </div>
-                        <div deckgrid source="data.adsers.adser" class="deckgrid" cardTemplate="{{'views/adser-search-card.html' | nocache}}">
-                        </div>
                     </uib-tab>
                 </uib-tabset>
+                <div ng-if="bookmark.type == 0">
+                    <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
+                        <div deckgrid source="data.ads.ads_info" class="deckgrid" cardTemplate="{{'views/adsearch-card.html' | nocache}}">
+                        </div>
+                        <div class="clearfix">
+                        </div>
+                        <div class="text-center" ng-show="adSearcher.busy">
+                            <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+
+                <div ng-if="bookmark.type == 1">
+                    <div deckgrid source="data.adsers.adser" class="deckgrid" cardTemplate="{{'views/adser-search-card.html' | nocache}}">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -70,7 +74,7 @@
     <!-- <button type="button" class="bg-yellow-gold quick-sidebar-toggler" data-toggle="collapse" ng-show="!bookmark.error"> -->
     <!-- <span class="sr-only">Toggle Filter Sidebar</span> -->
     <!-- <i class="icon-grid"></i> -->
-<!-- </button> -->
+    <!-- </button> -->
 
     <!--left bookmark list-->
     <div class="page-quick-sidebar-wrapper xg-quick-sidebar-top52" ng-if="!bookmark.error">
@@ -99,4 +103,3 @@
         </div>
     </div>
 </div>
-

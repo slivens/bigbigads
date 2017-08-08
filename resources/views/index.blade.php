@@ -9,7 +9,7 @@
 
     <title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <link href="./dist/home.css?v=2.0.1" rel="stylesheet">
+    <link href="./dist/home.css?v=2.0.2" rel="stylesheet">
     <style type="text/css">
 
     </style>
@@ -174,13 +174,13 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
                     </tr>
                     <tr>
                         <td class="pricing-td-title">Audience &amp; Interest</td>
-                        <td>Limited</td>
+                        <td></td>
                         <td><i class="glyphicon glyphicon-ok"></i></td>
                     </tr>
                     <tr>
                         <td class="pricing-td-title">Data Amount</td>
                         <td>Limited</td>
-                        <td>5M<sup>+</sup></td>
+                        <td>8M<sup>+</sup></td>
                     </tr>
                     <tr>
                         <td class="pricing-td-title">Mobile Ads &amp; App Ads
@@ -305,8 +305,8 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         </div>
     </div>
 </div>
-<script type="text/javascript" src="dist/vendor.js?v=5.1" defer></script>
-<script type="text/javascript" src="dist/home.js?v=2.0.1" defer></script>
+<script type="text/javascript" src="dist/vendor.js?v=5.2" defer></script>
+<script type="text/javascript" src="dist/home.js?v=2.0.0" defer></script>
 </body>
 </html>
     

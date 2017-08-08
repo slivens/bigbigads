@@ -5,6 +5,7 @@ import './../sass/demo.scss'
 import Swiper from 'swiper'
 import Layzr from 'layzr.js'
 import moment from 'moment'
+import axios from 'axios'
 import 'js-url'
 import 'bootstrap'
 import 'animate.css/animate.min.css'
@@ -86,7 +87,7 @@ getAdsCount()
 function toChangeWord(item) {
     var word = ["To see resonate image <br/>for ad designer",
         " To see resonate text  <br/>for copywriter",
-        " To see resonate markeing strategy  <br/>for marketing planner",
+        " To see resonate marketing strategy  <br/>for marketing planner",
         " To see competitive intelligence  <br/>for ad buyer "
     ]
     if (word.length <= item) {
@@ -105,12 +106,9 @@ function toChangeWord(item) {
 function getAdsCount() {
     /* 采用fetch获取数据 */
     // 需要跨域请求，有待解决
-    var data = {
-        method: "get"
-    }
-    fetch('/get_total_count', data).then(function(response) {
-        return response.json()
-    }).then(function(json) {
+    axios.get('/get_total_count').then(function(res) {
+        // console.log("res:", res)
+        let json = res.data
         try {
             var adscount = estimationThousand(json.total_ads_count)
             var adsercount = estimationThousand(json.total_adser_count)
@@ -121,6 +119,7 @@ function getAdsCount() {
             $("#adsernumber").html("1,300,000" + "<sup>+</sup>")
         }
     }).catch(function(ex) {
+        // console.log("ex", ex)
         $("#adsnumber").html("5,300,000" + "<sup>+</sup>")
         $("#adsernumber").html("1,300,000" + "<sup>+</sup>")
     })
