@@ -158,15 +158,15 @@ class SearchController extends Controller
                     $params['search_result'] = 'ads';
                     $isHasTime = false;
                     //新增free用户在总搜索次数在没有超过10次(暂定)的情况下，结合voyager setting
-                    //来控制是否强制在两个月内的数据
+                    //来控制是否强制在三个月内的数据
                     $isLimitGetAllAds = true;
                     $searchTotalTimes = $user->getUsage('search_total_times');
                     if ($searchTotalTimes[2] < 10 && \Voyager::setting('free_role_get_all_ads') == "true") {
                         $isLimitGetAllAds = false;
                     }
-                    //免费用户限制在两个月前的时间内的数据，设置role = free 是为了让数据端识别并在一个请求内进行两次搜索，第一次是正常的搜索流程，第二次是获取全部的广告总数，
+                    //免费用户限制在三个月前的时间内的数据，设置role = free 是为了让数据端识别并在一个请求内进行两次搜索，第一次是正常的搜索流程，第二次是获取全部的广告总数，
                     //在一次请求内给出两个总数结果，total_count和all_total_count
-                    $freeEndDate = Carbon::now()->subMonths(2)->format("Y-m-d");
+                    $freeEndDate = Carbon::now()->subMonths(3)->format("Y-m-d");
                     //后台限制没有使用postman的接口测试工具做测试无效，深刻教训：以后的后台测试会以postman测试为准，使用dd打印会漏情况和测试无效。
                     //发现会对获取广告收藏和广告分析页拦截，需要根据action来区分,已开放的功能内，只有search和adser有次限制
                     //分为两种情况：1.修改time的值
@@ -213,6 +213,18 @@ class SearchController extends Controller
                         throw new \Exception("no permission of filter", -4001);
                     }
                     if ($obj['field'] == "engagements" && !$user->can('advance_engagement_filter')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "tracking" && !$user->can('tracking_filter')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "affiliate" && !$user->can('affiliate_filter')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "e_commerce" && !$user->can('e_commerce_filter')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "state" && !$user->can('country_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
                     if ($obj['field'] == "watermark_md5" && !$user->can('analysis_similar')) {
