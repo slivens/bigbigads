@@ -740,6 +740,19 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 } else {
                     return false;
                 }
+            },
+            googleSuggestQueries:function(value) {
+                var query = encodeURI(value);
+                var myUrl = "http://suggestqueries.google.com/complete/search?client=firefox&hl=en&q=" + query + "&callback=JSON_CALLBACK";
+                var result;
+                //调用谷歌搜索接口,需要使用jsonp方式请求
+                return $http.jsonp(myUrl).success(
+                　　function(data){
+                　　　　return data;
+                　　}
+                ).error(function(date){
+                    console.log(date);
+                });         
             }
         };
     }]);

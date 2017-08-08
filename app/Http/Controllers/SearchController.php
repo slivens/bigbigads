@@ -174,7 +174,7 @@ class SearchController extends Controller
                     if ($action['action'] == 'search' || $action['action'] == 'adser') {
                         if ($user->hasRole('Free')) {
                             foreach($params['where'] as $key => $obj) {
-                                if (array_key_exists('min', $obj)) {
+                                if (array_key_exists('field', $obj) && $obj['field'] === 'time' && array_key_exists('min', $obj)) {
                                     $isHasTime = true;
                                     if ($isLimitGetAllAds) {
                                         if ($obj['min'] != '2016-01-01' || $obj['max'] != $freeEndDate) {
@@ -225,6 +225,15 @@ class SearchController extends Controller
                         throw new \Exception("no permission of filter", -4001);
                     }
                     if ($obj['field'] == "state" && !$user->can('country_filter')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "objective" && !$user->can('objective_filter')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "audience_age" && !$user->can('audience_age_filter')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "audience_gender" && !$user->can('audience_gender_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
                     if ($obj['field'] == "watermark_md5" && !$user->can('analysis_similar')) {

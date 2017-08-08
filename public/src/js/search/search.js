@@ -363,6 +363,18 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					query.firstSeeStartDate = option.filter.firstSee.startDate.format('YYYY-MM-DD');
 					query.firstSeeEndDate = option.filter.firstSee.endDate.format('YYYY-MM-DD');
 				}
+				if (option.filter.audienceAge) {
+                    query.audienceAge = option.filter.audienceAge;
+                }
+                if (option.filter.audienceGender) {
+                    query.audienceGender = option.filter.audienceGender;
+                }
+                if (option.filter.audienceInterest) {
+                    query.audienceInterest = option.filter.audienceInterest;
+                }
+                if (option.filter.objective) {
+                    query.objective = option.filter.objective;
+                }
                 return query;
         };
         //将location的参数转换成搜索过滤项
@@ -450,6 +462,18 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 					option.filter.firstSee.startDate = moment(search.firstSeeStartDate, 'YYYY-MM-DD');
 					option.filter.firstSee.endDate = moment(search.firstSeeEndDate, 'YYYY-MM-DD');
 				}
+				if (search.audienceAge) {
+                    option.filter.audienceAge = search.audienceAge.split(",");
+                }
+                if (search.audienceGender) {
+                    option.filter.audienceGender = search.audienceGender.split(",");
+                }
+                if (search.audienceInterest) {
+                    option.filter.audienceInterest = search.audienceInterest.split(",");
+                }
+                if (search.objective) {
+                    option.filter.objective = search.objective.split(",");
+                }
         };
 		return searcher;
 	}
@@ -511,6 +535,14 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                     $scope.search('search');
                 }
             };
+
+            $scope.googleQuery = function(typed){
+            //谷歌联想搜索
+                Util.googleSuggestQueries(typed).then(function(data) {
+                    $scope.movies = data.data[1];
+                });
+            };
+
 			//text为空时就表示没有这个搜索项了
 			$scope.initSearch = function() {
 				var option = $scope.searchOption = $scope.adSearcher.searchOption = angular.copy($scope.adSearcher.defSearchOption);
@@ -706,6 +738,50 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						max: endDate
 					});
 				}
+
+				//Audience Age
+                if (option.audienceAge && option.audienceAge.length) {
+                    $scope.adSearcher.addFilter({
+                        field: 'audience_age',
+                        value: option.audienceAge.join(',')
+                    });
+                    $scope.currSearchOption.filter.audienceAge = option.audienceAge.join(',');
+                } else {
+                    $scope.adSearcher.removeFilter("audience_age");
+                }
+
+                //Audience Gender
+                if (option.audienceGender && option.audienceGender.length) {
+                    $scope.adSearcher.addFilter({
+                        field: 'audience_gender',
+                        value: option.audienceGender
+                    });
+                    $scope.currSearchOption.filter.audienceGender = option.audienceGender;
+                } else {
+                    $scope.adSearcher.removeFilter("audience_gender");
+                }
+
+                //Audience Interest
+                /*if (option.audienceInterest && option.audienceInterest.length) {
+                    $scope.adSearcher.addFilter({
+                        field: 'audience_interest',
+                        value: option.audienceInterest.join(',')
+                    });
+                    $scope.currSearchOption.filter.audienceInterest = option.audienceInterest.join(',');
+                } else {
+                    $scope.adSearcher.removeFilter("audience_interest");
+                }*/
+
+                //objective
+                if (option.objective && option.objective.length) {
+                    $scope.adSearcher.addFilter({
+                        field: 'objective',
+                        value: option.objective.join(',')
+                    });
+                    $scope.currSearchOption.filter.objective = option.objective.join(',');
+                } else {
+                    $scope.adSearcher.removeFilter("objective");
+                }
 
 				$scope.isFreeLimitDate = false;
 				if (User.user.role.plan === 'free') {
@@ -1228,6 +1304,50 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				} else {
 					$scope.adSearcher.removeFilter("e_commerce");
 				}
+
+				//Audience Age
+                if (option.audienceAge && option.audienceAge.length) {
+                    $scope.adSearcher.addFilter({
+                        field: 'audience_age',
+                        value: option.audienceAge.join(',')
+                    });
+                    $scope.currSearchOption.filter.audienceAge = option.audienceAge.join(',');
+                } else {
+                    $scope.adSearcher.removeFilter("audience_age");
+                }
+
+                //Audience Gender
+                if (option.audienceGender && option.audienceGender.length) {
+                    $scope.adSearcher.addFilter({
+                        field: 'audience_gender',
+                        value: option.audienceGender
+                    });
+                    $scope.currSearchOption.filter.audienceGender = option.audienceGender;
+                } else {
+                    $scope.adSearcher.removeFilter("audience_gender");
+                }
+
+                //Audience Interest
+                /*if (option.audienceInterest && option.audienceInterest.length) {
+                    $scope.adSearcher.addFilter({
+                        field: 'audience_interest',
+                        value: option.audienceInterest.join(',')
+                    });
+                    $scope.currSearchOption.filter.audienceInterest = option.audienceInterest.join(',');
+                } else {
+                    $scope.adSearcher.removeFilter("audience_interest");
+                }*/
+
+                //objective
+                if (option.objective && option.objective.length) {
+                    $scope.adSearcher.addFilter({
+                        field: 'objective',
+                        value: option.objective.join(',')
+                    });
+                    $scope.currSearchOption.filter.objective = option.objective.join(',');
+                } else {
+                    $scope.adSearcher.removeFilter("objective");
+                }
 
 				$scope.isFreeLimitDate = false;
 				if (User.user.role.plan === 'free') {
