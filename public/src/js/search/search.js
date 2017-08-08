@@ -1418,11 +1418,27 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         $scope.ceil = Math.ceil;
         var searcher = $scope.adSearcher = new Searcher();
         // $scope.adSearcher.search($scope.adSearcher.defparams, true);
-        var numdata=[33,34];
         $scope.reverseSort = function() {
             $scope.adSearcher.params.sort.order = 1 - $scope.adSearcher.params.sort.order;
             $scope.adSearcher.filter();
         };
+        
+        /* 
+        * 鼠标滚动事件
+        * 广告详情页中右右边的信息为悬浮
+        * 滑倒快顶部的时候固定
+        */
+        $scope.scrollToTop = function(){
+        	var adscardTop = angular.element("#analy-adscard-mark")[0].getBoundingClientRect().top;// 获取广告卡的距离顶部
+        	var adsInfoTop = angular.element("#analy-info-mark")[0].getBoundingClientRect().top; //详情标记距离顶部
+        	if(adscardTop > 439){
+        		$scope.infoPosition = false;
+        		$scope.infoFixed = true;
+        	} else {
+        		$scope.infoPosition = true;
+        		$scope.infoFixed = false;
+        	}
+        }
         $scope.User = User;
         $scope.Util = Util;
         $scope.card = {
@@ -1434,128 +1450,102 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             field: 'ads_id',
             value: $scope.id
         });
+        $scope.adSearcher.params.ads_detail = 1;
         var promise = $scope.adSearcher.filter("analysis");
         //$rootScope.$broadcast("loading");
         promise.then(function(ads) {
             //只取首条消息
             $scope.card = $scope.ad = ads.ads_info[0];
             //表示广告在分析模式下，view根据这个字段区别不同的显示
-            // 广告impression
-            if($scope.card.impression){
-            	var arr=JSON.parse(ads.ads_info[0].impression);
-            	var tiem
-            	for(var key in arr){
-            		time = key;
-            	}
-                var impressionArr = getImpressionArr(time, 7, arr[time])
-            	if(impressionArr){
-            		$scope.lineCharts.xAxis.categories = impressionArr.map(v => v[0]);
-            		$scope.lineCharts.series[0].data = impressionArr.map(v => v[1]);
-            	} else{
-            		$scope.card.impression = false; //对于提供时间错误的，或则数据长度小于3的则不显示
-            	}
-            } 
-            // 地图图标数据
-            $scope.adsMapChart.series[0].data=  [
-                {
-                    "code": "AF",
-                    "value": 53,
-                    "name": "Afghanistan"
-                },
-                {
-                    "code": "AL",
-                    "value": 117,
-                    "name": "Albania"
-                },
-                {
-                    "code": "DZ",
-                    "value": 501,
-                    "name": "Algeria"
-                },
-                {
-                    "code": "AS",
-                    "value": 342,
-                    "name": "American Samoa"
-                },
-                {
-                    "code": "AD",
-                    "value": 181,
-                    "name": "Andorra"
-                },
-                {
-                    "code": "US",
-                    "value": "1001"
-                }
-            ]
-            // 点击广告国家分布表格
-            $scope.adsVisitCountryData = [
-                {
-                    "country": "US",
-                    "value": 1001
-                },{
-                    "country": "ZA",
-                    "value": 501
-                },{
-                    "country": "CN",
-                    "value": 1031
-                },{
-                    "country": "JP",
-                    "value": 100
-                },{
-                    "country": "WE",
-                    "value": 1031
-                },{
-                    "country": "AW",
-                    "value": 1031
-                },{
-                    "country": "test1",
-                    "value": 1031
-                },{
-                    "country": "test2",
-                    "value": 1031
-                },{
-                    "country": "test3",
-                    "value": 1031
-                },{
-                    "country": "test4",
-                    "value": 1031
-                },{
-                    "country": "test5",
-                    "value": 199
-                }
-            ]
-            var adsVisitCountryCount = 0;
-            for(var key in $scope.adsVisitCountryData){
-                adsVisitCountryCount += $scope.adsVisitCountryData[key].value;
-            }
-            $scope.adsVisitCountryCount = adsVisitCountryCount
-
             $scope.card.indetail = true;
             $scope.card.end = false;
             if ($scope.card.whyseeads_all)
                 $scope.card.whyseeads_all = $scope.card.whyseeads_all.split('\n');
+
+			// 广告impression
+            if ($scope.card.impression) {
+                var arr = JSON.parse($scope.card.impression)
+                var tiem
+                for (var key in arr) {
+                    time = key
+                }
+                // 查看几天天数可修改
+                // impression 可能存空值
+                var impressionArr = arr[time]? getTrendArr(time, 7, arr[time]) : false
+                if (impressionArr) {
+                	var chartData = lineChar1 //拷贝数组
+                	chartData.xAxis.categories = impressionArr.map(v => v[0])
+                	chartData.series[0] = {
+                		name : "impression",
+                		data : impressionArr.map(v => v[1])
+                	}
+                	$scope.impressionCharts = chartData
+               
+                } else {
+                    $scope.card.impression = false // 对于提供时间错误的，或则数据长度小于3的则不显示
+                }
+            }
+            // engagements_trend
+            if ($scope.card.engagements_trend){
+            	var arr = JSON.parse($scope.card.engagements_trend)
+            	// engagements_trend.trend 存在null 值
+            	var engagementsArr = arr.trend? getTrendArr(arr.day, 0, arr.trend) : false
+            	if(engagementsArr) {
+            		var chartData = lineChar2
+                	chartData.xAxis.categories = engagementsArr.map(v => v[0])
+                	chartData.series[0] = {
+                		name : "engagements_trend",
+                		data : engagementsArr.map(v => v[1])
+                	}
+                	$scope.engagementsCharts = chartData
+            	} else {
+            		$scope.card.engagements_trend = false
+            	}
+            }
+            // 如果whyseeads不为空，填充到广告趋势
             if ($scope.card.whyseeads) {
                 //$scope.card.whyseeads = $scope.card.whyseeads.split('\n');
-                {
-            	$scope.card.whyseeads = JSON.parse($scope.card.whyseeads);
-                numdata = $scope.card.whyseeads.gender;
+            	$scope.card.whyseeads = JSON.parse($scope.card.whyseeads); 
                 
                 //计算interesting的总数
                 if($scope.card.whyseeads.interests){
                 	var interestsCount = 0;
+                	$scope.interestsArr = [];
 					for (var key in $scope.card.whyseeads.interests)              
 				    {
-				        interestsCount += $scope.card.whyseeads.interests[key];
+				    	$scope.interestsArr.push({'name': key,'value': $scope.card.whyseeads.interests[key]})
+				        interestsCount += $scope.card.whyseeads.interests[key]
 				    }
-				    $scope.interestsCount = interestsCount
-                }
-                 
-                /*图标性别比例*/
-                $scope.pieCharts.series[0].data[0][1]=numdata[0];
-                $scope.pieCharts.series[0].data[1][1]=numdata[1];
-                /*年龄分布*/
-                $scope.barCharts.series[0].data=$scope.card.whyseeads.age.map(v => v[0]);
-                $scope.barCharts.series[1].data=$scope.card.whyseeads.age.map(v => v[1]);
+				    $scope.interestsArr.count = interestsCount
+                } 
+                // 广告详情-性别比例
+                if ($scope.card.whyseeads.gender) {
+				    var asdGender = $scope.card.whyseeads.gender
+				    $scope.adsGenderCharts.series[0].data[0][1] = asdGender[0];
+				    $scope.adsGenderCharts.series[0].data[1][1] = asdGender[1];
+				}
+				// 广告详情-年龄分布
+				if($scope.card.whyseeads.age) {
+					var adsAge = $scope.card.whyseeads.age
+					$scope.adsAgeCharts.series[0].data=adsAge.map(v => v[0]);
+                	$scope.adsAgeCharts.series[1].data=adsAge.map(v => v[1]);
+				}
+                //国家分布
+                if ($scope.card.whyseeads.addr) {
+                	// 将country里的值改为大写,并转换全称
+                	for(var key in $scope.card.whyseeads.addr){
+                		var countryShortName = $scope.card.whyseeads.addr[key].country.toUpperCase() // 转换成大写
+                		$scope.card.whyseeads.addr[key].country = countryShortName
+                		$scope.card.whyseeads.addr[key].name = isoCountries[countryShortName].name ? isoCountries[countryShortName].name : countryShortName // 添加全称 
+                	}
+                    $scope.adsMapChart.series[0].data = $scope.card.whyseeads.addr //地图
+                    $scope.adsVisitCountryData = $scope.card.whyseeads.addr //表格
+                    // 计算总数
+                    var adsVisitCountryCount = 0;
+                    for (var key in $scope.adsVisitCountryData) {
+                        adsVisitCountryCount += $scope.adsVisitCountryData[key].value;
+                    }
+                    $scope.adsVisitCountryCount = adsVisitCountryCount
                 }
             }
             searcher.findSimilar($scope.card.watermark);
@@ -1577,9 +1567,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         * 提供开始时间，与开始时间之后每天的访问量
         * 返回的数组为最后一次访问的前七天
         * time为开始时间，n为截取的数组长度,需要是7天，也可能是十天，data原始数据
+        * 当n = 0 时，则显示所有
         */
-        var getImpressionArr = function(time, n, data) {
-            
+        var getTrendArr = function(time, n, data) {
+            n = n === 0? data.length : n;
             if (data.length < 3) return false; // 对于长度小于3的不作处理
             else {
                 var newTime
@@ -1687,14 +1678,14 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         * 分析图表
         */
         // 饼图
-        $scope.pieCharts = {
+        $scope.adsGenderCharts = {
             chart: {
                 plotBackgroundColor: null,
                 //plotBorderWidth: null,
                 //plotShadow: false
                 type: 'bar'
             },
-            colors: ['rgb(63, 169, 197)', 'rgb(116, 204, 220)'],
+            //colors: ['rgb(63, 169, 197)', 'rgb(116, 204, 220)'],自定义颜色会出错，有待解决
             title: false,
             credits: false, //角标
             //legend: false, 图例
@@ -1716,13 +1707,13 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 innerSize: '60%',
                 dataLabels: false,
                 data: [
-                    ['Male', numdata[0]],
-                    ['Female', numdata[1]]
+                    ['Male', ''],
+                    ['Female', '']
                 ]
             }]
         };
-        // 折线
-		$scope.lineCharts = {
+        // 折线参数
+		var lineChar1 = {
 		    chart: {
 		        type: 'area',
 		        spacingBottom: 0
@@ -1731,10 +1722,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 		    subtitle: false,
 		    legend: false,
 		    xAxis: {
-		        categories:[]
+		        categories:false
 		    },
 		    yAxis: {
-		        title: false,
+		        title: false
 		    },
 		    tooltip: {
 		        formatter: function() {
@@ -1751,35 +1742,65 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 		        enabled: false
 		    },
 		    series: [{
-		        name: 'Impression',
-		        data: [20, 110, 164, 400, 411, 504, 299, 355, 197]
+		        name: false,
+		        data: false
 		    }]
 		}
-		// 条状
-        $scope.barCharts = {
-
+		var lineChar2 = {
+		    chart: {
+		        type: 'area',
+		        spacingBottom: 0
+		    },
+		    title: false,
+		    subtitle: false,
+		    legend: false,
+		    xAxis: {
+		        categories:false
+		    },
+		    yAxis: {
+		        title: false
+		    },
+		    tooltip: {
+		        formatter: function() {
+		            return '<b>' + this.series.name + '</b><br/>' +
+		                this.x + ': ' + this.y;
+		        }
+		    },
+		    plotOptions: {
+		        area: {
+		            fillOpacity: 0.5
+		        }
+		    },
+		    credits: {
+		        enabled: false
+		    },
+		    series: [{
+		        name: false,
+		        data: false
+		    }]
+		}
+		// 年龄分布-条状
+        $scope.adsAgeCharts = {
             chart: {
                 type: 'bar'
             },
-            tooltip: {
-                pointFormat: '{point.y}, {point.percentage:.1f}%'
+            title: {
+                text: false
             },
-            colors: ['rgb(63, 169, 197)', 'rgb(116, 204, 220)'],
-            title: false,
             credits: false,
             xAxis: {
                 categories: ['18-24', '25-34', '35-44', '45-54', '55-64', '65+']
             },
             yAxis: {
                 min: 0,
-                // max: self.interestsCount,
-                // endOnTick: false,
-                title: false,
-
+                title: {
+                    text: false
+                }
             },
             legend: {
-            reversed: true
-        	},
+                reversed: true
+            },
+            // colors: ['rgb(63, 169, 197)', 'rgb(116, 204, 220)'], //自定义颜色会出问题，有待解决
             plotOptions: {
                 series: {
                     stacking: 'normal'
@@ -1787,24 +1808,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             },
             series: [{
                 name: 'Male',
-                data: [
-                    [8, 4],
-                    [6, 12],
-                    [10, 8],
-                    [0, 0],
-                    [0, 0],
-                    [0, 0]
-                ].map(v => v[0])
+                data: []
             }, {
                 name: 'Female',
-                data: [
-                    [8, 4],
-                    [6, 12],
-                    [10, 8],
-                    [0, 0],
-                    [0, 0],
-                    [0, 0]
-                ].map(v => v[1])
+                data: []
             }]
         };
         // 地图图表
@@ -1822,41 +1829,21 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                     enabled: false  //缩放
                 },
                 legend: {
-                    title: {
-                        text: 'HIts Per Month',
-                        style: {
-                            color: 'black'
-                        }
-                    },
-                    align: 'left',
-                    verticalAlign: 'bottom',
-                    floating: true,
-                    layout: 'vertical',
-                    valueDecimals: 0,
-                    backgroundColor: 'rgba(255, 255, 255, 0.85)',
-                    symbolRadius: 0,
-                    symbolHeight: 14
+                    align: 'center',
+                    verticalAlign: 'bottom'
                 },
                 colorAxis: {
-                    dataClasses: [{
-                        to: 100
-                    }, {
-                        from: 100,
-                        to: 500
-                    }, {
-                        from: 500,
-                        to: 1000
-                    }, {
-                        from: 1000,
-                        to: 2000
-                    }, {
-                        from: 2000
-                    }]
+                    min: 0,
+                    stops: [
+                        [0, '#EFEFFF'],
+                        [0.5, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).brighten(-0.5).get()]
+                    ]
                 },
                 series : [{
                     data : [],
                     mapData: Highcharts.maps['custom/world'],
-                    joinBy: ['iso-a2', 'code'],
+                    joinBy: ['iso-a2', 'country'],
                     animation: false, // 取消掉动画，不然地图会重绘，第二次加载很别扭
                     name: 'Population density',
                     states: {

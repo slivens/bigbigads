@@ -1,16 +1,91 @@
-#an-analysis {
-    background: #fff;
+#ad-analysis {
+    background: rgba(250, 250, 250, .75);
+    margin-bottom: 50px;
+    padding-top: 0px;
+    /*测试用的边框*/
+    .border-test {
+        border: 1px solid red
+    } // 取自facebook的表情图
+    .analy-fbicon {
+        background: url(../../../../static/images/analysis/fb_icon.png) no-repeat;
+        box-sizing: content-box;
+        height: 16px;
+        width: 16px;
+        border: 2px solid #fff;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .analy-fbicon.icon-good {
+        background-position: -68px -54px;
+    }
+    .analy-fbicon.icon-love {
+        background-position: -85px -54px;
+    }
+    .analy-fbicon.icon-surp {
+        background-position: -51px -54px;
+    } // bata 标志
+    .ads-label-beta {
+        display: inline-block;
+        font-weight: 200;
+        background: #4fc3a0;
+        font-size: 12px;
+        padding: 0 6px;
+        border-radius: 8px;
+        color: #fff;
+        margin: 0 5px;
+    } // 超出神略号
+    .ads-text-ellipsis {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .analysis-title {
+        margin-top: 50px;
+        margin-bottom: 20px;
+        padding: 15px;
+        border-bottom: 1px solid #337ab7;
+        color: #337ab7;
+    } // 概述
     .analy-overview {
-
-        /*广告卡主题*/
+        /*广告卡主体*/
+        position: relative;
+        margin-top: 15px;
         .analy-adscard {
             display: flex;
             justify-content: center;
             .adscard-body {
+                background: #fff;
                 width: 450px;
+                min-height: 300px;
+                transition: min-height ease-out 0.2s;
                 padding: 12px;
                 border: 1px solid #e5e5e5;
                 border-radius: 3px;
+            }
+            .adscard-footer {
+                padding: 5px;
+                margin-top: 10px;
+                min-height: 20px;
+                display: flex;
+                align-items: center;
+                .icon-love {
+                    margin-left: -6px;
+                }
+                .icon-surp {
+                    margin-left: -6px;
+                }
+                .adscard-likedata {
+                    color: #365899;
+                    margin-left: 4px;
+                }
+                .adscard-comments {
+                    flex: 1;
+                    .comments-text {
+                        margin-left: 5px;
+                        font-weight: 600;
+                        color: #365899;
+                    }
+                }
             }
         }
 
@@ -34,51 +109,12 @@
                 }
             }
         }
-        .adscard-contend {
+        .adscard-card {
             p {
                 margin: 0;
                 margin-bottom: 8px;
                 font-size: 15px;
                 color: #1d2129;
-            }
-            single-image,
-            adcanvas,
-            carousel {
-                .mt-element-overlay {
-
-                    img {
-                        width: 100%;
-                        height: auto;
-                    }
-                }
-            }
-            single-video {
-                .advideo {
-                    border: 1px solid rgba(0, 0, 0, .1);
-                    position: relative;
-                    .playbtn {
-                        position: absolute;
-                        left: 50%;
-                        top: 50%;
-                        z-index: 99;
-                        height: 50px;
-                        width: 50px;
-                        margin-left: -25px;
-                        margin-top: -25px;
-                        .fa {
-                            height: 50px;
-                            width: 50px;
-                        }
-                    }
-                    img {
-                        width: 100%;
-                        height: auto;
-                    }
-                }
-                video {
-                    width: 100% !important;
-                    height: auto;
-                }
             }
             .xg-span-description {
                 font-size: 13px;
@@ -88,46 +124,61 @@
                 color: #90949c;
             }
         }
+        .analy-info.info-fixed {
+            position: fixed;
+            top: 244px;
+            right: 0px;
+        }
+        .analy-info.info-position {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
     }
-    .charts-title {
-        font-size: 22px;
-        font-weight: 600;
-        color: #eb6130;
-        margin: 8px;
-    }
-    .charts-subtitle {
-        font-size: 16px;
-        color: #ccc;
-        margin: 8px;
-        margin-bottom: 15px;
-    }
-    .analy-charts-row2 {
+    .analy-charts {
         margin-top: 30px;
+        .charts-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #eb6130;
+            margin: 8px;
+        }
+        .charts-subtitle {
+            font-size: 16px;
+            color: #ccc;
+            margin: 8px;
+            margin-bottom: 15px;
+        }
+        .charts-wrapper {
+            min-height: 300px;
+            background: #fff;
+            padding: 15px;
+        }
     }
     .charts-wrapper {
         display: flex;
         justify-content: center;
         .charts-line {
             flex: 1;
-            height: 100%;
         }
         .charts-pie {
             flex: 1;
-            height: 300px;
         }
         .charts-bar {
             flex: 1;
-            height: 300px;
         }
-        .charts-adsmap{
-            flex:1;
-            height: 400px;
+        .charts-adsmap {
+            flex: 1;
+        }
+        .analy-adstable {
+            flex: 1;
         }
     }
-    .cahrts-stat-row {
-        margin-top: 30px;
+    .analy-audience {
         .charts-stat-bar {
-            padding: 20px;
+            padding: 15px;
+            background: #fff;
+            min-height: 300px;
             .stat-wrapper {
                 display: flex;
                 align-items: center;
@@ -137,14 +188,15 @@
                     color: #eb6130;
                 }
                 .stat-name {
-                    flex: 1;
+                    width: 30%;
+                    min-width: 130px;
                     overflow: hidden;
-                    text-overflow:ellipsis;
-					white-space: nowrap;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
                 .stat-progress {
-                	margin-left: 8px;
-                    width: 600px;
+                    margin-left: 8px;
+                    flex: 1;
                     margin-bottom: 0px;
                     border-radius: 8px !important;
                     height: 16px;
@@ -156,47 +208,69 @@
                 }
             }
         }
+        .interest-footer{
+            padding:5px 10px;
+            background: #eee;
+            .turnpage-button{
+                margin-left: 8px;
+            }
+        }
     }
-    .analy-table{
-        .analy-adstable{
-            thead{
+    .analy-share {
+        .analy-shar-wrapper {
+            background: #fff;
+            padding: 15px 0;
+            .charts-wrapper {
+                padding-left:0;
+                padding-right:0; 
+            }
+        }
+    }
+
+    .analy-table {
+        .analy-adstable {
+            margin: 0;
+            thead {
                 background: #7cb5ec;
             }
-            .analy-td1{
+            .analy-td1 {
                 width: 10%;
                 min-width: 20px;
                 text-align: center;
             }
-            .analy-td2{
+            .analy-td2 {
                 width: 30%;
-                min-width: 40px;
+                .country-name {
+                    min-width: 40px;
+                    max-width: 200px;
+                }
             }
-            .analy-td3{
+            .analy-td3 {
                 width: 20%;
                 min-width: 30px;
             }
-            .progress-wrapper{
+            .progress-wrapper {
                 height: 20px;
                 display: flex;
-                align-items:center;
-                .percent-number{
+                align-items: center;
+                .percent-number {
                     padding: 5px;
                 }
-                .progress{
+                .progress {
                     flex: 1;
                     height: 80%;
                     margin-bottom: 0
                 }
             }
-            tfoot{
+            tfoot {
                 background: #b0d5f9;
-                .table-turnpage{
+                .table-turnpage {
                     display: flex;
                     justify-content: flex-end;
-                    .page-num{
+                    .page-num {
                         margin-right: 10px;
                     }
-                    .turnpage-button{
+                    .turnpage-button {
                         margin: 0 5px;
                     }
                 }
@@ -204,21 +278,29 @@
         }
     }
     /*没数据样式*/
-    .analy-nodata{
+    .analy-nodata {
         width: 100%;
-        min-height:300px;
+        min-height: 300px;
+        background: #fff;
         display: flex;
-        align-items:center;
-        justify-content:center;
+        align-items: center;
+        justify-content: center;
         flex-direction: column;
     }
 
     /*
-	* 移动端适配 iphone 6 画稿
-	* px 转 rem 函数为px()
-	*/
+    * 移动端适配 iphone 6 画稿
+    * px 转 rem 函数为px()
+    */
     @media screen and (max-width: 768px) {
-        .cahrts-stat-row {
+        .analy-overview {
+            .analy-info,
+            .analy-info.info-fixed,
+            .analy-info.info-position {
+                position: static !important; //移动点为垂直排列，取消定位
+            }
+        }
+        .analy-audience {
             .charts-stat-bar {
                 padding: 0;
                 .stat-wrapper {
