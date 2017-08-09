@@ -81,7 +81,7 @@
                             <td>Data Update Frequence: Daily</td>
                         </tr>
                         <tr>
-                            <td>Full DaTa Access(8 Millions+)</td>
+                            <td>Full Data Access(8 Millions+)</td>
                         </tr>
                         <tr  class="ads-tr-a">
                             <td>See Latest Data</td>
