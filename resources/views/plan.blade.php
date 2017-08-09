@@ -38,10 +38,10 @@
                         <td>Data Update Frequence: Weekly</td>
                     </tr>
                     <tr>
-                        <td>Limited Dtata Access</td>
+                        <td>Limited Data Access</td>
                     </tr>
                     <tr class="ads-tr-a">
-                        <td>See data from 2 moths before</td>
+                        <td>See Data from 3 Months Before</td>
                     </tr>
                     <tr>
                         <td>Single Bookmark Folder</td>
@@ -81,10 +81,10 @@
                             <td>Data Update Frequence: Daily</td>
                         </tr>
                         <tr>
-                            <td>Full Dara Access(6 Millions+)</td>
+                            <td>Full Data Access(8 Millions+)</td>
                         </tr>
                         <tr  class="ads-tr-a">
-                            <td>See latest data</td>
+                            <td>See Latest Data</td>
                         </tr>
                         <tr>
                             <td>Multiple Bookmark Folder</td>
@@ -96,7 +96,7 @@
                             <td>Mobile Ads &amp; App Ads</td>
                         </tr>
                         <tr  class="ads-tr-a">
-                            <td>Search for Aundience &amp; Interests</td>
+                            <td>Search for Audience &amp; Interests</td>
                         </tr>
                     </table>
                     <div class="panel-body adscard-foot ">
