@@ -180,3 +180,6 @@ Route::get('/welcome', function () {
 Route::get('hotword', 'HotWordController@getHotWord');
 
 Route::post('/quick_register', 'UserController@quickRegister');//快速注册表单提交位置
+Route::get('/payment/{method}/prepare', 'SubscriptionController@prepareCheckout');
+Route::any('/payment/paypal/done', 'SubscriptionController@onPaypalDone')->name('paypal_done');
+Route::any('/payment/stripe/done', 'SubscriptionController@onStripeDone')->name('stripe_done');

@@ -3,7 +3,8 @@
 use Illuminate\Foundation\Inspiring;
 use App\Services\AnonymousUser;
 use App\Maillist;
-
+use App\ActionLog;
+use App\Jobs\LogAction;
 /*
 |--------------------------------------------------------------------------
 | Console Routes
@@ -42,10 +43,13 @@ Artisan::command('bigbigads:change {email} {roleName}', function($email, $roleNa
         }
         $user = App\User::where('email', $email)->first();
         if ($user instanceof App\User) {
-            $user->role_id = $role->id;
+            $oldrole = $user->role;
+            $user->role()->associate($role);
             $user->initUsageByRole($role);
             $user->save();
             $this->info("$email change to role:$roleName");
+
+            dispatch(new LogAction(ActionLog::ACTION_ROLE_MANUAL_CHANGE, json_encode($user->makeHidden('usage')), 'old role:' . json_encode($oldrole), -1, '0.0.0.0'));
             /* $this->info($user->usage); */
         } else {
             $this->error("no such user:" . $email);

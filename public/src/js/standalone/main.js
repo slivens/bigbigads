@@ -899,7 +899,8 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {　　
             var index;
             //广告可能同时出现在多个位置
             for (index = 0; index < adsTypesNumber.length; index++) {
-                if (adsTypesNumber[index] === "1") {
+                //Andorid 标示暂不显示
+                if (adsTypesNumber[index] === "1" && index != 3) {
                     if (!showString) {
                         showString = adsTypesString[index];
                     } else {
@@ -1217,7 +1218,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                         name: 'MetronicApp',
                         insertBefore: ' #ng_load_plugins_before',
                         files: [
-                            '/bower_components/angular-deckgrid/angular-deckgrid.js',
+                            '/node_modules/angular-deckgrid/angular-deckgrid.js',
                             '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
                             '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
                             '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',

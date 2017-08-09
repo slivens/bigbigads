@@ -485,32 +485,6 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('hotword', ['Util', function(Util) {
-        return {
-            link: function(scope, element, attrs) {
-                if (!attrs.value) return;
-                var length;
-                var color = ['#31b6eb', '#b47fd4', '#4f76dd', '#f8d282'];
-                var btnColor = '#000';
-                var colSx = attrs.colSx;
-                length = attrs.value.length;
-                //由于hotword可能长度大于宽度，需要动态加上宽度
-                if (length > 15) {
-                    element.addClass("col-md-2 col-sm-4");
-                } else {
-                    element.addClass("col-md-1 col-sm-3");
-                }
-                if (attrs.index) {
-                    btnColor = color[attrs.index % 4];
-                    element.css("color", btnColor);
-                }
-                //暂时设定手机端超过一行的hotward隐藏
-                if (Util.isMobile() && colSx > 12) {
-                    element.addClass("hide");
-                }
-            }
-        };        
-    }])
     //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function () {  
         return function (collection) { 
@@ -717,21 +691,22 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 }
             },
             isAdvanceFilterLimit:function(filter) {
-                if((User.info.user.role.name != 'Free') && (User.info.user.role.name != 'Standard')) {
+                //需求变更，free用户无高级过滤权限
+                if (User.info.user.role.name != 'Free') {
                     return true;
                 }
                 var isLimit = false;
                 var isDurationLimit = false;
                 var isEngagementsLimit = false;
-                if((filter.duration.from !== 0) || (filter.duration.to !== 180)) isLimit = true;
-                if((filter.seeTimes.from !== 0) || (filter.seeTimes.to !== 180)) isLimit = true;
+                if ((filter.duration.from !== 0) || (filter.duration.to !== 180)) isLimit = true;
+                if ((filter.seeTimes.from !== 0) || (filter.seeTimes.to !== 180)) isLimit = true;
                 angular.forEach(filter.engagements, function(data) {
                     if (data.max || data.min) { 
                         isEngagementsLimit = true;
                     }
                 });
-                if(isDurationLimit || isEngagementsLimit) isLimit = true;
-                if(isLimit) {
+                if (isDurationLimit || isEngagementsLimit) isLimit = true;
+                if (isLimit) {
                     return false;
                 }else {
                     return true;

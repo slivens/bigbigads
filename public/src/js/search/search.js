@@ -285,7 +285,14 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				//$scope.filterOption.engagements.likes.min=$scope.filterOption.engagements.likes.max='';
 				value.min=value.max="";
 			};
-		};
+			//请求热词数据
+            vm.getHotWord = function() {
+                var url = settings.remoteurl + '/' + 'hotword' ;
+                $http.get(url,{}).then(function(data) {
+                    vm.hotword = data.data;
+                });
+            };
+        };
 		searcher.ADS_TYPE = searcher.prototype.ADS_TYPE = ADS_TYPE;
 		//函数的静态方法以及对象的方法
 		searcher.getAdsType = searcher.prototype.getAdsType = function(item, type) {
@@ -492,43 +499,18 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				$scope.adSearcher.filter();
 
 			};
-			//获取Hotword 
-			/*$scope.getHotWord = function() {
-				var hotWord = new Resource('hotword');
-				$scope.colMd = 0;
-				$scope.colSm = 0;
-				hotWord.get().then(function(data) {
-	                //$scope.keyword = data;
-	                $scope.hotword = [];
-	                angular.forEach(data, function(items) {
-	                	//暂时设定为一行的hotword，粗略计算长度，超过后不加入hotword内
-	                	//等给出具体美工稿可能会更改
-	                	if (items.keyword.length > 15) {
-	                		$scope.colMd += 2;
-	                		$scope.colSm += 4;
-	                	} else {
-	                		$scope.colMd += 1;
-	                		$scope.colSm += 3;
-	                	}
-	                	if (Util.isMobile()) {
-	                		if ($scope.colSm <= 12) {
-	                			$scope.hotword.push(items);
-	                		}
-	                	} else {
-	                		if ($scope.colMd <= 12) {
-	                			$scope.hotword.push(items);
-	                		}
-	                	}
-	                });
-	            });
-			};
-			$scope.quickSearch = function(word) {
-				//热词引导搜索，且加上isHotWord标示位用于log统计
-				$scope.adSearcher.searchOption.search.text = word;
-				$scope.adSearcher.searchOption.search.isHotWord = true;
-				//rmz
-				$scope.search('search');
-			};*/
+            $scope.quickSearch = function(word) {
+                //热词引导搜索，且加上isHotWord标示位用于log统计
+                if(User.done) {
+                    if(!User.login) {
+                        User.openSign();
+                        return;
+                    }
+                    $scope.adSearcher.searchOption.search.text = word;
+                    $scope.adSearcher.searchOption.search.isHotWord = true;
+                    $scope.search('search');
+                }
+            };
 			//text为空时就表示没有这个搜索项了
 			$scope.initSearch = function() {
 				var option = $scope.searchOption = $scope.adSearcher.searchOption = angular.copy($scope.adSearcher.defSearchOption);
@@ -537,7 +519,8 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				queryToSearch(option, $scope.adSearcher);
 				//检查是否有track
 				Util.trackState($location);
-				//$scope.getHotWord();
+                //获取热词
+                $scope.adSearcher.getHotWord();
 			};
 			$scope.initSearch();
 
@@ -551,7 +534,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var selectStartDate;
 				var selectEndDate;
 				var freeMin = '2016-01-01';
-				var freeMax = moment().subtract(2, 'month').format('YYYY-MM-DD');
+				var freeMax = moment().subtract(3, 'month').format('YYYY-MM-DD');
 				var searchTotalTimes;
 
 				//广告类型
@@ -749,7 +732,8 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                                         role: "free"
                                 });
                             }
-							//暂时限定免费注册用户的所有请求都是在两个月之前的数据
+                            //需求变更：
+                            //暂时限定免费注册用户的所有请求都是在三个月之前的数据
 							$scope.isFreeLimitDate = true;
 						}
 				}
@@ -823,20 +807,20 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				if (option.search.text || range.length) {
 					option.search.fields = range.length ? range.join(',') : $scope.Searcher.defSearchFields;//默认值
 					//存在isHotWord便新增isHotWord参数作为后端log统计标记
-					/*if (option.search.isHotWord) {
+					if (option.search.isHotWord) {
 						keys.push({
 							string: option.search.text ? option.search.text : "",
 							search_fields: option.search.fields,
 							relation: "Must",
-							isHotWord: true
+							isHotWord: option.search.isHotWord
 						});
-					} else {*/
+					} else {
 						keys.push({
 							string: option.search.text ? option.search.text : "",
 							search_fields: option.search.fields,
 							relation: "Must"
 						});
-					// }
+					}
 					//alert-warning range显示文本
 					angular.forEach(option.range,function(item){
 						if (range.indexOf(item.key)>-1)range_value.push(item.value);
@@ -937,9 +921,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					}else{
 						isLengthLimit = Util.isLengthLimit(value);
 						isFilterLimit = Util.isFilterLimit($scope.filterOption,$scope.searchOption);
-						//isAdvanceFilterLimit = Util.isAdvanceFilterLimit($scope.adSearcher.searchOption.filter);
+						isAdvanceFilterLimit = Util.isAdvanceFilterLimit($scope.adSearcher.searchOption.filter);
 						//临时去除对高级过滤的权限检查
-						isAdvanceFilterLimit = true;
+						//isAdvanceFilterLimit = true;
 						/*if(!isNumberLimit) {
 							User.openUpgrade();
 							islegal = false;
@@ -978,7 +962,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			//sort by 过滤free用户也需要加上time限制
 			$scope.sortBy = function(action) {
 				var freeMin = '2016-01-01';
-				var freeMax = moment().subtract(2, 'month').format('YYYY-MM-DD');
+				var freeMax = moment().subtract(3, 'month').format('YYYY-MM-DD');
 				if (User.info.user.role.name === 'Free') {
 					$scope.adSearcher.addFilter({
 						field: "time",
@@ -1087,7 +1071,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				var selectStartDate;
 				var selectEndDate;
 				var freeMin = '2016-08-23';
-				var freeMax = moment().subtract(2, 'month').format('YYYY-MM-DD');
+				var freeMax = moment().subtract(3, 'month').format('YYYY-MM-DD');
 
 				//广告类型
 				if (!$scope.filterOption.type) {
@@ -1259,7 +1243,8 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 									max: freeMax,
 									role: "free"
 							});
-							//暂时限定免费注册用户的所有请求都是在两个月之前的数据
+                            //需求变更：
+                            //暂时限定免费注册用户的所有请求都是在三个月之前的数据
 							$scope.isFreeLimitDate = true;
 						}
 				}
@@ -1388,7 +1373,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         });
         $scope.sortBy = function(action) {
 			var freeMin = '2016-01-01';
-			var freeMax = moment().subtract(2, 'month').format('YYYY-MM-DD');
+			var freeMax = moment().subtract(3, 'month').format('YYYY-MM-DD');
 			if (User.info.user.role.name === 'Free') {
 				$scope.adSearcher.addFilter({
 					field: "time",
@@ -1408,6 +1393,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         //一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
         User.getInfo().then(function() {
             //根据search参数页面初始化
+            if (!User.login) {
+                window.open("/login", "_self");
+            }
             $scope.search('adser');
         });
         // $scope.adSearcher.filter();
