@@ -175,10 +175,16 @@
         }
     }
     .analy-audience {
-        .charts-stat-bar {
+        .analy-interst {
             padding: 15px;
             background: #fff;
             min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            .interest-wrapper {
+                flex: 1;
+            }
             .stat-wrapper {
                 display: flex;
                 align-items: center;
@@ -207,12 +213,12 @@
                     margin-left: 20px;
                 }
             }
-        }
-        .interest-footer{
-            padding:5px 10px;
-            background: #eee;
-            .turnpage-button{
-                margin-left: 8px;
+            .interest-footer {
+                padding: 5px 10px;
+                background: #b0d5f9;
+                .turnpage-button {
+                    margin-left: 8px;
+                }
             }
         }
     }
@@ -221,13 +227,29 @@
             background: #fff;
             padding: 15px 0;
             .charts-wrapper {
-                padding-left:0;
-                padding-right:0; 
+                padding-left: 0;
+                padding-right: 0;
             }
         }
     }
 
     .analy-table {
+        .analy-map-table{
+            display: flex;
+            min-height: 325px;
+            flex-direction: column;
+            justify-content: flex-end;
+            .map-table-wrappe{
+                flex:1
+            }
+            .map-table-footer{
+                padding: 5px 10px;
+                background: #b0d5f9;
+                .turnpage-button {
+                    margin-left: 8px;
+                } 
+            }
+        }
         .analy-adstable {
             margin: 0;
             thead {
@@ -301,7 +323,7 @@
             }
         }
         .analy-audience {
-            .charts-stat-bar {
+            .analy-interst {
                 padding: 0;
                 .stat-wrapper {
                     .stat-number {

@@ -1419,7 +1419,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         $scope.scrollToTop = function(){
         	var adscardTop = angular.element("#analy-adscard-mark")[0].getBoundingClientRect().top;// 获取广告卡的距离顶部
         	var adsInfoTop = angular.element("#analy-info-mark")[0].getBoundingClientRect().top; //详情标记距离顶部
-        	if(adscardTop > 439){
+        	if(adscardTop > 508){
         		$scope.infoPosition = false;
         		$scope.infoFixed = true;
         	} else {
@@ -1502,8 +1502,10 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 					for (var key in $scope.card.whyseeads.interests)              
 				    {
 				    	$scope.interestsArr.push({'name': key,'value': $scope.card.whyseeads.interests[key]})
+				    	
 				        interestsCount += $scope.card.whyseeads.interests[key]
 				    }
+				    $scope.interestsArr = arrSort($scope.interestsArr,"value", 1) // 对数组的value进行排序
 				    $scope.interestsArr.count = interestsCount
                 } 
                 // 广告详情-性别比例
@@ -1524,7 +1526,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 	for(var key in $scope.card.whyseeads.addr){
                 		var countryShortName = $scope.card.whyseeads.addr[key].country.toUpperCase() // 转换成大写
                 		$scope.card.whyseeads.addr[key].country = countryShortName
-                		$scope.card.whyseeads.addr[key].name = isoCountries[countryShortName].name ? isoCountries[countryShortName].name : countryShortName // 添加全称 
+                		$scope.card.whyseeads.addr[key].name = isoCountries[countryShortName]? isoCountries[countryShortName].name : countryShortName // 添加全称 
                 	}
                     $scope.adsMapChart.series[0].data = $scope.card.whyseeads.addr //地图
                     $scope.adsVisitCountryData = $scope.card.whyseeads.addr //表格
@@ -1584,6 +1586,36 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                     newTime.setDate(newTime.getDate() + 1);
                 }
                 return arr;
+            }
+        }
+        /*
+        * 数组排序
+        * arr 排序的数组，返回一个新的数组
+        * item 要进行排序根据的项，可以为字符串或数字
+        * n 排序方式，0 为正序，1 为逆序
+        * 对字符串排序未详测试，项目对字符串排序功能暂时未用到
+        */
+        var arrSort = function(arr, item, n) {
+        	//当为1个长度的数组或这非数组时，不做排序，原原本本返回
+            if (arr.length < 2 || !arr) {
+               	// console.warn("arr to short or not have value")
+                return arr
+            } else {
+                // 如果是数字类型
+                if (typeof arr[0][item] === "number") {
+                    return arr.sort(function(a, b) { return n > 0? b[item] - a[item] : a[item] - b[item] })
+                } else {
+                // 对字符串进行排序
+                    return arr.sort(function(a, b) {
+                        for (var i = 0; i < a[item].length; i++) {
+                            if (a[item][i] > b[item][i]) {
+                                return n > 0? -1 : 1
+                            } else if (a[item][i] < b[item][i]) {
+                                return n < 0? -1 : 1
+                            } else continue
+                        }
+                    })
+                }
             }
         }
 
