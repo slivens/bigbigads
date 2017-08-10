@@ -55,7 +55,7 @@ class SyncPlans extends Command
             // 如果已经存在就对比，发现不一致就删除，再创建
             if ($isAll || $onlyStripe) {
                 $planDesc = [
-                    "amount" => $plan->amount,
+                    "amount" => $plan->amount * 100,
                     "interval" => strtolower($plan->frequency),
                     'interval_count' => $plan->frequency_interval,
                     "name" => $plan->display_name,
@@ -72,7 +72,7 @@ class SyncPlans extends Command
                         foreach($planDesc as $key => $item) {
                             if ($oldArray[$key] != $item) {
                                 $old->delete();
-                                $this->comment("stripe plan已存在并且{$key}(new:{$item}, old:{$oldArray[$key]}不一致，删除");
+                                $this->comment("stripe plan已存在并且{$key}(new:{$item}, old:{$oldArray[$key]})不一致，删除");
                                 $dirty = true;
                                 break;
                             }
