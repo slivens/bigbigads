@@ -133,7 +133,7 @@
                     <div class="stat-wrapper" ng-repeat="interstItem in interestsArr | limitTo:(interstPageNum * 6)" ng-if="$index+1 > (interstPageNum * 6 - 6)">
                         <i class="fa fa-bookmark-o ads-font-18 stat-icon"></i>
                         <div class="stat-name">
-                            <span ng-if="$index <5 " data-toggle="tooltip" data-placement="top" title="{{interstItem.name}}">{{interstItem.name}}</span>
+                            <span ng-if="$index <5 "  title="{{interstItem.name}}">{{interstItem.name}}</span>
                             <span ng-if="$index >= 5"><a ng-href="plans">Upgrade</a></span>
                         </div>
                         <div class="progress stat-progress">
@@ -165,8 +165,9 @@
             <!--charts map-->
             <div class="analy-shar-wrapper clearfix" ng-if="card.whyseeads.addr">
                 <div class="col-md-6">
-                    <div class="charts-wrapper">
-                        <high-map class="charts-adsmap" options="adsMapChart"></high-map>
+                    <div class="charts-wrapper" style="padding: 0;min-height: 350px">
+
+                        <highchart class="charts-adsmap" config="adsMapChart"></highchart>
                     </div>
                 </div>
                 <div class="col-md-6 analy-table">

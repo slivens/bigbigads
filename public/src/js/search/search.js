@@ -1837,7 +1837,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         // 地图图表
 	    $scope.adsMapChart ={
                 chart : {
-                    borderWidth : 0  //边框
+                    borderWidth : 0,  //边框
+                    type:'map',
+                    backgroundColor: false
                 },
                 colors: ['rgba(19,64,117,0.05)', 'rgba(19,64,117,0.2)', 'rgba(19,64,117,0.4)',
                          'rgba(19,64,117,0.5)', 'rgba(19,64,117,0.6)', 'rgba(19,64,117,0.8)', 'rgba(19,64,117,1)'],
@@ -1846,7 +1848,18 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 },
                 credits: false,
                 mapNavigation: {
-                    enabled: false  //缩放
+                    enabled: true //缩放
+                },
+                xAxis:{
+                    lineWidth:0, //轴线宽度
+                    tickLength: 0,//刻度线长度
+                    labels:false,
+                },
+                yAxis:{
+                    gridLineWidth:0,
+                    //lineWidth:0
+                    labels:false,
+                    title:false,
                 },
                 legend: {
                     align: 'center',
@@ -1862,7 +1875,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 },
                 series : [{
                     data : [],
-                    mapData: Highcharts.maps['custom/world'],
+                    mapData:Highcharts.maps['custom/world'],
                     joinBy: ['iso-a2', 'country'],
                     animation: false, // 取消掉动画，不然地图会重绘，第二次加载很别扭
                     name: 'Population density',
@@ -1875,7 +1888,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                         valueSuffix: '/month'
                     }
                 }]
-        }
+        }; 
     }
 ])
 .controller('QuickSidebarController', ['$scope', '$window', 'settings', 'User', function($scope, $window, settings, User) {

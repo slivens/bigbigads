@@ -485,48 +485,6 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    /*
-    * 自定义Highmap指定
-    * 代码参考 highcharts-ng 修改
-    * 自定义high-map 使用方法接近 highcharts,仅支持options接口
-    * 支持加载后 再修改数据,但会导致地图重绘
-    */
-    .directive('highMap', function() {
-        // 获取属性options
-        var getMergedOptions = function(element, options) {
-            var defaultOptions = {
-                chart: {},
-                title: {},
-                series: []
-            }
-            var mergedOptions = {}
-            if (options) {
-                mergedOptions = $.extend(true, {}, defaultOptions, options)
-            } else {
-                mergedOptions = defaultOptions
-            }
-            return mergedOptions
-        }
-        return {
-            restrict: 'EA',
-            template: '<div class="chart"></div>',
-            replace: true,
-            scope: {
-                options: '=',
-            },
-            link: function(scope, element, attrs) {
-                var mergedOptions = getMergedOptions(element, scope.options)
-                $(element).highcharts("Map",mergedOptions)
-                // 监听数据改变
-                scope.$watch("options", function(newOptions, oldOptions, scope) {
-                    if (newOptions === oldOptions) return
-                    // 重新获取options属性
-                    var mergedOptions = getMergedOptions(element, newOptions)
-                    $(element).highcharts("Map",mergedOptions)
-                }, true)
-            }
-        }
-    })
     //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function () {  
         return function (collection) { 
