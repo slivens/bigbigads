@@ -44,11 +44,11 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
     <div class="introduce-data">
         <div class="intro-data-top intro-data-div">
             <div class="intro-datarome bottom-dashed-line">
-                <span id="adsnumber">&nbsp;</span>
+                <span id="adsnumber">8,460,000<sup>+</sup></span>
                 <p>Ads</p>
             </div>
             <div class="intro-datarome left-dashed-line">
-                <span id="adsernumber">&nbsp;</span>
+                <span id="adsernumber">2,054,000<sup>+</sup></span>
                 <p>Advertisers</p>
             </div>
         </div>
@@ -305,8 +305,8 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         </div>
     </div>
 </div>
-<script type="text/javascript" src="dist/vendor.js?v=5.2" defer></script>
-<script type="text/javascript" src="dist/home.js?v=2.0.0" defer></script>
+<script type="text/javascript" src="dist/vendor.js?v=5.1" defer></script>
+<script type="text/javascript" src="dist/home.js?v=2.0.2" defer></script>
 </body>
 </html>
     
