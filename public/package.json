@@ -52,6 +52,7 @@
     "webpack-manifest-plugin": "^1.1.0"
   },
   "dependencies": {
+    "allmighty-autocomplete": "^1.0.0",
     "angular": "1.5.8",
     "angular-bootstrap-switch": "^0.5.1",
     "angular-busy": "^4.1.3",

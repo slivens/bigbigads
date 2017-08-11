@@ -485,7 +485,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('pay', ['User', 'SweetAlert', function(User, SweetAlert) {
+    .directive('payCheck', ['User', 'SweetAlert', function(User, SweetAlert) {
         return {
             link: function(scope, element, attrs) {
                 if (!attrs.name) {
@@ -525,14 +525,13 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         }
     }])
-    .directive('iframe', function() {
+    /*.directive('iframe', function() {
         return {
             link: function(scope, element, attrs) {
-                console.log(element);
-                console.log(attrs);
+                console.log(attrs.value);
             }
         }
-    })
+    })*/
     //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function () {  
         return function (collection) { 
@@ -791,7 +790,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             },
             googleSuggestQueries:function(value) {
                 var query = encodeURI(value);
-                var myUrl = "http://suggestqueries.google.com/complete/search?client=firefox&hl=en&q=" + query + "&callback=JSON_CALLBACK";
+                var myUrl = "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&q=" + query + "&callback=JSON_CALLBACK";
                 var result;
                 //调用谷歌搜索接口,需要使用jsonp方式请求
                 return $http.jsonp(myUrl).success(

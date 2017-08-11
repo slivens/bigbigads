@@ -22,7 +22,6 @@
   "dependencies": {
     "angular-daterangepicker": "^0.2.2",
     "angular-sweetalert": "latest",
-    "angular-lazy-img": "^1.2.2",
-    "allmighty-autocomplete": "*"
+    "angular-lazy-img": "^1.2.2"
   }
 }

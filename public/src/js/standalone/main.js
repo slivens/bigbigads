@@ -1084,8 +1084,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             '/node_modules/highcharts/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            '/bower_components/allmighty-autocomplete/script/autocomplete.js',
-                            '/bower_components/allmighty-autocomplete/style/autocomplete.css',
+                            '/node_modules/allmighty-autocomplete/script/autocomplete.js',
+                            '/node_modules/allmighty-autocomplete/style/autocomplete.css',
                             'js/bigbigads.js?r=' + ts
                         ]
                     });
@@ -1121,8 +1121,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             '/node_modules/highcharts/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            '/bower_components/allmighty-autocomplete/script/autocomplete.js',
-                            '/bower_components/allmighty-autocomplete/style/autocomplete.css',
+                            '/node_modules/allmighty-autocomplete/script/autocomplete.js',
+                            '/node_modules/allmighty-autocomplete/style/autocomplete.css',
                             'js/bigbigads.js?r=' + ts
                         ]
                     });
