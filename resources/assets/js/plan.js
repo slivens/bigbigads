@@ -1,14 +1,7 @@
 (function() {
-    $("#stand-card .adscard-btn").on("click", turnToPricing)
-    $("#pricingcard-back").on("click", turnToStand)
-    $("#app-to-top .btn").on("click", linkToUp)
-    $("#click-to-down").on("click", linkToUp)
-    hideTheDownIcon()
-    $(window).on("scroll", hideTheDownIcon)
     function turnToPricing() {
         $("#stand-card-div").addClass("transform-rotatey")
     }
-
     function turnToStand() {
         $("#stand-card-div").removeClass("transform-rotatey")
     }
@@ -27,7 +20,6 @@
             }
         }
     }
-
     /*
     * 当上滑到某种程度的时候，向下的图标隐藏
     */
@@ -41,4 +33,10 @@
             $("#click-to-down").removeClass("hidden")
         }
     }
+    $("#stand-card .adscard-btn").on("click", turnToPricing)
+    $("#pricingcard-back").on("click", turnToStand)
+    $("#app-to-top .btn").on("click", linkToUp)
+    $("#click-to-down").on("click", linkToUp)
+    hideTheDownIcon()
+    $(window).on("scroll", hideTheDownIcon)
 })()
