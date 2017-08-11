@@ -1457,9 +1457,13 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 for (var key in arr) {
                     time = key
                 }
-                // 查看几天天数可修改
-                // impression 可能存空值
-                var impressionArr = arr[time]? getTrendArr(time, 7, arr[time]) : false
+                /*
+                * 查看几天天数可修改
+                * impression 可能存空值
+                * 将["2017-03-21":{"12","11"...}] 转为 [{"03-21","12"},{"03-22","11"}...]
+                * getTrendArr(开始的时间，长度， 每天的访问量数组)
+                */
+                var impressionArr = arr[time]? Util.getTrendArr(time, 7, arr[time]) : false
                 if (impressionArr) {
                 	var chartData = lineChar1 //拷贝数组
                 	chartData.xAxis.categories = impressionArr.map(v => v[0])
@@ -1477,7 +1481,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             if ($scope.card.engagements_trend){
             	var arr = JSON.parse($scope.card.engagements_trend)
             	// engagements_trend.trend 存在null 值
-            	var engagementsArr = arr.trend? getTrendArr(arr.day, 0, arr.trend) : false
+            	var engagementsArr = arr.trend? Util.getTrendArr(arr.day, 0, arr.trend) : false
             	if(engagementsArr) {
             		var chartData = lineChar2
                 	chartData.xAxis.categories = engagementsArr.map(v => v[0])
@@ -1505,7 +1509,11 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				    	
 				        interestsCount += $scope.card.whyseeads.interests[key]
 				    }
-				    $scope.interestsArr = arrSort($scope.interestsArr,"value", 1) // 对数组的value进行排序
+				    /*
+				    * 对数组的value进行排序,具体用法见common.js
+				    * srrSort(整个数组，要根据排序的名称，正序0/逆序1)
+				    */
+				    $scope.interestsArr = Util.arrSort($scope.interestsArr,"value", 1) 
 				    $scope.interestsArr.count = interestsCount
                 } 
                 // 广告详情-性别比例
@@ -1552,73 +1560,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
         $scope.goback = function() {
             $window.history.back();
         };
-        /*
-        * 返回广告impression的数组
-        * 提供开始时间，与开始时间之后每天的访问量
-        * 返回的数组为最后一次访问的前七天
-        * time为开始时间，n为截取的数组长度,需要是7天，也可能是十天，data原始数据
-        * 当n = 0 时，则显示所有
-        */
-        var getTrendArr = function(time, n, data) {
-            n = n === 0? data.length : n;
-            if (data.length < 3) return false; // 对于长度小于3的不作处理
-            else {
-                var newTime
-                try {
-                    //获取的时间格式可能为2017-01-01，需将其转换
-                    newTime = new Date(time.split("-")[0], time.split("-")[1] - 1, time.split("-")[2])
-                } catch (e) {
-                    return false;
-                }
-                var arr = []
-                /*
-                * 给的数组长度可能大于7，也可能小于7
-                * 数组长度大于n则循环数组
-                */
-                for (var i = 0; i < ( n > data.length ? n : data.length ); i++) {
-                    var arrTime = ((newTime.getMonth() + 1) < 10 ? '0' + (newTime.getMonth() + 1).toString() : (newTime.getMonth() + 1).toString()) + "-" + (newTime.getDate().toString() < 10 ? '0' + newTime.getDate().toString() : newTime.getDate())
-                    if (arr.length < n) {
-                        arr.push([arrTime, data[i] != undefined ? data[i] : ''])
-                    } else {
-                        arr.push([arrTime, data[i] != undefined ? data[i] : ''])
-                        arr.shift() //加入新的，并删除第一个元素
-                    }
-                    newTime.setDate(newTime.getDate() + 1);
-                }
-                return arr;
-            }
-        }
-        /*
-        * 数组排序
-        * arr 排序的数组，返回一个新的数组
-        * item 要进行排序根据的项，可以为字符串或数字
-        * n 排序方式，0 为正序，1 为逆序
-        * 对字符串排序未详测试，项目对字符串排序功能暂时未用到
-        */
-        var arrSort = function(arr, item, n) {
-        	//当为1个长度的数组或这非数组时，不做排序，原原本本返回
-            if (arr.length < 2 || !arr) {
-               	// console.warn("arr to short or not have value")
-                return arr
-            } else {
-                // 如果是数字类型
-                if (typeof arr[0][item] === "number") {
-                    return arr.sort(function(a, b) { return n > 0? b[item] - a[item] : a[item] - b[item] })
-                } else {
-                // 对字符串进行排序
-                    return arr.sort(function(a, b) {
-                        for (var i = 0; i < a[item].length; i++) {
-                            if (a[item][i] > b[item][i]) {
-                                return n > 0? -1 : 1
-                            } else if (a[item][i] < b[item][i]) {
-                                return n < 0? -1 : 1
-                            } else continue
-                        }
-                    })
-                }
-            }
-        }
-
+        
         /**
          * 查找相似图
          */
