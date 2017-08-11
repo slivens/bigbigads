@@ -1848,7 +1848,9 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
                 },
                 credits: false,
                 mapNavigation: {
-                    enabled: true //缩放
+                    enabled: true, //缩放
+            		enableDoubleClickZoomTo: true,
+            		enableMouseWheelZoom: false
                 },
                 xAxis:{
                     lineWidth:0, //轴线宽度

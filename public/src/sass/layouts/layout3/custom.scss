@@ -1746,8 +1746,11 @@ color: $black_placeholder !important;
 /*plans 界面样式*/
 @import 'plans';
 
-/*广告详情页*/
-@import 'analysis';
+/*
+* 广告详情页
+* @import 'analysis';
+* 独立页面的样式要通过懒加载，不需要在该样式中引用
+*/
 
 /*广告卡*/
 @import 'adscard';
