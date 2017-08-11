@@ -8,6 +8,8 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './../sass/demo.scss'
 import './../sass/pay.scss'
 import 'font-awesome/css/font-awesome.min.css'
+import { Card, createToken } from 'vue-stripe-elements'
+
 // Vue.component('coupon', require('./components/Coupon.vue'))
 
 /* 判断邮箱 */
@@ -31,10 +33,14 @@ new Vue({
         email: '',
         emailErr: false,
         emailMessage: "Required",
-        showLoading: true // showLoding 控制的是hidden的样式，当为true的时候，为隐藏！
+        showLoading: true, // showLoding 控制的是hidden的样式，当为true的时候，为隐藏！
+        complete: false, // complete为true时，表示信用卡卡号是OK的
+        stripeOptions: {},
+        token: "" // 信用卡的token
     },
     components: {
-        SweetModal
+        SweetModal,
+        Card
     },
     methods: {
         applyCoupon: function() {
@@ -181,6 +187,15 @@ new Vue({
             if (obj.type === 1 && amount >= obj.discount)
                 return obj.discount
             return 0
+        },
+        pay: async function() {
+            let data = await createToken()
+            console.log(data.token)
+            this.token = data.token.id
+            // 设置this.token时，vue不能立刻反映到v-model上，所以要等它反应完成后才能提交表单
+            setTimeout(() => {
+                this.$refs.payform.submit()
+            }, 100)
         }
     }
 })

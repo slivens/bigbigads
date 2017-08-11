@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
 use Log;
 use DB;
+use App\User;
 use App\Role;
 use App\Plan;
 use App\Subscription;
@@ -18,6 +19,7 @@ use Payum\LaravelPackage\Controller\PayumController;
 use Payum\Core\Request\GetHumanStatus;
 use Payum\Core\Model\CreditCard;
 use Payum\Core\Model\Payment;
+use App\Payment as OurPayment;
 
 class SubscriptionController extends PayumController
 {
@@ -34,7 +36,7 @@ class SubscriptionController extends PayumController
             if(is_null($plan)){
                 return view('errors.404');
             } else {
-                return view('subscriptions.pay', ['plan'=>$plan]);
+                return view('subscriptions.pay', ['plan'=>$plan, 'key' =>  env('STRIPE_PUBLISHABLE_KEY') ]);
             }
         } else {
             return view('errors.404');
@@ -88,7 +90,10 @@ class SubscriptionController extends PayumController
             if (Subscription::where('quantity', '>', 0)->where('user_id', $user->id)->where('coupon_id', $coupon->id)->count() >= $coupon->customer_uses)
                 return redirect()->back()->withErrors(['message' => 'You have used the coupon']);
         }
-        
+
+        if ($req->has('payType') && $req->payType == 'stripe') {
+            return $this->payByStripe($req, $plan, $user, $coupon);
+        }       
         $service = new \App\Services\PaypalService;
         $approvalUrl = $service->createPayment($plan, $coupon ? ['setup_fee' => $plan->amount - $discount] : null);
         //由于此时订阅的相关ID没产生，所以没办法通过保存ID，此时就先通过token作为中转
@@ -171,6 +176,18 @@ class SubscriptionController extends PayumController
         return $service->dropPlans();
     }
 
+    protected function switchPlan(User $user, Subscription $subscription)
+    {
+        $plan = Plan::where('name', $subscription->plan)->first();
+        $role = $plan->role;
+        $oldRoleName = $user->role['display_name'];
+        $user->subscription_id = $subscription->id;
+        $user->role_id = $role->id;
+        $user->initUsageByRole($role);//更改计划时切换资源
+        $user->save();
+        Log::info($user->name . " change plan to " . $plan->name . "({$oldRoleName} -> {$role['display_name']})");
+    }
+
     /**
      * 客户同意支付后的回调
      */
@@ -197,18 +214,16 @@ class SubscriptionController extends PayumController
             $subscription->coupon->save();
         }
         $user = $subscription->user;
-        //原来有订阅的情况下，应该取消订阅,这步可以推到队列中去做
-        if ($user->subscription_id > 0) {
-            $service->suspendSubscription($user->subscription->payment_id);
-        }
-        $plan = Plan::where('name', $subscription->plan)->first();
-        $role = $plan->role;
-        $user->subscription_id = $subscription->id;
-        $user->role_id = $role->id;
-        $user->initUsageByRole($role);//更改计划时切换资源
-        $user->save();
-        Log::info($user->name . " change plan to " . $plan->name);
-
+        //原来有订阅的情况下，应该取消订阅,这步可以推到队列中去做，暂时不处理
+        // TODO:取消订阅功能应实现
+        /* try { */
+        /*     if ($user->subscription_id > 0) { */
+        /*         $service->suspendSubscription($user->subscription->payment_id); */
+        /*     } */
+        /* } catch(\Exception $e) { */
+        /*     Log::info("suspend failed:" . $user->subscription_id); */
+        /* } */
+        $this->switchPlan($user, $subscription);
         return redirect('/app/profile?active=0');
     }
 
@@ -254,30 +269,38 @@ class SubscriptionController extends PayumController
         return redirect($captureToken->getTargetUrl());
     }
 
-    protected function prepareStripeCheckout(Request $request)
+    protected function payByStripe(Request &$req, Plan &$plan, &$user, $coupon)
     {
-        if (!$request->has('amount'))
-            return "amount parameter is required";
+        if (!$req->has('stripeToken'))
+            return redirect()->back()->withErrors(['message' => 'invalid credit card']);
 		$storage = $this->getPayum()->getStorage(Payment::class);
 		$payment = $storage->create();
 		$payment->setNumber(uniqid());
-		$payment->setCurrencyCode('USD');
-		$payment->setTotalAmount(floatVal($request->amount) * 100); 
-		$payment->setDescription('A description');
-		$payment->setClientId('anId');
-		$payment->setClientEmail('foo@example.com');
-        $payment->setDetails([]);
-
-		/* $card = new CreditCard(); */
-		/* $card->setNumber('4242424242424242'); */
-		/* $card->setExpireAt(new \DateTime('2018-10-10')); */
-		/* $card->setSecurityCode(123); */
-
-		/* $payment->setCreditCard($card); */
+		$payment->setCurrencyCode($plan->currency);
+		$payment->setTotalAmount(0); 
+		$payment->setDescription($plan->display_name);
+		$payment->setClientId($user->id);
+		$payment->setClientEmail($user->email);
+        $payment->setDetails(new \ArrayObject([
+            'amount' => $plan->amount * 100, 
+            'currency' => $plan->currency, 
+            'card' => $req->stripeToken,
+            'local' => [
+                'save_card' => true,
+                'customer' => ['plan' => $plan->name]
+            ]
+        ]));
 		$storage->update($payment);
 
         $captureToken = $this->getPayum()->getTokenFactory()->createCaptureToken('stripe', $payment, 'stripe_done');
         return redirect($captureToken->getTargetUrl());
+    }
+
+    protected function prepareStripeCheckout(Request $request)
+    {
+        $user = Auth::user();
+        $plan = Plan::where('name', 'standard_monthly')->first();
+        return $this->payByStripe($request, $plan, $user);
     }
 
     public function prepareCheckout(Request $request, $method)
@@ -313,13 +336,37 @@ class SubscriptionController extends PayumController
         $gateway->execute($status = new GetHumanStatus($token));
         $payment = $status->getFirstModel();
 
-        return \Response::json([
-            'status' => $status->getValue(),
-            'order' => [
-                'total_amount' => $payment->getTotalAmount(),
-                'currency_code' => $payment->getCurrencyCode(),
-                'details' => $payment->getDetails()
-            ]
-        ]);
+        if ($status->getValue() == 'captured') {
+            $detail = $payment->getDetails();
+            $ourPayment = new OurPayment();
+            $ourPayment->status = $status->getValue();
+            $ourPayment->client_id = $payment->getClientId();
+            $ourPayment->client_email = $payment->getClientEmail();
+            $ourPayment->total_amount = $detail['amount'];
+            $ourPayment->currency_code = ($payment->getCurrencyCode());
+            $ourPayment->setNumber($payment->getNumber());
+            $ourPayment->setDetails($detail);
+            $ourPayment->save();
+
+            $user = User::find($payment->getClientId());
+            $planName = $detail['local']['customer']['plan'];
+            $subscription = new Subscription();
+            $subscription->payment_id = $ourPayment->id;
+            $subscription->quantity = 1;
+            $subscription->plan = $planName;
+            $subscription->setup_fee = $detail['amount'] / 100;
+            $subscription->user()->associate($user);
+            $subscription->save();
+            $this->switchPlan($user, $subscription);
+        }
+        return redirect('/app/profile?active=0');
+        /* return \Response::json([ */
+        /*     'status' => $status->getValue(), */
+        /*     'order' => [ */
+        /*         'total_amount' => $payment->getTotalAmount(), */
+        /*         'currency_code' => $payment->getCurrencyCode(), */
+        /*         'details' => $payment->getDetails() */
+        /*     ] */
+        /* ]); */
     }
 }

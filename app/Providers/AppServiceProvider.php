@@ -8,6 +8,10 @@ use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
 use App\BookmarkItem;
+use Payum\LaravelPackage\Storage\EloquentStorage;
+use App\Payment;
+use Payum\LaravelPackage\Model\Token;
+use Payum\Core\Storage\FilesystemStorage;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -55,12 +59,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->resolving('payum.builder', function(\Payum\Core\PayumBuilder $payumBuilder) {
             $payumBuilder
 				// this method registers filesystem storages, consider to change them to something more
-				// sophisticated, like eloquent storage
-				->addDefaultStorages()
-
+                // sophisticated, like eloquent storage
+                /* ->setTokenStorage(new FilesystemStorage(sys_get_temp_dir(), Token::class, 'hash')) */
+                /* ->addStorage(Payment::class, new EloquentStorage(Payment::class)) */
+                /* ->setTokenStorage(new EloquentStorage(Token::class)) */
+                /* ->addStorage(\ArrayObject::class, new FilesystemStorage(sys_get_temp_dir(), ArrayObject::class)) */
+                /* ->addStorage(Payout::class, new FilesystemStorage(sys_get_temp_dir(), Payout::class)) */
+                ->addDefaultStorages()
                 ->addGateway('paypal_ec', [
-					'factory' => 'paypal_express_checkout',
-					'username' => env('PAYPAL_EC_USERNAME'),
+                    'factory' => 'paypal_express_checkout',
+                    'username' => env('PAYPAL_EC_USERNAME'),
 					'password' => env('PAYPAL_EC_PASSWORD'),
 					'signature' => env('PAYPAL_EC_SIGNATURE'),
 					'sandbox' => env('PAYPAL_EC_ENV') === 'sandbox'
