@@ -476,7 +476,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('avatar', ['Util', function(Util){
+    .directive('avatar', ['Util', function(Util) {
         return {
             link: function(scope, element, attrs) {
                 var imageSrc;
@@ -484,6 +484,31 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 element.attr("src", imageSrc);
             }
         };
+    }])
+    .directive('pay', ['User', 'SweetAlert', function(User, SweetAlert) {
+        return {
+            link: function(scope, element, attrs) {
+                if (!attrs.name) {
+                    return;
+                }
+                //现在不支持用户再次购买同类的plan计划，即已经是standard月付不能再购买standard 季付和年付
+                var userPlanType = attrs.name.split("_");
+                var userPlan = userPlanType[0];
+                element.bind("click", function() {
+                    if (attrs.plan != 'free') { 
+                        if (userPlan === attrs.plan) {
+                            SweetAlert.swal("You had subscripted " + userPlan + " plan");
+                            return false;
+                        } else {
+                            window.open('/pay?name=' + attrs.name, '_self');
+                        }
+                    } else {
+                        window.open('/pay?name=' + attrs.name, '_self');
+                    }
+                    
+                }); 
+            }
+        }
     }])
     //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function () {  

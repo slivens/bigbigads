@@ -51,38 +51,36 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				//engagementsFilter
 				engagements:{
 					likes:{
-						min:"",	
-						max:""
+						min: "",	
+						max: ""
 					},
 					shares:{
-						min:"",	
-						max:""
+						min: "",	
+						max: ""
 					},
 					comments:{
-						min:"",	
-						max:""
+						min: "",	
+						max: ""
 					},
 					views:{
-						min:"",	
-						max:""
+						min: "",	
+						max: ""
 					},
 					engagements:{
-						min:"",	
-						max:""
+						min: "",	
+						max: ""
 					}
 
 				},
 				isEngagementsDirty: function() {
 					var item;
 				    var isFalse = false;
-					angular.forEach(this.engagements ,function(item,index){
-						if((item.min && (item.min!=searcher.defFilterOption.engagements[index].min)) && (item.max && (item.max!=searcher.defFilterOption.engagements[index].max)))
+				    //#issues 11 修复选择0 - 180 无效问题
+					angular.forEach(this.engagements ,function(item, index) {
+						if ((item.min && (item.min != searcher.defFilterOption.engagements[index].min)) && (item.max && (item.max != searcher.defFilterOption.engagements[index].max)) || (item.min === 0 || item.max === 180))
 					 		isFalse = true;
-					 	
-					 
 					});
 					return isFalse;
-					
 				},
 
 				isDurationDirty: function() {
@@ -381,6 +379,9 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
         searcher.queryToSearch = searcher.prototype.queryToSearch = function(locaionSearch, option) {
 				var i;
                 var search = locaionSearch;
+                var duration;
+                var engagements;
+                var seeTimes;
                 option.rangeselected =[];
 				if (search.searchText) {
 					option.search.text = search.searchText;
@@ -474,6 +475,19 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
                 if (search.objective) {
                     option.filter.objective = search.objective.split(",");
                 }
+                //#issues 11 连带发现的问题，刷新参数未保存
+                if (search.duration) {
+                	duration = JSON.parse(search.duration);
+                	option.filter.duration = angular.extend(option.filter.duration, duration);
+                }
+                if (search.engagements) {
+                	engagements = JSON.parse(search.engagements);
+                	option.filter.engagements = angular.extend(option.filter.engagements, engagements);
+                }
+                if (search.seeTimes) {
+                	seeTimes = JSON.parse(search.seeTimes);
+                	option.filter.seeTimes = angular.extend(option.filter.seeTimes, seeTimes);
+                }
         };
 		return searcher;
 	}
@@ -539,7 +553,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             $scope.googleQuery = function(typed){
             //谷歌联想搜索
                 Util.googleSuggestQueries(typed).then(function(data) {
-                    $scope.movies = data.data[1];
+                    $scope.suggestions = data.data[1];
                 });
             };
 
@@ -666,6 +680,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						min: option.duration.from,
 						max: option.duration.to
 					});
+					$scope.currSearchOption.filter.duration = angular.extend($scope.currSearchOption.filter.duration, option.duration);
 				}
 
 				//see times Filter
@@ -677,6 +692,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 						min: option.seeTimes.from,
 						max: option.seeTimes.to
 					});
+					$scope.currSearchOption.filter.seeTimes = angular.extend($scope.currSearchOption.filter.seeTimes, option.seeTimes);
 				}
 
 				//engagementsFilter

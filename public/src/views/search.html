@@ -19,7 +19,7 @@
                                 </span>
                                 <!-- <input type="search" class="form-control input-lg" placeholder="Enter a keyword, page name or domain name" ng-model="adSearcher.searchOption.search.text"> -->
                                 <div id="xg-autocomplete">
-                                    <autocomplete ng-model="adSearcher.searchOption.search.text" data="movies" on-type="googleQuery" attr-placeholder="Enter a keyword, page name or domain name"></autocomplete>
+                                    <autocomplete ng-model="adSearcher.searchOption.search.text" data="suggestions" on-type="googleQuery" attr-placeholder="Enter a keyword, page name or domain name" click-activation="true"></autocomplete>
                                 </div>
                                 <div class="input-group-btn xg-search-button">
                                     <button type="submit" class="btn yellow-gold btn-lg " ng-disabled="adSearcher.busy" ng-click="searchCheck(adSearcher.searchOption.search.text)">
