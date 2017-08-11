@@ -5,6 +5,7 @@ import './../sass/demo.scss'
 import Swiper from 'swiper'
 import Layzr from 'layzr.js'
 import moment from 'moment'
+import axios from 'axios'
 import 'js-url'
 import 'bootstrap'
 import 'animate.css/animate.min.css'
@@ -105,24 +106,21 @@ function toChangeWord(item) {
 function getAdsCount() {
     /* 采用fetch获取数据 */
     // 需要跨域请求，有待解决
-    var data = {
-        method: "get"
-    }
-    fetch('/get_total_count', data).then(function(response) {
-        return response.json()
-    }).then(function(json) {
+    axios.get('/get_total_count').then(function(res) {
+        // console.log("res:", res)
+        let json = res.data
         try {
             var adscount = estimationThousand(json.total_ads_count)
             var adsercount = estimationThousand(json.total_adser_count)
             $("#adsnumber").html(adscount + "<sup>+</sup>")
             $("#adsernumber").html(adsercount + "<sup>+</sup>")
         } catch (e) {
-            $("#adsnumber").html("5,300,000" + "<sup>+</sup>")
-            $("#adsernumber").html("1,300,000" + "<sup>+</sup>")
+            $("#adsnumber").html("8,460,000" + "<sup>+</sup>")
+            $("#adsernumber").html("2,054,000" + "<sup>+</sup>")
         }
     }).catch(function(ex) {
-        $("#adsnumber").html("5,300,000" + "<sup>+</sup>")
-        $("#adsernumber").html("1,300,000" + "<sup>+</sup>")
+        $("#adsnumber").html("8,460,000" + "<sup>+</sup>")
+        $("#adsernumber").html("2,054,000" + "<sup>+</sup>")
     })
 }
 // 估算到千位

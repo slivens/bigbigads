@@ -183,3 +183,7 @@ Route::post('/quick_register', 'UserController@quickRegister');//快速注册表
 Route::get('/payment/{method}/prepare', 'SubscriptionController@prepareCheckout');
 Route::any('/payment/paypal/done', 'SubscriptionController@onPaypalDone')->name('paypal_done');
 Route::any('/payment/stripe/done', 'SubscriptionController@onStripeDone')->name('stripe_done');
+
+/* Route::any('/payment/stripe', function() { */
+/*     return view('subscriptions.stripe')->with('key', env('STRIPE_PUBLISHABLE_KEY')); */
+/* }); */

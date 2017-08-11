@@ -1300,7 +1300,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                         name: 'MetronicApp',
                         insertBefore: ' #ng_load_plugins_before',
                         files: [
-                            '/bower_components/angular-deckgrid/angular-deckgrid.js',
+                            '/node_modules/angular-deckgrid/angular-deckgrid.js',
                             '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
                             '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
                             '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',

@@ -99,6 +99,7 @@ use \Illuminate\Support\Facades\Input;
                                 </div>
                             </div>
                         </div>
+                    </form>
                         <div class="alert pay-payment">
                             <div class="paypage-title payment-title">Payment Options</div>
                             <div class="row payment-div">
@@ -129,12 +130,6 @@ use \Illuminate\Support\Facades\Input;
                                     <div id="DigiCertClickID_-MoxKleO" data-language="en">
                                         <a href="https://www.digicert.com/ev-ssl-certification.htm"></a>
                                     </div>
-                                    <script type="text/javascript">
-                                    var
-                                     __dcid = __dcid || [];__dcid.push(["DigiCertClickID_-MoxKleO", "10",
-                                    "m", "black", "-MoxKleO"]);(function(){var
-                                    cid=document.createElement("script");cid.async=true;cid.src="//seal.digicert.com/seals/cascade/seal.min.js";var s = document.getElementsByTagName("script");var ls = s[(s.length - 1)];ls.parentNode.insertBefore(cid, ls.nextSibling);}());
-                                    </script>
                                     <!-- End DigiCert site seal HTML and JavaScript -->
                                 </div>
                             </div>
@@ -143,21 +138,39 @@ use \Illuminate\Support\Facades\Input;
                                 <span class="under-line-word">OR</span>
                                 <span class="under-line"></span>
                             </div>
-                            <div class="row pay-creditcard">
-                                <div class="col-sm-6 ads-font-14">
-                                   
-                                </div>
-                                <div class="col-sm-6 creditcard-btn clearfix">
-                                    <div class="text-center">
-                                        <button class="btn ads-font-22" disabled="disabled"><i class="glyphicon glyphicon-credit-card credit-icon ads-font-24"></i>Credit Card</button>
+
+                            <form v-on:submit.prevent ref="payform" action="/pay" method="post" id="payment-form">
+                                <div class="row pay-creditcard">
+                                    <div class="col-sm-6 ads-font-14">
+                                            {{ csrf_field() }}
+
+                                            <input type="hidden"  v-model="token" name="stripeToken">
+                                            <input type="hidden"  value="{{$plan->id}}" name="planid">
+                                            <input type="hidden"  value="stripe" name="payType">
+                                            <div class="form-row">
+                                                <label for="card-element">
+                                                    Credit or debit card
+                                                </label>
+                                                <card class='stripe-card'
+                                                       :class='{ complete }'
+                                                       stripe='{{$key}}'
+                                                       :options='stripeOptions'
+                                                       @change='complete = $event.complete'
+                                                       />
+                                            </div>
                                     </div>
-                                    
-                                    <div class="text-center safety-signs">
-                                         <img src="static/images/pay/verified_secured_pic01.gif" alt="">
+                                    <div class="col-sm-6 creditcard-btn clearfix">
+                                        <div class="text-center">
+                                            <button class="btn ads-font-22" @click='pay' :disabled="!complete"><i class="glyphicon glyphicon-credit-card credit-icon ads-font-24"></i>Credit Card</button>
+                                        </div>
+                                        <div class="text-center safety-signs">
+                                             <img src="static/images/pay/verified_secured_pic01.gif" alt="">
+                                        </div>
                                     </div>
+
+                                    <!-- <div class="creditcard-disable text-center ads-font-22" disabled="disabled" > Coming Soon:Check out with Credit Card</div> -->
                                 </div>
-                                <div class="creditcard-disable text-center ads-font-22" disabled="disabled" > Coming Soon:Check out with Credit Card</div>
-                            </div>
+                            </form>
                             <hr>
                             <h4>Terms of Sales:</h4>
                             <ul class="ads-font-14">
@@ -167,7 +180,6 @@ use \Illuminate\Support\Facades\Input;
                                 <li>The vendor of this product reserves the right to do business or not do business with whom they choose.</li>
                             </ul>
                         </div>
-                    </form>
                     <sweet-modal icon="warning" ref="modal">
                      @{{errorMessage}}
                     </sweet-modal>
@@ -190,8 +202,17 @@ use \Illuminate\Support\Facades\Input;
             <p class="loading-text ads-font-18">loading...</p>
         </div>
     </div>
+
+    <script type="text/javascript">
+    var
+     __dcid = __dcid || [];__dcid.push(["DigiCertClickID_-MoxKleO", "10",
+    "m", "black", "-MoxKleO"]);(function(){var
+    cid=document.createElement("script");cid.async=true;cid.src="//seal.digicert.com/seals/cascade/seal.min.js";var s = document.getElementsByTagName("script");var ls = s[(s.length - 1)];ls.parentNode.insertBefore(cid, ls.nextSibling);}());
+    </script>
 </body>
 </html>
+
+<script type="text/javascript" src="https://js.stripe.com/v3/"></script>
 <script type="text/javascript" src="dist/vendor.js?v=1"></script>
 <script type="text/javascript" src="dist/pay.js?v=2.0.1"></script>
  

@@ -28,7 +28,8 @@
         "jenssegers/agent": "^2.5",
         "payum/payum-laravel-package": "^1.0",
         "payum/paypal-express-checkout-nvp": "^1.4",
-        "payum/stripe": "^1.4"
+        "payum/stripe": "^1.4",
+        "defuse/php-encryption": "^2.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

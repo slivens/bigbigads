@@ -10,6 +10,7 @@ module.exports = {
         home: ['./resources/assets/js/home.js'],
         mobile: ['./resources/assets/js/mobile.js'],
         pay: ['./resources/assets/js/pay.js'],
+        stripe: ['./resources/assets/js/stripe.js'],
         plan: ['./resources/assets/js/plan.js'],
         product: ['./resources/assets/js/product.js'],
         vendor: ['jquery', 'swiper', 'bootstrap', 'moment', 'js-url']
@@ -55,6 +56,7 @@ module.exports = {
         }, {
             test: /\.js$/,
             loader: 'babel-loader',
+            exclude: /node_modules/,
             query: {
                 compact: false
             }
