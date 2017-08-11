@@ -298,6 +298,54 @@
             }
         }
     }
+    .click-to-down{
+        width: 100%;
+        height: 0px;
+        position: fixed;
+        z-index: 99;
+        bottom:50px;
+        left: 0;
+        min-height: 50px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        .down-icon{
+            width: 30px;
+            height: 30px;
+            border: 3px solid transparent;
+            border-bottom: 3px solid #1D96F3;
+            border-right: 3px solid #1D96F3;
+            z-index: 99;
+            opacity: .8;
+            -webkit-transform: rotate(45deg);
+            -webkit-animation: down-icon 1.0s infinite ease-in-out;
+        }
+        // 动画
+        @keyframes down-icon {
+            0% {
+                opacity: 0;
+                transform: translate(0, 0px) rotate(45deg)
+            }
+            25% {
+                opacity: .75;
+                transform: translate(0, 4px) rotate(45deg)
+            }
+            50% {
+                opacity: 1;
+                transform: translate(0, 8px) rotate(45deg)
+            }
+            75% {
+                opacity: .75;
+                transform: translate(0, 12px) rotate(45deg)
+            }
+            100% {
+                opacity: 0;
+                transform: translate(0, 16px) rotate(45deg)
+            }
+        }
+
+    }
     .plan-table{
         margin-bottom: 50px;
         .table{

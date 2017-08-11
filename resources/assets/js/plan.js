@@ -2,7 +2,9 @@
     $("#stand-card .adscard-btn").on("click", turnToPricing)
     $("#pricingcard-back").on("click", turnToStand)
     $("#app-to-top .btn").on("click", linkToUp)
-
+    $("#click-to-down").on("click", linkToUp)
+    hideTheDownIcon()
+    $(window).on("scroll", hideTheDownIcon)
     function turnToPricing() {
         $("#stand-card-div").addClass("transform-rotatey")
     }
@@ -23,6 +25,20 @@
                 300)
                 return false
             }
+        }
+    }
+
+    /*
+    * 当上滑到某种程度的时候，向下的图标隐藏
+    */
+    function hideTheDownIcon() {
+        var windowHight = $(window).height()
+        var marginTop = $("#plan-table")[0].getBoundingClientRect().top // 获取不到下边距
+        var marginBottom = windowHight - marginTop
+        if (marginBottom > 50) {
+            $("#click-to-down").addClass("hidden")
+        } else {
+            $("#click-to-down").removeClass("hidden")
         }
     }
 })()

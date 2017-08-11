@@ -169,7 +169,11 @@
         </div>
     </div>
 </section>
-<section class="plan-table">
+
+<div class="click-to-down hidden-xs hidden-sm">
+    <a href="#plan-table" id="click-to-down"><div class="down-icon"></div></a>
+</div>
+<section class="plan-table" id="plan-table">
     <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-10 col-md-offset-1 table-responsive">
