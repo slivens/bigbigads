@@ -497,7 +497,22 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 element.bind("click", function() {
                     if (attrs.plan != 'free') { 
                         if (userPlan === attrs.plan) {
-                            SweetAlert.swal("You had subscripted " + userPlan + " plan");
+                            var on = SweetAlert.swal("You had subscribed. Wanna change your plan?", function(){ 
+                               window.open("mailto:sale@bigbigads.com", '_self');
+                            })
+                            SweetAlert.swal({
+                               title: "You had subscribed. Wanna change your plan?",
+                               type: "warning",
+                               showCancelButton: true,
+                               confirmButtonColor: "#DD6B55",confirmButtonText: "Yes",
+                               cancelButtonText: "No",
+                               closeOnConfirm: false,
+                               closeOnCancel: true }, 
+                               function(isConfirm){ 
+                                   if (isConfirm) {
+                                        window.open("mailto:sale@bigbigads.com", '_self');
+                                   }
+                            });
                             return false;
                         } else {
                             window.open('/pay?name=' + attrs.name, '_self');
@@ -510,6 +525,14 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         }
     }])
+    .directive('iframe', function() {
+        return {
+            link: function(scope, element, attrs) {
+                console.log(element);
+                console.log(attrs);
+            }
+        }
+    })
     //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function () {  
         return function (collection) { 
