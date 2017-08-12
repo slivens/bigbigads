@@ -130,37 +130,33 @@ gulp.task('html',  function() {
                     }))
                     .pipe(gulp.dest('./app'));
     } else {
+        const htmlOptions = {
+                        removeComments: true,
+                        collapseWhitespace:true,
+                        minifyJS: true,
+                        minifyCss: true
+                    };
         gulp.src(['./src/404.html'])
                     .pipe(strip())
-                    .pipe(htmlmin({
-                        collapseWhitespace:true
-                    }))
+                    .pipe(htmlmin(htmlOptions))
                     .pipe(gulp.dest('./app/'));
         gulp.src(['./src/components/**/*.html'])
                     .pipe(strip())
-                    .pipe(htmlmin({
-                        collapseWhitespace:true
-                    }))
+                    .pipe(htmlmin(htmlOptions))
                     .pipe(gulp.dest('./app/components'));
         gulp.src(['./src/views/**/*.html'])
                     .pipe(strip())
-                    .pipe(htmlmin({
-                        collapseWhitespace:true
-                    }))
+                    .pipe(htmlmin(htmlOptions))
                     .pipe(gulp.dest('./app/views'));
         gulp.src(['./src/tpl/**/*.html'])
                     .pipe(strip())
-                    .pipe(htmlmin({
-                        collapseWhitespace:true
-                    }))
+                    .pipe(htmlmin(htmlOptions))
                     .pipe(gulp.dest('./app/tpl'));
         return gulp.src(['./assets/*.json',  './app/manifest.json','./src/index.html']).pipe(revCollector({
                     replaceReved:true
                     }))
                     .pipe(strip())
-                    .pipe(htmlmin({
-                        collapseWhitespace:true
-                    }))
+                    .pipe(htmlmin(htmlOptions))
                     .pipe(gulp.dest('./app'));
     }
 });
