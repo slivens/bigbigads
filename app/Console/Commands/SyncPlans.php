@@ -8,6 +8,7 @@ use Payum\Stripe\Request\Api\CreatePlan;
 use Stripe\Error;
 use Stripe\Plan as StripePlan;
 use Stripe\Stripe;
+use App\Contracts\PaymentService;
 
 class SyncPlans extends Command
 {
@@ -42,55 +43,21 @@ class SyncPlans extends Command
      */
     public function handle()
     {
-        $isAll = true;
-        $onlyPaypal = $this->option('paypal');
-        $onlyStripe = $this->option('stripe');
-        if ($onlyPaypal || $onlyStripe)
-            $isAll = true;
-        /* $payum = \App::make('payum'); */
-        $plans = Plan::all();
-
-        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        foreach ($plans as $plan) {
-            // 如果已经存在就对比，发现不一致就删除，再创建
-            if ($isAll || $onlyStripe) {
-                $planDesc = [
-                    "amount" => $plan->amount * 100,
-                    "interval" => strtolower($plan->frequency),
-                    'interval_count' => $plan->frequency_interval,
-                    "name" => $plan->display_name,
-                    "currency" => strtolower($plan->currency),
-                    "id" => $plan->name
-                ];
-
-                $this->info("stripe plan:{$plan->name} is creating");
-                try {
-                    $old = StripePlan::retrieve($planDesc['id']);
-                    if ($old) {
-                        $dirty = false;
-                        $oldArray = $old->__toArray(true);
-                        foreach($planDesc as $key => $item) {
-                            if ($oldArray[$key] != $item) {
-                                $old->delete();
-                                $this->comment("stripe plan已存在并且{$key}(new:{$item}, old:{$oldArray[$key]})不一致，删除");
-                                $dirty = true;
-                                break;
-                            }
-                        }
-                        if (!$dirty) {
-                            $this->comment("{$plan->name}已经创建过且无修改,忽略");
-                            continue;
-                        }
-                    } 
-                } catch(\Exception $e) {
-                }
-                StripePlan::create($planDesc);
-                $this->info("{$plan->name} created for stripe");
-            }
-
-            if ($isAll || $onlyPaypal) {
-                // TODO: Paypal待补充
-            }
-        }
+        $service = app(\App\Contracts\PaymentService::class);
+        /* $isAll = true; */
+        $hasPaypal = $this->option('paypal');
+        $hasStripe = $this->option('stripe');
+        $gateways = [];
+        if ($hasPaypal)
+            $gateways[] = PaymentService::GATEWAY_PAYPAL;
+        if ($hasStripe)
+            $gateways[] = PaymentService::GATEWAY_STRIPE;
+        /* try { */
+            $this->info("start syncing plans...");
+            $service->setLogger($this);
+            $service->syncPlans($gateways);
+        /* } catch (\Exception $e) { */
+        /*     $this->error("Error Occured:" . $e->getMessage()); */
+        /* } */
     }
 }
