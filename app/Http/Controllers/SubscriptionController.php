@@ -135,39 +135,13 @@ class SubscriptionController extends PayumController
     }
 
     /**
-     * 获取帐单信息(JSON)
+     * 获取帐单信息
+     * @return \App\Payment[]
      */
     public function billings()
     {
         $user = Auth::user();
-        $res = [];
-        $subscriptions = Subscription::where('quantity', '>', 0)->where('user_id', $user->id)->get();
-        $service = new PaypalService();
-        $resItem = [];
-        //没有返回交易记录，不知觉厉
-        foreach($subscriptions as $item) {
-            $transactions = $service->transactions($item->agreement_id);
-            if ($transactions == null)
-                return [];
-            foreach ($transactions as $t) {
-                $amount = $t->getAmount();
-                if ($amount == null)
-                    continue;
-                $carbon = new Carbon($t->getTimeStamp(), $t->getTimeZone());
-                $carbon->tz = Carbon::now()->tz;
-                
-                $resItem["id"] = $t->getTransactionId();
-                $resItem["plan"] = $item->plan;
-                $resItem["amount"] =  $amount->getValue();
-                $resItem["currency"] = $amount->getCurrency();
-                $resItem["type"] = $t->getTransactionType();
-                $resItem["startDate"] = $carbon->toDateTimeString();
-                $resItem["endDate"] = strpos($item->plan, "monthly") > 0 ? $carbon->addMonth()->toDateTimeString() : $carbon->addYear()->toDateTimeString();
-                $resItem["status"] = $t->getStatus();
-                array_push($res, $resItem);   
-            }
-        }
-        return $res;
+        return $user->payments;
     }
 
     /**
@@ -217,6 +191,8 @@ class SubscriptionController extends PayumController
             $user->expired = Carbon::now()->addYears($plan->frequency_interval);
             break;
         }
+        // 过期时间统一再加上一天，为了防止到期后，系统重置权限先于扣款，将引来不必要的麻烦。
+        $user->expired->addDay(); 
         $user->save();
         Log::info($user->name . " change plan to " . $plan->name . "({$oldRoleName} -> {$role['display_name']})");
     }
@@ -318,6 +294,15 @@ class SubscriptionController extends PayumController
                 $payment->description = $request->summary;
                 $payment->details = $resource;
                 $payment->subscription()->associate($subscription);
+                $payment->save();
+                break;
+            case 'PAYMENT.SALE.REFUNDED':
+                $payment = OurPayment::where('number', $resource['sale_id'])->first();
+                if (!$payment) {
+                    Log::warning("the payment is refunded, but no record in the system");
+                    break;
+                }
+                $payment->status = OurPayment::STATE_REFUNDED;
                 $payment->save();
                 break;
             }
@@ -431,6 +416,7 @@ class SubscriptionController extends PayumController
             switch ($status->getValue()) {
             case 'captured':
                 $ourPayment->status = OurPayment::STATE_COMPLETED;
+                break;
             default:
                 $ourPayment->status = $status->getValue();
             }
@@ -446,13 +432,5 @@ class SubscriptionController extends PayumController
             $ourPayment->save();
         }
         return redirect('/app/profile?active=0');
-        /* return \Response::json([ */
-        /*     'status' => $status->getValue(), */
-        /*     'order' => [ */
-        /*         'total_amount' => $payment->getTotalAmount(), */
-        /*         'currency_code' => $payment->getCurrencyCode(), */
-        /*         'details' => $payment->getDetails() */
-        /*     ] */
-        /* ]); */
     }
 }

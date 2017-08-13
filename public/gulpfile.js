@@ -120,7 +120,7 @@ gulp.task('html',  function() {
         gulp.src(['./src/404.html'])
                     .pipe(gulp.dest('./app/'));
         gulp.src(['./src/components/**/*.html'])
-                    .pipe(gulp.dest('./app/views'));
+                    .pipe(gulp.dest('./app/components'));
         gulp.src(['./src/views/**/*.html'])
                     .pipe(gulp.dest('./app/views'));
         gulp.src(['./src/tpl/**/*.html'])

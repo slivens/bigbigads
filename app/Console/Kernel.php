@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\SyncPlans::class
+        \App\Console\Commands\SyncPlans::class,
+        \App\Console\Commands\SyncSubscriptions::class
     ];
 
     /**

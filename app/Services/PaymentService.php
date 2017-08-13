@@ -5,6 +5,7 @@ use Illuminate\Support\Collection;
 use App\Contracts\PaymentService as PaymentServiceContract;
 use Log;
 use App\Plan;
+use App\Subscription;
 use Payum\Stripe\Request\Api\CreatePlan;
 use Stripe\Error;
 use Stripe\Plan as StripePlan;
@@ -146,5 +147,78 @@ class PaymentService implements PaymentServiceContract
             }); 
             $this->log("paypal sync done");
         }
+    }
+
+
+    /**
+     * {@inheritDoc}
+     * @todo 同步远程的Paypal, stripe
+     */
+    public function syncSubscriptions(Array $gateways = [])
+    {
+        // 正常应该是从远程同步，这里先从本地同步以便流程可以正常往下走
+        $subs = Subscription::all();//where('gateway', 'paypal')->get();
+        $service = new PaypalService($this->config['paypal']);
+
+        $this->log("sync to local");
+        foreach ($subs as $sub) {
+            $plan = Plan::where('name', $sub->plan)->first();
+            if (!$plan) {
+                $this->log("Plan {$sub->plan} is not found, warning", PaymentService::LOG_ERROR);
+            }
+            $sub->frequency = $plan->frequency;
+            $sub->frequency_interval = $plan->frequency_interval;
+            $sub->save();
+        }
+        /* $this->log("sync to paypal, this will cost time, PLEASE WAITING..."); */
+        /* foreach ($subs as $sub) { */
+        /*     $remoteSub = $service->subscription($sub->agreement_id); */
+        /* } */
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function syncPayments(Array $gateways = [])
+    {
+        // 目前只有Paypal需要同步支付记录
+        /* $res = []; */
+        /* $subscriptions = Subscription::where('quantity', '>', 0)->where('user_id', $user->id)->get(); */
+        /* $service = new PaypalService(); */
+        /* $resItem = []; */
+        /* //没有返回交易记录，不知觉厉 */
+        /* foreach($subscriptions as $item) { */
+        /*     $transactions = $service->transactions($item->agreement_id); */
+        /*     if ($transactions == null) */
+        /*         return []; */
+        /*     foreach ($transactions as $t) { */
+        /*         $amount = $t->getAmount(); */
+        /*         if ($amount == null) */
+        /*             continue; */
+        /*         $carbon = new Carbon($t->getTimeStamp(), $t->getTimeZone()); */
+        /*         $carbon->tz = Carbon::now()->tz; */
+                
+        /*         $resItem["id"] = $t->getTransactionId(); */
+        /*         $resItem["plan"] = $item->plan; */
+        /*         $resItem["amount"] =  $amount->getValue(); */
+        /*         $resItem["currency"] = $amount->getCurrency(); */
+        /*         $resItem["type"] = $t->getTransactionType(); */
+        /*         $resItem["startDate"] = $carbon->toDateTimeString(); */
+        /*         $resItem["endDate"] = strpos($item->plan, "monthly") > 0 ? $carbon->addMonth()->toDateTimeString() : $carbon->addYear()->toDateTimeString(); */
+        /*         $resItem["status"] = $t->getStatus(); */
+        /*         array_push($res, $resItem); */   
+        /*     } */
+        /* } */
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function requestRefund($number)
+    {
+    }
+
+    public function refund($no)
+    {
     }
 }

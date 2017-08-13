@@ -269,8 +269,9 @@ class PaypalService
     }
 
     /**
-     * 获取支付订单
+     * 获取指定订阅
      * @param $id  paypal的payment_id
+     * @return Agreement | null
      */
     public function subscription($id)
     {

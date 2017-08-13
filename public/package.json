@@ -70,6 +70,7 @@
     "bootstrap-switch": "^3.3.4",
     "fancybox": "^3.0.0",
     "font-awesome": "^4.7.0",
+    "gulp-eslint": "^4.0.0",
     "highcharts": "^5.0.9",
     "highcharts-ng": "1.0.1",
     "jqcloud2": "^2.0.2",
