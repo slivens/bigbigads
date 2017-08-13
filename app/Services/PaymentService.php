@@ -156,7 +156,7 @@ class PaymentService implements PaymentServiceContract
      */
     public function syncSubscriptions(Array $gateways = [])
     {
-        // 正常应该是从远程同步，这里先从本地同步以便流程可以正常往下走
+        // 正常应该是从远程同步，以确定status状态，这里先从本地同步以便流程可以正常往下走
         $subs = Subscription::all();//where('gateway', 'paypal')->get();
         $service = new PaypalService($this->config['paypal']);
 

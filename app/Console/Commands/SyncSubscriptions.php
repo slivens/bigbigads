@@ -11,7 +11,7 @@ class SyncSubscriptions extends Command
      *
      * @var string
      */
-    protected $signature = 'bigbigads:sync-subscriptions {--paypal : 只同步paypal} {--stripe : 只同步stripe}';
+    protected $signature = 'bba:sync-subscriptions {--paypal : 只同步paypal} {--stripe : 只同步stripe}';
 
     /**
      * The console command description.

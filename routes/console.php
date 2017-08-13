@@ -21,7 +21,7 @@ Artisan::command('inspire {project}', function ($project) {
 })->describe('Display an inspiring quote');
 
 
-Artisan::command('bigbigads:resetpwd {email}', function($email) {
+Artisan::command('bba:resetpwd {email}', function($email) {
     $user = App\User::where('email', $email)->first();
     if ($user instanceof App\User) {
         $user->password = bcrypt('bigbigads');
@@ -34,7 +34,7 @@ Artisan::command('bigbigads:resetpwd {email}', function($email) {
     }
 })->describe("重置密码为bigbigads");
 
-Artisan::command('bigbigads:change {email} {roleName}', function($email, $roleName) {
+Artisan::command('bba:change {email} {roleName}', function($email, $roleName) {
     try {
         $role = App\Role::where('name', $roleName)->first();
         if (!($role instanceof App\Role)) {
@@ -60,7 +60,7 @@ Artisan::command('bigbigads:change {email} {roleName}', function($email, $roleNa
     }
 })->describe("设置用户的角色（将重新初始化资源使用情况）");
 
-Artisan::command('bigbigads:activate {email} {state}', function($email,  $state) {
+Artisan::command('bba:activate {email} {state}', function($email,  $state) {
     $stateDesc = ['anti-activated', 'activated', 'freezed'];
     try {
         $state = intval($state);
@@ -85,7 +85,7 @@ class MockReq {
     }
 }
 
-Artisan::command('bigbigads:can {email} {priv}', function($email,  $priv) {
+Artisan::command('bba:can {email} {priv}', function($email,  $priv) {
     try {
         $user = App\User::where('email', $email)->first();
         if ($user instanceof App\User) {
@@ -116,14 +116,14 @@ Artisan::command('bigbigads:can {email} {priv}', function($email,  $priv) {
 
 /**
  * 邮件相关的操作，目前支持:
- * add 批量添加: php artisan bigbigads:email add <mail file name>
- * del 批量删除: php artisan bigbigads:email del <mail file name>
- * clear 全部删除: php artisan bigbigads:email clear
- * dispatch 发送邮件测试: php artisan bigbigads:email dispatch m13799329269@qq.com weekly
+ * add 批量添加: php artisan bba:email add <mail file name>
+ * del 批量删除: php artisan bba:email del <mail file name>
+ * clear 全部删除: php artisan bba:email clear
+ * dispatch 发送邮件测试: php artisan bba:email dispatch m13799329269@qq.com weekly
  * 格式: email,group
  * 其中，group不应该以'#'开头，'#'开头的分组有特殊含义
  */
-Artisan::command('bigbigads:email {op} {file=mail} {extParam=space}', function($op,  $file, $extParam) {
+Artisan::command('bba:email {op} {file=mail} {extParam=space}', function($op,  $file, $extParam) {
     if ($op == 'add' || $op == 'del') {
         if (!Storage::exists($file)) {
             $this->info("$file is not found, please check the file is in 'storage/app'");

@@ -17,7 +17,7 @@ class SyncPlans extends Command
      *
      * @var string
      */
-    protected $signature = 'bigbigads:sync-plans {--paypal : 只同步paypal} {--stripe : 只同步stripe}';
+    protected $signature = 'bba:sync-plans {--paypal : 只同步paypal} {--stripe : 只同步stripe}';
 
     /**
      * The console command description.
