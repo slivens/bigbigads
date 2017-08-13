@@ -20,9 +20,18 @@ use Payum\Core\Request\GetHumanStatus;
 use Payum\Core\Model\CreditCard;
 use Payum\Core\Model\Payment;
 use App\Payment as OurPayment;
+use App\Contracts\PaymentService;
 
 class SubscriptionController extends PayumController
 {
+    /**
+     * 生成唯一订单号:16位数字
+     */
+    public function generateNo()
+    {
+        return substr(implode("", array_map('ord', str_split(str_random(12),1))), 0, 16);
+    }
+
     /**
      * 显示支付表单
      */
@@ -82,14 +91,28 @@ class SubscriptionController extends PayumController
             $coupon = $this->checkCoupon($req->coupon, $plan->amount);
             if (!$coupon)
                 return redirect()->back()->withErrors(['message' => 'Invalid coupon']);
-            if ($coupon->type == 0) {
-                $discount = floor($plan->amount * $coupon->discount / 100);
-            } else if ($coupon->type == 1) {
-                $discount = $coupon->discount;
-            }
+            $discount = $coupon->getDiscountAmount($plan->amount);
+            /* if ($coupon->type == 0) { */
+            /*     $discount = floor($plan->amount * $coupon->discount / 100); */
+            /* } else if ($coupon->type == 1) { */
+            /*     $discount = $coupon->discount; */
+            /* } */
             if (Subscription::where('quantity', '>', 0)->where('user_id', $user->id)->where('coupon_id', $coupon->id)->count() >= $coupon->customer_uses)
                 return redirect()->back()->withErrors(['message' => 'You have used the coupon']);
         }
+
+        //创建一个新的订阅(是否要清除已有的未支付订阅呢？需要的，防止数据库被填满，由于Paypal的token可能还在生效，所以在onPay时要确保不能支付成功)
+        Subscription::where('user_id', $user->id)->where('status', Subscription::STATE_CREATED)->delete();
+        $subscription = new Subscription();
+        $subscription->user_id = $user->id;
+        $subscription->plan = $plan->name;
+        /* $subscription->agreement_id = $queryArr['token']; */
+        $subscription->quantity = 0;
+        $subscription->coupon_id = $coupon ? $coupon->id : 0;
+        $subscription->setup_fee = $plan->amount - $discount;
+        $subscription->gateway = PaymentService::GATEWAY_STRIPE;
+        $subscription->status = Subscription::STATE_CREATED;
+        $subscription->save();
 
         if ($req->has('payType') && $req->payType == 'stripe') {
             return $this->payByStripe($req, $plan, $user, $coupon);
@@ -105,15 +128,8 @@ class SubscriptionController extends PayumController
 			$queryArr[$t[0]] = $t[1];
         }
 
-        //创建一个新的订阅(是否要清除已有的未支付订阅呢？需要的，防止数据库被填满，由于Paypal的token可能还在生效，所以在onPay时要确保不能支付成功)
-        Subscription::where('user_id', $user->id)->where('quantity', 0)->delete();
-        $subscription = new Subscription();
-        $subscription->user_id = $user->id;
-        $subscription->plan = $plan->name;
-        $subscription->payment_id = $queryArr['token'];
-        $subscription->quantity = 0;
-        $subscription->coupon_id = $coupon ? $coupon->id : null;
-        $subscription->setup_fee = $plan->amount - $discount;
+        $subscription->agreement_id = $queryArr['token'];
+        $subscription->gateway = PaymentService::GATEWAY_PAYPAL;
         $subscription->save();
         return redirect($approvalUrl);
     }
@@ -130,7 +146,7 @@ class SubscriptionController extends PayumController
         $resItem = [];
         //没有返回交易记录，不知觉厉
         foreach($subscriptions as $item) {
-            $transactions = $service->transactions($item->payment_id);
+            $transactions = $service->transactions($item->agreement_id);
             if ($transactions == null)
                 return [];
             foreach ($transactions as $t) {
@@ -176,6 +192,9 @@ class SubscriptionController extends PayumController
         return $service->dropPlans();
     }
 
+    /**
+     * 根据订阅切换用户当前的计划。用户的权限会被重置，同时过期时间将被设置。
+     */
     protected function switchPlan(User $user, Subscription $subscription)
     {
         $plan = Plan::where('name', $subscription->plan)->first();
@@ -184,6 +203,20 @@ class SubscriptionController extends PayumController
         $user->subscription_id = $subscription->id;
         $user->role_id = $role->id;
         $user->initUsageByRole($role);//更改计划时切换资源
+        switch (strtolower($plan->frequency)) {
+        case 'day':
+            $user->expired = Carbon::now()->addDays($plan->frequency_interval);
+            break;
+        case 'week':
+            $user->expired = Carbon::now()->addWeeks($plan->frequency_interval);
+            break;
+        case 'month':
+            $user->expired = Carbon::now()->addMonths($plan->frequency_interval);
+            break;
+        case 'year':
+            $user->expired = Carbon::now()->addYears($plan->frequency_interval);
+            break;
+        }
         $user->save();
         Log::info($user->name . " change plan to " . $plan->name . "({$oldRoleName} -> {$role['display_name']})");
     }
@@ -194,7 +227,7 @@ class SubscriptionController extends PayumController
     public function onPay(Request $request)
     {
         echo "processing...don't close the window";
-        $subscription = Subscription::where('payment_id', $request->token)->first();
+        $subscription = Subscription::where('agreement_id', $request->token)->first();
         if (!($subscription instanceof Subscription)) {
             abort(401, "no subscription found");
         }
@@ -203,11 +236,12 @@ class SubscriptionController extends PayumController
 
         $payment = $service->onPay($request);
         //中途取消的情况下返回profile页面
-        if ($payment == null)return redirect('/app/profile?active=0');
+        if ($payment == null) return redirect('/app/profile?active=0');
             //abort(401, "error on payment");
 
-        $subscription->payment_id = $payment->getId();
+        $subscription->agreement_id = $payment->getId();
         $subscription->quantity = 1;
+        $subscription->status = Subscription::STATE_SUBSCRIBED;
         $subscription->save();
         if ($subscription->coupon_id > 0) {
             $subscription->coupon->used++;
@@ -218,40 +252,74 @@ class SubscriptionController extends PayumController
         // TODO:取消订阅功能应实现
         /* try { */
         /*     if ($user->subscription_id > 0) { */
-        /*         $service->suspendSubscription($user->subscription->payment_id); */
+        /*         $service->suspendSubscription($user->subscription->agreement_id); */
         /*     } */
         /* } catch(\Exception $e) { */
         /*     Log::info("suspend failed:" . $user->subscription_id); */
         /* } */
-        $this->switchPlan($user, $subscription);
+        /* $this->switchPlan($user, $subscription); */
         return redirect('/app/profile?active=0');
     }
 
     /**
-     * 处理支付的一些通知
+     * 处理Paypal支付的通知
+     * @warning Webhook的通知可能是不可靠的，因此我们还需要另外一种主动查询的机制去保证所有订单被正确的处理。
      */
     public function onPayWebhooks(Request $request)
     {
-        Log::info('webhooks id: '.$request->id);
+        Log::info('webhooks id: '. $request->id);
+        /* if (!$request->has('id')) { */
+        /*     Log::warning('invalid webhook'); */
+        /*     return; */
+        /* } */
         $webhook_id = $request->id;//webhook id
         $count = Webhook::where('webhook_id',$webhook_id)->count();
         //Log::info('$select: '.$select);
         //Log::info('count($select): '.count($select));
         //$select = DB::select('select * from webhooks where webhook_id = :webhook_id',['webhook_id'=>$webhook_id]);
-        if($count==0){
+        if($count == 0) {
+            $resource = $request->resource;
             $webhook = new Webhook;
             $webhook->webhook_id = $webhook_id;
             $webhook->create_time = $request->create_time;
             $webhook->resource_type = $request->resource_type;
             $webhook->event_type = $request->event_type;
             $webhook->summary = $request->summary;
-            $webhook->webhook_content = serialize($request->resource);
-            try {
-                $re = $webhook->save();
-                Log::info('$webhook->save(): '.$re);
-            } catch(\Exception $e) {
-                Log::error("save webhooks failed:" . $e->getMessage());
-                return null;
+            $webhook->webhook_content = $resource;
+            $re = $webhook->save();
+            Log::info('$webhook->save(): '.$re);
+            switch ($webhook->event_type) {
+            case 'PAYMENT.SALE.PENDING':
+                // 收到PENDING通常是安全原因引起，买家已付款，但是需要卖家确认才能收到款，暂不处理
+                // TODO: 创建PENDING的Payment，然后在其他状态中对其修改
+                break;
+            case 'PAYMENT.SALE.COMPLETED':
+                // 用户完成支付才切换权限
+                $agreementId = $request->resource['billing_agreement_id'];
+                $subscription = Subscription::where('agreement_id', $agreementId)->first();
+                if (!$subscription) {
+                    Log::warning("payment completed, but no `$agreementId` subscription found");
+                    break;
+                }
+                $user = $subscription->user;
+                $this->switchPlan($user, $subscription);
+
+                // 添加payment记录和修改subscription状态
+                $subscription->status = Subscription::STATE_PAYED;
+                $subscription->save();
+
+                $payment = new OurPayment();
+                $payment->status = OurPayment::STATE_COMPLETED;
+                $payment->client_id = $user->id;
+                $payment->client_email = $user->email;
+                $payment->amount = $resource['amount']['total'];
+                $payment->currency =  $resource['amount']['currency'];
+                $payment->number = $resource['id'];// Paypal的订单号是自动生成的
+                $payment->description = $request->summary;
+                $payment->details = $resource;
+                $payment->subscription()->associate($subscription);
+                $payment->save();
+                break;
             }
         }
     }
@@ -273,16 +341,20 @@ class SubscriptionController extends PayumController
     {
         if (!$req->has('stripeToken'))
             return redirect()->back()->withErrors(['message' => 'invalid credit card']);
+        $discount = 0;
+        if ($coupon) {
+            $discount = $coupon->getDiscountAmount($plan->amount);
+        }
 		$storage = $this->getPayum()->getStorage(Payment::class);
 		$payment = $storage->create();
-		$payment->setNumber(uniqid());
+		$payment->setNumber($this->generateNo());
 		$payment->setCurrencyCode($plan->currency);
 		$payment->setTotalAmount(0); 
 		$payment->setDescription($plan->display_name);
 		$payment->setClientId($user->id);
 		$payment->setClientEmail($user->email);
         $payment->setDetails(new \ArrayObject([
-            'amount' => $plan->amount * 100, 
+            'amount' => ($plan->amount  - $discount) * 100, 
             'currency' => $plan->currency, 
             'card' => $req->stripeToken,
             'local' => [
@@ -336,28 +408,42 @@ class SubscriptionController extends PayumController
         $gateway->execute($status = new GetHumanStatus($token));
         $payment = $status->getFirstModel();
 
+        $details = $payment->getDetails();
         if ($status->getValue() == 'captured') {
-            $detail = $payment->getDetails();
-            $ourPayment = new OurPayment();
-            $ourPayment->status = $status->getValue();
-            $ourPayment->client_id = $payment->getClientId();
-            $ourPayment->client_email = $payment->getClientEmail();
-            $ourPayment->total_amount = $detail['amount'];
-            $ourPayment->currency_code = ($payment->getCurrencyCode());
-            $ourPayment->setNumber($payment->getNumber());
-            $ourPayment->setDetails($detail);
-            $ourPayment->save();
-
+            // 这整个流程应该是原子操作，应该放在队列中
             $user = User::find($payment->getClientId());
-            $planName = $detail['local']['customer']['plan'];
-            $subscription = new Subscription();
-            $subscription->payment_id = $ourPayment->id;
+            $planName = $details['local']['customer']['plan'];
+
+            $subscription = Subscription::where('user_id', $user->id)->where(['status' => Subscription::STATE_CREATED, 'gateway' => PaymentService::GATEWAY_STRIPE])->first();
+            // $subscription->agreement_id = $ourPayment->id;
             $subscription->quantity = 1;
-            $subscription->plan = $planName;
-            $subscription->setup_fee = $detail['amount'] / 100;
-            $subscription->user()->associate($user);
+            $subscription->status = Subscription::STATE_PAYED;
+            /* $subscription->setup_fee = $details['amount'] / 100; */
+            if ($subscription->coupon_id > 0) {
+                $subscription->coupon->used++;
+                $subscription->coupon->save();
+            }
             $subscription->save();
             $this->switchPlan($user, $subscription);
+
+
+            $ourPayment = new OurPayment();
+            switch ($status->getValue()) {
+            case 'captured':
+                $ourPayment->status = OurPayment::STATE_COMPLETED;
+            default:
+                $ourPayment->status = $status->getValue();
+            }
+
+            $ourPayment->client_id = $payment->getClientId();
+            $ourPayment->client_email = $payment->getClientEmail();
+            $ourPayment->amount = number_format($details['amount'] / 100, 2);
+            $ourPayment->currency = ($payment->getCurrencyCode());
+            $ourPayment->setNumber($payment->getNumber());
+            $ourPayment->details = $details;
+            $ourPayment->description = $payment->getDescription();
+            $ourPayment->subscription()->associate($subscription);
+            $ourPayment->save();
         }
         return redirect('/app/profile?active=0');
         /* return \Response::json([ */

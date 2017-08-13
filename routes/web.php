@@ -127,7 +127,7 @@ Route::resource('BookmarkItem', 'BookmarkItemController');
 Route::resource('/rest/coupon', 'CouponController');//后面将改成统一由ReourceController+Hooks的方式控制
 Route::any('/forward/{action}', 'SearchController@search');
 
-Route::any('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
+Route::post('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
 
 //邮件营销 
 Route::get('/edm', 'EDMController@index');
