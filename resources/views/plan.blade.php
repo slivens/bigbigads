@@ -7,7 +7,7 @@
     <title>Bigbigads Pricing | Largest Facebook Ad Examples</title>
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <link href="./dist/home.css?v=2.0.1" rel="stylesheet">
+    <link href="./dist/home.css?v=2.0.3" rel="stylesheet">
     @include('tpl.script')
 </head>
 <body id="plan">
@@ -169,7 +169,11 @@
         </div>
     </div>
 </section>
-<section class="plan-table">
+
+<div class="click-to-down hidden-xs hidden-sm">
+    <a href="#plan-table" id="click-to-down"><div class="down-icon"></div></a>
+</div>
+<section class="plan-table" id="plan-table">
     <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-10 col-md-offset-1 table-responsive">
@@ -504,7 +508,7 @@
 </section>
 @include('tpl.footer')
 </body>
-<script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
-<script type="text/javascript" src="dist/plan.js?v=2.0.1" defer></script>
+<script type="text/javascript" src="dist/vendor.js?v=2.0.3" defer></script>
+<script type="text/javascript" src="dist/plan.js?v=2.0.3" defer></script>
 </html>
 

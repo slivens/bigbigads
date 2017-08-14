@@ -476,7 +476,7 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
-    .directive('avatar', ['Util', function(Util){
+    .directive('avatar', ['Util', function(Util) {
         return {
             link: function(scope, element, attrs) {
                 var imageSrc;
@@ -492,19 +492,66 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
         return {
             link: function(scope, element, attrs) {
                 var elm = element
-                var that = scope
                 angular.element($window).bind("scroll", function() {
                     var elementHight = elm.height()
                     var marginTop = elm[0].getBoundingClientRect().top
                     if(elementHight + marginTop > 514){
-                        that.infoPosition = false;
+                        // 因为有些修改不能赋值到view，需要应该$apply()方法
+                        if(scope.infoPosition)  scope.$apply(function(){ scope.infoPosition = false})
                     } else {
-                        that.infoPosition = true;
+                        if(!scope.infoPosition)  scope.$apply(function(){ scope.infoPosition = true})
                     }
                 })
             }
         }
     })
+    .directive('payCheck', ['User', 'SweetAlert', function(User, SweetAlert) {
+        return {
+            link: function(scope, element, attrs) {
+                if (!attrs.name) {
+                    return;
+                }
+                //现在不支持用户再次购买同类的plan计划，即已经是standard月付不能再购买standard 季付和年付
+                var userPlanType = attrs.name.split("_");
+                var userPlan = userPlanType[0];
+                element.bind("click", function() {
+                    if (attrs.plan != 'free') { 
+                        if (userPlan === attrs.plan) {
+                            var on = SweetAlert.swal("You had subscribed. Wanna change your plan?", function(){ 
+                               window.open("mailto:sale@bigbigads.com", '_self');
+                            })
+                            SweetAlert.swal({
+                               title: "You had subscribed. Wanna change your plan?",
+                               type: "warning",
+                               showCancelButton: true,
+                               confirmButtonColor: "#DD6B55",confirmButtonText: "Yes",
+                               cancelButtonText: "No",
+                               closeOnConfirm: false,
+                               closeOnCancel: true }, 
+                               function(isConfirm){ 
+                                   if (isConfirm) {
+                                        window.open("mailto:sale@bigbigads.com", '_self');
+                                   }
+                            });
+                            return false;
+                        } else {
+                            window.open('/pay?name=' + attrs.name, '_self');
+                        }
+                    } else {
+                        window.open('/pay?name=' + attrs.name, '_self');
+                    }
+                    
+                }); 
+            }
+        }
+    }])
+    /*.directive('iframe', function() {
+        return {
+            link: function(scope, element, attrs) {
+                console.log(attrs.value);
+            }
+        }
+    })*/
     //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function () {  
         return function (collection) { 
@@ -826,6 +873,19 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                     }
                     return arr;
                 }
+            },
+            googleSuggestQueries:function(value) {
+                var query = encodeURI(value);
+                var myUrl = "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&q=" + query + "&callback=JSON_CALLBACK";
+                var result;
+                //调用谷歌搜索接口,需要使用jsonp方式请求
+                return $http.jsonp(myUrl).success(
+                　　function(data){
+                　　　　return data;
+                　　}
+                ).error(function(date){
+                    console.log(date);
+                });         
             }
 
         };

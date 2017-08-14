@@ -56,6 +56,12 @@ class AppServiceProvider extends ServiceProvider
                 // your Guzzle6 configuration
             ]);
         }); 
+
+        $this->app->singleton(\App\Contracts\PaymentService::class, function() {
+            // 配置应该由此处传入，以便达到解耦以及多个PaymentService实例共用的目的
+            return new \App\Services\PaymentService(config('payment'));
+        });
+
         $this->app->resolving('payum.builder', function(\Payum\Core\PayumBuilder $payumBuilder) {
             $payumBuilder
 				// this method registers filesystem storages, consider to change them to something more

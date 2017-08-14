@@ -12,7 +12,9 @@
                         <div>
                             <p>
                                 You are currently on <span class="text-warning">{{userInfo.user.role.plan}}</span> Plan
-                                <!-- You are currently on <span class="text-warning">{{subscription.plan.replace('_', ' ')}}</span> Plan -->
+                                <div ng-show="lastSubscription && lastSubscription.status == 'subscribed'" class="text-danger">
+                                    (Your have upgrade your plan to <span class="text-primary"> {{lastSubscription.plan}}</span>, but payment is not detected. Please wait for some minutes  or contact us if you have payed.)
+                                </div>
                             </p>
                             <p>
                             <a class="btn btn-primary" ui-sref="plans">Change Plan</a>

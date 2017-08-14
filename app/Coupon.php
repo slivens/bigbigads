@@ -11,4 +11,19 @@ class Coupon extends Model
     {
         return $this->hasMany('\App\Subscription');
     }
+
+    /**
+     * 动态计算实际折扣价格
+     * @param float $amount
+     * @return int 实际折扣价格
+     */
+    public function getDiscountAmount($amount)
+    {
+        if ($this->type == 0) {
+            $discount = floor($amount * $this->discount / 100);
+        } else if ($coupon->type == 1) {
+            $discount = $this->discount;
+        }
+        return $discount;
+    }
 }

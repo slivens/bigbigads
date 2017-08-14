@@ -32,9 +32,12 @@
                     <div ng-if="currSearchOption.format">Format:{{currSearchOption.format | formatType}}</div>
                     <div ng-if="currSearchOption.callToAction">Call To Action:{{currSearchOption.callToAction}}</div>
                     <div ng-if="currSearchOption.range">Range:{{currSearchOption.range}}</div>
-                    <!-- <div ng-if="currSearchOption.filter.tracking">Tracking Tool: {{currSearchOption.filter.tracking}}</div>
+                    <div ng-if="currSearchOption.filter.tracking">Tracking Tool: {{currSearchOption.filter.tracking}}</div>
                     <div ng-if="currSearchOption.filter.affiliate">affiliate: {{currSearchOption.filter.affiliate}}</div>
-                    <div ng-if="currSearchOption.filter.ecommerce">E_Commerce: {{currSearchOption.filter.ecommerce}}</div> -->
+                    <div ng-if="currSearchOption.filter.ecommerce">E_Commerce: {{currSearchOption.filter.ecommerce}}</div>
+                    <div ng-if="currSearchOption.filter.audienceAge && currSearchOption.filter.audienceAge.length">Audience Age: {{currSearchOption.filter.audienceAge}}</div>
+                    <div ng-if="currSearchOption.filter.audienceGender && currSearchOption.filter.audienceGender.length">Audience Gender: {{currSearchOption.filter.audienceGender}}</div>
+                    <div ng-if="currSearchOption.filter.objective && currSearchOption.filter.objective.length">Objective: {{currSearchOption.filter.objective}}</div>
                     <div ng-if="currSearchOption.filter.isDurationDirty()">Duration Range:{{currSearchOption.filter.duration.from}}~{{currSearchOption.filter.duration.to}}</div>
                     <div ng-if="currSearchOption.filter.isSeeTimesDirty()">See Times Range:{{currSearchOption.filter.seeTimes.from}}~{{currSearchOption.filter.seeTimes.to}}</div>
                     <div ng-if="currSearchOption.filter.isEngagementsDirty()">Engagements Filters:

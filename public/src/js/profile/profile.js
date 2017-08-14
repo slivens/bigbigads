@@ -69,10 +69,12 @@ app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope
         $scope.userInfo = User.info;
         if (User.info.login) {
             $scope.subscription = User.info.subscription;
+            $scope.userPlan = User.info.user.role.plan;
         }
     });
 }]);
 app.controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', function($scope, $location, User, $uibModal, TIMESTAMP) {
+    var vm = this
     var profile = {
         init:function() {
             var search = $location.search();
@@ -102,9 +104,13 @@ app.controller('ProfileController', ['$scope', '$location', 'User', '$uibModal',
     };
     $scope.userPromise = User.getInfo();
     $scope.userPromise.then(function() {
-        $scope.userInfo = User.info;
-        $scope.user = User.info.user;
-        $scope.User = User;
+        var user = User.info.user;
+        // console.log(user.subscriptions);
+        if (user.subscriptions.length > 0)
+            $scope.lastSubscription = user.subscriptions[user.subscriptions.length - 1];
+        $scope.userInfo = User.info
+        $scope.User = User
+        $scope.user = user
     });
 }]);
 app.controller('SubscriptionController', ['$scope', 'User', function($scope, User) {
@@ -138,7 +144,9 @@ app.controller('BillingsController', ['$scope', 'User', 'Resource', function($sc
             // $scope.subscription = User.info.subscription;
             if (!User.login) 
                 return;
-            ctrl.queryPromise = billings.get();
+            ctrl.queryPromise = billings.get().then( function() {
+                console.log(ctrl.billings);
+            });
             ctrl.inited = true;
         });
     };
