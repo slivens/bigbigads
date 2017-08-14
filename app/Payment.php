@@ -13,6 +13,7 @@ class Payment extends BasePayment
     const STATE_REFUNDING = "refunding";
 
     protected $table = "payments";
+    protected $fillable = ['number'];
     protected $appends = ['gateway', 'start_date', 'end_date'];
     protected $hidden = ['details'];
     protected $casts = [
