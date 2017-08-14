@@ -69,6 +69,7 @@ app.controller('PlansController', ['$scope', 'Resource', 'User', function($scope
         $scope.userInfo = User.info;
         if (User.info.login) {
             $scope.subscription = User.info.subscription;
+            $scope.userPlan = User.info.user.role.plan;
         }
     });
 }]);

@@ -8,23 +8,25 @@
                     <div class="clearfix">
                         <!-- BEGIN HEADER SEARCH BOX -->
                         <form class="search-form" ng-submit="islegal && search('search')">
-                            <div class="input-group">
+                            <div id="xg-select-group" class="input-group">
                                 <span class="input-group-addon xg-type-select">
-                                        <select class="bs-select" data-width="150px" ng-model="filterOption.type" >
-                                            <option value="" >Ad Position</option>
-                                            <option ng-repeat="item in settings.searchSetting.adsTypes" policy-lock value="{{item.key}}" key="{{item.permission}}" trigger="lockButton">
-                                            {{item.value}}
-                                            </option>
-                                        </select>
-                                    </span>
-                                <input type="search" class="form-control input-lg" placeholder="Enter a keyword, page name or domain name" ng-model="adSearcher.searchOption.search.text">
-                                <div class="input-group-btn">
+                                    <select class="bs-select" data-width="150px" ng-model="filterOption.type" >
+                                        <option value="" >Ad Position</option>
+                                        <option ng-repeat="item in settings.searchSetting.adsTypes" policy-lock value="{{item.key}}" key="{{item.permission}}" trigger="lockButton">
+                                        {{item.value}}
+                                        </option>
+                                    </select>
+                                </span>
+                                <!-- <input type="search" class="form-control input-lg" placeholder="Enter a keyword, page name or domain name" ng-model="adSearcher.searchOption.search.text"> -->
+                                <div id="xg-autocomplete">
+                                    <autocomplete ng-model="adSearcher.searchOption.search.text" data="suggestions" on-type="googleQuery" attr-placeholder="Enter a keyword, page name or domain name" click-activation="true"></autocomplete>
+                                </div>
+                                <div class="input-group-btn xg-search-button">
                                     <button type="submit" class="btn yellow-gold btn-lg " ng-disabled="adSearcher.busy" ng-click="searchCheck(adSearcher.searchOption.search.text)">
                                         <span class="search-btn-text mobile-hidden">Search</span>
                                         <i class="fa fa-search search-btn-icon mobile-show"></i>
                                     </button>
-                                    
-                                </div>
+                                </div> 
                             </div>
                         </form>
                         <div class="hotwords">
@@ -55,6 +57,9 @@
                         <div ng-if="currSearchOption.filter.tracking && currSearchOption.filter.tracking.length">Tracking Tool: {{currSearchOption.filter.tracking}}</div>
                         <div ng-if="currSearchOption.filter.affiliate && currSearchOption.filter.affiliate.length">affiliate: {{currSearchOption.filter.affiliate}}</div>
                         <div ng-if="currSearchOption.filter.ecommerce && currSearchOption.filter.ecommerce.length">E_Commerce: {{currSearchOption.filter.ecommerce}}</div>
+                        <div ng-if="currSearchOption.filter.audienceAge && currSearchOption.filter.audienceAge.length">Audience Age: {{currSearchOption.filter.audienceAge}}</div>
+                        <div ng-if="currSearchOption.filter.audienceGender && currSearchOption.filter.audienceGender.length">Audience Gender: {{currSearchOption.filter.audienceGender}}</div>
+                        <div ng-if="currSearchOption.filter.objective && currSearchOption.filter.objective.length">Objective: {{currSearchOption.filter.objective}}</div>
                         <div ng-if="currSearchOption.filter.isDurationDirty()">Duration Range:{{currSearchOption.filter.duration.from}}~{{currSearchOption.filter.duration.to}}</div>
                         <div ng-if="currSearchOption.filter.isSeeTimesDirty()">See Times Range:{{currSearchOption.filter.seeTimes.from}}~{{currSearchOption.filter.seeTimes.to}}</div>
                         <div ng-if="currSearchOption.filter.isEngagementsDirty()">Engagements Filters:

@@ -1052,6 +1052,7 @@ body.modal-open {
 
 .xg-type-select {
     padding: 0px !important;
+    width: auto !important;//覆盖input-groups 只有1%的宽度
     button {
         height: 42px;
         border: none !important;
@@ -1736,6 +1737,51 @@ color: $black_placeholder !important;
       }
     }
 }
+
+//rmz-谷歌搜索
+#xg-autocomplete { 
+    width: 100%;
+    display: inline-block;
+
+    .autocomplete {
+        input {
+            padding: 0.6em;
+            border: 1px solid #cccccc;
+        }
+
+        ul {
+            padding-left: 0;
+            background-color: #fff;
+            z-index: 200;
+
+            li {
+                .ui-select-highlight {
+                    margin-left: 10px; 
+                }
+            }
+        }
+    }
+}
+#xg-select-group {
+    display: flex;
+}
+
+#audienceGender {
+    padding: 4px 8px;
+}
+.xg-search-button {
+    display: inline-flex;
+    width: auto !important;
+}
+
+@media screen and (max-width: 769px) {
+    .xg-search-button {
+        .btn {
+            padding: 6px 26px 8px 26px !important;
+        }
+    }
+}
+
 /*
 * 后台app界面移动端适配
 * 单独从文件app_mobile.scss引入，方便维护
