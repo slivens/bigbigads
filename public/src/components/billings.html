@@ -1,9 +1,9 @@
 <div>
-    <table class="table table-striped " cg-busy="$ctrl.queryPromise">
+    <table class="table table-striped ">
         <tr class="bg-default table-bordered">
+            <th>Type</th>
             <th>ID</th>
             <th>Plan</th>
-            <th>Type</th>
             <th>Start Date</th>
             <th>Expire Date</th>
             <th>Price</th>
@@ -11,11 +11,11 @@
             <th>Operation</th>
         </tr>
         <tr ng-repeat="item in $ctrl.billings.items | orderBy:'-startDate'">
-            <td>{{item.id}}</td>
-            <td>{{item.plan}}</td>
-            <td>{{item.type}}</td>
-            <td>{{item.startDate}}</td>
-            <td>{{item.endDate}}</td>
+            <td>{{item.gateway == 'paypal' ? 'paypal' : 'credit card'}}</td>
+            <td>{{item.number}}</td>
+            <td>{{item.subscription.plan}}</td>
+            <td>{{item.start_date}}</td>
+            <td>{{item.end_date}}</td>
             <td>{{item.amount + " " + item.currency}}</td>
             <td>{{item.status}}</td>
             <td>

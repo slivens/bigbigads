@@ -620,11 +620,11 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
                 key: "description,name,caption,message",
                 value: "Advertisement",
                 permission:"content_search"
-            }, {
+            }, /*{ 摒弃，已细化出为更具体的受众过滤
                 key:"whyseeads,whyseeads_all",
                 value:"Audience",
                 permission:"audience_search"
-            }],
+            }*/],
             langList: [{
                 key: "English",
                 value: "English"
@@ -772,6 +772,84 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
             },{
                 key: "wooCommerce",
                 value: "wooCommerce"
+            }],
+            audienceAge: [{
+                key: "18-24",
+                value: "18-24"     
+            }, {
+                key: "25-34",
+                value: "25-34"     
+            }, {
+                key: "35-44",
+                value: "35-44"     
+            }, {
+                key: "45-54",
+                value: "45-54"     
+            }, {
+                key: "55-64",
+                value: "55-64"     
+            }, {
+                key: "65",
+                value: "65"     
+            }],
+            audienceGender: [{
+                key: "only female",
+                value: "only female"
+            }, {
+                key: "only male",
+                value: "only male"
+            }, {
+                key: "both",
+                value: "both"
+            }, {
+                key: "include female",
+                value: "include female"
+            }, {
+                key: "include male",
+                value: "include male"
+            }],
+            objective: [{
+                key: "APP_INSTALLS",
+                value: "APP_INSTALLS"
+            }, {
+                key: "BRAND_AWARENESS",
+                value: "BRAND_AWARENESS"
+            }, {
+                key: "CANVAS_APP_INSTALLS",
+                value: "CANVAS_APP_INSTALLS"
+            }, {
+                key: "EVENT_RESPONSES",
+                value: "EVENT_RESPONSES"
+            }, {
+                key: "LEAD_GENERATION",
+                value: "LEAD_GENERATION"
+            }, {
+                key: "LINK_CLICKS",
+                value: "LINK_CLICKS"
+            }, {
+                key: "LOCAL_AWARENESS",
+                value: "LOCAL_AWARENESS"
+            }, {
+                key: "PAGE_LIKES",
+                value: "PAGE_LIKES"
+            }, {
+                key: "POST_ENGAGEMENT",
+                value: "POST_ENGAGEMENT"
+            }, {
+                key: "PRODUCT_CATALOG_SALES",
+                value: "PRODUCT_CATALOG_SALES"
+            }, {
+                key: "REACH",
+                value: "REACH"
+            }, {
+                key: "STORE_VISITS",
+                value: "STORE_VISITS"
+            }, {
+                key: "VIDEO_VIEWS",
+                value: "VIDEO_VIEWS"
+            }, {
+                key: "WEBSITE_CONVERSIONS",
+                value: "WEBSITE_CONVERSIONS"
             }],
         }
     };
@@ -1006,6 +1084,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             '/node_modules/highcharts/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
+                            '/node_modules/allmighty-autocomplete/script/autocomplete.js',
+                            '/node_modules/allmighty-autocomplete/style/autocomplete.css',
                             'js/bigbigads.js?r=' + ts
                         ]
                     });
@@ -1041,6 +1121,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             '/node_modules/highcharts/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
+                            '/node_modules/allmighty-autocomplete/script/autocomplete.js',
+                            '/node_modules/allmighty-autocomplete/style/autocomplete.css',
                             'js/bigbigads.js?r=' + ts
                         ]
                     });

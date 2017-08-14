@@ -170,17 +170,6 @@ class PlansSeeder extends Seeder
                 $role->save();
             }
             echo "binding plans to roles\n";
-            echo "sync to paypal, this will cost time, PLEASE WAITING...\n";
-			$all = Plan::all();
-			$service = new \App\Services\PaypalService();                                         
-            $all->each(function($item, $key) use($service){                                       
-                //Paypal如果要建立TRIAL用户，过程比较繁琐，这里直接跳过
-                if ($item->amount == 0)
-                    return;
-                $output = $service->createPlan($item);                                                    $item->remote_id = $output->getId();
-                $item->save();
-			}); 
-			echo "sync done\n";
         } catch (\Exception $e) {
             echo $e->getMessage();
         }

@@ -22,6 +22,7 @@ use TCG\Voyager\Models\Post;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterVerify;
 use TCG\Voyager\Models\Setting;
+use Illuminate\Support\Facades\Auth;
 
 // 前台主页
 Route::get('/', 'HomeController@index')->middleware('track');
@@ -61,7 +62,12 @@ Route::get('/product', function () {
 });
 
 Route::get('/plan', function () {
-    return view('plan');
+    //暂定登录后再次点击sign up后跳转至app
+    if (Auth::check()) {
+        return redirect('/app');
+    } else {
+        return view('plan');
+    }
 });
 
 Route::get('/about', function () {
@@ -127,7 +133,7 @@ Route::resource('BookmarkItem', 'BookmarkItemController');
 Route::resource('/rest/coupon', 'CouponController');//后面将改成统一由ReourceController+Hooks的方式控制
 Route::any('/forward/{action}', 'SearchController@search');
 
-Route::any('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
+Route::post('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
 
 //邮件营销 
 Route::get('/edm', 'EDMController@index');

@@ -92,9 +92,30 @@ class User extends Authenticatable
     }
 
 
+    /**
+     * 当前订阅
+     * 用户的当前订阅只能是已经付款且处于活动状态的订阅
+     */
     public function subscription()
     {
         return $this->belongsTo('App\Subscription');
+    }
+
+    /**
+     * 所有订阅
+     * 用户可能购买订阅，但是没有付款，获取用户的所有订阅可以更好地通知用户
+     */
+    public function subscriptions()
+    {
+        return $this->hasMany('App\Subscription');
+    }
+
+    /**
+     * 获取所有支付记录
+     */
+    public function payments()
+    {
+        return $this->hasMany('App\Payment', 'client_id');
     }
 
     public function getUsageAttribute($value)
