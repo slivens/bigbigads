@@ -19,16 +19,23 @@ use Log;
 
 class PaypalService
 {
+    protected $config;
+
+    public function __construct($config = [])
+    {
+        $this->config = $config;
+    }
+
     public function getApiContext()
     {
         $apiContext = new \PayPal\Rest\ApiContext(
             new \PayPal\Auth\OAuthTokenCredential(
-                config('payment.client_id'),     // ClientID
-                config('payment.client_secret')      // ClientSecret
+                config('payment.paypal.client_id'),     // ClientID
+                config('payment.paypal.client_secret')      // ClientSecret
             ));
         $apiContext->setConfig( 
             array(
-                'mode'=>config('payment.mode'),
+                'mode'=>config('payment.paypal.mode'),
                  'log.LogEnabled' => true,
                  'log.FileName' => 'PayPal.log',
                  'log.LogLevel' => 'DEBUG'
@@ -70,7 +77,7 @@ class PaypalService
         $chargeModel->setType('TAX')
             ->setAmount(new Currency(array('value' => 0, 'currency' => $param->currency)));
 
-        $returnUrl = config('payment.returnurl');
+        $returnUrl = config('payment.paypal.returnurl');
         $merchantPreferences = new MerchantPreferences();
         $merchantPreferences->setReturnUrl("$returnUrl?success=true")
             ->setCancelUrl("$returnUrl?success=false")
@@ -105,6 +112,37 @@ class PaypalService
         return $output;
     }
 
+    /**
+     * 获取指定ID的计划
+     */
+    public function getPlan($id)
+    {
+        try {
+            $plan = Plan::get($id, $this->getApiContext());
+            return $plan;   
+        } catch(\Exception $e) {
+            Log::error("paypal get plan list failed:" . $e->getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * 删除指定ID的计划
+     */
+    public function deletePlan($id)
+    {
+        try {
+            $plan = Plan::get($id, $this->getApiContext());
+            return $plan;   
+        } catch(\Exception $e) {
+            Log::error("paypal get plan list failed:" . $e->getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * 获取所有paypal的计划
+     */
     public function plans()
     {
         $apiContext = $this->getApiContext();
@@ -113,7 +151,7 @@ class PaypalService
             $planList = Plan::all($params, $apiContext);
         } catch(\Exception $e) {
             Log::error("paypal get plan list failed:" . $e->getMessage());
-            return null;
+            return [];
         }
         return $planList;
     }
@@ -160,7 +198,7 @@ class PaypalService
         // Add Plan ID
         // Please note that the plan Id should be only set in this case.
         $plan = new Plan();
-        $plan->setId($param['remote_id']);
+        $plan->setId($param['paypal_id']);
         $agreement->setPlan($plan);
 
         // Add Payer
@@ -231,8 +269,9 @@ class PaypalService
     }
 
     /**
-     * 获取支付订单
+     * 获取指定订阅
      * @param $id  paypal的payment_id
+     * @return Agreement | null
      */
     public function subscription($id)
     {
