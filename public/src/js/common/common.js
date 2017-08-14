@@ -485,6 +485,26 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             }
         };
     }])
+    /*
+    * 再广告详情页中滑动的指令
+    */
+    .directive('overviewScroll', function($window) {
+        return {
+            link: function(scope, element, attrs) {
+                var elm = element
+                var that = scope
+                angular.element($window).bind("scroll", function() {
+                    var elementHight = elm.height()
+                    var marginTop = elm[0].getBoundingClientRect().top
+                    if(elementHight + marginTop > 514){
+                        that.infoPosition = false;
+                    } else {
+                        that.infoPosition = true;
+                    }
+                })
+            }
+        }
+    })
     //去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function () {  
         return function (collection) { 

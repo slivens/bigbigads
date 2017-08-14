@@ -1040,7 +1040,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             '/node_modules/highcharts/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            '/node_modules/highcharts/modules/map.js',
                             'js/bigbigads.js?r=' + ts
                         ]
                     });

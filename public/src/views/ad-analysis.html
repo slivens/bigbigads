@@ -1,6 +1,6 @@
 <div ng-controller="AdAnalysisController" id="ad-analysis" class="ad-analysis container alert ">
     <div class="ads-font-20 analysis-title">Advertisement Overview:</div>
-    <div class="analy-overview row" id="analy-overview">
+    <div class="analy-overview row" overview-Scroll >
         <div class="col-sm-6 analy-adscard">
             <div class="adscard-body">
                 <div class="adscard-header">
@@ -38,9 +38,11 @@
                     <span class="comments-text">{{card.views | addUnit}}&nbsp;Views</span>
                     </span>
                 </div>
+                <br>
             </div>
+
         </div>
-        <div class="col-sm-6 analy-info ads-font-16" infinite-scroll="scrollToTop()" infinite-scroll-distance="2" ng-class="{'info-position' : infoPosition, 'info-fixed': infoFixed}">
+        <div class="col-sm-6 analy-info ads-font-16"  ng-class="{'info-position' : infoPosition, 'info-fixed': !infoPosition}">
             <div class="analy-info-wrapper">
                 <p>
                     <span class="ads-weight-bold">Time:</span>
@@ -70,8 +72,8 @@
             </div>
             <div id="analy-info-mark" style="height: 0px"></div>
         </div>
+       
     </div>
-    <div id="analy-adscard-mark" style="height: 0px"></div>
     <hr>
     <div class="analysis-title ads-font-20">Advertisement Trending：</div>
     <div class="row analy-charts analy-trending">

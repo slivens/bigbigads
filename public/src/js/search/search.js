@@ -1411,22 +1411,6 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
             $scope.adSearcher.filter();
         };
         
-        /* 
-        * 鼠标滚动事件
-        * 广告详情页中右右边的信息为悬浮
-        * 滑倒快顶部的时候固定
-        */
-        $scope.scrollToTop = function(){
-        	var adscardTop = angular.element("#analy-adscard-mark")[0].getBoundingClientRect().top;// 获取广告卡的距离顶部
-        	var adsInfoTop = angular.element("#analy-info-mark")[0].getBoundingClientRect().top; //详情标记距离顶部
-        	if(adscardTop > 508){
-        		$scope.infoPosition = false;
-        		$scope.infoFixed = true;
-        	} else {
-        		$scope.infoPosition = true;
-        		$scope.infoFixed = false;
-        	}
-        }
         $scope.User = User;
         $scope.Util = Util;
         $scope.card = {
@@ -1453,7 +1437,7 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 			// 广告impression
             if ($scope.card.impression) {
                 var arr = JSON.parse($scope.card.impression)
-                var tiem
+                var time
                 for (var key in arr) {
                     time = key
                 }
