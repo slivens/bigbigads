@@ -21,6 +21,7 @@ use Payum\Core\Model\CreditCard;
 use Payum\Core\Model\Payment;
 use App\Payment as OurPayment;
 use App\Contracts\PaymentService;
+use App\Jobs\SyncPaymentsJob;
 
 final class SubscriptionController extends PayumController
 {
@@ -193,21 +194,13 @@ final class SubscriptionController extends PayumController
         //中途取消的情况下返回profile页面
         if ($payment == null) return redirect('/app/profile?active=0');
             //abort(401, "error on payment");
-
         $subscription->agreement_id = $payment->getId();
         $subscription->quantity = 1;
         $subscription->status = Subscription::STATE_SUBSCRIBED;
         $subscription->save();
-        /* $user = $subscription->user; */
-        //原来有订阅的情况下，应该取消订阅,这步可以推到队列中去做，暂时不处理
-        // TODO:取消订阅功能应实现
-        /* try { */
-        /*     if ($user->subscription_id > 0) { */
-        /*         $service->suspendSubscription($user->subscription->agreement_id); */
-        /*     } */
-        /* } catch(\Exception $e) { */
-        /*     Log::info("suspend failed:" . $user->subscription_id); */
-        /* } */
+
+        // 正常来讲，3分钟内会有webhook产生，但是webhook不是个可靠机制，所以在5分钟后再次同步试试
+        dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addMinutes(3)));
         return redirect('/app/profile?active=0');
     }
 
@@ -371,7 +364,7 @@ final class SubscriptionController extends PayumController
             $planName = $details['local']['customer']['plan'];
 
             $subscription = Subscription::where('user_id', $user->id)->where(['status' => Subscription::STATE_CREATED, 'gateway' => PaymentService::GATEWAY_STRIPE])->first();
-            // $subscription->agreement_id = $ourPayment->id;
+            //$subscription->agreement_id = ;$details['local']['customer']['subscriptions']['data']['id'];
             $subscription->quantity = 1;
             /* $subscription->setup_fee = $details['amount'] / 100; */
             $subscription->save();
