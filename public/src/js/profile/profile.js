@@ -145,7 +145,7 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
             if (!User.login)
                 return
             ctrl.queryPromise = billings.get().then(function() {
-                console.log(ctrl.billings)
+                // console.log(ctrl.billings);
             })
             ctrl.inited = true
         })

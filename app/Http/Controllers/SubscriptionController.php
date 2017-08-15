@@ -21,9 +21,17 @@ use Payum\Core\Model\CreditCard;
 use Payum\Core\Model\Payment;
 use App\Payment as OurPayment;
 use App\Contracts\PaymentService;
+use App\Jobs\SyncPaymentsJob;
 
-class SubscriptionController extends PayumController
+final class SubscriptionController extends PayumController
 {
+    private $paymentService;
+
+    public function __construct(PaymentService $paymentService)
+    {
+        $this->paymentService = $paymentService;
+    }
+
     /**
      * 生成唯一订单号:16位数字
      */
@@ -110,6 +118,8 @@ class SubscriptionController extends PayumController
         $subscription->quantity = 0;
         $subscription->coupon_id = $coupon ? $coupon->id : 0;
         $subscription->setup_fee = $plan->amount - $discount;
+        $subscription->frequency = $plan->frequency;
+        $subscription->frequency_interval = $plan->frequency_interval;
         $subscription->gateway = PaymentService::GATEWAY_STRIPE;
         $subscription->status = Subscription::STATE_CREATED;
         $subscription->save();
@@ -141,7 +151,7 @@ class SubscriptionController extends PayumController
     public function billings()
     {
         $user = Auth::user();
-        return $user->payments;
+        return $user->payments()->orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -166,36 +176,6 @@ class SubscriptionController extends PayumController
         return $service->dropPlans();
     }
 
-    /**
-     * 根据订阅切换用户当前的计划。用户的权限会被重置，同时过期时间将被设置。
-     */
-    protected function switchPlan(User $user, Subscription $subscription)
-    {
-        $plan = Plan::where('name', $subscription->plan)->first();
-        $role = $plan->role;
-        $oldRoleName = $user->role['display_name'];
-        $user->subscription_id = $subscription->id;
-        $user->role_id = $role->id;
-        $user->initUsageByRole($role);//更改计划时切换资源
-        switch (strtolower($plan->frequency)) {
-        case 'day':
-            $user->expired = Carbon::now()->addDays($plan->frequency_interval);
-            break;
-        case 'week':
-            $user->expired = Carbon::now()->addWeeks($plan->frequency_interval);
-            break;
-        case 'month':
-            $user->expired = Carbon::now()->addMonths($plan->frequency_interval);
-            break;
-        case 'year':
-            $user->expired = Carbon::now()->addYears($plan->frequency_interval);
-            break;
-        }
-        // 过期时间统一再加上一天，为了防止到期后，系统重置权限先于扣款，将引来不必要的麻烦。
-        $user->expired->addDay(); 
-        $user->save();
-        Log::info($user->name . " change plan to " . $plan->name . "({$oldRoleName} -> {$role['display_name']})");
-    }
 
     /**
      * 客户同意支付后的回调
@@ -214,26 +194,13 @@ class SubscriptionController extends PayumController
         //中途取消的情况下返回profile页面
         if ($payment == null) return redirect('/app/profile?active=0');
             //abort(401, "error on payment");
-
         $subscription->agreement_id = $payment->getId();
         $subscription->quantity = 1;
         $subscription->status = Subscription::STATE_SUBSCRIBED;
         $subscription->save();
-        if ($subscription->coupon_id > 0) {
-            $subscription->coupon->used++;
-            $subscription->coupon->save();
-        }
-        $user = $subscription->user;
-        //原来有订阅的情况下，应该取消订阅,这步可以推到队列中去做，暂时不处理
-        // TODO:取消订阅功能应实现
-        /* try { */
-        /*     if ($user->subscription_id > 0) { */
-        /*         $service->suspendSubscription($user->subscription->agreement_id); */
-        /*     } */
-        /* } catch(\Exception $e) { */
-        /*     Log::info("suspend failed:" . $user->subscription_id); */
-        /* } */
-        /* $this->switchPlan($user, $subscription); */
+
+        // 正常来讲，3分钟内会有webhook产生，但是webhook不是个可靠机制，所以在5分钟后再次同步试试
+        dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addMinutes(3)));
         return redirect('/app/profile?active=0');
     }
 
@@ -278,11 +245,6 @@ class SubscriptionController extends PayumController
                     break;
                 }
                 $user = $subscription->user;
-                $this->switchPlan($user, $subscription);
-
-                // 添加payment记录和修改subscription状态
-                $subscription->status = Subscription::STATE_PAYED;
-                $subscription->save();
 
                 $payment = new OurPayment();
                 $payment->status = OurPayment::STATE_COMPLETED;
@@ -295,6 +257,8 @@ class SubscriptionController extends PayumController
                 $payment->details = $resource;
                 $payment->subscription()->associate($subscription);
                 $payment->save();
+
+                $this->paymentService->handlePayment($payment);
                 break;
             case 'PAYMENT.SALE.REFUNDED':
                 $payment = OurPayment::where('number', $resource['sale_id'])->first();
@@ -400,16 +364,10 @@ class SubscriptionController extends PayumController
             $planName = $details['local']['customer']['plan'];
 
             $subscription = Subscription::where('user_id', $user->id)->where(['status' => Subscription::STATE_CREATED, 'gateway' => PaymentService::GATEWAY_STRIPE])->first();
-            // $subscription->agreement_id = $ourPayment->id;
+            //$subscription->agreement_id = ;$details['local']['customer']['subscriptions']['data']['id'];
             $subscription->quantity = 1;
-            $subscription->status = Subscription::STATE_PAYED;
             /* $subscription->setup_fee = $details['amount'] / 100; */
-            if ($subscription->coupon_id > 0) {
-                $subscription->coupon->used++;
-                $subscription->coupon->save();
-            }
             $subscription->save();
-            $this->switchPlan($user, $subscription);
 
 
             $ourPayment = new OurPayment();
@@ -430,6 +388,9 @@ class SubscriptionController extends PayumController
             $ourPayment->description = $payment->getDescription();
             $ourPayment->subscription()->associate($subscription);
             $ourPayment->save();
+
+
+            $this->paymentService->handlePayment($ourPayment);
         }
         return redirect('/app/profile?active=0');
     }
