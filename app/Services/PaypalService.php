@@ -315,7 +315,7 @@ class PaypalService
         /* $agreement = Agreement::get($id, $apiContext); */
         /* echo $agreement; */
         /* die("xx"); */
-        $params = ['start_date' => date('Y-m-d', strtotime('-15 years')), 'end_date' => date('Y-m-d', strtotime('+5 days'))];
+        $params = ['start_date' => date('Y-m-d', strtotime('-1 years')), 'end_date' => date('Y-m-d', strtotime('+5 days'))];
         try {
             $result = Agreement::searchTransactions($id, $params, $apiContext);
         } catch(\Exception $e) {

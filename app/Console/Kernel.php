@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\SyncPlans::class,
-        \App\Console\Commands\SyncSubscriptions::class
+        \App\Console\Commands\SyncSubscriptions::class,
+        \App\Console\Commands\SyncPayments::class
     ];
 
     /**
