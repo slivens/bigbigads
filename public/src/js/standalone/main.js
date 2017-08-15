@@ -1250,7 +1250,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                                     '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                                     '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
                                     '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                                    '../assets/global/scripts/mapCountry.js',
                                     '../assets/layouts/layout3/css/analysis.css',
                                     'js/bigbigads.js?r=' + Math.random()
                                 ]

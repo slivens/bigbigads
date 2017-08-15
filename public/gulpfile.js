@@ -90,6 +90,7 @@ gulp.task('script',  function() {
         return gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js']).pipe(concat(target)).pipe(gulp.dest('./app/js/')).pipe(uglify()).pipe(gulp.dest('./app/js/'));
 
     }
+    gulp.src(['./src/data/**/*']).pipe(gulp.dest('./app/data/'));
     // gulp.src(['./app/js/' + target]).pipe(uglify()).pipe(rename({suffix:'.min'})).pipe(gulp.dest('./app/js/'));
 });
 

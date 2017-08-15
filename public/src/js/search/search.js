@@ -1504,8 +1504,9 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
         })
         // $scope.adSearcher.filter();
     }])
-    .controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window', '$http', 'Util', 'User',
-        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $window, $http, Util, User) {
+    .controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window', '$http', 'Util', 'User', '$q',
+        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $window, $http, Util, User, $q) {
+            var vm = this
             // angualr 页面中使用Math.ceil() 无效
             $scope.ceil = Math.ceil
             var searcher = $scope.adSearcher = new Searcher()
@@ -1529,9 +1530,13 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             $scope.adSearcher.params.ads_detail = 1
             var promise = $scope.adSearcher.filter("analysis")
             var arr
-            // $rootScope.$broadcast("loading");
-            promise.then(function(ads) {
+            var countryPromise = $http.get('/app/data/map-country.json').then(function (res) {
+                vm.countries = res.data
+                return res.data
+            })
+            $q.all([countryPromise, promise]).then(function(res) {
                 // 只取首条消息
+                var ads = res[1]
                 $scope.card = $scope.ad = ads.ads_info[0]
                 // 表示广告在分析模式下，view根据这个字段区别不同的显示
                 $scope.card.indetail = true
@@ -1626,7 +1631,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                         for (key in $scope.card.whyseeads.addr) {
                             var countryShortName = $scope.card.whyseeads.addr[key].country.toUpperCase() // 转换成大写
                             $scope.card.whyseeads.addr[key].country = countryShortName
-                            $scope.card.whyseeads.addr[key].name = isoCountries[countryShortName] ? isoCountries[countryShortName].name : countryShortName // 添加全称 
+                            $scope.card.whyseeads.addr[key].name = vm.countries[countryShortName] ? vm.countries[countryShortName].name : countryShortName // 添加全称 
                         }
                         $scope.adsMapChart.series[0].data = $scope.card.whyseeads.addr // 地图
                         $scope.adsVisitCountryData = $scope.card.whyseeads.addr // 表格
