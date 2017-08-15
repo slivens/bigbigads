@@ -83,11 +83,11 @@ gulp.task('script',  function() {
     var target = 'bigbigads.js';
 
     if (config.mode === "develop") {
-        gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js']).pipe(sourcemaps.init()).pipe(concat(target)).pipe(sourcemaps.write('./')).pipe(gulp.dest('./app/js/'));
-        gulp.src(['./src/js/standalone/**/*.js']).pipe(gulp.dest('./app/js/'));
-        gulp.src(['./src/index.html']).pipe(gulp.dest('./app/'));
+        // gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js']).pipe(sourcemaps.init()).pipe(concat(target)).pipe(sourcemaps.write('./')).pipe(gulp.dest('./app/js/'));
+        // gulp.src(['./src/js/standalone/**/*.js']).pipe(gulp.dest('./app/js/'));
+        // gulp.src(['./src/index.html']).pipe(gulp.dest('./app/'));
     } else {
-        return gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js']).pipe(concat(target)).pipe(gulp.dest('./app/js/')).pipe(uglify()).pipe(gulp.dest('./app/js/'));
+        // return gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js']).pipe(concat(target)).pipe(gulp.dest('./app/js/')).pipe(uglify()).pipe(gulp.dest('./app/js/'));
 
     }
     gulp.src(['./src/data/**/*']).pipe(gulp.dest('./app/data/'));
@@ -162,9 +162,14 @@ gulp.task('html',  function() {
                     .pipe(gulp.dest('./app'));
     }
 });
-
+gulp.task('rev', function() {
+    return gulp.src(['./app/manifest.json', './app/js/bundle*.js']).pipe(revCollector({
+                    replaceReved:true
+                    }))
+                    .pipe(gulp.dest('./app/js/'));
+})
 gulp.task('script:watch', function() {
-    gulp.watch(['./src/js/**/*.js'], ['lint', 'script']);
+    return gulp.watch(['./src/js/**/*.js'], ['lint', 'script']);
 });
 
 gulp.task('html:watch', function() {
@@ -178,5 +183,5 @@ gulp.task('config-product', function() {
 })
 
 
-gulp.task('production', gulpsync.sync([["config-product"], ['sass', 'script'], 'html']));
-gulp.task('develop', gulpsync.sync([['sass', 'script'], 'html']));
+gulp.task('production', gulpsync.sync([["config-product"], ['sass', 'script', 'rev'], 'html']));
+gulp.task('develop', gulpsync.sync([['sass', 'script', 'rev'], 'html']));

@@ -6,6 +6,9 @@ var ManifestPlugin = require('webpack-manifest-plugin');
 module.exports = {
     entry: {
         bundle:['./src/js/standalone/main.js', './src/js/standalone/directives.js'],
+        search:['./src/js/search/search.js'],
+        ranking:['./src/js/ranking/ranking.js'],
+        profile:['./src/js/profile/profile.js'],
         vendor:[
             'bootstrap', 
             'bootstrap-switch',
@@ -46,6 +49,15 @@ module.exports = {
         }, {
             test:/\.(png|jpg|svg|gif)$/,
             loader:"url-loader?limit=10000&name=/images/[name].[ext]"
+        }, {
+            test: /\.(js|vue)$/,
+            loader: 'eslint-loader',
+            enforce: 'pre',
+            options: {
+                formatter: require('eslint-friendly-formatter'),
+                failOnWarning:true,
+                failOnError: true
+            }
         }
         ]
     },

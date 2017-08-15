@@ -29,44 +29,6 @@ MetronicApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
     })
 }])
 
-/********************************************
- BEGIN: BREAKING CHANGE in AngularJS v1.3.x:
-*********************************************/
-/**
-`$controller` will no longer look for controllers on `window`.
-The old behavior of looking on `window` for controllers was originally intended
-for use in examples, demos, and toy apps. We found that allowing global controller
-functions encouraged poor practices, so we resolved to disable this behavior by
-default.
-
-To migrate, register your controllers with modules rather than exposing them
-as globals:
-
-Before:
-
-```javascript
-function MyController() {
-  // ...
-}
-```
-
-After:
-
-```javascript
-angular.module('myApp', []).controller('MyController', [function() {
-  // ...
-}]);
-
-Although it's not recommended, you can re-enable the old behavior like this:
-
-```javascript
-angular.module('myModule').config(['$controllerProvider', function($controllerProvider) {
-  // this option might be handy for migrating old apps, but please don't use it
-  // in new ones!
-  $controllerProvider.allowGlobals();
-}]);
-**/
-
 // AngularJS v1.3.x workaround for old style controller declarition in HTML
 MetronicApp.config(['$controllerProvider', function($controllerProvider) {
     // this option might be handy for migrating old apps, but please don't use it
@@ -1082,7 +1044,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
                             '/node_modules/allmighty-autocomplete/script/autocomplete.js',
                             '/node_modules/allmighty-autocomplete/style/autocomplete.css',
-                            'js/bigbigads.js?r=' + ts
+                            'search.js'
                         ]
                     })
                 }]
@@ -1119,7 +1081,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
                             '/node_modules/allmighty-autocomplete/script/autocomplete.js',
                             '/node_modules/allmighty-autocomplete/style/autocomplete.css',
-                            'js/bigbigads.js?r=' + ts
+                            'search.js'
                         ]
                     })
                 }]
@@ -1154,7 +1116,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             '/node_modules/highcharts/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            'js/bigbigads.js?t=' + ts
+                            'search.js'
                         ]
                     })
                 }]
@@ -1188,7 +1150,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            'js/bigbigads.js?t=' + ts
+                            'search.js'
                         ]
                     })
                 }]
@@ -1217,7 +1179,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/jqcloud2/dist/jqcloud.min.css',
                             '/node_modules/jqcloud2/dist/jqcloud.min.js',
                             '../assets/global/plugins/angular-jqcloud.js',
-                            'js/bigbigads.js?t=' + ts
+                            'search.js'
                         ]
                     })
                 }]
@@ -1248,7 +1210,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
                             '../assets/layouts/layout3/css/analysis.css',
-                            'js/bigbigads.js?r=' + Math.random()
+                            'search.js'
                         ]
                     }, {
                         serie: true,
@@ -1289,7 +1251,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            'js/bigbigads.js?t=' + ts
+                            'ranking.js'
                         ]
                     })
                 }]
@@ -1319,7 +1281,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            'js/bigbigads.js?t=' + ts
+                            'search.js'
                         ]
                     })
                 }]
@@ -1352,7 +1314,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
                             '/node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
 
-                            'js/bigbigads.js?t=' + ts
+                            'profile.js'
                         ]
                     })
                 }]
@@ -1381,7 +1343,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
                             '/node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
                             '/node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
-                            'js/bigbigads.js?t=' + ts
+                            'profile.js'
                         ]
                     })
                 }]

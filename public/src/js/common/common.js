@@ -483,7 +483,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
     /*
     * 再广告详情页中滑动的指令
     */
-    .directive('overviewScroll', function($window) {
+    .directive('overviewScroll', ['$window', function($window) {
         return {
             link: function(scope, element, attrs) {
                 var elm = element
@@ -499,7 +499,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                 })
             }
         }
-    })
+    }])
     .directive('payCheck', ['User', 'SweetAlert', function(User, SweetAlert) {
         return {
             link: function(scope, element, attrs) {

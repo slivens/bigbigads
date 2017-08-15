@@ -1,3 +1,5 @@
+import '../common/common.js'
+import '../bookmark/bookmark.js'
 
 angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util', '$filter',
     function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q, Util, $filter) {
@@ -1562,10 +1564,10 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     var impressionArr = arr[time] ? Util.getTrendArr(time, 7, arr[time]) : false
                     if (impressionArr) {
                         chartData = lineChar1 // 拷贝数组
-                        chartData.xAxis.categories = impressionArr.map(v => v[0])
+                        chartData.xAxis.categories = impressionArr.map(function(v) { return v[0] })
                         chartData.series[0] = {
                             name: "impression",
-                            data: impressionArr.map(v => v[1])
+                            data: impressionArr.map(function(v) { return v[1] })
                         }
                         $scope.impressionCharts = chartData
                     } else {
@@ -1579,10 +1581,10 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     var engagementsArr = arr.trend ? Util.getTrendArr(arr.day, 0, arr.trend) : false
                     if (engagementsArr) {
                         chartData = lineChar2
-                        chartData.xAxis.categories = engagementsArr.map(v => v[0])
+                        chartData.xAxis.categories = engagementsArr.map(function(v) { return v[0] })
                         chartData.series[0] = {
                             name: "engagements_trend",
-                            data: engagementsArr.map(v => v[1])
+                            data: engagementsArr.map(function(v) { return v[1] })
                         }
                         $scope.engagementsCharts = chartData
                     } else {
@@ -1622,8 +1624,8 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     // 广告详情-年龄分布
                     if ($scope.card.whyseeads.age) {
                         var adsAge = $scope.card.whyseeads.age
-                        $scope.adsAgeCharts.series[0].data = adsAge.map(v => v[0])
-                        $scope.adsAgeCharts.series[1].data = adsAge.map(v => v[1])
+                        $scope.adsAgeCharts.series[0].data = adsAge.map(function(v) { return v[0] })
+                        $scope.adsAgeCharts.series[1].data = adsAge.map(function(v) { return v[1] })
                     }
                     // 国家分布
                     if ($scope.card.whyseeads.addr) {
