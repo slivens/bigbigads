@@ -15,74 +15,8 @@ $bower install
 $npm run product
 ```
 
-复制`.env.example`为`.env`,`.env`配置，这里面主要包含AppID,数据库配置、SMTP配置、缓存配置、以及调试配置。在实践上`.env`通常包含敏感信息（AppID及数据库配置）以及跟本地环境强相关（每个机器的数据库可能都不一样），因此不会将它包含进仓库，而是提供`.env.example`作为范例。`.env`文件在`Laravel 5.3`下有详细的说法明，这里简单对配置下做下说明。
+复制`.env.example`为`.env`,`.env`配置，这里面主要包含AppID,数据库配置、SMTP配置、缓存配置、以及调试配置。在实践上`.env`通常包含敏感信息（AppID及数据库配置）以及跟本地环境强相关（每个机器的数据库可能都不一样），因此不会将它包含进仓库，而是提供`.env.example`作为范例。`.env`文件在`Laravel 5.3`下有详细的说法明，请自行了解。同时，本项目的配置说明直接查看**`.env.example`**，本项目独有的配置项均有说明。
 
-
-```
-APP_ENV=local
-APP_KEY=base64:9sQQMUuhljKvsr8F/oEx18b+PhAekm1R0jNNzM7VSRw= #通过php artisan key:generate生成
-APP_DEBUG=true #出错时显示错误栈，实际布署环境应该设置为false
-APP_LOG_LEVEL=debug #记录日志的级别
-APP_URL=http://localhost
-
-# 以下为数据库配置
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=bigbigads
-DB_USERNAME=root
-DB_PASSWORD=FZ0802ad
-
-# 排名数据库与本地数据库不是同一个，以下为排名数据库配置
-RANKDB_CONNECTION=mysql
-RANKDB_HOST=121.41.107.126
-RANKDB_PORT=3306
-RANKDB_DATABASE=ads_analysis
-RANKDB_USERNAME=root
-RANKDB_PASSWORD=FZ0802ad
-
-BROADCAST_DRIVER=log
-CACHE_DRIVER=file
-SESSION_DRIVER=file
-QUEUE_DRIVER=sync
-
-# REDIS配置
-REDIS_HOST=127.0.0.1
-REDIS_PASSWORD=null
-REDIS_PORT=6379
-
-# 既然需要同时使用多个mail driver，那么MAIL_DRIVER在smtp与mailgun之间调整便没有太大意义   
-# 因此将其设置为smtp，如果要调试，就设置为log                                             
-MAIL_DRIVER=smtp                                                                          
-MAIL_HOST=smtp.gmail.com                                                                  
-MAIL_PORT=587                                                                             
-MAIL_USERNAME=info@bigbigads.com                                                          
-MAIL_PASSWORD=                                                    
-MAIL_ENCRYPTION=tls                                                                       
-                                                                                          
-# mailgun作为一个独立驱动，与MAIL_DRIVER同时使用                                          
-# 如果不使用mailgun，就将MAILGUN_USERNAME设置为空                                         
-MAILGUN_USERNAME=test@ad.papamk.com                                                       
-MAILGUN_DOMAIN=ad.papamk.com #请使用二级域名，不能使用主域名，防止主域名被列入黑名单      
-MAILGUN_SECRET= #从mailgun获取       
-
-PUSHER_APP_ID=
-PUSHER_KEY=
-PUSHER_SECRET=
-
-# Braintree配置
-BRAINTREE_ENV=sandbox
-BRAINTREE_MERCHANT_ID=svjdgf4mf94mfkdv
-BRAINTREE_PUBLIC_KEY=ygh9txfjt8cv5kp2
-BRAINTREE_PRIVATE_KEY=2616a406dba36832b23db9b0d8e6f4e8
-
-PAYPAL_APPID=bigbigads   # App ID，实际没用上                      
-PAYPAL_CLIENT_ID=XXXXXXX # Paypal App ClientID
-PAYPAL_CLIENT_SECRET=XXXXXXX # Paypal App Secret
-PAYPAL_WEBHOOK=https://phenye.tunnel.2bdata.com/onPayWebhook # Webhook用于接收支付消息，比如支付成功，过期等。这个需要在Paypal开发者平台的webhook先做配置，然后再填到这里来，两者名称必须一致，同时要求必须是https协议。请将域名换成自己的，后面的onPayWebhook应保留不变                  
-PAYPAL_RETURNURL=https://phenye.tunnel.2bdata.com/onPay # 回调接口，在支付的时候需要先跳到Paypal的网站上完成支付，然后Paypal将跳回该回调地址完成最后操作。请将域名换成自己的，onPay保持不变。
-PAYPAL_MODE=sandbox
-```
 
 然后配置nginx或者apache,将网站根目录定位到`public/`，同时允许`URL rewrite`。配置就完成了。
 ## 生产环境与开发环境
@@ -102,6 +36,7 @@ $npm run product
 然后在工程根目录下，修改`.env`文件，核对以下字段是否设置同样的值
 
 ```
+APP_ENV=production
 APP_DEBUG=false
 ```
 
@@ -115,10 +50,17 @@ $npm run develop
 然后在工程根目录下，修改`.env`文件，核对以下字段是否设置同样的值
 
 ```
+APP_ENV=local
 APP_DEBUG=true
 ```
 
-如果要修改`js`，`sass`，或者`html`文件，**修改前**单独开一个窗口，执行如下命令，监听文件有变化则重新生成目标文件
+如果要修改`js`，**修改前**单独开一个窗口，执行如下命令：
+
+```
+$webpack --watch
+```
+
+如果要修改`sass`，或者`html`文件，**修改前**单独开一个窗口，执行如下命令，监听文件有变化则重新生成目标文件
 
 ```
 $gulp watch
@@ -126,7 +68,6 @@ $gulp watch
 
 请配合`Chrome Devtool`做调试开发。
 
-> 有些文件现在是由`webpack`管理的，比如`main.js`，如果修改了该文件，那么需要使用`webpack`生成目标文件才行；
 
 ## 权限配置指南
 [参考对应WIKI:权限配置指南](http://git.papamk.com:81/bigbigads/bigbigads/wikis/%E6%9D%83%E9%99%90%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97)
