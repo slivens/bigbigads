@@ -22,7 +22,7 @@
             <div class="ads-card-info">
                 <div class="pull-right">
                     <i class="xg-audience xg-icon xg-icon-audience font-yellow-gold" ng-if="mother.User.can('audience_search') && (card.whyseeads_all || card.whyseeads)" audience title="{{card.whyseeads ? card.whyseeads : card.whyseeads_all}}"></i>
-                    <a eventid="{{card.event_id}}" adlink class="font-yellow-gold "><i class="xg-icon xg-icon-analysis"></i></a>
+                    <a ng-href="./adAnalysis/{{card.event_id}}" class="font-yellow-gold " target="_blank"><i class="xg-icon xg-icon-analysis"></i></a>
                 </div>
                 <div class="pull-left">
                     <i class="fa fa-clock-o font-yellow-gold fa-fw"></i><span>{{card.duration_days}}</span>

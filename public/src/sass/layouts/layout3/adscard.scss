@@ -1,0 +1,59 @@
+// 广告卡片内容的样式
+.aditem-desc {
+    .adscard-content {
+        border: 1px solid rgba(0, 0, 0, .1);
+        margin-bottom: 12px;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, .15) inset, 0 1px 4px rgba(0, 0, 0, .1);
+        p {
+            margin: 0;
+            margin-bottom: 8px;
+            font-size: 15px;
+            color: #1d2129;
+        }
+        .mt-element-overlay {
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+        .advideo {
+            border: 1px solid rgba(0, 0, 0, .1);
+            position: relative;
+            .playbtn {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                z-index: 99;
+                height: 50px;
+                width: 50px;
+                margin-left: -25px;
+                margin-top: -25px;
+                .fa {
+                    height: 50px;
+                    width: 50px;
+                }
+            }
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+        video {
+            width: 100% !important;
+            height: auto;
+        }
+
+        .adscard-bottom {
+            margin: 0 12px;
+            .aditem-caption {
+                padding: 0;
+                margin-bottom: 10px;
+                font-size: 12px;
+                color: #90949c;
+            }
+        }
+        .xg-span-description {
+            font-size: 13px;
+        }
+    }
+}

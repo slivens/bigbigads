@@ -18,6 +18,7 @@ const runSequence = require('run-sequence');
 const rev = require('gulp-rev');
 const revCollector = require('gulp-rev-collector');
 const jshint = require('gulp-jshint');
+const eslint = require('gulp-eslint');
 const gulpsync = require('gulp-sync')(gulp);
 const htmlmin = require('gulp-htmlmin');
 const strip = require('gulp-strip-comments');
@@ -89,6 +90,7 @@ gulp.task('script',  function() {
         return gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js']).pipe(concat(target)).pipe(gulp.dest('./app/js/')).pipe(uglify()).pipe(gulp.dest('./app/js/'));
 
     }
+    gulp.src(['./src/data/**/*']).pipe(gulp.dest('./app/data/'));
     // gulp.src(['./app/js/' + target]).pipe(uglify()).pipe(rename({suffix:'.min'})).pipe(gulp.dest('./app/js/'));
 });
 
@@ -106,12 +108,12 @@ gulp.task('prettify', function() {
 
 gulp.task('lint', function()  {
     gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js'])
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'));
-    gulp.src('./app/js/main.js')
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'));
-
+        .pipe(eslint())
+        .pipe(eslint.format())
+    gulp.src('./src/js/standalone/main.js')
+        .pipe(eslint())
+        .pipe(eslint.format())
+        // .pipe(eslint.failAfterError())
 });
 
 //压缩HTML和打版本
