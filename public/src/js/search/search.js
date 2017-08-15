@@ -74,13 +74,13 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
 				},
 				isEngagementsDirty: function() {
 					var item;
-				    var isFalse = false;
+				    var isDirty = false;
 				    //#issues 11 修复选择0 - 180 无效问题
 					angular.forEach(this.engagements ,function(item, index) {
 						if ((item.min && (item.min != searcher.defFilterOption.engagements[index].min)) && (item.max && (item.max != searcher.defFilterOption.engagements[index].max)) || (item.min === 0 || item.max === 180))
-					 		isFalse = true;
+					 		isDirty = true;
 					});
-					return isFalse;
+					return isDirty;
 				},
 
 				isDurationDirty: function() {
@@ -467,10 +467,10 @@ app.factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_
                     option.filter.audienceAge = search.audienceAge.split(",");
                 }
                 if (search.audienceGender) {
-                    option.filter.audienceGender = search.audienceGender.split(",");
+                    option.filter.audienceGender = search.audienceGender;//性别受众是单选，再用split处理会导致出错
                 }
                 if (search.audienceInterest) {
-                    option.filter.audienceInterest = search.audienceInterest.split(",");
+                    option.filter.audienceInterest = search.audienceInterest;
                 }
                 if (search.objective) {
                     option.filter.objective = search.objective.split(",");
@@ -552,9 +552,11 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 
             $scope.googleQuery = function(typed){
             //谷歌联想搜索
-                Util.googleSuggestQueries(typed).then(function(data) {
-                    $scope.suggestions = data.data[1];
-                });
+            	if (typed) {
+            		Util.googleSuggestQueries(typed).then(function(data) {
+	                    $scope.suggestions = data.data[1];
+	                });
+            	}  
             };
 
 			//text为空时就表示没有这个搜索项了
@@ -696,16 +698,16 @@ app.controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searc
 				}
 
 				//engagementsFilter
-				angular.forEach(option.engagements,function(item,key){
+				angular.forEach(option.engagements,function(item,key) {
 					//还要排除null值
 					if ((item.min === "" || item.min === null) || (item.max === "" || item.max === null)) {
 						$scope.adSearcher.removeFilter(key);
-					}else{
+					} else {
 						$scope.adSearcher.addFilter({
-						field: key,
-						min: item.min,
-						max: item.max
-					});
+							field: key,
+							min: item.min,
+							max: item.max
+						});
 					}
 				}); 
 

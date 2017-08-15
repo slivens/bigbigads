@@ -53,7 +53,7 @@
                 </div>
                 <div ng-if = "User.can('objective_filter')">
                     <div class="input-group">
-                    <span class="input-group-addon" id="country_addon"><i class="fa fa-flag"></i></span>
+                    <span class="input-group-addon" id="country_addon"><i class="fa fa-inbox"></i></span>
                     <select  select2 class="form-control has_left_icon" id="objective" multiple="multiple"  data-placeholder="Objective" ng-model="$parent.filterOption.objective">
                         <option ng-repeat="item in $parent.settings.searchSetting.objective" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
                     </select>
@@ -65,17 +65,16 @@
                     <div id="linkAudienceDiv" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                         <div>
                             <div class="input-group">
-                            <span class="input-group-addon" id="audience_age"><i class="fa fa-flag"></i></span>
+                            <span class="input-group-addon" id="audience_age"><i class="fa fa-user-secret"></i></span>
                             <select  select2 class="form-control has_left_icon" id="audienceAge" multiple="multiple"  data-placeholder="Audience Age" ng-model="$parent.filterOption.audienceAge">
                                 <option ng-repeat="item in $parent.settings.searchSetting.audienceAge" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
                             </select>
                             </div>
                         </div>  
                         <div>
-                            <div class="input-group">
-                            <span class="input-group-addon" id="audience_gender"><i class="fa fa-flag"></i></span>
-                            <select class="form-control has_left_icon" id="audienceGender" data-placeholder="Audience Gender" ng-model="$parent.filterOption.audienceGender">
-                                <option value="">Audience Gender</option>
+                            <div class="input-group" id="audience_gender">
+                            <span class="input-group-addon"><i class="fa fa-leaf"></i></span>
+                            <select select2 class="form-control has_left_icon" id="audienceGender" data-placeholder="Audience Gender" ng-model="$parent.filterOption.audienceGender">
                                 <option ng-repeat="item in $parent.settings.searchSetting.audienceGender" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
                             </select>
                             </div>

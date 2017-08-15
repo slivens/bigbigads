@@ -1782,6 +1782,24 @@ color: $black_placeholder !important;
     }
 }
 
+.refund-acound-foot {
+    text-align: center;
+    padding-top: 0;
+}
+
+#audience_gender {
+    .select2-selection--single {
+        height: 34px;
+        padding-left: 10px;
+        #select2-audienceGender-container {
+            color: #555;
+        }
+        .select2-selection__arrow {
+            height: 34px;
+        }
+    }
+}
+
 /*
 * 后台app界面移动端适配
 * 单独从文件app_mobile.scss引入，方便维护

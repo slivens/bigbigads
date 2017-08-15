@@ -497,18 +497,16 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
                 element.bind("click", function() {
                     if (attrs.plan != 'free') { 
                         if (userPlan === attrs.plan) {
-                            var on = SweetAlert.swal("You had subscribed. Wanna change your plan?", function(){ 
-                               window.open("mailto:sale@bigbigads.com", '_self');
-                            })
                             SweetAlert.swal({
                                title: "You had subscribed. Wanna change your plan?",
                                type: "warning",
                                showCancelButton: true,
-                               confirmButtonColor: "#DD6B55",confirmButtonText: "Yes",
+                               confirmButtonColor: "#DD6B55",
+                               confirmButtonText: "Yes",
                                cancelButtonText: "No",
                                closeOnConfirm: false,
                                closeOnCancel: true }, 
-                               function(isConfirm){ 
+                               function(isConfirm) { 
                                    if (isConfirm) {
                                         window.open("mailto:sale@bigbigads.com", '_self');
                                    }
@@ -790,16 +788,16 @@ app.directive('fancybox', ['$compile', '$timeout', function($compile, $timeout) 
             },
             googleSuggestQueries:function(value) {
                 var query = encodeURI(value);
-                var myUrl = "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&q=" + query + "&callback=JSON_CALLBACK";
+                var myUrl = "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&q=" + query + "&callback=JSON_CALLBACK" ;
                 var result;
                 //调用谷歌搜索接口,需要使用jsonp方式请求
                 return $http.jsonp(myUrl).success(
-                　　function(data){
-                　　　　return data;
-                　　}
+                    function(data) {
+                        return data;
+                    }
                 ).error(function(date){
                     console.log(date);
-                });         
+                });
             }
         };
     }]);
