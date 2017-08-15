@@ -1530,7 +1530,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             $scope.adSearcher.params.ads_detail = 1
             var promise = $scope.adSearcher.filter("analysis")
             var arr
-            var countryPromise = $http.get('/app/data/map-country.json').then(function (res) {
+            var countryPromise = $http.get('/app/data/map-country.json').then(function(res) {
                 vm.countries = res.data
                 return res.data
             })

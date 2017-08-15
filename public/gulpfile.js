@@ -110,10 +110,10 @@ gulp.task('lint', function()  {
     gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js'])
         .pipe(eslint())
         .pipe(eslint.format())
-    gulp.src('./app/js/standalone/**/*.js')
+    gulp.src('./src/js/standalone/main.js')
         .pipe(eslint())
         .pipe(eslint.format())
-        .pipe(eslint.failAfterError())
+        // .pipe(eslint.failAfterError())
 });
 
 //压缩HTML和打版本

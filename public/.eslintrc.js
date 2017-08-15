@@ -12,9 +12,12 @@ module.exports = {
         "curly": ["off", "all"],
         "eqeqeq": ["off"]
     },
+    // TODO: 尽量不要有全局对象
     "globals": {
         "angular": true,
         "moment": true,
-        "Highcharts": true // TODO: 尽量不会将该对象设置为global
+        "Highcharts": true,
+        "Intercom": true,
+        "intercomSettings": true
     }
 };
