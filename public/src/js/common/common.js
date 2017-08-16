@@ -828,7 +828,6 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                     }
                 }
             },
-
             /*
              * 返回类似广告impression的完整数组
              * 将["2017-03-21":{"12","11"...}] 转为 [{"03-21","12"},{"03-22","11"}...]
