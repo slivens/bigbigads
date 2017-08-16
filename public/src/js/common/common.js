@@ -512,9 +512,6 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                 element.bind("click", function() {
                     if (attrs.plan != 'free') {
                         if (userPlan === attrs.plan) {
-                            SweetAlert.swal("You had subscribed. Wanna change your plan?", function() {
-                                window.open("mailto:sale@bigbigads.com", '_self')
-                            })
                             SweetAlert.swal({
                                 title: "You had subscribed. Wanna change your plan?",
                                 type: "warning",

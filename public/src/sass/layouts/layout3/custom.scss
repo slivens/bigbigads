@@ -381,6 +381,10 @@ body {
 .adver-card {
     .portlet.light {
         padding: 0px;
+        .portlet.light {
+            padding: 12px 16px 15px 16px;
+            background-color: #fff;
+        }
     }
     .aditem {
         position: relative;
@@ -660,7 +664,7 @@ body {
 
 //广告搜索相关类
 .aditem {
-    margin: 16px;
+    margin: 18px 10px 38px 10px;
     i {
         // display:inline-block;
         // margin-right:3px;
@@ -916,6 +920,9 @@ body.modal-open {
     line-height: 1.38;
     word-wrap: break-word;
     margin: 10px 0 !important;
+    p {
+        margin: 0 !important; 
+    }
 }
 
 .xg-span-name {
@@ -1780,6 +1787,35 @@ color: $black_placeholder !important;
             padding: 6px 26px 8px 26px !important;
         }
     }
+}
+
+#audience_gender {
+    .select2-selection--single {
+        height: 34px;
+        padding-left: 10px;
+        #select2-audienceGender-container {
+            color: #555;
+        }
+        .select2-selection__arrow {
+            height: 34px;
+        }
+    }
+}
+
+.page-content {
+    padding-top: 0px !important;
+}
+
+.page-wrapper .page-wrapper-middle {
+    background: #dadfe7 !important;
+}
+
+.page-wrapper-top {
+    background-color: #dadfe7;
+}
+
+.xg-hr {
+    border-top: 2px solid #c8aa9e;
 }
 
 /*
