@@ -21,7 +21,7 @@ class Coupon extends Model
     {
         if ($this->type == 0) {
             $discount = floor($amount * $this->discount / 100);
-        } else if ($coupon->type == 1) {
+        } else if ($this->type == 1) {
             $discount = $this->discount;
         }
         return $discount;
