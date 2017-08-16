@@ -286,7 +286,27 @@ class PaypalService
     }
 
     /**
-     * 将指令的订阅挂起
+     * 取消指定的订阅
+     * @param $id agreement id
+     */
+    public function cancelSubscription($id)
+    {
+        $subscription = $this->subscription($id);
+
+        $apiContext = $this->getApiContext();
+        $agreementStateDescriptor = new AgreementStateDescriptor();
+        $agreementStateDescriptor->setNote("cancel the agreement by Bigbigads");
+        try {
+             return $subscription->cancel($agreementStateDescriptor, $apiContext);
+        } catch (\Exception $e) {
+            Log::error("cancel:" . $e->getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 将指定的订阅挂起
      */
     public function suspendSubscription($id)
     {

@@ -46,4 +46,9 @@ class Subscription extends Model
     {
         return $this->belongsTo('\App\Coupon');
     }
+
+    public function payments()
+    {
+        return $this->hasMany('\App\Payment');
+    }
 }

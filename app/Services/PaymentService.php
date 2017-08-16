@@ -188,19 +188,77 @@ class PaymentService implements PaymentServiceContract
      */
     public function syncSubscriptions(Array $gateways = [])
     {
-        // 正常应该是从远程同步，以确定status状态，这里先从本地同步以便流程可以正常往下走
-        $subs = Subscription::all();//where('gateway', 'paypal')->get();
-        $service = new PaypalService($this->config['paypal']);
+        // 正常应该是从远程同步，以确定status状态，从本地同步是错误的方法
+        // 特别是frequency_interval和frequency,它们的目的就是为了防止本地Plan修改后
+        // 影响到已经完成的订阅，所以一定不能从本地Plan去同步。
 
-        $this->log("sync to local");
+        // Stripe的同步
+        // TODO:
+
+        // Paypal的同步
+        $subs = Subscription::where(['gateway' => 'paypal'])->get();
+        $service = $this->getPaypalService();
+        $this->log("sync to paypal, this may take long time...({$subs->count()})");
         foreach ($subs as $sub) {
-            $plan = Plan::where('name', $sub->plan)->first();
-            if (!$plan) {
-                $this->log("Plan {$sub->plan} is not found, warning", PaymentService::LOG_INFO);
+            if (strlen($sub->agreement_id) < 3) {
+                continue;
             }
-            $sub->frequency = $plan->frequency;
-            $sub->frequency_interval = $plan->frequency_interval;
-            $sub->save();
+            $this->log("handling {$sub->agreement_id}");
+            $remoteSub = $service->subscription($sub->agreement_id);
+            if (!$remoteSub) {
+                $this->log($sub->agreement_id . " is not found");
+                continue;
+            }
+            $plan = $remoteSub->getPlan();
+            $def = $plan->getPaymentDefinitions()[0];
+
+            /* $plan = Plan::where('name', $sub->plan)->first(); */
+            /* if (!$plan) { */
+            /*     $this->log("Plan {$sub->plan} is not found, warning", PaymentService::LOG_INFO); */
+            /* } */
+
+            $newData = [
+                'frequency' => $def->getFrequency(),
+                'frequency_interval' => $def->getFrequencyInterval()
+            ];
+            $state = $remoteSub->getState();
+            $newStatus = '';
+            switch (strtolower($state)) {
+            case 'active':
+                if ($sub->payments()->count() > 0)
+                    $newStatus = Subscription::STATE_PAYED;
+                else
+                    $newStatus = Subscription::STATE_SUBSCRIBED;
+                break;
+            case 'cancelled':
+                $newStatus = Subscription::STATE_CANCLED;
+                break;
+            case 'suspended':
+                $newStatus = Subscription::STATE_SUSPENDED;
+                break;
+            }
+            // 一个用户只能有一个激活的订阅，其他订阅应该设置被取消或挂起，目前采用取消操作
+            if ($sub->user->subscription_id != $sub->id && strtolower($state) == 'active') {
+                $this->log("{$sub->agreement_id} is not {$sub->user->email}'s active subscrition, now cancel it...", PaymentService::LOG_INFO);
+                if ($service->cancelSubscription($sub->agreement_id))
+                    $newStatus = Subscription::STATE_CANCLED;
+            }
+            if (!empty($newStatus)) {
+                $newData['status'] = $newStatus;
+            }
+            $isDirty = false;
+            foreach ($newData as $key => $val) {
+                if ($sub[$key] != $val) {
+                    $this->log("{$key}: old {$sub[$key]}, new: $val", PaymentService::LOG_INFO);
+                    $isDirty = true;
+                    $sub[$key] = $val;
+                }
+            }
+            if ($isDirty) {
+                $sub->save();
+            } else {
+                $this->log("{$sub->agreement_id} has no change");
+            }
         }
         /* $this->log("sync to paypal, this will cost time, PLEASE WAITING..."); */
         /* foreach ($subs as $sub) { */
