@@ -68,7 +68,7 @@ module.exports = {
          new webpack.optimize.CommonsChunkPlugin({
             name:['vendor']
             }),
-         new ExtractTextPlugin('bundle-[chunkhash:10].css'),
+         new ExtractTextPlugin('[name]-[chunkhash:10].css'),
          new ManifestPlugin({
             fileName:'manifest.json',
             baseName:'/app/'

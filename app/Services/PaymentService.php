@@ -40,6 +40,14 @@ class PaymentService implements PaymentServiceContract
         }
         return $this->paypalService;
     }
+
+    public function getRawService($gateway)
+    {
+        if ($gateway == PaymentService::GATEWAY_PAYPAL)
+            return $this->getPaypalService();
+        return false;
+    }
+
     /**
      * 根据不同的记录器调用不同方法
      */
