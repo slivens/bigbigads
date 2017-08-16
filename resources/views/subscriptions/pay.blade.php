@@ -42,7 +42,11 @@ use \Illuminate\Support\Facades\Input;
                             </div>
                             <div class="col-sm-5 descr-right-text">
                                 <p class="overview-cost ads-font-18">Today's Payment: 
-                                    <span class="" v-cloak >$@{{ amount }}.00</span>
+                                    <span class="" v-cloak >$@{{ (amount - discount).toFixed(2) }} 
+                                        <span class="ads-font-12" v-if="discount">
+                                            (- $@{{discount.toFixed(2)}})
+                                        </span>
+                                    </span>
                                 </p>
                             </div>
                         </div>
