@@ -1791,3 +1791,14 @@ color: $black_placeholder !important;
 
 /*plans 界面样式*/
 @import 'plans';
+
+/*
+* 广告详情页
+* @import 'analysis';
+* 独立页面的样式要通过懒加载，不需要在该样式中引用
+*/
+
+/*广告卡*/
+@import 'adscard';
+
+/*之后凡有添加样式都用引用，custom.scss 只修改，不再添加，以后会逐渐删除多余样式*/

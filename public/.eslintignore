@@ -1,0 +1,5 @@
+src/js/standalone/controllers/*
+src/js/standalone/app.js
+src/js/standalone/directives.js
+src/js/standalone/layout.js
+src/js/standalone/quick-sidebar.js

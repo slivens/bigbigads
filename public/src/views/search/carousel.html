@@ -2,8 +2,8 @@
 <div class="aditem-desc">
     <!-- begin Carousel -->
     <div class="clearfix">
-
-		<div class="xg-span-message"><span ng-bind-html="card.message | toHtml"></span></div>
+    <div class="xg-span-message"><span ng-bind-html="card.message | toHtml"></span></div>
+    <div class="adscard-content">
         <div uib-carousel active="card.active" no-wrap="true">
             <div uib-slide ng-repeat="slide in card.watermark track by $index" index="$index">
                 <div class="text-center mt-element-overlay" ng-if="slide.media_type == 'photo'">
@@ -16,35 +16,34 @@
                 </div>
                 <!-- carousel 中会混有视频 -->
                 <div class="text-center" ng-if="(card.local_picture[$index].media_type == 'video') && (slide.media_type == 'video')">
-                    <video advideo ng-src="{{(settings.videoRemoteBase + card.local_picture[$index].video) | trusted}}" 
-                            preload="none" controls="controls" preview="{{(slide.source) | trusted}}">
+                    <video advideo ng-src="{{(settings.videoRemoteBase + card.local_picture[$index].video) | trusted}}" preload="none" controls="controls" preview="{{(slide.source) | trusted}}">
                     </video>
                 </div>
             </div>
         </div>
-        <div class="h5">
-            <div class="pull-right" ng-if="card.buttondesc[card.active]!=''">
-                <a ng-href="{{card.buttonlink[card.active]}}" class="xg-a-likepage xg-label" target="_blank">{{card.buttondesc[card.active]}}</a>
+        <div class="adscard-bottom">
+            <div class="h5" ng-if="card.name[card.active] | toHtml">
+                <div class="xg-span-name xg-overflow-hidden">
+                    <span ng-bind-html="card.name[card.active] | toHtml"></span>
+                </div>
             </div>
-            <div class="xg-span-name xg-overflow-hidden">
-                <span ng-bind-html="card.name[card.active] | toHtml"></span>
+            <p class="xg-span-description xg-p-margin" ng-if="card.description[card.active]">
+                <span ng-bind-html="card.description[card.active] | toHtml"></span>
+            </p>
+            <!-- End Carousel -->
+            <!-- 
+            无法引用到AdsearchController内的Util.isArray方法,不得已在AdsearchController内多加了个card.isCaptionJson的标示  
+            <span>{{mother.mother.Util.isArray(card.caption)}}</span>
+            <span>{{Util.isArray(card.caption)}}</span>
+             -->
+            <div class="aditem-caption margin-top-10 clearfix" ng-if="card.caption || card.buttondesc[card.active]!=''">
+                <label class="xg-label-caption label label-sm label-warning" ng-bind-html="card.caption[card.active] | toHtml" ng-if="card.isCaptionJson"></label>
+                <label class="xg-label-caption label label-sm label-warning" ng-bind-html="card.caption | toHtml" ng-if="!card.isCaptionJson"></label>
+                <div class="pull-right" ng-if="card.buttondesc[card.active]!=''">
+                    <a ng-href="{{card.buttonlink[card.active]}}" class="xg-a-likepage xg-label" target="_blank">{{card.buttondesc[card.active]}}</a>
+                </div>
             </div>
         </div>
-		<p class="xg-span-description xg-p-margin" ng-if="card.description[card.active]" >
-			<span ng-bind-html="card.description[card.active] | toHtml"></span>
-		</p>
-      </div>
-    <!-- End Carousel -->
-    <!-- 
-    无法引用到AdsearchController内的Util.isArray方法,不得已在AdsearchController内多加了个card.isCaptionJson的标示  
-    <span>{{mother.mother.Util.isArray(card.caption)}}</span>
-    <span>{{Util.isArray(card.caption)}}</span>
-     -->
-    <div class="aditem-caption margin-top-10" ng-if="card.caption && card.isCaptionJson">
-        <label class="xg-label-caption label label-sm label-warning" ng-bind-html="card.caption[card.active] | toHtml"></label>
-    </div>
-    <div class="aditem-caption margin-top-10" ng-if="card.caption && !card.isCaptionJson">
-        <label class="xg-label-caption label label-sm label-warning" ng-bind-html="card.caption | toHtml"></label>
     </div>
 </div>
 <!-- end description -->

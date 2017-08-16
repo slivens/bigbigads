@@ -5,8 +5,9 @@
         <div class="xg-span-message"><span ng-bind-html="card.message | toHtml"></span></div>
         <!-- timeline and rightcolumn are diffrent view -->
         <!-- begin timeline canvas-->
+        <div class="adscard-content">
         <div class="text-center mt-element-overlay" ng-if="Searcher.getAdsType(card, Searcher.ADS_TYPE.timeline)">
-            <div class="xg-margin-bottom">
+            <div>
                 <a ng-href="{{card.link[0]}}" target="_blank">
                     <!-- 为防止无限加载时图片加载后高度改变导致浏览位置变化，在加载图片前就设定好高度，这就要求图片URL一定要符合格式，否则不能正常显示 -->
                     <img class="img-loading" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" lazy-img="{{card.watermark}}" alt="" width="{{card.watermark | getImageSize:0}}px" height="{{card.watermark | getImageSize:1}}px" type="bba">
@@ -27,11 +28,8 @@
             </div>
         </div>
         <!-- end rightcolumn canvas -->
-
-        <div class="h5">
-            <div class="xg-label-caption pull-right" ng-if="card.buttondesc" >
-                <a href="{{card.buttonlink}}" class="xg-a-likepage label label-sm label-warning" target="_blank">{{card.buttondesc}}</a>
-            </div>
+        <div class="adscard-bottom">
+        <div class="h5" ng-if="card.name | toHtml">
             <div class="xg-span-name xg-overflow-hidden">
                 <span ng-bind-html="card.name | toHtml"></span>
             </div>
@@ -40,8 +38,13 @@
         <p class="xg-span-description xg-p-margin" ng-if="card.description">
             <span ng-bind-html="card.description | toHtml"></span>
         </p>
-        <div class="aditem-caption margin-top-10" ng-if="card.caption">
+        <div class="aditem-caption margin-top-10 clearfix" ng-if="card.caption || card.buttonlink">
             <label class="xg-label-caption label label-sm label-success" ng-bind-html="card.caption | toHtml"></label>
+            <div class="xg-label-caption pull-right" ng-if="card.buttondesc" >
+                <a href="{{card.buttonlink}}" class="xg-a-likepage label label-sm label-warning" target="_blank">{{card.buttondesc}}</a>
+            </div>
+        </div>
+        </div>
         </div>
     </div>
     <!-- end SingleImage -->

@@ -6,13 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "product": "gulp clean && webpack -p && gulp production",
-    "develop": "gulp clean && webpack && gulp develop"
+    "develop": "gulp clean && webpack && gulp develop",
+    "lint": "eslint --ext .js src/js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^0.28.0",
     "eslint-config-standard": "^10.2.1",
+    "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.1.1",
@@ -44,6 +46,7 @@
     "jshint": "^2.9.4",
     "merge-stream": "^1.0.1",
     "node-sass": "^4.5.2",
+    "pre-commit": "^1.2.2",
     "run-sequence": "^1.2.2",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.16.1",
@@ -84,5 +87,8 @@
     "oclazyload": "^1.1.0",
     "simple-line-icons": "^2.4.1",
     "sweetalert": "^1.1.3"
-  }
+  },
+  "pre-commit": [
+    "lint"
+  ]
 }
