@@ -50,4 +50,11 @@ interface PaymentService
      * @remark 该功能纳入支付服务是否合适的有待进一步分析设计
      */
     public function handlePayment(\App\Payment $payment);
+
+    /**
+     * 获取指定支付网关的服务
+     * @param String $gateway 从GATEWAY_*中取值
+     */
+    public function getRawService($gateway);
+
 }

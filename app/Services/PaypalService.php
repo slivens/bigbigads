@@ -304,6 +304,25 @@ class PaypalService
         return $subscription;
     }
 
+    /**
+     * 将指令的订阅重启
+     */
+    public function reActivateSubscription($id)
+    {
+        $subscription = $this->subscription($id);
+
+        $apiContext = $this->getApiContext();
+        $agreementStateDescriptor = new AgreementStateDescriptor();
+        $agreementStateDescriptor->setNote("Reactivating the agreement");
+        try {
+             $subscription->reActivate($agreementStateDescriptor, $apiContext);
+        } catch (\Exception $e) {
+            Log::error("reActivate:" . $e->getMessage());
+            return null;
+        }
+        return $subscription;
+    }
+
     /** 获取交易记录
      * @param $id subscription payment_id
      * @warning 总是获取该subscription的所有记录
@@ -323,5 +342,40 @@ class PaypalService
             return null;
         }
         return $result->getAgreementTransactionList() ;
+    }
+
+
+    /*
+    * 验证webhook内容
+    * 使用verify webhook sinature
+    */
+    public function verifyWebhook($request){
+        $apiContext = $this->getApiContext();
+        $headers = array_change_key_case($request->header(), CASE_UPPER);//转换所有的键为大写
+        $verifySignature = new \PayPal\Api\VerifyWebhookSignature();
+        $verifySignature->setAuthAlgo($headers['PAYPAL-AUTH-ALGO'][0]);
+        $verifySignature->setCertUrl($headers['PAYPAL-CERT-URL'][0]);
+        $verifySignature->setTransmissionId($headers['PAYPAL-TRANSMISSION-ID'][0]);
+        $verifySignature->setTransmissionSig($headers['PAYPAL-TRANSMISSION-SIG'][0]);
+        $verifySignature->setTransmissionTime($headers['PAYPAL-TRANSMISSION-TIME'][0]);
+        $verifySignature->setWebhookId($this->config['webhook_id']);
+
+        //$webhookEvent = new \PayPal\Api\WebhookEvent();
+        //$webhookEvent->fromJson($request);
+        //$verifySignature->setWebhookEvent($request);已过时
+        $req_content = $request->request->all();
+
+        $verifySignature->setRequestBody(json_encode($req_content));
+        Log::info('post to verify webhook content: '.$verifySignature->toJSON());
+        try {
+            /** @var \PayPal\Api\VerifyWebhookSignatureResponse $output */
+            $output = $verifySignature->post($apiContext);
+            Log::info('verify webhook '.$output->getVerificationStatus().' with webhook id :'.$request->id);
+            return $output->getVerificationStatus() == 'SUCCESS';
+        } catch (Exception $ex) {
+            Log::info('verify webhook error: '.  $ex->getMessage());
+            return false;
+        }
+        return false;
     }
 }

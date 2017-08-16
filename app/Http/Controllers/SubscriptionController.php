@@ -211,10 +211,11 @@ final class SubscriptionController extends PayumController
     public function onPayWebhooks(Request $request)
     {
         Log::info('webhooks id: '. $request->id);
-        /* if (!$request->has('id')) { */
-        /*     Log::warning('invalid webhook'); */
-        /*     return; */
-        /* } */
+        $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
+        $isValid = $service->verifyWebhook($request);
+        if (!$isValid)
+            return;
+
         $webhook_id = $request->id;//webhook id
         $count = Webhook::where('webhook_id',$webhook_id)->count();
         //Log::info('$select: '.$select);
