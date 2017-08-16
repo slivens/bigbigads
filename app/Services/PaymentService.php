@@ -51,7 +51,7 @@ class PaymentService implements PaymentServiceContract
     /**
      * 根据不同的记录器调用不同方法
      */
-    public function log($msg, $level = PaymentService::LOG_INFO)
+    public function log($msg, $level = PaymentService::LOG_DEBUG)
     {
         if ($this->logger instanceof Command) {
             switch ($level) {
@@ -65,6 +65,16 @@ class PaymentService implements PaymentServiceContract
                 $this->logger->error($msg);
                     break;
             }
+        } else {
+            switch ($level) { 
+            case  PaymentService::LOG_INFO:
+                Log::info($msg);
+                break;
+            case  PaymentService::LOG_ERROR:
+                Log::error($msg);
+                break;
+            }
+
         }
     }
 
@@ -103,13 +113,13 @@ class PaymentService implements PaymentServiceContract
                         foreach($planDesc as $key => $item) {
                             if ($oldArray[$key] != $item) {
                                 $old->delete();
-                                $this->log("stripe plan已存在并且{$key}(new:{$item}, old:{$oldArray[$key]})不一致，删除", PaymentService::LOG_ERROR);
+                                $this->log("stripe plan已存在并且{$key}(new:{$item}, old:{$oldArray[$key]})不一致，删除", PaymentService::LOG_INFO);
                                 $dirty = true;
                                 break;
                             }
                         }
                         if (!$dirty) {
-                            $this->log("{$plan->name}已经创建过且无修改,忽略", PaymentService::LOG_ERROR);
+                            $this->log("{$plan->name}已经创建过且无修改,忽略");
                             continue;
                         }
                     } 
@@ -158,7 +168,7 @@ class PaymentService implements PaymentServiceContract
                         }
                     }
                     if (!$isDirty) {
-                        $this->log("{$plan->name}已经创建过且无修改,忽略", PaymentService::LOG_ERROR);
+                        $this->log("{$plan->name}已经创建过且无修改,忽略");
                         return;
                     }
                 }
@@ -186,7 +196,7 @@ class PaymentService implements PaymentServiceContract
         foreach ($subs as $sub) {
             $plan = Plan::where('name', $sub->plan)->first();
             if (!$plan) {
-                $this->log("Plan {$sub->plan} is not found, warning", PaymentService::LOG_ERROR);
+                $this->log("Plan {$sub->plan} is not found, warning", PaymentService::LOG_INFO);
             }
             $sub->frequency = $plan->frequency;
             $sub->frequency_interval = $plan->frequency_interval;
@@ -238,7 +248,7 @@ class PaymentService implements PaymentServiceContract
 
                 // 当状态变化时要更新订单
                 if ($paypalStatus != $payment->status) {
-                    $this->log("status change:{$payment->status} -> $paypalStatus", PaymentService::LOG_ERROR);
+                    $this->log("status change:{$payment->status} -> $paypalStatus", PaymentService::LOG_INFO);
                     $isDirty = true;
                     switch ($paypalStatus) {
                     default:
@@ -254,10 +264,25 @@ class PaymentService implements PaymentServiceContract
                     $payment->save();
                     $this->log("payment {$payment->number} is synced");
                 } else {
-                    $this->log("payment {$payment->number} has no change", PaymentService::LOG_DEBUG);
+                    $this->log("payment {$payment->number} has no change", PaymentService::LOG_INFO);
                 }
 
             }
+        }
+    }
+
+    /**
+     * 订阅处于支付状态时，发现有新的支付订单，有可能是循环扣款的新订单。
+     * 做检查并设置过期时间。
+     */
+    protected function handleNextPayment(Payment $payment)
+    {
+        $endDate = new Carbon($payment->end_date);
+        $user = $payment->client;
+        if ($endDate->gt(new Carbon($user->expired))) {
+            $this->log("{$user->email} has billing next payment, change his expired date({$payment->endDate}) > (" . $user->expired. ")", PaymentService::LOG_INFO);
+            $user->expired  = $endDate->addDay();
+            $user->save();
         }
     }
 
@@ -268,8 +293,8 @@ class PaymentService implements PaymentServiceContract
     {
         $subscription = $payment->subscription;
         if ($subscription->status == Subscription::STATE_PAYED) {
-            Log::info("You can't change user plan twice");
-            return;
+            $this->log("You haved payed for the subscription, check if it's the next payment");
+            return $this->handleNextPayment($payment);
         }
 
         if (Carbon::now()->gte(new Carbon($payment->end_date))) {
