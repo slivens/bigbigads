@@ -352,6 +352,7 @@ class PaypalService
     public function verifyWebhook($request){
         $apiContext = $this->getApiContext();
         $headers = array_change_key_case($request->header(), CASE_UPPER);//转换所有的键为大写
+        /* Log::info("headers:" . json_encode($headers)); */
         $verifySignature = new \PayPal\Api\VerifyWebhookSignature();
         $verifySignature->setAuthAlgo($headers['PAYPAL-AUTH-ALGO'][0]);
         $verifySignature->setCertUrl($headers['PAYPAL-CERT-URL'][0]);
@@ -366,7 +367,7 @@ class PaypalService
         $req_content = $request->request->all();
 
         $verifySignature->setRequestBody(json_encode($req_content));
-        Log::info('post to verify webhook content: '.$verifySignature->toJSON());
+        /* Log::info('post to verify webhook content: '.$verifySignature->toJSON()); */
         try {
             /** @var \PayPal\Api\VerifyWebhookSignatureResponse $output */
             $output = $verifySignature->post($apiContext);
