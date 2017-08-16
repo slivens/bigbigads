@@ -1,3 +1,4 @@
+import '../../sass/layouts/layout3/analysis.scss'
 import '../common/common.js'
 import '../bookmark/bookmark.js'
 

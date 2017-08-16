@@ -1209,7 +1209,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            '../assets/layouts/layout3/css/analysis.css',
+                            'search.css',
                             'search.js'
                         ]
                     }, {
