@@ -35,7 +35,7 @@
                 
                 <table class="table text-left ads-font-18">
                     <tr class="ads-tr-a">
-                        <td>Data Update Frequence: Weekly</td>
+                        <td>Data Update Frequency: Weekly</td>
                     </tr>
                     <tr>
                         <td>Limited Data Access</td>
@@ -78,7 +78,7 @@
                     </div>
                     <table class="table text-left ads-font-18">
                         <tr class="ads-tr-a">
-                            <td>Data Update Frequence: Daily</td>
+                            <td>Data Update Frequency: Daily</td>
                         </tr>
                         <tr>
                             <td>Full Data Access(8 Millions+)</td>

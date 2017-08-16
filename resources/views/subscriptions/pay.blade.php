@@ -58,7 +58,7 @@ use \Illuminate\Support\Facades\Input;
                                 <div class="ads-font-14 text-right overview-notice">
                                     <p>Includes <span class="notice-pay-cycle">{{$plan->frequency_interval}}&nbsp;{{$plan->frequency}}</span> of service</p>
                                     <p>Future Payments: <span class="" v-cloak >$@{{ amount }}.00</span> will be billed every</p>
-                                    <p> <span class="notice-pay-cycle">{{$plan->frequency_interval}}&nbsp;{{$plan->frequency}}</span> until cancelled</p>
+                                    <p> <span class="notice-pay-cycle">{{$plan->frequency_interval}}&nbsp;{{$plan->frequency}}</span> until canceled</p>
                                 </div>
                             </div>
                         </div>
