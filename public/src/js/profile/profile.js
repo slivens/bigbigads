@@ -1,3 +1,5 @@
+import '../common/common'
+
 angular.module('MetronicApp').controller('PlansController', ['$scope', 'Resource', 'User', function($scope, Resource, User) {
     var plans = new Resource('plans')
     plans.getPolicy = function(item, permissionKey, groupKey) {
@@ -119,14 +121,6 @@ angular.module('MetronicApp').controller('SubscriptionController', ['$scope', 'U
         $scope.subscription = User.user.subscription
     })
 }])
-// TODO:templateUrl通过依赖注入加时间戳
-angular.module('MetronicApp').component('billings', {
-    templateUrl: 'components/billings.html',
-    controller: 'BillingsController',
-    bindings: {
-        shouldInit: '@'
-    }
-})
 angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User', 'Resource', function($scope, User, Resource) {
     var ctrl = this
     var billings = new Resource('billings')
@@ -151,6 +145,14 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
         })
     }
 }])
+// TODO:templateUrl通过依赖注入加时间戳
+angular.module('MetronicApp').component('billings', {
+    templateUrl: 'components/billings.html',
+    controller: 'BillingsController',
+    bindings: {
+        shouldInit: '@'
+    }
+})
 angular.module('MetronicApp').controller('ChangepwdController', ['$scope', '$uibModalInstance', '$http', 'settings', function($scope, $uibModalInstance, $http, settings) {
     var info = {
         oldpwd: null,
