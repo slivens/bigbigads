@@ -42,7 +42,11 @@ use \Illuminate\Support\Facades\Input;
                             </div>
                             <div class="col-sm-5 descr-right-text">
                                 <p class="overview-cost ads-font-18">Today's Payment: 
-                                    <span class="" v-cloak >$@{{ amount }}.00</span>
+                                    <span class="" v-cloak >$@{{ (amount - discount).toFixed(2) }} 
+                                        <span class="ads-font-12" v-if="discount">
+                                            (- $@{{discount.toFixed(2)}})
+                                        </span>
+                                    </span>
                                 </p>
                             </div>
                         </div>
@@ -54,7 +58,7 @@ use \Illuminate\Support\Facades\Input;
                                 <div class="ads-font-14 text-right overview-notice">
                                     <p>Includes <span class="notice-pay-cycle">{{$plan->frequency_interval}}&nbsp;{{$plan->frequency}}</span> of service</p>
                                     <p>Future Payments: <span class="" v-cloak >$@{{ amount }}.00</span> will be billed every</p>
-                                    <p> <span class="notice-pay-cycle">{{$plan->frequency_interval}}&nbsp;{{$plan->frequency}}</span> until cancelled</p>
+                                    <p> <span class="notice-pay-cycle">{{$plan->frequency_interval}}&nbsp;{{$plan->frequency}}</span> until canceled</p>
                                 </div>
                             </div>
                         </div>
