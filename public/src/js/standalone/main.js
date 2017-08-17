@@ -916,13 +916,16 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {
     .filter('formatType', function() {
         return function(type) {
             var showType = ''
-            switch (type) {
-            case 'Canvas': { showType = 'Others'; break }
-            case 'SingleVideo': { showType = 'Video'; break }
-            case 'SingleImage': { showType = 'Image'; break }
-            case 'Carousel': { showType = 'Carousel'; break }
-            default: break
-            }
+            var adsTypes = type.split(',')
+            angular.forEach(adsTypes, function(item) {
+                switch (item) {
+                case 'Canvas': { showType += ' Others'; break }
+                case 'SingleVideo': { showType += ' Video'; break }
+                case 'SingleImage': { showType += ' Image'; break }
+                case 'Carousel': { showType += ' Carousel'; break }
+                default: break
+                }
+            })
             return showType
         }
     })

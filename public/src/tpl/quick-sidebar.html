@@ -80,6 +80,15 @@
                             </select>
                             </div>
                         </div>
+                        <div>
+                            <div id="audience_gender" class="input-group">
+                            <span class="input-group-addon" id="audience_interest"><i class="fa fa-flag"></i></span>
+                            <select select2 class="form-control has_left_icon" id="AudienceInterest" multiple="multiple" ng-model="$parent.filterOption.audienceInterest" data-placeholder="Audience Interest">
+                                <option ng-repeat="item in $parent.adSearcher.audienceInterest" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.interest}}</option>    
+                            </select>
+                            </div>
+                        </div>
+
                     </div>
                     <a role="button" data-toggle="collapse" data-target="#linkAudienceDiv" class="show-button collapsed" aria-expanded="false" aria-controls="collapseDiv">
                         <h4 class="font-yellow-gold text-center">Audience Filter&nbsp;<i class="glyphicon glyphicon-menu-up font-yellow-gold down-icon"></i></h4>

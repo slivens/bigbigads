@@ -295,6 +295,14 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                     vm.hotword = data.data
                 })
             }
+            // 请求兴趣受众数据
+            // Todo:临时做法，后续会优化, 插件未调试成功
+            vm.getAudienceInterest = function() {
+                var url = settings.remoteurl + '/' + 'audience-interest'
+                $http.get(url, {}).then(function(data) {
+                    vm.audienceInterest = data.data
+                })
+            }
         }
         searcher.ADS_TYPE = searcher.prototype.ADS_TYPE = ADS_TYPE
         // 函数的静态方法以及对象的方法
@@ -450,7 +458,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 option.filter.lang = search.lang.split(",")
             }
             if (search.state) {
-                option.filter.state = search.state.split(",")
+                option.filter.state = search.state
             }
             if (search.domain) {
                 option.domain = JSON.parse(search.domain)
@@ -466,34 +474,35 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 // Util.matchkey(search.format, option.filter.format);
             }
             if (search.buttondesc) {
-                option.filter.callToAction = search.buttondesc.split(",")
+                option.filter.callToAction = search.buttondesc
                 // Util.matchkey(search.buttondesc, option.filter.buttondesc);
             }
             if (search.tracking) {
-                option.filter.tracking = search.tracking.split(",")
+                option.filter.tracking = search.tracking
             }
             if (search.affiliate) {
-                option.filter.affiliate = search.affiliate.split(",")
+                option.filter.affiliate = search.affiliate
             }
             if (search.ecommerce) {
-                option.filter.ecommerce = search.ecommerce.split(",")
+                option.filter.ecommerce = search.ecommerce
             }
             if (search.firstSeeStartDate && search.firstSeeEndDate) {
                 option.filter.firstSee.startDate = moment(search.firstSeeStartDate, 'YYYY-MM-DD')
                 option.filter.firstSee.endDate = moment(search.firstSeeEndDate, 'YYYY-MM-DD')
             }
             if (search.audienceAge) {
-                option.filter.audienceAge = search.audienceAge.split(",")
+                option.filter.audienceAge = search.audienceAge
             }
             if (search.audienceGender) {
                 // 性别受众为单选，使用split(",")处理会出错
                 option.filter.audienceGender = search.audienceGender
             }
             if (search.audienceInterest) {
-                option.filter.audienceInterest = search.audienceInterest.split(",")
+                console.log(search.audienceInterest)
+                option.filter.audienceInterest = search.audienceInterest
             }
             if (search.objective) {
-                option.filter.objective = search.objective.split(",")
+                option.filter.objective = search.objective
             }
             // #issues 11 连带发现的问题，刷新参数未保存
             if (search.duration) {
@@ -507,6 +516,9 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
             if (search.seeTimes) {
                 seeTimes = JSON.parse(search.seeTimes)
                 option.filter.seeTimes = angular.extend(option.filter.seeTimes, seeTimes)
+            }
+            if (search.audienceInterest) {
+                option.filter.audienceInterest = search.audienceInterest
             }
         }
         return searcher
@@ -587,6 +599,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             Util.trackState($location)
             // 获取热词
             $scope.adSearcher.getHotWord()
+            $scope.adSearcher.getAudienceInterest()
         }
         $scope.initSearch()
 
@@ -795,15 +808,15 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             }
 
             // Audience Interest
-            /* if (option.audienceInterest && option.audienceInterest.length) {
-                    $scope.adSearcher.addFilter({
-                        field: 'audience_interest',
-                        value: option.audienceInterest.join(',')
-                    });
-                    $scope.currSearchOption.filter.audienceInterest = option.audienceInterest.join(',');
-                } else {
-                    $scope.adSearcher.removeFilter("audience_interest");
-                } */
+            if (option.audienceInterest && option.audienceInterest.length) {
+                $scope.adSearcher.addFilter({
+                    field: 'audience_interest',
+                    value: option.audienceInterest.join(',')
+                })
+                $scope.currSearchOption.filter.audienceInterest = option.audienceInterest.join(',')
+            } else {
+                $scope.adSearcher.removeFilter("audience_interest")
+            }
 
             // objective
             if (option.objective && option.objective.length) {
@@ -1153,6 +1166,8 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             $scope.filterOption = $scope.searchOption.filter
             // 存在广告主的情况下，直接搜广告主，去掉所有搜索条件，否则就按标准的搜索流程
             queryToSearch(option, $scope.adSearcher)
+            $scope.adSearcher.getHotWord()
+            $scope.adSearcher.getAudienceInterest()
         }
         $scope.initSearch()
         $scope.currSearchOption = {}
