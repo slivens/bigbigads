@@ -2,7 +2,7 @@
     <div class="ads-font-20 analysis-title">Advertisement Overview:</div>
     <div class="analy-overview row" overview-Scroll >
         <div class="col-sm-6 analy-adscard">
-            <div class="adscard-body">
+            <div class="adscard-body col-xs-12 col-md-9">
                 <div class="adscard-header">
                     <a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
                         <img src="{{settings.imgRemoteBase[0] + card.small_photo}}" alt="" class="card-adserhead">
@@ -59,15 +59,15 @@
                         <span class="ads-label-beta">BETA</span>:
                     </span>
                     <span ng-if="card.objective">{{card.objective}}</span>
-                    <span ng-if="!card.objective" class="text-danger">No Data 
-                    <a href="" > <i class="glyphicon glyphicon-download"></i> BIGBIGADS Extension</a>
+                    <span ng-if="!card.objective" class="text-danger">No Data <!-- 
+                    <a href="" > <i class="glyphicon glyphicon-download"></i> BIGBIGADS Extension</a> -->
                     </span>
                 </p>
-                <p>
+                <!-- <p>
                     <span class="ads-weight-bold">Landing page:</span>
                     <a href="{{card.dest_site}}" class="btn btn-primary" ng-if="card.dest_site">Link</a>
                     <span class="text-danger" ng-if="!card.dest_site">No Data
-                    <a href="" ><i class="glyphicon glyphicon-download"></i> BIGBIGADS Extension</a></span></p>
+                    <a href="" ><i class="glyphicon glyphicon-download"></i> BIGBIGADS Extension</a></span></p> -->
                 <p> <a ng-href="plans">Upgrade your account to see all ads of this advertiser</a></p>
             </div>
             <div id="analy-info-mark" style="height: 0px"></div>
@@ -75,25 +75,25 @@
        
     </div>
     <hr>
-    <div class="analysis-title ads-font-20">Advertisement Trending：</div>
+    <div class="analysis-title ads-font-20">Advertisement Trending:</div>
     <div class="row analy-charts analy-trending">
         <!--charts line-->
         <div class="col-md-6 charts-left">
             <p class="charts-title">Impression Trending: </p>
-            <p class="charts-subtitle">Last 30 days VS. previous period</p>
-            <div class="charts-wrapper" ng-if="card.impression">
+            <p class="charts-subtitle"></p>
+            <div class="charts-wrapper" ng-if="card.impression_trend">
                 <highchart class="charts-line" config="impressionCharts"></highchart>
             </div>
-            <div ng-if="!card.impression" class="analy-nodata">
+            <div ng-if="!card.impression_trend" class="analy-nodata">
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
                 <br>
                 <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
-                <p><a href="">Download BIGBIGADS Extension</a></p>
+                <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
             </div>
         </div>
         <div class="col-md-6">
-            <p class="charts-title">Engagement Trending: </p>
-            <p class="charts-subtitle">Last 30 days VS. previous period</p>
+            <p class="charts-title">Engagement Trending:</p>
+            <p class="charts-subtitle"></p>
             <div class="charts-wrapper" ng-if="card.engagements_trend">
                 <highchart class="charts-line" config="engagementsCharts"></highchart>
             </div>
@@ -101,16 +101,16 @@
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
                 <br>
                 <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
-                <p><a href="">Download BIGBIGADS Extension</a></p>
+                <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
             </div>
         </div>
     </div>
-    <div class="analysis-title ads-font-20">Audience &amp; Interest：</div>
+    <div class="analysis-title ads-font-20">Audience &amp; Interest:</div>
     <div class="row analy-charts analy-audience">
         <div class="col-md-6">
             <div class="col-md-12">
                 <p class="charts-title">Demography:</p>
-                <p class="charts-subtitle">Last 30 days VS. previous period</p>
+                <p class="charts-subtitle"></p>
             </div>
             <!--char pie bar -->
             <div class="col-md-6 charts-wrapper" ng-if="card.whyseeads.gender && card.whyseeads.age">
@@ -123,13 +123,13 @@
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
                 <br>
                 <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
-                <p><a href="">Download BIGBIGADS Extension</a></p>
+                <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
             </div>
         </div>
         <!--interests-->
         <div class="col-md-6">
             <P class="charts-title">Interest:</P>
-            <p class="charts-subtitle">&nbsp;</p>
+            <!-- <p class="charts-subtitle">&nbsp;</p> -->
             <div class="analy-interst" ng-if="card.whyseeads.interests" ng-init="interstPageNum = 1">
                 <div class="interest-wrapper">
                     <div class="stat-wrapper" ng-repeat="interstItem in interestsArr | limitTo:(interstPageNum * 6)" ng-if="$index+1 > (interstPageNum * 6 - 6)">
@@ -155,7 +155,7 @@
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
                 <br>
                 <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
-                <p><a href="">Download BIGBIGADS Extension</a></p>
+                <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
             </div>
         </div>
     </div>
@@ -163,7 +163,7 @@
     <div class="row analy-charts analy-share">
         <div class="col-md-12 ">
             <p class="charts-title">Top countries by impression:</p>
-            <p class="charts-subtitle">Sessions over the last 30 days</p>
+            <p class="charts-subtitle"></p>
             <!--charts map-->
             <div class="analy-shar-wrapper clearfix" ng-if="card.whyseeads.addr">
                 <div class="col-md-6">
@@ -220,7 +220,7 @@
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
                 <br>
                 <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
-                <p><a href="">Download BIGBIGADS Extension</a></p>
+                <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
             </div>
         </div>
     </div>

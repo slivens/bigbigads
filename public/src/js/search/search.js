@@ -1548,8 +1548,8 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     $scope.card.whyseeads_all = $scope.card.whyseeads_all.split('\n')
 
                 // 广告impression
-                if ($scope.card.impression) {
-                    arr = JSON.parse($scope.card.impression)
+                if ($scope.card.impression_trend) {
+                    arr = JSON.parse($scope.card.impression_trend)
                     var time
                     var key
                     var chartData
@@ -1564,15 +1564,22 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                      */
                     var impressionArr = arr[time] ? Util.getTrendArr(time, 7, arr[time]) : false
                     if (impressionArr) {
-                        chartData = lineChar1 // 拷贝数组
-                        chartData.xAxis.categories = impressionArr.map(function(v) { return v[0] })
-                        chartData.series[0] = {
-                            name: "impression",
-                            data: impressionArr.map(function(v) { return v[1] })
+                        // 对器数组进行判断，如果是七天中超过5天为无效数据，则判断该数据无效
+                        var impressionValid = 0
+                        for (var item in impressionArr.map(function(v) { return v[1] })) {
+                            impressionArr.map(function(v) { return v[1] })[item] && impressionValid++
                         }
-                        $scope.impressionCharts = chartData
+                        if (impressionValid >= 5) {
+                            chartData = lineChar1 // 拷贝数组
+                            chartData.xAxis.categories = impressionArr.map(function(v) { return v[0] })
+                            chartData.series[0] = {
+                                name: "impression",
+                                data: impressionArr.map(function(v) { return v[1] })
+                            }
+                            $scope.impressionCharts = chartData
+                        } else $scope.card.impression_trend = false
                     } else {
-                        $scope.card.impression = false // 对于提供时间错误的，或则数据长度小于3的则不显示
+                        $scope.card.impression_trend = false // 对于提供时间错误的，或则数据长度小于3的则不显示
                     }
                 }
                 // engagements_trend
@@ -1625,8 +1632,17 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     // 广告详情-年龄分布
                     if ($scope.card.whyseeads.age) {
                         var adsAge = $scope.card.whyseeads.age
-                        $scope.adsAgeCharts.series[0].data = adsAge.map(function(v) { return v[0] })
-                        $scope.adsAgeCharts.series[1].data = adsAge.map(function(v) { return v[1] })
+                        var arr1 = adsAge.map(function(v) { return v[0] })
+                        var arr2 = adsAge.map(function(v) { return v[1] })
+                        var sum = 0
+                        for (var key0 in arr1) {
+                            sum += arr1[key0]
+                        }
+                        for (var key1 in arr2) {
+                            sum += arr2[key1]
+                        }
+                        $scope.adsAgeCharts.series[0].data = adsAge.map(function(v) { return ((v[0] / sum) * 100) })
+                        $scope.adsAgeCharts.series[1].data = adsAge.map(function(v) { return ((v[1] / sum) * 100) })
                     }
                     // 国家分布
                     if ($scope.card.whyseeads.addr) {
@@ -1752,7 +1768,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                 credits: false, // 角标
                 // legend: false, 图例
                 tooltip: {
-                    pointFormat: '{point.y}, {point.percentage:.1f}%'
+                    pointFormat: '{point.percentage:.1f}%'
                 },
                 plotOptions: {
                     pie: {
@@ -1857,7 +1873,8 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     min: 0,
                     title: {
                         text: false
-                    }
+                    },
+                    max: 100
                 },
                 legend: {
                     reversed: true
@@ -1865,8 +1882,11 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                 // colors: ['rgb(63, 169, 197)', 'rgb(116, 204, 220)'], //自定义颜色会出问题，有待解决
                 plotOptions: {
                     series: {
-                        stacking: 'normal'
+                        stacking: 'cloumn'
                     }
+                },
+                tooltip: {
+                    pointFormat: '<span style="color:{series.color}">{series.name}</span>:{point.y:.1f}%<br/>'
                 },
                 series: [{
                     name: 'Male',
