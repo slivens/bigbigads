@@ -1355,6 +1355,16 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                 $scope.adSearcher.removeFilter("audience_gender")
             }
 
+            if (option.audienceInterest && option.audienceInterest.length) {
+                $scope.adSearcher.addFilter({
+                    field: 'audience_interest',
+                    value: option.audienceInterest.join(',')
+                })
+                $scope.currSearchOption.filter.audienceInterest = option.audienceInterest.join(',')
+            } else {
+                $scope.adSearcher.removeFilter("audience_interest")
+            }
+
             // objective
             if (option.objective && option.objective.length) {
                 $scope.adSearcher.addFilter({
