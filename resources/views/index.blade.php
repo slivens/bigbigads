@@ -307,9 +307,6 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 </div>
 <script type="text/javascript" src="dist/vendor.js?v=5.1" defer></script>
 <script type="text/javascript" src="dist/home.js?v=2.0.2" defer></script>
-<div class="hide">
-  <script src="https://s13.cnzz.com/z_stat.php?id=1263539413&web_id=1263539413" language="JavaScript"></script>
-</div>
 </body>
 </html>
     
