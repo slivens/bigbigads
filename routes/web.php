@@ -184,6 +184,7 @@ Route::get('/welcome', function () {
 });
 
 Route::get('hotword', 'HotWordController@getHotWord');
+Route::get('audience-interest', 'AudienceInterestController@getAudienceInterest');
 
 Route::post('/quick_register', 'UserController@quickRegister');//快速注册表单提交位置
 Route::get('/payment/{method}/prepare', 'SubscriptionController@prepareCheckout');
