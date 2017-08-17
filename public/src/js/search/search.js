@@ -498,7 +498,6 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 option.filter.audienceGender = search.audienceGender
             }
             if (search.audienceInterest) {
-                console.log(search.audienceInterest)
                 option.filter.audienceInterest = search.audienceInterest
             }
             if (search.objective) {
