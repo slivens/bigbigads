@@ -53,4 +53,7 @@
             a.appendChild(r);
         })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
+    <div class="hide">
+      <script src="https://s13.cnzz.com/z_stat.php?id=1263539413&web_id=1263539413" language="JavaScript"></script>
+    </div>
 </footer>
