@@ -94,7 +94,7 @@ use \Illuminate\Support\Facades\Input;
                                          <div class="form-group">
                                             <input type="text" class="form-control" placeholder="Coupon" v-model="coupon" name="coupon">
                                          </div>
-                                         <button v-bind:class="{'btn':true, 'btn-primary':true,  'disabled':loading || !coupon}" v-bind:disabled="loading || !coupon" v-on:click="applyCoupon">Apply</button>
+                                         <button type="button" v-bind:class="{'btn':true, 'btn-primary':true,  'disabled':loading || !coupon}" v-bind:disabled="loading || !coupon" v-on:click="applyCoupon">Apply</button>
                                      </div>
                                 </div>
                                 <div class="col-sm-6 coupon-text ads-font-14">

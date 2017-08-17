@@ -182,6 +182,9 @@ Route::get('/wordpress/track_notice', 'WordpressController@trackNotice')->middle
 Route::get('/welcome', function () {
     return view('welcome');
 });
+Route::get('/extension', function () {
+    return view('extension');
+});
 
 Route::get('hotword', 'HotWordController@getHotWord');
 
