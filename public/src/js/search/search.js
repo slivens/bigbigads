@@ -74,13 +74,13 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
 
                 },
                 isEngagementsDirty: function() {
-                    var isFalse = false
+                    var isDirty = false
                     // #issues 11 修复选择0 - 180 无效问题
                     angular.forEach(this.engagements, function(item, index) {
                         if (((item.min && (item.min != searcher.defFilterOption.engagements[index].min)) && (item.max && (item.max != searcher.defFilterOption.engagements[index].max))) || (item.min === 0 || item.max === 180))
-                            isFalse = true
+                            isDirty = true
                     })
-                    return isFalse
+                    return isDirty
                 },
 
                 isDurationDirty: function() {
@@ -486,7 +486,8 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 option.filter.audienceAge = search.audienceAge.split(",")
             }
             if (search.audienceGender) {
-                option.filter.audienceGender = search.audienceGender.split(",")
+                // 性别受众为单选，使用split(",")处理会出错
+                option.filter.audienceGender = search.audienceGender
             }
             if (search.audienceInterest) {
                 option.filter.audienceInterest = search.audienceInterest.split(",")
@@ -569,9 +570,11 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
 
         $scope.googleQuery = function(typed) {
             // 谷歌联想搜索
-            Util.googleSuggestQueries(typed).then(function(data) {
-                $scope.suggestions = data.data[1]
-            })
+            if (typed) {
+                Util.googleSuggestQueries(typed).then(function(data) {
+                    $scope.suggestions = data.data[1]
+                })
+            }
         }
 
         // text为空时就表示没有这个搜索项了
