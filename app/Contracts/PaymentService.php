@@ -30,6 +30,8 @@ interface PaymentService
      * 同步所有支付记录，将本地没有远程有的记录导入到本地数据库。该接口主要解决两个问题：
      * 1. 早前的Paypal并没有在数据库留下支付记录，所以需要遍历Paypal的所有订阅，导出卡住、成功和退款的支付记录;
      * 2. Paypal的Webhook是个不可靠的机制，为了防止此问题，也需要定期执行同步命令;
+     * 3. 当用户被循环扣款后，通过该命令同步用户的过期时间
+     * 4. 当用户退款时，通过该命令设置用户的过期时间和切换计划
      * @param Array $gateways 为空值时表示同步所有计划;否则同步指定的计划。每个数组项应从GATEWAY_*中取值。
      */
     public function syncPayments(Array $gateways, \App\Subscription $subscription);
@@ -40,10 +42,11 @@ interface PaymentService
      * 1. 以前的订阅计划的计划数据从Plan对象获取，但Plan对象可能改变其扣款周期等，已经完成的订阅不应该受此影响。
      * 2. 一些新增字段需要根据计划状态填充初始值
      * 3. 一个用户可能有多个订阅，除用户设置的订阅外，其他全部自动取消
+     * 4. 对7天内即可到期的活动订阅推到队列，在到期前5小时执行syncPayments(这边的时间设计是比较随意的，只要订单完成后，过期时间前即可）
      * @param Array $gateways 为空值时表示同步所有计划;否则同步指定的计划。每个数组项应从GATEWAY_*中取值。
      * @param \App\Subscription $subscription 指定同步的订阅，如果指明该参数将只同步该订阅
      */
-    public function syncSubscriptions(Array $gateways);
+    public function syncSubscriptions(Array $gateways, \App\Subscription $subscription);
 
 
     /**
@@ -58,4 +61,10 @@ interface PaymentService
      */
     public function getRawService($gateway);
 
+    /**
+     * 取消订阅
+     * @param Subscription $subscription
+     * @return boolean
+     */
+    public function cancel(\App\Subscription $subscription);
 }

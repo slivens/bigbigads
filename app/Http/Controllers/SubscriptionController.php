@@ -127,7 +127,7 @@ final class SubscriptionController extends PayumController
         if ($req->has('payType') && $req->payType == 'stripe') {
             return $this->payByStripe($req, $plan, $user, $coupon);
         }       
-        $service = new \App\Services\PaypalService;
+        $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
         $approvalUrl = $service->createPayment($plan, $coupon ? ['setup_fee' => $plan->amount - $discount] : null);
         //由于此时订阅的相关ID没产生，所以没办法通过保存ID，此时就先通过token作为中转
 		$queryStr = parse_url($approvalUrl, PHP_URL_QUERY);
@@ -172,7 +172,7 @@ final class SubscriptionController extends PayumController
      */
     public function showPlans()
     {
-        $service = new PaypalService();
+        $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
         return $service->dropPlans();
     }
 
@@ -188,7 +188,7 @@ final class SubscriptionController extends PayumController
             abort(401, "no subscription found");
         }
 
-        $service = new PaypalService();
+        $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
 
         $payment = $service->onPay($request);
         //中途取消的情况下返回profile页面
@@ -200,7 +200,7 @@ final class SubscriptionController extends PayumController
         $subscription->save();
 
         // 完成订阅后10秒后就去同步，基本上订单都已产生；如果没有产生，3分钟后再次同步试。同时webhook如果有收到，也会去同步。
-        dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(10)));
+        dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(5)));
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addMinutes(3)));
         return redirect('/app/profile?active=0');
     }
@@ -404,5 +404,16 @@ final class SubscriptionController extends PayumController
             $this->paymentService->handlePayment($ourPayment);
         }
         return redirect('/app/profile?active=0');
+    }
+
+    public function cancel($id)
+    {
+        $user = Auth::user();
+        $sub = Subscription::where(['id' => $id, 'user_id' => $user->id])->first();
+        if ($sub->status != Subscription::STATE_SUBSCRIBED && $sub->status != Subscription::STATE_PAYED)
+            return ['code' => -1, 'desc' => "not a valid state:{$sub->status}"];
+        if (!$this->paymentService->cancel($sub))
+            return ['code' => -1, 'desc' => "cancel failed"];
+        return ['code' => 0, 'desc' => 'success'];
     }
 }

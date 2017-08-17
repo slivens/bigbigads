@@ -108,17 +108,9 @@ angular.module('MetronicApp').controller('ProfileController', ['$scope', '$locat
     $scope.userPromise.then(function() {
         var user = User.info.user
         // console.log(user.subscriptions);
-        if (user.subscriptions.length > 0)
-            $scope.lastSubscription = user.subscriptions[user.subscriptions.length - 1]
         $scope.userInfo = User.info
         $scope.User = User
         $scope.user = user
-    })
-}])
-angular.module('MetronicApp').controller('SubscriptionController', ['$scope', 'User', function($scope, User) {
-    User.getInfo().then(function() {
-        $scope.userInfo = User.info
-        $scope.subscription = User.user.subscription
     })
 }])
 angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User', 'Resource', function($scope, User, Resource) {
@@ -153,37 +145,78 @@ angular.module('MetronicApp').component('billings', {
         shouldInit: '@'
     }
 })
-angular.module('MetronicApp').controller('ChangepwdController', ['$scope', '$uibModalInstance', '$http', 'settings', function($scope, $uibModalInstance, $http, settings) {
-    var info = {
-        oldpwd: null,
-        newpwd: null,
-        repeatpwd: null
-    }
-    var url = settings.remoteurl + "/changepwd"
-    $scope.info = info
-    $scope.cancel = function() {
-        $uibModalInstance.dismiss('cancel')
-    }
-    $scope.save = function(item) {
-        console.log($scope.info)
-        // $scope.promise = bookmark.save(item);
-        // $scope.promise.then(function() {
-        //     $uibModalInstance.dismiss('success');
-        // });
-        if (info.newpwd != info.repeatpwd) {
-            info.error = "repeat password is diffrent with new password"
-            return
+    .controller('SubscriptionController', ['$scope', '$http', 'User', 'SweetAlert', function($scope, $http, User, SweetAlert) {
+        var ctrl = this
+        function init(force) {
+            User.getInfo(force).then(function() {
+                var user = User.info.user
+                ctrl.userInfo = User.info
+                ctrl.subscription = User.user.subscription
+                if (user.subscriptions.length > 0)
+                    ctrl.lastSubscription = user.subscriptions[user.subscriptions.length - 1]
+                if (ctrl.lastSubscription &&
+                    (ctrl.lastSubscription.status == 'payed' ||
+                        ctrl.lastSubscription.status == 'subscribed'))
+                    ctrl.canCancel = true
+            })
         }
-        $scope.promise = $http.post(url, info)
-        $scope.promise.then(function(res) {
-            var data = res.data
-            if (Number(data.code) !== 0) {
-                info.error = data.desc
+        ctrl.cancel = function() {
+            SweetAlert.swal({
+                title: "Are you sure to cancel?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes",
+                cancelButtonText: "No"
+            },
+            function(isConfirm) {
+                if (isConfirm) {
+                    var url = '/subscription/' + ctrl.subscription.id + '/cancel'
+                    ctrl.cancelPromise = $http.post(url).then(function(res) {
+                        init(true)
+                    }).catch(function(res) {
+                        SweetAlert.swal(res.data.message)
+                    })
+                }
+            })
+        }
+        init(false)
+    }])
+    .component('subscription', {
+        templateUrl: 'components/subscription.html',
+        controller: 'SubscriptionController'
+    })
+    .controller('ChangepwdController', ['$scope', '$uibModalInstance', '$http', 'settings', function($scope, $uibModalInstance, $http, settings) {
+        var info = {
+            oldpwd: null,
+            newpwd: null,
+            repeatpwd: null
+        }
+        var url = settings.remoteurl + "/changepwd"
+        $scope.info = info
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel')
+        }
+        $scope.save = function(item) {
+            console.log($scope.info)
+            // $scope.promise = bookmark.save(item);
+            // $scope.promise.then(function() {
+            //     $uibModalInstance.dismiss('success');
+            // });
+            if (info.newpwd != info.repeatpwd) {
+                info.error = "repeat password is diffrent with new password"
                 return
             }
-            $uibModalInstance.dismiss('save')
-        }, function(res) {
-            info.error = res.statusText
-        })
-    }
-}])
+            $scope.promise = $http.post(url, info)
+            $scope.promise.then(function(res) {
+                var data = res.data
+                if (Number(data.code) !== 0) {
+                    info.error = data.desc
+                    return
+                }
+                $uibModalInstance.dismiss('save')
+            }, function(res) {
+                info.error = res.statusText
+            })
+        }
+    }])

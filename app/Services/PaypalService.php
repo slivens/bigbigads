@@ -30,17 +30,17 @@ class PaypalService
     {
         $apiContext = new \PayPal\Rest\ApiContext(
             new \PayPal\Auth\OAuthTokenCredential(
-                config('payment.paypal.client_id'),     // ClientID
-                config('payment.paypal.client_secret')      // ClientSecret
+                $this->config['client_id'],     // ClientID
+                $this->config['client_secret']      // ClientSecret
             ));
         $apiContext->setConfig( 
             array(
-                'mode'=>config('payment.paypal.mode'),
-                 'log.LogEnabled' => true,
-                 'log.FileName' => 'PayPal.log',
-                 'log.LogLevel' => 'DEBUG'
-             ) 
-         ); 
+                'mode'=> $this->config['mode'],
+                'log.LogEnabled' => true,
+                'log.FileName' => 'PayPal.log',
+                'log.LogLevel' => 'DEBUG'
+            ) 
+        ); 
         return $apiContext;
     }
 
@@ -77,7 +77,7 @@ class PaypalService
         $chargeModel->setType('TAX')
             ->setAmount(new Currency(array('value' => 0, 'currency' => $param->currency)));
 
-        $returnUrl = config('payment.paypal.returnurl');
+        $returnUrl = $this->config['returnurl'];
         $merchantPreferences = new MerchantPreferences();
         $merchantPreferences->setReturnUrl("$returnUrl?success=true")
             ->setCancelUrl("$returnUrl?success=false")

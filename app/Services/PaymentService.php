@@ -13,6 +13,7 @@ use Stripe\Plan as StripePlan;
 use Stripe\Stripe;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
+use Cache;
 
 class PaymentService implements PaymentServiceContract
 {
@@ -186,7 +187,7 @@ class PaymentService implements PaymentServiceContract
      * {@inheritDoc}
      * @todo 同步远程的Paypal, stripe
      */
-    public function syncSubscriptions(Array $gateways = [])
+    public function syncSubscriptions(Array $gateways = [], Subscription $subscription)
     {
         // 正常应该是从远程同步，以确定status状态，从本地同步是错误的方法
         // 特别是frequency_interval和frequency,它们的目的就是为了防止本地Plan修改后
@@ -196,7 +197,11 @@ class PaymentService implements PaymentServiceContract
         // TODO:
 
         // Paypal的同步
-        $subs = Subscription::where(['gateway' => 'paypal'])->get();
+        if ($subscription) {
+            $subs = new Collection([$subscription]);
+        } else {
+            $subs = Subscription::where(['gateway' => 'paypal'])->get();
+        }
         $service = $this->getPaypalService();
         $this->log("sync to paypal, this may take long time...({$subs->count()})");
         foreach ($subs as $sub) {
@@ -259,6 +264,10 @@ class PaymentService implements PaymentServiceContract
             } else {
                 $this->log("{$sub->agreement_id} has no change");
             }
+
+            // 根据用户过期时间规划是否在指定时间同步该订阅的订单
+            if ($sub->status == Subscription::STATE_PAYED)
+                $this->autoScheduleSyncPayments($sub);
         }
         /* $this->log("sync to paypal, this will cost time, PLEASE WAITING..."); */
         /* foreach ($subs as $sub) { */
@@ -403,7 +412,55 @@ class PaymentService implements PaymentServiceContract
     {
     }
 
-    public function refund($no)
+    /**
+     * {@inheritDoc}
+     */
+    public function refund($number)
     {
+    }
+
+    /**
+     * 自动规划当用户到期时间快到时，对活动订阅的订单同步，以解决循环扣款不能及时检测到的问题。
+     * 只要是正常操作，用户就不会过期。如果出现订阅正常扣款，但是用户过期的情况，由用户联系客户手动处理。
+     * 不在此处考虑范围内。
+     * @param Subscription $subscription
+     */
+    public function autoScheduleSyncPayments(Subscription $subscription)
+    {
+        if ($subscription->status != Subscription::STATE_PAYED || $subscription->id != $subscription->user->subscription_id)
+            return;
+        $key = "schedule-subscription-" . $subscription->id;
+        if (Cache::has($key)) {
+            $this->log("{$subscription->agreement_id} has scheduled, ignore");
+            return;
+        }
+        $this->log("on schedule checking...");
+        $user = $subscription->user;
+        $carbon = new Carbon($user->expired);
+        // 7天及以内过期的用户，在过期前几个小时检查订单状态
+        if ($carbon->gt(Carbon::now()) && Carbon::now()->diffInDays($carbon, false) <= 7)  {
+            $scheduleTime = $carbon->subHours(5);
+            // 对于在5小时内就要过期的订单，1分钟后就立刻执行
+            if ($scheduleTime->lt(Carbon::now()))
+                $scheduleTime = Carbon::now()->addMinutes(1);
+            $this->log("schedule {$subscription->agreement_id} at " . $scheduleTime->toDateTimeString(), PaymentService::LOG_INFO);
+            dispatch((new \App\Jobs\SyncPaymentsJob($subscription))->delay($scheduleTime));
+            Cache::put($key, $subscription->agreement_id, $scheduleTime);
+        }
+    }
+
+    public function cancel(Subscription $subscription)
+    {
+        if ($subscription->gateway == PaymentService::GATEWAY_PAYPAL) {
+            if (!in_array($subscription->status, [Subscription::STATE_SUBSCRIBED, Subscription::STATE_PAYED]))
+                return false;
+            $res = $this->getPaypalService()->cancelSubscription($subscription->agreement_id);
+            if ($res) {
+                $subscription->status = Subscription::STATE_CANCLED;    
+                $subscription->save();
+            }
+            return $res;
+        }
+        return false;
     }
 }
