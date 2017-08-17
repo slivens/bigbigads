@@ -15,6 +15,8 @@ class CreateAudienceInterestsTable extends Migration
     {
         Schema::create('audience_interests', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('interest');
+            $table->string('permission')->nullable();
             $table->timestamps();
         });
     }
