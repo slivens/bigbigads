@@ -216,7 +216,6 @@ final class SubscriptionController extends PayumController
         $isValid = $service->verifyWebhook($request);
         /* if (!$isValid) */
         /*     return; */
-        log::info('test verifyWebhook: '.$isValid);die();
         $webhook_id = $request->id;//webhook id
         $count = Webhook::where('webhook_id',$webhook_id)->count();
         // webhook有记录说明处理过就不再处理
