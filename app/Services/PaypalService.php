@@ -30,17 +30,17 @@ class PaypalService
     {
         $apiContext = new \PayPal\Rest\ApiContext(
             new \PayPal\Auth\OAuthTokenCredential(
-                config('payment.paypal.client_id'),     // ClientID
-                config('payment.paypal.client_secret')      // ClientSecret
+                $this->config['client_id'],     // ClientID
+                $this->config['client_secret']      // ClientSecret
             ));
         $apiContext->setConfig( 
             array(
-                'mode'=>config('payment.paypal.mode'),
-                 'log.LogEnabled' => true,
-                 'log.FileName' => 'PayPal.log',
-                 'log.LogLevel' => 'DEBUG'
-             ) 
-         ); 
+                'mode'=> $this->config['mode'],
+                'log.LogEnabled' => true,
+                'log.FileName' => 'PayPal.log',
+                'log.LogLevel' => 'DEBUG'
+            ) 
+        ); 
         return $apiContext;
     }
 
@@ -77,7 +77,7 @@ class PaypalService
         $chargeModel->setType('TAX')
             ->setAmount(new Currency(array('value' => 0, 'currency' => $param->currency)));
 
-        $returnUrl = config('payment.paypal.returnurl');
+        $returnUrl = $this->config['returnurl'];
         $merchantPreferences = new MerchantPreferences();
         $merchantPreferences->setReturnUrl("$returnUrl?success=true")
             ->setCancelUrl("$returnUrl?success=false")
@@ -286,7 +286,27 @@ class PaypalService
     }
 
     /**
-     * 将指令的订阅挂起
+     * 取消指定的订阅
+     * @param $id agreement id
+     */
+    public function cancelSubscription($id)
+    {
+        $subscription = $this->subscription($id);
+
+        $apiContext = $this->getApiContext();
+        $agreementStateDescriptor = new AgreementStateDescriptor();
+        $agreementStateDescriptor->setNote("cancel the agreement by Bigbigads");
+        try {
+             return $subscription->cancel($agreementStateDescriptor, $apiContext);
+        } catch (\Exception $e) {
+            Log::error("cancel:" . $e->getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 将指定的订阅挂起
      */
     public function suspendSubscription($id)
     {
@@ -352,6 +372,7 @@ class PaypalService
     public function verifyWebhook($request){
         $apiContext = $this->getApiContext();
         $headers = array_change_key_case($request->header(), CASE_UPPER);//转换所有的键为大写
+        /* Log::info("headers:" . json_encode($headers)); */
         $verifySignature = new \PayPal\Api\VerifyWebhookSignature();
         $verifySignature->setAuthAlgo($headers['PAYPAL-AUTH-ALGO'][0]);
         $verifySignature->setCertUrl($headers['PAYPAL-CERT-URL'][0]);
@@ -366,7 +387,7 @@ class PaypalService
         $req_content = $request->request->all();
 
         $verifySignature->setRequestBody(json_encode($req_content));
-        Log::info('post to verify webhook content: '.$verifySignature->toJSON());
+        /* Log::info('post to verify webhook content: '.$verifySignature->toJSON()); */
         try {
             /** @var \PayPal\Api\VerifyWebhookSignatureResponse $output */
             $output = $verifySignature->post($apiContext);

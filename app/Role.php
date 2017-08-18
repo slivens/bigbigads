@@ -45,8 +45,10 @@ class Role extends Model
      */
     public function groupedPolicies()
     {
-        if (Cache::has("role-" . $this->name)) {
-            return Cache::get("role-" . $this->name);
+        // TODO:变成[]有更深层次的原因，此为临时解决方案
+        $key = "role-" . $this->name;
+        if (Cache::has($key) && json_encode(Cache::get($key)) != '[]') {
+            return Cache::get($key);
         }
         $policies = $this->policies;
         $grouped = [];

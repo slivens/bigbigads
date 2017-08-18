@@ -110,13 +110,13 @@ Route::group(['middleware'=>'auth'], function() {
     //Route::get('/pay', 'SubscriptionController@form');
     Route::post('/pay', 'SubscriptionController@pay');
     Route::get('/billings', 'SubscriptionController@billings');
+    Route::post('/subscription/{id}/cancel', 'SubscriptionController@cancel');
 	Route::get('/invoice/{invoice}', function (Request $request, $invoiceId) {
 		return Auth::user()->downloadInvoice($invoiceId, [
 			'vendor'  => 'Bigbigads',
 			'product' => 'Bigbigads',
 		], storage_path('invoice'));
     });
-
     Route::post('changepwd', 'UserController@changepwd');
 
 });
@@ -187,6 +187,7 @@ Route::get('/extension', function () {
 });
 
 Route::get('hotword', 'HotWordController@getHotWord');
+Route::get('audience-interest', 'AudienceInterestController@getAudienceInterest');
 
 Route::post('/quick_register', 'UserController@quickRegister');//快速注册表单提交位置
 Route::get('/payment/{method}/prepare', 'SubscriptionController@prepareCheckout');

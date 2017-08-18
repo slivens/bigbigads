@@ -512,9 +512,6 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                 element.bind("click", function() {
                     if (attrs.plan != 'free') {
                         if (userPlan === attrs.plan) {
-                            SweetAlert.swal("You had subscribed. Wanna change your plan?", function() {
-                                window.open("mailto:sale@bigbigads.com", '_self')
-                            })
                             SweetAlert.swal({
                                 title: "You had subscribed. Wanna change your plan?",
                                 type: "warning",
@@ -831,7 +828,6 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                     }
                 }
             },
-
             /*
              * 返回类似广告impression的完整数组
              * 将["2017-03-21":{"12","11"...}] 转为 [{"03-21","12"},{"03-22","11"}...]
