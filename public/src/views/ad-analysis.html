@@ -43,7 +43,7 @@
 
         </div>
         <div class="col-sm-6 analy-info ads-font-16"  ng-class="{'info-position' : infoPosition, 'info-fixed': !infoPosition}">
-            <div class="analy-info-wrapper">
+            <div class="analy-info-wrapper ">
                 <p>
                     <span class="ads-weight-bold">Time:</span>
                     <span>{{card.first_see}}~{{card.last_see}}</span>
@@ -63,14 +63,34 @@
                     <a href="" > <i class="glyphicon glyphicon-download"></i> BIGBIGADS Extension</a> -->
                     </span>
                 </p>
+                <p>
+                    <span class="ads-weight-bold">Frequency:</span>
+                    <span ng-if="card.frequency">{{card.frequency}}</span>
+                    <span class="text-danger" ng-if="!card.frequency">No Data</span>
+                </p>
+                <p>
+                    <span class="ads-weight-bold">reach:</span>
+                    <span ng-if="card.reach">{{card.reach}}</span>
+                    <span class="text-danger" ng-if="!card.reach">No Data</span>
+                </p>
+                <p>
+                    <span class="ads-weight-bold">share_rate:</span>
+                    <span ng-if="card.share_rate">{{card.share_rate}}</span>
+                    <span class="text-danger" ng-if="!card.share_rate">No Data</span>
+                </p>
+
+                <p>
+                    <span class="ads-weight-bold">like_rate:</span>
+                    <span ng-if="card.like_rate">{{card.like_rate}}</span>
+                    <span class="text-danger" ng-if="!card.like_rate">No Data</span>
+                </p>
                 <!-- <p>
                     <span class="ads-weight-bold">Landing page:</span>
                     <a href="{{card.dest_site}}" class="btn btn-primary" ng-if="card.dest_site">Link</a>
                     <span class="text-danger" ng-if="!card.dest_site">No Data
                     <a href="" ><i class="glyphicon glyphicon-download"></i> BIGBIGADS Extension</a></span></p> -->
-                <p> <a ng-href="plans">Upgrade your account to see all ads of this advertiser</a></p>
+                <!-- <p><a ng-href="plans">Upgrade your account to see all ads of this advertiser</a></p> -->
             </div>
-            <div id="analy-info-mark" style="height: 0px"></div>
         </div>
        
     </div>
@@ -81,10 +101,10 @@
         <div class="col-md-6 charts-left">
             <p class="charts-title">Impression Trending: </p>
             <p class="charts-subtitle"></p>
-            <div class="charts-wrapper" ng-if="card.impression_trend">
-                <highchart class="charts-line" config="impressionCharts"></highchart>
+            <div class="charts-wrapper" ng-if="card.impressionCharts">
+                <highchart class="charts-line" config="card.impressionCharts"></highchart>
             </div>
-            <div ng-if="!card.impression_trend" class="analy-nodata">
+            <div ng-if="!card.impressionCharts" class="analy-nodata">
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
                 <br>
                 <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
@@ -94,10 +114,10 @@
         <div class="col-md-6">
             <p class="charts-title">Engagement Trending:</p>
             <p class="charts-subtitle"></p>
-            <div class="charts-wrapper" ng-if="card.engagements_trend">
-                <highchart class="charts-line" config="engagementsCharts"></highchart>
+            <div class="charts-wrapper" ng-if="card.engagementsCharts">
+                <highchart class="charts-line" config="card.engagementsCharts"></highchart>
             </div>
-            <div class="analy-nodata" ng-if="!card.engagements_trend">
+            <div class="analy-nodata" ng-if="!card.engagementsCharts">
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
                 <br>
                 <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
@@ -110,14 +130,13 @@
         <div class="col-md-6">
             <div class="col-md-12">
                 <p class="charts-title">Demography:</p>
-                <p class="charts-subtitle"></p>
             </div>
             <!--char pie bar -->
             <div class="col-md-6 charts-wrapper" ng-if="card.whyseeads.gender && card.whyseeads.age">
-                <highchart class="charts-pie" config="adsGenderCharts"></highchart>
+                <highchart class="charts-pie" config="card.gnederPieCharts"></highchart>
             </div>
             <div class="col-md-6 charts-wrapper" ng-if="card.whyseeads.gender && card.whyseeads.age">
-                <highchart class="charts-bar" config="adsAgeCharts"></highchart>
+                <highchart class="charts-bar" config="card.ageBarCharts"></highchart>
             </div>
             <div ng-if="!card.whyseeads.gender || !card.whyseeads.age" class="analy-nodata">
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
@@ -135,8 +154,7 @@
                     <div class="stat-wrapper" ng-repeat="interstItem in interestsArr | limitTo:(interstPageNum * 6)" ng-if="$index+1 > (interstPageNum * 6 - 6)">
                         <i class="fa fa-bookmark-o ads-font-18 stat-icon"></i>
                         <div class="stat-name">
-                            <span ng-if="$index <5 "  title="{{interstItem.name}}">{{interstItem.name}}</span>
-                            <span ng-if="$index >= 5"><a ng-href="plans">Upgrade</a></span>
+                            <span title="{{interstItem.name}}">{{interstItem.name}}</span>
                         </div>
                         <div class="progress stat-progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{(interstItem.value / interestsArr.count) * 100}}%;">
@@ -162,14 +180,14 @@
     <div class="analysis-title ads-font-20">Country Rank by Impressions Share:</div>
     <div class="row analy-charts analy-share">
         <div class="col-md-12 ">
-            <p class="charts-title">Top countries by impression:</p>
+            <p class="charts-title">Top countries by Impression:</p>
             <p class="charts-subtitle"></p>
             <!--charts map-->
-            <div class="analy-shar-wrapper clearfix" ng-if="card.whyseeads.addr">
+            <div class="analy-shar-wrapper clearfix" ng-if="card.addrMapCharts">
                 <div class="col-md-6">
                     <div class="charts-wrapper" style="padding: 0;min-height: 350px">
 
-                        <highchart class="charts-adsmap" config="adsMapChart"></highchart>
+                        <highchart class="charts-adsmap" config="card.addrMapCharts"></highchart>
                     </div>
                 </div>
                 <div class="col-md-6 analy-table">
@@ -181,25 +199,24 @@
                                     <tr class="ads-font-16 ads-weight-bold text-left">
                                         <td></td>
                                         <td>Country</td>
-                                        <td>Traffic Share</td>
+                                        <td>Share</td>
                                         <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="adsItems in adsVisitCountryData | limitTo:(tabelePageNum * 7)" ng-if="$index+1 > (tabelePageNum * 7 - 7)">
+                                    <tr ng-repeat="adsItems in card.whyseeads.addr | limitTo:(tabelePageNum * 7)" ng-if="$index+1 > (tabelePageNum * 7 - 7)">
                                         <td class="analy-td1">{{$index + 1}}</td>
                                         <td class="analy-td2">
-                                            <div class="country-name ads-text-ellipsis" ng-if="$index < 6">{{adsItems.name}}</div>
-                                            <div class="country-name ads-text-ellipsis" ng-if="$index >= 6"><a ng-href="plans">Upgrade</a></div>
+                                            <div class="country-name ads-text-ellipsis" >{{adsItems.name}}</div>
                                         </td>
                                         <td class="analy-td3">
-                                            <div class="percent-number">{{((adsItems.value / adsVisitCountryCount) * 100).toFixed(2)}} %</div>
+                                            <div class="percent-number">{{((adsItems.value / card.whyseeads.count) * 100).toFixed(2)}} %</div>
                                         </td>
                                         <td class="analy-td4">
                                             <div class="progress-wrapper">
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:{{((adsItems.value / adsVisitCountryCount) * 100)}}%;">
-                                                        <span class="sr-only">{{((adsItems.value / adsVisitCountryCount) * 100).toFixed(2)}} % Complete</span>
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:{{((adsItems.value / card.whyseeads.count) * 100)}}%;">
+                                                        <span class="sr-only">{{((adsItems.value / card.whyseeads.count) * 100).toFixed(2)}} % Complete</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -209,14 +226,14 @@
                             </table>
                         </div>
                         <div class="map-table-footer text-right">               
-                            <span class="page-num"> {{tabelePageNum}} / {{ ceil(adsVisitCountryData.length / 7)}}</span>
+                            <span class="page-num"> {{tabelePageNum}} / {{ ceil(card.whyseeads.addr.length / 7)}}</span>
                             <button class="fa fa-caret-left turnpage-button" ng-disabled="tabelePageNum == 1" ng-click="tabelePageNum = tabelePageNum - 1"></button>
-                            <button class="fa fa-caret-right turnpage-button" ng-disabled="tabelePageNum == ceil(adsVisitCountryData.length / 7)" ng-click="tabelePageNum = tabelePageNum + 1"></button>               
+                            <button class="fa fa-caret-right turnpage-button" ng-disabled="tabelePageNum == ceil(card.whyseeads.addr.length / 7)" ng-click="tabelePageNum = tabelePageNum + 1"></button>               
                         </div>
                     </div>
                 </div>
             </div>
-            <div ng-if="!card.whyseeads.addr" class="analy-nodata">
+            <div ng-if="!card.addrMapCharts" class="analy-nodata">
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
                 <br>
                 <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>

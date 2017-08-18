@@ -1641,24 +1641,24 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     // 广告详情-性别比例
                     if ($scope.card.whyseeads.gender) {
                         var asdGender = $scope.card.whyseeads.gender
-                        $scope.adsGenderCharts.series[0].data[0][1] = asdGender[0]
-                        $scope.adsGenderCharts.series[0].data[1][1] = asdGender[1]
-                    }
+                        $scope.card.gnederPieCharts = Util.pieChartsConfig([['Male', asdGender[0]], ['Female', asdGender[1]]], '60%')
+                    } else $scope.crd.gnederPieCharts = false
                     // 广告详情-年龄分布
                     if ($scope.card.whyseeads.age) {
-                        var adsAge = $scope.card.whyseeads.age
-                        var arr1 = adsAge.map(function(v) { return v[0] })
-                        var arr2 = adsAge.map(function(v) { return v[1] })
-                        var sum = 0
-                        for (var key0 in arr1) {
-                            sum += arr1[key0]
-                        }
-                        for (var key1 in arr2) {
-                            sum += arr2[key1]
-                        }
-                        $scope.adsAgeCharts.series[0].data = adsAge.map(function(v) { return ((v[0] / sum) * 100) })
-                        $scope.adsAgeCharts.series[1].data = adsAge.map(function(v) { return ((v[1] / sum) * 100) })
-                    }
+                        var arr1 = $scope.card.whyseeads.age.map(function(v) { return v[0] })
+                        var arr2 = $scope.card.whyseeads.age.map(function(v) { return v[1] })
+                        // 堆叠分布 barChartsConfig(barXAxis[X轴数据], barData[数据*], barPercent[以百分号形式显示])
+                        $scope.card.ageBarCharts = Util.barChartsConfig(
+                            ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'], [{
+                                name: 'Male',
+                                data: arr1
+                            }, {
+                                name: 'Female',
+                                data: arr2
+                            }],
+                            true // 以百分比形式显示
+                        )
+                    } else $scope.card.ageBarCharts = false
                     // 国家分布
                     if ($scope.card.whyseeads.addr) {
                         // 将country里的值改为大写,并转换全称
@@ -1667,15 +1667,15 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                             $scope.card.whyseeads.addr[key].country = countryShortName
                             $scope.card.whyseeads.addr[key].name = vm.countries[countryShortName] ? vm.countries[countryShortName].name : countryShortName // 添加全称 
                         }
-                        $scope.adsVisitCountryData = $scope.card.whyseeads.addr // 表格
                         // 计算总数
                         var adsVisitCountryCount = 0
-                        for (key in $scope.adsVisitCountryData) {
-                            adsVisitCountryCount += $scope.adsVisitCountryData[key].value
+                        for (key in $scope.card.whyseeads.addr) {
+                            adsVisitCountryCount += $scope.card.whyseeads.addr[key].value
                         }
-                        $scope.adsVisitCountryCount = adsVisitCountryCount
-                        $scope.card.addrMapCharts = Util.marChartsConfig($scope.card.whyseeads.addr, adsVisitCountryCount, 'Top countries by impression')
-                    }
+                        $scope.card.whyseeads.count = adsVisitCountryCount
+                        // 国家图表 mapChartsConfig(mapData[国家数据], mapValueCount[数据总数], mapName[标题名称], mapLegend[是否显示图例])
+                        $scope.card.addrMapCharts = Util.mapChartsConfig($scope.card.whyseeads.addr, adsVisitCountryCount, 'Top countries by impression')
+                    } else $scope.card.addrMapCharts = false
                 }
                 searcher.findSimilar($scope.card.watermark)
             }, function(res) {
@@ -1767,43 +1767,6 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                 $rootScope.settings.layout.pageBodySolid = false
                 $rootScope.settings.layout.pageSidebarClosed = false
             })
-            /*
-             * 分析图表
-             */
-            // 饼图
-            $scope.adsGenderCharts = {
-                chart: {
-                    plotBackgroundColor: null,
-                    // plotBorderWidth: null,
-                    // plotShadow: false
-                    type: 'pie'
-                },
-                colors: ['rgb(63, 169, 197)', 'rgb(116, 204, 220)'], // 自定义颜色会出错，有待解决
-                title: false,
-                credits: false, // 角标
-                // legend: false, 图例
-                tooltip: {
-                    pointFormat: '{point.percentage:.1f}%'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: false, // 点击可选
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: false // 显示注释
-                        },
-                        showInLegend: true
-                    }
-                },
-                series: [{
-                    innerSize: '60%',
-                    dataLabels: false,
-                    data: [
-                        ['Male', ''],
-                        ['Female', '']
-                    ]
-                }]
-            }
             // 年龄分布-条状
             $scope.adsAgeCharts = {
                 chart: {
@@ -1835,8 +1798,8 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                 tooltip: {
                     formatter: function() {
                         return '<b>Series name: ' + this.series.name + '</b><br>' +
-                            'Point name: ' + this.point.name + '<br>' +
-                            'Value: ' + ((this.point.value / 1000) * 100).toFixed(1) + '%'
+                            'Point name: ' + this.point.x + '<br>' +
+                            'Value: ' + ((this.point.y) * 100).toFixed(1) + '%'
                     }
                 },
                 series: [{
