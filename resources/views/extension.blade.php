@@ -28,26 +28,34 @@
         <div class="row">
             <div class="col-sm-4 col-xs-12 instro-wrapper">
                 <a href="">
-                    <div class="img-wrapper emoji-01"></div>
+                    <img src="./static/images/extension/icon_01.png" class="instro-img" alt="">
                 </a>
+                <p class="ads-font-24 ads-weight-600 instro-title">
+                    Insight
+                </p>
                 <div class="instro-text">
-                    One Click to see all ads on your newsfeed
+                   One Click to see all ads on your newsfeed，check  publisher's history ads and ad insight.
+                </div>
+            </div>
+            <div class="col-sm-4 col-xs-12 instro-wrapper">
+                <img src="./static/images/extension/icon_02.png" class="instro-img" alt="">
+                <p class="ads-font-24 ads-weight-600 instro-title">
+                    Inspiration
+                </p>
+                <div class="instro-text">
+                    Find out successful ads in seconds.Get inspiration for your next ad campaign.
                 </div>
             </div>
             <div class="col-sm-4 col-xs-12 instro-wrapper">
                 <a href="">
-                    <div class="img-wrapper emoji-02"></div>
+                    <img src="./static/images/extension/icon_03.png" class="instro-img" alt="">
                 </a>
+                <p class="ads-font-24 ads-weight-600 instro-title">
+                    Improve
+                </p>
                 <div class="instro-text">
-                    Show you more history ads of the advertiser
-                </div>
-            </div>
-            <div class="col-sm-4 col-xs-12 instro-wrapper">
-                <a href="">
-                    <div class="img-wrapper emoji-03"></div>
-                </a>
-                <div class="instro-text">
-                   One click to see more details
+                    Create more ads that resonate with your customer. Promote your business with lower cost.
+
                 </div>
             </div>
         </div>
@@ -57,11 +65,10 @@
     <div class="container">
         <p class="botton-title ads-font-24">Tips For Better Performance:</p>
         <ul class="bottom-list">
-            <li>Increase the quality score of your account.(we had an account quality evaluation system, it determines how many credits you earn from a "like" task.)</li>
-            <li>Recommend the tool to your friends.(If you like our service, introduce it to your friends.Login to know how.)</li>
-            <li>Connect to evaluate your page score for more likes.</li>
+            <li>1.What are you waiting for?</li>
+            <li>2.Download Extension Now!</li>
         </ul>
-        <a href="" class="btn bottom-btn ads-font-18">Get Start Now</a>
+        <a href="//chrome.google.com/webstore/detail/bigbigadsfacebook-ad-exam/aeicgjbjcnodlaomefmanfbkhpcdlcbk" class="btn bottom-btn ads-font-18">Get Start Now</a>
     </div>
 </section>
 @include('tpl.footer')
