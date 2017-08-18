@@ -130,8 +130,14 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
             // $scope.subscription = User.info.subscription;
             if (!User.login)
                 return
+            var user = User.info.user
+
+            ctrl.subscriptionId = user.subscription_id
             ctrl.queryPromise = billings.get().then(function() {
-                // console.log(ctrl.billings);
+                // for (i = 0; i < billings.items.length; ++i) {
+                //     if (it.subscription_id == user.subscription_id)
+                //         it.inCurrentSubscription = true
+                // })
             })
             ctrl.inited = true
         })

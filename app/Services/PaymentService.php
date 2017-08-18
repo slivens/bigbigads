@@ -187,7 +187,7 @@ class PaymentService implements PaymentServiceContract
      * {@inheritDoc}
      * @todo 同步远程的Paypal, stripe
      */
-    public function syncSubscriptions(Array $gateways = [], Subscription $subscription)
+    public function syncSubscriptions(Array $gateways = [], $subscription)
     {
         // 正常应该是从远程同步，以确定status状态，从本地同步是错误的方法
         // 特别是frequency_interval和frequency,它们的目的就是为了防止本地Plan修改后
@@ -278,7 +278,7 @@ class PaymentService implements PaymentServiceContract
     /**
      * {@inheritDoc}
      */
-    public function syncPayments(Array $gateways = [], Subscription $subscription)
+    public function syncPayments(Array $gateways = [], $subscription)
     {
         // 目前只有Paypal需要同步支付记录, stripe是立即获取的
         $res = [];

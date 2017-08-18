@@ -2,6 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var ManifestPlugin = require('webpack-manifest-plugin');
+var isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
     entry: {
@@ -29,7 +30,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, './app'),
-        filename:'js/[name]-[chunkhash:10].js',
+        filename: !isProduction ? '[name].js' : 'js/[name]-[chunkhash:10].js',
     },
     module: {
         rules:[{
@@ -68,7 +69,7 @@ module.exports = {
          new webpack.optimize.CommonsChunkPlugin({
             name:['vendor']
             }),
-         new ExtractTextPlugin('[name]-[chunkhash:10].css'),
+         new ExtractTextPlugin(!isProduction ? '[name].css' : '[name]-[chunkhash:10].css'),
          new ManifestPlugin({
             fileName:'manifest.json',
             baseName:'/app/'

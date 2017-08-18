@@ -76,7 +76,7 @@ gulp.task('sass:watch', function () {
 });
 
 gulp.task('clean', function() {
-        return gulp.src(['./app/js', './app/*.css', './assets/*.json', './app/*.json', './app/**/*.html'], {read:false}).pipe(clean());
+        return gulp.src(['./app/**/*.js', './app/*.css', './assets/*.json', './app/*.json', './app/**/*.html'], {read:false}).pipe(clean());
 })
 
 //*** HTML formatter task
@@ -172,4 +172,4 @@ gulp.task('config-product', function() {
 
 
 gulp.task('production', gulpsync.sync([["config-product"], ['sass', 'rev'], 'html']));
-gulp.task('develop', gulpsync.sync([['sass', 'rev'], 'html']));
+gulp.task('develop', gulpsync.sync([['sass'], 'html']));
