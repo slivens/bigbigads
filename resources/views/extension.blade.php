@@ -15,7 +15,7 @@
 <section class="exten-banner text-center">
     <div class="container">
         <p class="ads-font-24 exten-title">Use Bigbigads' browser add-on to get in-depth Facebook ad performance with a single click.</p>
-        <p class="ads-font-18 exten-suptitle">Simple & Powerful</p>
+        <p class="ads-font-18 exten-suptitle">Simple &amp; Powerful</p>
         <div class="row bnner-img">
             <div class="col-md-8 col-md-offset-2 col-xs-12 col-xs-offset-0 images-wrapper">
                 <img src="./static/images/extension/bg_01.jpg" alt="">
