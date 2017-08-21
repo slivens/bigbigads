@@ -5,9 +5,10 @@
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "product": "gulp clean && webpack -p && gulp production",
+    "product": "gulp clean && NODE_ENV=production webpack -p && gulp production",
     "develop": "gulp clean && webpack && gulp develop",
-    "lint": "eslint --ext .js src/js"
+    "lint": "eslint --ext .js src/js",
+    "fixlint": "eslint --ext .js src/js --fix"
   },
   "author": "",
   "license": "ISC",

@@ -13,6 +13,7 @@ use Stripe\Plan as StripePlan;
 use Stripe\Stripe;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
+use Cache;
 
 class PaymentService implements PaymentServiceContract
 {
@@ -51,7 +52,7 @@ class PaymentService implements PaymentServiceContract
     /**
      * 根据不同的记录器调用不同方法
      */
-    public function log($msg, $level = PaymentService::LOG_INFO)
+    public function log($msg, $level = PaymentService::LOG_DEBUG)
     {
         if ($this->logger instanceof Command) {
             switch ($level) {
@@ -65,6 +66,16 @@ class PaymentService implements PaymentServiceContract
                 $this->logger->error($msg);
                     break;
             }
+        } else {
+            switch ($level) { 
+            case  PaymentService::LOG_INFO:
+                Log::info($msg);
+                break;
+            case  PaymentService::LOG_ERROR:
+                Log::error($msg);
+                break;
+            }
+
         }
     }
 
@@ -103,13 +114,13 @@ class PaymentService implements PaymentServiceContract
                         foreach($planDesc as $key => $item) {
                             if ($oldArray[$key] != $item) {
                                 $old->delete();
-                                $this->log("stripe plan已存在并且{$key}(new:{$item}, old:{$oldArray[$key]})不一致，删除", PaymentService::LOG_ERROR);
+                                $this->log("stripe plan已存在并且{$key}(new:{$item}, old:{$oldArray[$key]})不一致，删除", PaymentService::LOG_INFO);
                                 $dirty = true;
                                 break;
                             }
                         }
                         if (!$dirty) {
-                            $this->log("{$plan->name}已经创建过且无修改,忽略", PaymentService::LOG_ERROR);
+                            $this->log("{$plan->name}已经创建过且无修改,忽略");
                             continue;
                         }
                     } 
@@ -158,7 +169,7 @@ class PaymentService implements PaymentServiceContract
                         }
                     }
                     if (!$isDirty) {
-                        $this->log("{$plan->name}已经创建过且无修改,忽略", PaymentService::LOG_ERROR);
+                        $this->log("{$plan->name}已经创建过且无修改,忽略");
                         return;
                     }
                 }
@@ -176,21 +187,87 @@ class PaymentService implements PaymentServiceContract
      * {@inheritDoc}
      * @todo 同步远程的Paypal, stripe
      */
-    public function syncSubscriptions(Array $gateways = [])
+    public function syncSubscriptions(Array $gateways = [], $subscription)
     {
-        // 正常应该是从远程同步，以确定status状态，这里先从本地同步以便流程可以正常往下走
-        $subs = Subscription::all();//where('gateway', 'paypal')->get();
-        $service = new PaypalService($this->config['paypal']);
+        // 正常应该是从远程同步，以确定status状态，从本地同步是错误的方法
+        // 特别是frequency_interval和frequency,它们的目的就是为了防止本地Plan修改后
+        // 影响到已经完成的订阅，所以一定不能从本地Plan去同步。
 
-        $this->log("sync to local");
+        // Stripe的同步
+        // TODO:
+
+        // Paypal的同步
+        if ($subscription) {
+            $subs = new Collection([$subscription]);
+        } else {
+            $subs = Subscription::where(['gateway' => 'paypal'])->get();
+        }
+        $service = $this->getPaypalService();
+        $this->log("sync to paypal, this may take long time...({$subs->count()})");
         foreach ($subs as $sub) {
-            $plan = Plan::where('name', $sub->plan)->first();
-            if (!$plan) {
-                $this->log("Plan {$sub->plan} is not found, warning", PaymentService::LOG_ERROR);
+            if (strlen($sub->agreement_id) < 3) {
+                continue;
             }
-            $sub->frequency = $plan->frequency;
-            $sub->frequency_interval = $plan->frequency_interval;
-            $sub->save();
+            $this->log("handling {$sub->agreement_id}");
+            $remoteSub = $service->subscription($sub->agreement_id);
+            if (!$remoteSub) {
+                $this->log($sub->agreement_id . " is not found");
+                continue;
+            }
+            $plan = $remoteSub->getPlan();
+            $def = $plan->getPaymentDefinitions()[0];
+
+            /* $plan = Plan::where('name', $sub->plan)->first(); */
+            /* if (!$plan) { */
+            /*     $this->log("Plan {$sub->plan} is not found, warning", PaymentService::LOG_INFO); */
+            /* } */
+
+            $newData = [
+                'frequency' => $def->getFrequency(),
+                'frequency_interval' => $def->getFrequencyInterval()
+            ];
+            $state = $remoteSub->getState();
+            $newStatus = '';
+            switch (strtolower($state)) {
+            case 'active':
+                if ($sub->payments()->count() > 0)
+                    $newStatus = Subscription::STATE_PAYED;
+                else
+                    $newStatus = Subscription::STATE_SUBSCRIBED;
+                break;
+            case 'cancelled':
+                $newStatus = Subscription::STATE_CANCLED;
+                break;
+            case 'suspended':
+                $newStatus = Subscription::STATE_SUSPENDED;
+                break;
+            }
+            // 一个用户只能有一个激活的订阅，其他订阅应该设置被取消或挂起，目前采用取消操作
+            if ($sub->user->subscription_id != $sub->id && strtolower($state) == 'active') {
+                $this->log("{$sub->agreement_id} is not {$sub->user->email}'s active subscrition, now cancel it...", PaymentService::LOG_INFO);
+                if ($service->cancelSubscription($sub->agreement_id))
+                    $newStatus = Subscription::STATE_CANCLED;
+            }
+            if (!empty($newStatus)) {
+                $newData['status'] = $newStatus;
+            }
+            $isDirty = false;
+            foreach ($newData as $key => $val) {
+                if ($sub[$key] != $val) {
+                    $this->log("{$key}: old {$sub[$key]}, new: $val", PaymentService::LOG_INFO);
+                    $isDirty = true;
+                    $sub[$key] = $val;
+                }
+            }
+            if ($isDirty) {
+                $sub->save();
+            } else {
+                $this->log("{$sub->agreement_id} has no change");
+            }
+
+            // 根据用户过期时间规划是否在指定时间同步该订阅的订单
+            if ($sub->status == Subscription::STATE_PAYED)
+                $this->autoScheduleSyncPayments($sub);
         }
         /* $this->log("sync to paypal, this will cost time, PLEASE WAITING..."); */
         /* foreach ($subs as $sub) { */
@@ -201,7 +278,7 @@ class PaymentService implements PaymentServiceContract
     /**
      * {@inheritDoc}
      */
-    public function syncPayments(Array $gateways = [], Subscription $subscription)
+    public function syncPayments(Array $gateways = [], $subscription)
     {
         // 目前只有Paypal需要同步支付记录, stripe是立即获取的
         $res = [];
@@ -238,7 +315,7 @@ class PaymentService implements PaymentServiceContract
 
                 // 当状态变化时要更新订单
                 if ($paypalStatus != $payment->status) {
-                    $this->log("status change:{$payment->status} -> $paypalStatus", PaymentService::LOG_ERROR);
+                    $this->log("status change:{$payment->status} -> $paypalStatus", PaymentService::LOG_INFO);
                     $isDirty = true;
                     switch ($paypalStatus) {
                     default:
@@ -254,10 +331,25 @@ class PaymentService implements PaymentServiceContract
                     $payment->save();
                     $this->log("payment {$payment->number} is synced");
                 } else {
-                    $this->log("payment {$payment->number} has no change", PaymentService::LOG_DEBUG);
+                    $this->log("payment {$payment->number} has no change", PaymentService::LOG_INFO);
                 }
 
             }
+        }
+    }
+
+    /**
+     * 订阅处于支付状态时，发现有新的支付订单，有可能是循环扣款的新订单。
+     * 做检查并设置过期时间。
+     */
+    protected function handleNextPayment(Payment $payment)
+    {
+        $endDate = new Carbon($payment->end_date);
+        $user = $payment->client;
+        if ($endDate->gt(new Carbon($user->expired))) {
+            $this->log("{$user->email} has billing next payment, change his expired date({$payment->endDate}) > (" . $user->expired. ")", PaymentService::LOG_INFO);
+            $user->expired  = $endDate->addDay();
+            $user->save();
         }
     }
 
@@ -268,8 +360,8 @@ class PaymentService implements PaymentServiceContract
     {
         $subscription = $payment->subscription;
         if ($subscription->status == Subscription::STATE_PAYED) {
-            Log::info("You can't change user plan twice");
-            return;
+            $this->log("You haved payed for the subscription, check if it's the next payment");
+            return $this->handleNextPayment($payment);
         }
 
         if (Carbon::now()->gte(new Carbon($payment->end_date))) {
@@ -320,7 +412,55 @@ class PaymentService implements PaymentServiceContract
     {
     }
 
-    public function refund($no)
+    /**
+     * {@inheritDoc}
+     */
+    public function refund($number)
     {
+    }
+
+    /**
+     * 自动规划当用户到期时间快到时，对活动订阅的订单同步，以解决循环扣款不能及时检测到的问题。
+     * 只要是正常操作，用户就不会过期。如果出现订阅正常扣款，但是用户过期的情况，由用户联系客户手动处理。
+     * 不在此处考虑范围内。
+     * @param Subscription $subscription
+     */
+    public function autoScheduleSyncPayments(Subscription $subscription)
+    {
+        if ($subscription->status != Subscription::STATE_PAYED || $subscription->id != $subscription->user->subscription_id)
+            return;
+        $key = "schedule-subscription-" . $subscription->id;
+        if (Cache::has($key)) {
+            $this->log("{$subscription->agreement_id} has scheduled, ignore");
+            return;
+        }
+        $this->log("on schedule checking...");
+        $user = $subscription->user;
+        $carbon = new Carbon($user->expired);
+        // 7天及以内过期的用户，在过期前几个小时检查订单状态
+        if ($carbon->gt(Carbon::now()) && Carbon::now()->diffInDays($carbon, false) <= 7)  {
+            $scheduleTime = $carbon->subHours(5);
+            // 对于在5小时内就要过期的订单，1分钟后就立刻执行
+            if ($scheduleTime->lt(Carbon::now()))
+                $scheduleTime = Carbon::now()->addMinutes(1);
+            $this->log("schedule {$subscription->agreement_id} at " . $scheduleTime->toDateTimeString(), PaymentService::LOG_INFO);
+            dispatch((new \App\Jobs\SyncPaymentsJob($subscription))->delay($scheduleTime));
+            Cache::put($key, $subscription->agreement_id, $scheduleTime);
+        }
+    }
+
+    public function cancel(Subscription $subscription)
+    {
+        if ($subscription->gateway == PaymentService::GATEWAY_PAYPAL) {
+            if (!in_array($subscription->status, [Subscription::STATE_SUBSCRIBED, Subscription::STATE_PAYED]))
+                return false;
+            $res = $this->getPaypalService()->cancelSubscription($subscription->agreement_id);
+            if ($res) {
+                $subscription->status = Subscription::STATE_CANCLED;    
+                $subscription->save();
+            }
+            return $res;
+        }
+        return false;
     }
 }

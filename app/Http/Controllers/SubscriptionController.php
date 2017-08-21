@@ -127,7 +127,7 @@ final class SubscriptionController extends PayumController
         if ($req->has('payType') && $req->payType == 'stripe') {
             return $this->payByStripe($req, $plan, $user, $coupon);
         }       
-        $service = new \App\Services\PaypalService;
+        $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
         $approvalUrl = $service->createPayment($plan, $coupon ? ['setup_fee' => $plan->amount - $discount] : null);
         //由于此时订阅的相关ID没产生，所以没办法通过保存ID，此时就先通过token作为中转
 		$queryStr = parse_url($approvalUrl, PHP_URL_QUERY);
@@ -172,7 +172,7 @@ final class SubscriptionController extends PayumController
      */
     public function showPlans()
     {
-        $service = new PaypalService();
+        $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
         return $service->dropPlans();
     }
 
@@ -188,7 +188,7 @@ final class SubscriptionController extends PayumController
             abort(401, "no subscription found");
         }
 
-        $service = new PaypalService();
+        $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
 
         $payment = $service->onPay($request);
         //中途取消的情况下返回profile页面
@@ -199,77 +199,86 @@ final class SubscriptionController extends PayumController
         $subscription->status = Subscription::STATE_SUBSCRIBED;
         $subscription->save();
 
-        // 正常来讲，3分钟内会有webhook产生，但是webhook不是个可靠机制，所以在5分钟后再次同步试试
+        // 完成订阅后10秒后就去同步，基本上订单都已产生；如果没有产生，3分钟后再次同步试。同时webhook如果有收到，也会去同步。
+        dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(5)));
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addMinutes(3)));
         return redirect('/app/profile?active=0');
     }
 
     /**
      * 处理Paypal支付的通知
-     * @warning Webhook的通知可能是不可靠的，因此我们还需要另外一种主动查询的机制去保证所有订单被正确的处理。
+     * @warning 在Sandbox下测试发现，Webhook的webhook机制非常不可靠。要么收不到，要么收到了但是发现验证失败，能成功验证的次数不多。
      */
     public function onPayWebhooks(Request $request)
     {
         Log::info('webhooks id: '. $request->id);
         $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
         $isValid = $service->verifyWebhook($request);
-        if (!$isValid)
-            return;
-
+        /* if (!$isValid) */
+        /*     return; */
         $webhook_id = $request->id;//webhook id
         $count = Webhook::where('webhook_id',$webhook_id)->count();
-        //Log::info('$select: '.$select);
-        //Log::info('count($select): '.count($select));
-        //$select = DB::select('select * from webhooks where webhook_id = :webhook_id',['webhook_id'=>$webhook_id]);
-        if($count == 0) {
-            $resource = $request->resource;
-            $webhook = new Webhook;
-            $webhook->webhook_id = $webhook_id;
-            $webhook->create_time = $request->create_time;
-            $webhook->resource_type = $request->resource_type;
-            $webhook->event_type = $request->event_type;
-            $webhook->summary = $request->summary;
-            $webhook->webhook_content = $resource;
-            $re = $webhook->save();
-            Log::info('$webhook->save(): '.$re);
-            switch ($webhook->event_type) {
-            case 'PAYMENT.SALE.PENDING':
-                // 收到PENDING通常是安全原因引起，买家已付款，但是需要卖家确认才能收到款，暂不处理
-                // TODO: 创建PENDING的Payment，然后在其他状态中对其修改
-                break;
-            case 'PAYMENT.SALE.COMPLETED':
-                // 用户完成支付才切换权限
-                $agreementId = $request->resource['billing_agreement_id'];
-                $subscription = Subscription::where('agreement_id', $agreementId)->first();
-                if (!$subscription) {
-                    Log::warning("payment completed, but no `$agreementId` subscription found");
+        // webhook有记录说明处理过就不再处理
+        if($count == 0 ) {
+            // 如果是无效的webhook就主从查询（可能是Paypal本身问题返回验证失败，也可能是伪造的），不管哪种情况，主动与Paypal做一次同步即可
+            if (!$isValid) {
+                switch ($request->event_type) {
+                case 'PAYMENT.SALE.COMPLETED':
+                    $agreementId = $request->resource['billing_agreement_id'];
+                    $subscription = Subscription::where('agreement_id', $agreementId)->first();
+                    if ($subscription)
+                        dispatch(new SyncPaymentsJob($subscription));
+                }
+            } else {
+                $resource = $request->resource;
+                $webhook = new Webhook;
+                $webhook->webhook_id = $webhook_id;
+                $webhook->create_time = $request->create_time;
+                $webhook->resource_type = $request->resource_type;
+                $webhook->event_type = $request->event_type;
+                $webhook->summary = $request->summary;
+                $webhook->webhook_content = base64_encode(serialize($resource));
+                $re = $webhook->save();
+                Log::info('$webhook->save(): '.$re);
+                switch ($webhook->event_type) {
+                case 'PAYMENT.SALE.PENDING':
+                    // 收到PENDING通常是安全原因引起，买家已付款，但是需要卖家确认才能收到款，暂不处理
+                    // TODO: 创建PENDING的Payment，然后在其他状态中对其修改
+                    break;
+                case 'PAYMENT.SALE.COMPLETED':
+                    // 用户完成支付才切换权限
+                    $agreementId = $request->resource['billing_agreement_id'];
+                    $subscription = Subscription::where('agreement_id', $agreementId)->first();
+                    if (!$subscription) {
+                        Log::warning("payment completed, but no `$agreementId` subscription found");
+                        break;
+                    }
+                    $user = $subscription->user;
+
+                    $payment = new OurPayment();
+                    $payment->status = OurPayment::STATE_COMPLETED;
+                    $payment->client_id = $user->id;
+                    $payment->client_email = $user->email;
+                    $payment->amount = $resource['amount']['total'];
+                    $payment->currency =  $resource['amount']['currency'];
+                    $payment->number = $resource['id'];// Paypal的订单号是自动生成的
+                    $payment->description = $request->summary;
+                    $payment->details = $resource;
+                    $payment->subscription()->associate($subscription);
+                    $payment->save();
+
+                    $this->paymentService->handlePayment($payment);
+                    break;
+                case 'PAYMENT.SALE.REFUNDED':
+                    $payment = OurPayment::where('number', $resource['sale_id'])->first();
+                    if (!$payment) {
+                        Log::warning("the payment is refunded, but no record in the system");
+                        break;
+                    }
+                    $payment->status = OurPayment::STATE_REFUNDED;
+                    $payment->save();
                     break;
                 }
-                $user = $subscription->user;
-
-                $payment = new OurPayment();
-                $payment->status = OurPayment::STATE_COMPLETED;
-                $payment->client_id = $user->id;
-                $payment->client_email = $user->email;
-                $payment->amount = $resource['amount']['total'];
-                $payment->currency =  $resource['amount']['currency'];
-                $payment->number = $resource['id'];// Paypal的订单号是自动生成的
-                $payment->description = $request->summary;
-                $payment->details = $resource;
-                $payment->subscription()->associate($subscription);
-                $payment->save();
-
-                $this->paymentService->handlePayment($payment);
-                break;
-            case 'PAYMENT.SALE.REFUNDED':
-                $payment = OurPayment::where('number', $resource['sale_id'])->first();
-                if (!$payment) {
-                    Log::warning("the payment is refunded, but no record in the system");
-                    break;
-                }
-                $payment->status = OurPayment::STATE_REFUNDED;
-                $payment->save();
-                break;
             }
         }
     }
@@ -394,5 +403,16 @@ final class SubscriptionController extends PayumController
             $this->paymentService->handlePayment($ourPayment);
         }
         return redirect('/app/profile?active=0');
+    }
+
+    public function cancel($id)
+    {
+        $user = Auth::user();
+        $sub = Subscription::where(['id' => $id, 'user_id' => $user->id])->first();
+        if ($sub->status != Subscription::STATE_SUBSCRIBED && $sub->status != Subscription::STATE_PAYED)
+            return ['code' => -1, 'desc' => "not a valid state:{$sub->status}"];
+        if (!$this->paymentService->cancel($sub))
+            return ['code' => -1, 'desc' => "cancel failed"];
+        return ['code' => 0, 'desc' => 'success'];
     }
 }

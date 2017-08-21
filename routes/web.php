@@ -110,13 +110,13 @@ Route::group(['middleware'=>'auth'], function() {
     //Route::get('/pay', 'SubscriptionController@form');
     Route::post('/pay', 'SubscriptionController@pay');
     Route::get('/billings', 'SubscriptionController@billings');
+    Route::post('/subscription/{id}/cancel', 'SubscriptionController@cancel');
 	Route::get('/invoice/{invoice}', function (Request $request, $invoiceId) {
 		return Auth::user()->downloadInvoice($invoiceId, [
 			'vendor'  => 'Bigbigads',
 			'product' => 'Bigbigads',
 		], storage_path('invoice'));
     });
-
     Route::post('changepwd', 'UserController@changepwd');
 
 });

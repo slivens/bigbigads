@@ -72,7 +72,7 @@ class PlansSeeder extends Seeder
                 ],
                 [
                     "name" => "standard_monthly",
-                    "display_name" => "Standard Plan",
+                    "display_name" => "Monthly",
                     "desc" => "standard  Plan for one month",
                     "display_order" => 2, 
                     "type" => "REGULAR",
@@ -84,15 +84,28 @@ class PlansSeeder extends Seeder
                     "role" => "Standard"
                 ],
                 [
+                    "name" => "standard_quarter_monthly",
+                    "display_name" => "Quarterly",
+                    "desc" => "standard  Plan for three months",
+                    "display_order" => 2, 
+                    "type" => "REGULAR",
+                    "frequency" => "MONTH",
+                    "frequency_interval" => 3,
+                    "cycles" => 0,
+                    "amount" => 207,
+                    "currency" => "USD",
+                    "role" => "Standard"
+                 ],
+                [
                     "name" => "standard",
-                    "display_name" => "Standard Plan",
+                    "display_name" => "Annual",
                     "desc" => "standard  Plan for one year",
                     "display_order" => 2, 
                     "type" => "REGULAR",
                     "frequency" => "YEAR",
                     "frequency_interval" => 1,
                     "cycles" => 0,
-                    "amount" => 948,
+                    "amount" => 588,
                     "currency" => "USD",
                     "role" => "Standard"
                 ],

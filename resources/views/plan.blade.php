@@ -7,7 +7,7 @@
     <title>Bigbigads Pricing | Largest Facebook Ad Examples</title>
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <link href="./dist/home.css?v=2.0.3" rel="stylesheet">
+    <link href="./dist/home.css?v=2.0.4" rel="stylesheet">
     @include('tpl.script')
 </head>
 <body id="plan">
@@ -18,7 +18,7 @@
 </section>
 <section class="plan-content container">
     <div class="pricing-adscard row">
-        <div class="col-md-6 adscard-free">
+        <div class="adscard-free col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-0">
             <div class="card-div panel">
                 <div class="panel-body adscard-head">
                     <p class="text-center ads-font-28 adscard-title">FREE</p>
@@ -35,7 +35,7 @@
                 
                 <table class="table text-left ads-font-18">
                     <tr class="ads-tr-a">
-                        <td>Data Update Frequence: Weekly</td>
+                        <td>Data Update Frequency: Weekly</td>
                     </tr>
                     <tr>
                         <td>Limited Data Access</td>
@@ -61,7 +61,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 adscard-stand">
+        <div class="adscard-stand col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-0">
             <div id="stand-card-div" class="stand-card-div">
                 <div id="stand-card" class="card-div panel stand-card ">
                     <div class="panel-body adscard-head">
@@ -78,7 +78,7 @@
                     </div>
                     <table class="table text-left ads-font-18">
                         <tr class="ads-tr-a">
-                            <td>Data Update Frequence: Daily</td>
+                            <td>Data Update Frequency: Daily</td>
                         </tr>
                         <tr>
                             <td>Full Data Access(8 Millions+)</td>
@@ -377,9 +377,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>AD insight <span class="plan-small">coming soon</span></td>
-                        <td>LImited</td>
-                        <td>LImited</td>
+                        <td>Ad Insight <span class="plan-small">coming soon</span></td>
+                        <td>Limited</td>
+                        <td>Limited</td>
                         <td>
                             <i class="plan-right"></i>
                         </td>
@@ -454,7 +454,7 @@
                         </td>
                     </tr>
                     <tr class="table-item-title">
-                        <td >competitor Analysis</td>
+                        <td >Competitor Analysis</td>
                         <td>
                             <i class="plan-error"></i>
                         </td>
@@ -509,6 +509,6 @@
 @include('tpl.footer')
 </body>
 <script type="text/javascript" src="dist/vendor.js?v=2.0.3" defer></script>
-<script type="text/javascript" src="dist/plan.js?v=2.0.3" defer></script>
+<script type="text/javascript" src="dist/plan.js?v=2.0.4" defer></script>
 </html>
 
