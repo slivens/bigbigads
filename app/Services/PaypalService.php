@@ -393,7 +393,9 @@ class PaypalService
             $output = $verifySignature->post($apiContext);
             Log::info('verify webhook '.$output->getVerificationStatus().' with webhook id :'.$request->id);
             return $output->getVerificationStatus() == 'SUCCESS';
-        } catch (Exception $ex) {
+        } catch (PayPal\Exception\PayPalConnectionException $pce) {
+                Log::error("verify webhook connection error with: " . $pce->getMessage());
+         } catch (Exception $ex) {
             Log::info('verify webhook error: '.  $ex->getMessage());
             return false;
         }

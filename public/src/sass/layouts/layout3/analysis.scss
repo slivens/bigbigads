@@ -33,7 +33,7 @@
         border-radius: 8px;
         color: #fff;
         margin: 0 5px;
-    } // 超出神略号
+    } // 超出省略号
     .ads-text-ellipsis {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -55,7 +55,6 @@
             justify-content: center;
             .adscard-body {
                 background: #fff;
-                width: 450px;
                 min-height: 300px;
                 transition: min-height ease-out 0.2s;
                 padding: 12px;
@@ -97,8 +96,7 @@
                 margin-right: 8px;
             }
             .card-adsername-div {
-                flex: 1;
-                align-items: cener;
+                width:calc(100% - 40px - 8px - 30px);
                 .card-adsername {
                     margin: 0;
                     color: #365899;
@@ -333,6 +331,16 @@
                         width: px(150);
                     }
                 }
+            }
+        }
+    }
+    /*
+    * pad适配
+    */
+    @media screen and (min-width:769px) and (max-width:1024px){
+        .analy-overview{
+            .analy-info-wrapper{
+                width:345px;
             }
         }
     }
