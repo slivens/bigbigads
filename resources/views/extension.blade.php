@@ -7,7 +7,7 @@
     <title>Bigbigads Pricing | Largest Facebook Ad Examples</title>
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <link href="./dist/home.css?v=2.0.4" rel="stylesheet">
+    <link href="./dist/home.css?v=2.0.5" rel="stylesheet">
     @include('tpl.script')
 </head>
 <body id="extension">
@@ -60,19 +60,16 @@
             </div>
         </div>
     </div>
+
 </section>
 <section class="exten-bottom">
-    <div class="container">
-        <p class="botton-title ads-font-24">Tips For Better Performance:</p>
-        <ul class="bottom-list">
-            <li>1.What are you waiting for?</li>
-            <li>2.Download Extension Now!</li>
-        </ul>
-        <a href="//chrome.google.com/webstore/detail/bigbigadsfacebook-ad-exam/aeicgjbjcnodlaomefmanfbkhpcdlcbk" class="btn bottom-btn ads-font-18">Get Start Now</a>
-    </div>
+<div class="container bottom-con">
+    <p class="ads-font-24 ads-weight-600 bottom-text">What are you waiting for?</p>
+    <a href="//chrome.google.com/webstore/detail/bigbigadsfacebook-ad-exam/aeicgjbjcnodlaomefmanfbkhpcdlcbk" class="btn bottom-btn ads-font-18 ads-weight-600 text-center download-btn"><i class="fa fa-download down-icon"></i> Download Extension Now!</a>
+</div>
 </section>
 @include('tpl.footer')
 </body>
-<script type="text/javascript" src="dist/vendor.js?v=2.0.3" defer></script>
+<script type="text/javascript" src="dist/vendor.js?v=2.0.4" defer></script>
 </html>
 
