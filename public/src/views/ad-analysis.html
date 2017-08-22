@@ -1,100 +1,130 @@
 <div ng-controller="AdAnalysisController" id="ad-analysis" class="ad-analysis container alert ">
-    <div class="ads-font-20 analysis-title">Advertisement Overview:</div>
-    <div class="analy-overview row" overview-Scroll >
-        <div class="col-sm-6 analy-adscard">
-            <div class="adscard-body col-xs-12 col-md-9">
-                <div class="adscard-header">
-                    <a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
-                        <img src="{{settings.imgRemoteBase[0] + card.small_photo}}" alt="" class="card-adserhead">
-                    </a>
-                    <div class="card-adsername-div">
-                        <p class="ads-font-16 ads-weight-bold ads-text-ellipsis card-adsername">
-                            <a class="" ui-sref="adser({name:card.adser_name, adser:card.adser_username})" target="_blank">
-                                <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
-                                <span ng-show="!card.adser_name">{{card.adser_username}}</span>
-                            </a>
-                        </p>
-                        <p class="card-time ads-font-14">
-                            Sponsored
-                        </p>
+    <div class="ads-font-20 analysis-title row">Advertisement Overview:</div>
+    <div class="analy-overview row" overview-Scroll>
+        <div class="overview-body">
+            <div class="col-sm-6 analy-adscard">
+                <div class="adscard-body col-xs-12 col-md-9">
+                    <div class="adscard-header">
+                        <a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
+                            <img src="{{settings.imgRemoteBase[0] + card.small_photo}}" alt="" class="card-adserhead">
+                        </a>
+                        <div class="card-adsername-div">
+                            <p class="ads-font-16 ads-weight-bold ads-text-ellipsis card-adsername">
+                                <a class="" ui-sref="adser({name:card.adser_name, adser:card.adser_username})" target="_blank">
+                                    <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
+                                    <span ng-show="!card.adser_name">{{card.adser_username}}</span>
+                                </a>
+                            </p>
+                            <p class="card-time ads-font-14">
+                                Sponsored
+                            </p>
+                        </div>
+                    </div>
+                    <div class="adscard-card">
+                        <single-image ng-if="card.type == 'SingleImage'" card="card">
+                        </single-image>
+                        <single-video ng-if="card.type == 'SingleVideo'" card="card"></single-video>
+                        <carousel ng-if="card.type == 'Carousel'" card="card">
+                        </carousel>
+                        <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
+                    </div>
+                    <div class="adscard-footer">
+                        <i class="analy-fbicon icon-good"></i>
+                        <i class="analy-fbicon icon-love"></i>
+                        <i class="analy-fbicon icon-surp"></i>
+                        <span ng-if="card.likes" class="ads-font-14 adscard-likedata">{{card.likes | addUnit}}</span>
+                        <span class="text-right adscard-comments ads-font-14">
+                            <span class="comments-text" >{{card.comments | addUnit}}&nbsp;Comments</span>
+                        <span class="comments-text">{{card.shares | addUnit}}&nbsp;Shares</span>
+                        <span class="comments-text">{{card.views | addUnit}}&nbsp;Views</span>
+                        </span>
+                    </div>
+                    <br>
+                </div>
+            </div>
+            <!-- <div class="col-sm-6 analy-info ads-font-16"  ng-class="{'info-position' : infoPosition, 'info-fixed': !infoPosition}"> -->
+            <div class="col-sm-6 analy-info ads-font-16">
+                <div class="analy-info-wrapper ">
+                    <p>
+                        <span class="ads-weight-bold">Time:</span>
+                        <span>{{card.first_see}}~{{card.last_see}}</span>
+                    </p>
+
+                    <p>
+                        <span class="ads-weight-bold">Ad placement: </span>
+                        <span>{{card.show_way | adsTypes}}</span></p>
+                    <p>
+                        <span class="ads-weight-bold">Objective 
+                            <span class="ads-label-beta">BETA</span>:
+                        </span>
+                        <span ng-if="card.objective">{{card.objective}}</span>
+                        <span ng-if="!card.objective" class="text-danger">No Data <!-- 
+                        <a href="" > <i class="glyphicon glyphicon-download"></i> BIGBIGADS Extension</a> -->
+                        </span>
+                    </p>
+                    <p>
+                        <a ng-href="https://www.facebook.com/{{id}}" class="btn btn-primary" target="_blank">See Original Post</a>
+                    </p>
+                    <!-- <p>
+                        <span class="ads-weight-bold">Landing page:</span>
+                        <a href="{{card.dest_site}}" class="btn btn-primary" ng-if="card.dest_site">Link</a>
+                        <span class="text-danger" ng-if="!card.dest_site">No Data
+                        <a href="" ><i class="glyphicon glyphicon-download"></i> BIGBIGADS Extension</a></span></p> -->
+                    <!-- <p><a ng-href="plans">Upgrade your account to see all ads of this advertiser</a></p> -->
+                </div>
+            </div>
+        </div>
+        <div class="overview-body-bottom col-sm-6">
+            <div class="info-rate">
+                <div class="rate-wrapper">
+                    <p>
+                        <span class="ads-weight-bold">Frequency:</span>
+                        <span ng-if="card.frequency">{{card.frequency}}</span>
+                        <span class="text-danger" ng-if="!card.frequency">No Data</span>
+                    </p>
+                    <p>
+                        <span class="ads-weight-bold">share_rate:</span>
+                        <span ng-if="card.share_rate">
+                            <i class="fa fa-long-arrow-up text-success" ng-if="card.share_rate > 0"></i>
+                            <i class="fa fa-long-arrow-up text-danger" ng-if="card.share_rate < 0"></i>
+                            {{(card.share_rate * 100).toFixed(2)}}%</span>
+                        <span class="text-danger" ng-if="!card.share_rate">No Data</span>
+                    </p>
+                </div>
+                <div class="rate-wrapper">
+                    <p>
+                        <span class="ads-weight-bold">reach:</span>
+                        <span ng-if="card.reach">{{card.reach | adsCount}}</span>
+                        <span class="text-danger" ng-if="!card.reach">No Data</span>
+                    </p>
+                    <p>
+                        <span class="ads-weight-bold">like_rate:</span>
+                        <span ng-if="card.like_rate">
+                                <i class="fa fa-long-arrow-up text-success" ng-if="card.like_rate > 0"></i>
+                                <i class="fa fa-long-arrow-up text-danger" ng-if="card.like_rate < 0"></i>
+                                {{(card.like_rate * 100).toFixed(2)}}% </span>
+                        <span class="text-danger" ng-if="!card.like_rate">No Data</span>
+                    </p>
+                </div>
+            </div>
+            <div class="info-device" ng-if="card.devicePieCharts">
+                <div class="device-chart device-wrapper">
+                    <div class="charts-wrapper">
+                        <highchart class="charts-dev" config="card.devicePieCharts"></highchart>
                     </div>
                 </div>
-                <div class="adscard-card">
-                    <single-image ng-if="card.type == 'SingleImage'" card="card">
-                    </single-image>
-                    <single-video ng-if="card.type == 'SingleVideo'" card="card"></single-video>
-                    <carousel ng-if="card.type == 'Carousel'" card="card">
-                    </carousel>
-                    <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
+                <div class="device-data device-wrapper">
+                    <div class="device-pc-wrapper data-wrapper">
+                        <i class="fa fa-tv device-icon ads-font-22"></i>
+                        <span class="device-num">{{(card.total_impression - card.mobile_impression) | adsCount}}</span>
+                    </div>
+                    <div class="device-mobile-wrapper data-wrapper">
+                        <i class="fa fa-mobile device-icon ads-font-28"></i><span class="device-num">{{card.mobile_impression | adsCount}}</span>
+                    </div>
                 </div>
-                <div class="adscard-footer">
-                    <i class="analy-fbicon icon-good"></i>
-                    <i class="analy-fbicon icon-love"></i>
-                    <i class="analy-fbicon icon-surp"></i>
-                    <span ng-if="card.likes" class="ads-font-14 adscard-likedata">{{card.likes | addUnit}}</span>
-                    <span class="text-right adscard-comments ads-font-14">
-                        <span class="comments-text" >{{card.comments | addUnit}}&nbsp;Comments</span>
-                    <span class="comments-text">{{card.shares | addUnit}}&nbsp;Shares</span>
-                    <span class="comments-text">{{card.views | addUnit}}&nbsp;Views</span>
-                    </span>
-                </div>
-                <br>
-            </div>
-
-        </div>
-        <div class="col-sm-6 analy-info ads-font-16"  ng-class="{'info-position' : infoPosition, 'info-fixed': !infoPosition}">
-            <div class="analy-info-wrapper ">
-                <p>
-                    <span class="ads-weight-bold">Time:</span>
-                    <span>{{card.first_see}}~{{card.last_see}}</span>
-                </p>
-                <p>
-                    <a ng-href="https://www.facebook.com/{{id}}" class="btn btn-primary" target="_blank">See Original Post</a>
-                </p>
-                <p>
-                    <span class="ads-weight-bold">Ad placement: </span>
-                    <span>{{card.show_way | adsTypes}}</span></p>
-                <p>
-                    <span class="ads-weight-bold">Objective 
-                        <span class="ads-label-beta">BETA</span>:
-                    </span>
-                    <span ng-if="card.objective">{{card.objective}}</span>
-                    <span ng-if="!card.objective" class="text-danger">No Data <!-- 
-                    <a href="" > <i class="glyphicon glyphicon-download"></i> BIGBIGADS Extension</a> -->
-                    </span>
-                </p>
-                <p>
-                    <span class="ads-weight-bold">Frequency:</span>
-                    <span ng-if="card.frequency">{{card.frequency}}</span>
-                    <span class="text-danger" ng-if="!card.frequency">No Data</span>
-                </p>
-                <p>
-                    <span class="ads-weight-bold">reach:</span>
-                    <span ng-if="card.reach">{{card.reach}}</span>
-                    <span class="text-danger" ng-if="!card.reach">No Data</span>
-                </p>
-                <p>
-                    <span class="ads-weight-bold">share_rate:</span>
-                    <span ng-if="card.share_rate">{{card.share_rate}}</span>
-                    <span class="text-danger" ng-if="!card.share_rate">No Data</span>
-                </p>
-
-                <p>
-                    <span class="ads-weight-bold">like_rate:</span>
-                    <span ng-if="card.like_rate">{{card.like_rate}}</span>
-                    <span class="text-danger" ng-if="!card.like_rate">No Data</span>
-                </p>
-                <!-- <p>
-                    <span class="ads-weight-bold">Landing page:</span>
-                    <a href="{{card.dest_site}}" class="btn btn-primary" ng-if="card.dest_site">Link</a>
-                    <span class="text-danger" ng-if="!card.dest_site">No Data
-                    <a href="" ><i class="glyphicon glyphicon-download"></i> BIGBIGADS Extension</a></span></p> -->
-                <!-- <p><a ng-href="plans">Upgrade your account to see all ads of this advertiser</a></p> -->
             </div>
         </div>
-       
     </div>
-    <hr>
     <div class="analysis-title ads-font-20">Advertisement Trending:</div>
     <div class="row analy-charts analy-trending">
         <!--charts line-->
@@ -136,7 +166,7 @@
                 <highchart class="charts-pie" config="card.gnederPieCharts"></highchart>
             </div>
             <div class="col-md-6 charts-wrapper" ng-if="card.whyseeads.gender && card.whyseeads.age">
-                <highchart class="charts-bar" config="card.ageBarCharts"></highchart>
+                <highchart class="charts-bar" config="card.ageBarCharts"></highchart>   
             </div>
             <div ng-if="!card.whyseeads.gender || !card.whyseeads.age" class="analy-nodata">
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
@@ -186,7 +216,6 @@
             <div class="analy-shar-wrapper clearfix" ng-if="card.addrMapCharts">
                 <div class="col-md-6">
                     <div class="charts-wrapper" style="padding: 0;min-height: 350px">
-
                         <highchart class="charts-adsmap" config="card.addrMapCharts"></highchart>
                     </div>
                 </div>
@@ -207,7 +236,7 @@
                                     <tr ng-repeat="adsItems in card.whyseeads.addr | limitTo:(tabelePageNum * 7)" ng-if="$index+1 > (tabelePageNum * 7 - 7)">
                                         <td class="analy-td1">{{$index + 1}}</td>
                                         <td class="analy-td2">
-                                            <div class="country-name ads-text-ellipsis" >{{adsItems.name}}</div>
+                                            <div class="country-name ads-text-ellipsis">{{adsItems.name}}</div>
                                         </td>
                                         <td class="analy-td3">
                                             <div class="percent-number">{{((adsItems.value / card.whyseeads.count) * 100).toFixed(2)}} %</div>
@@ -225,10 +254,10 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="map-table-footer text-right">               
+                        <div class="map-table-footer text-right">
                             <span class="page-num"> {{tabelePageNum}} / {{ ceil(card.whyseeads.addr.length / 7)}}</span>
                             <button class="fa fa-caret-left turnpage-button" ng-disabled="tabelePageNum == 1" ng-click="tabelePageNum = tabelePageNum - 1"></button>
-                            <button class="fa fa-caret-right turnpage-button" ng-disabled="tabelePageNum == ceil(card.whyseeads.addr.length / 7)" ng-click="tabelePageNum = tabelePageNum + 1"></button>               
+                            <button class="fa fa-caret-right turnpage-button" ng-disabled="tabelePageNum == ceil(card.whyseeads.addr.length / 7)" ng-click="tabelePageNum = tabelePageNum + 1"></button>
                         </div>
                     </div>
                 </div>

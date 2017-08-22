@@ -895,7 +895,8 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                     chart: {
                         type: typeData || 'line',
                         zoomType: zoomTypeData || false,
-                        spacingBottom: 0
+                        spacingBottom: 0,
+                        backgroundColor: null
                     },
                     title: false,
                     subtitle: false,
@@ -961,7 +962,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                     chart: {
                         borderWidth: 0, // 边框
                         type: 'map',
-                        backgroundColor: false
+                        backgroundColor: null
                     },
                     colors: ['rgba(19,64,117,0.05)', 'rgba(19,64,117,0.2)', 'rgba(19,64,117,0.4)',
                         'rgba(19,64,117,0.5)', 'rgba(19,64,117,0.6)', 'rgba(19,64,117,0.8)', 'rgba(19,64,117,1)'
@@ -1022,7 +1023,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
             * pieInnerSize 内径，默认60%
             * pieColor ['#fff', '#ccc']
             */
-            pieChartsConfig: function(pieData, pieInnerSize, pieColor) {
+            pieChartsConfig: function(pieData, pieInnerSize, pieColor, pieLegend) {
                 return {
                     chart: {
                         plotBackgroundColor: null,
@@ -1035,6 +1036,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                         headerFormat: null,
                         pointFormat: '<b>{point.name}:</b>{point.percentage:.1f}%'
                     },
+                    legend: pieLegend || {},
                     plotOptions: {
                         pie: {
                             allowPointSelect: false, // 点击可选
@@ -1089,7 +1091,8 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                 else barDataArr = barData
                 return {
                     chart: {
-                        type: 'bar'
+                        type: 'bar',
+                        backgroundColor: null
                     },
                     title: {
                         text: false

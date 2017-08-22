@@ -1677,6 +1677,23 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                         $scope.card.addrMapCharts = Util.mapChartsConfig($scope.card.whyseeads.addr, adsVisitCountryCount, 'Top countries by impression')
                     } else $scope.card.addrMapCharts = false
                 }
+                // 
+                if ($scope.card.total_impression) {
+                    var pieLegend = {
+                        enabled: false
+                        /*
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        layout: 'vertical',
+                        symbolPadding: 15,
+                        itemMarginTop: 15,
+                        labelFormatter: function() {
+                            return this.name + ':' + this.y
+                        }
+                        */
+                    }
+                    $scope.card.devicePieCharts = Util.pieChartsConfig([['Mobile', $scope.card.mobile_impression], ['Desktop', ($scope.card.total_impression - $scope.card.mobile_impression)]], '0%', false, pieLegend)
+                } else $scope.card.devicePieCharts = false
                 searcher.findSimilar($scope.card.watermark)
             }, function(res) {
                 // console.log("error res:", res);

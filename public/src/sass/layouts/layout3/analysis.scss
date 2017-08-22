@@ -41,15 +41,81 @@
     }
     .analysis-title {
         margin-top: 50px;
-        margin-bottom: 20px;
         padding: 15px;
-        border-bottom: 1px solid #337ab7;
+        border-bottom: 1px solid rgba(51, 122, 183, 0.38);
         color: #337ab7;
     } // 概述
     .analy-overview {
         /*广告卡主体*/
         position: relative;
-        margin-top: 15px;
+        margin-top: 0px;
+        background: #fff;
+        padding-bottom: 15px;
+        .back-img{
+            position: absolute;
+            height: 100%;
+            width: auto;
+            right: 0;
+            -webkit-filter: opacity(29%);
+            filter: opacity(29%);
+            z-index: -1;
+        }
+        .overview-body{
+            padding: 15px;
+            height: 230px;
+            background: #eee;
+            overflow: visible;
+        }
+        .overview-body-bottom{
+            .info-rate{
+                display: flex;
+                .rate-wrapper{
+                    flex:1;
+                }
+
+            }
+            .info-device{
+                display: flex;
+                .device-chart{
+                    display: flex;
+                    .charts-wrapper{
+                        .charts-dev{
+                        width: 160px;
+                        height: 160px;  
+                        }
+                    }
+                }
+                .device-data{
+                    flex:1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    .data-wrapper{
+                        display: flex;
+                        align-items: center;
+                        .device-icon{
+                            width: 32px;
+                            text-align: center;
+                            margin-right: 8px; 
+                        }
+                    }
+                    .device-pc-wrapper{
+                        .device-icon{
+                            color:#337ab7
+                        }
+
+                    }
+                    .device-mobile-wrapper{
+                        margin-top: 25px;
+                        .device-icon{
+                            color:#7cb5ec
+                        }
+                    }
+
+                }
+                
+            }
+        }
         .analy-adscard {
             display: flex;
             justify-content: center;
@@ -60,6 +126,7 @@
                 padding: 12px;
                 border: 1px solid #e5e5e5;
                 border-radius: 3px;
+                box-shadow: 0px 0 10px -2px rgba(0,0,0,.35);
             }
             .adscard-footer {
                 padding: 5px;
@@ -314,6 +381,11 @@
     */
     @media screen and (max-width: 768px) {
         .analy-overview {
+            .overview-body{
+                height: auto;
+                padding: 0;
+                padding-bottom: 15px;
+            }
             .analy-info,
             .analy-info.info-fixed,
             .analy-info.info-position {
@@ -342,6 +414,9 @@
             .analy-info-wrapper{
                 width:345px;
             }
+        }
+        .overview-body{
+
         }
     }
 }
