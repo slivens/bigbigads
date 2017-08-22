@@ -1,11 +1,11 @@
 <div ng-controller="AdAnalysisController" id="ad-analysis" class="ad-analysis container alert ">
     <div class="ads-font-20 analysis-title row">Advertisement Overview:</div>
-    <div class="analy-overview row" overview-Scroll>
+    <div class="analy-overview row">
         <div class="overview-body">
             <div class="col-sm-6 analy-adscard">
                 <div class="adscard-body col-xs-12 col-md-9">
                     <div class="adscard-header">
-                        <a ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
+                        <a ng-href="//www.facebook.com/{{card.adser_username}}" target="_blank">
                             <img src="{{settings.imgRemoteBase[0] + card.small_photo}}" alt="" class="card-adserhead">
                         </a>
                         <div class="card-adsername-div">
@@ -58,12 +58,12 @@
                             <span class="ads-label-beta">BETA</span>:
                         </span>
                         <span ng-if="card.objective">{{card.objective}}</span>
-                        <span ng-if="!card.objective" class="text-danger">No Data <!-- 
-                        <a href="" > <i class="glyphicon glyphicon-download"></i> BIGBIGADS Extension</a> -->
+                        <span ng-if="!card.objective" class="text-danger">No Data 
+                        <a ng-href="../extension" target="_blank"> <i class="fa fa-download analy-down-icon"></i> BIGBIGADS Extension</a>
                         </span>
                     </p>
                     <p>
-                        <a ng-href="https://www.facebook.com/{{id}}" class="btn btn-primary" target="_blank">See Original Post</a>
+                        <a ng-href="//www.facebook.com/{{id}}" class="btn btn-primary" target="_blank">See Original Post</a>
                     </p>
                     <!-- <p>
                         <span class="ads-weight-bold">Landing page:</span>
@@ -83,25 +83,25 @@
                         <span class="text-danger" ng-if="!card.frequency">No Data</span>
                     </p>
                     <p>
-                        <span class="ads-weight-bold">share_rate:</span>
+                        <span class="ads-weight-bold">Share Rate:</span>
                         <span ng-if="card.share_rate">
-                            <i class="fa fa-long-arrow-up text-success" ng-if="card.share_rate > 0"></i>
-                            <i class="fa fa-long-arrow-up text-danger" ng-if="card.share_rate < 0"></i>
+                            <i class="fa fa-long-arrow-up analy-trend-up" ng-if="card.share_rate > 0"></i>
+                            <i class="fa fa-long-arrow-down analy-trend-down" ng-if="card.share_rate < 0"></i>
                             {{(card.share_rate * 100).toFixed(2)}}%</span>
                         <span class="text-danger" ng-if="!card.share_rate">No Data</span>
                     </p>
                 </div>
                 <div class="rate-wrapper">
                     <p>
-                        <span class="ads-weight-bold">reach:</span>
+                        <span class="ads-weight-bold">Reach:</span>
                         <span ng-if="card.reach">{{card.reach | adsCount}}</span>
                         <span class="text-danger" ng-if="!card.reach">No Data</span>
                     </p>
                     <p>
-                        <span class="ads-weight-bold">like_rate:</span>
+                        <span class="ads-weight-bold">Like Rate:</span>
                         <span ng-if="card.like_rate">
-                                <i class="fa fa-long-arrow-up text-success" ng-if="card.like_rate > 0"></i>
-                                <i class="fa fa-long-arrow-up text-danger" ng-if="card.like_rate < 0"></i>
+                                <i class="fa fa-long-arrow-up analy-trend-up" ng-if="card.like_rate > 0"></i>
+                                <i class="fa fa-long-arrow-down analy-trend-dowm" ng-if="card.like_rate < 0"></i>
                                 {{(card.like_rate * 100).toFixed(2)}}% </span>
                         <span class="text-danger" ng-if="!card.like_rate">No Data</span>
                     </p>
@@ -116,10 +116,10 @@
                 <div class="device-data device-wrapper">
                     <div class="device-pc-wrapper data-wrapper">
                         <i class="fa fa-tv device-icon ads-font-22"></i>
-                        <span class="device-num">{{(card.total_impression - card.mobile_impression) | adsCount}}</span>
+                        <span class="device-num">{{((card.total_impression - card.mobile_impression) / card.total_impression * 100).toFixed(1)}}%</span>
                     </div>
                     <div class="device-mobile-wrapper data-wrapper">
-                        <i class="fa fa-mobile device-icon ads-font-28"></i><span class="device-num">{{card.mobile_impression | adsCount}}</span>
+                        <i class="fa fa-mobile device-icon ads-font-28"></i><span class="device-num">{{(card.mobile_impression / card.total_impression * 100).toFixed(1)}}%</span>
                     </div>
                 </div>
             </div>
@@ -138,7 +138,7 @@
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
                 <br>
                 <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
-                <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
+                <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
             </div>
         </div>
         <div class="col-md-6">
@@ -151,7 +151,7 @@
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
                 <br>
                 <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
-                <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
+                <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
             </div>
         </div>
     </div>
@@ -172,7 +172,7 @@
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
                 <br>
                 <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
-                <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
+                <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
             </div>
         </div>
         <!--interests-->
@@ -203,7 +203,7 @@
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
                 <br>
                 <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
-                <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
+                <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
             </div>
         </div>
     </div>
@@ -266,7 +266,7 @@
                 <img src="../static/images/analysis/bg_nodata.png" alt="">
                 <br>
                 <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
-                <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
+                <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
             </div>
         </div>
     </div>

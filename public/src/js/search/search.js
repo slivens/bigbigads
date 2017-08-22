@@ -1641,7 +1641,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     // 广告详情-性别比例
                     if ($scope.card.whyseeads.gender) {
                         var asdGender = $scope.card.whyseeads.gender
-                        $scope.card.gnederPieCharts = Util.pieChartsConfig([['Male', asdGender[0]], ['Female', asdGender[1]]], '60%')
+                        $scope.card.gnederPieCharts = Util.pieChartsConfig([['Male', asdGender[0]], ['Female', asdGender[1]]], '60%', ['#7cb5ec', '#ee5689'])
                     } else $scope.crd.gnederPieCharts = false
                     // 广告详情-年龄分布
                     if ($scope.card.whyseeads.age) {
@@ -1656,7 +1656,8 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                                 name: 'Female',
                                 data: arr2
                             }],
-                            true // 以百分比形式显示
+                            true, // 以百分比形式显示
+                            ['#7cb5ec', '#ee5689']
                         )
                     } else $scope.card.ageBarCharts = false
                     // 国家分布

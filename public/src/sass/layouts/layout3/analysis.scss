@@ -44,7 +44,19 @@
         padding: 15px;
         border-bottom: 1px solid rgba(51, 122, 183, 0.38);
         color: #337ab7;
-    } // 概述
+    }
+    .analy-down-icon{
+        margin-right: 8px;
+    }
+    .analy-trend-up{
+        color: #4fc3a0;
+        margin: 0 5px;
+    }
+    .analy-trend-down{
+        color: #ed6b75;
+        margin: 0 5px;
+    }
+    // 概述
     .analy-overview {
         /*广告卡主体*/
         position: relative;
