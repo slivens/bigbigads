@@ -13,6 +13,7 @@ use App\Role;
 use App\Plan;
 use App\ActionLog;
 use Log;
+use App\HotWord;
 
 class SearchController extends Controller
 {
@@ -340,6 +341,17 @@ class SearchController extends Controller
             return $logActionUsage[2] + 1;
     }
 
+    protected function checkIsHotWord($key) {
+        if ($key[0]['string']) {
+            $hotword = HotWord::where("keyword", $key[0]['string'])->first();
+            if ($hotword instanceof HotWord) {
+                return true;
+            } else {
+                return false;
+            }
+        } 
+        return false;
+    }
     /*
         1.用户包括进入搜索页和下拉滚动条的请求都记录，remark: limit:num
         2.用户空词加上过滤条件时做记录，remark: 搜索结果总数,where
@@ -367,6 +379,7 @@ class SearchController extends Controller
         $user = $this->user();
         $isGetAdAnalysis = false;
         $subAction = '';
+        $isHotWord = false;
         if (!(Auth::check())) {
             //匿名用户只有adsearch动作，其它动作一律不允许
             if ($action == 'adsearch') {
@@ -653,7 +666,9 @@ class SearchController extends Controller
                             //搜索条件改变，应该重置result_per_search 已使用的次数
                             $user->updateUsage('result_per_search', 10, Carbon::now());
                             //log区分用户是否使用热词
-                            if (count($req->keys) > 0 && array_key_exists('isHotWord', $req->keys[0]) && $req->keys[0]['isHotWord']) {
+                            //使用搜索参数进行区分会造成刷新标记丢失或者标记永久带上的问题
+                            $isHotWord = $this->checkIsHotWord($req->keys);
+                            if (count($req->keys) > 0 && $isHotWord) {
                                 dispatch(new LogAction(ActionLog::ACTION_HOT_SEARCH_TIMES_PERDAY, $jsonData, "hot_search_times_perday: " . $searchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
                             } else {
                                 //统计用户的总搜索次数,

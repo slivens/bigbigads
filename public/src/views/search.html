@@ -8,7 +8,7 @@
                     <div class="clearfix">
                         <!-- BEGIN HEADER SEARCH BOX -->
                         <form class="search-form" ng-submit="islegal && search('search')">
-                            <div id="xg-select-group" class="input-group">
+                            <div class="input-group">
                                 <span class="input-group-addon xg-type-select">
                                     <select class="bs-select" data-width="150px" ng-model="filterOption.type" >
                                         <option value="" >Ad Position</option>
@@ -17,8 +17,15 @@
                                         </option>
                                     </select>
                                 </span>
-                                <!-- <input type="search" class="form-control input-lg" placeholder="Enter a keyword, page name or domain name" ng-model="adSearcher.searchOption.search.text"> -->
-                                <div id="xg-autocomplete">
+                                <input type="search" class="form-control input-lg" placeholder="Enter a keyword, page name or domain name" ng-model="adSearcher.searchOption.search.text
+                                ">
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn yellow-gold btn-lg " ng-disabled="adSearcher.busy" ng-click="searchCheck(adSearcher.searchOption.search.text)">
+                                        <span class="search-btn-text mobile-hidden">Search</span>
+                                        <i class="fa fa-search search-btn-icon mobile-show"></i>
+                                    </button>
+                                </div>
+                                <!-- <div id="xg-autocomplete">
                                     <autocomplete ng-model="adSearcher.searchOption.search.text" data="suggestions" on-type="googleQuery" attr-placeholder="Enter a keyword, page name or domain name" click-activation="true"></autocomplete>
                                 </div>
                                 <div class="input-group-btn xg-search-button">
@@ -26,7 +33,7 @@
                                         <span class="search-btn-text mobile-hidden">Search</span>
                                         <i class="fa fa-search search-btn-icon mobile-show"></i>
                                     </button>
-                                </div> 
+                                </div> --> 
                             </div>
                         </form>
                         <div class="hotwords">

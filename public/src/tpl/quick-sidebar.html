@@ -59,7 +59,7 @@
                     </select>
                     </div>
                 </div>  
-                <div class="input-group">
+                <div class="input-group" ng-if = "User.can('e_commerce_filter')">
                     <span class="input-group-addon" id="trackingtools_addon"><i class="fa fa-external-link-square"></i></span>
                     <select id="tracking_tools_select" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Eshop Filter" ng-model="$parent.filterOption.ecommerce" style="width: 200px">
                         <option ng-repeat="item in $parent.settings.searchSetting.eCommerceList" policy-lock key="{{item.permission}}" trigger="lockButton" value="{{item.key}}">{{item.value}}</option>
