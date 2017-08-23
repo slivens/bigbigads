@@ -1609,7 +1609,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     // engagements_trend.trend 存在null 值
                     var engagementsArr = arr.trend ? Util.getTrendArr(arr.day, 0, arr.trend) : false
                     if (engagementsArr) {
-                        $scope.card.engagementsCharts = Util.lineChartsConfig('area', engagementsArr.map(function(v) { return v[0] }), 'Impression', engagementsArr.map(function(v) { return v[1] }), 'x')
+                        $scope.card.engagementsCharts = Util.lineChartsConfig('area', engagementsArr.map(function(v) { return v[0] }), 'Engagements', engagementsArr.map(function(v) { return v[1] }), 'x')
                     } else {
                         $scope.card.engagementsCharts = false
                     }
