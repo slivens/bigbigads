@@ -877,8 +877,250 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                 ).error(function(date) {
                     console.log(date)
                 })
+            },
+            /*
+            * 定义的charts配置
+            * 因为图表的配置差异比较大，所以对每个类型写个配置,不能使用通用
+            * 支持pie、line、map、 bar这几种配置
+            * 后续如有其他的配置可再加
+            * typeData, 可选，不填为默认；
+            * seriesName,可选，不填为默认；
+            * seriesData,必填！因为数据格式不固定，再controller里处理好了，再传到这
+            * type 图标类型，值为：“pie、bar、line、map”
+            * xaxis 对于line类型的图表，需要提供xaxis
+            */
+            // line 折线图表，支持相似类型的或则衍生图表,比如 area,line等
+            lineChartsConfig: function(typeData, xAxisData, seriesName, seriesData, zoomTypeData) {
+                return {
+                    chart: {
+                        type: typeData || 'line',
+                        zoomType: zoomTypeData || false,
+                        spacingBottom: 0
+                    },
+                    title: false,
+                    subtitle: false,
+                    legend: false,
+                    xAxis: {
+                        categories: xAxisData || false
+                    },
+                    yAxis: {
+                        title: false,
+                        min: 0
+                    },
+                    tooltip: {
+                        formatter: function() {
+                            return '<b>' + this.series.name + '</b><br/>' +
+                                this.x + ': ' + this.y
+                        }
+                    },
+                    plotOptions: {
+                        area: {
+                            fillColor: {
+                                linearGradient: {
+                                    x1: 0,
+                                    y1: 0,
+                                    x2: 0,
+                                    y2: 1
+                                },
+                                stops: [
+                                    [0, Highcharts.getOptions().colors[0]],
+                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                ]
+                            },
+                            marker: {
+                                radius: 2
+                            },
+                            lineWidth: 1,
+                            states: {
+                                hover: {
+                                    lineWidth: 1
+                                }
+                            },
+                            threshold: null
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: seriesName || '',
+                        data: seriesData || ''
+                    }]
+                }
+            },
+            /*
+            * 地图图标
+            * mapData 国家数据 {['country': 'CN','value': 99],[...]}
+            * mapValueCount 全部总数，用于计算百分比，默认为100,且会去掉百分号
+            * mapName 说明标识文字
+            * mapLegend 图例，被默认不显示
+            */
+            mapChartsConfig: function(mapData, mapValueCount, mapName, mapLegend) {
+                // 地图图表
+                return {
+                    chart: {
+                        borderWidth: 0, // 边框
+                        type: 'map',
+                        backgroundColor: false
+                    },
+                    colors: ['rgba(19,64,117,0.05)', 'rgba(19,64,117,0.2)', 'rgba(19,64,117,0.4)',
+                        'rgba(19,64,117,0.5)', 'rgba(19,64,117,0.6)', 'rgba(19,64,117,0.8)', 'rgba(19,64,117,1)'
+                    ],
+                    title: {
+                        text: false
+                    },
+                    credits: false,
+                    mapNavigation: {
+                        enabled: true, // 缩放
+                        enableDoubleClickZoomTo: true,
+                        enableMouseWheelZoom: false
+                    },
+                    xAxis: {
+                        lineWidth: 0, // 轴线宽度
+                        tickLength: 0, // 刻度线长度
+                        labels: false
+                    },
+                    yAxis: {
+                        gridLineWidth: 0,
+                        // lineWidth:0
+                        labels: false,
+                        title: false
+                    },
+                    tooltip: {
+                        formatter: function() {
+                            return '<b>' + this.series.name + '</b><br>' +
+                                'Country: <span style="color:#eb6130">' + this.point.name + '</span><br>' +
+                                'Value: <span style="color:#eb6130">' + ((this.point.value / (mapValueCount || 100)) * 100).toFixed(1) + (mapValueCount ? '%' : '') + '</span><br>'
+                        }
+                    },
+                    legend: !mapLegend ? false : {},
+                    colorAxis: {
+                        min: 0,
+                        stops: [
+                            [0, '#EFEFFF'],
+                            [0.5, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).brighten(-0.5).get()]
+                        ]
+                    },
+                    series: [{
+                        data: mapData || [],
+                        mapData: Highcharts.maps['custom/world'],
+                        joinBy: ['iso-a2', 'country'],
+                        animation: false, // 取消掉动画，不然地图会重绘，第二次加载很别扭
+                        name: mapName || false,
+                        states: {
+                            hover: {
+                                color: '#BADA55'
+                            }
+                        }
+                    }]
+                }
+            },
+            /*
+            * 饼状图
+            * pieData 格式：['name':value],[...],...
+            * pieInnerSize 内径，默认60%
+            * pieColor ['#fff', '#ccc']
+            */
+            pieChartsConfig: function(pieData, pieInnerSize, pieColor) {
+                return {
+                    chart: {
+                        plotBackgroundColor: null,
+                        type: 'pie'
+                    },
+                    colors: pieColor || ['#7cb5ec', '#337ab7'],
+                    title: false,
+                    credits: false, // 角标
+                    tooltip: {
+                        headerFormat: null,
+                        pointFormat: '<b>{point.name}:</b>{point.percentage:.1f}%'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: false, // 点击可选
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false // 显示注释
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        innerSize: pieInnerSize || '60%',
+                        dataLabels: false,
+                        data: pieData
+                    }]
+                }
+            },
+            /*
+            * bar 堆叠分布
+            * barXAxis X轴数据 格式类似 ['18-24', '25-34', '35-44', '45-54', '55-64', '65+']
+            * barData 数据 [{name:'name',data:[1,2,55,4...]}, {name:'name2', data:[...]},...]
+            * barPercent 是否已百分号显示
+            * barColor 显示颜色
+            */
+            barChartsConfig: function(barXAxis, barData, barPercent, barColor) {
+                var barDataArr
+                /*
+                * 转换为百分数
+                * 如过是要以百分数进行显示，则在此转化为百分值
+                */
+                var toPercent = function(arr) {
+                    try {
+                        var valueCount = 0
+                        for (var arrItem in arr) {
+                            for (var arrKey in arr[arrItem].data) {
+                                valueCount += arr[arrItem].data[arrKey]
+                            }
+                        }
+                        // 对所有数组进行修改，改为已百分比值
+                        // 继续命名为arrItem 检测插件会报错
+                        for (var arrItem1 in arr) {
+                            for (var arrKey1 in arr[arrItem1].data) {
+                                arr[arrItem1].data[arrKey1] = (arr[arrItem1].data[arrKey1] / valueCount) * 100
+                            }
+                        }
+                        return arr
+                    } catch (err) {
+                        return arr
+                    }
+                }
+                if (barPercent) barDataArr = toPercent(barData)
+                else barDataArr = barData
+                return {
+                    chart: {
+                        type: 'bar'
+                    },
+                    title: {
+                        text: false
+                    },
+                    colors: barColor || ['#7cb5ec', '#337ab7'],
+                    credits: false,
+                    xAxis: {
+                        categories: barXAxis || ['18-24', '25-34', '35-44', '45-54', '55-64', '65+']
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: false
+                        },
+                        max: barPercent ? 100 : null
+                    },
+                    legend: {
+                        reversed: true
+                    },
+                    // colors: ['rgb(63, 169, 197)', 'rgb(116, 204, 220)'], //自定义颜色会出问题，有待解决
+                    plotOptions: {
+                        series: {
+                            stacking: 'cloumn'
+                        }
+                    },
+                    tooltip: {
+                        pointFormat: barPercent ? '<b>{point.name}</b><br>{series.name}:{point.y:.1f}%' : '<b>{point.name}</b><br>{series.name}:{point.y}'
+                    },
+                    series: barDataArr || [{ name: 'Male', data: [1, 2, 0, 0, 5] }, { name: 'Female', data: [2, 1, 0, 0, 5] }]
+                }
             }
-
         }
     }])
 angular.module('MetronicApp').service('Resource', ['$resource', 'settings', 'SweetAlert', function($resource, settings, SweetAlert) {

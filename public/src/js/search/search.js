@@ -1575,11 +1575,10 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     $scope.card.whyseeads_all = $scope.card.whyseeads_all.split('\n')
 
                 // 广告impression
-                if ($scope.card.impression) {
-                    arr = JSON.parse($scope.card.impression)
+                if ($scope.card.impression_trend) {
+                    arr = JSON.parse($scope.card.impression_trend)
                     var time
                     var key
-                    var chartData
                     for (key in arr) {
                         time = key
                     }
@@ -1591,15 +1590,17 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                      */
                     var impressionArr = arr[time] ? Util.getTrendArr(time, 7, arr[time]) : false
                     if (impressionArr) {
-                        chartData = lineChar1 // 拷贝数组
-                        chartData.xAxis.categories = impressionArr.map(function(v) { return v[0] })
-                        chartData.series[0] = {
-                            name: "impression",
-                            data: impressionArr.map(function(v) { return v[1] })
+                        // 对器数组进行判断，如果是七天中超过5天为无效数据，则判断该数据无效
+                        var impressionValid = 0
+                        for (var item in impressionArr.map(function(v) { return v[1] })) {
+                            impressionArr.map(function(v) { return v[1] })[item] && impressionValid++
                         }
-                        $scope.impressionCharts = chartData
+                        if (impressionValid >= 5) {
+                            // 通用折线配置 lineCharsConfig(typeData[类型], xAxisData[X轴数据*], seriesName[数据名称], seriesData[数据*], zoomTypeData[数据放大])
+                            $scope.card.impressionCharts = Util.lineChartsConfig('area', impressionArr.map(function(v) { return v[0] }), 'Impression', impressionArr.map(function(v) { return v[1] }))
+                        } else $scope.card.impressionCharts = false
                     } else {
-                        $scope.card.impression = false // 对于提供时间错误的，或则数据长度小于3的则不显示
+                        $scope.card.impressionCharts = false // 对于提供时间错误的，或则数据长度小于3的则不显示
                     }
                 }
                 // engagements_trend
@@ -1608,15 +1609,9 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     // engagements_trend.trend 存在null 值
                     var engagementsArr = arr.trend ? Util.getTrendArr(arr.day, 0, arr.trend) : false
                     if (engagementsArr) {
-                        chartData = lineChar2
-                        chartData.xAxis.categories = engagementsArr.map(function(v) { return v[0] })
-                        chartData.series[0] = {
-                            name: "engagements_trend",
-                            data: engagementsArr.map(function(v) { return v[1] })
-                        }
-                        $scope.engagementsCharts = chartData
+                        $scope.card.engagementsCharts = Util.lineChartsConfig('area', engagementsArr.map(function(v) { return v[0] }), 'Impression', engagementsArr.map(function(v) { return v[1] }), 'x')
                     } else {
-                        $scope.card.engagements_trend = false
+                        $scope.card.engagementsCharts = false
                     }
                 }
                 // 如果whyseeads不为空，填充到广告趋势
@@ -1646,15 +1641,24 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     // 广告详情-性别比例
                     if ($scope.card.whyseeads.gender) {
                         var asdGender = $scope.card.whyseeads.gender
-                        $scope.adsGenderCharts.series[0].data[0][1] = asdGender[0]
-                        $scope.adsGenderCharts.series[0].data[1][1] = asdGender[1]
-                    }
+                        $scope.card.gnederPieCharts = Util.pieChartsConfig([['Male', asdGender[0]], ['Female', asdGender[1]]], '60%')
+                    } else $scope.crd.gnederPieCharts = false
                     // 广告详情-年龄分布
                     if ($scope.card.whyseeads.age) {
-                        var adsAge = $scope.card.whyseeads.age
-                        $scope.adsAgeCharts.series[0].data = adsAge.map(function(v) { return v[0] })
-                        $scope.adsAgeCharts.series[1].data = adsAge.map(function(v) { return v[1] })
-                    }
+                        var arr1 = $scope.card.whyseeads.age.map(function(v) { return v[0] })
+                        var arr2 = $scope.card.whyseeads.age.map(function(v) { return v[1] })
+                        // 堆叠分布 barChartsConfig(barXAxis[X轴数据], barData[数据*], barPercent[以百分号形式显示])
+                        $scope.card.ageBarCharts = Util.barChartsConfig(
+                            ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'], [{
+                                name: 'Male',
+                                data: arr1
+                            }, {
+                                name: 'Female',
+                                data: arr2
+                            }],
+                            true // 以百分比形式显示
+                        )
+                    } else $scope.card.ageBarCharts = false
                     // 国家分布
                     if ($scope.card.whyseeads.addr) {
                         // 将country里的值改为大写,并转换全称
@@ -1663,15 +1667,15 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                             $scope.card.whyseeads.addr[key].country = countryShortName
                             $scope.card.whyseeads.addr[key].name = vm.countries[countryShortName] ? vm.countries[countryShortName].name : countryShortName // 添加全称 
                         }
-                        $scope.adsMapChart.series[0].data = $scope.card.whyseeads.addr // 地图
-                        $scope.adsVisitCountryData = $scope.card.whyseeads.addr // 表格
                         // 计算总数
                         var adsVisitCountryCount = 0
-                        for (key in $scope.adsVisitCountryData) {
-                            adsVisitCountryCount += $scope.adsVisitCountryData[key].value
+                        for (key in $scope.card.whyseeads.addr) {
+                            adsVisitCountryCount += $scope.card.whyseeads.addr[key].value
                         }
-                        $scope.adsVisitCountryCount = adsVisitCountryCount
-                    }
+                        $scope.card.whyseeads.count = adsVisitCountryCount
+                        // 国家图表 mapChartsConfig(mapData[国家数据], mapValueCount[数据总数], mapName[标题名称], mapLegend[是否显示图例])
+                        $scope.card.addrMapCharts = Util.mapChartsConfig($scope.card.whyseeads.addr, adsVisitCountryCount, 'Top countries by impression')
+                    } else $scope.card.addrMapCharts = false
                 }
                 searcher.findSimilar($scope.card.watermark)
             }, function(res) {
@@ -1763,111 +1767,6 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                 $rootScope.settings.layout.pageBodySolid = false
                 $rootScope.settings.layout.pageSidebarClosed = false
             })
-            /*
-             * 分析图表
-             */
-            // 饼图
-            $scope.adsGenderCharts = {
-                chart: {
-                    plotBackgroundColor: null,
-                    // plotBorderWidth: null,
-                    // plotShadow: false
-                    type: 'bar'
-                },
-                // colors: ['rgb(63, 169, 197)', 'rgb(116, 204, 220)'],自定义颜色会出错，有待解决
-                title: false,
-                credits: false, // 角标
-                // legend: false, 图例
-                tooltip: {
-                    pointFormat: '{point.y}, {point.percentage:.1f}%'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: false, // 点击可选
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: false // 显示注释
-                        },
-                        showInLegend: true
-                    }
-                },
-                series: [{
-                    type: 'pie',
-                    innerSize: '60%',
-                    dataLabels: false,
-                    data: [
-                        ['Male', ''],
-                        ['Female', '']
-                    ]
-                }]
-            }
-            // 折线参数
-            var lineChar1 = {
-                chart: {
-                    type: 'area',
-                    spacingBottom: 0
-                },
-                title: false,
-                subtitle: false,
-                legend: false,
-                xAxis: {
-                    categories: false
-                },
-                yAxis: {
-                    title: false
-                },
-                tooltip: {
-                    formatter: function() {
-                        return '<b>' + this.series.name + '</b><br/>' +
-                            this.x + ': ' + this.y
-                    }
-                },
-                plotOptions: {
-                    area: {
-                        fillOpacity: 0.5
-                    }
-                },
-                credits: {
-                    enabled: false
-                },
-                series: [{
-                    name: false,
-                    data: false
-                }]
-            }
-            var lineChar2 = {
-                chart: {
-                    type: 'area',
-                    spacingBottom: 0
-                },
-                title: false,
-                subtitle: false,
-                legend: false,
-                xAxis: {
-                    categories: false
-                },
-                yAxis: {
-                    title: false
-                },
-                tooltip: {
-                    formatter: function() {
-                        return '<b>' + this.series.name + '</b><br/>' +
-                                this.x + ': ' + this.y
-                    }
-                },
-                plotOptions: {
-                    area: {
-                        fillOpacity: 0.5
-                    }
-                },
-                credits: {
-                    enabled: false
-                },
-                series: [{
-                    name: false,
-                    data: false
-                }]
-            }
             // 年龄分布-条状
             $scope.adsAgeCharts = {
                 chart: {
@@ -1884,7 +1783,8 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     min: 0,
                     title: {
                         text: false
-                    }
+                    },
+                    max: 100
                 },
                 legend: {
                     reversed: true
@@ -1892,7 +1792,14 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                 // colors: ['rgb(63, 169, 197)', 'rgb(116, 204, 220)'], //自定义颜色会出问题，有待解决
                 plotOptions: {
                     series: {
-                        stacking: 'normal'
+                        stacking: 'cloumn'
+                    }
+                },
+                tooltip: {
+                    formatter: function() {
+                        return '<b>Series name: ' + this.series.name + '</b><br>' +
+                            'Point name: ' + this.point.x + '<br>' +
+                            'Value: ' + ((this.point.y) * 100).toFixed(1) + '%'
                     }
                 },
                 series: [{
@@ -1901,64 +1808,6 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                 }, {
                     name: 'Female',
                     data: []
-                }]
-            }
-            // 地图图表
-            $scope.adsMapChart = {
-                chart: {
-                    borderWidth: 0, // 边框
-                    type: 'map',
-                    backgroundColor: false
-                },
-                colors: ['rgba(19,64,117,0.05)', 'rgba(19,64,117,0.2)', 'rgba(19,64,117,0.4)',
-                    'rgba(19,64,117,0.5)', 'rgba(19,64,117,0.6)', 'rgba(19,64,117,0.8)', 'rgba(19,64,117,1)'
-                ],
-                title: {
-                    text: false
-                },
-                credits: false,
-                mapNavigation: {
-                    enabled: true, // 缩放
-                    enableDoubleClickZoomTo: true,
-                    enableMouseWheelZoom: false
-                },
-                xAxis: {
-                    lineWidth: 0, // 轴线宽度
-                    tickLength: 0, // 刻度线长度
-                    labels: false
-                },
-                yAxis: {
-                    gridLineWidth: 0,
-                    // lineWidth:0
-                    labels: false,
-                    title: false
-                },
-                legend: {
-                    align: 'center',
-                    verticalAlign: 'bottom'
-                },
-                colorAxis: {
-                    min: 0,
-                    stops: [
-                        [0, '#EFEFFF'],
-                        [0.5, Highcharts.getOptions().colors[0]],
-                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).brighten(-0.5).get()]
-                    ]
-                },
-                series: [{
-                    data: [],
-                    mapData: Highcharts.maps['custom/world'],
-                    joinBy: ['iso-a2', 'country'],
-                    animation: false, // 取消掉动画，不然地图会重绘，第二次加载很别扭
-                    name: 'Population density',
-                    states: {
-                        hover: {
-                            color: '#BADA55'
-                        }
-                    },
-                    tooltip: {
-                        valueSuffix: '/month'
-                    }
                 }]
             }
         }
