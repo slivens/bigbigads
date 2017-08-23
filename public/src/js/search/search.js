@@ -1679,7 +1679,9 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     } else $scope.card.addrMapCharts = false
                 }
                 // 
-                if ($scope.card.total_impression) {
+                if ($scope.card.pc_impression_rate) {
+                    var desktopNum = $scope.card.pc_impression_rate * 100
+                    var mobileNum = 100 - desktopNum
                     var pieLegend = {
                         enabled: false
                         /*
@@ -1693,7 +1695,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                         }
                         */
                     }
-                    $scope.card.devicePieCharts = Util.pieChartsConfig([['Mobile', $scope.card.mobile_impression], ['Desktop', ($scope.card.total_impression - $scope.card.mobile_impression)]], '0%', false, pieLegend)
+                    $scope.card.devicePieCharts = Util.pieChartsConfig([['Mobile', mobileNum], ['Desktop', desktopNum]], '0%', false, pieLegend)
                 } else $scope.card.devicePieCharts = false
                 searcher.findSimilar($scope.card.watermark)
             }, function(res) {

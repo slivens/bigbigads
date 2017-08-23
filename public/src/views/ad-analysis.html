@@ -116,10 +116,10 @@
                 <div class="device-data device-wrapper">
                     <div class="device-pc-wrapper data-wrapper">
                         <i class="fa fa-tv device-icon ads-font-22"></i>
-                        <span class="device-num">{{((card.total_impression - card.mobile_impression) / card.total_impression * 100).toFixed(1)}}%</span>
+                        <span class="device-num">{{(card.pc_impression_rate * 100).toFixed(1)}}%</span>
                     </div>
                     <div class="device-mobile-wrapper data-wrapper">
-                        <i class="fa fa-mobile device-icon ads-font-28"></i><span class="device-num">{{(card.mobile_impression / card.total_impression * 100).toFixed(1)}}%</span>
+                        <i class="fa fa-mobile device-icon ads-font-28"></i><span class="device-num">{{(100 - card.pc_impression_rate * 100).toFixed(1)}}%</span>
                     </div>
                 </div>
             </div>
