@@ -507,29 +507,27 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                     return
                 }
                 // 现在不支持用户再次购买同类的plan计划，即已经是standard月付不能再购买standard 季付和年付
-                var userPlanType = attrs.name.split("_")
-                var userPlan = userPlanType[0]
+                // var userPlanType = attrs.name.split("_")
+                // var userPlan = userPlanType[0]
+                var sub = User.info.user.subscription
                 element.bind("click", function() {
-                    if (attrs.plan != 'free') {
-                        if (userPlan === attrs.plan) {
-                            SweetAlert.swal({
-                                title: "You had subscribed. Wanna change your plan?",
-                                type: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "Yes",
-                                cancelButtonText: "No",
-                                closeOnConfirm: false,
-                                closeOnCancel: true },
-                            function(isConfirm) {
-                                if (isConfirm) {
-                                    window.open("mailto:sale@bigbigads.com", '_self')
-                                }
-                            })
-                            return false
-                        } else {
-                            window.open('/pay?name=' + attrs.name, '_self')
-                        }
+                    // 判断计划是错误做法，应该是判断用户是否有订阅
+                    if (sub) {
+                        SweetAlert.swal({
+                            title: "You had subscribed. Wanna change your plan?",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Yes",
+                            cancelButtonText: "No",
+                            closeOnConfirm: false,
+                            closeOnCancel: true },
+                        function(isConfirm) {
+                            if (isConfirm) {
+                                window.open("mailto:sale@bigbigads.com", '_self')
+                            }
+                        })
+                        return false
                     } else {
                         window.open('/pay?name=' + attrs.name, '_self')
                     }

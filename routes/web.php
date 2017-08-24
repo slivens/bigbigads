@@ -186,6 +186,7 @@ Route::get('/extension', function () {
     return view('extension');
 });
 
+Route::post('/subscriptions/{sid}/sync', 'SubscriptionController@sync');
 Route::get('hotword', 'HotWordController@getHotWord');
 Route::get('audience-interest', 'AudienceInterestController@getAudienceInterest');
 

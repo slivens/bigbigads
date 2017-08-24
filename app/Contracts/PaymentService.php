@@ -34,7 +34,7 @@ interface PaymentService
      * 4. 当用户退款时，通过该命令设置用户的过期时间和切换计划
      * @param Array $gateways 为空值时表示同步所有计划;否则同步指定的计划。每个数组项应从GATEWAY_*中取值。
      */
-    public function syncPayments(Array $gateways, $subscription);
+    public function syncPayments(Array $gateways, $subscription = null);
 
 
     /**

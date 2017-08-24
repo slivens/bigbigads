@@ -22,6 +22,7 @@ use Payum\Core\Model\Payment;
 use App\Payment as OurPayment;
 use App\Contracts\PaymentService;
 use App\Jobs\SyncPaymentsJob;
+use App\Jobs\SyncSubscriptionsJob;
 
 final class SubscriptionController extends PayumController
 {
@@ -187,20 +188,25 @@ final class SubscriptionController extends PayumController
         if (!($subscription instanceof Subscription)) {
             abort(401, "no subscription found");
         }
-
         $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
 
-        $payment = $service->onPay($request);
+        $agreement = $service->onPay($request);
         //中途取消的情况下返回profile页面
-        if ($payment == null) return redirect('/app/profile?active=0');
-            //abort(401, "error on payment");
-        $subscription->agreement_id = $payment->getId();
+        if ($agreement == null) return redirect('/app/profile?active=0');
+        //abort(401, "error on agreement");
+        $subscription->agreement_id = $agreement->getId();
         $subscription->quantity = 1;
         $subscription->status = Subscription::STATE_SUBSCRIBED;
         $subscription->save();
+        $subscription->user->subscription_id = $subscription->id;
+        $subscription->user->save();
+        if (strtolower($agreement->getState()) != 'active') {
+            return redirect('/app/profile?active=0');
+        }
 
+        $this->paymentService->syncPayments([], $subscription);
         // 完成订阅后10秒后就去同步，基本上订单都已产生；如果没有产生，3分钟后再次同步试。同时webhook如果有收到，也会去同步。
-        dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(5)));
+        dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(10)));
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addMinutes(3)));
         return redirect('/app/profile?active=0');
     }
@@ -409,10 +415,27 @@ final class SubscriptionController extends PayumController
     {
         $user = Auth::user();
         $sub = Subscription::where(['id' => $id, 'user_id' => $user->id])->first();
+        if ($sub->status == Subscription::STATE_CANCLED) {
+            return ['code' => 0, 'desc' => 'success'];
+        }
         if ($sub->status != Subscription::STATE_SUBSCRIBED && $sub->status != Subscription::STATE_PAYED)
             return ['code' => -1, 'desc' => "not a valid state:{$sub->status}"];
         if (!$this->paymentService->cancel($sub))
             return ['code' => -1, 'desc' => "cancel failed"];
+        if ($user->subscription_id == $id) {
+            $user->subscription_id = null;
+            $user->save();
+        }
+        return ['code' => 0, 'desc' => 'success'];
+    }
+
+    public function sync($sid)
+    {
+        $sub = Subscription::where('agreement_id', $sid)->first();
+        if (!$sub)
+            return ['code' => -1, 'desc' => "$sid not found"];
+        $this->paymentService->syncSubscriptions([], $sub);
+        $this->paymentService->syncPayments([], $sub);
         return ['code' => 0, 'desc' => 'success'];
     }
 }

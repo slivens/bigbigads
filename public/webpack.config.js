@@ -30,7 +30,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, './app'),
-        filename: !isProduction ? '[name].js' : 'js/[name]-[chunkhash:10].js',
+        filename: !isProduction ? '[name].js' : 'js/[name]-[hash:10].js', // 使用chunkhash会导致一个问题:a.js引用b.js，生成a-1.js,b-1.js, b.js变化而a.js没变化，生成a-1.js, b-2.js。用户从自己的缓存讲出a-1.js，去引用b-1.js。
     },
     module: {
         rules:[{
@@ -69,7 +69,7 @@ module.exports = {
          new webpack.optimize.CommonsChunkPlugin({
             name:['vendor']
             }),
-         new ExtractTextPlugin(!isProduction ? '[name].css' : '[name]-[chunkhash:10].css'),
+         new ExtractTextPlugin(!isProduction ? '[name].css' : '[name]-[hash:10].css'),
          new ManifestPlugin({
             fileName:'manifest.json',
             baseName:'/app/'
