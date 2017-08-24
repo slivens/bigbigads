@@ -173,7 +173,7 @@ angular.module('MetronicApp').component('billings', {
                     setTimeout(function() {
                         // console.log("update")
                         $scope.$apply(function() {
-                            $http.post('/subscriptions/' + ctrl.lastSubscription.agreement_id + '/sync').then(res => {
+                            $http.post('/subscriptions/' + ctrl.lastSubscription.agreement_id + '/sync').then(function(res) {
                                 init(true)
                             })
                         })
