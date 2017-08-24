@@ -37,6 +37,11 @@ class Subscription extends Model
      */
     const STATE_SUSPENDED = "suspended";
 
+    /**
+     * 挂起订阅时的状态
+     */
+    const STATE_PENDING = "pending";
+
     public function user()
     {
         return $this->belongsTo('\App\User');

@@ -208,6 +208,15 @@ class PaymentService implements PaymentServiceContract
             if (strlen($sub->agreement_id) < 3) {
                 continue;
             }
+            if ($sub->status == Subscription::STATE_CANCLED) {
+                $this->log("canceled subscription, no need to sync");
+                if ($sub->user->subscription_id == $sub->id) {
+                    $this->log("{$sub->user->email}'s subscription set to null", PaymentService::LOG_INFO);
+                    $sub->user->subscription_id = 0;
+                    $sub->user->save();
+                }
+                continue;
+            }
             $this->log("handling {$sub->agreement_id}");
             $remoteSub = $service->subscription($sub->agreement_id);
             if (!$remoteSub) {
@@ -229,6 +238,9 @@ class PaymentService implements PaymentServiceContract
             $state = $remoteSub->getState();
             $newStatus = '';
             switch (strtolower($state)) {
+            case 'pending':
+                $newStatus = Subscription::STATE_PENDING;
+                break;
             case 'active':
                 if ($sub->payments()->count() > 0)
                     $newStatus = Subscription::STATE_PAYED;
@@ -278,7 +290,7 @@ class PaymentService implements PaymentServiceContract
     /**
      * {@inheritDoc}
      */
-    public function syncPayments(Array $gateways = [], $subscription)
+    public function syncPayments(Array $gateways = [], $subscription = null)
     {
         // 目前只有Paypal需要同步支付记录, stripe是立即获取的
         $res = [];

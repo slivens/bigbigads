@@ -189,6 +189,7 @@ Route::get('/methodology', function () {
     return view('methodology');
 });
 
+Route::post('/subscriptions/{sid}/sync', 'SubscriptionController@sync');
 Route::get('hotword', 'HotWordController@getHotWord');
 Route::get('audience-interest', 'AudienceInterestController@getAudienceInterest');
 
