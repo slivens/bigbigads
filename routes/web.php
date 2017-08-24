@@ -185,6 +185,9 @@ Route::get('/welcome', function () {
 Route::get('/extension', function () {
     return view('extension');
 });
+Route::get('/methodology', function () {
+    return view('methodology');
+});
 
 Route::get('hotword', 'HotWordController@getHotWord');
 Route::get('audience-interest', 'AudienceInterestController@getAudienceInterest');
