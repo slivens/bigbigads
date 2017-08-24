@@ -262,7 +262,7 @@ class PaypalService
                 Log::error("pay failed after user's agreement" . $e->getMessage());
                 return null;
             }
-            Log::info("onpay id:" . $agreement->getId());
+            Log::info("onpay id:" . $agreement->getId() . $agreement->toJson());
             return $agreement;
         }
         return null;

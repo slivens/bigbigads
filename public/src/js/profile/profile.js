@@ -155,15 +155,30 @@ angular.module('MetronicApp').component('billings', {
         var ctrl = this
         function init(force) {
             User.getInfo(force).then(function() {
+                // console.log("inited", User.info.user)
                 var user = User.info.user
                 ctrl.userInfo = User.info
                 ctrl.subscription = User.user.subscription
+                ctrl.canCancel = false
+                if (ctrl.subscription &&
+                    (ctrl.subscription.status == 'payed' ||
+                    ctrl.subscription.status == 'subscribed' ||
+                    ctrl.subscription.status == 'pending'))
+                    ctrl.canCancel = true
                 if (user.subscriptions.length > 0)
                     ctrl.lastSubscription = user.subscriptions[user.subscriptions.length - 1]
-                if (ctrl.lastSubscription &&
-                    (ctrl.lastSubscription.status == 'payed' ||
-                        ctrl.lastSubscription.status == 'subscribed'))
-                    ctrl.canCancel = true
+                if (!ctrl.lastSubscription)
+                    return
+                if (ctrl.lastSubscription.status == 'subscribed' || ctrl.lastSubscription.status == 'pending') {
+                    setTimeout(function() {
+                        // console.log("update")
+                        $scope.$apply(function() {
+                            $http.post('/subscriptions/' + ctrl.lastSubscription.agreement_id + '/sync').then(res => {
+                                init(true)
+                            })
+                        })
+                    }, 10000)
+                }
             })
         }
         ctrl.cancel = function() {
@@ -179,7 +194,11 @@ angular.module('MetronicApp').component('billings', {
                 if (isConfirm) {
                     var url = '/subscription/' + ctrl.subscription.id + '/cancel'
                     ctrl.cancelPromise = $http.post(url).then(function(res) {
-                        init(true)
+                        if (res.status == 200)
+                            init(true)
+                        else
+                            throw res
+                        // console.log("cancel:", res)
                     }).catch(function(res) {
                         SweetAlert.swal(res.data.message)
                     })
