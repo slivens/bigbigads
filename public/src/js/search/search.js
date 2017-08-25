@@ -1567,7 +1567,25 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             $q.all([countryPromise, promise]).then(function(res) {
                 // 只取首条消息
                 var ads = res[1]
+                // objective 转换为正常单词
+                var objectStr = {
+                    "APP_INSTALLS": "App Installs",
+                    "BRAND_AWARENESS": "Brand Awareness",
+                    "CANVAS_APP_INSTALLS": "Canvas App Installs",
+                    "EVENT_RESPONSES": "Event Responses",
+                    "LEAD_GENERATION": "Lead Generation",
+                    "LINK_CLICKS": "Link Clicks",
+                    "LOCAL_AWARENESS": "Local Awareness",
+                    "PAGE_LIKES": "Page Likes",
+                    "POST_ENGAGEMENT": "Post Engagement",
+                    "PRODUCT_CATALOG_SALES": "Product Catalog Sales",
+                    "REACH": "Reach",
+                    "STORE_VISITS": "Store Visits",
+                    "VIDEO_VIEWS": "Video Views",
+                    "WEBSITE_CONVERSIONS": "Website Conversions"
+                }
                 $scope.card = $scope.ad = ads.ads_info[0]
+                $scope.card.objectStr = objectStr
                 // 表示广告在分析模式下，view根据这个字段区别不同的显示
                 $scope.card.indetail = true
                 $scope.card.end = false
@@ -1642,7 +1660,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                     if ($scope.card.whyseeads.gender) {
                         var asdGender = $scope.card.whyseeads.gender
                         $scope.card.gnederPieCharts = Util.pieChartsConfig([['Male', asdGender[0]], ['Female', asdGender[1]]], '60%', ['#7cb5ec', '#ee5689'])
-                    } else $scope.crd.gnederPieCharts = false
+                    } else $scope.card.gnederPieCharts = false
                     // 广告详情-年龄分布
                     if ($scope.card.whyseeads.age) {
                         var arr1 = $scope.card.whyseeads.age.map(function(v) { return v[0] })
@@ -1678,25 +1696,23 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                         $scope.card.addrMapCharts = Util.mapChartsConfig($scope.card.whyseeads.addr, adsVisitCountryCount, 'Top countries by impression')
                     } else $scope.card.addrMapCharts = false
                 }
-                // 
-                if ($scope.card.pc_impression_rate) {
-                    var desktopNum = $scope.card.pc_impression_rate * 100
-                    var mobileNum = 100 - desktopNum
-                    var pieLegend = {
-                        enabled: false
-                        /*
-                        align: 'right',
-                        verticalAlign: 'middle',
-                        layout: 'vertical',
-                        symbolPadding: 15,
-                        itemMarginTop: 15,
-                        labelFormatter: function() {
-                            return this.name + ':' + this.y
-                        }
-                        */
+                // 设备占比，当pc为0或不存在时，怎移动设备为100%
+                var desktopNum = ($scope.card.pc_impression_rate ? $scope.card.pc_impression_rate : 0) * 100
+                var mobileNum = 100 - desktopNum
+                var pieLegend = {
+                    enabled: false
+                    /*
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    layout: 'vertical',
+                    symbolPadding: 15,
+                    itemMarginTop: 15,
+                    labelFormatter: function() {
+                        return this.name + ':' + this.y
                     }
-                    $scope.card.devicePieCharts = Util.pieChartsConfig([['Mobile', mobileNum], ['Desktop', desktopNum]], '0%', false, pieLegend)
-                } else $scope.card.devicePieCharts = false
+                    */
+                }
+                $scope.card.devicePieCharts = Util.pieChartsConfig([['Mobile', mobileNum], ['Desktop', desktopNum]], '0%', false, pieLegend)
                 searcher.findSimilar($scope.card.watermark)
             }, function(res) {
                 // console.log("error res:", res);

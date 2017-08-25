@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bigbigads Pricing | Largest Facebook Ad Examples</title>
+    <title>Bigbigads Extension | Largest Facebook Ad Examples</title>
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
     <link href="./dist/home.css?v=2.0.6" rel="stylesheet">
