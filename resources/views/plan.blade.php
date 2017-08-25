@@ -271,7 +271,7 @@
                     </tr>
                     <tr class="table-item-title">
                         <td>Objective Filter
-                            <span class="plan-small">coming soon</span>
+                            <span class="plan-beta">BETA<span>
                         </td>
                         <td>
                             <i class="plan-error"></i>
@@ -377,7 +377,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Ad Insight <span class="plan-small">coming soon</span></td>
+                        <td>Ad Insight <span class="plan-beta">BETA<span></td>
                         <td>Limited</td>
                         <td>Limited</td>
                         <td>
