@@ -28,7 +28,7 @@
                         </carousel>
                         <adcanvas ng-if="card.type == 'Canvas'" card="card"></adcanvas>
                     </div>
-                    <div class="adscard-footer">
+                    <div class="adscard-footer" ng-if="card.show_way != 4">
                         <i class="analy-fbicon icon-good"></i>
                         <i class="analy-fbicon icon-love"></i>
                         <i class="analy-fbicon icon-surp"></i>
@@ -93,8 +93,8 @@
                     <p>
                         <span class="ads-weight-bold">Share Rate:</span>
                         <span ng-if="card.share_rate">
-                            <i class="fa fa-long-arrow-up analy-trend-up" ng-if="card.share_rate > 0"></i>
-                            <i class="fa fa-long-arrow-down analy-trend-down" ng-if="card.share_rate < 0"></i>
+                            <!-- <i class="fa fa-long-arrow-up analy-trend-up" ng-if="card.share_rate > 0"></i>
+                            <i class="fa fa-long-arrow-down analy-trend-down" ng-if="card.share_rate < 0"></i> -->
                             {{(card.share_rate * 100).toFixed(2)}}%</span>
                         <span class="text-danger" ng-if="!card.share_rate">Not Enough Data</span>
                     </p>
@@ -108,8 +108,8 @@
                     <p>
                         <span class="ads-weight-bold">Like Rate:</span>
                         <span ng-if="card.like_rate">
-                                <i class="fa fa-long-arrow-up analy-trend-up" ng-if="card.like_rate > 0"></i>
-                                <i class="fa fa-long-arrow-down analy-trend-dowm" ng-if="card.like_rate < 0"></i>
+                                <!-- <i class="fa fa-long-arrow-up analy-trend-up" ng-if="card.like_rate > 0"></i>
+                                <i class="fa fa-long-arrow-down analy-trend-dowm" ng-if="card.like_rate < 0"></i> -->
                                 {{(card.like_rate * 100).toFixed(2)}}% </span>
                         <span class="text-danger" ng-if="!card.like_rate">Not Enough Data</span>
                     </p>
@@ -124,10 +124,10 @@
                 <div class="device-data device-wrapper">
                     <div class="device-pc-wrapper data-wrapper">
                         <i class="fa fa-tv device-icon ads-font-22"></i>
-                        <span class="device-num">{{(card.pc_impression_rate * 100).toFixed(1)}}%</span>
+                        <span class="device-num">{{((card.pc_impression_rate ? card.pc_impression_rate : 0) * 100).toFixed(1)}}%</span>
                     </div>
                     <div class="device-mobile-wrapper data-wrapper">
-                        <i class="fa fa-mobile device-icon ads-font-28"></i><span class="device-num">{{(100 - card.pc_impression_rate * 100).toFixed(1)}}%</span>
+                        <i class="fa fa-mobile device-icon ads-font-28"></i><span class="device-num">{{(100 - (card.pc_impression_rate? card.pc_impression_rate : 0) * 100).toFixed(1)}}%</span>
                     </div>
                 </div>
             </div>
