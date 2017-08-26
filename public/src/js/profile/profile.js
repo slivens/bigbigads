@@ -113,18 +113,10 @@ angular.module('MetronicApp').controller('ProfileController', ['$scope', '$locat
         $scope.user = user
     })
 }])
-angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User', 'Resource', function($scope, User, Resource) {
+angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User', 'Resource', 'SweetAlert', '$http', function($scope, User, Resource, SweetAlert, $http) {
     var ctrl = this
     var billings = new Resource('billings')
-    ctrl.billings = billings
-
-    ctrl.beatifyDate = function(dateStr) {
-        return dateStr.split(' ')[0]
-    }
-    ctrl.$onChanges = function(obj) {
-        if (obj.shouldInit.currentValue !== "true" || ctrl.inited)
-            return
-
+    ctrl.init = function() {
         User.getInfo().then(function() {
             // $scope.userInfo = User.info;
             // $scope.subscription = User.info.subscription;
@@ -134,13 +126,43 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
 
             ctrl.subscriptionId = user.subscription_id
             ctrl.queryPromise = billings.get().then(function() {
-                // for (i = 0; i < billings.items.length; ++i) {
-                //     if (it.subscription_id == user.subscription_id)
-                //         it.inCurrentSubscription = true
-                // })
+                billings.items.map(function(item) {
+                    // 7天以内且成功支付的订单才允许申请退款
+                    if (moment().diff(moment(item.start_date), 'days') <= 7 && item.status == 'completed' && !item.refund)
+                        item.canRefund = true
+                })
             })
             ctrl.inited = true
         })
+    }
+
+    ctrl.billings = billings
+
+    ctrl.beatifyDate = function(dateStr) {
+        return dateStr.split(' ')[0]
+    }
+    ctrl.refund = function(item) {
+        SweetAlert.swal({
+            title: "check refunding?",
+            type: "warning",
+            showCancelButton: true
+        }, function(isConfirm) {
+            if (!isConfirm)
+                return
+            // 退款成功重新获取订单
+            $http.put('/payments/' + item.number + '/refund_request').then(function(res) {
+                if (res.data.code != 0)
+                    throw res
+                ctrl.init()
+            }).catch(function(res) {
+                SweetAlert.swal(res.data.message)
+            })
+        })
+    }
+    ctrl.$onChanges = function(obj) {
+        if (obj.shouldInit.currentValue !== "true" || ctrl.inited)
+            return
+        ctrl.init()
     }
 }])
 // TODO:templateUrl通过依赖注入加时间戳
@@ -194,11 +216,9 @@ angular.module('MetronicApp').component('billings', {
                 if (isConfirm) {
                     var url = '/subscription/' + ctrl.subscription.id + '/cancel'
                     ctrl.cancelPromise = $http.post(url).then(function(res) {
-                        if (res.status == 200)
-                            init(true)
-                        else
+                        if (res.code !== 0)
                             throw res
-                        // console.log("cancel:", res)
+                        init(true)
                     }).catch(function(res) {
                         SweetAlert.swal(res.data.message)
                     })
@@ -223,7 +243,7 @@ angular.module('MetronicApp').component('billings', {
             $uibModalInstance.dismiss('cancel')
         }
         $scope.save = function(item) {
-            console.log($scope.info)
+            // console.log($scope.info)
             // $scope.promise = bookmark.save(item);
             // $scope.promise.then(function() {
             //     $uibModalInstance.dismiss('success');

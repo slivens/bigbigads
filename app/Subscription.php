@@ -56,4 +56,9 @@ class Subscription extends Model
     {
         return $this->hasMany('\App\Payment');
     }
+
+    public function isActive()
+    {
+        return $this->user->subscription_id === $this->id;
+    }
 }

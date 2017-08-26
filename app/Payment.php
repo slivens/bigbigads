@@ -6,6 +6,7 @@ use Carbon\Carbon;
 
 class Payment extends BasePayment
 {
+    const STATE_CREATED = "created";
     const STATE_PENDING = "pending";
     const STATE_COMPLETED = "completed";
     const STATE_FAILED = "failed";
@@ -29,6 +30,11 @@ class Payment extends BasePayment
     public function subscription()
     {
         return $this->belongsTo('App\Subscription');
+    }
+
+    public function refund()
+    {
+        return $this->hasOne(\App\Refund::class);
     }
 
     public function getGatewayAttribute()

@@ -25,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
         // 监听 User 模型事件
         User::observe(UserObserver::class);
         VoyagerUser::observe(UserObserver::class);
+        \App\Refund::observe(\App\Observers\RefundObserver::class);
+
 
 		//Braintree支付注册
 		\Braintree_Configuration::environment(config('services.braintree.environment'));
