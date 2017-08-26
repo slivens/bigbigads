@@ -16,7 +16,9 @@ use Stripe\Stripe;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
 use Cache;
-use \App\Jobs\SyncPaymentsJob;
+use App\Jobs\SyncPaymentsJob;
+use App\Notifications\RefundRequestNotification;
+
 class PaymentService implements PaymentServiceContract
 {
     const LOG_DEBUG = 'LOG_DEBUG';
@@ -552,6 +554,7 @@ class PaymentService implements PaymentServiceContract
         $refund->payment()->associate($payment);
         $refund->save();
         Log::info("{$payment->number} is on refunding");
+        $refund->payment->client->notify(new RefundRequestNotification($refund));
         return $refund;
     }
 

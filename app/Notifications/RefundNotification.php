@@ -9,10 +9,11 @@ use Illuminate\Notifications\Messages\MailMessage;
 use App\Refund;
 use Log;
 
-class RefundRequestNotification extends Notification
+class RefundNotification extends Notification implements ShouldQueue
 {
     use Queueable;
     public $refund;
+
     /**
      * Create a new notification instance.
      *
@@ -22,11 +23,6 @@ class RefundRequestNotification extends Notification
     {
         $this->refund = $refund;
     }
-
-    /* public function routeNotificationForMail() */
-    /* { */
-    /*     return env('ADMIN_EMAIL'); */
-    /* } */
 
     /**
      * Get the notification's delivery channels.
@@ -49,9 +45,9 @@ class RefundRequestNotification extends Notification
     {
         $refund = $this->refund;
         return (new MailMessage)
-                    ->line("{$notifiable->email} request refunding \${$refund->amount} on {$refund->payment->number}")
-                    ->action('Handle Refunding', env('APP_URL') . 'admin')
-                    ->to(env('ADMIN_EMAIL'));
+                    ->line("Your refund of order '{$refund->payment->number}' is handled, refund result:{$refund->status}. ")
+                    ->line("If you have want to know more, please contact us in our website or just reply this email")
+                    ->action('See My Billings', env('APP_URL') . 'app/profile?active=1');
     }
 
     /**

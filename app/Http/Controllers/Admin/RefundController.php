@@ -8,6 +8,7 @@ use App\Refund;
 use App\Contracts\PaymentService;
 use TCG\Voyager\Traits\AlertsMessages;
 use Voyager;
+use App\Notifications\RefundNotification;
 
 class RefundController extends Controller
 {
@@ -34,6 +35,7 @@ class RefundController extends Controller
                 'alert-type' => 'error'
             ]);
         }
+        $refund->payment->client->notify(new RefundNotification($refund));
         return back();
     }
 
@@ -49,6 +51,7 @@ class RefundController extends Controller
         }
         $refund->status = Refund::STATE_REJECTED;
         $refund->save();
+        $refund->payment->client->notify(new RefundNotification($refund));
         return back()->with([
             'message' => "{$refund->payment->number} rejected",
             'alert-type' => 'success'
