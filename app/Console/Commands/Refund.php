@@ -47,6 +47,19 @@ class Refund extends Command
             return;
         }
         $service->setLogger($this);
-        $service->refund($payment, $amount);
+        $refund = $payment->refund;
+        if (!$refund) {
+            $refund = $service->requestRefund($payment, $amount);
+            if (!$refund) {
+                $this->error("refund generate failed");
+                return;
+            }
+        }
+        if (in_array($refund->status, [\App\Refund::STATE_ACCEPTED, \App\Refund::STATE_REJECTED])) {
+            if (!$this->confirm("The refund has handled: {$refund->status}, are your sure to refund?")) {
+                return;
+            }
+        }
+        $service->refund($refund);
     }
 }
