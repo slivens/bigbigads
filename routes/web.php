@@ -188,6 +188,9 @@ Route::get('/welcome', function () {
 Route::get('/extension', function () {
     return view('extension');
 });
+Route::get('/methodology', function () {
+    return view('methodology');
+});
 
 Route::post('/subscriptions/{sid}/sync', 'SubscriptionController@sync');
 Route::get('hotword', 'HotWordController@getHotWord');

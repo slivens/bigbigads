@@ -1,4 +1,7 @@
+// 引用在线字体
+@import url('//fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,700,800,900');
 #extension {
+    font-family: 'Raleway', 'Microsoft YaHei', '\5FAE\8F6F\96C5\9ED1', "Helvetica Neue", Helvetica, Arial, sans-serif;
     .exten-banner {
         padding: 80px 0;
         background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
@@ -44,7 +47,7 @@
                 margin-top: 20px;
                 text-align: center;
                 font-size: 20px;
-                font-weight: 200;
+                font-weight: 300;
                 max-width: 300px;
             }
         }
@@ -56,8 +59,9 @@
         .bottom-con {
             display: flex;
             align-items: center;
+            justify-content: center;
             .bottom-text {
-                flex: 1;
+               margin-bottom: 0;
             }
         }
         .download-btn {
@@ -66,6 +70,7 @@
             overflow: hidden;
             border: 3px solid #fff;
             background-image: linear-gradient(to bottom, #eb6130 0%, #f8841c 100%);
+            margin-left: 20px;
             .down-icon {
                 margin-right: 8px;
             }
