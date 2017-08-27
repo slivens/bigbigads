@@ -4,10 +4,12 @@
         <ul class="col-md-3 col-sm-6">
             <li class="footer-title"> ABOUT BIGBIGADS</li>
             <li><a href="{{url('/about')}}">About Us</a></li>
+            <li><a href="{{url('/methodology')}}">Methodology</a></li>
             <li><a href="{{url('/blog')}}">Blog</a></li>
         </ul>
         <ul class="col-md-3 col-sm-6">
             <li class="footer-title"> USING BIGBIGADS</li>
+            <li><a href="{{url('./extension')}}">Extension</a></li>
             <li><a href="{{url('./product')}}">Features</a></li>
             <li><a href="{{url('/plan')}}" >Pricing&amp;Buy</a></li>
         </ul>
