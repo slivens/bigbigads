@@ -893,7 +893,8 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                     chart: {
                         type: typeData || 'line',
                         zoomType: zoomTypeData || false,
-                        spacingBottom: 0
+                        spacingBottom: 0,
+                        backgroundColor: null
                     },
                     title: false,
                     subtitle: false,
@@ -909,32 +910,6 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                         formatter: function() {
                             return '<b>' + this.series.name + '</b><br/>' +
                                 this.x + ': ' + this.y
-                        }
-                    },
-                    plotOptions: {
-                        area: {
-                            fillColor: {
-                                linearGradient: {
-                                    x1: 0,
-                                    y1: 0,
-                                    x2: 0,
-                                    y2: 1
-                                },
-                                stops: [
-                                    [0, Highcharts.getOptions().colors[0]],
-                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                                ]
-                            },
-                            marker: {
-                                radius: 2
-                            },
-                            lineWidth: 1,
-                            states: {
-                                hover: {
-                                    lineWidth: 1
-                                }
-                            },
-                            threshold: null
                         }
                     },
                     credits: {
@@ -959,7 +934,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                     chart: {
                         borderWidth: 0, // 边框
                         type: 'map',
-                        backgroundColor: false
+                        backgroundColor: null
                     },
                     colors: ['rgba(19,64,117,0.05)', 'rgba(19,64,117,0.2)', 'rgba(19,64,117,0.4)',
                         'rgba(19,64,117,0.5)', 'rgba(19,64,117,0.6)', 'rgba(19,64,117,0.8)', 'rgba(19,64,117,1)'
@@ -1020,7 +995,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
             * pieInnerSize 内径，默认60%
             * pieColor ['#fff', '#ccc']
             */
-            pieChartsConfig: function(pieData, pieInnerSize, pieColor) {
+            pieChartsConfig: function(pieData, pieInnerSize, pieColor, pieLegend) {
                 return {
                     chart: {
                         plotBackgroundColor: null,
@@ -1033,6 +1008,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                         headerFormat: null,
                         pointFormat: '<b>{point.name}:</b>{point.percentage:.1f}%'
                     },
+                    legend: pieLegend || {},
                     plotOptions: {
                         pie: {
                             allowPointSelect: false, // 点击可选
@@ -1087,7 +1063,8 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                 else barDataArr = barData
                 return {
                     chart: {
-                        type: 'bar'
+                        type: 'bar',
+                        backgroundColor: null
                     },
                     title: {
                         text: false

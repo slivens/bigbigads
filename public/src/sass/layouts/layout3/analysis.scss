@@ -7,7 +7,7 @@
         border: 1px solid red
     } // 取自facebook的表情图
     .analy-fbicon {
-        background: url(../../../../static/images/analysis/fb_icon.png) no-repeat;
+        background: url(/images/analysis/fb_icon.png) no-repeat;
         box-sizing: content-box;
         height: 16px;
         width: 16px;
@@ -41,15 +41,159 @@
     }
     .analysis-title {
         margin-top: 50px;
-        margin-bottom: 20px;
         padding: 15px;
-        border-bottom: 1px solid #337ab7;
+        border-bottom: 1px solid rgba(51, 122, 183, 0.38);
         color: #337ab7;
-    } // 概述
+    }
+    .analy-down-icon{
+        margin-right: 4px;
+    }
+    .analy-trend-up{
+        color: #4fc3a0;
+        margin: 0 5px;
+    }
+    .analy-trend-down{
+        color: #ed6b75;
+        margin: 0 5px;
+    }
+    // facebook objective 原生图标
+    .fb-oj-icon {
+        background: url('/images/analysis/object_icon.png') no-repeat;
+        box-sizing: content-box;
+        height: 24px;
+        width: 24px;
+        overflow: hidden;
+        display: inline-block;
+    }
+    .oj-APP_INSTALLS {
+        background-position: 0 -77px;
+    }
+
+    .oj-BRAND_AWARENESS {
+        background-position: 0 -102px;
+    }
+
+    .oj-CANVAS_APP_INSTALLS {
+        background-position: 0 -51px;
+    }
+
+    .oj-EVENT_RESPONSES {
+        background-position: 0 -126px;
+
+    }
+
+    .oj-LEAD_GENERATION {
+        background-position: 0 -152px;
+    }
+
+    .oj-LINK_CLICKS {
+        background-position: 0 -352px;
+    }
+
+    .oj-LOCAL_AWARENESS {
+        background-position: 0 -177px;
+    }
+
+    .oj-PAGE_LIKES {
+        background-position: 0 -227px;
+    }
+
+    .oj-POST_ENGAGEMENT {
+        background-position: 0 -251px;
+    }
+
+    .oj-PRODUCT_CATALOG_SALES {
+        background-position: 0 -2px;    
+    }
+
+    .oj-REACH {
+        background-position: 0 -277px;
+    }
+
+    .oj-STORE_VISITS {
+        background-position: 0 -302px;
+    }
+
+    .oj-VIDEO_VIEWS {
+        background-position: 0 -327px;
+    }
+
+    .oj-WEBSITE_CONVERSIONS {
+        background-position: 0 -377px;
+    }
+
+    // 概述
     .analy-overview {
         /*广告卡主体*/
         position: relative;
-        margin-top: 15px;
+        margin-top: 0px;
+        background: #fff;
+        padding-bottom: 15px;
+        .back-img{
+            position: absolute;
+            height: 100%;
+            width: auto;
+            right: 0;
+            -webkit-filter: opacity(29%);
+            filter: opacity(29%);
+            z-index: -1;
+        }
+        .overview-body{
+            padding: 15px;
+            height: 230px;
+            background: #eee;
+            overflow: visible;
+        }
+        .overview-body-bottom{
+            .info-rate{
+                display: flex;
+                .rate-wrapper{
+                    flex:1;
+                }
+
+            }
+            .info-device{
+                display: flex;
+                .device-chart{
+                    display: flex;
+                    .charts-wrapper{
+                        .charts-dev{
+                        width: 160px;
+                        height: 160px;  
+                        }
+                    }
+                }
+                .device-data{
+                    flex:1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    .data-wrapper{
+                        display: flex;
+                        align-items: center;
+                        .device-icon{
+                            width: 32px;
+                            text-align: center;
+                            margin-right: 8px; 
+                        }
+                    }
+                    .device-pc-wrapper{
+                        .device-icon{
+                            color:#337ab7
+                        }
+
+                    }
+                    .device-mobile-wrapper{
+                        margin-top: 25px;
+                        .device-icon{
+                            color:#7cb5ec
+                        }
+                    }
+
+                }
+                
+            }
+        }
         .analy-adscard {
             display: flex;
             justify-content: center;
@@ -60,6 +204,7 @@
                 padding: 12px;
                 border: 1px solid #e5e5e5;
                 border-radius: 3px;
+                box-shadow: 0px 0 10px -2px rgba(0,0,0,.35);
             }
             .adscard-footer {
                 padding: 5px;
@@ -120,6 +265,46 @@
             .aditem-caption {
                 font-size: 12px;
                 color: #90949c;
+            }
+        }
+        .analy-info {
+            .analy-info-wrapper {
+                .info-list {
+                    min-height: 24px;
+                    display: flex;
+                    align-items: center;
+                    margin: 10px 0;
+                    .info-list-name{
+                        font-size: 18px;
+                        font-weight: 600;
+                        color:#337ab7;
+                    }
+                    .info-list-value{
+                        font-size: 14px;
+                        font-weight: normal;
+                        color:#4b4f56;
+                        margin-left: 5px;
+                        display: flex;
+                        align-items: center;
+                        .ads-obje-icon{
+                            margin-right: 8px;
+
+                        }
+                    }
+                    .info-list-err{
+                        font-size: 14px;
+                        font-weight: 200;
+                        margin-left: 5px;
+                        display: flex;
+                        align-items: center;
+                        .extension-link{
+                            margin-left: 8px;
+                        }
+                    }
+                }
+                .info-but{
+                    margin-top: 35px;
+                }
             }
         }
         .analy-info.info-fixed {
@@ -314,6 +499,11 @@
     */
     @media screen and (max-width: 768px) {
         .analy-overview {
+            .overview-body{
+                height: auto;
+                padding: 0;
+                padding-bottom: 15px;
+            }
             .analy-info,
             .analy-info.info-fixed,
             .analy-info.info-position {
@@ -342,6 +532,9 @@
             .analy-info-wrapper{
                 width:345px;
             }
+        }
+        .overview-body{
+
         }
     }
 }
