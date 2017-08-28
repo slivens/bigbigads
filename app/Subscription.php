@@ -37,6 +37,11 @@ class Subscription extends Model
      */
     const STATE_SUSPENDED = "suspended";
 
+    /**
+     * 挂起订阅时的状态
+     */
+    const STATE_PENDING = "pending";
+
     public function user()
     {
         return $this->belongsTo('\App\User');
@@ -50,5 +55,10 @@ class Subscription extends Model
     public function payments()
     {
         return $this->hasMany('\App\Payment');
+    }
+
+    public function isActive()
+    {
+        return $this->user->subscription_id === $this->id;
     }
 }

@@ -113,18 +113,10 @@ angular.module('MetronicApp').controller('ProfileController', ['$scope', '$locat
         $scope.user = user
     })
 }])
-angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User', 'Resource', function($scope, User, Resource) {
+angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User', 'Resource', 'SweetAlert', '$http', function($scope, User, Resource, SweetAlert, $http) {
     var ctrl = this
     var billings = new Resource('billings')
-    ctrl.billings = billings
-
-    ctrl.beatifyDate = function(dateStr) {
-        return dateStr.split(' ')[0]
-    }
-    ctrl.$onChanges = function(obj) {
-        if (obj.shouldInit.currentValue !== "true" || ctrl.inited)
-            return
-
+    ctrl.init = function() {
         User.getInfo().then(function() {
             // $scope.userInfo = User.info;
             // $scope.subscription = User.info.subscription;
@@ -134,13 +126,43 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
 
             ctrl.subscriptionId = user.subscription_id
             ctrl.queryPromise = billings.get().then(function() {
-                // for (i = 0; i < billings.items.length; ++i) {
-                //     if (it.subscription_id == user.subscription_id)
-                //         it.inCurrentSubscription = true
-                // })
+                billings.items.map(function(item) {
+                    // 7天以内且成功支付的订单才允许申请退款
+                    if (moment().diff(moment(item.start_date), 'days') <= 7 && item.status == 'completed' && !item.refund)
+                        item.canRefund = true
+                })
             })
             ctrl.inited = true
         })
+    }
+
+    ctrl.billings = billings
+
+    ctrl.beatifyDate = function(dateStr) {
+        return dateStr.split(' ')[0]
+    }
+    ctrl.refund = function(item) {
+        SweetAlert.swal({
+            title: "check refunding?",
+            type: "warning",
+            showCancelButton: true
+        }, function(isConfirm) {
+            if (!isConfirm)
+                return
+            // 退款成功重新获取订单
+            $http.put('/payments/' + item.number + '/refund_request').then(function(res) {
+                if (res.data.code != 0)
+                    throw res
+                ctrl.init()
+            }).catch(function(res) {
+                SweetAlert.swal(res.data.message)
+            })
+        })
+    }
+    ctrl.$onChanges = function(obj) {
+        if (obj.shouldInit.currentValue !== "true" || ctrl.inited)
+            return
+        ctrl.init()
     }
 }])
 // TODO:templateUrl通过依赖注入加时间戳
@@ -155,15 +177,30 @@ angular.module('MetronicApp').component('billings', {
         var ctrl = this
         function init(force) {
             User.getInfo(force).then(function() {
+                // console.log("inited", User.info.user)
                 var user = User.info.user
                 ctrl.userInfo = User.info
                 ctrl.subscription = User.user.subscription
+                ctrl.canCancel = false
+                if (ctrl.subscription &&
+                    (ctrl.subscription.status == 'payed' ||
+                    ctrl.subscription.status == 'subscribed' ||
+                    ctrl.subscription.status == 'pending'))
+                    ctrl.canCancel = true
                 if (user.subscriptions.length > 0)
                     ctrl.lastSubscription = user.subscriptions[user.subscriptions.length - 1]
-                if (ctrl.lastSubscription &&
-                    (ctrl.lastSubscription.status == 'payed' ||
-                        ctrl.lastSubscription.status == 'subscribed'))
-                    ctrl.canCancel = true
+                if (!ctrl.lastSubscription)
+                    return
+                if (ctrl.lastSubscription.status == 'subscribed' || ctrl.lastSubscription.status == 'pending') {
+                    setTimeout(function() {
+                        // console.log("update")
+                        $scope.$apply(function() {
+                            $http.post('/subscriptions/' + ctrl.lastSubscription.agreement_id + '/sync').then(function(res) {
+                                init(true)
+                            })
+                        })
+                    }, 10000)
+                }
             })
         }
         ctrl.cancel = function() {
@@ -179,6 +216,8 @@ angular.module('MetronicApp').component('billings', {
                 if (isConfirm) {
                     var url = '/subscription/' + ctrl.subscription.id + '/cancel'
                     ctrl.cancelPromise = $http.post(url).then(function(res) {
+                        if (res.code !== 0)
+                            throw res
                         init(true)
                     }).catch(function(res) {
                         SweetAlert.swal(res.data.message)
@@ -204,7 +243,7 @@ angular.module('MetronicApp').component('billings', {
             $uibModalInstance.dismiss('cancel')
         }
         $scope.save = function(item) {
-            console.log($scope.info)
+            // console.log($scope.info)
             // $scope.promise = bookmark.save(item);
             // $scope.promise.then(function() {
             //     $uibModalInstance.dismiss('success');

@@ -13,6 +13,7 @@ use App\Plan;
 use App\Subscription;
 use App\Webhook;
 use App\Coupon;
+use App\Refund;
 use App\Services\PaypalService;
 use Carbon\Carbon;
 use Payum\LaravelPackage\Controller\PayumController;
@@ -22,6 +23,7 @@ use Payum\Core\Model\Payment;
 use App\Payment as OurPayment;
 use App\Contracts\PaymentService;
 use App\Jobs\SyncPaymentsJob;
+use App\Jobs\SyncSubscriptionsJob;
 
 final class SubscriptionController extends PayumController
 {
@@ -30,6 +32,14 @@ final class SubscriptionController extends PayumController
     public function __construct(PaymentService $paymentService)
     {
         $this->paymentService = $paymentService;
+    }
+
+    /**
+     * 目前错误的返回统一以422作为Response返回码
+     */
+    public function responseError($desc, $code = -1) 
+    {
+        return response(["code"=>$code, "desc"=> $desc], 422);
     }
 
     /**
@@ -151,7 +161,7 @@ final class SubscriptionController extends PayumController
     public function billings()
     {
         $user = Auth::user();
-        return $user->payments()->orderBy('created_at', 'desc')->get();
+        return $user->payments()->with('refund')->orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -187,20 +197,25 @@ final class SubscriptionController extends PayumController
         if (!($subscription instanceof Subscription)) {
             abort(401, "no subscription found");
         }
-
         $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
 
-        $payment = $service->onPay($request);
+        $agreement = $service->onPay($request);
         //中途取消的情况下返回profile页面
-        if ($payment == null) return redirect('/app/profile?active=0');
-            //abort(401, "error on payment");
-        $subscription->agreement_id = $payment->getId();
+        if ($agreement == null) return redirect('/app/profile?active=0');
+        //abort(401, "error on agreement");
+        $subscription->agreement_id = $agreement->getId();
         $subscription->quantity = 1;
         $subscription->status = Subscription::STATE_SUBSCRIBED;
         $subscription->save();
+        $subscription->user->subscription_id = $subscription->id;
+        $subscription->user->save();
+        if (strtolower($agreement->getState()) != 'active') {
+            return redirect('/app/profile?active=0');
+        }
 
+        $this->paymentService->syncPayments([], $subscription);
         // 完成订阅后10秒后就去同步，基本上订单都已产生；如果没有产生，3分钟后再次同步试。同时webhook如果有收到，也会去同步。
-        dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(5)));
+        dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(10)));
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addMinutes(3)));
         return redirect('/app/profile?active=0');
     }
@@ -409,10 +424,35 @@ final class SubscriptionController extends PayumController
     {
         $user = Auth::user();
         $sub = Subscription::where(['id' => $id, 'user_id' => $user->id])->first();
+        if ($sub->status == Subscription::STATE_CANCLED) {
+            return ['code' => 0, 'desc' => 'success'];
+        }
         if ($sub->status != Subscription::STATE_SUBSCRIBED && $sub->status != Subscription::STATE_PAYED)
-            return ['code' => -1, 'desc' => "not a valid state:{$sub->status}"];
+            return new Response(['code' => -1, 'desc' => "not a valid state:{$sub->status}"]);
         if (!$this->paymentService->cancel($sub))
             return ['code' => -1, 'desc' => "cancel failed"];
         return ['code' => 0, 'desc' => 'success'];
     }
+
+    public function sync($sid)
+    {
+        $sub = Subscription::where('agreement_id', $sid)->first();
+        if (!$sub)
+            return ['code' => -1, 'desc' => "$sid not found"];
+        $this->paymentService->syncSubscriptions([], $sub);
+        $this->paymentService->syncPayments([], $sub);
+        return ['code' => 0, 'desc' => 'success'];
+    }
+
+    public function requestRefund($no)
+    {
+        $payment = OurPayment::where('number', $no)->first();
+        if (!$payment)
+            return $this->responseError("no such payment $no", -1);
+        if ($payment->refund)
+            return $this->responseError("you have request refunding before", -1);
+        $refund = $this->paymentService->requestRefund($payment);
+        return ['code' => 0, 'desc' => 'success'];
+    }
+
 }

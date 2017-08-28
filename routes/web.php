@@ -83,6 +83,8 @@ Route::get('/privacy_policy',function(){
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+    Route::get('/refunds/{id}/accept', 'Admin\RefundController@acceptRefund')->name('refund_accept');
+    Route::get('/refunds/{id}/reject', 'Admin\RefundController@rejectRefund')->name('refund_reject');
 });
 
 Route::get('/ranking', function(Request $req) {
@@ -118,6 +120,7 @@ Route::group(['middleware'=>'auth'], function() {
 		], storage_path('invoice'));
     });
     Route::post('changepwd', 'UserController@changepwd');
+    Route::put('/payments/{number}/refund_request', 'SubscriptionController@requestRefund');
 
 });
 
@@ -185,7 +188,11 @@ Route::get('/welcome', function () {
 Route::get('/extension', function () {
     return view('extension');
 });
+Route::get('/methodology', function () {
+    return view('methodology');
+});
 
+Route::post('/subscriptions/{sid}/sync', 'SubscriptionController@sync');
 Route::get('hotword', 'HotWordController@getHotWord');
 Route::get('audience-interest', 'AudienceInterestController@getAudienceInterest');
 

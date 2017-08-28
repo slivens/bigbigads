@@ -133,9 +133,9 @@ class DataTypesTableSeeder extends Seeder
                 'model_name' => 'App\\Affiliate',
                 'description' => '',
                 'generate_permissions' => 1,
-                'server_side' => 0,
+                'server_side' => 1,
                 'created_at' => '2017-05-30 22:58:36',
-                'updated_at' => '2017-05-30 23:00:04',
+                'updated_at' => '2017-08-26 23:00:50',
             ),
             8 => 
             array (
@@ -151,6 +151,21 @@ class DataTypesTableSeeder extends Seeder
                 'server_side' => 0,
                 'created_at' => '2017-06-12 14:31:07',
                 'updated_at' => '2017-06-12 14:38:06',
+            ),
+            9 => 
+            array (
+                'id' => 12,
+                'name' => 'refunds',
+                'slug' => 'refunds',
+                'display_name_singular' => '退款申请单',
+                'display_name_plural' => '退款申请单',
+                'icon' => '',
+                'model_name' => 'App\\Refund',
+                'description' => 'AAA',
+                'generate_permissions' => 1,
+                'server_side' => 1,
+                'created_at' => '2017-08-26 12:08:59',
+                'updated_at' => '2017-08-26 22:57:51',
             ),
         ));
         

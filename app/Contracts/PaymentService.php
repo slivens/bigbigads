@@ -33,8 +33,9 @@ interface PaymentService
      * 3. 当用户被循环扣款后，通过该命令同步用户的过期时间
      * 4. 当用户退款时，通过该命令设置用户的过期时间和切换计划
      * @param Array $gateways 为空值时表示同步所有计划;否则同步指定的计划。每个数组项应从GATEWAY_*中取值。
+     * @param mixed $subscription 指定同步的订阅，如果指明该参数将只同步该订阅
      */
-    public function syncPayments(Array $gateways, $subscription);
+    public function syncPayments(Array $gateways, $subscription = null);
 
 
     /**
@@ -44,7 +45,7 @@ interface PaymentService
      * 3. 一个用户可能有多个订阅，除用户设置的订阅外，其他全部自动取消
      * 4. 对7天内即可到期的活动订阅推到队列，在到期前5小时执行syncPayments(这边的时间设计是比较随意的，只要订单完成后，过期时间前即可）
      * @param Array $gateways 为空值时表示同步所有计划;否则同步指定的计划。每个数组项应从GATEWAY_*中取值。
-     * @param \App\Subscription $subscription 指定同步的订阅，如果指明该参数将只同步该订阅
+     * @param mixed $subscription 指定同步的订阅，如果指明该参数将只同步该订阅
      */
     public function syncSubscriptions(Array $gateways, $subscription);
 
@@ -62,9 +63,24 @@ interface PaymentService
     public function getRawService($gateway);
 
     /**
-     * 取消订阅
+     * 取消指定订阅
      * @param Subscription $subscription
      * @return boolean
      */
     public function cancel(\App\Subscription $subscription);
+
+
+    /**
+     * 申请退款
+     * @param \App\Payment $payment 支付订单
+     * @param $amount 如果为0则全额退款，否则按照$amount的金额退款
+     */
+    public function requestRefund(\App\Payment $payment, $amount = 0);
+
+    /**
+     * 退款
+     * @param \App\Refund $refund 退款记录
+     * @return boolean
+     */
+    public function refund(\App\Refund $refund);
 }

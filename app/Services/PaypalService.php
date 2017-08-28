@@ -14,6 +14,10 @@ use PayPal\Api\ShippingAddress;
 use PayPal\Api\Patch;
 use PayPal\Api\PatchRequest;
 use PayPal\Common\PayPalModel;
+use PayPal\Api\Amount;
+use PayPal\Api\Refund;
+use PayPal\Api\RefundRequest;
+use PayPal\Api\Sale;
 use Carbon\Carbon;
 use Log;
 
@@ -94,7 +98,7 @@ class PaypalService
         // ### Create Plan
         try {
             $output = $plan->create($apiContext);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             return false;
         }
 		$patch = new Patch();
@@ -395,10 +399,47 @@ class PaypalService
             return $output->getVerificationStatus() == 'SUCCESS';
         } catch (PayPal\Exception\PayPalConnectionException $pce) {
                 Log::error("verify webhook connection error with: " . $pce->getMessage());
-         } catch (Exception $ex) {
+         } catch (\Exception $ex) {
             Log::info('verify webhook error: '.  $ex->getMessage());
             return false;
         }
         return false;
+    }
+
+    /**
+     * @param $saleId 订单号
+	 */
+    public function refund($saleId, $currency, $amount) {
+        $apiContext = $this->getApiContext();
+		$amt = new Amount();
+		$amt->setCurrency($currency)
+			->setTotal($amount);
+		$refundRequest = new RefundRequest();
+		$refundRequest->setAmount($amt);		
+        $sale = new Sale();
+        $sale->setId($saleId);
+        try {
+            $refundedSale = $sale->refundSale($refundRequest, $apiContext);
+        } catch (\Exception $ex) {
+            Log::info("refund failed: " . $ex->getMessage());
+            return null;
+        }
+        return $refundedSale;
+    }
+
+    /**
+     * 获取交易记录细节
+     * @param $saleId 订单号
+     * @remark 买家订单号与卖家订单号不一样，并且没办法通过API获取到买家订单号，但是买家提供订单号时，可以通过本接口查询。知道它属于哪个agreement。
+     */
+    public function sale($saleId) {
+        $apiContext = $this->getApiContext();
+        try {
+            $sale = Sale::get($saleId, $apiContext);
+        } catch (\Exception $ex) {
+            Log::info("get sale failed: " . $ex->getMessage());
+            return null;
+        }
+        return $sale;
     }
 }

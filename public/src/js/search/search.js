@@ -458,7 +458,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 option.filter.lang = search.lang.split(",")
             }
             if (search.state) {
-                option.filter.state = search.state
+                search.state instanceof Array ? option.filter.state = search.state : option.filter.state = search.state.split(",")
             }
             if (search.domain) {
                 option.domain = JSON.parse(search.domain)
@@ -474,34 +474,34 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 // Util.matchkey(search.format, option.filter.format);
             }
             if (search.buttondesc) {
-                option.filter.callToAction = search.buttondesc
+                search.buttondesc instanceof Array ? option.filter.callToAction = search.buttondesc : option.filter.callToAction = search.buttondesc.split(",")
                 // Util.matchkey(search.buttondesc, option.filter.buttondesc);
             }
             if (search.tracking) {
-                option.filter.tracking = search.tracking
+                search.tracking instanceof Array ? option.filter.tracking = search.tracking : option.filter.tracking = search.tracking.split(",")
             }
             if (search.affiliate) {
-                option.filter.affiliate = search.affiliate
+                search.affiliate instanceof Array ? option.filter.affiliate = search.affiliate : option.filter.affiliate = search.affiliate.split(",")
             }
             if (search.ecommerce) {
-                option.filter.ecommerce = search.ecommerce
+                search.ecommerce instanceof Array ? option.filter.ecommerce = search.ecommerce : option.filter.ecommerce = search.ecommerce.split(",")
             }
             if (search.firstSeeStartDate && search.firstSeeEndDate) {
                 option.filter.firstSee.startDate = moment(search.firstSeeStartDate, 'YYYY-MM-DD')
                 option.filter.firstSee.endDate = moment(search.firstSeeEndDate, 'YYYY-MM-DD')
             }
             if (search.audienceAge) {
-                option.filter.audienceAge = search.audienceAge
+                search.audienceAge instanceof Array ? option.filter.audienceAge = search.audienceAge : option.filter.audienceAge = search.audienceAge.split(",")
             }
             if (search.audienceGender) {
                 // 性别受众为单选，使用split(",")处理会出错
                 option.filter.audienceGender = search.audienceGender
             }
             if (search.audienceInterest) {
-                option.filter.audienceInterest = search.audienceInterest
+                search.audienceInterest instanceof Array ? option.filter.audienceInterest = search.audienceInterest : option.filter.audienceInterest = search.audienceInterest.split(",")
             }
             if (search.objective) {
-                option.filter.objective = search.objective
+                search.objective instanceof Array ? option.filter.objective = search.objective : option.filter.objective = search.objective.split(",")
             }
             // #issues 11 连带发现的问题，刷新参数未保存
             if (search.duration) {
@@ -515,9 +515,6 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
             if (search.seeTimes) {
                 seeTimes = JSON.parse(search.seeTimes)
                 option.filter.seeTimes = angular.extend(option.filter.seeTimes, seeTimes)
-            }
-            if (search.audienceInterest) {
-                option.filter.audienceInterest = search.audienceInterest
             }
         }
         return searcher
@@ -1583,123 +1580,159 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             })
             $q.all([countryPromise, promise]).then(function(res) {
                 // 只取首条消息
-                if (User.done) {
-                    if (!User.login) {
-                        window.open('/login', '_self')
-                    }
-                    var ads = res[1]
-                    $scope.card = $scope.ad = ads.ads_info[0]
-                    // 表示广告在分析模式下，view根据这个字段区别不同的显示
-                    $scope.card.indetail = true
-                    $scope.card.end = false
-                    if ($scope.card.whyseeads_all)
-                        $scope.card.whyseeads_all = $scope.card.whyseeads_all.split('\n')
+                if (!User.done)
+                    return
+                if (!User.login) {
+                    window.open('/login', '_self')
+                }
+                var ads = res[1]
+                // objective 转换为正常单词
+                var objectStr = {
+                    "APP_INSTALLS": "App Installs",
+                    "BRAND_AWARENESS": "Brand Awareness",
+                    "CANVAS_APP_INSTALLS": "Canvas App Installs",
+                    "EVENT_RESPONSES": "Event Responses",
+                    "LEAD_GENERATION": "Lead Generation",
+                    "LINK_CLICKS": "Link Clicks",
+                    "LOCAL_AWARENESS": "Local Awareness",
+                    "PAGE_LIKES": "Page Likes",
+                    "POST_ENGAGEMENT": "Post Engagement",
+                    "PRODUCT_CATALOG_SALES": "Product Catalog Sales",
+                    "REACH": "Reach",
+                    "STORE_VISITS": "Store Visits",
+                    "VIDEO_VIEWS": "Video Views",
+                    "WEBSITE_CONVERSIONS": "Website Conversions"
+                }
+                $scope.card = $scope.ad = ads.ads_info[0]
+                $scope.card.objectStr = objectStr
+                // 表示广告在分析模式下，view根据这个字段区别不同的显示
+                $scope.card.indetail = true
+                $scope.card.end = false
+                if ($scope.card.whyseeads_all)
+                    $scope.card.whyseeads_all = $scope.card.whyseeads_all.split('\n')
 
-                    // 广告impression
-                    if ($scope.card.impression_trend) {
-                        arr = JSON.parse($scope.card.impression_trend)
-                        var time
-                        var key
-                        for (key in arr) {
-                            time = key
+                // 广告impression
+                if ($scope.card.impression_trend) {
+                    arr = JSON.parse($scope.card.impression_trend)
+                    var time
+                    var key
+                    for (key in arr) {
+                        time = key
+                    }
+                    /*
+                     * 查看几天天数可修改
+                     * impression 可能存空值
+                     * 将["2017-03-21":{"12","11"...}] 转为 [{"03-21","12"},{"03-22","11"}...]
+                     * getTrendArr(开始的时间，长度， 每天的访问量数组)
+                     */
+                    var impressionArr = arr[time] ? Util.getTrendArr(time, 7, arr[time]) : false
+                    if (impressionArr) {
+                        // 对器数组进行判断，如果是七天中超过5天为无效数据，则判断该数据无效
+                        var impressionValid = 0
+                        for (var item in impressionArr.map(function(v) { return v[1] })) {
+                            impressionArr.map(function(v) { return v[1] })[item] && impressionValid++
+                        }
+                        if (impressionValid >= 5) {
+                            // 通用折线配置 lineCharsConfig(typeData[类型], xAxisData[X轴数据*], seriesName[数据名称], seriesData[数据*], zoomTypeData[数据放大])
+                            $scope.card.impressionCharts = Util.lineChartsConfig('area', impressionArr.map(function(v) { return v[0] }), 'Impression', impressionArr.map(function(v) { return v[1] }))
+                        } else $scope.card.impressionCharts = false
+                    } else {
+                        $scope.card.impressionCharts = false // 对于提供时间错误的，或则数据长度小于3的则不显示
+                    }
+                }
+                // engagements_trend
+                if ($scope.card.engagements_trend) {
+                    arr = JSON.parse($scope.card.engagements_trend)
+                    // engagements_trend.trend 存在null 值
+                    var engagementsArr = arr.trend ? Util.getTrendArr(arr.day, 0, arr.trend) : false
+                    if (engagementsArr) {
+                        $scope.card.engagementsCharts = Util.lineChartsConfig('area', engagementsArr.map(function(v) { return v[0] }), 'Engagements', engagementsArr.map(function(v) { return v[1] }), 'x')
+                    } else {
+                        $scope.card.engagementsCharts = false
+                    }
+                }
+                // 如果whyseeads不为空，填充到广告趋势
+                if ($scope.card.whyseeads) {
+                    // $scope.card.whyseeads = $scope.card.whyseeads.split('\n');
+                    $scope.card.whyseeads = JSON.parse($scope.card.whyseeads)
+
+                    // 计算interesting的总数
+                    if ($scope.card.whyseeads.interests) {
+                        var interestsCount = 0
+                        $scope.interestsArr = []
+                        for (key in $scope.card.whyseeads.interests) {
+                            $scope.interestsArr.push({
+                                'name': key,
+                                'value': $scope.card.whyseeads.interests[key]
+                            })
+
+                            interestsCount += $scope.card.whyseeads.interests[key]
                         }
                         /*
-                         * 查看几天天数可修改
-                         * impression 可能存空值
-                         * 将["2017-03-21":{"12","11"...}] 转为 [{"03-21","12"},{"03-22","11"}...]
-                         * getTrendArr(开始的时间，长度， 每天的访问量数组)
+                         * 对数组的value进行排序,具体用法见common.js
+                         * srrSort(整个数组，要根据排序的名称，正序0/逆序1)
                          */
-                        var impressionArr = arr[time] ? Util.getTrendArr(time, 7, arr[time]) : false
-                        if (impressionArr) {
-                            // 对器数组进行判断，如果是七天中超过5天为无效数据，则判断该数据无效
-                            var impressionValid = 0
-                            for (var item in impressionArr.map(function(v) { return v[1] })) {
-                                impressionArr.map(function(v) { return v[1] })[item] && impressionValid++
-                            }
-                            if (impressionValid >= 5) {
-                                // 通用折线配置 lineCharsConfig(typeData[类型], xAxisData[X轴数据*], seriesName[数据名称], seriesData[数据*], zoomTypeData[数据放大])
-                                $scope.card.impressionCharts = Util.lineChartsConfig('area', impressionArr.map(function(v) { return v[0] }), 'Impression', impressionArr.map(function(v) { return v[1] }))
-                            } else $scope.card.impressionCharts = false
-                        } else {
-                            $scope.card.impressionCharts = false // 对于提供时间错误的，或则数据长度小于3的则不显示
-                        }
+                        $scope.interestsArr = Util.arrSort($scope.interestsArr, "value", 1)
+                        $scope.interestsArr.count = interestsCount
                     }
-                    // engagements_trend
-                    if ($scope.card.engagements_trend) {
-                        arr = JSON.parse($scope.card.engagements_trend)
-                        // engagements_trend.trend 存在null 值
-                        var engagementsArr = arr.trend ? Util.getTrendArr(arr.day, 0, arr.trend) : false
-                        if (engagementsArr) {
-                            $scope.card.engagementsCharts = Util.lineChartsConfig('area', engagementsArr.map(function(v) { return v[0] }), 'Impression', engagementsArr.map(function(v) { return v[1] }), 'x')
-                        } else {
-                            $scope.card.engagementsCharts = false
+                    // 广告详情-性别比例
+                    if ($scope.card.whyseeads.gender) {
+                        var asdGender = $scope.card.whyseeads.gender
+                        $scope.card.gnederPieCharts = Util.pieChartsConfig([['Male', asdGender[0]], ['Female', asdGender[1]]], '60%', ['#7cb5ec', '#ee5689'])
+                    } else $scope.card.gnederPieCharts = false
+                    // 广告详情-年龄分布
+                    if ($scope.card.whyseeads.age) {
+                        var arr1 = $scope.card.whyseeads.age.map(function(v) { return v[0] })
+                        var arr2 = $scope.card.whyseeads.age.map(function(v) { return v[1] })
+                        // 堆叠分布 barChartsConfig(barXAxis[X轴数据], barData[数据*], barPercent[以百分号形式显示])
+                        $scope.card.ageBarCharts = Util.barChartsConfig(
+                            ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'], [{
+                                name: 'Male',
+                                data: arr1
+                            }, {
+                                name: 'Female',
+                                data: arr2
+                            }],
+                            true, // 以百分比形式显示
+                            ['#7cb5ec', '#ee5689']
+                        )
+                    } else $scope.card.ageBarCharts = false
+                    // 国家分布
+                    if ($scope.card.whyseeads.addr) {
+                        // 将country里的值改为大写,并转换全称
+                        for (key in $scope.card.whyseeads.addr) {
+                            var countryShortName = $scope.card.whyseeads.addr[key].country.toUpperCase() // 转换成大写
+                            $scope.card.whyseeads.addr[key].country = countryShortName
+                            $scope.card.whyseeads.addr[key].name = vm.countries[countryShortName] ? vm.countries[countryShortName].name : countryShortName // 添加全称 
                         }
-                    }
-                    // 如果whyseeads不为空，填充到广告趋势
-                    if ($scope.card.whyseeads) {
-                        // $scope.card.whyseeads = $scope.card.whyseeads.split('\n');
-                        $scope.card.whyseeads = JSON.parse($scope.card.whyseeads)
-
-                        // 计算interesting的总数
-                        if ($scope.card.whyseeads.interests) {
-                            var interestsCount = 0
-                            $scope.interestsArr = []
-                            for (key in $scope.card.whyseeads.interests) {
-                                $scope.interestsArr.push({
-                                    'name': key,
-                                    'value': $scope.card.whyseeads.interests[key]
-                                })
-
-                                interestsCount += $scope.card.whyseeads.interests[key]
-                            }
-                            /*
-                             * 对数组的value进行排序,具体用法见common.js
-                             * srrSort(整个数组，要根据排序的名称，正序0/逆序1)
-                             */
-                            $scope.interestsArr = Util.arrSort($scope.interestsArr, "value", 1)
-                            $scope.interestsArr.count = interestsCount
+                        // 计算总数
+                        var adsVisitCountryCount = 0
+                        for (key in $scope.card.whyseeads.addr) {
+                            adsVisitCountryCount += $scope.card.whyseeads.addr[key].value
                         }
-                        // 广告详情-性别比例
-                        if ($scope.card.whyseeads.gender) {
-                            var asdGender = $scope.card.whyseeads.gender
-                            $scope.card.gnederPieCharts = Util.pieChartsConfig([['Male', asdGender[0]], ['Female', asdGender[1]]], '60%')
-                        } else $scope.crd.gnederPieCharts = false
-                        // 广告详情-年龄分布
-                        if ($scope.card.whyseeads.age) {
-                            var arr1 = $scope.card.whyseeads.age.map(function(v) { return v[0] })
-                            var arr2 = $scope.card.whyseeads.age.map(function(v) { return v[1] })
-                            // 堆叠分布 barChartsConfig(barXAxis[X轴数据], barData[数据*], barPercent[以百分号形式显示])
-                            $scope.card.ageBarCharts = Util.barChartsConfig(
-                                ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'], [{
-                                    name: 'Male',
-                                    data: arr1
-                                }, {
-                                    name: 'Female',
-                                    data: arr2
-                                }],
-                                true // 以百分比形式显示
-                            )
-                        } else $scope.card.ageBarCharts = false
-                        // 国家分布
-                        if ($scope.card.whyseeads.addr) {
-                            // 将country里的值改为大写,并转换全称
-                            for (key in $scope.card.whyseeads.addr) {
-                                var countryShortName = $scope.card.whyseeads.addr[key].country.toUpperCase() // 转换成大写
-                                $scope.card.whyseeads.addr[key].country = countryShortName
-                                $scope.card.whyseeads.addr[key].name = vm.countries[countryShortName] ? vm.countries[countryShortName].name : countryShortName // 添加全称 
-                            }
-                            // 计算总数
-                            var adsVisitCountryCount = 0
-                            for (key in $scope.card.whyseeads.addr) {
-                                adsVisitCountryCount += $scope.card.whyseeads.addr[key].value
-                            }
-                            $scope.card.whyseeads.count = adsVisitCountryCount
-                            // 国家图表 mapChartsConfig(mapData[国家数据], mapValueCount[数据总数], mapName[标题名称], mapLegend[是否显示图例])
-                            $scope.card.addrMapCharts = Util.mapChartsConfig($scope.card.whyseeads.addr, adsVisitCountryCount, 'Top countries by impression')
-                        } else $scope.card.addrMapCharts = false
-                    }
-                    searcher.findSimilar($scope.card.watermark)
+                        $scope.card.whyseeads.count = adsVisitCountryCount
+                        // 国家图表 mapChartsConfig(mapData[国家数据], mapValueCount[数据总数], mapName[标题名称], mapLegend[是否显示图例])
+                        $scope.card.addrMapCharts = Util.mapChartsConfig($scope.card.whyseeads.addr, adsVisitCountryCount, 'Top countries by impression')
+                    } else $scope.card.addrMapCharts = false
                 }
+                // 设备占比，当pc为0或不存在时，怎移动设备为100%
+                var desktopNum = ($scope.card.pc_impression_rate ? $scope.card.pc_impression_rate : 0) * 100
+                var mobileNum = 100 - desktopNum
+                var pieLegend = {
+                    enabled: false
+                    /*
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    layout: 'vertical',
+                    symbolPadding: 15,
+                    itemMarginTop: 15,
+                    labelFormatter: function() {
+                        return this.name + ':' + this.y
+                    }
+                    */
+                }
+                $scope.card.devicePieCharts = Util.pieChartsConfig([['Mobile', mobileNum], ['Desktop', desktopNum]], '0%', false, pieLegend)
+                searcher.findSimilar($scope.card.watermark)
             }, function(res) {
                 // console.log("error res:", res);
                 $scope.card.end = true
