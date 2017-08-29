@@ -107,7 +107,7 @@
 
                     <span ng-if="(adSearcher.ads.all_total_count == adSearcher.ads.total_count || !adSearcher.ads.all_total_count) && adSearcher.ads.total_count != 0">Found <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> Matching Ads </span>
                     <span ng-if="adSearcher.ads.all_total_count && adSearcher.ads.all_total_count != adSearcher.ads.total_count">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}} </span> Matching Ads, You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> results <a class="font-yellow-gold xg-upgrade-button" ng-click="upgrade()"> Upgrade Now</a></span>
-                    <span ng-if="adSearcher.ads.total_count == 0">Your search did not match any results.</span>
+                    <span ng-if="adSearcher.ads.total_count == 0 && adSearcher.ads.all_total_count == 0">Your search did not match any results.</span>
                     <!-- <span ng-if="(User.info.user.role.name != 'Free') && (adSearcher.ads.total_count == 0)">Your search did not match any results.</span> -->
                     <!-- <button class="btn yellow-gold btn-lg" ng-click="showStatics()">analysis</button> -->
                     <i class="fa fa-hand-o-right font-yellow-gold xg-analysis" ng-if="User.can('ad_analysis')" ng-click="showStatics()"></i>
@@ -347,8 +347,8 @@
     <div class="dashboard-stat dashboard-stat-v2 col-md-12 xg-limited-banner">
         <div ng-if="adSearcher.ads.total_count!=0">
             <div class="text-center col-md-7">
-                <p ng-if="User.info.user.role.name == 'Standard'">You can only see 300 results per search in standard level.Please contact us if you need to see more: help@bigbigads.com</p>
-                <p ng-if="User.info.user.role.name == 'Free'">You can only see 100 results per search in free level.Please contact us if you need to see more: help@bigbigads.com</p>
+                <p ng-if="User.info.user.role.plan == 'standard'">You can only see 300 results per search in standard level.Please contact us if you need to see more: help@bigbigads.com</p>
+                <p ng-if="User.info.user.role.plan == 'free'">You can only see 100 results per search in free level.Please contact us if you need to see more: help@bigbigads.com</p>
             </div>
             <div class="col-md-5" ng-include="'tpl/register.html' | nocache">
             </div>

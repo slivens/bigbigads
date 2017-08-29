@@ -8,6 +8,7 @@ import './../../sass/layouts/layout3/themes/yellow-orange.scss'
 
 /***
 Metronic AngularJS App Main Script
+modify in 20170829
 ***/
 window.moment = require('moment')
 
