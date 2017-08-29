@@ -10,7 +10,7 @@
     <meta content="The bigbigads.com's phone interface is being maintained" name="description" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
-    <link href="./dist/home.css?v=1" rel="stylesheet">
+    <link href="./dist/home.css?v=2.0.5" rel="stylesheet">
     <!-- END GLOBAL MANDATORY STYLES -->
     <link rel="shortcut icon" type="image/x-icon" href="static/images/favicon.ico" media="screen">
 <style type="text/css">
@@ -93,13 +93,9 @@
         line-height: 20px; 
     }
 
-    /*移动端显示*/
+    /*show on mobile*/
     @media screen and (max-width: 768px) {
-        /*移动端维护页面*/
-        /*采用淘宝移动端适配方案
-        *设计稿采用iphone6，即宽度为375pt
-        *界面内容的大小设置应为（设计大小px/37.5）rem，也可采用css3的calc计算
-        */
+        /* with iphone desiner*/
         html {
             font-size: calc(100vw / 10);
         }
@@ -143,8 +139,7 @@
         }
     }
 </style>
-<!-- 根据谷歌Tag Assistant插件提示做修改 -->
-<!-- 谷歌统计代码 -->
+<!-- Google statistics code -->
 @include('tpl.script')
 <script>
   /*
@@ -156,8 +151,7 @@
     eventLabel: 'social_facebook'
   });
   */
-  /*发送谷歌事件*/
-  //需求更改，询问google客服得知以异步的请求谷歌统计和转化代码是在48小时后生效且不一定成功
+  /*Send Google events*/
   var href = window.location.href;
   var params = href.split("?");
   var socialite = params[1].split("=");
