@@ -514,7 +514,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                     // 判断计划是错误做法，应该是判断用户是否有订阅
                     if (sub) {
                         SweetAlert.swal({
-                            title: "You had subscribed. Wanna change your plan?",
+                            title: "You have a subscription already. Contact help@bigbigads.com",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#DD6B55",
@@ -524,7 +524,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                             closeOnCancel: true },
                         function(isConfirm) {
                             if (isConfirm) {
-                                window.open("mailto:sale@bigbigads.com", '_self')
+                                window.open("mailto:help@bigbigads.com", '_self')
                             }
                         })
                         return false

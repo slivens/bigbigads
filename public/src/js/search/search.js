@@ -1454,12 +1454,10 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             $scope.filter($scope.filterOption, action)
             if (User.info.user.role.plan === 'free') {
                 if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 2) {
-                    console.log($scope.adSearcher.params.where.length)
                     $scope.currSearchOption.isdirty = true
                 }
             } else {
                 if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 1) {
-                    console.log($scope.adSearcher.params.where.length)
                     $scope.currSearchOption.isdirty = true
                 }
             }
