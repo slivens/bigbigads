@@ -458,7 +458,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 option.filter.lang = search.lang.split(",")
             }
             if (search.state) {
-                search.state instanceof Array ? option.filter.state = search.state : option.filter.state = search.state.split(",")
+                option.filter.state = search.state instanceof Array ? search.state : search.state.split(",")
             }
             if (search.domain) {
                 option.domain = JSON.parse(search.domain)
@@ -474,34 +474,34 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 // Util.matchkey(search.format, option.filter.format);
             }
             if (search.buttondesc) {
-                search.buttondesc instanceof Array ? option.filter.callToAction = search.buttondesc : option.filter.callToAction = search.buttondesc.split(",")
+                option.filter.callToAction = search.buttondesc instanceof Array ? search.buttondesc : search.buttondesc.split(",")
                 // Util.matchkey(search.buttondesc, option.filter.buttondesc);
             }
             if (search.tracking) {
-                search.tracking instanceof Array ? option.filter.tracking = search.tracking : option.filter.tracking = search.tracking.split(",")
+                option.filter.tracking = search.tracking instanceof Array ? search.tracking : search.tracking.split(",")
             }
             if (search.affiliate) {
-                search.affiliate instanceof Array ? option.filter.affiliate = search.affiliate : option.filter.affiliate = search.affiliate.split(",")
+                option.filter.affiliate = search.affiliate instanceof Array ? search.affiliate : search.affiliate.split(",")
             }
             if (search.ecommerce) {
-                search.ecommerce instanceof Array ? option.filter.ecommerce = search.ecommerce : option.filter.ecommerce = search.ecommerce.split(",")
+                option.filter.ecommerce = search.ecommerce instanceof Array ? search.ecommerce : search.ecommerce.split(",")
             }
             if (search.firstSeeStartDate && search.firstSeeEndDate) {
                 option.filter.firstSee.startDate = moment(search.firstSeeStartDate, 'YYYY-MM-DD')
                 option.filter.firstSee.endDate = moment(search.firstSeeEndDate, 'YYYY-MM-DD')
             }
             if (search.audienceAge) {
-                search.audienceAge instanceof Array ? option.filter.audienceAge = search.audienceAge : option.filter.audienceAge = search.audienceAge.split(",")
+                option.filter.audienceAge = search.audienceAge instanceof Array ? search.audienceAge : search.audienceAge.split(",")
             }
             if (search.audienceGender) {
                 // 性别受众为单选，使用split(",")处理会出错
                 option.filter.audienceGender = search.audienceGender
             }
             if (search.audienceInterest) {
-                search.audienceInterest instanceof Array ? option.filter.audienceInterest = search.audienceInterest : option.filter.audienceInterest = search.audienceInterest.split(",")
+                option.filter.audienceInterest = search.audienceInterest instanceof Array ? search.audienceInterest : search.audienceInterest.split(",")
             }
             if (search.objective) {
-                search.objective instanceof Array ? option.filter.objective = search.objective : option.filter.objective = search.objective.split(",")
+                option.filter.objective = search.objective instanceof Array ? search.objective : search.objective.split(",")
             }
             // #issues 11 连带发现的问题，刷新参数未保存
             if (search.duration) {
@@ -1092,15 +1092,6 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             }
             $state.go("plans")
         }
-        $scope.openAdAnalysisPage = function(id) {
-            if (User.done) {
-                if (User.login) {
-                    window.open('./adAnalysis/' + id)
-                } else {
-                    User.openSign()
-                }
-            }
-        }
         $scope.Util = Util
         $scope.User = User
         $scope.Searcher = Searcher
@@ -1461,8 +1452,14 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             }
             $scope.currSearchOption.range = range.join(',')
             $scope.filter($scope.filterOption, action)
-            if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 1) {
-                $scope.currSearchOption.isdirty = true
+            if (User.info.user.role.plan === 'free') {
+                if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 2) {
+                    $scope.currSearchOption.isdirty = true
+                }
+            } else {
+                if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 1) {
+                    $scope.currSearchOption.isdirty = true
+                }
             }
             searchToQuery(option, $scope.adSearcher)
         }
@@ -1528,15 +1525,6 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                 window.open('/mobile_maintain', "_self")
             }
             $state.go("plans")
-        }
-        $scope.openAdAnalysisPage = function(id) {
-            if (User.done) {
-                if (User.login) {
-                    window.open('./adAnalysis/' + id)
-                } else {
-                    User.openSign()
-                }
-            }
         }
         // 一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
         User.getInfo().then(function() {
