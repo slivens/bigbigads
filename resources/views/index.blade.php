@@ -9,7 +9,7 @@
 
     <title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <link href="./dist/home.css?v=2.0.2" rel="stylesheet">
+    <link href="./dist/home.css?v=2.0.5" rel="stylesheet">
     <style type="text/css">
 
     </style>
@@ -85,7 +85,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
             <div class="col-md-4 ads-introduce-div">
                 <img src="./static/images/home/show_03.jpg" alt="" class="introduce-img">
                 <p class="introduce-title text-center">Creative inspiration</p>
-                <p class="instroduce-text">Find out how to sell product with social proof, break through culture difference for the audience in a new geo, know what kind of ad resonates with the audience in a specific niche market, know your potential customer better.</p>
+                <p class="instroduce-text">Find out how to sell a product with social proof, break through culture difference for the audience in a new geo, know what kind of ad resonates with the audience in a specific niche market, know your potential customer better.</p>
             </div>
         </div>
     </div>
@@ -306,7 +306,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
     </div>
 </div>
 <script type="text/javascript" src="dist/vendor.js?v=5.1" defer></script>
-<script type="text/javascript" src="dist/home.js?v=2.0.2" defer></script>
+<script type="text/javascript" src="dist/home.js?v=2.0.5" defer></script>
 </body>
 </html>
     

@@ -13,7 +13,7 @@ use \Illuminate\Support\Facades\Input;
 
     <title>{{ config('app.name', 'Bigbigads') }}</title>
     <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen">
-    <link href="./dist/pay.css?v=2.0.1" rel="stylesheet">
+    <link href="./dist/pay.css?v=2.0.5" rel="stylesheet">
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -42,8 +42,10 @@ use \Illuminate\Support\Facades\Input;
                             </div>
                             <div class="col-sm-5 descr-right-text">
                                 <p class="overview-cost ads-font-18">Today's Payment: 
-                                    <span class="" v-cloak >$@{{ (amount - discount).toFixed(2) }} 
-                                        <span class="ads-font-12" v-if="discount">
+                                    <span class="">
+                                        <span v-if="!discount">${{$plan->amount}}.00</span>
+                                        <span v-cloak v-if="discount">$@{{ (amount - discount).toFixed(2) }}</span> 
+                                        <span class="ads-font-12" v-cloak v-if="discount">
                                             (- $@{{discount.toFixed(2)}})
                                         </span>
                                     </span>
@@ -57,7 +59,7 @@ use \Illuminate\Support\Facades\Input;
                             <div class="col-sm-5">
                                 <div class="ads-font-14 text-right overview-notice">
                                     <p>Includes <span class="notice-pay-cycle">{{$plan->frequency_interval}}&nbsp;{{$plan->frequency}}</span> of service</p>
-                                    <p>Future Payments: <span class="" v-cloak >$@{{ amount }}.00</span> will be billed every</p>
+                                    <p>Future Payments: <span class="">${{ $plan->amount }}.00</span> will be billed every</p>
                                     <p> <span class="notice-pay-cycle">{{$plan->frequency_interval}}&nbsp;{{$plan->frequency}}</span> until canceled</p>
                                 </div>
                             </div>
@@ -76,9 +78,11 @@ use \Illuminate\Support\Facades\Input;
                             <div class="paypage-title coupon-title">Email</div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div v-bind:class="{'form-group':true, 'pay-email-div':true, 'has-error':emailErr}">
-                                         <input type="email" class="form-control" placeholder="Email" name="Email" v-model="email" v-on:keyup="onEmailEnter" v-on:blur="onEmailEnter">
-                                         <label v-bind:class="{'control-label':true, 'email-remain':true, 'ads-font-14':true, 'show':emailErr}">@{{emailMessage}}</label>
+                                    <div class="form-group">
+                                        <div v-bind:class="{'pay-email-div':true, 'has-error':emailErr}">
+                                             <input type="email" class="form-control" placeholder="Email" name="Email" v-model="email" v-on:keyup="onEmailEnter" v-on:blur="onEmailEnter">
+                                             <label v-cloak v-bind:class="{'control-label':true, 'email-remain':true, 'ads-font-14':true, 'show':emailErr}">@{{emailMessage}}</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 ads-font-14 email-text">
@@ -172,7 +176,7 @@ use \Illuminate\Support\Facades\Input;
                                         </div>
                                     </div>
 
-                                    <!-- <div class="creditcard-disable text-center ads-font-22" disabled="disabled" > Coming Soon:Check out with Credit Card</div> -->
+                                    <div class="creditcard-disable text-center ads-font-22" disabled="disabled" > Coming Soon:Check out with Credit Card</div>
                                 </div>
                             </form>
                             <hr>
@@ -217,7 +221,7 @@ use \Illuminate\Support\Facades\Input;
 </html>
 
 <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
-<script type="text/javascript" src="dist/vendor.js?v=1"></script>
-<script type="text/javascript" src="dist/pay.js?v=2.0.1"></script>
+<script type="text/javascript" src="dist/vendor.js?v=5"></script>
+<script type="text/javascript" src="dist/pay.js?v=2.0.5"></script>
  
 

@@ -458,7 +458,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 option.filter.lang = search.lang.split(",")
             }
             if (search.state) {
-                option.filter.state = search.state
+                search.state instanceof Array ? option.filter.state = search.state : option.filter.state = search.state.split(",")
             }
             if (search.domain) {
                 option.domain = JSON.parse(search.domain)
@@ -474,34 +474,34 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 // Util.matchkey(search.format, option.filter.format);
             }
             if (search.buttondesc) {
-                option.filter.callToAction = search.buttondesc
+                search.buttondesc instanceof Array ? option.filter.callToAction = search.buttondesc : option.filter.callToAction = search.buttondesc.split(",")
                 // Util.matchkey(search.buttondesc, option.filter.buttondesc);
             }
             if (search.tracking) {
-                option.filter.tracking = search.tracking
+                search.tracking instanceof Array ? option.filter.tracking = search.tracking : option.filter.tracking = search.tracking.split(",")
             }
             if (search.affiliate) {
-                option.filter.affiliate = search.affiliate
+                search.affiliate instanceof Array ? option.filter.affiliate = search.affiliate : option.filter.affiliate = search.affiliate.split(",")
             }
             if (search.ecommerce) {
-                option.filter.ecommerce = search.ecommerce
+                search.ecommerce instanceof Array ? option.filter.ecommerce = search.ecommerce : option.filter.ecommerce = search.ecommerce.split(",")
             }
             if (search.firstSeeStartDate && search.firstSeeEndDate) {
                 option.filter.firstSee.startDate = moment(search.firstSeeStartDate, 'YYYY-MM-DD')
                 option.filter.firstSee.endDate = moment(search.firstSeeEndDate, 'YYYY-MM-DD')
             }
             if (search.audienceAge) {
-                option.filter.audienceAge = search.audienceAge
+                search.audienceAge instanceof Array ? option.filter.audienceAge = search.audienceAge : option.filter.audienceAge = search.audienceAge.split(",")
             }
             if (search.audienceGender) {
                 // 性别受众为单选，使用split(",")处理会出错
                 option.filter.audienceGender = search.audienceGender
             }
             if (search.audienceInterest) {
-                option.filter.audienceInterest = search.audienceInterest
+                search.audienceInterest instanceof Array ? option.filter.audienceInterest = search.audienceInterest : option.filter.audienceInterest = search.audienceInterest.split(",")
             }
             if (search.objective) {
-                option.filter.objective = search.objective
+                search.objective instanceof Array ? option.filter.objective = search.objective : option.filter.objective = search.objective.split(",")
             }
             // #issues 11 连带发现的问题，刷新参数未保存
             if (search.duration) {
@@ -515,9 +515,6 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
             if (search.seeTimes) {
                 seeTimes = JSON.parse(search.seeTimes)
                 option.filter.seeTimes = angular.extend(option.filter.seeTimes, seeTimes)
-            }
-            if (search.audienceInterest) {
-                option.filter.audienceInterest = search.audienceInterest
             }
         }
         return searcher
@@ -567,14 +564,13 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             $scope.adSearcher.filter()
         }
         $scope.quickSearch = function(word) {
-            // 热词引导搜索，且加上isHotWord标示位用于log统计
+            // 热词引导搜索，且加上isHotWord标示位用于log统计 --> 废弃,这个标识在正常搜索时不会被清除，导致统计错误
             if (User.done) {
                 if (!User.login) {
                     User.openSign()
                     return
                 }
                 $scope.adSearcher.searchOption.search.text = word
-                $scope.adSearcher.searchOption.search.isHotWord = true
                 $scope.search('search')
             }
         }
@@ -1096,6 +1092,15 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             }
             $state.go("plans")
         }
+        $scope.openAdAnalysisPage = function(id) {
+            if (User.done) {
+                if (User.login) {
+                    window.open('./adAnalysis/' + id)
+                } else {
+                    User.openSign()
+                }
+            }
+        }
         $scope.Util = Util
         $scope.User = User
         $scope.Searcher = Searcher
@@ -1524,6 +1529,15 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             }
             $state.go("plans")
         }
+        $scope.openAdAnalysisPage = function(id) {
+            if (User.done) {
+                if (User.login) {
+                    window.open('./adAnalysis/' + id)
+                } else {
+                    User.openSign()
+                }
+            }
+        }
         // 一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
         User.getInfo().then(function() {
             // 根据search参数页面初始化
@@ -1566,6 +1580,11 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             })
             $q.all([countryPromise, promise]).then(function(res) {
                 // 只取首条消息
+                if (!User.done)
+                    return
+                if (!User.login) {
+                    window.open('/login', '_self')
+                }
                 var ads = res[1]
                 // objective 转换为正常单词
                 var objectStr = {

@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="./static/custom.css">
     <link rel="stylesheet" type="text/css" href="./static/demo.css"> -->
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <link href="./dist/home.css?v=2.0.1" rel="stylesheet">
+    <link href="./dist/home.css?v=2.0.5" rel="stylesheet">
     <!--<script src="static/jquery-3.1.1.js"></script>-->
     <!--<script src="static/bootstrap.js"></script>-->
     @include('tpl.script')
@@ -34,12 +34,15 @@
         </div>
         <ul class="about-time_content">
             <li class="clearfix year">
-                    <i class="icon" ><span class="time">Soon</span></i>
+                <i class="icon" >
+                    <span class="time">Soon</span>
+                </i>
             </li>
+
             <li class="clearfix money">
                     <i class="icon" ></i>
                     <div class="about-time_cont">
-                        <p class="about-time_title">Coming up: New feature advertiser stats & analysis</p>
+                        <p class="about-time_title">Coming up: New feature advertiser stats &amp; analysis</p>
                         <p class="about-time_desc"></p>
                         <p>
                             <span class="about-time_time">Soon</span>
@@ -48,9 +51,20 @@
                     </div>
             </li>
             <li class="clearfix news">
+                <i class="icon" ></i>
+                <div class="about-time_cont">
+                    <p class="about-time_title">10 Million Ads Reached</p>
+                    <p class="about-time_desc"></p>
+                    <p>
+                        <span class="about-time_time">  Aug, 2017</span>
+                        <span class="about-time_label">MILESTONE</span>
+                    </p>
+                </div>
+            </li>
+            <li class="clearfix news">
                     <i class="icon " ></i>
                     <div class="about-time_cont ">
-                        <p class="about-time_title"> We reach 2 Million ads archived </p>
+                        <p class="about-time_title"> We reach 2 Million Ads </p>
                         <!-- <p class="about-time_desc">Bigbigads launches Bilty Brand Tools(formerly known as Bilty Enteri</p> -->
                         <p>
                             <span class="about-time_time">March, 2017</span>
@@ -117,8 +131,8 @@
     </div>
 </section>
 @include('tpl.footer')
-<script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
-<script type="text/javascript" src="dist/home.js?v=5" defer></script>
+<script type="text/javascript" src="dist/vendor.js?v=2.0.5" defer></script>
+<script type="text/javascript" src="dist/home.js?v=2.0.5" defer></script>
 </body>
 </html>
 
