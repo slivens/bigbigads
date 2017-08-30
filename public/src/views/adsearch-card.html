@@ -24,7 +24,7 @@
                     <!-- 受众已经在详情页专门显示，卡片上暂时移除 -->
                     <!-- <i class="xg-audience xg-icon xg-icon-audience font-yellow-gold" ng-if="mother.User.can('audience_search') && (card.whyseeads_all || card.whyseeads)" audience title="{{card.whyseeads ? card.whyseeads : card.whyseeads_all}}"></i> -->
                     <!-- <a ng-href="./adAnalysis/{{card.event_id}}" class="font-yellow-gold " target="_blank"><i class="xg-icon xg-icon-analysis"></i></a> -->
-                    <a open-analysis class="font-yellow-gold " userid="{{card.event_id}}"><i class="xg-icon xg-icon-analysis"></i></a>
+                    <a analysis-opener class="font-yellow-gold " userid="{{card.event_id}}"><i class="xg-icon xg-icon-analysis"></i></a>
                 </div>
                 <div class="pull-left">
                     <i class="fa fa-clock-o font-yellow-gold fa-fw"></i><span>{{card.duration_days}}</span>

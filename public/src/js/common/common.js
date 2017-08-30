@@ -542,11 +542,11 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
             }
         }
     }) */
-    .directive('openAnalysis', ['User', function(User) {
+    .directive('analysisOpener', ['User', function(User) {
         return {
             link: function(scope, element, attrs) {
                 element.bind("click", function() {
-                    if (User.done)
+                    if (!User.done)
                         return
                     if (User.login) {
                         window.open('./adAnalysis/' + attrs.userid)
