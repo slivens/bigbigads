@@ -1092,15 +1092,6 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
             }
             $state.go("plans")
         }
-        $scope.openAdAnalysisPage = function(id) {
-            if (User.done) {
-                if (User.login) {
-                    window.open('./adAnalysis/' + id)
-                } else {
-                    User.openSign()
-                }
-            }
-        }
         $scope.Util = Util
         $scope.User = User
         $scope.Searcher = Searcher
@@ -1536,15 +1527,6 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
                 window.open('/mobile_maintain', "_self")
             }
             $state.go("plans")
-        }
-        $scope.openAdAnalysisPage = function(id) {
-            if (User.done) {
-                if (User.login) {
-                    window.open('./adAnalysis/' + id)
-                } else {
-                    User.openSign()
-                }
-            }
         }
         // 一切的操作应该是在获取到用户信息之后，后面应该优化直接从本地缓存读取
         User.getInfo().then(function() {

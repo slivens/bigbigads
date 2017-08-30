@@ -542,6 +542,21 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
             }
         }
     }) */
+    .directive('openAnalysis', ['User', function(User) {
+        return {
+            link: function(scope, element, attrs) {
+                element.bind("click", function() {
+                    if (User.done)
+                        return
+                    if (User.login) {
+                        window.open('./adAnalysis/' + attrs.userid)
+                    } else {
+                        User.openSign()
+                    }
+                })
+            }
+        }
+    }])
     // 去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function() {
         return function(collection) {
