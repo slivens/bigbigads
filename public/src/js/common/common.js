@@ -17,7 +17,12 @@ angular.module('MetronicApp').directive('lazyImg', ['$timeout', 'Util', function
         link: function($scope, element, attrs) {
             $timeout(function() {
                 var imageSrc
-                var width = $(element).width()
+                var width
+                if (attrs.refObject) {
+                    width = $(element).parents(attrs.refObject).width()
+                } else {
+                    width = $(element).width()
+                }
                 if (attrs.type === 'bba') {
                     // 处理默认图片不能显示问题
                     if (!$scope.lazyImg) {

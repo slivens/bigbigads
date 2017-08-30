@@ -5,6 +5,7 @@ var ManifestPlugin = require('webpack-manifest-plugin');
 var isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
+    devtool: isProduction ? false : 'source-map',
     entry: {
         bundle:['./src/js/standalone/main.js', './src/js/standalone/directives.js'],
         search:['./src/js/search/search.js'],
