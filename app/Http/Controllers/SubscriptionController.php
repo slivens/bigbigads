@@ -389,7 +389,7 @@ final class SubscriptionController extends PayumController
             $planName = $details['local']['customer']['plan'];
 
             $subscription = Subscription::where('user_id', $user->id)->where(['status' => Subscription::STATE_CREATED, 'gateway' => PaymentService::GATEWAY_STRIPE])->first();
-            //$subscription->agreement_id = ;$details['local']['customer']['subscriptions']['data']['id'];
+            $subscription->agreement_id = $details['local']['customer']['subscriptions']['data'][0]['id'];
             $subscription->quantity = 1;
             /* $subscription->setup_fee = $details['amount'] / 100; */
             $subscription->save();

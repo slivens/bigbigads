@@ -31,6 +31,8 @@ class PaymentService implements PaymentServiceContract
     public function __construct($config)
     {
         $this->config = $config;
+
+        Stripe::setApiKey($this->config['stripe']['secret_key']);
     }
 
     public function setLogger($logger)
@@ -52,6 +54,8 @@ class PaymentService implements PaymentServiceContract
             return $this->getPaypalService();
         return false;
     }
+
+
 
     /**
      * 根据不同的记录器调用不同方法
@@ -94,7 +98,6 @@ class PaymentService implements PaymentServiceContract
         $gateways = new Collection($gateways);
         if (!$gateways->isEmpty())
             $isAll = false;
-        Stripe::setApiKey($this->config['stripe']['secret_key']);
 
         if ($isAll || $gateways->contains(PaymentService::GATEWAY_STRIPE)) {
             foreach ($plans as $plan) {
@@ -216,7 +219,7 @@ class PaymentService implements PaymentServiceContract
                 $this->log("canceled subscription, no need to sync");
                 if ($sub->isActive()) {
                     $this->log("{$sub->user->email}'s subscription set to null", PaymentService::LOG_INFO);
-                    $sub->user->subscription_id = 0;
+                    $sub->user->subscription_id = null;
                     $sub->user->save();
                 }
                 continue;
@@ -516,25 +519,37 @@ class PaymentService implements PaymentServiceContract
     {
         if ($subscription->status == Subscription::STATE_CANCLED)
             return true;
-        // TODO: stripe
+        if (!in_array($subscription->status, [Subscription::STATE_SUBSCRIBED, Subscription::STATE_PAYED]))
+            return false;
+        $isOk = false;
+        if ($subscription->gateway == PaymentService::GATEWAY_STRIPE) {
+            $stripeSub = \Stripe\Subscription::retrieve($subscription->agreement_id);
+            $res = $stripeSub->cancel();
+            if ($res["status"] == \Stripe\Subscription::STATUS_CANCELED) {
+                $isOk = true;
+            }
+        }
+
         if ($subscription->gateway == PaymentService::GATEWAY_PAYPAL) {
-            if (!in_array($subscription->status, [Subscription::STATE_SUBSCRIBED, Subscription::STATE_PAYED]))
-                return false;
             $res = $this->getPaypalService()->cancelSubscription($subscription->agreement_id);
             if ($res) {
-                $subscription->status = Subscription::STATE_CANCLED;    
-                $subscription->save();
-                // 对于活动订阅，解除用户的当前订阅
-                if ($subscription->isActive()) {
-                    $user = $subscription->user;
-                    $user->subscription_id = null;
-                    $user->save();
-                }
+                $isOk = true;
             }
             $this->syncSubscriptions([], $subscription);
-            return $res != null;
         }
-        return false;
+
+        if ($isOk) {
+            $subscription->status = Subscription::STATE_CANCLED;
+            $subscription->save();
+
+            // 对于活动订阅，解除用户的当前订阅
+            if ($subscription->isActive()) {
+                $user = $subscription->user;
+                $user->subscription_id = null;
+                $user->save();
+            }
+        }
+        return $isOk;
     }
 
     /**
