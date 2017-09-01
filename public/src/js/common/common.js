@@ -847,6 +847,32 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                 }
             },
             /*
+            * 对象排序
+            * 先将对象转为数组，再对数据转进行排序，最后再转为对象
+            * 支持正序(0)和逆序(1)
+            * itme为排序方式value，和 name
+            */
+            objectSort: function(object, item, n) {
+                // 判断object不能为空，且长度至少为2
+                if (object && Object.keys(object).length >= 2) {
+                    // 转为格式为[{name:**,value:**},{..},..]
+                    var arr = []
+                    for (var key in object) {
+                        arr.push({
+                            'name': key,
+                            'value': object[key]
+                        })
+                    }
+                    arr = this.arrSort(arr, item, n)
+                    // 将排序好的数组在转为对象
+                    var newObject = {}
+                    for (var i = 0; i < arr.length; i++) {
+                        newObject[arr[i].name] = arr[i].value
+                    }
+                    return newObject
+                } else return object
+            },
+            /*
              * 返回类似广告impression的完整数组
              * 将["2017-03-21":{"12","11"...}] 转为 [{"03-21","12"},{"03-22","11"}...]
              * 提供开始时间，与开始时间之后每天的访问量
@@ -1014,8 +1040,10 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
             * pieData 格式：['name':value],[...],...
             * pieInnerSize 内径，默认60%
             * pieColor ['#fff', '#ccc']
+            * pielegend 图例格式
+            * pieToolTip 鼠标经过饼图显示的格式
             */
-            pieChartsConfig: function(pieData, pieInnerSize, pieColor, pieLegend) {
+            pieChartsConfig: function(pieData, pieInnerSize, pieColor, pieLegend, pieToolTip) {
                 return {
                     chart: {
                         plotBackgroundColor: null,
@@ -1024,7 +1052,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                     colors: pieColor || ['#7cb5ec', '#337ab7'],
                     title: false,
                     credits: false, // 角标
-                    tooltip: {
+                    tooltip: pieToolTip || {
                         headerFormat: null,
                         pointFormat: '<b>{point.name}:</b>{point.percentage:.1f}%'
                     },

@@ -1,0 +1,429 @@
+#adser-analysis{
+    .ads-label-beta {
+        display: inline-block;
+        font-weight: 200;
+        background: #4fc3a0;
+        font-size: 12px;
+        padding: 0 6px;
+        border-radius: 8px;
+        color: #fff;
+        margin: 0 5px;
+    } // 超出神略号
+    .ads-text-ellipsis {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .analy-body{
+        background: rgba(255,255,255,.75);
+    }
+    .analy-title{
+        font-size: 22px;
+        color:#3598dc;
+        padding: 15px;
+        border-bottom: 1px solid rgba(53, 152, 220, 0.32);
+        margin-top:35px;
+        font-weight: 800;
+    }
+    .analy-dowm{
+        
+        font-size: 14px;
+        margin-right: 8px;
+    }
+    .analy-up{
+        font-size: 14px;
+        margin-right: 8px;
+    }
+    .analy-nodata{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction:column;
+        min-height: 300px;
+    }
+    .analy-blue{
+        color:#7cb5ec;
+    }
+    .analy-veri-icon{
+        color: #ffeb3b;
+        margin-left: 5px;
+    }
+    // facebook objective 原生图标
+    .fb-oj-icon {
+        background: url('/images/analysis/object_icon_01.png') no-repeat;
+        box-sizing: content-box;
+        height: 24px;
+        width: 24px;
+        overflow: hidden;
+        display: inline-block;
+    }
+    .oj-APP_INSTALLS {
+        background-position: 0 -77px;
+    }
+
+    .oj-BRAND_AWARENESS {
+        background-position: 0 -102px;
+    }
+
+    .oj-CANVAS_APP_INSTALLS {
+        background-position: 0 -51px;
+    }
+
+    .oj-EVENT_RESPONSES {
+        background-position: 0 -126px;
+
+    }
+
+    .oj-LEAD_GENERATION {
+        background-position: 0 -152px;
+    }
+
+    .oj-LINK_CLICKS {
+        background-position: 0 -352px;
+    }
+
+    .oj-LOCAL_AWARENESS {
+        background-position: 0 -177px;
+    }
+
+    .oj-PAGE_LIKES {
+        background-position: 0 -227px;
+    }
+
+    .oj-POST_ENGAGEMENT {
+        background-position: 0 -251px;
+    }
+
+    .oj-PRODUCT_CATALOG_SALES {
+        background-position: 0 -2px;    
+    }
+
+    .oj-REACH {
+        background-position: 0 -277px;
+    }
+
+    .oj-STORE_VISITS {
+        background-position: 0 -302px;
+    }
+
+    .oj-VIDEO_VIEWS {
+        background-position: 0 -327px;
+    }
+
+    .oj-WEBSITE_CONVERSIONS {
+        background-position: 0 -377px;
+    }
+    // overview
+    .analy-overview{
+        display: flex;
+        background: #6f94a7;
+        padding: 15px;
+        .overview-info{
+            flex:1;
+            .overview-website{
+                margin-top: 0px;
+                color:#fff;
+                font-weight: 600;
+                a{
+                    color: #fff;
+                    width: 300px;
+                    display: inline-block;
+                }
+            }
+            .info-date{
+                display: flex;
+                margin-top: 20px;
+                .data-card{
+                    flex:1;
+                    padding: 15px 0;
+                    padding-left: 15px;
+                    border:1px dashed #ccc;
+                    border-left: 4px solid #ccc;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    margin-right: 15px;
+                    background: rgba(229,229,229,.75);
+                    p{
+                        margin: 0px;
+                    }
+                    .card-title{
+                        color:#eb6130;
+                    }
+                    .card-number{
+                        font-weight: 600;
+                        color:#555;
+                    }
+                }
+            }
+        }
+        .overview-adser{
+            width: 200px;
+            display: flex;
+            justify-content: center;
+            align-items:center;
+            flex-direction: column;
+            padding: 15px;
+            .adser-head{
+                width: 150px;
+                height: 150px;
+                border-radius: 75px;
+                border:1px solid #e5e5e5;
+                background: #fff;
+                overflow: hidden;
+            }
+            .adser-name{
+                margin-top: 20px;
+                width: 100%;
+                margin-bottom: 0px;
+                display:flex;
+                align-items:center;
+                justify-content: center;
+                color:#fff;
+            }
+        }
+    }
+    //analy-audience
+    .analy-audience{
+        margin-top: 20px;
+        .audience-card{
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 250px;
+            .card-title {
+                font-size: 22px;
+                font-weight: 100;
+            }
+            .card-time{
+                font-size: 14px;
+                font-weight: 400;
+                color:#bbb;
+            }
+            .card-number{
+                flex:1;
+                display: flex;
+                align-items:center;
+                .charts-wrapper{
+                    height: 100%;
+                    width: 50%;
+                    min-width: 150px;
+                    highchart{
+                        padding: 0;
+                        height: 100%;
+                        width: 100%;
+                        display: block;
+
+                    }
+                }
+                .charts-number{
+                    flex:1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    .number-list{
+                        margin-top: 5px;
+                        margin-bottom: 5px;
+                        display: flex;
+                        align-items: center;
+                        .list-icon{
+                            width: 28px;
+                            text-align: center;
+                            margin-right: 4px;
+                        }
+                    }
+                    .number-desktop{
+                        .list-icon{
+                            color:#7cb5ec;
+                        }
+                    }
+                    .number-mobile{
+                        .list-icon{
+                            color:#337ab7;
+                        }
+                    }
+
+
+                }
+                
+            }
+            .audience-list{
+                flex:1;
+                display: flex;
+                align-items:center;
+                .list-icon{
+                    margin-right: 5px;
+                    color:#337ab7;
+                }
+                .list-name{
+                    max-width: 60%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+
+                }
+                .list-data{
+                    flex:1;
+                    text-align: right;
+                    color:#3598dc;
+                }
+            }
+        }
+    }
+    //analy-geography
+    .analy-geography{
+        margin-top: 20px;
+        .geo-row{
+            margin-top: 20px;
+        }
+        .geo-title{
+            font-size: 22px;
+            font-weight: 600;
+            color: #eb6130;
+        }
+        .geo-suptitle{
+            font-size: 16px;
+            color: #ccc;
+            margin: 15 0px;
+        }
+        .charts-wrapper{
+            display: flex;
+            background: #fff;
+            min-height: 300px;
+            padding: 15px;
+            highchart{
+                flex:1;
+            }
+        }
+        .geo-interest{
+            .interest-list{
+                padding: 15px;
+                background: #fff;
+                min-height: 300px;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                .interest-wrapper{
+                    flex:1;
+                    
+                    .stat-wrapper{
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 20px;
+                        .stat-icon{
+                            margin-right: 8px;
+                            color: #eb6130;
+                        }
+                        .stat-name{
+                            width: 26%;
+                            padding-right: 8px;
+                        }
+                        .stat-progress{
+                            flex: 1;
+                            margin-bottom: 0px;
+                            border-radius: 8px !important;
+                            height: 16px;
+                            overflow: hidden;
+                        }
+                        .stat-number{
+                            width: 60px;
+                            padding-left: 8px;
+                        }
+                    }
+                }
+                .interest-footer{
+                    padding: 5px 10px;
+                    background: #b0d5f9;
+                }
+            }
+        }
+        .geo-countries{
+            padding: 15px 0;
+            background: #fff;
+        }
+        .geo-map-table{
+            display: flex;
+            min-height: 325px;
+            flex-direction: column;
+            justify-content: flex-end;
+            .map-table-wrappe{
+                flex:1;
+                .map-table{
+                    margin: 0;
+                    thead{
+                        background: #7cb5ec;
+                    }
+                    td {
+                        padding: 8px;
+                    }
+                    .map-td1{
+                        width: 10%;
+                        min-width: 20px;
+                        text-align: center;
+                    }
+                    .map-td2{
+                        width: 30%;
+                        min-width: 50px;
+                    }
+                    .map-td3{
+                        width: 15%;
+                        min-width: 40px;
+                    }
+                    .map-td4{
+                        vertical-align: top;
+                        border-top: 1px solid #ddd;
+                    }
+                    .progress-wrapper {
+                        height: 20px;
+                        display: flex;
+                        align-items: center;
+                        .progress{
+                            flex:1;
+                            height: 80%;
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+            }
+            .map-table-footer {
+                padding: 5px 10px;
+                background: #b0d5f9;
+            }
+        }
+        .geo-map{
+            .mapcharts-wrapper{
+                min-height: 325px;
+                display: flex;
+                highchart{
+                    flex:1
+                }
+            }
+        }
+    }
+    .analy-object{
+        background: #fff;
+        .object-charts{
+            .panel-body{
+                display: flex;
+                .chart-wrapper{
+                    display: flex;
+                    flex:1.5;
+                    height: 250px;
+                    highchart{
+                        flex:1
+                    }
+                }
+                .chart-data{
+                    flex:1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    .data-list{
+                        margin: 8px 0;
+                        font-weight: 200;
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+}
