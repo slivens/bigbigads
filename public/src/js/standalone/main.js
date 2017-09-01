@@ -1168,7 +1168,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
+                    return $ocLazyLoad.load([{
                         name: 'MetronicApp',
                         insertBefore: ' #ng_load_plugins_before',
                         files: [
@@ -1178,13 +1178,22 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/select2/js/select2.full.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            '/node_modules/highcharts/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
                             '/node_modules/jqcloud2/dist/jqcloud.min.css',
                             '/node_modules/jqcloud2/dist/jqcloud.min.js',
                             '../assets/global/plugins/angular-jqcloud.js',
                             'search.js'
                         ]
+                    }, {
+                        serie: true,
+                        insertBefore: ' #ng_load_plugins_before',
+                        files: [
+                            '/node_modules/highcharts/highcharts.js',
+                            '/node_modules/highcharts/modules/map.js',
+                            '../assets/global/scripts/world.min.js'
+                        ]
+                    }]).then(function() {
+
                     })
                 }]
             }
