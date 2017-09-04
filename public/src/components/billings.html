@@ -1,8 +1,8 @@
  <div cg-busy="$ctrl.queryPromise">
 
-    <div class="alert alert-info">
+    <!-- <div class="alert alert-info">
     You can request refunding in 7 days, one user one time. The refund request will be handled in 3 work days.
-    </div>
+    </div> -->
 
     <table class="table table-striped ">
         <tr class="bg-default table-bordered">
@@ -13,8 +13,8 @@
             <th>Expire Date</th>
             <th>Price</th>
             <th>Status</th>
-            <th>Remark</th>
-            <th>Operation</th>
+            <!-- <th>Remark</th>
+            <th>Operation</th> -->
         </tr>
         <tr ng-repeat="item in $ctrl.billings.items | orderBy:'-startDate'" ng-class="{'text-success': item.subscription_id == $ctrl.subscriptionId}">
             <td>{{item.gateway == 'paypal' ? 'paypal' : 'credit card'}}</td>
@@ -24,12 +24,12 @@
             <td>{{item.end_date}}</td>
             <td>{{item.amount + " " + item.currency}}</td>
             <td>{{item.status}}</td>
-            <td><span ng-if="item.refund" class="text-danger">Refund Status:{{item.refund.status}}</span><span ng-if="item.refund.note"><br/>Note:{{item.refund.note}}</span></td>
+            <!-- <td><span ng-if="item.refund" class="text-danger">Refund Status:{{item.refund.status}}</span><span ng-if="item.refund.note"><br/>Note:{{item.refund.note}}</span></td>
             <td>
-
+            
                 <a class="btn btn-default" ng-click="$ctrl.refund(item)" ng-if="item.canRefund">Refund</a>
-                <!-- <a class="btn btn-default" ng-href="/invoice/{{item.invoice}}">Invoice</a> -->
-            </td>
+                <a class="btn btn-default" ng-href="/invoice/{{item.invoice}}">Invoice</a>
+            </td> -->
         </tr>
     </table>
 </div>
