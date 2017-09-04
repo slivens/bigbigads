@@ -28,11 +28,29 @@ class PaymentService implements PaymentServiceContract
     protected $logger;
     private $paypalService;
 
+    /**
+     * 参数影响支付系统的行为
+     * force: true强制与远程同步;false按优化情况与远程同步
+     */
+    private $parameters;
+
     public function __construct($config)
     {
         $this->config = $config;
-
+        $this->parameters = new Collection();
         Stripe::setApiKey($this->config['stripe']['secret_key']);
+    }
+
+    public function setParameter($key, $val)
+    {
+        $this->parameters[$key] = $val;
+    }
+
+    public function getParameter($key)
+    {
+        if ($this->parameters->has($key))
+            return $this->parameters[$key];
+        return null;
     }
 
     public function setLogger($logger)
@@ -215,7 +233,7 @@ class PaymentService implements PaymentServiceContract
             if (strlen($sub->agreement_id) < 3) {
                 continue;
             }
-            if ($sub->status == Subscription::STATE_CANCLED) {
+            if ($sub->status == Subscription::STATE_CANCLED && !$this->getParameter(PaymentService::PARAMETER_FORCE)) {
                 $this->log("canceled subscription, no need to sync");
                 if ($sub->isActive()) {
                     $this->log("{$sub->user->email}'s subscription set to null", PaymentService::LOG_INFO);
@@ -233,14 +251,13 @@ class PaymentService implements PaymentServiceContract
             $plan = $remoteSub->getPlan();
             $def = $plan->getPaymentDefinitions()[0];
 
-            /* $plan = Plan::where('name', $sub->plan)->first(); */
-            /* if (!$plan) { */
-            /*     $this->log("Plan {$sub->plan} is not found, warning", PaymentService::LOG_INFO); */
-            /* } */
-
+            $payer = $remoteSub->getPayer();
+            $info = $payer->getPayerInfo();
             $newData = [
                 'frequency' => $def->getFrequency(),
-                'frequency_interval' => $def->getFrequencyInterval()
+                'frequency_interval' => $def->getFrequencyInterval(),
+                'remote_status' => $remoteSub->getState(),
+                'buyer_email' => $info->getEmail()
             ];
             $state = $remoteSub->getState();
             $newStatus = '';
@@ -279,6 +296,7 @@ class PaymentService implements PaymentServiceContract
                 }
             }
             if ($isDirty) {
+                // TODO:补充对已取消订阅的处理
                 $sub->save();
             } else {
                 $this->log("{$sub->agreement_id} has no change");
@@ -340,7 +358,11 @@ class PaymentService implements PaymentServiceContract
                 $payment->details = $t->toJSON();
                 $payment->created_at = $carbon;
 
-                            
+                // TODO: 该代码主要解决早期buyer_email为空的问题，应该直接赋值，移除判断
+                if (empty($payment->buyer_email)) {
+                    $payment->buyer_email = $t->getPayerEmail();
+                    $isDirty = true;
+                }
                 // 当状态变化时要更新订单
                 if ($paypalStatus != $payment->status) {
                     $this->log("status will change:{$payment->status} -> $paypalStatus", PaymentService::LOG_INFO);
@@ -396,6 +418,15 @@ class PaymentService implements PaymentServiceContract
     }
 
     /**
+     * 同步用户的订阅与支付订单、
+     * @param $users 用户列表
+     */
+    public function syncUsers(Array $users = [])
+    {
+        
+    }
+
+    /**
      * 订阅处于支付状态时，发现有新的支付订单，有可能是循环扣款的新订单。
      * 做检查并设置过期时间。
      */
@@ -411,7 +442,7 @@ class PaymentService implements PaymentServiceContract
     }
 
     /**
-     * 对于退款支付订单，如果是当前活动订阅的订单，则连同订阅一起取消，并将用户权限切换到Free
+     * 对于退款支付订单，如果是当前活动订阅的订单，则连同订阅一起取消， 并将用户权限切换到Free。
      * @remark 如果先取消订阅再发起退款呢？这种情况不能忽略。否则会出现用户取消订阅了，钱也退了，但是权限还在。
      */
     public function handleRefundedPayment(Payment $payment)
@@ -419,7 +450,7 @@ class PaymentService implements PaymentServiceContract
         $user = $payment->subscription->user;
         if ($payment->status != Payment::STATE_REFUNDED)
             return false;
-        if ($user->subscription && !$payment->subscription->isActive())
+        if (!$payment->subscription->isActive())
             return false;
         $this->log("reset user {$user->email} to Free because of refund:{$payment->number}", PaymentService::LOG_INFO);
         $this->cancel($payment->subscription);
