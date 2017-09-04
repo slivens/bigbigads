@@ -24,6 +24,7 @@ use Log;
 class PaypalService
 {
     protected $config;
+    protected $apiContext;
 
     public function __construct($config = [])
     {
@@ -32,12 +33,14 @@ class PaypalService
 
     public function getApiContext()
     {
-        $apiContext = new \PayPal\Rest\ApiContext(
+        if ($this->apiContext)
+            return $this->apiContext;
+        $this->apiContext = new \PayPal\Rest\ApiContext(
             new \PayPal\Auth\OAuthTokenCredential(
                 $this->config['client_id'],     // ClientID
                 $this->config['client_secret']      // ClientSecret
             ));
-        $apiContext->setConfig( 
+        $this->apiContext->setConfig( 
             array(
                 'mode'=> $this->config['mode'],
                 'log.LogEnabled' => true,
@@ -45,7 +48,7 @@ class PaypalService
                 'log.LogLevel' => 'DEBUG'
             ) 
         ); 
-        return $apiContext;
+        return $this->apiContext;
     }
 
     /**
@@ -275,7 +278,7 @@ class PaypalService
 
     /**
      * 获取指定订阅
-     * @param $id  paypal的payment_id
+     * @param $id  paypal的agreement_id
      * @return Agreement | null
      */
     public function subscription($id)
@@ -284,7 +287,35 @@ class PaypalService
         try {
             $agreement = Agreement::get($id, $apiContext);
         } catch(\Exception $e) {
-            Log::error("get subscription failed" . $e->getMessage());
+            Log::error("get subscription failed:" . $e->getMessage());
+            return null;
+        }
+        return $agreement;
+    }
+
+
+    /**
+     * 更新订阅
+     * @param $id  paypal的agreement_id
+     * @param $data 要更新的数据
+     * @return Agreement | null
+     */
+    public function updateSubscription($id, $data)
+    {
+        $apiContext = $this->getApiContext();
+        try {
+            $agreement = Agreement::get($id, $apiContext);
+			$patch = new Patch();
+			$patch->setOp('replace')
+				->setPath('/')
+                ->setValue(json_decode(json_encode($data, true))); 
+            $patchRequest = new PatchRequest();
+            $patchRequest->addPatch($patch);
+            $agreement->update($patchRequest, $apiContext);
+
+            $agreement = Agreement::get($id, $apiContext);
+        } catch(\Exception $e) {
+            Log::error("update subscription failed" . $e->getMessage());
             return null;
         }
         return $agreement;
@@ -315,13 +346,15 @@ class PaypalService
      */
     public function suspendSubscription($id)
     {
-        $subscription = $this->subscription($id);
 
         $apiContext = $this->getApiContext();
         $agreementStateDescriptor = new AgreementStateDescriptor();
         $agreementStateDescriptor->setNote("Suspending the agreement");
         try {
-             $subscription->suspend($agreementStateDescriptor, $apiContext);
+            $subscription = $this->subscription($id);
+            if (!$subscription)
+                return null;
+            $subscription->suspend($agreementStateDescriptor, $apiContext);
         } catch (\Exception $e) {
             Log::error("suspend:" . $e->getMessage());
             return null;
