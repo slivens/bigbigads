@@ -71,7 +71,7 @@
                         </span>
                     </p>
                     <p class="info-list info-but">
-                        <a ng-href="//www.facebook.com/{{id}}" class="btn btn-primary" target="_blank">See Original Post</a>
+                        <a ng-href="{{id.length < 25? ('//www.facebook.com/' + id) : ''}}"  class="btn btn-primary" target="_blank" ng-disabled="{{id.length > 25}}">See Original Post</a>
                     </p>
                     <!-- <p>
                         <span class="ads-weight-bold">Landing page:</span>
