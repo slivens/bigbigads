@@ -244,7 +244,7 @@ class BigbigadsSeeder extends Seeder
         $bookmark = ['bookmark_support', 'bookmark_list', 'bookmark_adser_support', 'save_count','advertiser_collect', 'bookmark_init_perday', 'bookmark_limit_perday'];
         $bookmarkPermission = ['bookmark_support'=>[false, true, true, true, true, true, true], 'bookmark_list'=>[true, true, true, true, true, true, true], 'bookmark_adser_support'=>[false, true, true, true, true, true, true], 'save_count'=>[false, true, true, true, true, true, true],'advertiser_collect'=>[false, false, true, true, false, false, false],
                                'bookmark_init_perday' => [true, true, true, true, true, true, true], 'bookmark_limit_perday' => [true, true, true, true, true, true, true]];
-        $bookmarkPolicy = ['ruanmingzhi'=>[Policy::PERMANENT, 1, 10, 5, 10, 10, 1, 3], 'save_ad_count'=>[Policy::PERMANENT, 50, 500, 150, 5000, 500, 30, 150], 'save_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000, 100, 100, 100], 'bookmark_init_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000], 'bookmark_limit_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000]];
+        $bookmarkPolicy = ['bookmark_list'=>[Policy::PERMANENT, 1, 10, 5, 10, 10, 1, 3], 'save_ad_count'=>[Policy::PERMANENT, 50, 500, 150, 5000, 500, 30, 150], 'save_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000, 100, 100, 100], 'bookmark_init_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000], 'bookmark_limit_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000]];
         foreach($bookmark as $key=>$item) {
             $permision = Permission::firstOrCreate([
                 'key'        => $item,

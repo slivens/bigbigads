@@ -57,7 +57,9 @@
                     </tr>
                 </table>
                 <div class="panel-body adscard-foot">
-                    <a href="register" class="btn adscard-btn ads-font-18 ads-weight-600">Sign Up</a>
+                    <!-- 必应统计官方示例写法，直接添加点击事件 -->
+                    <a href="register" class="btn adscard-btn ads-font-18 ads-weight-600" onclick="window.uetq = 
+window.uetq || []; window.uetq.push({'ec':'conversion', 'ea':'click_signup_free','el':'click','ev':12 });ga('send', 'event', 'conversion', 'click', 'signup_free');">Sign Up</a>
                 </div>
             </div>
         </div>
@@ -100,7 +102,8 @@
                         </tr>
                     </table>
                     <div class="panel-body adscard-foot ">
-                        <a class="btn adscard-btn ads-font-18 ads-weight-600">Sign Up</a>
+                        <a class="btn adscard-btn ads-font-18 ads-weight-600" onclick="window.uetq = 
+window.uetq || []; window.uetq.push({'ec':'conversion', 'ea':'click_signup_standard','el':'click','ev':12 });ga('send', 'event', 'conversion', 'click', 'signup_standard');">Sign Up</a>
                     </div>
                 </div> 
                 
@@ -510,5 +513,8 @@
 </body>
 <script type="text/javascript" src="dist/vendor.js?v=2.0.3" defer></script>
 <script type="text/javascript" src="dist/plan.js?v=2.0.4" defer></script>
+<script type="text/javascript">
+    ga('send', 'event', 'conversion', 'page', 'unregister_plan');
+</script>
 </html>
 

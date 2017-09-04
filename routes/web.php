@@ -62,9 +62,9 @@ Route::get('/product', function () {
 });
 
 Route::get('/plan', function () {
-    //暂定登录后再次点击sign up后跳转至app
+    //暂定登录后再次点击sign up后跳转至app/plans
     if (Auth::check()) {
-        return redirect('/app');
+        return redirect('/app/plans');
     } else {
         return view('plan');
     }
