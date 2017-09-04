@@ -7,7 +7,7 @@
     <title>Bigbigads Extension | Largest Facebook Ad Examples</title>
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <link href="./dist/home.css?v=2.0.6" rel="stylesheet">
+    <link href="./dist/home.css?v=2.0.5" rel="stylesheet">
     @include('tpl.script')
 </head>
 <body id="extension">
@@ -34,7 +34,7 @@
                     Insight
                 </p>
                 <div class="instro-text">
-                   One Click to see all ads on your newsfeed，check  publisher's history ads and ad insight.
+                   One Click to see all ads on your newsfeed, check  publisher's history ads and ad insight.
                 </div>
             </div>
             <div class="col-sm-4 col-xs-12 instro-wrapper">
@@ -43,7 +43,7 @@
                     Inspiration
                 </p>
                 <div class="instro-text">
-                    Find out successful ads in seconds.Get inspiration for your next ad campaign.
+                    Find out successful ads in seconds. Get inspiration for your next ad campaign.
                 </div>
             </div>
             <div class="col-sm-4 col-xs-12 instro-wrapper">
@@ -70,6 +70,6 @@
 </section>
 @include('tpl.footer')
 </body>
-<script type="text/javascript" src="dist/vendor.js?v=2.0.4" defer></script>
+<script type="text/javascript" src="dist/vendor.js?v=2.0.5" defer></script>
 </html>
 

@@ -1,6 +1,9 @@
 /*基本样式*/
 @import 'base';
 #app {
+    [v-cloak] {
+        display: none;
+    }
     .border-left {
         border-left: 1px solid #ccc;
     }

@@ -17,7 +17,12 @@ angular.module('MetronicApp').directive('lazyImg', ['$timeout', 'Util', function
         link: function($scope, element, attrs) {
             $timeout(function() {
                 var imageSrc
-                var width = $(element).width()
+                var width
+                if (attrs.refObject) {
+                    width = $(element).parents(attrs.refObject).width()
+                } else {
+                    width = $(element).width()
+                }
                 if (attrs.type === 'bba') {
                     // 处理默认图片不能显示问题
                     if (!$scope.lazyImg) {
@@ -514,7 +519,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                     // 判断计划是错误做法，应该是判断用户是否有订阅
                     if (sub) {
                         SweetAlert.swal({
-                            title: "You had subscribed. Wanna change your plan?",
+                            title: "You have a subscription already. Contact help@bigbigads.com",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#DD6B55",
@@ -524,7 +529,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                             closeOnCancel: true },
                         function(isConfirm) {
                             if (isConfirm) {
-                                window.open("mailto:sale@bigbigads.com", '_self')
+                                window.open("mailto:help@bigbigads.com", '_self')
                             }
                         })
                         return false
@@ -542,6 +547,21 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
             }
         }
     }) */
+    .directive('analysisOpener', ['User', function(User) {
+        return {
+            link: function(scope, element, attrs) {
+                element.bind("click", function() {
+                    if (!User.done)
+                        return
+                    if (User.login) {
+                        window.open('./adAnalysis/' + attrs.userid)
+                    } else {
+                        User.openSign()
+                    }
+                })
+            }
+        }
+    }])
     // 去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function() {
         return function(collection) {

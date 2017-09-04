@@ -14,9 +14,9 @@
 <!-- BEGIN MAIN CONTENT -->
 <div class="row">
     <div class="col-md-12">
-                <div class="margin-top-10" ng-if="User.login">
+                <!-- <div class="margin-top-10" ng-if="User.login">
                     <span class="font-yellow-gold" ng-show="User.info.user.role.name ==='Free' && currSearchOption.isdirty">Tips: The free level user can only see data 2 months before.</span>
-                </div>
+                </div> -->
                 <div class="alert alert-warning margin-top-10 xg-alert" ng-show="currSearchOption.isdirty">
                     <!-- <div> -->
                     <!--     <h4><a ng-click="clearSearch()">Clear Search</a></h4> -->
@@ -24,6 +24,7 @@
                     <div ng-if="currSearchOption.search.text">Search Text:{{currSearchOption.search.text}}</div>
                     <div ng-if="currSearchOption.filter.type">Media Type:{{currSearchOption.filter.type}}</div>
                     <div ng-if="currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Date:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}}</div>
+                    <div ng-if="currSearchOption.filter.firstSee.startDate && currSearchOption.filter.firstSee.endDate">First See Time Frame:{{currSearchOption.filter.firstSee.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.firstSee.endDate.format("YYYY-MM-DD")}}</div>
                     <div ng-if="currSearchOption.filter.lang.length">Language:{{currSearchOption.filter.lang}}</div>
                     <div ng-if="currSearchOption.filter.state">Country:{{currSearchOption.filter.state}}</div>
                     <div ng-if="currSearchOption.domain.text">Domain:{{currSearchOption.domain.text}}({{currSearchOption.domain.exclude ? "Not Contain" : "Must Contain"}})</div>
@@ -75,8 +76,6 @@
                 <span ng-if="!adSearcher.ads.all_total_count && adSearcher.ads.total_count != 0">Found <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> Matching Ads </span>
 
                 <span ng-if="adSearcher.ads.all_total_count">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}} </span> Matching Ads/You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> results <a class="font-yellow-gold xg-upgrade-button" ng-click="upgrade()"> Upgrade Now</a></span>
-
-                <span ng-if="adSearcher.ads.total_count == 0">Your search did not match any results. </span>
             </div>
         </div>
         <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
@@ -116,8 +115,8 @@
         <div ng-if="adSearcher.ads.total_count!=0">
             <div ng-if="adSearcher.ads.total_count!=0">
             <div class="text-center col-md-12">
-                <p ng-if="User.info.user.role.name == 'Standard'">You can only see 300 results per search in standard level.Please contact us if you need to see more: help@bigbigads.com</p>
-                <p ng-if="User.info.user.role.name == 'Free'">You can only see 100 results per search in free level.Please contact us if you need to see more: help@bigbigads.com</p>
+                <p ng-if="User.info.user.role.plan == 'standard'">You can only see 300 results per search in standard level.Please contact us if you need to see more: help@bigbigads.com</p>
+                <p ng-if="User.info.user.role.plan == 'free'">You can only see 100 results per search in free level.Please contact us if you need to see more: help@bigbigads.com</p>
             </div>
             <div class="col-md-12">
                 <div class="pull-left col-md-5">

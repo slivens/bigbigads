@@ -35,7 +35,11 @@ new Vue({
         emailMessage: "Required",
         showLoading: true, // showLoding 控制的是hidden的样式，当为true的时候，为隐藏！
         complete: false, // complete为true时，表示信用卡卡号是OK的
-        stripeOptions: {},
+        stripeOptions: {
+            elements: {
+                locale: 'en'
+            }
+        },
         token: "" // 信用卡的token
     },
     components: {
