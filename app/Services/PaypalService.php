@@ -85,8 +85,8 @@ class PaypalService
         $merchantPreferences = new MerchantPreferences();
         $merchantPreferences->setReturnUrl("$returnUrl?success=true")
             ->setCancelUrl("$returnUrl?success=false")
-            ->setAutoBillAmount("yes")
-            ->setInitialFailAmountAction("CONTINUE")
+            ->setAutoBillAmount("NO")
+            ->setInitialFailAmountAction("CANCEL")
             ->setMaxFailAttempts("0")
             ->setSetupFee(new Currency(array('value' => $param->amount, 'currency' => 'USD')));
 
