@@ -216,7 +216,7 @@ angular.module('MetronicApp').component('billings', {
                 if (isConfirm) {
                     var url = '/subscription/' + ctrl.subscription.id + '/cancel'
                     ctrl.cancelPromise = $http.post(url).then(function(res) {
-                        if (res.code !== 0)
+                        if (res.data.code !== 0)
                             throw res
                         init(true)
                     }).catch(function(res) {

@@ -227,23 +227,18 @@ class PaymentService implements PaymentServiceContract
         } else {
             $subs = Subscription::where(['gateway' => 'paypal'])->get();
         }
-        $service = $this->getPaypalService();
+        $paypalService = $this->getPaypalService();
         $this->log("sync to paypal, this may take long time...({$subs->count()})");
         foreach ($subs as $sub) {
             if (strlen($sub->agreement_id) < 3) {
                 continue;
             }
             if ($sub->status == Subscription::STATE_CANCLED && !$this->getParameter(PaymentService::PARAMETER_FORCE)) {
-                $this->log("canceled subscription, no need to sync");
-                if ($sub->isActive()) {
-                    $this->log("{$sub->user->email}'s subscription set to null", PaymentService::LOG_INFO);
-                    $sub->user->subscription_id = null;
-                    $sub->user->save();
-                }
+                $this->checkSubscription($sub);
                 continue;
             }
             $this->log("handling {$sub->agreement_id}");
-            $remoteSub = $service->subscription($sub->agreement_id);
+            $remoteSub = $paypalService->subscription($sub->agreement_id);
             if (!$remoteSub) {
                 $this->log($sub->agreement_id . " is not found");
                 continue;
@@ -281,7 +276,7 @@ class PaymentService implements PaymentServiceContract
             // 一个用户只能有一个激活的订阅，其他订阅应该设置被取消或挂起，目前采用取消操作
             if ($sub->user->subscription_id != $sub->id && strtolower($state) == 'active') {
                 $this->log("{$sub->agreement_id} is not {$sub->user->email}'s active subscrition, now cancel it...", PaymentService::LOG_INFO);
-                if ($service->cancelSubscription($sub->agreement_id))
+                if ($paypalService->cancelSubscription($sub->agreement_id))
                     $newStatus = Subscription::STATE_CANCLED;
             }
             if (!empty($newStatus)) {
@@ -296,8 +291,8 @@ class PaymentService implements PaymentServiceContract
                 }
             }
             if ($isDirty) {
-                // TODO:补充对已取消订阅的处理
                 $sub->save();
+                $this->checkSubscription($sub);
             } else {
                 $this->log("{$sub->agreement_id} has no change");
             }
@@ -308,7 +303,7 @@ class PaymentService implements PaymentServiceContract
         }
         /* $this->log("sync to paypal, this will cost time, PLEASE WAITING..."); */
         /* foreach ($subs as $sub) { */
-        /*     $remoteSub = $service->subscription($sub->agreement_id); */
+        /*     $remoteSub = $paypalService->subscription($sub->agreement_id); */
         /* } */
     }
 
@@ -544,12 +539,30 @@ class PaymentService implements PaymentServiceContract
     }
 
     /**
+     * 检查订阅是否符合系统设计
+     * 当订阅取消时，如果是活动订阅，则当前用户的活动订阅应该清空
+     */
+    private function checkSubscription($subscription)
+    {
+        if ($subscription->status == Subscription::STATE_CANCLED)  {
+            // 对于活动订阅，解除用户的当前订阅
+            if ($subscription->isActive()) {
+                $this->log("{$subscription->user->email}'s subscription set to null", PaymentService::LOG_INFO);
+                $user = $subscription->user;
+                $user->subscription_id = null;
+                $user->save();
+            }
+        }
+    }
+
+    /**
      * @{inheritDoc}
      */
     public function cancel(Subscription $subscription)
     {
-        if ($subscription->status == Subscription::STATE_CANCLED)
+        if ($subscription->status == Subscription::STATE_CANCLED)  {
             return true;
+        }
         if (!in_array($subscription->status, [Subscription::STATE_SUBSCRIBED, Subscription::STATE_PAYED]))
             return false;
         $isOk = false;
@@ -573,12 +586,7 @@ class PaymentService implements PaymentServiceContract
             $subscription->status = Subscription::STATE_CANCLED;
             $subscription->save();
 
-            // 对于活动订阅，解除用户的当前订阅
-            if ($subscription->isActive()) {
-                $user = $subscription->user;
-                $user->subscription_id = null;
-                $user->save();
-            }
+            $this->checkSubscription($subscription);
         }
         return $isOk;
     }
