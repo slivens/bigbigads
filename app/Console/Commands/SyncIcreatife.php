@@ -8,7 +8,6 @@ use App\Services\PaypalService as PaypalService;
 use App\Payment;
 use App\Subscription;
 use Carbon\Carbon;
-use DB;
 class SyncIcreatife extends Command
 {
     /**
@@ -57,8 +56,12 @@ class SyncIcreatife extends Command
             ]
         ];
         echo " with AEM7 icreatife api\n";
-        $unSyncSubs = 
-        empty($agreeId)?Subscription::where('agreement_id','like','I-%')->where('created_at','<','2017-06-07')->get():Subscription::where('agreement_id', $agreeId)->first();
+        if (empty($agreeId)) {
+            $unSyncSubs = Subscription::where('agreement_id','like','I-%')->where('created_at','<','2017-06-07')->get();//返回的是多个订阅组合成的二维数组
+        }else{
+            $unSyncSubs = Subscription::where('agreement_id', $agreeId)->first();//返回的是单个订阅的数组
+            $unSyncSubs = [$unSyncSubs];//再套一层变成二维数组
+        }
         $paymentsService = new PaymentService($icreatife);//内含同步代码 
         $paypalService = new PaypalService($icreatife['paypal']);//内含获取订阅和交易列表的代码，用来验证
         $this->info("start syncing icreatife  subscriptions  with api head with 'ARM7...'");
@@ -67,19 +70,13 @@ class SyncIcreatife extends Command
             $getSub = $paypalService->subscription($unSyncSub->agreement_id);
             //查不到的订阅，放弃
             if (is_null($getSub)) {
-                $str = "$sub->agreement_id cannot be found on ARM7 api";
-                $this->info($str);
-                $this->log($str);
-                 unset($unSyncSubs[$key]);
+                $this->info("$unSyncSub->agreement_id cannot be found on ARM7 api");
                  continue;
             }
             //返回的订阅id跟原始查询的id不一致，放弃
             if ($getSub->getId() !== $unSyncSub->agreement_id) {
                 //取回的订阅id与要更新的订阅id不一致，说明api用错，这个订阅不是这个api底下的
-                $str = "The profile_id with $unSyncSub->agreement_id is not 'ARM7' icreatife api's subscription";
-                $this->info($str);
-                $this->log($str);
-                unset($unSyncSubs[$key]);
+                $this->info("The profile_id with $unSyncSub->agreement_id is not 'ARM7' icreatife api's subscription");
                 continue;
             }
             //同步订阅，只更新1个订阅

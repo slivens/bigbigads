@@ -390,7 +390,7 @@ class PaymentService implements PaymentServiceContract
                         $refund->amount = $payment->amount;
                         $refund->note = "auto synced refunds";
                         $refund->status = Refund::STATE_ACCEPTED;
-                        $refund->payment()->associate($payment);
+                        $refund->payment_id = $payment->id;//payment()->associate($payment);
                         $res = $refund->save();
                         $this->log("generate refund automatically:$res", PaymentService::LOG_INFO);
                     }
