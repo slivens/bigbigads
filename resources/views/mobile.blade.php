@@ -11,6 +11,7 @@
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
     <title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
     <link href="./dist/mobile.css?v=2.0.2" rel="stylesheet">
+    @include('tpl.script')
 </head>
 <body id="new_index">
     <!--begin header-->
