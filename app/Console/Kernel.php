@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\SyncPlans::class,
         \App\Console\Commands\SyncSubscriptions::class,
         \App\Console\Commands\SyncPayments::class,
-        \App\Console\Commands\Refund::class
+        \App\Console\Commands\Refund::class,
+        \App\Console\Commands\SyncIcreatife::class
     ];
 
     /**

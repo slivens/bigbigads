@@ -12,11 +12,15 @@ interface PaymentService
     const GATEWAY_STRIPE = "stripe";
     const GATEWAY_PAYPAL = "paypal";
 
+    const PARAMETER_FORCE = "force";
     /**
      * 用于调试目的日志输出
      * @param mixed $logger 控制台或者Log
      */
     public function setLogger($logger);
+
+    public function setParameter($key, $val);
+    public function getParameter($key);
 
     /**
      * 同步计划

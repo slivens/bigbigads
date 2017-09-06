@@ -3,15 +3,18 @@
     <div cg-busy="$ctrl.cancelPromise">
         <p>
             You are currently on <span class="text-warning">{{$ctrl.userInfo.user.role.plan}}</span> Plan
-            <span ng-if="$ctrl.userInfo.user.expired">(expired time: {{$ctrl.userInfo.user.expired}})</span>
+            <!-- <span ng-if="$ctrl.userInfo.user.expired">(expired time: {{$ctrl.userInfo.user.expired}})</span> -->
             <span ng-show="$ctrl.subscription && $ctrl.subscription.status == 'payed'">
                 (You are now on a subscription {{ $ctrl.subscription.agreement_id }})
             </span>
+            <div ng-show="$ctrl.lastSubscription && $ctrl.lastSubscription.status == 'canceled'" class="text-info">(Your last subscription {{$ctrl.lastSubscription.agreement_id}} is cancelled.)</div>
             <div ng-show="$ctrl.lastSubscription == 'pending'" class="text-danger">
-                (We found your subscription  <span class="text-primary"> {{$ctrl.lastSubscription.plan}}</span> is pending by Paypal, please wait for 10 minutes on this page. If waiting is not worked, please contact us.)
+                <!-- (We found your subscription  <span class="text-primary"> {{$ctrl.lastSubscription.plan}}</span> is pending by Paypal, please wait for 10 minutes on this page. If waiting is not worked, please contact us.) -->
+                We are processing your order.Please wait…
             </div>
             <div ng-show="$ctrl.lastSubscription && $ctrl.lastSubscription.status == 'subscribed'" class="text-danger">
-                (You have upgrade your plan to <span class="text-primary"> {{$ctrl.lastSubscription.plan}}</span>, payments is detecting, please wait for 5 miniutes on this page. If waiting is not worked, please contact us.)
+                <!-- (You have upgrade your plan to <span class="text-primary"> {{$ctrl.lastSubscription.plan}}</span>, payments is detecting, please wait for 5 miniutes on this page. If waiting is not worked, please contact us.) -->
+                We are processing your order.Please wait…
             </div>
         </p>
         <p>

@@ -73,14 +73,17 @@ class AppServiceProvider extends ServiceProvider
                 /* ->setTokenStorage(new EloquentStorage(Token::class)) */
                 /* ->addStorage(\ArrayObject::class, new FilesystemStorage(sys_get_temp_dir(), ArrayObject::class)) */
                 /* ->addStorage(Payout::class, new FilesystemStorage(sys_get_temp_dir(), Payout::class)) */
-                ->addDefaultStorages()
-                ->addGateway('paypal_ec', [
-                    'factory' => 'paypal_express_checkout',
-                    'username' => env('PAYPAL_EC_USERNAME'),
-					'password' => env('PAYPAL_EC_PASSWORD'),
-					'signature' => env('PAYPAL_EC_SIGNATURE'),
-					'sandbox' => env('PAYPAL_EC_ENV') === 'sandbox'
-				]);
+                ->addDefaultStorages();
+            // 如果PAYPAL_EC_USERNAME没有设置就不初始化Paypal
+            if (env('PAYPAL_EC_USERNAME')) {
+                $payumBuilder->addGateway('paypal_ec', [
+                        'factory' => 'paypal_express_checkout',
+                        'username' => env('PAYPAL_EC_USERNAME'),
+                        'password' => env('PAYPAL_EC_PASSWORD'),
+                        'signature' => env('PAYPAL_EC_SIGNATURE'),
+                        'sandbox' => env('PAYPAL_EC_ENV') === 'sandbox'
+                    ]);
+            }
             $payumBuilder->addGateway('stripe',[
 					'factory' => 'stripe_js',
 					'publishable_key' => env('STRIPE_PUBLISHABLE_KEY'),

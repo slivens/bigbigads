@@ -200,23 +200,32 @@ final class SubscriptionController extends PayumController
         $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
 
         $agreement = $service->onPay($request);
+
+        $payer = $agreement->getPayer();
+        $info = $payer->getPayerInfo();
         //中途取消的情况下返回profile页面
         if ($agreement == null) return redirect('/app/profile?active=0');
         //abort(401, "error on agreement");
         $subscription->agreement_id = $agreement->getId();
         $subscription->quantity = 1;
         $subscription->status = Subscription::STATE_SUBSCRIBED;
+        $subscription->remote_status = $agreement->getState();
+        $subscription->buyer_email = $info->getEmail();
         $subscription->save();
         $subscription->user->subscription_id = $subscription->id;
         $subscription->user->save();
         if (strtolower($agreement->getState()) != 'active') {
-            return redirect('/app/profile?active=0');
+            /* $subscription->user->subscription_id = null; */
+            /* $subscription->user->save(); */
+            // 如果没有立刻成功，补一个取消订阅的操作
+            /* $service->cacnel($subscription); */
+            return redirect('/app/profile?active=0&sub=' . $subscription->id);
         }
 
         $this->paymentService->syncPayments([], $subscription);
         // 完成订阅后10秒后就去同步，基本上订单都已产生；如果没有产生，3分钟后再次同步试。同时webhook如果有收到，也会去同步。
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(10)));
-        dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addMinutes(3)));
+        dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addMinutes(1)));
         // 添加pay=success作为标示来触发统计七天内支付
         return redirect('/app/profile?active=0&pay=success');
     }
@@ -390,7 +399,7 @@ final class SubscriptionController extends PayumController
             $planName = $details['local']['customer']['plan'];
 
             $subscription = Subscription::where('user_id', $user->id)->where(['status' => Subscription::STATE_CREATED, 'gateway' => PaymentService::GATEWAY_STRIPE])->first();
-            //$subscription->agreement_id = ;$details['local']['customer']['subscriptions']['data']['id'];
+            $subscription->agreement_id = $details['local']['customer']['subscriptions']['data'][0]['id'];
             $subscription->quantity = 1;
             /* $subscription->setup_fee = $details['amount'] / 100; */
             $subscription->save();
