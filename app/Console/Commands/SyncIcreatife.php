@@ -55,7 +55,7 @@ class SyncIcreatife extends Command
                 'secret_key' => 'sk_live_3DbT2xWCQqfk10vtRshKrIOU'
             ]
         ];
-        echo " with AEM7 icreatife api\n";
+        echo " with ARM7 icreatife api\n";
         if (empty($agreeId)) {
             $unSyncSubs = Subscription::where('agreement_id','like','I-%')->where('created_at','<','2017-06-07')->get();//返回的是多个订阅组合成的二维数组
         }else{
