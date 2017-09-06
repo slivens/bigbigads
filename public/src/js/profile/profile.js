@@ -83,6 +83,26 @@ angular.module('MetronicApp').controller('ProfileController', ['$scope', '$locat
             if (search.active && search.active != this.active) {
                 this.active = Number(search.active)
             }
+            if (search.pay && search.pay == 'success') {
+                /* eslint-disable */
+                // 七天内 支付成功的谷歌统计,暂时忽略刷新造成的统计干扰
+                window.google_conversion_id = 850659212; // 该处不加;号会导致谷歌统计代码无效
+                window.google_conversion_language = "en"
+                window.google_conversion_format = "3"
+                window.google_conversion_color = "ffffff"
+                window.google_conversion_label = "z7gMCKGZznQQjI_QlQM"
+                window.google_remarketing_only = false
+    
+                var script = document.createElement("script")
+                script.type = "text/javascript"
+                script.src = "//www.googleadservices.com/pagead/conversion.js"
+                document.getElementsByTagName("head")[0].appendChild(script)
+                // 七天内 支付成功的必应统计
+                ;(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"5713181"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq")
+                window.uetq = window.uetq || []
+                window.uetq.push({'ec': 'conversion', 'ea': 'pay_scccessed', 'el': 'pay', 'ev': 60})
+                /* eslint-enable */
+            }
         }
     }
     profile.init()
