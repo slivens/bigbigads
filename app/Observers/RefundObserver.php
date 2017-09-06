@@ -28,7 +28,10 @@ class RefundObserver
 
     public function creating(Refund $refund)
     {
-        if ($refund->payment->refund ||  !in_array($refund->payment->status, [Payment::STATE_COMPLETED, Payment::STATE_REFUNDED]))
+        $payment = Payment::find($refund->payment_id);
+        if (!$payment)
+            return false;
+        if ($payment->refund ||  !in_array($payment->status, [Payment::STATE_COMPLETED, Payment::STATE_REFUNDED]))
             return false;
         return true;
     }
