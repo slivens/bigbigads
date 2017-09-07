@@ -14,6 +14,7 @@ use App\Subscription;
 use App\Webhook;
 use App\Coupon;
 use App\Refund;
+use App\ActionLog;
 use App\Services\PaypalService;
 use Carbon\Carbon;
 use Payum\LaravelPackage\Controller\PayumController;
@@ -24,6 +25,7 @@ use App\Payment as OurPayment;
 use App\Contracts\PaymentService;
 use App\Jobs\SyncPaymentsJob;
 use App\Jobs\SyncSubscriptionsJob;
+use App\Jobs\LogAction;
 
 final class SubscriptionController extends PayumController
 {
@@ -440,6 +442,7 @@ final class SubscriptionController extends PayumController
             return new Response(['code' => -1, 'desc' => "not a valid state:{$sub->status}"]);
         if (!$this->paymentService->cancel($sub))
             return ['code' => -1, 'desc' => "cancel failed"];
+        dispatch(new LogAction(ActionLog::ACTION_USER_CANCEL, $sub->toJson(), "", $user->id));
         return ['code' => 0, 'desc' => 'success'];
     }
 

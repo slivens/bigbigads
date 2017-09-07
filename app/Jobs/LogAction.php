@@ -21,13 +21,15 @@ class LogAction implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($type, $param, $remark, $uid, $ip)
+    public function __construct($type, $param, $remark, $uid, $ip = null)
     {
         $this->type = $type;
         $this->param = $param;
         $this->remark = $remark;
         $this->uid = $uid;
         $this->ip = $ip;
+        if (!$ip)
+            $this->ip = Request()->ip();
     }
 
     /**
