@@ -44,7 +44,7 @@ class PaypalService
             array(
                 'mode'=> $this->config['mode'],
                 'log.LogEnabled' => true,
-                'log.FileName' => 'PayPal.log',
+                'log.FileName' => storage_path('logs/PayPal.log'),
                 'log.LogLevel' => 'DEBUG'
             ) 
         ); 

@@ -195,6 +195,8 @@ final class SubscriptionController extends PayumController
     public function onPay(Request $request)
     {
         echo "processing...don't close the window";
+        if ($request->success == 'false')
+            return redirect('/app/profile?active=0');
         $subscription = Subscription::where('agreement_id', $request->token)->first();
         if (!($subscription instanceof Subscription)) {
             abort(401, "no subscription found");
@@ -210,7 +212,7 @@ final class SubscriptionController extends PayumController
         //abort(401, "error on agreement");
         $subscription->agreement_id = $agreement->getId();
         $subscription->quantity = 1;
-        $subscription->status = Subscription::STATE_SUBSCRIBED;
+        $subscription->status = $subscription->translateStatus($agreement->getState());
         $subscription->remote_status = $agreement->getState();
         $subscription->buyer_email = $info->getEmail();
         $subscription->save();
@@ -227,7 +229,7 @@ final class SubscriptionController extends PayumController
         $this->paymentService->syncPayments([], $subscription);
         // 完成订阅后10秒后就去同步，基本上订单都已产生；如果没有产生，3分钟后再次同步试。同时webhook如果有收到，也会去同步。
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(10)));
-        dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addMinutes(1)));
+        dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(30)));
         return redirect('/app/profile?active=0');
     }
 
@@ -442,15 +444,24 @@ final class SubscriptionController extends PayumController
             return new Response(['code' => -1, 'desc' => "not a valid state:{$sub->status}"]);
         if (!$this->paymentService->cancel($sub))
             return ['code' => -1, 'desc' => "cancel failed"];
-        dispatch(new LogAction(ActionLog::ACTION_USER_CANCEL, $sub->toJson(), "", $user->id));
+        dispatch(new LogAction(ActionLog::ACTION_USER_CANCEL, $sub->toJson()));
         return ['code' => 0, 'desc' => 'success'];
     }
 
+       
     public function sync($sid)
     {
         $sub = Subscription::where('agreement_id', $sid)->first();
         if (!$sub)
             return ['code' => -1, 'desc' => "$sid not found"];
+        // 无法模拟Paypal订阅的Pending, 因此采用Mock Test
+        /* $sub->status = Subscription::STATE_PENDING; */
+        // 如果扣款失败，会自动被取消，因此同步的处理只需要处理pending的情况
+        if (Carbon::now()->diffInSeconds($sub->updated_at, true) > 30 && $sub->status ==  Subscription::STATE_PENDING) {
+            $this->paymentService->cancel($sub);
+            dispatch(new LogAction(ActionLog::ACTION_AUTO_CANCEL, $sub->toJson()));
+            Log::info("{$sub->agreement_id} is auto canceled");
+        }
         $this->paymentService->syncSubscriptions([], $sub);
         $this->paymentService->syncPayments([], $sub);
         return ['code' => 0, 'desc' => 'success'];

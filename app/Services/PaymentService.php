@@ -382,6 +382,14 @@ class PaymentService implements PaymentServiceContract
                         $this->handlePayment($payment);
                     }
                 }
+
+                if ($isDirty) {
+                    $payment->save();
+                    $this->log("payment {$payment->number} is synced");
+                } else {
+                    $this->log("payment {$payment->number} has no change", PaymentService::LOG_INFO);
+                }
+
                 // 补全退款申请单和根据退款状态处理用户状态
                 if ($payment->status == Payment::STATE_REFUNDED) {
                     $refund = $payment->refund;
@@ -400,14 +408,6 @@ class PaymentService implements PaymentServiceContract
                     }
                     $this->handleRefundedPayment($payment);
                 }
-
-                if ($isDirty) {
-                    $payment->save();
-                    $this->log("payment {$payment->number} is synced");
-                } else {
-                    $this->log("payment {$payment->number} has no change", PaymentService::LOG_INFO);
-                }
-
             }
         }
     }
@@ -563,7 +563,7 @@ class PaymentService implements PaymentServiceContract
         if ($subscription->status == Subscription::STATE_CANCLED)  {
             return true;
         }
-        if (!in_array($subscription->status, [Subscription::STATE_SUBSCRIBED, Subscription::STATE_PAYED]))
+        if (!$subscription->canCancel())
             return false;
         $isOk = false;
         if ($subscription->gateway == PaymentService::GATEWAY_STRIPE) {
