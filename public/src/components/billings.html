@@ -16,7 +16,7 @@
             <!-- <th>Remark</th>
             <th>Operation</th> -->
         </tr>
-        <tr ng-repeat="item in $ctrl.billings.items | orderBy:'-startDate'" ng-class="{'text-success': item.subscription_id == $ctrl.subscriptionId}">
+        <tr ng-repeat="item in $ctrl.billings.items | orderBy:'-startDate'" ng-class="{'text-success': item.id == $ctrl.effective_id}">
             <td>{{item.gateway == 'paypal' ? 'paypal' : 'credit card'}}</td>
             <td>{{item.number}}</td>
             <td>{{item.subscription.plan}}</td>

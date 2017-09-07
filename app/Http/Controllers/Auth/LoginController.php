@@ -86,17 +86,18 @@ class LoginController extends Controller
         }
         //帐号如果过期则重置为Free角色，这一步会比较耗时，是可以推到队列中执行，但是可能出现缓存与实际保存的不同步，由于只是偶尔执行，因此不会引起性能问题
         //简化处理
-        if ($user->role_id != 3 && $user->expired  && $user->expired != '0000-00-00 00:00:00' && Carbon::now()->gt(new Carbon($user->expired))) {
-            $role = Role::where('name', 'Free')->first();
-            $user->role_id = $role->id;
-            $user->expired = null;
-            $user->initUsageByRole($role);
-            $user->save();
-			/* Artisan::queue('bigbigads:change', [ */
-			/* 	'email' => $user->email, 'roleName' => 'Free' */
-            /* ]); */ 
-            dispatch(new LogAction("USER_EXPIRED", json_encode(["name" => $user->name, "email" => $user->email, "expired" => $user->expired ]), "", $user->id, Request()->ip() ));
-        }
+        /* if ($user->isExpired()) { */
+            $user->resetIfExpired();
+            /* $role = Role::where('name', 'Free')->first(); */
+            /* $user->role_id = $role->id; */
+            /* $user->expired = null; */
+            /* $user->initUsageByRole($role); */
+            /* $user->save(); */
+			/* /1* Artisan::queue('bigbigads:change', [ *1/ */
+			/* /1* 	'email' => $user->email, 'roleName' => 'Free' *1/ */
+            /* /1* ]); *1/ */ 
+            /* dispatch(new LogAction("USER_EXPIRED", json_encode(["name" => $user->name, "email" => $user->email, "expired" => $user->expired ]), "", $user->id, Request()->ip() )); */
+        /* } */
         
         if ($request->has('referer')) {
             $url = env('APP_URL');

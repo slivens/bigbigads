@@ -216,7 +216,9 @@ final class PaypalService
             ->setDescription($param['display_name']);
         // 按扣款周期设置首期推迟时间
         // TODO:考虑周和天的情况 
-        if (strtoupper($param['frequency']) == 'MONTH') {
+        if (strtoupper($param['frequency']) == 'DAY') {
+            $agreement->setStartDate(Carbon::now()->addDays($param['frequency_interval'])->toIso8601String());
+        } else if (strtoupper($param['frequency']) == 'MONTH') {
             $agreement->setStartDate(Carbon::now()->addMonths($param['frequency_interval'])->toIso8601String());
         }else{
             $agreement->setStartDate(Carbon::now()->addYear()->toIso8601String());

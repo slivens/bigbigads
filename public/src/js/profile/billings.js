@@ -17,6 +17,8 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
                     // 7天以内且成功支付的订单才允许申请退款
                     if (moment().diff(moment(item.start_date), 'days') <= 7 && item.status == 'completed' && !item.refund)
                         item.canRefund = true
+                    if (item.is_effective && !ctrl.effective_id)
+                        ctrl.effective_id = item.id
                 })
             })
             ctrl.inited = true
@@ -47,8 +49,8 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
         })
     }
     ctrl.$onChanges = function(obj) {
-        // if (obj.shouldInit.currentValue !== "true" || ctrl.inited)
-        //     return
+        if (obj.shouldInit.currentValue !== "true") // || ctrl.inited)
+            return
         ctrl.init()
     }
 }])

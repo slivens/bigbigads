@@ -11,9 +11,7 @@ angular.module('MetronicApp').controller('SubscriptionController', ['$scope', '$
             ctrl.subscription = User.user.subscription
             ctrl.canCancel = false
             if (ctrl.subscription &&
-                    (ctrl.subscription.status == 'payed' ||
-                    ctrl.subscription.status == 'subscribed' ||
-                    ctrl.subscription.status == 'pending'))
+                    (ctrl.subscription.status != 'canceled'))
                 ctrl.canCancel = true
             for (i = user.subscriptions.length - 1; i >= 0; --i) {
                 if (user.subscriptions[i].status != 'created') {
@@ -23,6 +21,12 @@ angular.module('MetronicApp').controller('SubscriptionController', ['$scope', '$
             }
             if (!ctrl.lastSubscription)
                 return
+            if (ctrl.lastSubscription.status == 'canceled') {
+                ctrl.lastSubscription.payments.map((item) => {
+                    if (item.is_effective)
+                        ctrl.effectPayment = item
+                })
+            }
             if (ctrl.lastSubscription.status == 'subscribed' || ctrl.lastSubscription.status == 'pending') {
                 setTimeout(function() {
                     // console.log("update")

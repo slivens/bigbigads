@@ -91,9 +91,10 @@ class Subscription extends Model
     public function hasEffectivePayment()
     {
         foreach ($this->payments as $payment) {
-            if ($this->payment->isEffective())
+            if ($payment->isEffective())
                 return true;
         }
         return false;
     }
+
 }

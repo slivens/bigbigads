@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class ActionLog extends Model
 {
     /**
-     *  登陆相关
+     *  用户相关
      */
     const ACTION_USER_LOGIN = "USER_LOGIN";
     const ACTION_USER_LOGIN_MOBILE = "USER_LOGIN_MOBILE";
@@ -18,6 +18,7 @@ class ActionLog extends Model
     const ACTION_USER_REGISTERED_MOBILE = "USER_REGISTERED_MOBILE";
     const ACTION_USER_BIND_SOCIALITE_MOBILE_BASE = "USER_BIND_SOCIALITE_MOBILE_BASE";
     const ACTION_USER_BIND_SOCIALITE_BASE = "USER_BIND_SOCIALITE_BASE";
+    const ACTION_USER_EXPIRED = "USER_EXPIRED";
 
     /**
      * 权限相关

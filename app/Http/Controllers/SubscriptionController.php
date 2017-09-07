@@ -194,7 +194,7 @@ final class SubscriptionController extends PayumController
      */
     public function onPay(Request $request)
     {
-        echo "processing...don't close the window";
+        echo "processing...don't close the window.";
         if ($request->success == 'false')
             return redirect('/app/profile?active=0');
         $subscription = Subscription::where('agreement_id', $request->token)->first();
@@ -209,12 +209,14 @@ final class SubscriptionController extends PayumController
         $info = $payer->getPayerInfo();
         //中途取消的情况下返回profile页面
         if ($agreement == null) return redirect('/app/profile?active=0');
+        $detail = $agreement->getAgreementDetails();
         //abort(401, "error on agreement");
         $subscription->agreement_id = $agreement->getId();
         $subscription->quantity = 1;
         $subscription->status = $subscription->translateStatus($agreement->getState());
         $subscription->remote_status = $agreement->getState();
         $subscription->buyer_email = $info->getEmail();
+        $subscription->next_billing_date = $detail->getNextBillingDate();
         $subscription->save();
         $subscription->user->subscription_id = $subscription->id;
         $subscription->user->save();
@@ -281,21 +283,22 @@ final class SubscriptionController extends PayumController
                         Log::warning("payment completed, but no `$agreementId` subscription found");
                         break;
                     }
-                    $user = $subscription->user;
+                    dispatch(new SyncPaymentsJob($subscription));
+                    /* $user = $subscription->user; */
 
-                    $payment = new OurPayment();
-                    $payment->status = OurPayment::STATE_COMPLETED;
-                    $payment->client_id = $user->id;
-                    $payment->client_email = $user->email;
-                    $payment->amount = $resource['amount']['total'];
-                    $payment->currency =  $resource['amount']['currency'];
-                    $payment->number = $resource['id'];// Paypal的订单号是自动生成的
-                    $payment->description = $request->summary;
-                    $payment->details = $resource;
-                    $payment->subscription()->associate($subscription);
-                    $payment->save();
+                    /* $payment = new OurPayment(); */
+                    /* $payment->status = OurPayment::STATE_COMPLETED; */
+                    /* $payment->client_id = $user->id; */
+                    /* $payment->client_email = $user->email; */
+                    /* $payment->amount = $resource['amount']['total']; */
+                    /* $payment->currency =  $resource['amount']['currency']; */
+                    /* $payment->number = $resource['id'];// Paypal的订单号是自动生成的 */
+                    /* $payment->description = $request->summary; */
+                    /* $payment->details = $resource; */
+                    /* $payment->subscription()->associate($subscription); */
+                    /* $payment->save(); */
 
-                    $this->paymentService->handlePayment($payment);
+                    /* $this->paymentService->handlePayment($payment); */
                     break;
                 case 'PAYMENT.SALE.REFUNDED':
                     $payment = OurPayment::where('number', $resource['sale_id'])->first();
@@ -303,8 +306,7 @@ final class SubscriptionController extends PayumController
                         Log::warning("the payment is refunded, but no record in the system");
                         break;
                     }
-                    $payment->status = OurPayment::STATE_REFUNDED;
-                    $payment->save();
+                    dispatch(new SyncPaymentsJob($payment->subscription));
                     break;
                 }
             }
