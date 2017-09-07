@@ -69,4 +69,18 @@ class Payment extends BasePayment
         }
         return $carbon->toDateTimeString();
     }
+
+    /**
+     * 当前Payment是否生效，判断依据：
+     * 1. 状态为完成
+     * 2. 当前时间在起始时间和结束时间之间
+     */
+    public function isEffective()
+    {
+        if ($this->status != Payment::STATE_COMPLETED)
+            return false;
+        $start = new Carbon($this->start_date);
+        $end = new Carbon($this->end_date);
+        return Carbon::now()->between($start, $end);
+    }
 }

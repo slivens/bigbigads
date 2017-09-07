@@ -39,6 +39,8 @@ class PaymentService implements PaymentServiceContract
         $this->config = $config;
         $this->parameters = new Collection();
         Stripe::setApiKey($this->config['stripe']['secret_key']);
+        $this->setParameter(PaymentService::PARAMETER_TAGS, ['default']);
+        /* $this->setParameter(PaymentService::PARAMETER_SYNC_RANGE, ['start' => '2017-06-07 14:15:12', 'end' => null]); */
     }
 
     public function setParameter($key, $val)
@@ -225,7 +227,7 @@ class PaymentService implements PaymentServiceContract
         if ($subscription) {
             $subs = new Collection([$subscription]);
         } else {
-            $subs = Subscription::where(['gateway' => 'paypal'])->get();
+            $subs = Subscription::where('gateway', 'paypal')->where('status', '<>', Subscription::STATE_CREATED)->where('status', '<>', '')->whereIn('tag', $this->getParameter(PaymentService::PARAMETER_TAGS))->get();
         }
         $paypalService = $this->getPaypalService();
         $this->log("sync to paypal, this may take long time...({$subs->count()})");
@@ -234,6 +236,7 @@ class PaymentService implements PaymentServiceContract
                 continue;
             }
             if ($sub->status == Subscription::STATE_CANCLED && !$this->getParameter(PaymentService::PARAMETER_FORCE)) {
+                $this->log("skip cancelled subscription {$sub->agreement_id}");
                 $this->checkSubscription($sub);
                 continue;
             }
@@ -246,13 +249,15 @@ class PaymentService implements PaymentServiceContract
             $plan = $remoteSub->getPlan();
             $def = $plan->getPaymentDefinitions()[0];
 
+            $detail = $remoteSub->getAgreementDetails();
             $payer = $remoteSub->getPayer();
             $info = $payer->getPayerInfo();
             $newData = [
                 'frequency' => $def->getFrequency(),
                 'frequency_interval' => $def->getFrequencyInterval(),
                 'remote_status' => $remoteSub->getState(),
-                'buyer_email' => $info->getEmail()
+                'buyer_email' => $info->getEmail(),
+                'next_billing_date' => $detail->getNextBillingDate()
             ];
             $state = $remoteSub->getState();
             $newStatus = '';
@@ -437,7 +442,10 @@ class PaymentService implements PaymentServiceContract
     }
 
     /**
-     * 对于退款支付订单，如果是当前活动订阅的订单，则连同订阅一起取消， 并将用户权限切换到Free。
+     * 对于退款支付订单满足以下条件，则订阅会被取消：
+     * 1. 退款订意属于活动订阅
+     * 2. 活动订阅没有其他有效订单
+     * 用户权限切换到Free。
      * @remark 如果先取消订阅再发起退款呢？这种情况不能忽略。否则会出现用户取消订阅了，钱也退了，但是权限还在。
      */
     public function handleRefundedPayment(Payment $payment)
@@ -446,6 +454,8 @@ class PaymentService implements PaymentServiceContract
         if ($payment->status != Payment::STATE_REFUNDED)
             return false;
         if (!$payment->subscription->isActive())
+            return false;
+        if ($payment->subscription->hasEffectivePayment())
             return false;
         $this->log("reset user {$user->email} to Free because of refund:{$payment->number}", PaymentService::LOG_INFO);
         $this->cancel($payment->subscription);

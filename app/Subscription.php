@@ -84,4 +84,16 @@ class Subscription extends Model
             return false;
         return true;
     }
+
+    /**
+     * 当前订阅是否有生效的订单
+     */
+    public function hasEffectivePayment()
+    {
+        foreach ($this->payments as $payment) {
+            if ($this->payment->isEffective())
+                return true;
+        }
+        return false;
+    }
 }
