@@ -16,7 +16,10 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\SyncPlans::class,
         \App\Console\Commands\SyncSubscriptions::class,
         \App\Console\Commands\SyncPayments::class,
-        \App\Console\Commands\Refund::class
+        \App\Console\Commands\Refund::class,
+        \App\Console\Commands\SyncIcreatife::class,
+        \App\Console\Commands\ScanUsers::class,
+        \App\Console\Commands\SyncByUser::class
     ];
 
     /**
@@ -27,8 +30,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('bba:scan-users')
+            ->daily()
+            ->withoutOverlapping();
     }
 
     /**

@@ -1,4 +1,6 @@
 import '../common/common'
+import './billings'
+import './subscription'
 
 angular.module('MetronicApp').controller('PlansController', ['$scope', 'Resource', 'User', function($scope, Resource, User) {
     var plans = new Resource('plans')
@@ -113,124 +115,6 @@ angular.module('MetronicApp').controller('ProfileController', ['$scope', '$locat
         $scope.user = user
     })
 }])
-angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User', 'Resource', 'SweetAlert', '$http', function($scope, User, Resource, SweetAlert, $http) {
-    var ctrl = this
-    var billings = new Resource('billings')
-    ctrl.init = function() {
-        User.getInfo().then(function() {
-            // $scope.userInfo = User.info;
-            // $scope.subscription = User.info.subscription;
-            if (!User.login)
-                return
-            var user = User.info.user
-
-            ctrl.subscriptionId = user.subscription_id
-            ctrl.queryPromise = billings.get().then(function() {
-                billings.items.map(function(item) {
-                    // 7天以内且成功支付的订单才允许申请退款
-                    if (moment().diff(moment(item.start_date), 'days') <= 7 && item.status == 'completed' && !item.refund)
-                        item.canRefund = true
-                })
-            })
-            ctrl.inited = true
-        })
-    }
-
-    ctrl.billings = billings
-
-    ctrl.beatifyDate = function(dateStr) {
-        return dateStr.split(' ')[0]
-    }
-    ctrl.refund = function(item) {
-        SweetAlert.swal({
-            title: "check refunding?",
-            type: "warning",
-            showCancelButton: true
-        }, function(isConfirm) {
-            if (!isConfirm)
-                return
-            // 退款成功重新获取订单
-            $http.put('/payments/' + item.number + '/refund_request').then(function(res) {
-                if (res.data.code != 0)
-                    throw res
-                ctrl.init()
-            }).catch(function(res) {
-                SweetAlert.swal(res.data.message)
-            })
-        })
-    }
-    ctrl.$onChanges = function(obj) {
-        if (obj.shouldInit.currentValue !== "true" || ctrl.inited)
-            return
-        ctrl.init()
-    }
-}])
-// TODO:templateUrl通过依赖注入加时间戳
-angular.module('MetronicApp').component('billings', {
-    templateUrl: 'components/billings.html',
-    controller: 'BillingsController',
-    bindings: {
-        shouldInit: '@'
-    }
-})
-    .controller('SubscriptionController', ['$scope', '$http', 'User', 'SweetAlert', function($scope, $http, User, SweetAlert) {
-        var ctrl = this
-        function init(force) {
-            User.getInfo(force).then(function() {
-                // console.log("inited", User.info.user)
-                var user = User.info.user
-                ctrl.userInfo = User.info
-                ctrl.subscription = User.user.subscription
-                ctrl.canCancel = false
-                if (ctrl.subscription &&
-                    (ctrl.subscription.status == 'payed' ||
-                    ctrl.subscription.status == 'subscribed' ||
-                    ctrl.subscription.status == 'pending'))
-                    ctrl.canCancel = true
-                if (user.subscriptions.length > 0)
-                    ctrl.lastSubscription = user.subscriptions[user.subscriptions.length - 1]
-                if (!ctrl.lastSubscription)
-                    return
-                if (ctrl.lastSubscription.status == 'subscribed' || ctrl.lastSubscription.status == 'pending') {
-                    setTimeout(function() {
-                        // console.log("update")
-                        $scope.$apply(function() {
-                            $http.post('/subscriptions/' + ctrl.lastSubscription.agreement_id + '/sync').then(function(res) {
-                                init(true)
-                            })
-                        })
-                    }, 10000)
-                }
-            })
-        }
-        ctrl.cancel = function() {
-            SweetAlert.swal({
-                title: "Are you sure to cancel?",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes",
-                cancelButtonText: "No"
-            },
-            function(isConfirm) {
-                if (isConfirm) {
-                    var url = '/subscription/' + ctrl.subscription.id + '/cancel'
-                    ctrl.cancelPromise = $http.post(url).then(function(res) {
-                        if (res.code !== 0)
-                            throw res
-                        init(true)
-                    }).catch(function(res) {
-                        SweetAlert.swal(res.data.message)
-                    })
-                }
-            })
-        }
-        init(false)
-    }])
-    .component('subscription', {
-        templateUrl: 'components/subscription.html',
-        controller: 'SubscriptionController'
-    })
     .controller('ChangepwdController', ['$scope', '$uibModalInstance', '$http', 'settings', function($scope, $uibModalInstance, $http, settings) {
         var info = {
             oldpwd: null,

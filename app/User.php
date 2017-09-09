@@ -11,6 +11,8 @@ use TCG\Voyager\Models\Permission;
 use Carbon\Carbon;
 use App\Policy;
 use App\Affiliate;
+use App\Jobs\LogAction;
+use Log;
 
 class User extends Authenticatable
 {
@@ -306,6 +308,25 @@ class User extends Authenticatable
         if (!($permission instanceof Permission))
             return false;
         $this->permissions()->detach($permission->id);
+        return true;
+    }
+
+    public function isExpired()
+    {
+        return $this->role_id != 3 && $this->expired  && $this->expired != '0000-00-00 00:00:00' && Carbon::now()->gt(new Carbon($this->expired));
+    }
+
+    public function resetIfExpired()
+    {
+        if (!$this->isExpired())
+            return false;
+        //Log::info("{$this->email} has expired($this->expired), reset to Free and init usage again");
+        $role = Role::where('name', 'Free')->first();
+        $this->role_id = $role->id;
+        $this->expired = null;
+        $this->initUsageByRole($role);
+        $this->save();
+        dispatch(new LogAction(ActionLog::ACTION_USER_EXPIRED, json_encode(["name" => $this->name, "email" => $this->email, "expired" => $this->expired ]), "", $this->id));
         return true;
     }
 }
