@@ -343,6 +343,9 @@ class PaymentService implements PaymentServiceContract
         }
         $service = $this->getPaypalService();
         foreach($subscriptions as $item) {
+            // 未完成订阅直接忽略
+            if ($item->status == Subscription::STATE_CREATED)
+                continue;
             if ($item->status == Subscription::STATE_CANCLED && !$force) {
                 $this->log("skip cancelled subscription {$item->agreement_id}");
                 continue;
@@ -443,21 +446,6 @@ class PaymentService implements PaymentServiceContract
     {
         
     }
-
-    /**
-     * 订阅处于支付状态时，发现有新的支付订单，有可能是循环扣款的新订单。
-     * 做检查并设置过期时间。
-     */
-    /* protected function handleNextPayment(Payment $payment) */
-    /* { */
-    /*     $endDate = new Carbon($payment->end_date); */
-    /*     $user = $payment->client; */
-    /*     if ($endDate->gt(new Carbon($user->expired))) { */
-    /*         $this->log("{$user->email} has billing next payment, change his expired date({$payment->endDate}) > (" . $user->expired. ")", PaymentService::LOG_INFO); */
-    /*         $user->expired  = $endDate->addDay(); */
-    /*         $user->save(); */
-    /*     } */
-    /* } */
 
     /**
      * 对于退款支付订单满足以下条件，则订阅会被取消：
