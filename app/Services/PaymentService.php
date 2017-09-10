@@ -230,8 +230,10 @@ class PaymentService implements PaymentServiceContract
                 $subs = $subscription;
             else
                 $subs = new Collection([$subscription]);
+            $force = true;
         } else {
             $subs = Subscription::where('gateway', 'paypal')->where('status', '<>', Subscription::STATE_CREATED)->where('status', '<>', '')->whereIn('tag', $this->getParameter(PaymentService::PARAMETER_TAGS))->get();
+            $force = $this->getParameter(PaymentService::PARAMETER_FORCE);
         }
         $paypalService = $this->getPaypalService();
         $this->log("sync to paypal, this may take long time...({$subs->count()})");
@@ -239,7 +241,7 @@ class PaymentService implements PaymentServiceContract
             if (strlen($sub->agreement_id) < 3) {
                 continue;
             }
-            if ($sub->status == Subscription::STATE_CANCLED && !$this->getParameter(PaymentService::PARAMETER_FORCE)) {
+            if ($sub->status == Subscription::STATE_CANCLED && !$force) {
                 $this->log("skip cancelled subscription {$sub->agreement_id}");
                 $this->checkSubscription($sub);
                 continue;
