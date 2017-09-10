@@ -18,6 +18,9 @@ class User extends Authenticatable
 {
     use Notifiable, Billable;
 
+    const TAG_DEFAULT = "default";
+    const TAG_WHITELIST = "whitelist";
+
     /**
      * The attributes that are mass assignable.
      *
@@ -316,17 +319,100 @@ class User extends Authenticatable
         return $this->role_id != 3 && $this->expired  && $this->expired != '0000-00-00 00:00:00' && Carbon::now()->gt(new Carbon($this->expired));
     }
 
-    public function resetIfExpired()
+
+    /**
+     * 重置过期用户为Free，并清空过期时间
+     */
+    private function resetExpired()
     {
-        if (!$this->isExpired())
-            return false;
-        //Log::info("{$this->email} has expired($this->expired), reset to Free and init usage again");
         $role = Role::where('name', 'Free')->first();
+        if ($this->role_id == $role->id)
+            return false;
         $this->role_id = $role->id;
         $this->expired = null;
         $this->initUsageByRole($role);
         $this->save();
+        return true;
+    }
+
+    public function resetIfExpired()
+    {
+        if (!$this->isExpired())
+            return false;
+        $this->resetExpired();
         dispatch(new LogAction(ActionLog::ACTION_USER_EXPIRED, json_encode(["name" => $this->name, "email" => $this->email, "expired" => $this->expired ]), "", $this->id));
         return true;
+    }
+
+    /**
+     * 获取最近的有效订阅
+     */
+    public function getEffectiveSub()
+    {
+        $subs = $this->subscriptions()->where('status', '<>', Subscription::STATE_CREATED)->orderBy('created_at', 'desc')->get();
+        $baseSub = null;
+        // 有效订阅未必是最后一条，比如用户取消当前订阅，购买新订阅，但是扣款失败。这时没有活动订阅，有效订阅仍然是前一个。
+        for ($i = 0; $i < count($subs); ++$i) {
+            if ($subs[$i]->hasEffectivePayment()) {
+                $baseSub = $subs[$i];
+                break;
+            }
+        }
+        return $baseSub;
+    }
+
+    /**
+     * 根据订单信息更新用户信息
+     * 目前更新角色与过期时间
+     */
+    public function fixInfoByPayments()
+    {
+        if ($this->tag == User::TAG_WHITELIST) {
+            Log::debug("{$this->email} is in whitelist, ignore");
+            return;
+        }
+        if ($this->role_id < 3) {
+            Log::debug("{$this->email} is an admin user, ignore");
+            return;
+        }
+        $baseSub = $this->getEffectiveSub();
+        // 没有有效订单，又不在白名单内的用户，同步后它们的权限将重置为Free
+        if (!$baseSub)  {
+            if ($this->resetExpired()) {
+                Log::info("{$this->email} is not a Free user or expired is set,but has no valid payments and not in whitelist, reset it");
+            }
+            return;       
+        }
+
+        $plan = $baseSub->getPlan();
+        if (!$plan) {
+            Log::error("the subscription has valid plan: {$baseSub->plan}, please check");
+            return;
+        }
+        $role = $plan->role;
+        $dirty = false;
+        // 角色不一致就重置角色
+        if ($this->role_id != $role->id) {
+            $this->role_id = $role->id;
+            $this->initUsageByRole($role);
+            $dirty = true;
+            Log::info("{$this->email} role change to {$role->name}, reset usage");
+        }
+
+        // 过期时间设置为有效订单的结束时间+1天，一个时间段内只会有一个有效订单
+        foreach ($baseSub->payments as $payment) {
+            if ($payment->isEffective()) {
+                $expired = new Carbon($payment->end_date);
+                $expired->addDay(); 
+                if ($this->expired != $expired) {
+                    Log::info("{$this->email}'s expired is updated:{$this->expired} -> {$expired}");
+                    $this->expired = $expired;
+                    $dirty = true;
+                }
+                break;
+            }
+        }
+        if ($dirty)
+            $this->save();
     }
 }

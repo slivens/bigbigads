@@ -27,6 +27,8 @@ class LogAction implements ShouldQueue
         $this->type = $type;
         $this->param = $param;
         $this->remark = $remark;
+        if (is_null($this->remark))
+            $this->remark = "";
         $this->uid = $uid;
         if (!$uid) {
             if (!Auth::user())

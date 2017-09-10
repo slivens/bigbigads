@@ -42,6 +42,7 @@ class Subscription extends Model
      */
     const STATE_PENDING = "pending";
 
+
     public function user()
     {
         return $this->belongsTo('\App\User');
@@ -65,7 +66,7 @@ class Subscription extends Model
     public function translateStatus($remoteStatus)
     {
         if ($this->gateway === 'paypal') {
-            switch ($remoteStatus) {
+            switch (strtolower($remoteStatus)) {
             case 'active':
                 return Subscription::STATE_PAYED;
             case 'pending':
@@ -97,4 +98,28 @@ class Subscription extends Model
         return false;
     }
 
+    /**
+     * 获取第一个有效的订单
+     */
+    /* public function getFirstEffectivePayment() */
+    /* { */
+    /*     foreach ($this->payments as $payment) { */
+    /*         if ($payment->isEffective()) */
+    /*             return $payment; */
+    /*     } */
+    /*     return null; */
+    /* } */
+
+    public function getPlan()
+    {
+        return Plan::where('name', $this->plan)->first();
+    }
+
+    /**
+     * 根据订阅计算出天数
+     */
+    /* public function getEffectiveEndDate() */
+    /* { */
+        
+    /* } */
 }

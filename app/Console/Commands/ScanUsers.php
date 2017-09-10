@@ -13,7 +13,7 @@ class ScanUsers extends Command
      *
      * @var string
      */
-    protected $signature = 'bba:scan-users {email?}';
+    protected $signature = 'bba:scan-users {email?} {--fix-info : 根据订阅信息修复用户的角色和过期时间}';
 
     /**
      * The console command description.
@@ -46,15 +46,27 @@ class ScanUsers extends Command
      */
     public function handle()
     {
+        $fix = $this->option('fix-info');
         $email = $this->argument('email');
+        if ($fix) {
+            $this->comment("You enabled --fix-info option");
+        }
         if ($email) {
             $user = User::where('email', $email)->first();
+            if ($fix) {
+                $user->fixInfoByPayments();
+            }
             $user->resetIfExpired();
-
             $this->comment("only scan user: $email ". $user->isExpired());
         } else {
             $this->comment("start scan users...");
-            foreach (User::where('role_id', '>', 3)->cursor() as $user) {
+            foreach (User::where('role_id', '>', 2)->cursor() as $user) {
+                if ($fix) {
+                    $user->fixInfoByPayments();
+                }
+                // 免费用户忽略 
+                if ($user->role_id == 3)
+                    continue;
                 if ($user->resetIfExpired())
                     $this->info("{$user->email} has expired");
             }

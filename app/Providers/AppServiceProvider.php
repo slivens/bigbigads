@@ -89,6 +89,10 @@ class AppServiceProvider extends ServiceProvider
 					'publishable_key' => env('STRIPE_PUBLISHABLE_KEY'),
 					'secret_key' => env('STRIPE_SECRET_KEY')
 				]);
-		});
+        });
+
+        if ($this->app->environment('local')) {
+            $this->app->register(\Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class);
+        }
 	}
 }

@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Cache;
 use App\Jobs\SyncPaymentsJob;
 use App\Notifications\RefundRequestNotification;
+use App\Notifications\CancelSubOnSyncNotification;
 
 class PaymentService implements PaymentServiceContract
 {
@@ -255,12 +256,13 @@ class PaymentService implements PaymentServiceContract
             $detail = $remoteSub->getAgreementDetails();
             $payer = $remoteSub->getPayer();
             $info = $payer->getPayerInfo();
+            $nextBillingDate = $detail->getNextBillingDate();
             $newData = [
                 'frequency' => $def->getFrequency(),
                 'frequency_interval' => $def->getFrequencyInterval(),
                 'remote_status' => $remoteSub->getState(),
                 'buyer_email' => $info->getEmail(),
-                'next_billing_date' => $detail->getNextBillingDate()
+                'next_billing_date' => $nextBillingDate ? new Carbon($nextBillingDate) : null
             ];
             $state = $remoteSub->getState();
             $newStatus = '';
@@ -281,11 +283,12 @@ class PaymentService implements PaymentServiceContract
                 $newStatus = Subscription::STATE_SUSPENDED;
                 break;
             }
-            // 一个用户只能有一个激活的订阅，其他订阅应该设置被取消或挂起，采用挂起操作，取消由用户自己完成(防止我方系统误操作），误挂起后还可以再恢复。
+            // 一个用户只能有一个激活的订阅，其他订阅应该设置被取消或挂起，采用通知操作，由管理员确认后手动取消。
             if ($sub->user->subscription_id != $sub->id && strtolower($state) == 'active') {
-                $this->log("{$sub->agreement_id} is not {$sub->user->email}'s active subscrition, now suspend it...", PaymentService::LOG_INFO);
-                if ($paypalService->suspendSubscription($sub->agreement_id))
-                    $newStatus = Subscription::STATE_SUSPENDED;
+                $this->log("{$sub->agreement_id} is not {$sub->user->email}'s active subscrition, now send email to notify admin to cancel it", PaymentService::LOG_INFO);
+                /* if ($paypalService->suspendSubscription($sub->agreement_id)) */
+                /*     $newStatus = Subscription::STATE_SUSPENDED; */
+                $sub->user->notify(new CancelSubOnSyncNotification($sub));
             }
             if (!empty($newStatus)) {
                 $newData['status'] = $newStatus;
@@ -435,16 +438,16 @@ class PaymentService implements PaymentServiceContract
      * 订阅处于支付状态时，发现有新的支付订单，有可能是循环扣款的新订单。
      * 做检查并设置过期时间。
      */
-    protected function handleNextPayment(Payment $payment)
-    {
-        $endDate = new Carbon($payment->end_date);
-        $user = $payment->client;
-        if ($endDate->gt(new Carbon($user->expired))) {
-            $this->log("{$user->email} has billing next payment, change his expired date({$payment->endDate}) > (" . $user->expired. ")", PaymentService::LOG_INFO);
-            $user->expired  = $endDate->addDay();
-            $user->save();
-        }
-    }
+    /* protected function handleNextPayment(Payment $payment) */
+    /* { */
+    /*     $endDate = new Carbon($payment->end_date); */
+    /*     $user = $payment->client; */
+    /*     if ($endDate->gt(new Carbon($user->expired))) { */
+    /*         $this->log("{$user->email} has billing next payment, change his expired date({$payment->endDate}) > (" . $user->expired. ")", PaymentService::LOG_INFO); */
+    /*         $user->expired  = $endDate->addDay(); */
+    /*         $user->save(); */
+    /*     } */
+    /* } */
 
     /**
      * 对于退款支付订单满足以下条件，则订阅会被取消：
@@ -477,13 +480,13 @@ class PaymentService implements PaymentServiceContract
         $subscription = $payment->subscription;
         if ($subscription->status == Subscription::STATE_PAYED) {
             $this->log("You haved payed for the subscription, check if it's the next payment");
-            return $this->handleNextPayment($payment);
+            return $subscription->user->fixInfoByPayments();
         }
 
-        if (Carbon::now()->gte(new Carbon($payment->end_date))) {
-            Log::warning("the payment has expired, now: " . Carbon::now()->toDateTimeString() . ", end date:" . $payment->end_date );
-            return;
-        }
+        /* if (Carbon::now()->gte(new Carbon($payment->end_date))) { */
+        /*     Log::warning("the payment has expired, now: " . Carbon::now()->toDateTimeString() . ", end date:" . $payment->end_date ); */
+        /*     return; */
+        /* } */
 
         // 添加payment记录和修改subscription状态
         $subscription->status = Subscription::STATE_PAYED;
@@ -494,31 +497,19 @@ class PaymentService implements PaymentServiceContract
         $subscription->save();
 
         // 切换用户计划
-        $user = $subscription->user;
-        $plan = Plan::where('name', $subscription->plan)->first();
-        $role = $plan->role;
-        $oldRoleName = $user->role['display_name'];
-        $user->subscription_id = $subscription->id;
-        $user->role_id = $role->id;
-        $user->initUsageByRole($role);//更改计划时切换资源
-        switch (strtolower($plan->frequency)) {
-        case 'day':
-            $user->expired = Carbon::now()->addDays($plan->frequency_interval);
-            break;
-        case 'week':
-            $user->expired = Carbon::now()->addWeeks($plan->frequency_interval);
-            break;
-        case 'month':
-            $user->expired = Carbon::now()->addMonths($plan->frequency_interval);
-            break;
-        case 'year':
-            $user->expired = Carbon::now()->addYears($plan->frequency_interval);
-            break;
-        }
-        // 过期时间统一再加上一天，为了防止到期后，系统重置权限先于扣款，将引来不必要的麻烦。
-        $user->expired->addDay(); 
-        $user->save();
-        Log::info($user->name . " change plan to " . $plan->name . "({$oldRoleName} -> {$role['display_name']})");
+        $subscription->user->fixInfoByPayments();
+        /* $user = $subscription->user; */
+        /* $plan = Plan::where('name', $subscription->plan)->first(); */
+        /* $role = $plan->role; */
+        /* $oldRoleName = $user->role['display_name']; */
+        /* $user->subscription_id = $subscription->id; */
+        /* $user->role_id = $role->id; */
+        /* $user->initUsageByRole($role);//更改计划时切换资源 */
+        /* // 过期时间统一再加上一天，为了防止到期后，系统重置权限先于扣款，将引来不必要的麻烦。 */
+        /* $user->expired = new Carbon($payment->end_date); */
+        /* $user->expired->addDay(); */ 
+        /* $user->save(); */
+        /* Log::info($user->name . " change plan to " . $plan->name . "({$oldRoleName} -> {$role['display_name']})"); */
     }
 
 

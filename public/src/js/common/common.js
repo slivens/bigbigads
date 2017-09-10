@@ -516,8 +516,8 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                 // var userPlan = userPlanType[0]
                 var sub = User.info.user.subscription
                 element.bind("click", function() {
-                    // 判断计划是错误做法，应该是判断用户是否有订阅
-                    if (sub) {
+                    // 判断计划是错误做法，应该是判断用户是否有订阅，并且计划没被取消
+                    if (sub && sub.status != 'canceled') {
                         SweetAlert.swal({
                             title: "You have a subscription already. Contact help@bigbigads.com",
                             type: "warning",
