@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Subscription;
+use App\ActionLog;
+use App\Jobs\LogAction;
 
 class CancelSubscription extends Command
 {
@@ -39,14 +41,24 @@ class CancelSubscription extends Command
     public function handle()
     {
         $agreementId = $this->argument('agreement_id');
-        $service = app(\App\Contracts\PaymentService::class);
-        $service->setLogger($this);
-        $this->comment("cancelling agreement id: $agreementId");
         $sub = Subscription::where('agreement_id', $agreementId)->first();
         if (!$sub) {
             $this->error("$agreementId not found");
             return;
         }
-        $service->cancel($sub);
+        if ($sub->status == Subscription::STATE_CANCLED) {
+            $this->error("$agreementId has been cancelled, don't cancel again");
+            return;
+        }
+        $this->comment("cancelling agreement id: $agreementId");
+        $service = app(\App\Contracts\PaymentService::class);
+        $service->setLogger($this);
+
+        if ($service->cancel($sub)) {
+            $this->comment("cancel successfully");
+            dispatch(new LogAction(ActionLog::ACTION_ADMIN_CANCEL, $sub->toJson(), "", $sub->user->id));
+        } else {
+            $this->error("cancel failed");
+        }
     }
 }

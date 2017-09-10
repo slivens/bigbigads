@@ -30,7 +30,7 @@ class LogAction implements ShouldQueue
         if (is_null($this->remark))
             $this->remark = "";
         $this->uid = $uid;
-        if (!$uid) {
+        if (is_null($uid)) {
             if (!Auth::user())
                 throw new \Exception("$type has no valid user id");
             $this->uid = Auth::user()->id;

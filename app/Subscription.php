@@ -118,8 +118,8 @@ class Subscription extends Model
     /**
      * 根据订阅计算出天数
      */
-    /* public function getEffectiveEndDate() */
-    /* { */
+    public function getLeftDays()
+    {
         
-    /* } */
+    }
 }

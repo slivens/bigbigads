@@ -34,6 +34,12 @@ class Kernel extends ConsoleKernel
         $schedule->command('bba:scan-users')
             ->daily()
             ->withoutOverlapping();
+        $schedule->command('bba:sync-subscriptions')
+            ->saturdays()
+            ->withoutOverlapping();
+        $schedule->command('bba:sync-payments')
+            ->cron('* * */3 * *')
+            ->withoutOverlapping();
     }
 
     /**

@@ -61,6 +61,7 @@ class ActionLog extends Model
      */
     const ACTION_USER_CANCEL = "USER_CANCEL";
     const ACTION_AUTO_CANCEL = "AUTO_CANCEL";
+    const ACTION_ADMIN_CANCEL = "ADMIN_CANCEL";
     const ACTION_USER_REQUEST_REFUND = "USER_REQUEST_REFUND";
     
 }

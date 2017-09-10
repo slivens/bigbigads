@@ -314,6 +314,9 @@ class User extends Authenticatable
         return true;
     }
 
+    /**
+     * 检查是否过期
+     */
     public function isExpired()
     {
         return $this->role_id != 3 && $this->expired  && $this->expired != '0000-00-00 00:00:00' && Carbon::now()->gt(new Carbon($this->expired));
@@ -335,6 +338,9 @@ class User extends Authenticatable
         return true;
     }
 
+    /**
+     * 如果过期就重置
+     */
     public function resetIfExpired()
     {
         if (!$this->isExpired())
@@ -414,5 +420,13 @@ class User extends Authenticatable
         }
         if ($dirty)
             $this->save();
+    }
+
+    /**
+     * 是否在白名单中
+     */
+    public function inWhitelist()
+    {
+        return $this->tag == User::TAG_WHITELIST;
     }
 }

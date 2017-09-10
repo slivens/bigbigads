@@ -310,9 +310,6 @@ class PaymentService implements PaymentServiceContract
                 $this->log("{$sub->agreement_id} has no change");
             }
 
-            // 根据用户过期时间规划是否在指定时间同步该订阅的订单
-            if ($sub->status == Subscription::STATE_PAYED)
-                $this->autoScheduleSyncPayments($sub);
         }
         /* $this->log("sync to paypal, this will cost time, PLEASE WAITING..."); */
         /* foreach ($subs as $sub) { */
@@ -336,13 +333,20 @@ class PaymentService implements PaymentServiceContract
         $res = [];
         if (is_array($subscription)|| $subscription instanceof Collection) {
             $subscriptions = $subscription;
+            $force = true;
         } else if ($subscription instanceof Subscription) {
             $subscriptions = [$subscription];
+            $force = true;
         } else {
             $subscriptions = Subscription::where('quantity', '>', 0)->where('gateway', 'paypal')->get();
+            $force = $this->getParameter(PaymentService::PARAMETER_FORCE);
         }
         $service = $this->getPaypalService();
         foreach($subscriptions as $item) {
+            if ($item->status == Subscription::STATE_CANCLED && !$force) {
+                $this->log("skip cancelled subscription {$item->agreement_id}");
+                continue;
+            }
             $this->log("sync payments from paypal agreement:"  . $item->agreement_id);
             $transactions = $service->transactions($item->agreement_id);
             if ($transactions == null)
@@ -424,6 +428,10 @@ class PaymentService implements PaymentServiceContract
                     $this->handleRefundedPayment($payment);
                 }
             }
+
+            // 根据用户过期时间规划是否在指定时间同步该订阅的订单
+            if ($item->status == Subscription::STATE_PAYED)
+                $this->autoScheduleSyncPayments($item);
         }
     }
 
@@ -485,11 +493,6 @@ class PaymentService implements PaymentServiceContract
             return $subscription->user->fixInfoByPayments();
         }
 
-        /* if (Carbon::now()->gte(new Carbon($payment->end_date))) { */
-        /*     Log::warning("the payment has expired, now: " . Carbon::now()->toDateTimeString() . ", end date:" . $payment->end_date ); */
-        /*     return; */
-        /* } */
-
         // 添加payment记录和修改subscription状态
         $subscription->status = Subscription::STATE_PAYED;
         if ($subscription->coupon_id > 0) {
@@ -524,15 +527,18 @@ class PaymentService implements PaymentServiceContract
      */
     public function autoScheduleSyncPayments(Subscription $subscription)
     {
-        if ($subscription->status != Subscription::STATE_PAYED || $subscription->id != $subscription->user->subscription_id)
+        $user = $subscription->user;
+        if ($subscription->status != Subscription::STATE_PAYED || $subscription->id != $user->subscription_id)
             return;
+        if ($user->inWhitelist()) {
+            return;
+        }
         $key = "schedule-subscription-" . $subscription->id;
         if (Cache::has($key)) {
             $this->log("{$subscription->agreement_id} has scheduled, ignore");
             return;
         }
         $this->log("on schedule checking...");
-        $user = $subscription->user;
         $carbon = new Carbon($user->expired);
         // 7天及以内过期的用户，在过期前几个小时检查订单状态
         if ($carbon->gt(Carbon::now()) && Carbon::now()->diffInDays($carbon, false) <= 7)  {
@@ -542,7 +548,7 @@ class PaymentService implements PaymentServiceContract
                 $scheduleTime = Carbon::now()->addMinutes(1);
             $this->log("schedule {$subscription->agreement_id} at " . $scheduleTime->toDateTimeString(), PaymentService::LOG_INFO);
             dispatch((new \App\Jobs\SyncPaymentsJob($subscription))->delay($scheduleTime));
-            Cache::put($key, $subscription->agreement_id, $scheduleTime);
+            Cache::put($key, $subscription->agreement_id, $scheduleTime);// 自动过期
         }
     }
 

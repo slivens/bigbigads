@@ -271,6 +271,8 @@ final class SubscriptionController extends PayumController
                 $re = $webhook->save();
                 Log::info('$webhook->save(): '.$re);
                 switch ($webhook->event_type) {
+                case 'BILLING.SUBSCRIPTION.CANCELLED':
+                    break;
                 case 'PAYMENT.SALE.PENDING':
                     // 收到PENDING通常是安全原因引起，买家已付款，但是需要卖家确认才能收到款，暂不处理
                     // TODO: 创建PENDING的Payment，然后在其他状态中对其修改
@@ -284,21 +286,6 @@ final class SubscriptionController extends PayumController
                         break;
                     }
                     dispatch(new SyncPaymentsJob($subscription));
-                    /* $user = $subscription->user; */
-
-                    /* $payment = new OurPayment(); */
-                    /* $payment->status = OurPayment::STATE_COMPLETED; */
-                    /* $payment->client_id = $user->id; */
-                    /* $payment->client_email = $user->email; */
-                    /* $payment->amount = $resource['amount']['total']; */
-                    /* $payment->currency =  $resource['amount']['currency']; */
-                    /* $payment->number = $resource['id'];// Paypal的订单号是自动生成的 */
-                    /* $payment->description = $request->summary; */
-                    /* $payment->details = $resource; */
-                    /* $payment->subscription()->associate($subscription); */
-                    /* $payment->save(); */
-
-                    /* $this->paymentService->handlePayment($payment); */
                     break;
                 case 'PAYMENT.SALE.REFUNDED':
                     $payment = OurPayment::where('number', $resource['sale_id'])->first();
