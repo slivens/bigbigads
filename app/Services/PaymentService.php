@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Cache;
 use App\Jobs\SyncPaymentsJob;
 use App\Notifications\RefundRequestNotification;
+use App\Notifications\CancelSubOnSyncNotification;
 
 class PaymentService implements PaymentServiceContract
 {
@@ -39,6 +40,8 @@ class PaymentService implements PaymentServiceContract
         $this->config = $config;
         $this->parameters = new Collection();
         Stripe::setApiKey($this->config['stripe']['secret_key']);
+        $this->setParameter(PaymentService::PARAMETER_TAGS, ['default']);
+        /* $this->setParameter(PaymentService::PARAMETER_SYNC_RANGE, ['start' => '2017-06-07 14:15:12', 'end' => null]); */
     }
 
     public function setParameter($key, $val)
@@ -223,9 +226,14 @@ class PaymentService implements PaymentServiceContract
 
         // Paypal的同步
         if ($subscription) {
-            $subs = new Collection([$subscription]);
+            if (is_array($subscription) || $subscription instanceof Collection)
+                $subs = $subscription;
+            else
+                $subs = new Collection([$subscription]);
+            $force = true;
         } else {
-            $subs = Subscription::where(['gateway' => 'paypal'])->get();
+            $subs = Subscription::where('gateway', 'paypal')->where('status', '<>', Subscription::STATE_CREATED)->where('status', '<>', '')->whereIn('tag', $this->getParameter(PaymentService::PARAMETER_TAGS))->get();
+            $force = $this->getParameter(PaymentService::PARAMETER_FORCE);
         }
         $paypalService = $this->getPaypalService();
         $this->log("sync to paypal, this may take long time...({$subs->count()})");
@@ -233,7 +241,8 @@ class PaymentService implements PaymentServiceContract
             if (strlen($sub->agreement_id) < 3) {
                 continue;
             }
-            if ($sub->status == Subscription::STATE_CANCLED && !$this->getParameter(PaymentService::PARAMETER_FORCE)) {
+            if ($sub->status == Subscription::STATE_CANCLED && !$force) {
+                $this->log("skip cancelled subscription {$sub->agreement_id}");
                 $this->checkSubscription($sub);
                 continue;
             }
@@ -246,13 +255,16 @@ class PaymentService implements PaymentServiceContract
             $plan = $remoteSub->getPlan();
             $def = $plan->getPaymentDefinitions()[0];
 
+            $detail = $remoteSub->getAgreementDetails();
             $payer = $remoteSub->getPayer();
             $info = $payer->getPayerInfo();
+            $nextBillingDate = $detail->getNextBillingDate();
             $newData = [
                 'frequency' => $def->getFrequency(),
                 'frequency_interval' => $def->getFrequencyInterval(),
                 'remote_status' => $remoteSub->getState(),
-                'buyer_email' => $info->getEmail()
+                'buyer_email' => $info->getEmail(),
+                'next_billing_date' => $nextBillingDate ? new Carbon($nextBillingDate) : null
             ];
             $state = $remoteSub->getState();
             $newStatus = '';
@@ -273,11 +285,12 @@ class PaymentService implements PaymentServiceContract
                 $newStatus = Subscription::STATE_SUSPENDED;
                 break;
             }
-            // 一个用户只能有一个激活的订阅，其他订阅应该设置被取消或挂起，目前采用取消操作
+            // 一个用户只能有一个激活的订阅，其他订阅应该设置被取消或挂起，采用通知操作，由管理员确认后手动取消。
             if ($sub->user->subscription_id != $sub->id && strtolower($state) == 'active') {
-                $this->log("{$sub->agreement_id} is not {$sub->user->email}'s active subscrition, now cancel it...", PaymentService::LOG_INFO);
-                if ($paypalService->cancelSubscription($sub->agreement_id))
-                    $newStatus = Subscription::STATE_CANCLED;
+                $this->log("{$sub->agreement_id} is not {$sub->user->email}'s active subscrition, now send email to notify admin to cancel it", PaymentService::LOG_INFO);
+                /* if ($paypalService->suspendSubscription($sub->agreement_id)) */
+                /*     $newStatus = Subscription::STATE_SUSPENDED; */
+                $sub->user->notify(new CancelSubOnSyncNotification($sub));
             }
             if (!empty($newStatus)) {
                 $newData['status'] = $newStatus;
@@ -297,9 +310,6 @@ class PaymentService implements PaymentServiceContract
                 $this->log("{$sub->agreement_id} has no change");
             }
 
-            // 根据用户过期时间规划是否在指定时间同步该订阅的订单
-            if ($sub->status == Subscription::STATE_PAYED)
-                $this->autoScheduleSyncPayments($sub);
         }
         /* $this->log("sync to paypal, this will cost time, PLEASE WAITING..."); */
         /* foreach ($subs as $sub) { */
@@ -321,13 +331,25 @@ class PaymentService implements PaymentServiceContract
     {
         // 目前只有Paypal需要同步支付记录, stripe是立即获取的
         $res = [];
-        if ($subscription instanceof Subscription) {
+        if (is_array($subscription)|| $subscription instanceof Collection) {
+            $subscriptions = $subscription;
+            $force = true;
+        } else if ($subscription instanceof Subscription) {
             $subscriptions = [$subscription];
+            $force = true;
         } else {
             $subscriptions = Subscription::where('quantity', '>', 0)->where('gateway', 'paypal')->get();
+            $force = $this->getParameter(PaymentService::PARAMETER_FORCE);
         }
         $service = $this->getPaypalService();
         foreach($subscriptions as $item) {
+            // 未完成订阅直接忽略
+            if ($item->status == Subscription::STATE_CREATED)
+                continue;
+            if ($item->status == Subscription::STATE_CANCLED && !$force) {
+                $this->log("skip cancelled subscription {$item->agreement_id}");
+                continue;
+            }
             $this->log("sync payments from paypal agreement:"  . $item->agreement_id);
             $transactions = $service->transactions($item->agreement_id);
             if ($transactions == null)
@@ -382,6 +404,14 @@ class PaymentService implements PaymentServiceContract
                         $this->handlePayment($payment);
                     }
                 }
+
+                if ($isDirty) {
+                    $payment->save();
+                    $this->log("payment {$payment->number} is synced");
+                } else {
+                    $this->log("payment {$payment->number} has no change", PaymentService::LOG_INFO);
+                }
+
                 // 补全退款申请单和根据退款状态处理用户状态
                 if ($payment->status == Payment::STATE_REFUNDED) {
                     $refund = $payment->refund;
@@ -400,15 +430,11 @@ class PaymentService implements PaymentServiceContract
                     }
                     $this->handleRefundedPayment($payment);
                 }
-
-                if ($isDirty) {
-                    $payment->save();
-                    $this->log("payment {$payment->number} is synced");
-                } else {
-                    $this->log("payment {$payment->number} has no change", PaymentService::LOG_INFO);
-                }
-
             }
+
+            // 根据用户过期时间规划是否在指定时间同步该订阅的订单
+            if ($item->status == Subscription::STATE_PAYED)
+                $this->autoScheduleSyncPayments($item);
         }
     }
 
@@ -422,22 +448,10 @@ class PaymentService implements PaymentServiceContract
     }
 
     /**
-     * 订阅处于支付状态时，发现有新的支付订单，有可能是循环扣款的新订单。
-     * 做检查并设置过期时间。
-     */
-    protected function handleNextPayment(Payment $payment)
-    {
-        $endDate = new Carbon($payment->end_date);
-        $user = $payment->client;
-        if ($endDate->gt(new Carbon($user->expired))) {
-            $this->log("{$user->email} has billing next payment, change his expired date({$payment->endDate}) > (" . $user->expired. ")", PaymentService::LOG_INFO);
-            $user->expired  = $endDate->addDay();
-            $user->save();
-        }
-    }
-
-    /**
-     * 对于退款支付订单，如果是当前活动订阅的订单，则连同订阅一起取消， 并将用户权限切换到Free。
+     * 对于退款支付订单满足以下条件，则订阅会被取消：
+     * 1. 退款订意属于活动订阅
+     * 2. 活动订阅没有其他有效订单
+     * 用户权限切换到Free。
      * @remark 如果先取消订阅再发起退款呢？这种情况不能忽略。否则会出现用户取消订阅了，钱也退了，但是权限还在。
      */
     public function handleRefundedPayment(Payment $payment)
@@ -446,6 +460,8 @@ class PaymentService implements PaymentServiceContract
         if ($payment->status != Payment::STATE_REFUNDED)
             return false;
         if (!$payment->subscription->isActive())
+            return false;
+        if ($payment->subscription->hasEffectivePayment())
             return false;
         $this->log("reset user {$user->email} to Free because of refund:{$payment->number}", PaymentService::LOG_INFO);
         $this->cancel($payment->subscription);
@@ -462,12 +478,7 @@ class PaymentService implements PaymentServiceContract
         $subscription = $payment->subscription;
         if ($subscription->status == Subscription::STATE_PAYED) {
             $this->log("You haved payed for the subscription, check if it's the next payment");
-            return $this->handleNextPayment($payment);
-        }
-
-        if (Carbon::now()->gte(new Carbon($payment->end_date))) {
-            Log::warning("the payment has expired, now: " . Carbon::now()->toDateTimeString() . ", end date:" . $payment->end_date );
-            return;
+            return $subscription->user->fixInfoByPayments();
         }
 
         // 添加payment记录和修改subscription状态
@@ -479,31 +490,19 @@ class PaymentService implements PaymentServiceContract
         $subscription->save();
 
         // 切换用户计划
-        $user = $subscription->user;
-        $plan = Plan::where('name', $subscription->plan)->first();
-        $role = $plan->role;
-        $oldRoleName = $user->role['display_name'];
-        $user->subscription_id = $subscription->id;
-        $user->role_id = $role->id;
-        $user->initUsageByRole($role);//更改计划时切换资源
-        switch (strtolower($plan->frequency)) {
-        case 'day':
-            $user->expired = Carbon::now()->addDays($plan->frequency_interval);
-            break;
-        case 'week':
-            $user->expired = Carbon::now()->addWeeks($plan->frequency_interval);
-            break;
-        case 'month':
-            $user->expired = Carbon::now()->addMonths($plan->frequency_interval);
-            break;
-        case 'year':
-            $user->expired = Carbon::now()->addYears($plan->frequency_interval);
-            break;
-        }
-        // 过期时间统一再加上一天，为了防止到期后，系统重置权限先于扣款，将引来不必要的麻烦。
-        $user->expired->addDay(); 
-        $user->save();
-        Log::info($user->name . " change plan to " . $plan->name . "({$oldRoleName} -> {$role['display_name']})");
+        $subscription->user->fixInfoByPayments();
+        /* $user = $subscription->user; */
+        /* $plan = Plan::where('name', $subscription->plan)->first(); */
+        /* $role = $plan->role; */
+        /* $oldRoleName = $user->role['display_name']; */
+        /* $user->subscription_id = $subscription->id; */
+        /* $user->role_id = $role->id; */
+        /* $user->initUsageByRole($role);//更改计划时切换资源 */
+        /* // 过期时间统一再加上一天，为了防止到期后，系统重置权限先于扣款，将引来不必要的麻烦。 */
+        /* $user->expired = new Carbon($payment->end_date); */
+        /* $user->expired->addDay(); */ 
+        /* $user->save(); */
+        /* Log::info($user->name . " change plan to " . $plan->name . "({$oldRoleName} -> {$role['display_name']})"); */
     }
 
 
@@ -516,15 +515,18 @@ class PaymentService implements PaymentServiceContract
      */
     public function autoScheduleSyncPayments(Subscription $subscription)
     {
-        if ($subscription->status != Subscription::STATE_PAYED || $subscription->id != $subscription->user->subscription_id)
+        $user = $subscription->user;
+        if ($subscription->status != Subscription::STATE_PAYED || $subscription->id != $user->subscription_id)
             return;
+        if ($user->inWhitelist()) {
+            return;
+        }
         $key = "schedule-subscription-" . $subscription->id;
         if (Cache::has($key)) {
             $this->log("{$subscription->agreement_id} has scheduled, ignore");
             return;
         }
         $this->log("on schedule checking...");
-        $user = $subscription->user;
         $carbon = new Carbon($user->expired);
         // 7天及以内过期的用户，在过期前几个小时检查订单状态
         if ($carbon->gt(Carbon::now()) && Carbon::now()->diffInDays($carbon, false) <= 7)  {
@@ -534,7 +536,7 @@ class PaymentService implements PaymentServiceContract
                 $scheduleTime = Carbon::now()->addMinutes(1);
             $this->log("schedule {$subscription->agreement_id} at " . $scheduleTime->toDateTimeString(), PaymentService::LOG_INFO);
             dispatch((new \App\Jobs\SyncPaymentsJob($subscription))->delay($scheduleTime));
-            Cache::put($key, $subscription->agreement_id, $scheduleTime);
+            Cache::put($key, $subscription->agreement_id, $scheduleTime);// 自动过期
         }
     }
 
@@ -546,7 +548,7 @@ class PaymentService implements PaymentServiceContract
     {
         if ($subscription->status == Subscription::STATE_CANCLED)  {
             // 对于活动订阅，解除用户的当前订阅
-            if ($subscription->isActive()) {
+            if ($subscription->isActive() && !$subscription->hasEffectivePayment()) {
                 $this->log("{$subscription->user->email}'s subscription set to null", PaymentService::LOG_INFO);
                 $user = $subscription->user;
                 $user->subscription_id = null;
@@ -563,7 +565,7 @@ class PaymentService implements PaymentServiceContract
         if ($subscription->status == Subscription::STATE_CANCLED)  {
             return true;
         }
-        if (!in_array($subscription->status, [Subscription::STATE_SUBSCRIBED, Subscription::STATE_PAYED]))
+        if (!$subscription->canCancel())
             return false;
         $isOk = false;
         if ($subscription->gateway == PaymentService::GATEWAY_STRIPE) {
@@ -640,7 +642,9 @@ class PaymentService implements PaymentServiceContract
                 return false;
             }
             $refund->save();
-            $this->handleRefundedPayment($payment);
+            // 退款成功后，立刻与服务器同步订单状态，确保订单是处于订款状态
+            $this->syncPayments([], $payment->subscription);
+            /* $this->handleRefundedPayment($payment); */
             // 当处于pending时，10秒后同步防止钱退了，没将用户权限切回去
             // 或者退完成了，但是在handleRefundedPayment取消用户订阅时跟Paypal通信出错
             dispatch((new SyncPaymentsJob($payment->subscription))->delay(Carbon::now()->addSeconds(10)));

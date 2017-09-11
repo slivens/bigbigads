@@ -7,6 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\ActionLog;
+use Auth;
 
 class LogAction implements ShouldQueue
 {
@@ -21,13 +22,22 @@ class LogAction implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($type, $param, $remark, $uid, $ip)
+    public function __construct($type, $param, $remark = "", $uid = null, $ip = null)
     {
         $this->type = $type;
         $this->param = $param;
         $this->remark = $remark;
+        if (is_null($this->remark))
+            $this->remark = "";
         $this->uid = $uid;
+        if (is_null($uid)) {
+            if (!Auth::user())
+                throw new \Exception("$type has no valid user id");
+            $this->uid = Auth::user()->id;
+        }
         $this->ip = $ip;
+        if (!$ip)
+            $this->ip = Request()->ip();
     }
 
     /**

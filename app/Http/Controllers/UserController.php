@@ -59,7 +59,7 @@ class UserController extends Controller
         $res = [];
         $user = Auth::user();
         if ($user) {
-            $user->load('role', 'role.permissions', 'role.policies', 'subscriptions');
+            $user->load('role', 'role.permissions', 'role.policies', 'subscriptions', 'subscriptions.payments');
             $res['login'] = true;
             $res['user'] = $user;
             //将购买的相关计划也要返回，必须缓存，这一步很慢
