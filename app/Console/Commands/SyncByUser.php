@@ -20,7 +20,7 @@ class SyncByUser extends Command
      *
      * @var string
      */
-    protected $description = '对指定用户同步订阅和订单';
+    protected $description = '对指定用户同步订阅和订单，总是强制执行';
 
     /**
      * Create a new command instance.
@@ -52,8 +52,8 @@ class SyncByUser extends Command
         $paymentService->setParameter(PaymentService::PARAMETER_FORCE, true);
         $paymentService->setLogger($this);
         if ($syncAll || $syncSub)
-            $paymentService->syncSubscriptions([], $user->subscriptions());
+            $paymentService->syncSubscriptions([], $user->subscriptions);
         if ($syncAll || $syncPay)
-            $paymentService->syncPayments([]);
+            $paymentService->syncPayments([], $user->subscriptions);
     }
 }

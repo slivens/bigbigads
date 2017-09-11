@@ -271,6 +271,8 @@ final class SubscriptionController extends PayumController
                 $re = $webhook->save();
                 Log::info('$webhook->save(): '.$re);
                 switch ($webhook->event_type) {
+                case 'BILLING.SUBSCRIPTION.CANCELLED':
+                    break;
                 case 'PAYMENT.SALE.PENDING':
                     // 收到PENDING通常是安全原因引起，买家已付款，但是需要卖家确认才能收到款，暂不处理
                     // TODO: 创建PENDING的Payment，然后在其他状态中对其修改
@@ -284,21 +286,6 @@ final class SubscriptionController extends PayumController
                         break;
                     }
                     dispatch(new SyncPaymentsJob($subscription));
-                    /* $user = $subscription->user; */
-
-                    /* $payment = new OurPayment(); */
-                    /* $payment->status = OurPayment::STATE_COMPLETED; */
-                    /* $payment->client_id = $user->id; */
-                    /* $payment->client_email = $user->email; */
-                    /* $payment->amount = $resource['amount']['total']; */
-                    /* $payment->currency =  $resource['amount']['currency']; */
-                    /* $payment->number = $resource['id'];// Paypal的订单号是自动生成的 */
-                    /* $payment->description = $request->summary; */
-                    /* $payment->details = $resource; */
-                    /* $payment->subscription()->associate($subscription); */
-                    /* $payment->save(); */
-
-                    /* $this->paymentService->handlePayment($payment); */
                     break;
                 case 'PAYMENT.SALE.REFUNDED':
                     $payment = OurPayment::where('number', $resource['sale_id'])->first();
@@ -446,26 +433,25 @@ final class SubscriptionController extends PayumController
             return new Response(['code' => -1, 'desc' => "not a valid state:{$sub->status}"]);
         if (!$this->paymentService->cancel($sub))
             return ['code' => -1, 'desc' => "cancel failed"];
-        dispatch(new LogAction(ActionLog::ACTION_USER_CANCEL, $sub->toJson()));
+        dispatch(new LogAction(ActionLog::ACTION_USER_CANCEL, $sub->toJson(), "", $user->id));
         return ['code' => 0, 'desc' => 'success'];
     }
 
        
     public function sync($sid)
     {
-        $sub = Subscription::where('agreement_id', $sid)->first();
+        $user = Auth::user();
+        $sub = $user->subscriptions()->where('agreement_id', $sid)->first();
         if (!$sub)
             return ['code' => -1, 'desc' => "$sid not found"];
-        // 无法模拟Paypal订阅的Pending, 因此采用Mock Test
-        /* $sub->status = Subscription::STATE_PENDING; */
         // 如果扣款失败，会自动被取消，因此同步的处理只需要处理pending的情况
-        if (Carbon::now()->diffInSeconds($sub->updated_at, true) > 30 && $sub->status ==  Subscription::STATE_PENDING) {
-            $this->paymentService->cancel($sub);
-            dispatch(new LogAction(ActionLog::ACTION_AUTO_CANCEL, $sub->toJson()));
-            Log::info("{$sub->agreement_id} is auto canceled");
-        }
         $this->paymentService->syncSubscriptions([], $sub);
         $this->paymentService->syncPayments([], $sub);
+        if (Carbon::now()->diffInSeconds($sub->updated_at, true) > 30 && $sub->status ==  Subscription::STATE_PENDING) {
+            $this->paymentService->cancel($sub);
+            dispatch(new LogAction(ActionLog::ACTION_AUTO_CANCEL, $sub->toJson(), "", $user->id));
+            Log::info("{$sub->agreement_id} is auto canceled");
+        }
         return ['code' => 0, 'desc' => 'success'];
     }
 

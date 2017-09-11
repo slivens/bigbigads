@@ -20,7 +20,7 @@ class SyncSubscriptions extends Command
      *
      * @var string
      */
-    protected $description = '与Paypal, Stripe同步订阅;可指定特定订阅';
+    protected $description = '与Paypal, Stripe同步订阅;可指定特定订阅;默认跳过被取消的订阅，除非指定-f参数';
 
     /**
      * Create a new command instance.
@@ -51,8 +51,10 @@ class SyncSubscriptions extends Command
         if ($hasStripe)
             $gateways[] = PaymentService::GATEWAY_STRIPE;
         $this->info("start syncing subscriptions...");
-        if ($force)
+        if ($force) {
             $service->setParameter(PaymentService::PARAMETER_FORCE, true);
+            $this->info("force flag set");
+        }
         $service->setLogger($this);
         $service->syncSubscriptions($gateways, $agreeId ? Subscription::where('agreement_id', $agreeId)->first() : null);
     }
