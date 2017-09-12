@@ -20,7 +20,8 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\CancelSubscription::class,
         \App\Console\Commands\SyncIcreatife::class,
         \App\Console\Commands\ScanUsers::class,
-        \App\Console\Commands\SyncByUser::class
+        \App\Console\Commands\SyncByUser::class,
+        \App\Console\Commands\CheckUsage::class
     ];
 
     /**
@@ -38,7 +39,7 @@ class Kernel extends ConsoleKernel
             ->saturdays()
             ->withoutOverlapping();
         $schedule->command('bba:sync-payments')
-            ->cron('* * */3 * *')
+            ->saturdays()
             ->withoutOverlapping();
     }
 

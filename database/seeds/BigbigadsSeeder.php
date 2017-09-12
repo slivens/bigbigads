@@ -101,7 +101,7 @@ class BigbigadsSeeder extends Seeder
                 if (Role::where('name', $key)->count() > 0) {
                     $role = Role::where('name', $key)->first();
                     $role->update(['display_name' => $item]);
-                    $role->cleanCache();
+                    /* $role->cleanCache(); */
                     array_push($roles, $role);
                 } else {
                     array_push($roles, Role::create([
@@ -306,6 +306,12 @@ class BigbigadsSeeder extends Seeder
                 $role->plan = 'standard';
                 $role->save();
             }
+        }
+
+        $this->command->getOutput()->writeln("<info>Generate cache for Roles:</info>");
+        // 重新为所有角色生成cache(必需的操作，用户只从缓存中读取权限数据)
+        foreach ($roles as $role) {
+            $role->generateCache();
         }
     }
 }

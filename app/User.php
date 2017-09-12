@@ -12,8 +12,13 @@ use Carbon\Carbon;
 use App\Policy;
 use App\Affiliate;
 use App\Jobs\LogAction;
+use Psy\Exception\ErrorException;
 use Log;
+use Illuminate\Support\Collection;
 
+/**
+ * @warning Model中使用Log等服务是错误的用法
+ */
 class User extends Authenticatable
 {
     use Notifiable, Billable;
@@ -145,7 +150,12 @@ class User extends Authenticatable
         $this->attributes['usage'] = json_encode($value);
     }
 
-    public function initUsageByRole($role)
+    /**
+     * 初始化usage
+     * @param App\Role $role 角色
+     * @param boolean $clear 默认情况下，初始化策略如果发现有累计值，就保留。该参数设置为将统一清为0
+     */
+    public function initUsageByRole(Role $role, $clear = false)
     {
         $items = $role->groupedPolicies();
         foreach($items as $key=>$item) {
@@ -155,9 +165,11 @@ class User extends Authenticatable
         return $items;
     }
 
+    /*
+     */
     public function getUsage($key)
     {
-        //没有初始化则从根据角色初始化，获取usage时都会先初始化，切换角色也重新初始化，一般不会发生这种事
+        //没有初始化则根据角色初始化，获取usage时都会先初始化，切换角色也重新初始化，一般不会发生这种事
         if (!array_key_exists($key, $this->usage)) {
             $items = $this->role->groupedPolicies();
             if (!array_key_exists($key, $items)) {
@@ -428,5 +440,27 @@ class User extends Authenticatable
     public function inWhitelist()
     {
         return $this->tag == User::TAG_WHITELIST;
+    }
+
+    /**
+     * 权限由两部分组成：
+     * - 权限列表
+     * - 策略列表
+     * 角色的权限与策略都是在填充时生成的，所以只能在那个时间点检查。（这种权限与策略的修改，很明显用表格更适合管理和排查问题）
+     * 用户的权限与策略的检查：
+     * - 权限来自角色，所以无需检查
+     * - 将Usage与策略对比，有不一致的提示错误
+     */
+    public function checkUsage()
+    {
+        $role = $this->role;
+        $rawUsage = new Collection(json_decode($this->attributes['usage'], true));
+        foreach ($role->groupedPolicies()  as $key => $policy) {
+            $usage = $rawUsage->get($key);
+            if (!$usage || $usage[0] != $policy[0] || $usage[1] != $policy[1]) {
+                throw new ErrorException("({$this->email})should be: $key-" . json_encode($policy) . ", but now is : " . ($usage ? json_encode($usage) : "no usage"), 1000);
+            }
+        }
+        return true;
     }
 }
