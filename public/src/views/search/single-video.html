@@ -2,7 +2,7 @@
 <div class="aditem-desc">
     <!-- Begin SingleVideo -->
     <div>
-        <div class="xg-span-message"><span ng-bind-html="card.message | toHtml"></span></div>
+        <div class="xg-span-message"><span ng-bind-html="card.message | toHtml" ng-class="{'message-overhiden': card.message.length > 300} "></span></div>
         <div class="adscard-content">
             <div class="text-center">
                 <!-- <div class="poster"> -->
@@ -41,22 +41,4 @@
         <i class="fa fa-link"></i>
         <a href="{{card.link}}" class="adlink xg-link-width">{{card.link | clearHttps}}</a>
     </div> -->
-    <div>
-        <span ng-show="card.views">
-            <i class="xg-icon xg-icon-video"></i>
-            {{card.views | addUnit}}
-        </span>
-        <span ng-show="card.likes">
-            <i class="fa fa-thumbs-up" ></i>
-            {{card.likes | addUnit}}
-        </span>
-        <span ng-show="card.comments">
-            <i class="xg-icon xg-icon-comment"></i>
-            {{card.comments | addUnit}}
-        </span>  
-        <span ng-show="card.shares">
-            <i class="xg-icon xg-icon-share"></i>
-            {{card.shares | addUnit}}
-        </span>
-    </div>
 </div>
