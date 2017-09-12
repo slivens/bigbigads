@@ -13,14 +13,14 @@ class CheckUsage extends Command
      *
      * @var string
      */
-    protected $signature = 'bba:check-usage {email?} {--fix-user : 修复用户usage} {--fix-role : 修复角色缓存usage} {--fix : 修复用户usage和角色缓存usage}';
+    protected $signature = 'bba:check-usage {email?} {--fix-user : 修复用户usage} {--fix-role : 修复角色缓存usage} {--fix : 修复用户usage和角色缓存usage} {--all : 检查所有用户}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '检查权限是否符合预期设计';
+    protected $description = '检查usage是否符合预期设计;默认只检查角色，需要通过参数以检查用户usage';
 
     /**
      * Create a new command instance.
@@ -44,6 +44,7 @@ class CheckUsage extends Command
         $fixRole = $this->option('fix-role');
         $verbose = $this->option('verbose');
         $fix = $this->option('fix');
+        $all = $this->option('all');
         if ($fix) {
             $fixUser = true;
             $fixRole = true;
@@ -61,9 +62,9 @@ class CheckUsage extends Command
             }
         }
 
-        $this->comment("checking users's usage...");
 
         if ($email) {
+            $this->comment("checking $email 's usage...");
             $user = User::where('email', $email)->first();
             if (!$user) {
                 $this->error("$email not found");
@@ -84,6 +85,10 @@ class CheckUsage extends Command
                     $this->comment($msg);
                 });
         } else {
+            if (!$all)
+                return;
+
+            $this->comment("checking users's usage...");
             foreach (User::cursor() as $user) {
                 try {
                     $user->checkUsage();
