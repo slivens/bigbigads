@@ -6,6 +6,8 @@ use App\Bookmark;
 use App\BookmarkItem;
 use App\Policy;
 use App\Role;
+use App\User;
+
 class BigbigadsSeeder extends Seeder
 {
     public function insertPermissions($tableName, $list, $permissions, &$roles) 
@@ -308,10 +310,16 @@ class BigbigadsSeeder extends Seeder
             }
         }
 
-        $this->command->getOutput()->writeln("<info>Generate cache for Roles:</info>");
+        $this->command->getOutput()->writeln("<info>Generate cache for Roles and fix Users's usage</info>");
         // 重新为所有角色生成cache(必需的操作，用户只从缓存中读取权限数据)
         foreach ($roles as $role) {
             $role->generateCache();
         }
+        // 对所有用户重新初始化它们的usage(只有真正变化的用户才会被更新，只更新初始化，它们的用量是保持的)
+        User::chunk(100, function ($users) {
+            foreach ($users as $user) {
+                $user->reInitUsage();
+            }
+        });
     }
 }

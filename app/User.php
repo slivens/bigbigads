@@ -15,6 +15,7 @@ use App\Jobs\LogAction;
 use Psy\Exception\ErrorException;
 use Log;
 use Illuminate\Support\Collection;
+use App\Exceptions\GenericException;
 
 /**
  * @warning Model中使用Log等服务是错误的用法
@@ -130,18 +131,20 @@ class User extends Authenticatable
 
     public function getUsageAttribute($value)
     {
+        // 用户权限的设计
         if (is_null($value)) {
-            return $this->initUsageByRole($this->role);
+            return [];//$this->initUsageByRole($this->role);
         } 
-        $items = $this->role->groupedPolicies();
+        /* $items = $this->role->groupedPolicies(); */
         $value = json_decode($value, true);
-        foreach ($items as $key => $item) {
-            //用户权限的默认值不允许重写
-            if ($this->userCan($key))
-                continue;
-            $value[$key][0] = $item[0];
-            $value[$key][1] = $item[1];
-        }
+        // TODO:用户角色的合并，应该是在初始化时，直接合并进入usage中，而不是在获取的时候动态合并。后续优化。
+        /* foreach ($items as $key => $item) { */
+        /*     //用户权限的默认值不允许重写 */
+        /*     if ($this->userCan($key)) */
+        /*         continue; */
+        /*     $value[$key][0] = $item[0]; */
+        /*     $value[$key][1] = $item[1]; */
+        /* } */
         return $value;
     }
 
@@ -157,15 +160,41 @@ class User extends Authenticatable
      */
     public function initUsageByRole(Role $role, $clear = false)
     {
+        try {
+            $oldUsage = json_decode($this->attributes['usage'], true);
+        } catch(\Exception $e) {
+            $oldUsage = null;
+        }
         $items = $role->groupedPolicies();
+
+            /* Log::debug("key:" . $key); */
         foreach($items as $key=>$item) {
-            $items[$key][2] = 0;
+            if (!$clear && isset($oldUsage[$key])) {
+                $items[$key] = $oldUsage[$key];
+                $items[$key][0] = $item[0];
+                $items[$key][1] = $item[1];
+            } else {
+                $items[$key][2] = 0;
+            }
+            /* Log::debug("key:" . $key); */
         }
         $this->usage = $items;
         return $items;
     }
 
-    /*
+    /**
+     * 重新初始化usage
+     */
+    public function reInitUsage($clear = false)
+    {
+        $oldUsage = $this->usage;
+        $usage = $this->initUsageByRole($this->role, $clear);
+        if ($usage != $oldUsage)
+            $this->save();
+    }
+
+    /**
+     * 获取指定key的策略使用情况
      */
     public function getUsage($key)
     {
@@ -446,7 +475,7 @@ class User extends Authenticatable
      * 权限由两部分组成：
      * - 权限列表
      * - 策略列表
-     * 角色的权限与策略都是在填充时生成的，所以只能在那个时间点检查。（这种权限与策略的修改，很明显用表格更适合管理和排查问题）
+     * 角色的权限与策略都是在填充时生成的，所以只能在那个时间点检查，通过Role的checkUsage可检查。
      * 用户的权限与策略的检查：
      * - 权限来自角色，所以无需检查
      * - 将Usage与策略对比，有不一致的提示错误
@@ -458,9 +487,16 @@ class User extends Authenticatable
         foreach ($role->groupedPolicies()  as $key => $policy) {
             $usage = $rawUsage->get($key);
             if (!$usage || $usage[0] != $policy[0] || $usage[1] != $policy[1]) {
-                throw new ErrorException("({$this->email})should be: $key-" . json_encode($policy) . ", but now is : " . ($usage ? json_encode($usage) : "no usage"), 1000);
+                throw new GenericException($this, "({$this->email})should be: $key-" . json_encode($policy) . ", but now is : " . ($usage ? json_encode($usage) : "no usage"), 1000);
             }
         }
         return true;
+    }
+
+    public function dumpUsage($print)
+    {
+        foreach ($this->usage as $key => $value) {
+            call_user_func($print, "$key:" . json_encode($this->getUsage($key)));
+        }
     }
 }

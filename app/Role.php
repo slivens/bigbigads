@@ -83,7 +83,7 @@ class Role extends Model
     {
         $key = "role-" . $this->name;
         $cache = Cache::get($key, null);
-        if (!$cache)
+        if ($cache === null)
             throw new GenericException($this, "{$this->name}:role usage cache is null");
         foreach($this->policies as $policy) {
             $key = $policy->key;
