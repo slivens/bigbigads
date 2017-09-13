@@ -529,7 +529,7 @@ class PaymentService implements PaymentServiceContract
         $this->log("on schedule checking...");
         $carbon = new Carbon($user->expired);
         // 7天及以内过期的用户，在过期前几个小时检查订单状态
-        if ($carbon->gt(Carbon::now()) && Carbon::now()->diffInDays($carbon, false) <= 7)  {
+        if ($carbon->gt(Carbon::now()) && Carbon::now()->diffInDays($carbon, false) <= 10)  {
             $scheduleTime = $carbon->subHours(5);
             // 对于在5小时内就要过期的订单，1分钟后就立刻执行
             if ($scheduleTime->lt(Carbon::now()))

@@ -12,8 +12,14 @@ use Carbon\Carbon;
 use App\Policy;
 use App\Affiliate;
 use App\Jobs\LogAction;
+use Psy\Exception\ErrorException;
 use Log;
+use Illuminate\Support\Collection;
+use App\Exceptions\GenericException;
 
+/**
+ * @warning Model中使用Log等服务是错误的用法
+ */
 class User extends Authenticatable
 {
     use Notifiable, Billable;
@@ -125,18 +131,20 @@ class User extends Authenticatable
 
     public function getUsageAttribute($value)
     {
+        // 用户权限的设计
         if (is_null($value)) {
-            return $this->initUsageByRole($this->role);
+            return [];//$this->initUsageByRole($this->role);
         } 
-        $items = $this->role->groupedPolicies();
+        /* $items = $this->role->groupedPolicies(); */
         $value = json_decode($value, true);
-        foreach ($items as $key => $item) {
-            //用户权限的默认值不允许重写
-            if ($this->userCan($key))
-                continue;
-            $value[$key][0] = $item[0];
-            $value[$key][1] = $item[1];
-        }
+        // TODO:用户角色的合并，应该是在初始化时，直接合并进入usage中，而不是在获取的时候动态合并。后续优化。
+        /* foreach ($items as $key => $item) { */
+        /*     //用户权限的默认值不允许重写 */
+        /*     if ($this->userCan($key)) */
+        /*         continue; */
+        /*     $value[$key][0] = $item[0]; */
+        /*     $value[$key][1] = $item[1]; */
+        /* } */
         return $value;
     }
 
@@ -145,19 +153,52 @@ class User extends Authenticatable
         $this->attributes['usage'] = json_encode($value);
     }
 
-    public function initUsageByRole($role)
+    /**
+     * 初始化usage
+     * @param App\Role $role 角色
+     * @param boolean $clear 默认情况下，初始化策略如果发现有累计值，就保留。该参数设置为将统一清为0
+     */
+    public function initUsageByRole(Role $role, $clear = false)
     {
+        try {
+            $oldUsage = json_decode($this->attributes['usage'], true);
+        } catch(\Exception $e) {
+            $oldUsage = null;
+        }
         $items = $role->groupedPolicies();
+
+            /* Log::debug("key:" . $key); */
         foreach($items as $key=>$item) {
-            $items[$key][2] = 0;
+            if (!$clear && isset($oldUsage[$key])) {
+                $items[$key] = $oldUsage[$key];
+                $items[$key][0] = $item[0];
+                $items[$key][1] = $item[1];
+            } else {
+                $items[$key][2] = 0;
+            }
+            /* Log::debug("key:" . $key); */
         }
         $this->usage = $items;
         return $items;
     }
 
+    /**
+     * 重新初始化usage
+     */
+    public function reInitUsage($clear = false)
+    {
+        $oldUsage = $this->usage;
+        $usage = $this->initUsageByRole($this->role, $clear);
+        if ($usage != $oldUsage)
+            $this->save();
+    }
+
+    /**
+     * 获取指定key的策略使用情况
+     */
     public function getUsage($key)
     {
-        //没有初始化则从根据角色初始化，获取usage时都会先初始化，切换角色也重新初始化，一般不会发生这种事
+        //没有初始化则根据角色初始化，获取usage时都会先初始化，切换角色也重新初始化，一般不会发生这种事
         if (!array_key_exists($key, $this->usage)) {
             $items = $this->role->groupedPolicies();
             if (!array_key_exists($key, $items)) {
@@ -428,5 +469,34 @@ class User extends Authenticatable
     public function inWhitelist()
     {
         return $this->tag == User::TAG_WHITELIST;
+    }
+
+    /**
+     * 权限由两部分组成：
+     * - 权限列表
+     * - 策略列表
+     * 角色的权限与策略都是在填充时生成的，所以只能在那个时间点检查，通过Role的checkUsage可检查。
+     * 用户的权限与策略的检查：
+     * - 权限来自角色，所以无需检查
+     * - 将Usage与策略对比，有不一致的提示错误
+     */
+    public function checkUsage()
+    {
+        $role = $this->role;
+        $rawUsage = new Collection(json_decode($this->attributes['usage'], true));
+        foreach ($role->groupedPolicies()  as $key => $policy) {
+            $usage = $rawUsage->get($key);
+            if (!$usage || $usage[0] != $policy[0] || $usage[1] != $policy[1]) {
+                throw new GenericException($this, "({$this->email})should be: $key-" . json_encode($policy) . ", but now is : " . ($usage ? json_encode($usage) : "no usage"), 1000);
+            }
+        }
+        return true;
+    }
+
+    public function dumpUsage($print)
+    {
+        foreach ($this->usage as $key => $value) {
+            call_user_func($print, "$key:" . json_encode($this->getUsage($key)));
+        }
     }
 }
