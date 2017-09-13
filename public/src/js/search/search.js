@@ -1,6 +1,8 @@
 import '../../sass/layouts/layout3/analysis.scss'
 import '../common/common.js'
 import '../bookmark/bookmark.js'
+// import '../../../node_modules/downsize/index.js' 导入识别不了downsize()函数
+var downsize = require("../../../node_modules/downsize/index.js") // 引用裁剪插件
 
 angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util', '$filter',
     function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q, Util, $filter) {
@@ -153,6 +155,18 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                     }
                     if (res.data.count) {
                         angular.forEach(res.data.ads_info, function(value, key) {
+                            /*
+                            * 按字符串长度对原有数据进行裁剪，
+                            * 1）裁剪后的 + see more
+                            * 2）对于少于130字符的消息理应不做处理，但也可能会有连接中存在很长的href
+                            * 3）规避message为空的情况
+                            * 4）裁剪字符会出现不完整单词，最后一个emoji表情符号出现一场
+                            * 5）按单词裁剪，中文、日本等处理不理想
+                            */
+                            if (value.message) {
+                                value.excerpt = downsize(value.message, {characters: 130})
+                                value.showSeeMore = value.message.length !== value.excerpt.length
+                            }
                             if (value.type == vm.ADS_CONT_TYPE.CAROUSEL) {
                                 // 暂时无法保证数据端会出现某个字段json解析失败，全部做异常抛出。
                                 // 但是也把数据端的弊端屏蔽了，打算结合开发模式和生产模式，生产模式不做异常

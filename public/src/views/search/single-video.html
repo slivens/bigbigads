@@ -2,7 +2,12 @@
 <div class="aditem-desc">
     <!-- Begin SingleVideo -->
     <div>
-        <div class="xg-span-message"><span ng-bind-html="card.message | toHtml" ng-class="{'message-overhiden': card.message.length > 300} "></span></div>
+        <div class="xg-span-message" ng-init="showCut = card.showSeeMore">
+            <span ng-bind-html="card.excerpt | toHtml" ng-if="showCut"></span>
+            <span ng-bind-html="card.message | toHtml" ng-if="!showCut"></span>
+            <a ng-show="showCut" class="adscard-seemore" ng-click="showCut = false">...See More</a>
+        </div>
+        </div>
         <div class="adscard-content">
             <div class="text-center">
                 <!-- <div class="poster"> -->

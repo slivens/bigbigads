@@ -1,8 +1,12 @@
 <!-- begin ad description -->
 <div class="aditem-desc">
     <!-- begin Carousel -->
-    <div class="clearfix">
-    <div class="xg-span-message"><span ng-bind-html="card.message | toHtml" ng-class="{'message-overhiden': card.message.length > 300}" ></span></div>
+    <div class="clearfix" >
+        <div class="xg-span-message" ng-init="showCut = card.showSeeMore">
+            <span ng-bind-html="card.excerpt | toHtml" ng-if="showCut"></span>
+            <span ng-bind-html="card.message | toHtml" ng-if="!showCut"></span>
+            <a ng-show="showCut" class="adscard-seemore" ng-click="showCut = false">...See More</a>
+        </div>
     <div class="adscard-content">
         <div uib-carousel active="card.active" no-wrap="true">
             <div uib-slide ng-repeat="slide in card.watermark track by $index" index="$index">

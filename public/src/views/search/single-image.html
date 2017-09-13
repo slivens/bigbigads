@@ -2,12 +2,14 @@
 <div class="aditem-desc">
     <!-- begin SingleImage -->
     <div>
-        {{downsize('some markup here...',{'words': 2})}}
-        <div class="xg-span-message ">
-        <span ng-bind-html="card.message | toHtml" ng-class="{'message-overhiden': card.message.length > 300}"></span></div>
+        <div class="xg-span-message" ng-init="showCut = card.showSeeMore">
+            <span ng-bind-html="card.excerpt | toHtml" ng-if="showCut"></span>
+            <span ng-bind-html="card.message | toHtml" ng-if="!showCut"></span>
+            <a ng-show="showCut" class="adscard-seemore" ng-click="showCut = false">...See More</a>
+        </div>
         <div class="adscard-content">
             <div class="text-center mt-element-overlay">
-                <div>
+                <div class="adscard-img">
                     <a ng-href="{{card.link}}" target="_blank">
                         <!-- 为防止无限加载时图片加载后高度改变导致浏览位置变化，在加载图片前就设定好高度，这就要求图片URL一定要符合格式，否则不能正常显示 -->
                         <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="img-loading" lazy-img="{{card.watermark}}" width="{{card.watermark | getImageSize:0}}px" height="{{card.watermark | getImageSize:1}}px" alt="" type="bba">
