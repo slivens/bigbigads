@@ -1,8 +1,7 @@
 import '../../sass/layouts/layout3/analysis.scss'
 import '../common/common.js'
 import '../bookmark/bookmark.js'
-// import '../../../node_modules/downsize/index.js' 导入识别不了downsize()函数
-var downsize = require("../../../node_modules/downsize/index.js") // 引用裁剪插件
+import downsize from '../../../node_modules/downsize/index.js'
 
 angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util', '$filter',
     function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q, Util, $filter) {
