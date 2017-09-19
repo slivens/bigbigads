@@ -1,7 +1,7 @@
 import '../../sass/layouts/layout3/analysis.scss'
 import '../common/common.js'
 import '../bookmark/bookmark.js'
-import downsize from '../../../node_modules/downsize/index.js'
+import downsize from 'downsize'
 
 angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'settings', 'ADS_TYPE', 'ADS_CONT_TYPE', '$q', 'Util', '$filter',
     function($http, $timeout, settings, ADS_TYPE, ADS_CONT_TYPE, $q, Util, $filter) {
@@ -161,6 +161,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                             * 3）规避message为空的情况
                             * 4）裁剪字符会出现不完整单词，最后一个emoji表情符号出现一场
                             * 5）按单词裁剪，中文、日本等处理不理想
+                            * 6) 后续有待优化
                             */
                             if (value.message) {
                                 value.excerpt = downsize(value.message, {characters: 130})
