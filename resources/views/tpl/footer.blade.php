@@ -27,9 +27,6 @@
                 <a href="https://youtu.be/xo9cSuR50Js" class="footer-icon demoicon icon-youtube"></a>
             </li>
         </ul>
-        <div class="hide">
-          <script src="https://s13.cnzz.com/z_stat.php?id=1263539413&web_id=1263539413" language="JavaScript"></script>
-        </div>
     </div>
     
     <script>
