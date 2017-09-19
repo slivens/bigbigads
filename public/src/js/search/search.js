@@ -2213,41 +2213,48 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
 ])
     .controller('AdserAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$http', '$uibModal', '$q', 'Util', '$timeout',
         function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $http, $uibModal, $q, Util, $timeout) {
+            /*
+            * 广告主分析接口未定，暂时用临时接口
+            * 许多原有代码，确认无用的已经删除，不确定是干嘛的，或注释或暂留
+            * 因为临时接口与原有的存在变化，广告主分析的这块代码比较混乱，待接口出来后，将再做修改
+            */
             var vm = this
             function getAdserAnalysis(username, select) {
-                if (select === undefined)
-                    select = "all"
-                var params = {
-                    "search_result": "adser_analysis",
-                    "where": [{
-                        "field": "adser_username",
-                        "value": username
-                    }],
-                    "select": select
-                }
-                console.log("params", params)
-                return $http.post(settings.remoteurl + '/forward/adserAnalysis',
-                    params)
+                // if (select === undefined)
+                //     select = "all"
+                // var params = {
+                //     "search_result": "adser_analysis",
+                //     "where": [{
+                //         "field": "adser_username",
+                //         "value": username
+                //     }],
+                //     "select": select
+                // }
+                // console.log("params", params)
+                return $http.get(settings.remoteurl + `/api/adserAnalysis/${username}`)
             }
             $scope.ceil = Math.ceil
             var competitorQuery = []
             var promises = []
-            $scope.openAd = Util.openAd
+            // $scope.openAd = Util.openAd
             $scope.card = {
                 words: []
             } // card必须先赋值，否则调用Searcher的getAdsType时会提前生成自己的card,scope出错。
-            $scope.Searcher = Searcher
+            // $scope.Searcher = Searcher
             $scope.username = $stateParams.username
             $rootScope.$broadcast("loading")
             promises[0] = getAdserAnalysis($scope.username, "overview,rank,trend,topkeyword")
             promises[0].then(function(res) {
+                // console.log('date', res.data)
+                // 不知道是干嘛的
                 var key
                 for (key in res.data) {
                     if (!$scope.card[key]) {
                         $scope.card[key] = res.data[key]
                     }
                 }
-                console.log("first phase", $scope.card)
+                // console.log("first phase", $scope.card)
+                // 不知道是干嘛的
                 for (key in $scope.card.top_keyword) {
                     $scope.card.words.push({
                         text: key,
@@ -2256,27 +2263,11 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                 }
 
                 $rootScope.$broadcast("jqchange")
-                // console.log("words", $scope.card.words);
                 $rootScope.$broadcast("completed")
                 // 异步获取广告主详情数据
                 promises[1] = getAdserAnalysis($scope.username, "summary,audience_all,link,topn,button")
                 promises[1].then(function(res) {
-                    // $scope.card = res.data;
-                    for (var key in res.data) {
-                        if (!$scope.card[key]) {
-                            $scope.card[key] = res.data[key]
-                        }
-                    }
-
-                    console.log("second phase", $scope.card)
-                    // initChart($scope.card)
-                    // $timeout(function() {
-                    //     $scope.$apply();
-                    // }, 0);
-                    if (!$scope.card.info) {
-                        window.location.href = '/app/404.html'
-                        return
-                    }
+                    $scope.card.info = res.data[0]
                     // impression_trend
                     if ($scope.card.info.impression_trend) {
                         try {
@@ -2421,11 +2412,11 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                         $scope.card.objectiveArr = false
                     }
                     // 广告个数分布
-                    if ($scope.card.info.phone_ads_count || $scope.card.info.rc_ads_count || $scope.card.info.tl_ads_count) {
+                    if ($scope.card.info.phone_ad_count || $scope.card.info.rc_ad_count || $scope.card.info.tl_ad_count) {
                         var chartsDtata = [
-                            ['Phone', $scope.card.info.phone_ads_count || 0],
-                            ['Rc', $scope.card.info.rc_ads_count || 0],
-                            ['Tl', $scope.card.info.tl_ads_count || 0]
+                            ['Phone', $scope.card.info.phone_ad_count || 0],
+                            ['Rc', $scope.card.info.rc_ad_count || 0],
+                            ['Tl', $scope.card.info.tl_ad_count || 0]
                         ]
                         $scope.card.adsNumPieCharts = Util.pieChartsConfig(chartsDtata, '0%', ['#7cb5ec', '#337ab7', '#3c739e'], objPieLegend)
                     } else $scope.card.adsNumPieCharts = false
@@ -2444,8 +2435,9 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
             $scope.competitors = []
             $scope.competitorPopover = false
             $scope.competitorsChart = {}
+
+            // 不知道该功能是干嘛的，暂时留着
             $scope.$on('competitor', function(event, data) {
-                // var p
                 event.stopPropagation()
                 $scope.competitorPopover = false
                 // p = getAdserAnalysis(data.adser_username)
@@ -2464,13 +2456,13 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
             // 所有广告主分析数据加载完成才处理图表
             // $q.all(promises).then(initCompetitorCharts)
 
-            $scope.$on('$viewContentLoaded', function() {
-                // initialize core components
-                // set default layout mode
-                $rootScope.settings.layout.pageContentWhite = true
-                $rootScope.settings.layout.pageBodySolid = false
-                $rootScope.settings.layout.pageSidebarClosed = false
-            })
+            // $scope.$on('$viewContentLoaded', function() {
+            //     // initialize core components
+            //     // set default layout mode
+            //     $rootScope.settings.layout.pageContentWhite = true
+            //     $rootScope.settings.layout.pageBodySolid = false
+            //     $rootScope.settings.layout.pageSidebarClosed = false
+            // })
         }
     ])
     .controller('CompetitorSearcherController', ['$scope', 'Searcher', function($scope, Searcher) {
