@@ -204,7 +204,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                             if (clear) {
                                 vm.ads = res.data
                             } else {
-                                vm.ads.adser = vm.ads.adser.concat(res.data.adser)
+                                vm.ads.adser_info = vm.ads.adser.concat(res.data.adser)
                             }
                         } else {
                             if (clear || vm.ads.total_count === 0) {
