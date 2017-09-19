@@ -611,17 +611,17 @@ body {
         }
     }
 
-    @media (min-width: 992px) and (max-width: 1023px) {
+    @media (min-width: 992px) and (max-width: 1300px) {
         .deckgrid[deckgrid]::before {
             content: '2 .column.column-1-2';
         }
     }
-    @media (min-width: 1024px) and (max-width: 1500px) {
+    @media (min-width: 1301px) and (max-width: 1700px) {
         .deckgrid[deckgrid]::before {
             content: '3 .column.column-1-3';
         }
     }
-    @media (min-width: 1501px) {
+    @media (min-width: 1701px) {
         .deckgrid[deckgrid]::before {
             content: '4 .column.column-1-4';
         }
