@@ -401,12 +401,12 @@ class PaymentService implements PaymentServiceContract
                     }
                     if ($payment->status == Payment::STATE_COMPLETED) {
                         $this->log("handle payment...");
-                        $this->handlePayment($payment);
                     }
                 }
 
                 if ($isDirty) {
                     $payment->save();
+                    $this->handlePayment($payment);
                     $this->log("payment {$payment->number} is synced");
                 } else {
                     $this->log("payment {$payment->number} has no change", PaymentService::LOG_INFO);
@@ -491,18 +491,6 @@ class PaymentService implements PaymentServiceContract
 
         // 切换用户计划
         $subscription->user->fixInfoByPayments();
-        /* $user = $subscription->user; */
-        /* $plan = Plan::where('name', $subscription->plan)->first(); */
-        /* $role = $plan->role; */
-        /* $oldRoleName = $user->role['display_name']; */
-        /* $user->subscription_id = $subscription->id; */
-        /* $user->role_id = $role->id; */
-        /* $user->initUsageByRole($role);//更改计划时切换资源 */
-        /* // 过期时间统一再加上一天，为了防止到期后，系统重置权限先于扣款，将引来不必要的麻烦。 */
-        /* $user->expired = new Carbon($payment->end_date); */
-        /* $user->expired->addDay(); */ 
-        /* $user->save(); */
-        /* Log::info($user->name . " change plan to " . $plan->name . "({$oldRoleName} -> {$role['display_name']})"); */
     }
 
 
@@ -529,7 +517,7 @@ class PaymentService implements PaymentServiceContract
         $this->log("on schedule checking...");
         $carbon = new Carbon($user->expired);
         // 7天及以内过期的用户，在过期前几个小时检查订单状态
-        if ($carbon->gt(Carbon::now()) && Carbon::now()->diffInDays($carbon, false) <= 7)  {
+        if ($carbon->gt(Carbon::now()) && Carbon::now()->diffInDays($carbon, false) <= 10)  {
             $scheduleTime = $carbon->subHours(5);
             // 对于在5小时内就要过期的订单，1分钟后就立刻执行
             if ($scheduleTime->lt(Carbon::now()))
