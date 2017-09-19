@@ -66,6 +66,7 @@ class UserController extends Controller
             if ($user['subscription_id'] != null) {
                 $user->load('subscription');//有订阅就把订阅信息也一起加载
             }
+            $res['effective_sub'] = $user->getEffectiveSub()?true:false;
             $res['permissions'] = $user->getMergedPermissions()->groupBy('key');
             $res['groupPermissions'] = $user->getMergedPermissions()->groupBy('table_name');
             //提供用户邮箱的hamc，用于intercom的用户验证

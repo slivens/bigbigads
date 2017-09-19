@@ -514,10 +514,10 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                 // 现在不支持用户再次购买同类的plan计划，即已经是standard月付不能再购买standard 季付和年付
                 // var userPlanType = attrs.name.split("_")
                 // var userPlan = userPlanType[0]
-                var sub = User.info.user.subscription
+                var sub = User.info.effective_sub
                 element.bind("click", function() {
                     // 判断计划是错误做法，应该是判断用户是否有订阅，并且计划没被取消
-                    if (sub && sub.status != 'canceled') {
+                    if (sub) {
                         SweetAlert.swal({
                             title: "You have a subscription already. Contact help@bigbigads.com",
                             type: "warning",
