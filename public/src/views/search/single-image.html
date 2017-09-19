@@ -2,10 +2,14 @@
 <div class="aditem-desc">
     <!-- begin SingleImage -->
     <div>
-        <div class="xg-span-message"><span ng-bind-html="card.message | toHtml"></span></div>
+        <div class="xg-span-message" ng-init="showCut = card.showSeeMore">
+            <span ng-bind-html="card.excerpt | toHtml" ng-if="showCut"></span>
+            <span ng-bind-html="card.message | toHtml" ng-if="!showCut"></span>
+            <a ng-show="showCut" class="adscard-seemore" ng-click="showCut = false">...See More</a>
+        </div>
         <div class="adscard-content">
             <div class="text-center mt-element-overlay">
-                <div>
+                <div class="adscard-img">
                     <a ng-href="{{card.link}}" target="_blank">
                         <!-- 为防止无限加载时图片加载后高度改变导致浏览位置变化，在加载图片前就设定好高度，这就要求图片URL一定要符合格式，否则不能正常显示 -->
                         <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="img-loading" lazy-img="{{card.watermark}}" width="{{card.watermark | getImageSize:0}}px" height="{{card.watermark | getImageSize:1}}px" alt="" type="bba">
@@ -39,22 +43,4 @@
         <i class="fa fa-link fa-fw"></i>
         <a href="{{card.link}}" class="adlink xg-link-width" target="_blank">{{card.link | clearHttps}}</a>
     </div> -->
-    <div>
-        <span ng-show="card.views">
-            <i class="xg-icon xg-icon-video"></i>
-            {{card.views | addUnit}}
-        </span>
-        <span ng-show="card.likes">
-            <i class="fa fa-thumbs-up" ></i>
-            {{card.likes | addUnit}}
-        </span>
-        <span ng-show="card.comments">
-            <i class="xg-icon xg-icon-comment"></i>
-            {{card.comments | addUnit}}
-        </span>
-        <span ng-show="card.shares">
-            <i class="xg-icon xg-icon-share"></i>
-            {{card.shares | addUnit}}
-        </span>
-    </div>
 </div>

@@ -5,25 +5,7 @@
     /*测试用的边框*/
     .border-test {
         border: 1px solid red
-    } // 取自facebook的表情图
-    .analy-fbicon {
-        background: url(/images/analysis/fb_icon.png) no-repeat;
-        box-sizing: content-box;
-        height: 16px;
-        width: 16px;
-        border: 2px solid #fff;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-    .analy-fbicon.icon-good {
-        background-position: -68px -54px;
-    }
-    .analy-fbicon.icon-love {
-        background-position: -85px -54px;
-    }
-    .analy-fbicon.icon-surp {
-        background-position: -51px -54px;
-    } // bata 标志
+    }  // bata 标志
     .ads-label-beta {
         display: inline-block;
         font-weight: 200;
@@ -33,12 +15,7 @@
         border-radius: 8px;
         color: #fff;
         margin: 0 5px;
-    } // 超出省略号
-    .ads-text-ellipsis {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+    } 
     .analysis-title {
         margin-top: 50px;
         padding: 15px;

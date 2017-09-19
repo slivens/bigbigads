@@ -79,6 +79,7 @@
     "bootstrap": "^3.3.7",
     "bootstrap-hover-dropdown": "^2.2.1",
     "bootstrap-switch": "^3.3.4",
+    "downsize": "0.0.8",
     "fancybox": "^3.0.0",
     "font-awesome": "^4.7.0",
     "gulp-eslint": "^4.0.0",

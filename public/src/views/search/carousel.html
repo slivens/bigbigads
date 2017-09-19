@@ -1,8 +1,12 @@
 <!-- begin ad description -->
 <div class="aditem-desc">
     <!-- begin Carousel -->
-    <div class="clearfix">
-    <div class="xg-span-message"><span ng-bind-html="card.message | toHtml"></span></div>
+    <div class="clearfix" >
+        <div class="xg-span-message" ng-init="showCut = card.showSeeMore">
+            <span ng-bind-html="card.excerpt | toHtml" ng-if="showCut"></span>
+            <span ng-bind-html="card.message | toHtml" ng-if="!showCut"></span>
+            <a ng-show="showCut" class="adscard-seemore" ng-click="showCut = false">...See More</a>
+        </div>
     <div class="adscard-content">
         <div uib-carousel active="card.active" no-wrap="true">
             <div uib-slide ng-repeat="slide in card.watermark track by $index" index="$index">
@@ -54,24 +58,6 @@
         <i class="fa fa-link fa-fw"></i>
         <a ng-href="{{card.link[card.active]}}" class="adlink xg-link-width" target="_blank">{{card.link[card.active] | clearHttps}}</a>
     </div> -->
-    <div>
-        <span ng-show="card.views">
-            <i class="xg-icon xg-icon-video"></i>
-            {{card.views | addUnit}}
-        </span>
-        <span ng-show="card.likes" >
-            <i class="fa fa-thumbs-up" ></i>
-            {{card.likes | addUnit}}
-        </span>
-        <span ng-show="card.comments" >
-            <i class="xg-icon xg-icon-comment"></i>
-            {{card.comments | addUnit}}
-        </span>
-        <span ng-show="card.shares">
-            <i class="xg-icon xg-icon-share"></i>
-            {{card.shares | addUnit}}
-        </span>
-    </div>
 </div>
 
 <!-- <div class="carousel-caption" ng-show="card.caption">
