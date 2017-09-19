@@ -22,7 +22,7 @@ angular.module('MetronicApp').controller('SubscriptionController', ['$scope', '$
             if (!ctrl.lastSubscription)
                 return
             if (ctrl.lastSubscription.status == 'canceled') {
-                ctrl.lastSubscription.payments.map((item) => {
+                ctrl.lastSubscription.payments.map(function(item) {
                     if (item.is_effective)
                         ctrl.effectPayment = item
                 })
