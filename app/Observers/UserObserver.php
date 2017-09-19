@@ -24,6 +24,7 @@ class UserObserver
             'status'    => 1,
             'type'      => 1
         ]);
+        $user->reInitUsage();
     }
 
     /**

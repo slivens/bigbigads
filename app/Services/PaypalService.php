@@ -21,31 +21,47 @@ use PayPal\Api\Sale;
 use Carbon\Carbon;
 use Log;
 
-class PaypalService
+final class PaypalService
 {
     protected $config;
+    protected $apiContext;
+    private $requestNumber;
+
+    public function limitRate()
+    {
+        $this->requestNumber++;
+        // 每5个请求停5秒
+        if ($this->requestNumber >= 5) {
+            sleep(5);
+            $this->requestNumber = 0;
+            Log::debug("limit rate by delay 5 seconds");
+        }
+    }
 
     public function __construct($config = [])
     {
         $this->config = $config;
+        $this->requestNumber = 0;
     }
 
     public function getApiContext()
     {
-        $apiContext = new \PayPal\Rest\ApiContext(
+        if ($this->apiContext)
+            return $this->apiContext;
+        $this->apiContext = new \PayPal\Rest\ApiContext(
             new \PayPal\Auth\OAuthTokenCredential(
                 $this->config['client_id'],     // ClientID
                 $this->config['client_secret']      // ClientSecret
             ));
-        $apiContext->setConfig( 
+        $this->apiContext->setConfig( 
             array(
                 'mode'=> $this->config['mode'],
                 'log.LogEnabled' => true,
-                'log.FileName' => 'PayPal.log',
+                'log.FileName' => storage_path('logs/PayPal.log'),
                 'log.LogLevel' => 'DEBUG'
             ) 
         ); 
-        return $apiContext;
+        return $this->apiContext;
     }
 
     /**
@@ -54,6 +70,7 @@ class PaypalService
      */
     public function createPlan($param)
     {
+        $this->limitRate();
         $apiContext = $this->getApiContext();
         $plan = new Plan();
 
@@ -85,8 +102,8 @@ class PaypalService
         $merchantPreferences = new MerchantPreferences();
         $merchantPreferences->setReturnUrl("$returnUrl?success=true")
             ->setCancelUrl("$returnUrl?success=false")
-            ->setAutoBillAmount("yes")
-            ->setInitialFailAmountAction("CONTINUE")
+            ->setAutoBillAmount("NO")
+            ->setInitialFailAmountAction("CANCEL")
             ->setMaxFailAttempts("0")
             ->setSetupFee(new Currency(array('value' => $param->amount, 'currency' => 'USD')));
 
@@ -100,7 +117,7 @@ class PaypalService
             $output = $plan->create($apiContext);
         } catch (\Exception $ex) {
             return false;
-        }
+        } 
 		$patch = new Patch();
 
 		$value = new PayPalModel('{"state":"ACTIVE"}');
@@ -121,6 +138,7 @@ class PaypalService
      */
     public function getPlan($id)
     {
+        $this->limitRate();
         try {
             $plan = Plan::get($id, $this->getApiContext());
             return $plan;   
@@ -135,6 +153,7 @@ class PaypalService
      */
     public function deletePlan($id)
     {
+        $this->limitRate();
         try {
             $plan = Plan::get($id, $this->getApiContext());
             return $plan;   
@@ -149,6 +168,7 @@ class PaypalService
      */
     public function plans()
     {
+        $this->limitRate();
         $apiContext = $this->getApiContext();
         try {
             $params = array('page_size' => '10');
@@ -165,6 +185,7 @@ class PaypalService
      */
     public function dropPlans()
     {
+        $this->limitRate();
         $planList = $this->plans();
         if ($planList == null || json_encode($planList) == "") {
             echo "get plan list failed";
@@ -187,6 +208,7 @@ class PaypalService
      */
     public function createPayment($param, $extra)
     {
+        $this->limitRate();
         $apiContext = $this->getApiContext();
         $agreement = new Agreement();
 
@@ -194,7 +216,9 @@ class PaypalService
             ->setDescription($param['display_name']);
         // 按扣款周期设置首期推迟时间
         // TODO:考虑周和天的情况 
-        if (strtoupper($param['frequency']) == 'MONTH') {
+        if (strtoupper($param['frequency']) == 'DAY') {
+            $agreement->setStartDate(Carbon::now()->addDays($param['frequency_interval'])->toIso8601String());
+        } else if (strtoupper($param['frequency']) == 'MONTH') {
             $agreement->setStartDate(Carbon::now()->addMonths($param['frequency_interval'])->toIso8601String());
         }else{
             $agreement->setStartDate(Carbon::now()->addYear()->toIso8601String());
@@ -275,16 +299,46 @@ class PaypalService
 
     /**
      * 获取指定订阅
-     * @param $id  paypal的payment_id
+     * @param $id  paypal的agreement_id
      * @return Agreement | null
      */
     public function subscription($id)
     {
+        $this->limitRate();
         $apiContext = $this->getApiContext();
         try {
             $agreement = Agreement::get($id, $apiContext);
         } catch(\Exception $e) {
-            Log::error("get subscription failed" . $e->getMessage());
+            Log::error("get subscription failed:" . $e->getMessage());
+            return null;
+        }
+        return $agreement;
+    }
+
+
+    /**
+     * 更新订阅
+     * @param $id  paypal的agreement_id
+     * @param $data 要更新的数据
+     * @return Agreement | null
+     */
+    public function updateSubscription($id, $data)
+    {
+        $this->limitRate();
+        $apiContext = $this->getApiContext();
+        try {
+            $agreement = Agreement::get($id, $apiContext);
+			$patch = new Patch();
+			$patch->setOp('replace')
+				->setPath('/')
+                ->setValue(json_decode(json_encode($data, true))); 
+            $patchRequest = new PatchRequest();
+            $patchRequest->addPatch($patch);
+            $agreement->update($patchRequest, $apiContext);
+
+            $agreement = Agreement::get($id, $apiContext);
+        } catch(\Exception $e) {
+            Log::error("update subscription failed:" . $e->getMessage());
             return null;
         }
         return $agreement;
@@ -315,13 +369,15 @@ class PaypalService
      */
     public function suspendSubscription($id)
     {
-        $subscription = $this->subscription($id);
-
+        $this->limitRate();
         $apiContext = $this->getApiContext();
         $agreementStateDescriptor = new AgreementStateDescriptor();
         $agreementStateDescriptor->setNote("Suspending the agreement");
         try {
-             $subscription->suspend($agreementStateDescriptor, $apiContext);
+            $subscription = $this->subscription($id);
+            if (!$subscription)
+                return null;
+            $subscription->suspend($agreementStateDescriptor, $apiContext);
         } catch (\Exception $e) {
             Log::error("suspend:" . $e->getMessage());
             return null;
@@ -334,6 +390,7 @@ class PaypalService
      */
     public function reActivateSubscription($id)
     {
+        $this->limitRate();
         $subscription = $this->subscription($id);
 
         $apiContext = $this->getApiContext();
@@ -354,6 +411,7 @@ class PaypalService
      */
     public function transactions($id)
     {
+        $this->limitRate();
         $apiContext = $this->getApiContext();
 
         /* $agreement = Agreement::get($id, $apiContext); */
@@ -363,7 +421,7 @@ class PaypalService
         try {
             $result = Agreement::searchTransactions($id, $params, $apiContext);
         } catch(\Exception $e) {
-            Log::error("get transactions failed" . $e->getMessage());
+            Log::error("get transactions failed:" . $e->getMessage());
             return null;
         }
         return $result->getAgreementTransactionList() ;
@@ -411,6 +469,7 @@ class PaypalService
      * @param $saleId 订单号
 	 */
     public function refund($saleId, $currency, $amount) {
+        $this->limitRate();
         $apiContext = $this->getApiContext();
 		$amt = new Amount();
 		$amt->setCurrency($currency)
@@ -434,6 +493,7 @@ class PaypalService
      * @remark 买家订单号与卖家订单号不一样，并且没办法通过API获取到买家订单号，但是买家提供订单号时，可以通过本接口查询。知道它属于哪个agreement。
      */
     public function sale($saleId) {
+        $this->limitRate();
         $apiContext = $this->getApiContext();
         try {
             $sale = Sale::get($saleId, $apiContext);

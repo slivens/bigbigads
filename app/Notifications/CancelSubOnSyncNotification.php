@@ -6,27 +6,22 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Refund;
-use Log;
+use App\Subscription;
 
-class RefundRequestNotification extends Notification implements ShouldQueue
+class CancelSubOnSyncNotification extends Notification implements  ShouldQueue
 {
     use Queueable;
-    public $refund;
+    private $subscription;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Refund $refund)
+    public function __construct(Subscription $subscription)
     {
-        $this->refund = $refund;
+        $this->subscription = $subscription;
     }
-
-    /* public function routeNotificationForMail() */
-    /* { */
-    /*     return env('ADMIN_EMAIL'); */
-    /* } */
 
     /**
      * Get the notification's delivery channels.
@@ -47,10 +42,13 @@ class RefundRequestNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $refund = $this->refund;
+        $sub = $this->subscription;
+
         return (new MailMessage)
-                    ->line("{$notifiable->email} request refunding \${$refund->amount} on {$refund->payment->number}")
-                    ->action('Handle Refunding', env('APP_URL') . 'admin')
+                    ->subject("Cancel Notifcation Request Caused By bigbigads's Sync Subscriptions")
+                    ->line("agreement-id:{$sub->agreement_id} is not user {$sub->user->email} 's current subscription")
+                    ->line('Please cancel it with command:')
+                    ->line("php artisan bba:cancel {$sub->user->email}")
                     ->to(env('ADMIN_EMAIL'));
     }
 
@@ -63,7 +61,7 @@ class RefundRequestNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'refund_id' => $this->refund->id
+            //
         ];
     }
 }

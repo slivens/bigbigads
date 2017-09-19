@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Subscription;
+use App\Contracts\PaymentService;
 
 class SyncSubscriptions extends Command
 {
@@ -12,14 +13,14 @@ class SyncSubscriptions extends Command
      *
      * @var string
      */
-    protected $signature = 'bba:sync-subscriptions {--paypal : 只同步paypal} {--stripe : 只同步stripe} {agreement-id?} ';
+    protected $signature = 'bba:sync-subscriptions {--paypal : 只同步paypal} {--stripe : 只同步stripe} {agreement-id?} {--f|force : 强制与远程同步}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '与Paypal, Stripe同步订阅;可指定特定订阅';
+    protected $description = '与Paypal, Stripe同步订阅;可指定特定订阅;默认跳过被取消的订阅，除非指定-f参数';
 
     /**
      * Create a new command instance.
@@ -42,6 +43,7 @@ class SyncSubscriptions extends Command
         /* $isAll = true; */
         $hasPaypal = $this->option('paypal');
         $hasStripe = $this->option('stripe');
+        $force = $this->option('force');
         $agreeId = $this->argument('agreement-id');
         $gateways = [];
         if ($hasPaypal)
@@ -49,6 +51,10 @@ class SyncSubscriptions extends Command
         if ($hasStripe)
             $gateways[] = PaymentService::GATEWAY_STRIPE;
         $this->info("start syncing subscriptions...");
+        if ($force) {
+            $service->setParameter(PaymentService::PARAMETER_FORCE, true);
+            $this->info("force flag set");
+        }
         $service->setLogger($this);
         $service->syncSubscriptions($gateways, $agreeId ? Subscription::where('agreement_id', $agreeId)->first() : null);
     }

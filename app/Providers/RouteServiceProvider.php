@@ -57,6 +57,12 @@ class RouteServiceProvider extends ServiceProvider
         ], function ($router) {
             require base_path('routes/web.php');
         });
+
+
+        // 调试相关的路由
+        if ($this->app->environment('local')) {
+            Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+        }
     }
 
     /**

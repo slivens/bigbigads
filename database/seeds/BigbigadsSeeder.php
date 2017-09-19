@@ -6,6 +6,8 @@ use App\Bookmark;
 use App\BookmarkItem;
 use App\Policy;
 use App\Role;
+use App\User;
+
 class BigbigadsSeeder extends Seeder
 {
     public function insertPermissions($tableName, $list, $permissions, &$roles) 
@@ -101,7 +103,7 @@ class BigbigadsSeeder extends Seeder
                 if (Role::where('name', $key)->count() > 0) {
                     $role = Role::where('name', $key)->first();
                     $role->update(['display_name' => $item]);
-                    $role->cleanCache();
+                    /* $role->cleanCache(); */
                     array_push($roles, $role);
                 } else {
                     array_push($roles, Role::create([
@@ -244,7 +246,7 @@ class BigbigadsSeeder extends Seeder
         $bookmark = ['bookmark_support', 'bookmark_list', 'bookmark_adser_support', 'save_count','advertiser_collect', 'bookmark_init_perday', 'bookmark_limit_perday'];
         $bookmarkPermission = ['bookmark_support'=>[false, true, true, true, true, true, true], 'bookmark_list'=>[true, true, true, true, true, true, true], 'bookmark_adser_support'=>[false, true, true, true, true, true, true], 'save_count'=>[false, true, true, true, true, true, true],'advertiser_collect'=>[false, false, true, true, false, false, false],
                                'bookmark_init_perday' => [true, true, true, true, true, true, true], 'bookmark_limit_perday' => [true, true, true, true, true, true, true]];
-        $bookmarkPolicy = ['ruanmingzhi'=>[Policy::PERMANENT, 1, 10, 5, 10, 10, 1, 3], 'save_ad_count'=>[Policy::PERMANENT, 50, 500, 150, 5000, 500, 30, 150], 'save_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000, 100, 100, 100], 'bookmark_init_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000], 'bookmark_limit_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000]];
+        $bookmarkPolicy = ['bookmark_list'=>[Policy::PERMANENT, 1, 10, 5, 10, 10, 1, 3], 'save_ad_count'=>[Policy::PERMANENT, 50, 500, 150, 5000, 500, 30, 150], 'save_count'=>[Policy::PERMANENT, 0, 100, 1000, 5000, 100, 100, 100], 'bookmark_init_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000], 'bookmark_limit_perday' => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000]];
         foreach($bookmark as $key=>$item) {
             $permision = Permission::firstOrCreate([
                 'key'        => $item,
@@ -307,5 +309,17 @@ class BigbigadsSeeder extends Seeder
                 $role->save();
             }
         }
+
+        $this->command->getOutput()->writeln("<info>Generate cache for Roles and fix Users's usage</info>");
+        // 重新为所有角色生成cache(必需的操作，用户只从缓存中读取权限数据)
+        foreach ($roles as $role) {
+            $role->generateCache();
+        }
+        // 对所有用户重新初始化它们的usage(只有真正变化的用户才会被更新，只更新初始化，它们的用量是保持的)
+        User::chunk(100, function ($users) {
+            foreach ($users as $user) {
+                $user->reInitUsage();
+            }
+        });
     }
 }

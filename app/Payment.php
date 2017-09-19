@@ -15,7 +15,7 @@ class Payment extends BasePayment
 
     protected $table = "payments";
     protected $fillable = ['number'];
-    protected $appends = ['gateway', 'start_date', 'end_date'];
+    protected $appends = ['gateway', 'start_date', 'end_date', 'is_effective'];
     protected $hidden = ['details'];
     protected $casts = [
         'details' => 'json'
@@ -68,5 +68,24 @@ class Payment extends BasePayment
             break;
         }
         return $carbon->toDateTimeString();
+    }
+
+    /**
+     * 当前Payment是否生效，判断依据：
+     * 1. 状态为完成
+     * 2. 当前时间在起始时间和结束时间之间
+     */
+    public function isEffective()
+    {
+        if ($this->status != Payment::STATE_COMPLETED)
+            return false;
+        $start = new Carbon($this->start_date);
+        $end = new Carbon($this->end_date);
+        return Carbon::now()->between($start, $end);
+    }
+
+    public function getIsEffectiveAttribute()
+    {
+        return $this->isEffective();
     }
 }

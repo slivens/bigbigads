@@ -13,10 +13,30 @@ interface PaymentService
     const GATEWAY_PAYPAL = "paypal";
 
     /**
+     * 默认情况下，同步订阅时不会同步取消的订阅，或者采用其他优化策略;同步订单也会有自己的优化策略；
+     * 在特殊情况下，可能想所有订阅都同步，这时需要加该参数。
+     * Value: true|false
+     */
+    const PARAMETER_FORCE = "FORCE";
+
+    /**
+     * 默认只更新tag为default的订阅，可以指明更新其他tag的订阅
+     * Value: Array
+     */
+    const PARAMETER_TAGS = "TAGS";
+    /**
+     * Value: ['start' => Carbon|null, 'end' => Carbon|null]
+     */
+    /* const PARAMETER_SYNC_RANGE = "SYNC_RANGE"; */
+
+    /**
      * 用于调试目的日志输出
      * @param mixed $logger 控制台或者Log
      */
     public function setLogger($logger);
+
+    public function setParameter($key, $val);
+    public function getParameter($key);
 
     /**
      * 同步计划

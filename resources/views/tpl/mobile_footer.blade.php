@@ -56,4 +56,5 @@
     <div class="hide">
       <script src="https://s13.cnzz.com/z_stat.php?id=1263539413&web_id=1263539413" language="JavaScript"></script>
     </div>
+    <script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"5713181"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script><noscript><img src="//bat.bing.com/action/0?ti=5713181&Ver=2" height="0" width="0" style="display:none; visibility: hidden;" /></noscript>
 </footer>

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use TCG\Voyager\Models\Permission;
 use App\Plan;
+use App\Exceptions\GenericException;
 use Illuminate\Support\Facades\Cache;
 
 class Role extends Model
@@ -45,11 +46,19 @@ class Role extends Model
      */
     public function groupedPolicies()
     {
-        // TODO:变成[]有更深层次的原因，此为临时解决方案
         $key = "role-" . $this->name;
-        if (Cache::has($key) && json_encode(Cache::get($key)) != '[]') {
-            return Cache::get($key);
-        }
+        return Cache::get($key, []);
+    }
+
+
+    /**
+     * 生成缓存
+     * usage的格式:[key] = [类型，默认值,当前值,额外信息(时间)]
+     * @remark 参考设计说明，生成缓存应该在种子填充阶段完成
+     */
+    public function generateCache()
+    {
+        $key = "role-" . $this->name;
         $policies = $this->policies;
         $grouped = [];
         foreach($policies as $key=>$policy) {
@@ -65,5 +74,23 @@ class Role extends Model
     public function cleanCache()
     {
         Cache::forget("role-" . $this->name);
+    }
+
+    /**
+     * 检查Usage的缓存是否正确（非常重要）
+     */
+    public function checkCacheUsage()
+    {
+        $key = "role-" . $this->name;
+        $cache = Cache::get($key, null);
+        if ($cache === null)
+            throw new GenericException($this, "{$this->name}:role usage cache is null");
+        foreach($this->policies as $policy) {
+            $key = $policy->key;
+            $right = [$policy->type, $policy->pivot->value];
+            if (!isset($cache[$key]) || $cache[$key] != $right)
+                throw new GenericException($this, "{$this->name}:$key should be " . json_encode($right) . "but result is " . (isset($cache[$key]) ? $cache[$key] : " not set"));
+        }   
+        return true;
     }
 }
