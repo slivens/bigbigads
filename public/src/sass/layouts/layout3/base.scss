@@ -108,7 +108,31 @@
     display: block !important;
 }
 
-
+// 超出省略号
+.ads-text-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+// 取自facebook的表情图
+.analy-fbicon {
+    background: url(/images/analysis/fb_icon.png) no-repeat;
+    box-sizing: content-box;
+    height: 16px;
+    width: 16px;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.analy-fbicon.icon-good {
+    background-position: -68px -54px;
+}
+.analy-fbicon.icon-love {
+    background-position: -85px -54px;
+}
+.analy-fbicon.icon-surp {
+    background-position: -51px -54px;
+}
 /*
 * 移动端字体适配
 * 移动端参考iphone 6 画稿

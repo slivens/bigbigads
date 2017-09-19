@@ -2,7 +2,12 @@
 <div class="aditem-desc">
     <!-- begin SingleImage -->
     <div>
-        <div class="xg-span-message"><span ng-bind-html="card.message | toHtml"></span></div>
+        <div class="xg-span-message" ng-init="showCut = card.showSeeMore">
+            <span ng-bind-html="card.excerpt | toHtml" ng-if="showCut"></span>
+            <span ng-bind-html="card.message | toHtml" ng-if="!showCut"></span>
+            <a ng-show="showCut" class="adscard-seemore" ng-click="showCut = false">...See More</a>
+        </div>
+        </div>
         <!-- timeline and rightcolumn are diffrent view -->
         <!-- begin timeline canvas-->
         <div class="adscard-content">
@@ -57,22 +62,4 @@
         <a href="{{card.link[0]}}" class="adlink xg-link-width" ng-if="card.show_way!=1">{{card.link[0] | clearHttps}}</a>
         <a originlink class="adlink xg-link-width" eventid="{{card.event_id}}" id="{{card.adser_username}}" ng-if="card.show_way==1" target="_blank">{{card.link[0] | clearHttps}}</a>
     </div> -->
-    <div>
-        <span ng-show="card.views">
-            <i class="xg-icon xg-icon-video"></i>
-            {{card.views | addUnit}}
-        </span>
-        <span ng-show="card.likes" >
-            <i class="fa fa-thumbs-up" ></i>
-            {{card.likes | addUnit}}
-        </span>
-        <span ng-show="card.comments" >
-            <i class="xg-icon xg-icon-comment"></i>
-            {{card.comments | addUnit}}
-        </span>
-        <span ng-show="card.shares" >
-            <i class="xg-icon xg-icon-share"></i>
-            {{card.shares | addUnit}}
-        </span>
-    </div>
 </div>
