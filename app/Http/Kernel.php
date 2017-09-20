@@ -15,6 +15,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \App\Http\Middleware\AccessControlAllowOrigin::class,
     ];
 
     /**
@@ -53,5 +54,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'track' => \App\Http\Middleware\Track::class,
+        'cors' => \App\Http\Middleware\AccessControlAllowOrigin::class,
     ];
 }
