@@ -17,4 +17,5 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
-
+//临时接口，这礼拜尽量给出对应修改部分
+Route::get('adserAnalysis/{facebook_id}', 'Api\AdserAnalysisController@show');
