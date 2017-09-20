@@ -19,6 +19,7 @@ use \Illuminate\Support\Facades\Input;
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
+    @include('tpl.script')
 </head>
 <body>
     <div id="app">
@@ -217,6 +218,12 @@ use \Illuminate\Support\Facades\Input;
     "m", "black", "-MoxKleO"]);(function(){var
     cid=document.createElement("script");cid.async=true;cid.src="//seal.digicert.com/seals/cascade/seal.min.js";var s = document.getElementsByTagName("script");var ls = s[(s.length - 1)];ls.parentNode.insertBefore(cid, ls.nextSibling);}());
     </script>
+    <!-- biying analysis -->
+    <!-- 
+        发现resources下有的页面有引用foot.blade.php,有的没有,造成添加统计代码混乱,先单独
+        添加该页面的谷歌统计和必应统计,下个礼拜重新整理和优化统计代码
+     -->
+    <script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"5713181"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script><noscript><img src="//bat.bing.com/action/0?ti=5713181&Ver=2" height="0" width="0" style="display:none; visibility: hidden;" /></noscript>
 </body>
 </html>
 
