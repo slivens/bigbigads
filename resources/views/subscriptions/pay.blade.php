@@ -13,7 +13,7 @@ use \Illuminate\Support\Facades\Input;
 
     <title>{{ config('app.name', 'Bigbigads') }}</title>
     <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen">
-    <link href="./dist/pay.css?v=2.0.5" rel="stylesheet">
+    <link href="./dist/pay.css?v=2.0.6" rel="stylesheet">
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -228,7 +228,7 @@ use \Illuminate\Support\Facades\Input;
 </html>
 
 <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
-<script type="text/javascript" src="dist/vendor.js?v=5"></script>
-<script type="text/javascript" src="dist/pay.js?v=2.0.5"></script>
+<script type="text/javascript" src="dist/vendor.js?v=6"></script>
+<script type="text/javascript" src="dist/pay.js?v=2.0.6"></script>
  
 
