@@ -232,7 +232,8 @@ final class SubscriptionController extends PayumController
         // 完成订阅后10秒后就去同步，基本上订单都已产生；如果没有产生，3分钟后再次同步试。同时webhook如果有收到，也会去同步。
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(10)));
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(30)));
-        return redirect('/app/profile?active=0');
+        // 添加pay=success作为标示来触发统计七天内支付
+        return redirect('/app/profile?active=0&pay=success');
     }
 
     /**

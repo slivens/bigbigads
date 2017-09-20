@@ -28,14 +28,15 @@ class RefundController extends Controller
                 'alert-type' => 'error'
             ]);
         }
-        $refund = $this->paymentService->refund($refund);
-        if (!$refund) {
+        $res = $this->paymentService->refund($refund);
+        if (!$res) {
             return back()->with([
                 'message' => "refund  failed",
                 'alert-type' => 'error'
             ]);
         }
-        $refund->payment->client->notify(new RefundNotification($refund));
+        $client = $refund->payment->client;
+        $client->notify(new RefundNotification($refund));
         return back();
     }
 
