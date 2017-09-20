@@ -146,8 +146,18 @@ new Vue({
         },
         // 支付按钮点击
         toCheckout: function() {
-            this.showLoading = false
-            this.$refs.checkout.submit()
+            const that = this
+            // 支付按钮加上有效订阅判断
+            axios.get('/userinfo').then(response => {
+                const sub = response.data.effective_sub
+                if (!sub) {
+                    this.showLoading = false
+                    this.$refs.checkout.submit()
+                } else {
+                    that.errorMessage = "You have a subscription already. Contact help@bigbigads.com"
+                    that.$refs.modal.open()
+                }
+            })
         },
         initAmount: function(amount) {
             this.amount = amount
