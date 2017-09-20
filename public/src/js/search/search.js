@@ -1,4 +1,5 @@
 import '../../sass/layouts/layout3/analysis.scss'
+import '../../sass/layouts/layout3/adseranalysis.scss'
 import '../common/common.js'
 import '../bookmark/bookmark.js'
 import downsize from 'downsize'
@@ -217,7 +218,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                             if (clear) {
                                 vm.ads = res.data
                             } else {
-                                vm.ads.adser = vm.ads.adser.concat(res.data.adser)
+                                vm.ads.adser_info = vm.ads.adser.concat(res.data.adser)
                             }
                         } else {
                             if (clear || vm.ads.total_count === 0) {
@@ -2226,197 +2227,48 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
 ])
     .controller('AdserAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$http', '$uibModal', '$q', 'Util', '$timeout',
         function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $http, $uibModal, $q, Util, $timeout) {
+            /*
+            * 广告主分析接口未定，暂时用临时接口
+            * 许多原有代码，确认无用的已经删除，不确定是干嘛的，或注释或暂留
+            * 因为临时接口与原有的存在变化，广告主分析的这块代码比较混乱，待接口出来后，将再做修改
+            */
+            var vm = this
             function getAdserAnalysis(username, select) {
-                if (select === undefined)
-                    select = "all"
-                var params = {
-                    "search_result": "adser_analysis",
-                    "where": [{
-                        "field": "adser_username",
-                        "value": username
-                    }],
-                    "select": select
-                }
-                console.log("params", params)
-                return $http.post(settings.remoteurl + '/forward/adserAnalysis',
-                    params)
+                // if (select === undefined)
+                //     select = "all"
+                // var params = {
+                //     "search_result": "adser_analysis",
+                //     "where": [{
+                //         "field": "adser_username",
+                //         "value": username
+                //     }],
+                //     "select": select
+                // }
+                // console.log("params", params)
+                return $http.get(settings.remoteurl + `/api/adserAnalysis/${username}`)
             }
-
-            function getTrendData(json) {
-                if (!json || !json.trend) {
-                    return null
-                }
-                var length = json.trend.length
-                var endDate = moment(json.day, 'YYYY-MM-DD')
-                var xs = [endDate.format('YYYY-MM-DD')]
-                var i
-                for (i = 1; i < length; ++i) {
-                    xs.push(endDate.subtract(1, 'days').format('YYYY-MM-DD'))
-                }
-                xs = xs.reverse()
-                var ys = json.trend.reverse()
-                return [xs, ys]
-            }
-            /**
-             * 单个广告的趋势图
-             */
-            function initTrend(json, title, name) {
-                var data = getTrendData(json)
-                if (data === null)
-                    return
-                return {
-                    title: {
-                        text: title
-                    },
-                    xAxis: {
-                        categories: data[0]
-                    },
-                    yAxis: {
-                        title: {
-                            text: title
-                        },
-                        plotLines: [{
-                            value: 0,
-                            width: 1
-                        }]
-                    },
-                    series: [{
-                        name: name,
-                        data: data[1]
-                    }],
-                    className: "response-width",
-                    credits: false
-                }
-            }
-
-            /**
-             * 初始化单个广告主的图表
-             */
-            function initChart(card) {
-                card.mediaTypeConfig = Util.initPie(card.media_type_groupby, "Media Type")
-                card.adLangConfig = Util.initPie(card.ad_lang_groupby, 'Advertise Language')
-                card.showwayConfig = Util.initPie(card.show_way_groupby, 'Show Way', {
-                    "1": "timeline",
-                    "2": "mobile",
-                    "3": "timeline&mobile",
-                    "4": "rightcolumn"
-                })
-                if (card.likes_trend)
-                    card.likesTrendConfig = initTrend((card.likes_trend), "Likes Trend", card.name)
-                if (card.shares_trend)
-                    card.sharesTrendConfig = initTrend((card.shares_trend), "Shares Trend", card.name)
-                if (card.views_trend)
-                    card.viewsTrendConfig = initTrend((card.views_trend), "Views Trend", card.name)
-                if (card.new_ads_trend)
-                    card.newAdsTrendConfig = initTrend((card.new_ads_trend), "New Ads Trend", card.name)
-            }
-
-            function initCompareBar(dataArr, nameArr, title, labels) {
-                var opt, i, key
-                var categories = []
-                var map = []
-                var series = []
-                var seriesData
-                // 合并分类，去重
-                for (i = 0; i < dataArr.length; ++i) {
-                    for (key in dataArr[i]) {
-                        if (!map[key]) {
-                            if (labels)
-                                categories.push(labels[key])
-                            else
-                                categories.push(key)
-                            map[key] = categories.length
-                        }
-                    }
-                }
-                // 插补数据
-                for (i = 0; i < dataArr.length; ++i) {
-                    seriesData = new Array(categories.length)
-                    for (key = 0; key < categories.length; ++key) {
-                        seriesData[key] = 0
-                    }
-                    for (key in dataArr[i]) {
-                        seriesData[map[key] - 1] = dataArr[i][key]
-                    }
-                    series.push({
-                        name: nameArr[i],
-                        data: seriesData
-                    })
-                }
-                opt = {
-                    chart: {
-                        type: 'column'
-                    },
-                    title: {
-                        text: title
-                    },
-                    xAxis: {
-                        categories: categories
-                    },
-                    yAxis: {
-                        min: 0
-                    },
-                    series: series,
-                    credits: false
-                }
-                return opt
-            }
-
-            function initCompareTrend(jsonArr, nameArr, title) {
-                var series = []
-                var xs
-                angular.forEach(jsonArr, function(json, key) {
-                    var data = getTrendData(json)
-                    if (!data)
-                        return
-                    xs = data[0]
-                    series.push({
-                        name: nameArr[key],
-                        data: data[1]
-                    })
-                })
-                if (series.length === 0)
-                    return null
-                return {
-                    title: {
-                        text: title
-                    },
-                    xAxis: {
-                        categories: xs
-                    },
-                    yAxis: {
-                        title: {
-                            text: title
-                        },
-                        plotLines: [{
-                            value: 0,
-                            width: 1
-                        }]
-                    },
-                    series: series,
-                    credits: false
-                }
-            }
-
+            $scope.ceil = Math.ceil
             var competitorQuery = []
             var promises = []
-            $scope.openAd = Util.openAd
+            // $scope.openAd = Util.openAd
             $scope.card = {
                 words: []
             } // card必须先赋值，否则调用Searcher的getAdsType时会提前生成自己的card,scope出错。
-            $scope.Searcher = Searcher
+            // $scope.Searcher = Searcher
             $scope.username = $stateParams.username
             $rootScope.$broadcast("loading")
             promises[0] = getAdserAnalysis($scope.username, "overview,rank,trend,topkeyword")
             promises[0].then(function(res) {
+                // console.log('date', res.data)
+                // 不知道是干嘛的
                 var key
                 for (key in res.data) {
                     if (!$scope.card[key]) {
                         $scope.card[key] = res.data[key]
                     }
                 }
-                console.log("first phase", $scope.card)
-                initChart($scope.card)
+                // console.log("first phase", $scope.card)
+                // 不知道是干嘛的
                 for (key in $scope.card.top_keyword) {
                     $scope.card.words.push({
                         text: key,
@@ -2425,103 +2277,185 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                 }
 
                 $rootScope.$broadcast("jqchange")
-                // console.log("words", $scope.card.words);
                 $rootScope.$broadcast("completed")
-
+                // 异步获取广告主详情数据
                 promises[1] = getAdserAnalysis($scope.username, "summary,audience_all,link,topn,button")
                 promises[1].then(function(res) {
-                    // $scope.card = res.data;
-                    for (var key in res.data) {
-                        if (!$scope.card[key]) {
-                            $scope.card[key] = res.data[key]
+                    $scope.card.info = res.data[0]
+                    // impression_trend
+                    if ($scope.card.info.impression_trend) {
+                        try {
+                            var impresArr = JSON.parse($scope.card.info.impression_trend)
+                            var impresTime
+                            for (var impresKey in impresArr) {
+                                impresTime = impresKey
+                            }
+                            var impressionArr = Util.getTrendArr(impresTime, 7, impresArr[impresTime])
+                            $scope.card.impressionCharts = Util.lineChartsConfig('area', impressionArr.map(v => v[0]), 'Impression Trend', impressionArr.map(v => v[1]), 'x')
+                        } catch (err) { $scope.card.impressionCharts = false }
+                    } else $scope.card.impressionCharts = false
+                    // emgagements_trend
+                    if ($scope.card.info.engagements_trend) {
+                        try {
+                            var engaArr = JSON.parse($scope.card.info.engagements_trend)
+                            var engagementsArr = Util.getTrendArr(engaArr.day, 0, engaArr.trend)
+                            $scope.card.engagementsCharts = Util.lineChartsConfig('area', engagementsArr.map(v => v[0]), 'Impression Trend', engagementsArr.map(v => v[1]), 'x')
+                        } catch (err) { $scope.card.engagementsCharts = false }
+                    } else $scope.card.engagementsCharts = false
+                    // 性别比例、年龄分布、国家分布、兴趣爱好统计
+                    if ($scope.card.info.audience) {
+                        $scope.card.info.audience = JSON.parse($scope.card.info.audience)
+                        var audienceArr = $scope.card.info.audience
+                        // 性别占比 因为其空值至少会带个[]所以直接判断其长度
+                        if (audienceArr.gender.length) {
+                            $scope.card.gnederPieCharts = Util.pieChartsConfig([['Male', audienceArr.gender[0]], ['Female', audienceArr.gender[1]]], '60%', ['#7cb5ec', '#f9c'])
+                        } else $scope.card.gnederPieCharts = false
+                        // 年龄分布
+                        if (audienceArr.age.length) {
+                            var arr1 = audienceArr.age.map(function(v) { return v[0] })
+                            var arr2 = audienceArr.age.map(function(v) { return v[1] })
+                            $scope.card.ageBarCharts = Util.barChartsConfig(
+                                ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'], [{
+                                    name: 'Male',
+                                    data: arr1
+                                }, {
+                                    name: 'Female',
+                                    data: arr2
+                                }],
+                                true, // 以百分比形式显示
+                                ['#7cb5ec', '#f9c']
+                            )
+                        } else $scope.card.ageBarCharts = false
+                        // 兴趣爱好; 有些数据的空值是{},所以要判断知否存在key值，但其值是null时会报错！
+                        if (audienceArr.interests && Object.keys(audienceArr.interests).length) {
+                            var interestsCount = 0
+                            $scope.card.interestsArr = []
+                            for (var interestKey in audienceArr.interests) {
+                                $scope.card.interestsArr.push({
+                                    'name': interestKey,
+                                    'value': audienceArr.interests[interestKey]
+                                })
+
+                                interestsCount += audienceArr.interests[interestKey]
+                            }
+                            // 对兴趣按照value值
+                            $scope.card.interestsArr = Util.arrSort($scope.card.interestsArr, "value", 1)
+                            $scope.card.interestsArr.count = interestsCount
+                        } else $scope.card.interestsArr = false
+                        // 国家分布
+                        if (audienceArr.addr.length) {
+                            // 将country里的值改为大写,并转换全称
+                            var addrCount = 0
+                            for (key in audienceArr.addr) {
+                                addrCount += audienceArr.addr[key].value
+                            }
+                            // 去获取地图数据
+                            $http.get('/app/data/map-country.json').then(function(res) {
+                                vm.countries = res.data
+                                for (key in audienceArr.addr) {
+                                    var countryShortName = audienceArr.addr[key].country.toUpperCase() // 转换成大写
+                                    audienceArr.addr[key].country = countryShortName
+                                    audienceArr.addr[key].name = vm.countries[countryShortName] ? vm.countries[countryShortName].name : countryShortName // 添加全称 
+                                }
+                                $scope.card.addrMapCharts = Util.mapChartsConfig(audienceArr.addr, addrCount, 'Top countries by impression')
+                                // 对国家分布数据进行排序
+                                $scope.card.addrTable = Util.arrSort(audienceArr.addr, 'value', 1)
+                                $scope.card.addrTable.count = addrCount
+                            })
+                        } else {
+                            $scope.card.addrMapCharts = false
+                            $scope.card.addrTable = false
                         }
                     }
-
-                    console.log("second phase", $scope.card)
-                    initChart($scope.card)
-                    // $timeout(function() {
-                    //     $scope.$apply();
-                    // }, 0);
+                    // 设备占比 PC为0或不存在时，mobile为100%
+                    var desktopNum = ($scope.card.info.pc_impression_rate ? $scope.card.info.pc_impression_rate : 0) * 100
+                    var mobileNum = 100 - desktopNum
+                    var pieLegend = {
+                        enabled: false
+                    }
+                    $scope.card.devicePieCharts = Util.pieChartsConfig([['Desktop', desktopNum], ['Mobile', mobileNum]], '0%', false, pieLegend)
+                    // Object
+                    if ($scope.card.info.objective) {
+                        // 先对其进行排序
+                        var objectiveArr = Util.objectSort(JSON.parse($scope.card.info.objective), 'value', 1)
+                        var objectStr = {
+                            "APP_INSTALLS": "App Installs",
+                            "BRAND_AWARENESS": "Brand Awareness",
+                            "CANVAS_APP_INSTALLS": "Canvas App Installs",
+                            "EVENT_RESPONSES": "Event Responses",
+                            "LEAD_GENERATION": "Lead Generation",
+                            "LINK_CLICKS": "Link Clicks",
+                            "LOCAL_AWARENESS": "Local Awareness",
+                            "PAGE_LIKES": "Page Likes",
+                            "POST_ENGAGEMENT": "Post Engagement",
+                            "PRODUCT_CATALOG_SALES": "Product Catalog Sales",
+                            "REACH": "Reach",
+                            "STORE_VISITS": "Store Visits",
+                            "VIDEO_VIEWS": "Video Views",
+                            "WEBSITE_CONVERSIONS": "Website Conversions"
+                        }
+                        // 将原生的object 数据转换成 对应的数据
+                        $scope.card.objectiveArr = []
+                        for (key in objectiveArr) {
+                            $scope.card.objectiveArr.push([
+                                objectStr[key], objectiveArr[key]
+                            ])
+                        }
+                        // 配置显示颜色
+                        var objColors = ['#337ab7', '#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1']
+                        // 配置图例
+                        var objPieLegend = {
+                            enabled: true,
+                            align: 'right',
+                            verticalAlign: 'middle',
+                            layout: 'vertical',
+                            itemMarginTop: 5,
+                            itemMarginBottom: 5,
+                            labelFormatter: function() {
+                                return '<label style="color:' + this.color + '">' + (this.name.length > 10 ? (this.name.substring(0, 7) + '...') : this.name) + '</label>  :  ' + this.percentage.toFixed(2) + "%"
+                            }
+                        }
+                        // 配置鼠标经过显示
+                        var objPieToolTip = {
+                            headerFormat: '<b>Objective</b><br>',
+                            pointFormat: '<b>{point.name}:</b>{point.y}--{point.percentage:.1f}%'
+                        }
+                        $scope.card.objectPieCharts = Util.pieChartsConfig($scope.card.objectiveArr, '0%', objColors, objPieLegend, objPieToolTip)
+                    } else {
+                        $scope.card.objectPieCharts = false
+                        $scope.card.objectiveArr = false
+                    }
+                    // 广告个数分布
+                    if ($scope.card.info.phone_ad_count || $scope.card.info.rc_ad_count || $scope.card.info.tl_ad_count) {
+                        var chartsDtata = [
+                            ['Phone', $scope.card.info.phone_ad_count || 0],
+                            ['Rc', $scope.card.info.rc_ad_count || 0],
+                            ['Tl', $scope.card.info.tl_ad_count || 0]
+                        ]
+                        $scope.card.adsNumPieCharts = Util.pieChartsConfig(chartsDtata, '0%', ['#7cb5ec', '#337ab7', '#3c739e'], objPieLegend)
+                    } else $scope.card.adsNumPieCharts = false
+                    // 广告类型占比
+                    if ($scope.card.info.image_ad_count || $scope.card.info.carousel_ad_count || $scope.card.info.canvas_ad_count || $scope.ads.info.video_ad_count) {
+                        var typeChartsDtata = [
+                            ['Images', $scope.card.info.image_ad_count || 0],
+                            ['Carousels', $scope.card.info.carousel_ad_count || 0],
+                            ['Canvas', $scope.card.info.canvas_ad_count || 0],
+                            ['Videos', $scope.card.info.video_ad_count]
+                        ]
+                        $scope.card.adsTypeCharts = Util.pieChartsConfig(typeChartsDtata, '0%', ['#7cb5ec', '#337ab7', '#3c739e', '#d9edf7'], { enabled: false })
+                    } else $scope.card.adsTypeCharts = false
                 })
             })
-            // $timeout(function() {
-            //     promises[1] = getAdserAnalysis($scope.username, "summary,audience_all,link,topn,button");
-            //     promises[1].then(function(res) {
-            //         // $scope.card = res.data;
-            //         for (var key in res.data) {
-            //             if (!$scope.card[key]) {
-            //                 $scope.card[key] = res.data[key];
-            //             }
-            //         }
-
-            //         console.log("second phase", $scope.card);
-            //         initChart($scope.card);
-            //         // $timeout(function() {
-            //         //     $scope.$apply();
-            //         // }, 0);
-            //     });
-
-            // },0);
-
-            function addCompetitor(res) {
-                $scope.competitors.push(res.data)
-            }
-
-            function initFromQuery() {
-                if ($location.search().competitor)
-                    competitorQuery = $location.search().competitor.split(',')
-                for (var key in competitorQuery) {
-                    promises.push(getAdserAnalysis(competitorQuery[key]))
-                    promises[promises.length - 1].then(addCompetitor)
-                }
-
-                // console.log(competitorQuery);
-            }
-
-            function initCompetitorCharts() {
-                var langGroup = [$scope.card.ad_lang_groupby]
-                var mediaTypeGroup = [$scope.card.media_type_groupby]
-                var showwayGroup = [$scope.card.show_way_groupby]
-                var nameArr = [$scope.card.name]
-                var likesArr = [$scope.card.likes_trend]
-                var sharesArr = [$scope.card.shares_trend]
-                var viewsArr = [$scope.card.views_trend]
-                var newAdsArr = [$scope.card.new_ads_trend]
-                for (var key in $scope.competitors) {
-                    langGroup.push($scope.competitors[key].ad_lang_groupby)
-                    mediaTypeGroup.push($scope.competitors[key].media_type_groupby)
-                    showwayGroup.push($scope.competitors[key].show_way_groupby)
-                    nameArr.push($scope.competitors[key].name)
-                    likesArr.push($scope.competitors[key].likes_trend)
-                    sharesArr.push($scope.competitors[key].shares_trend)
-                    viewsArr.push($scope.competitors[key].views_trend)
-                    newAdsArr.push($scope.competitors[key].new_ads_trend)
-                }
-                $scope.competitorsChart.langOpt = initCompareBar(langGroup, nameArr, "Language")
-                $scope.competitorsChart.mediaTypeOpt = initCompareBar(mediaTypeGroup, nameArr, "Media Type")
-                $scope.competitorsChart.showwayOpt = initCompareBar(showwayGroup, nameArr, "Show way", {
-                    "1": "timeline",
-                    "2": "mobile",
-                    "3": "timeline&mobile",
-                    "4": "rightcolumn"
-                })
-                $scope.competitorsChart.likesTrendOpt = initCompareTrend(likesArr, nameArr, "Likes Trend")
-                $scope.competitorsChart.sharesTrendOpt = initCompareTrend(sharesArr, nameArr, "Shares Trend")
-                $scope.competitorsChart.viewsTrendOpt = initCompareTrend(viewsArr, nameArr, "Views Trend")
-                $scope.competitorsChart.newAdsTrendOpt = initCompareTrend(newAdsArr, nameArr, "New Ads Trend")
-                // console.log($scope.competitorsChart);
-            }
-            initFromQuery()
-
             $scope.competitors = []
             $scope.competitorPopover = false
             $scope.competitorsChart = {}
+
+            // 不知道该功能是干嘛的，暂时留着
             $scope.$on('competitor', function(event, data) {
-                var p
                 event.stopPropagation()
                 $scope.competitorPopover = false
-                p = getAdserAnalysis(data.adser_username)
-                p.then(addCompetitor).then(initCompetitorCharts)
+                // p = getAdserAnalysis(data.adser_username)
+                // p.then(addCompetitor).then(initCompetitorCharts)
                 competitorQuery.push(data.adser_username)
                 $location.search('competitor', competitorQuery.join(','))
             })
@@ -2530,19 +2464,19 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
                 $scope.competitors.splice(idx, 1)
                 competitorQuery.splice(idx, 1)
                 $location.search('competitor', competitorQuery.join(','))
-                initCompetitorCharts()
+                // initCompetitorCharts()
             }
 
             // 所有广告主分析数据加载完成才处理图表
-            $q.all(promises).then(initCompetitorCharts)
+            // $q.all(promises).then(initCompetitorCharts)
 
-            $scope.$on('$viewContentLoaded', function() {
-                // initialize core components
-                // set default layout mode
-                $rootScope.settings.layout.pageContentWhite = true
-                $rootScope.settings.layout.pageBodySolid = false
-                $rootScope.settings.layout.pageSidebarClosed = false
-            })
+            // $scope.$on('$viewContentLoaded', function() {
+            //     // initialize core components
+            //     // set default layout mode
+            //     $rootScope.settings.layout.pageContentWhite = true
+            //     $rootScope.settings.layout.pageBodySolid = false
+            //     $rootScope.settings.layout.pageSidebarClosed = false
+            // })
         }
     ])
     .controller('CompetitorSearcherController', ['$scope', 'Searcher', function($scope, Searcher) {
