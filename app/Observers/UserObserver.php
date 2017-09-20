@@ -4,6 +4,8 @@ namespace App\Observers;
 
 use Illuminate\Foundation\Auth\User;
 use App\Affiliate;
+use App\Role;
+use Log;
 
 class UserObserver
 {
@@ -24,7 +26,14 @@ class UserObserver
             'status'    => 1,
             'type'      => 1
         ]);
-        $user->reInitUsage();
+        $role = $user->role;
+        if (!$role)
+            $role = Role::find($user->role_id);
+        if (!$role) {
+            Log::warning("role not found for {$user->email}, role id:{$user->role_id}");
+            return;
+        }
+        $user->reInitUsage($role);
     }
 
     /**
