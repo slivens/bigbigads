@@ -1,4 +1,4 @@
-import '../common/common'
+import '../pages/common/common'
 
 angular.module('MetronicApp').controller('SubscriptionController', ['$scope', '$http', 'User', 'SweetAlert', function($scope, $http, User, SweetAlert) {
     var ctrl = this

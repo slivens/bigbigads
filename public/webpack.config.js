@@ -7,10 +7,10 @@ var isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
     devtool: isProduction ? false : 'source-map',
     entry: {
-        bundle:['./src/js/standalone/main.js', './src/js/standalone/directives.js'],
-        search:['./src/js/search/search.js'],
-        ranking:['./src/js/ranking/ranking.js'],
-        profile:['./src/js/profile/profile.js'],
+        bundle:['./src/index.js', './src/directives.js'],
+        search:['./src/pages/search/search.js'],
+        ranking:['./src/pages/ranking/ranking.js'],
+        profile:['./src/pages/profile/profile.js'],
         vendor:[
             'bootstrap', 
             'bootstrap-switch',
@@ -59,6 +59,13 @@ module.exports = {
                 formatter: require('eslint-friendly-formatter'),
                 failOnWarning:true,
                 failOnError: true
+            }
+        }, {
+            test: /\.js$/,
+            loader: 'babel-loader',
+            exclude: /node_modules/,
+            query: {
+                compact: false
             }
         }
         ]

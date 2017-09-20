@@ -1,10 +1,10 @@
 import "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"
 import 'sweetalert/dist/sweetalert.css'
 import 'angular-busy/dist/angular-busy.min.css'
-import './../../sass/global/font.scss'
-import './../../sass/global/components-md.scss'
-import './../../sass/layouts/layout3/layout.scss'
-import './../../sass/layouts/layout3/themes/yellow-orange.scss'
+import './sass/global/font.scss'
+import './sass/global/components-md.scss'
+import './sass/layouts/layout3/layout.scss'
+import './sass/layouts/layout3/themes/yellow-orange.scss'
 
 /***
 Metronic AngularJS App Main Script

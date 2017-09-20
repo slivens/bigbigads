@@ -1,5 +1,5 @@
-import '../../sass/layouts/layout3/analysis.scss'
-import '../../sass/layouts/layout3/adseranalysis.scss'
+import './analysis.scss'
+import './adseranalysis.scss'
 import '../common/common.js'
 import '../bookmark/bookmark.js'
 import downsize from 'downsize'

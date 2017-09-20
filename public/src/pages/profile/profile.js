@@ -1,6 +1,6 @@
 import '../common/common'
-import './billings'
-import './subscription'
+import '../../components/billings'
+import '../../components/subscription'
 
 angular.module('MetronicApp').controller('PlansController', ['$scope', 'Resource', 'User', function($scope, Resource, User) {
     var plans = new Resource('plans')
