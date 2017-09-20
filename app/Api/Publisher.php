@@ -77,11 +77,10 @@ class Publisher
         if ($lastParamsArray != $params && $perPage != 1) {
             if (!$params['keys'][0]['string'] && $params['limit'][0] == 0)
                 dispatch(new LogAction(ActionLog::ACTION_MOBILE_ADSER_INIT, json_encode($params), "mobile_adser_init:" . '初始化次数' . ",total_adser_count: " . $result['total_adser_count'], $user->id, $request->ip()));
-            //return $params['keys'][0]['string'];
-            if ($params['keys'][0]['string'] && $params['keys'][0]['string'] != $lastParamsArray['keys'][0]['string']) {
+            if ($params['keys'][0]['string'] && $params['keys'] && $params['keys'] != $lastParamsArray['keys']) {
                 dispatch(new LogAction(ActionLog::ACTION_MOBILE_ADSER_SEARCH, json_encode($params), "mobile_adser_search:" . '搜索次数' . ",total_adser_count: " . $result['total_adser_count'], $user->id, $request->ip()));
             }
-            if ($params['keys'][0]['string'] == $lastParamsArray['keys'][0]['string'] && $params['limit'] != $lastParamsArray['limit']) {
+            if ($params['keys'] == $lastParamsArray['keys'] && $params['limit'] != $lastParamsArray['limit']) {
                 dispatch(new LogAction(ActionLog::ACTION_MOBILE_ADSER_LIMIT, json_encode($params), "mobile_adser_limit:" . '下拉次数' . ",total_adser_count: " . $result['total_adser_count'], $user->id, $request->ip()));
             }
         }

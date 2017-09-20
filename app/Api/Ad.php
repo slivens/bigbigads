@@ -15,6 +15,7 @@ class Ad
     static public function getAds($request, $params = [], $page = 1, $per_page = 10)
     {
         $where = [];
+        $user = Auth::check() ? Auth::user() : AnonymousUser::user($request);
         if (isset($params['publisher'])) {
             $where[] = [
                 'field' => 'adser_username',
@@ -48,18 +49,24 @@ class Ad
             $where[] = ['field' => 'media_type', 'value' => $type];
         }
 
-        $client = new Client();
-        $result = $client->request('POST', env('AD_SEARCH_URL'), [
-            'json' => [
-                'search_result' => 'ads',
-                'limit'         => [($page - 1) * $per_page, $per_page],
-                'where'         => $where,
-            ],
-        ]);
+        $params = array(
+            'search_result' => 'ads',
+            'limit'         => [($page - 1) * $per_page, $per_page],
+            'where'         => $where,
+        );
+        // $client = new Client();
+        // $result = $client->request('POST', env('AD_SEARCH_URL'), [
+        //     'json' => [
+        //         'search_result' => 'ads',
+        //         'limit'         => [($page - 1) * $per_page, $per_page],
+        //         'where'         => $where,
+        //     ],
+        // ]);
 
-        $result = json_decode($result->getBody(), true);
+        // $result = json_decode($result->getBody(), true);
+        $result = Curl::request($params, env('AD_SEARCH_URL'));
 
-        dispatch(new LogAction(ActionLog::ACTION_MOBILE_ADSER_ADS_ANALYSIS, '请求参数', "mobile_adser_ads_analysis : " . '查看XXX类型的广告分析'.",cache_total_count: " . '总数', '用户id', $request->ip()));
+        dispatch(new LogAction(ActionLog::ACTION_MOBILE_ADSER_ADS_ANALYSIS, json_encode($params), "mobile_adser_ads_analysis : " . '查看XXX类型的广告分析'.",cache_total_count: " . '总数', $user->id, $request->ip()));
 
         if (!array_key_exists('ads_info', $result)) return [];
 
