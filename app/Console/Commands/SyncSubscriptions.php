@@ -56,6 +56,15 @@ class SyncSubscriptions extends Command
             $this->info("force flag set");
         }
         $service->setLogger($this);
-        $service->syncSubscriptions($gateways, $agreeId ? Subscription::where('agreement_id', $agreeId)->first() : null);
+        $sub = null;
+        if ($agreeId) {
+            $sub = Subscription::where('agreement_id', $agreeId)->first();
+            if (!$sub) {
+                $this->error("$agreeId not found");
+                return;
+            }
+
+        }
+        $service->syncSubscriptions($gateways, $sub);
     }
 }
