@@ -484,6 +484,10 @@ class User extends Authenticatable
     {
         $role = $this->role;
         $rawUsage = new Collection(json_decode($this->attributes['usage'], true));
+        if (!$role) {
+            Log::warning("{$this->email} has no role, role id:{$this->role_id}");
+            throw new GenericException($this, "({$this->email}) has no valild:{$this->role_id})", 1000);
+        }
         foreach ($role->groupedPolicies()  as $key => $policy) {
             $usage = $rawUsage->get($key);
             if (!$usage || $usage[0] != $policy[0] || $usage[1] != $policy[1]) {
