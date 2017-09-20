@@ -225,6 +225,7 @@ class PaymentService implements PaymentServiceContract
         // TODO:
 
         // Paypal的同步
+        $tags = $this->getParameter(PaymentService::PARAMETER_TAGS);
         if ($subscription) {
             if (is_array($subscription) || $subscription instanceof Collection)
                 $subs = $subscription;
@@ -232,12 +233,16 @@ class PaymentService implements PaymentServiceContract
                 $subs = new Collection([$subscription]);
             $force = true;
         } else {
-            $subs = Subscription::where('gateway', 'paypal')->where('status', '<>', Subscription::STATE_CREATED)->where('status', '<>', '')->whereIn('tag', $this->getParameter(PaymentService::PARAMETER_TAGS))->get();
+            $subs = Subscription::where('gateway', 'paypal')->where('status', '<>', Subscription::STATE_CREATED)->where('status', '<>', '')->whereIn('tag', $tags)->get();
             $force = $this->getParameter(PaymentService::PARAMETER_FORCE);
         }
         $paypalService = $this->getPaypalService();
         $this->log("sync to paypal, this may take long time...({$subs->count()})");
         foreach ($subs as $sub) {
+            if (!in_array($sub->tag, $tags)) {
+                $this->log("{$sub->agreement_id} tag is {$sub->tag}, not in tags, skip");
+                continue;
+            }
             if (strlen($sub->agreement_id) < 3) {
                 continue;
             }
@@ -331,6 +336,7 @@ class PaymentService implements PaymentServiceContract
     {
         // 目前只有Paypal需要同步支付记录, stripe是立即获取的
         $res = [];
+        $tags = $this->getParameter(PaymentService::PARAMETER_TAGS);
         if (is_array($subscription)|| $subscription instanceof Collection) {
             $subscriptions = $subscription;
             $force = true;
@@ -338,11 +344,15 @@ class PaymentService implements PaymentServiceContract
             $subscriptions = [$subscription];
             $force = true;
         } else {
-            $subscriptions = Subscription::where('quantity', '>', 0)->where('gateway', 'paypal')->get();
+            $subscriptions = Subscription::where('quantity', '>', 0)->where('gateway', 'paypal')->whereIn('tag', $tags)->get();
             $force = $this->getParameter(PaymentService::PARAMETER_FORCE);
         }
         $service = $this->getPaypalService();
         foreach($subscriptions as $item) {
+            if (!in_array($item->tag, $tags)) {
+                $this->log("{$item->agreement_id} tag is {$item->tag}, not in tags, skip");
+                continue;
+            }
             // 未完成订阅直接忽略
             if ($item->status == Subscription::STATE_CREATED)
                 continue;
