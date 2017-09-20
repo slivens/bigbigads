@@ -123,7 +123,7 @@ Artisan::command('bba:can {email} {priv}', function($email,  $priv) {
  * 格式: email,group
  * 其中，group不应该以'#'开头，'#'开头的分组有特殊含义
  */
-Artisan::command('bba:email {op} {file=mail} {extParam=space}', function($op,  $file, $extParam) {
+Artisan::command('bba:email {op : 子命令,add批量添加,del批量删除,dispatch邮件发送测试} {file=mail : 文件路径} {extParam=space : 额外的参数，比如邮件测试需要指定模板}', function($op,  $file, $extParam) {
     if ($op == 'add' || $op == 'del') {
         if (!Storage::exists($file)) {
             $this->info("$file is not found, please check the file is in 'storage/app'");
