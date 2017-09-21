@@ -9,6 +9,8 @@ module.exports = {
     entry: {
         bundle:['./src/index.js', './src/directives.js'],
         search:['./src/pages/search/search.js'],
+        analysis:['./src/pages/analysis/analysis.js'],
+        "owner-search":['./src/pages/owner-search/owner-search.js'],
         ranking:['./src/pages/ranking/ranking.js'],
         profile:['./src/pages/profile/profile.js'],
         vendor:[
@@ -67,6 +69,9 @@ module.exports = {
             query: {
                 compact: false
             }
+        }, {
+            test: /\.html$/,
+            loader: 'html-loader'
         }
         ]
     },

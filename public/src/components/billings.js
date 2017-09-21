@@ -1,4 +1,5 @@
 import '../pages/common/common'
+import template from './billings.html'
 
 angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User', 'Resource', 'SweetAlert', '$http', function($scope, User, Resource, SweetAlert, $http) {
     var ctrl = this
@@ -56,7 +57,7 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
 }])
 // TODO:templateUrl通过依赖注入加时间戳
 angular.module('MetronicApp').component('billings', {
-    templateUrl: 'components/billings.html',
+    template,
     controller: 'BillingsController',
     bindings: {
         shouldInit: '@'

@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "product": "gulp clean && NODE_ENV=production webpack -p && gulp production",
     "develop": "gulp clean && webpack && gulp develop",
-    "lint": "eslint --ext .js src/js",
-    "fixlint": "eslint --ext .js src/js --fix"
+    "lint": "eslint --ext .js src/",
+    "fixlint": "eslint --ext .js src/ --fix"
   },
   "author": "",
   "license": "ISC",
