@@ -5,7 +5,8 @@ import './sass/global/font.scss'
 import './sass/global/components-md.scss'
 import './sass/layouts/layout3/layout.scss'
 import './sass/layouts/layout3/themes/yellow-orange.scss'
-import settings from './pages/common/settings.js'
+import './pages/common/settings.js'
+import './components/header.js'
 
 window.moment = require('moment')
 
@@ -17,13 +18,11 @@ var MetronicApp = angular.module("MetronicApp", [
     "ngSanitize",
     "oitozero.ngSweetAlert",
     'ngResource',
-    'cgBusy'
+    'cgBusy',
+    'bba.settings',
+    'bba.header'
 ])
 
-angular.module('MetronicApp').factory('settings', ['$rootScope', function($rootScope) {
-    $rootScope.settings = settings
-    return settings
-}])
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
 MetronicApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
@@ -203,13 +202,6 @@ By default the partials are loaded through AngularJS ng-include directive. In ca
 initialization can be disabled and Layout.init() should be called on page load complete as explained above.
 ***/
 
-/* Setup Layout Part - Header */
-MetronicApp.controller('HeaderController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
-        // Layout.initHeader(); // init header
-
-    })
-}])
 MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', '$state', function($scope, $location, User, $state) {
     var tabmenu = {
         name: $location.path()
@@ -395,7 +387,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('adserAnalysis', {
             url: '/adserAnalysis/{username}',
-            component: 'owner-search',
+            templateUrl: "views/owner-analysis/owner-analysis.html?t=" + ts,
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([{
@@ -412,8 +404,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/jqcloud2/dist/jqcloud.min.css',
                             '/node_modules/jqcloud2/dist/jqcloud.min.js',
                             '../assets/global/plugins/angular-jqcloud.js',
-                            'owner-search.css',
-                            'owner-search.js'
+                            'owner-analysis.css',
+                            'owner-analysis.js'
                         ]
                     }, {
                         serie: true,
