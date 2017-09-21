@@ -54,13 +54,3 @@ MetronicApp.directive('ngSpinnerBar', ['$rootScope', '$state',
         };
     }
 ]);
-
-
-// Handle Dropdown Hover Plugin Integration
-MetronicApp.directive('dropdownMenuHover', function () {
-  return {
-    link: function (scope, elem) {
-      elem.dropdownHover();
-    }
-  };  
-});
