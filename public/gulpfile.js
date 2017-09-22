@@ -108,6 +108,8 @@ gulp.task('html',  function() {
                     .pipe(gulp.dest('./app/'));
         gulp.src(['./src/components/**/*.html'])
                     .pipe(gulp.dest('./app/components'));
+        gulp.src(['./src/pages/**/*.html'])
+                    .pipe(gulp.dest('./app/views'));
         gulp.src(['./src/views/**/*.html'])
                     .pipe(gulp.dest('./app/views'));
         gulp.src(['./src/tpl/**/*.html'])
@@ -131,6 +133,10 @@ gulp.task('html',  function() {
                     .pipe(strip())
                     .pipe(htmlmin(htmlOptions))
                     .pipe(gulp.dest('./app/components'));
+        gulp.src(['./src/pages/**/*.html'])
+                    .pipe(strip())
+                    .pipe(htmlmin(htmlOptions))
+                    .pipe(gulp.dest('./app/views'));
         gulp.src(['./src/views/**/*.html'])
                     .pipe(strip())
                     .pipe(htmlmin(htmlOptions))

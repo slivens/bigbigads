@@ -1,0 +1,392 @@
+<div ng-controller="AdserAnalysisController" id="adser-analysis">
+    <div class="container analy-body">
+        <div class="analy-title row">
+            Website Overview
+        </div>
+        <div class="analy-overview row">
+            <div class="overview-info">
+                <p class="overview-website ads-font-22" ng-if="card.info.page_website">
+                   <a ng-href="{{card.info.page_website}}" class="ads-text-ellipsis"> {{card.info.page_website}}</a>
+                </p>
+                <p class="overview-website ads-font-22 text-danger" ng-if="!card.info.page_website">
+                    No Data
+                </p>
+                <p class="overview-seetime" ng-if="card.info.first_see && card.info.last_see">
+                    {{card.info.first_see}}~{{card.info.last_see}}
+                </p>
+                <div class="info-date">
+                    <div class="data-card">
+                        <p class="card-title ads-font-16">Total Ads</p>
+                        <p class="ads-font-22 card-number">{{card.info.total_ads_count}}</p>
+                        <p class="card-trend text-danger">
+                            <i class="fa fa-long-arrow-down analy-dowm "></i> 8.4%
+                        </p>
+                    </div>
+                    <div class="data-card">
+                        <p class="card-title ads-font-16">avg Duration</p>
+                        <p class="ads-font-22 card-number">{{card.info.avg_duration}}</p>
+                        <p class="card-trend">8.4%</p>
+                    </div>
+                    <div class="data-card">
+                        <p class="card-title ads-font-16">Avg Impression</p>
+                        <p class="ads-font-22 card-number">{{card.info.avg_impression}}</p>
+                        <p class="card-trend">8.4%</p>
+                    </div>
+                    <div class="data-card">
+                        <p class="card-title ads-font-16">Avg Engagement</p>
+                        <p class="ads-font-22 card-number">{{card.info.avg_engagement}}</p>
+                        <p class="card-trend text-success">
+                            <i class="fa fa-long-arrow-up analy-up"></i> 8.4%
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="overview-adser">
+                <img src="//image2.bigbigads.com:88{{card.info.large_photo}}" alt="" class="adser-head">
+                <p class="adser-name ads-font-18" ng-if="card.info.name || card.info.username">
+                    <span class="ads-text-ellipsis">{{card.info.name ? card.info.name : card.info.username}}</span>
+                    <i class="fa fa-check-circle analy-veri-icon" ng-if="card.info.page_verified"></i></p>
+                <p class="adser-name ads-font-18 text-danger" ng-if="!card.info.name && !card.info.username">No Data</p>
+                <span>({{card.info.total_ads_count}}) Ads</span>
+            </div>
+        </div>
+        <div class="analy-title">
+            Website Audience
+        </div>
+        <div class="analy-audience">
+            <div class="row">
+                <div class="col-md-4 ">
+                    <div class="panel panel-primary audience-card ">
+                        <div class="panel-heading">
+                            <p class="card-title ads-font-22 panel-title">Total Impression</p>
+                            <p class="card-time">
+                                Apr 2017 -- Jun 2017
+                            </p>
+                        </div>
+                        <div class="panel-body card-number">
+                            <p class="ads-font-22">
+                                <span ng-if="card.info.sum_impression" class="analy-blue">{{card.info.sum_impression | adsCount}}</span>
+                                <span ng-if="!card.info.sum_impression" class="text-danger">No Data</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ">
+                    <div class="panel panel-primary audience-card">
+                        <div class="panel-heading">
+                            <p class="card-title ads-font-22 panel-title">Equipment Comparison</p>
+                            <p class="card-time">
+                                Apr 2017 -- Jun 2017
+                            </p>
+                        </div>
+                        <div class="card-number">
+                            <div class="charts-wrapper" ng-if="card.devicePieCharts">
+                                <highchart config='card.devicePieCharts' ng-if="card.devicePieCharts"></highchart>
+                            </div>
+                            <div class="ads-font-22 text-danger text-center" ng-if="!card.devicePieCharts">Not Data</div>
+                            <div class="charts-number">
+                                <div class="number-list number-desktop">
+                                    <span class="fa fa-tv list-icon ads-font-22"></span> {{(card.info.pc_impression_rate * 100).toFixed(1)}}%
+                                </div>
+                                <div class="number-list number-mobile">
+                                    <span class="fa fa-mobile list-icon ads-font-28"></span> {{(100 - (card.info.pc_impression_rate * 100)).toFixed(1)}}%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="alert audience-card">
+                        <div class="audience-list">
+                            <span class="list-icon fa fa-send"></span>
+                            <span class="list-name">Avg Frequency</span>
+                            <span class="list-data">{{card.info.avg_frequency}}</span>
+                        </div>
+                        <div class="audience-list">
+                            <span class="list-icon fa fa-handshake-o"></span>
+                            <span class="list-name">Monthly Impression 
+                            </span>
+                            <span class="list-data">76.755</span>
+                        </div>
+                        <div class="audience-list">
+                            <span class="list-icon fa fa-history"></span>
+                            <span class="list-name">Avg.Ad Duration</span>
+                            <span class="list-data">
+                                <span ng-if="card.info.avg_duration">{{card.info.avg_duration}}</span>
+                                <span ng-if="!card.info.avg_duration" class="ads-font-14 text-danger">Not Engouth Data</span>
+                            </span>
+                        </div>
+                        <div class="audience-list">
+                            <span class="list-icon fa fa-buysellads"></span>
+                            <span class="list-name">Impression/Ad</span>
+                            <span class="list-data">{{(card.info.avg_impression / card.info.total_ads_count).toFixed(2)}}</span>
+                        </div>
+                        <div class="audience-list">
+                            <span class="list-icon fa fa-share"></span>
+                            <span class="list-name">Avg Reach</span>
+                            <span class="list-data">{{card.info.avg_reach | adsCount}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="analy-title">
+            Geography
+        </div>
+        <div class="analy-geography">
+            <div class="row geo-row clearfix">
+                <div class="col-md-6 geo-impression">
+                    <div class="geo-title">Engagement by Impression &amp; Engagement</div>
+                    <div class="geo-suptitle">
+                        Showing the number of user over the past 30 days
+                    </div>
+                    <div class="charts-wrapper" ng-if="card.impressionCharts">
+                        <highchart config="card.impressionCharts"></highchart>
+                    </div>
+                    <div ng-if="!card.impressionCharts" class="analy-nodata">
+                        <img src="/images/analysis/bg_nodata.png" alt="">
+                        <br>
+                        <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
+                        <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
+                    </div>
+                </div>
+                <div class="col-md-6 geo-engagement">
+                    <div class="geo-title">Audience engagement</div>
+                    <div class="geo-suptitle">
+                        Showing the number of user over the past 30 days
+                    </div>
+                    <div class="charts-wrapper" ng-if="card.engagementsCharts">
+                        <highchart config="card.engagementsCharts"></highchart>
+                    </div>
+                    <div ng-if="!card.engagementsCharts" class="analy-nodata">
+                        <img src="/images/analysis/bg_nodata.png" alt="">
+                        <br>
+                        <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
+                        <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
+                    </div>
+                </div>
+            </div>
+            <div class="row geo-row clearfix">
+                <div class="col-md-6 geo-engagement">
+                    <div class="geo-title">Engagement by Age &amp; Gender</div>
+                    <div class="geo-suptitle">
+                        Showing the number of user over the past 30 days
+                    </div>
+                    <div class="" ng-if="card.gnederPieCharts && card.ageBarCharts">
+                        <div class="col-sm-6">
+                            <div class="charts-wrapper" ng-if="card.gnederPieCharts">
+                                <highchart config="card.gnederPieCharts"></highchart>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="charts-wrapper" ng-if="card.ageBarCharts">
+                                <highchart config="card.ageBarCharts"></highchart>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="!card.gnederPieCharts || !card.ageBarCharts" class="analy-nodata">
+                        <img src="/images/analysis/bg_nodata.png" alt="">
+                        <br>
+                        <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
+                        <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
+                    </div>
+                </div>
+                <div class="col-md-6 geo-interest">
+                    <div class="geo-title">Audience interests</div>
+                    <div class="geo-suptitle">
+                        Showing the number of user over the past 30 days
+                    </div>
+                    <div class="interest-list" ng-if="card.interestsArr" ng-init="interstPageNum = 1">
+                        <div class="interest-wrapper">
+                            <div class="stat-wrapper" ng-repeat="interstItem in card.interestsArr | limitTo:(interstPageNum * 6)" ng-if="$index+1 > (interstPageNum * 6 - 6)">
+                                <i class="fa fa-bookmark-o ads-font-18 stat-icon"></i>
+                                <div class="stat-name ads-text-ellipsis">
+                                    <span title="{{interstItem.name}}">{{interstItem.name}}</span>
+                                </div>
+                                <div class="progress stat-progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{(interstItem.value / card.interestsArr.count) * 100}}%;">
+                                    </div>
+                                </div>
+                                <div class="stat-number">{{((interstItem.value / card.interestsArr.count) * 100).toFixed(2)}}%</div>
+                            </div>
+                        </div>
+                        <div class="text-right interest-footer">
+                            <span class="page-num"> {{interstPageNum}} / {{ ceil(card.interestsArr.length / 6)}}</span>
+                            <button class="fa fa-caret-left turnpage-button" ng-disabled="interstPageNum == 1" ng-click="interstPageNum = interstPageNum - 1"></button>
+                            <button class="fa fa-caret-right turnpage-button" ng-disabled="interstPageNum == ceil(card.interestsArr.length / 6)" ng-click="interstPageNum = interstPageNum + 1"></button>
+                        </div>
+                    </div>
+                    <div ng-if="!card.interestsArr" class="analy-nodata">
+                        <img src="/images/analysis/bg_nodata.png" alt="">
+                        <br>
+                        <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
+                        <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
+                    </div>
+                </div>
+            </div>
+            <div class="row geo-row clearfix">
+                <div class="col-md-12">
+                    <div class="geo-title">
+                        What are the top countries by sessions?
+                    </div>
+                    <div class="geo-suptitle">
+                        Sessions over the 30 days
+                    </div>
+                    <div class="geo-countries clearfix" ng-if="card.addrMapCharts && card.addrTable">
+                        <div class="col-md-6 geo-map">
+                            <div class="mapcharts-wrapper">
+                                <highchart config="card.addrMapCharts"></highchart>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="geo-map-table">
+                                <div class="map-table-wrappe">
+                                    <table class="table table-striped map-table" ng-init="tabelePageNum = 1">
+                                        <thead>
+                                            <tr class="ads-font-16 ads-weight-bold text-left">
+                                                <td></td>
+                                                <td>Country</td>
+                                                <td>Share</td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="adsItems in card.addrTable | limitTo:(tabelePageNum * 7)" ng-if="$index+1 > (tabelePageNum * 7 - 7)">
+                                                <td class="map-td1">{{$index + 1}}</td>
+                                                <td class="map-td2">
+                                                    <div class="country-name ads-text-ellipsis">{{adsItems.name}}</div>
+                                                </td>
+                                                <td class="map-td3">
+                                                    <div class="percent-number">{{((adsItems.value / card.addrTable.count) * 100).toFixed(2)}} %</div>
+                                                </td>
+                                                <td class="map-td4">
+                                                    <div class="progress-wrapper">
+                                                        <div class="progress">
+                                                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:{{((adsItems.value / card.addrTable.count) * 100)}}%;">
+                                                                <span class="sr-only">{{((adsItems.value / card.addrTable.count) * 100).toFixed(2)}} % Complete</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="map-table-footer text-right">
+                                    <span class="page-num"> {{tabelePageNum}} / {{ ceil(card.addrTable.length / 7)}}</span>
+                                    <button class="fa fa-caret-left turnpage-button" ng-disabled="tabelePageNum == 1" ng-click="tabelePageNum = tabelePageNum - 1"></button>
+                                    <button class="fa fa-caret-right turnpage-button" ng-disabled="tabelePageNum == ceil(card.addrTable.length / 7)" ng-click="tabelePageNum = tabelePageNum + 1"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="!card.addrMapCharts || !card.addrTable" class="analy-nodata">
+                        <img src="/images/analysis/bg_nodata.png" alt="">
+                        <br>
+                        <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
+                        <!-- <p><a href="">Download BIGBIGADS Extension</a></p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="analy-object row">
+            <div class="col-md-4 object-charts">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Objective
+                    </div>
+                    <div class="panel-body">
+                        <div class="chart-wrapper">
+                            <highchart config="card.objectPieCharts" ng-if="card.objectPieCharts"></highchart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 object-charts">
+                
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Ads Number
+                    </div>
+                    <div class="panel-body">
+                        <div class="chart-wrapper">
+                            <highchart config="card.adsNumPieCharts" ng-if="card.adsNumPieCharts"></highchart>
+                        </div>
+                        <!-- <div class="chart-data">
+                            <p class="data-list">
+                                <span>Phone:</span>
+                                <span ng-if="card.info.phone_ads_count">{{card.info.phone_ads_count}}</span>
+                                <span ng-if="!card.info.phone_ads_count">Not engouth Data</span>
+                            </p>
+                             <p  class="data-list">
+                                <span>Rc:</span>
+                                <span ng-if="card.info.rc_ads_count">{{card.info.rc_ads_count}}</span>
+                                <span ng-if="!card.info.rc_ads_count">Not engouth Data</span>
+                            </p>
+                             <p  class="data-list">
+                                <span>Tl:</span>
+                                <span ng-if="card.info.tl_ads_count">{{card.info.tl_ads_count}}</span>
+                                <span ng-if="!card.info.tl_ads_count">Not engouth Data</span>
+                            </p>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 object-charts">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Ads Type
+                    </div>
+                    <div class="panel-body">
+                        <div class="chart-wrapper">
+                            <highchart config="card.adsTypeCharts" ng-if="card.adsTypeCharts"></highchart>
+                        </div>
+                        <div class="chart-data">
+                            <p class="data-list">
+                                <span>Images:</span>
+                                <span ng-if="card.info.image_ad_count">{{card.info.image_ad_count}}</span>
+                                <span ng-if="!card.info.image_ad_count">Not engouth Data</span>
+                            </p>
+                             <p  class="data-list">
+                                <span>Carousels:</span>
+                                <span ng-if="card.info.carousel_ad_count">{{card.info.carousel_ad_count}}</span>
+                                <span ng-if="!card.info.carousel_ad_count">Not engouth Data</span>
+                            </p>
+                             <p  class="data-list">
+                                <span>Canvas:</span>
+                                <span ng-if="card.info.canvas_ad_count">{{card.info.canvas_ad_count}}</span>
+                                <span ng-if="!card.info.canvas_ad_count">Not engouth Data</span>
+                            </p>
+                            <p  class="data-list">
+                                <span>Videos:</span>
+                                <span ng-if="card.info.video_ad_count">{{card.info.video_ad_count}}</span>
+                                <span ng-if="!card.info.video_ad_count">Not engouth Data</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT -->
+<script type="text/ng-template" id="competitorSearch.html">
+    <div ng-controller="CompetitorSearcherController">
+        <!-- BEGIN HEADER SEARCH BOX -->
+        <p>
+            <form class="search-form form-inline" ng-submit="search()">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" ng-model="searchOpt.text">
+                </div>
+                <button type="submit" class="btn btn-circle btn-icon-only btn-default" ng-disabled="searchOpt.inprogress">
+                    <i class="icon-magnifier"></i>
+                </button>
+            </form>
+        </p>
+        <div class="alert alert-warning" ng-if="searchOpt.error">{{searchOpt.error}}</div>
+        <div class="list-group">
+            <a ng-repeat="item in searchOpt.items" ng-click="notify(item)" class="list-group-item"> {{item.adser_name ? item.adser_name:item.adser_username}} </a>
+        </div>
+        <!-- END HEADER SEARCH BOX -->
+    </div>
+</script>

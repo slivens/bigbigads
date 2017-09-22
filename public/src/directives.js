@@ -55,20 +55,6 @@ MetronicApp.directive('ngSpinnerBar', ['$rootScope', '$state',
     }
 ]);
 
-// Handle global LINK click
-MetronicApp.directive('a',
-    function() {
-        return {
-            restrict: 'E',
-            link: function(scope, elem, attrs) {
-                if (attrs.ngClick || attrs.href === '' || attrs.href === '#') {
-                    elem.on('click', function(e) {
-                        e.preventDefault(); // prevent link click for above criteria
-                    });
-                }
-            }
-        };
-    });
 
 // Handle Dropdown Hover Plugin Integration
 MetronicApp.directive('dropdownMenuHover', function () {

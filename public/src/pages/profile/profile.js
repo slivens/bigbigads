@@ -1,6 +1,6 @@
 import '../common/common'
-import './billings'
-import './subscription'
+import '../../components/billings'
+import '../../components/subscription'
 
 angular.module('MetronicApp').controller('PlansController', ['$scope', 'Resource', 'User', function($scope, Resource, User) {
     var plans = new Resource('plans')
@@ -103,6 +103,8 @@ angular.module('MetronicApp').controller('ProfileController', ['$scope', '$locat
                 ;(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"5713181"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq")
                 window.uetq = window.uetq || []
                 window.uetq.push({'ec': 'conversion', 'ea': 'pay_scccessed', 'el': 'pay', 'ev': 60})
+                // 添加谷歌七日内付款成功统计事件,临时方案，后续会按要求以guzzle同步请求实现
+                ga('send', 'event', 'conversion', 'payed', 'pay_standard');
                 /* eslint-enable */
             }
         }

@@ -1,4 +1,5 @@
-import '../common/common'
+import '../pages/common/common'
+import template from './billings.html'
 
 angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User', 'Resource', 'SweetAlert', '$http', function($scope, User, Resource, SweetAlert, $http) {
     var ctrl = this
@@ -12,7 +13,7 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
             var user = User.info.user
 
             ctrl.subscriptionId = user.subscription_id
-            ctrl.queryPromise = billings.get().then(function() {
+            ctrl.queryPromise = billings.get().then(() => {
                 billings.items.map(function(item) {
                     // 7天以内且成功支付的订单才允许申请退款
                     if (moment().diff(moment(item.start_date), 'days') <= 7 && item.status == 'completed' && !item.refund)
@@ -56,7 +57,7 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
 }])
 // TODO:templateUrl通过依赖注入加时间戳
 angular.module('MetronicApp').component('billings', {
-    templateUrl: 'components/billings.html',
+    template,
     controller: 'BillingsController',
     bindings: {
         shouldInit: '@'
