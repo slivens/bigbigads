@@ -206,10 +206,11 @@ class UserController extends Controller
             $user = User::create([
                 'name' => $userName,
                 'email' => $email,
-                'password' => bcrypt(str_random(10))
+                'password' => bcrypt(str_random(10)),
+                'role_id' => 3
             ]);
             $user->state = 1;//社交帐号直接通过验证
-            $user->role_id = 3;
+            /* $user->role_id = 3; */
             $user->edm = 0;
             $user->verify_token = str_random(40);
             $user->regip = $request->ip();
@@ -294,9 +295,10 @@ class UserController extends Controller
                 'name' => $userName,
                 'email' => $email,
                 'password' => bcrypt($request->password),
+                'role_id' => 3
             ]);
             $user->state = 1;//社交帐号直接通过验证
-            $user->role_id = 3;
+            /* $user->role_id = 3; */
             $user->verify_token = str_random(40);
             $user->save();
             event(new Registered($user));
