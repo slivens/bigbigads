@@ -285,6 +285,8 @@ class PaymentService implements PaymentServiceContract
                 break;
             case 'cancelled':
                 $newStatus = Subscription::STATE_CANCLED;
+                //当订阅退订时获取其退订时间
+                $newData['canceled_at'] = $this->getCancaledTime($sub->agreement_id);
                 break;
             case 'suspended':
                 $newStatus = Subscription::STATE_SUSPENDED;
@@ -650,6 +652,33 @@ class PaymentService implements PaymentServiceContract
         }
         $this->log("refund failed");
         return false;    
+    }
+
+    /**
+     * 获取订阅的退订时间
+     * 使用订阅id获取交易列表，取退订的时间，转换时区后返回
+     * @param string $agreement_id 订阅Id,I-XXX
+     * @return datetime $time 退订时间，经过时区转换过的
+     */
+    public function getCancaledTime($agreement_id){
+        if(strpos($agreement_id,'I-') != 0){
+            $this->log("unknown param on getCancelTime");
+            return false;
+        }
+        $service = $this->getPaypalService();
+        $transactions = $service->transactions($agreement_id);
+        if(!$transactions || empty($transactions)){
+            $this->log("cannot find transaction list with $agreement_id on getCancelTime");
+            return false;
+        }
+        $cancel_arr = end($transactions);
+        if($cancel_arr->getStatus() != 'Canceled'){
+            $this->log("$agreement_id is not a canceled subscription");
+            return false;
+        }
+        return Carbon::parse($cancel_arr->getTimeStamp())->timezone('Asia/Shanghai')->toDateTimeString();
+
+        
     }
 
 }
