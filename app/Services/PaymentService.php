@@ -389,6 +389,8 @@ class PaymentService implements PaymentServiceContract
                 if (empty($payment->buyer_email)) {
                     $payment->buyer_email = $t->getPayerEmail();
                     $isDirty = true;
+                } else {
+                    $payment->buyer_email = $t->getPayerEmail();
                 }
                 // 当状态变化时要更新订单
                 if ($paypalStatus != $payment->status) {
