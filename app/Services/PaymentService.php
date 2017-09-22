@@ -475,8 +475,9 @@ class PaymentService implements PaymentServiceContract
             return false;
         $this->log("reset user {$user->email} to Free because of refund:{$payment->number}", PaymentService::LOG_INFO);
         $this->cancel($payment->subscription);
-        $user->role()->associate(Role::where('name', 'Free')->first());
-        $user->save();
+        $user->fixInfoByPayments();
+        /* $user->role()->associate(Role::where('name', 'Free')->first()); */
+        /* $user->save(); */
         return true;
     }
 
