@@ -66,7 +66,7 @@ class Publisher
             // $publisher为返回的广告主信息,目前只返回每个广告信息的如下字段,前端需要其他字段在此数组扩充
             $publisher['facebook_id'] = $adser_info['adser_username'];
             $publisher['name']        = $adser_info['adser_name'];
-            $publisher['avatar']      = 'http://192.168.10.174:88'.$adser_info['large_photo'];
+            $publisher['avatar']      = env('MOBILE_IMAGE_URL').$adser_info['large_photo'];
             $publisher['ads_total']   = $adser_info['ads_number'];
 
             $data[$publisher['facebook_id']] = $publisher;
