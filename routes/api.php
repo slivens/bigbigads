@@ -13,12 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 
-
-Route::group(['middleware' => ['auth:api']], function () { 
     Route::get('publishers', 'Api\PublisherController@search')->middleware('cors');
 
     // 获取单个的发布者信息

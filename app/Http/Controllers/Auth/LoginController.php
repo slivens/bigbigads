@@ -73,7 +73,7 @@ class LoginController extends Controller
     {
         $agent = new Agent();
         if ($agent->isMobile()) {
-            return redirect('/m');
+            return redirect('/m/#/login');
         }
         //没审核通过或被冻结就不允许登陆
         if ($user->state == 0) {
