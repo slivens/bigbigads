@@ -286,7 +286,12 @@ class PaymentService implements PaymentServiceContract
             case 'cancelled':
                 $newStatus = Subscription::STATE_CANCLED;
                 //当订阅退订时获取其退订时间
-                $newData['canceled_at'] = $this->getCancaledTime($sub->agreement_id);
+                $cancel_time = $this->getCancaledTime($sub->agreement_id);
+                if($cancel_time){
+                    $newData['canceled_at'] = $cancel_time;
+                }else{
+                    $this->log("cannot get cancal time on {$sub->agreement_id},but subscription was cancelled", PaymentService::LOG_INFO);
+                }
                 break;
             case 'suspended':
                 $newStatus = Subscription::STATE_SUSPENDED;
