@@ -39,9 +39,7 @@ class AdserAnalysis
         if (!$result) return ['error' => 'this pubulisher is no data', 'reason' => $result];          
 
         if (!array_key_exists('adser_info', $result)) return false;
-        // var_dump($user);
-        // var_dump($result['total_adser_count']);
-        // die();
+
         dispatch(new LogAction(ActionLog::ACTION_MOBILE_ADSER_ANALYSIS, json_encode($params), "mobile_adser_analysis :" . '初始化次数'.",total_adser_count: " . $result['total_adser_count'], $user->id, $request->ip()));
         $audience = json_decode($result['adser_info'][0]['audience'], true);
         $audienceArray = [];
@@ -50,7 +48,6 @@ class AdserAnalysis
 
         if ($audience && array_key_exists('interests', $audience)) {
             // 数据超过20个不显示，加上标示用于前台展示
-            //return count($audience['interests']);
            foreach ($audience['interests'] as $key => $value) {
                 $audienceArray[$index] = array('interests' => $key, 'count' => $value);
                 $index++;
@@ -78,7 +75,7 @@ class AdserAnalysis
             $result['adser_info'][0]['countrys'] = $countrys;
         }
         $result['adser_info'][0]['name'] = $result['adser_info'][0]['adser_name'];
-        $result['adser_info'][0]['avatar'] = 'http://192.168.10.174:88'.$result['adser_info'][0]['large_photo'];
+        $result['adser_info'][0]['avatar'] = env('MOBILE_IMAGE_URL') . $result['adser_info'][0]['large_photo'];
         return $result['adser_info'];
     }
 
@@ -124,8 +121,7 @@ class AdserAnalysis
         );
     
         $result = Curl::request($params, env('AD_SEARCH_URL'));
-        // var_dump($result);
-        // die();
+
         switch ($desc) {
             case 'share_rate':
                 dispatch(new LogAction(ActionLog::ACTION_MOBILE_ADSER_SHARE_TOPADS, json_encode($params), "mobile_adser_share_topads:" . '获取share次数' . ",total_ad_count:" . $result['count'], $user->id, $request->ip()));
@@ -158,22 +154,30 @@ class AdserAnalysis
         foreach ($result['ads_info'] as $key => $value) {
             if (array_key_exists('type', $value)) {
                 if ($value['type'] == 'SingleImage') {
-                    $result['ads_info'][$key]['image'] = 'http://192.168.10.174:88' . self::switchToMobileImage($value['local_picture']);
+                    $result['ads_info'][$key]['image'] = env('MOBILE_IMAGE_URL') . self::switchToMobileImage($value['local_picture']);
                 } else if ($value['type'] == 'SingleVideo') {
                     $local_picture = json_decode($value['local_picture'], true);
-                    $result['ads_info'][$key]['image'] = 'http://192.168.10.174:88' . self::switchToMobileImage($local_picture['source']);
+                    $result['ads_info'][$key]['image'] = env('MOBILE_IMAGE_URL') . self::switchToMobileImage($local_picture['source']);
                 } else if ($value['type'] == 'Carousel') {
                     $local_picture = json_decode($value['local_picture'], true);
                     if (array_key_exists('source', $local_picture[0])) {
-                        $result['ads_info'][$key]['image'] = 'http://192.168.10.174:88' . self::switchToMobileImage($local_picture[0]['source']);
+                        $result['ads_info'][$key]['image'] = env('MOBILE_IMAGE_URL') . self::switchToMobileImage($local_picture[0]['source']);
                     }
                 } else if ($value['type'] == 'Canvas'){
+                    
                     $local_picture = json_decode($value['local_picture'], true);
-                    if (!is_array($local_picture[0])) {
+
+                    //return $local_picture[0];
+                    if (is_array($local_picture)) {
+                        //return $local_picture[0];
                         //多此判断的原因是数据格式不一致，会出现不带source的数据，导致出错
-                        $result['ads_info'][$key]['image'] = 'http://192.168.10.174:88' . self::switchToMobileImage($local_picture[0]);
+                        if (is_array($local_picture[0]) && array_key_exists('source', $local_picture[0])) {
+                            $result['ads_info'][$key]['image'] = env('MOBILE_IMAGE_URL') . self::switchToMobileImage($local_picture[0]['source']);
+                        } else {
+                            $result['ads_info'][$key]['image'] = env('MOBILE_IMAGE_URL') . self::switchToMobileImage($local_picture[0]);
+                        }
                     } else {
-                        $result['ads_info'][$key]['image'] = 'http://192.168.10.174:88' . self::switchToMobileImage($local_picture[0]['source']);
+                        $result['ads_info'][$key]['image'] = env('MOBILE_IMAGE_URL') . self::switchToMobileImage($local_picture);
                     }
                 }
             }
@@ -189,8 +193,11 @@ class AdserAnalysis
     static public function switchToMobileImage ($url) 
     {  
         if ($url) {
-           return str_replace('image', 'mobile_phone_image', $url);
+            $url = str_replace('image', 'mobile_phone_image', $url);
+            $url = str_replace('L_', '', $url);
+            return $url;
         }
+        return $url;
     }
 
 }
