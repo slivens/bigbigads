@@ -274,8 +274,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinModern.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            // '/node_modules/allmighty-autocomplete/script/autocomplete.js',
-                            // '/node_modules/allmighty-autocomplete/style/autocomplete.css',
+                            'search.css',
                             'search.js'
                         ]
                     })
@@ -311,8 +310,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             '/node_modules/highcharts/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            // '/node_modules/allmighty-autocomplete/script/autocomplete.js',
-                            // '/node_modules/allmighty-autocomplete/style/autocomplete.css',
+                            'search.css',
                             'search.js'
                         ]
                     })
@@ -348,7 +346,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             '/node_modules/highcharts/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            'analysis.js'
+                            'search.css',
+                            'search.js'
                         ]
                     })
                 }]

@@ -1,3 +1,6 @@
+import './sidebar.scss'
+import template from './sidebar.html'
+
 angular.module('MetronicApp').controller('QuickSidebarController', ['$scope', '$window', 'settings', 'User', function($scope, $window, settings, User) {
     /* Setup Layout Part - Quick Sidebar */
     // 这个控制器与广告是强绑定的，这里直接指向$parent的这个方式是非常不友好的，加大了耦合
@@ -61,3 +64,9 @@ angular.module('MetronicApp').controller('QuickSidebarController', ['$scope', '$
         }
     })
 }])
+    .directive('sidebar', () => ({
+        restrict: 'E',
+        template,
+        replace: false,
+        controller: 'QuickSidebarController'
+    }))

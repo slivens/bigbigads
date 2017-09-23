@@ -47,8 +47,14 @@ module.exports = {
             use:ExtractTextPlugin.extract({
                 use:[{
                     loader:'css-loader',
+                    options: {
+                        sourceMap: !isProduction
+                    }
                 }, {
                     loader:'sass-loader',
+                    options: {
+                        sourceMap: !isProduction
+                    }
                 }]
                 }),
         }, {
