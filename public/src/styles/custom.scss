@@ -105,83 +105,6 @@ body {
     }
 }
 
-
-/*头部页眉*/
-
-.page-header {
-    .page-header-top {
-        height: 50px;
-        .page-logo {
-            width: 330px;
-            height: 50px;
-            margin-top: 2px;
-            .logo-default {
-                margin: 0px 0 0 16px;
-            }
-        }
-        .page-header-menu {
-            margin: 0;
-            .hor-menu {
-                .nav {
-                    li {
-                        margin: 0px;
-                        a {
-                            display: inline-block;
-                            padding: 0px 10px;
-                            height: 52px;
-                            line-height: 50px;
-                            border-radius: 0px;
-                            color: #555;
-                            font-size: 1.6rem;
-                            font-family: 'Microsoft YaHei', '微软雅黑', "Helvetica Neue", Helvetica, Arial, sans-serif;
-                        }
-                        a:focus {
-                            background: none !important;
-                            color: #555;
-                            i {
-                                color: #BCC2CB;
-                            }
-                        }
-                    }
-                    li:hover {
-                        a {
-                            color: #ea7e00 !important;
-                            background: none !important;
-                            i {
-                                color: #ea7e00;
-                            }
-                        }
-                    }
-                    li.active,
-                    li.active:hover {
-                        a {
-                            background: none !important;
-                            border-bottom: 3px solid;
-                            cursor: default;
-                            color: #ea7e00;
-                        }
-                    }
-                }
-            }
-        }
-        .top-menu {
-            margin-top: 10px;
-            .navbar-nav {
-                li.dropdown {
-                    height: auto;
-                    .dropdown-toggle {
-                        padding: 0px;
-                    }
-                    .dropdown-menu-default {
-                        margin-top: 12px;
-                    }
-                }
-            }
-        }
-    }
-}
-
-
 /*广告商*/
 
 .search-result {
@@ -910,27 +833,27 @@ body.modal-open {
 }
 
 .xg-icon-comment {
-    background-image: url('../../../../assets/global/svg/comment.svg');
+    background-image: url('/assets/global/svg/comment.svg');
 }
 
 .xg-icon-share {
-    background-image: url('../../../../assets/global/svg/share.svg');
+    background-image: url('/assets/global/svg/share.svg');
 }
 
 .xg-icon-video {
-    background-image: url('../../../../assets/global/svg/video.svg');
+    background-image: url('/assets/global/svg/video.svg');
 }
 
 .xg-icon-play:before {
-    content: url('../../../../assets/global/img/xgrit-img/icon-play.png');
+    content: url('/assets/global/img/xgrit-img/icon-play.png');
 }
 
 .xg-icon-audience {
-    background-image: url('../../../../assets/global/svg/detail-person.svg');
+    background-image: url('/assets/global/svg/detail-person.svg');
 }
 
 .xg-icon-analysis {
-    background-image: url('../../../../assets/global/svg/venus-detail-2.svg');
+    background-image: url('/assets/global/svg/venus-detail-2.svg');
 }
 
 .xg-icon-audience,

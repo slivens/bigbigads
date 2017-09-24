@@ -2,6 +2,7 @@ import '../common/common.js'
 import '../bookmark/bookmark.js'
 import '../common/searcher.js'
 import '../../components/sidebar.js'
+import template from './search.html'
 
 /* adsearch js */
 angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal', '$window', 'TIMESTAMP',
@@ -9,6 +10,7 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
         // 搜索流程:location.search->searchOption->adSearcher.params
         // 将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
 
+        $scope.settings = settings
         function searchToQuery(option, searcher) {
             $location.search(searcher.searchToQuery(option))
         }
@@ -1019,3 +1021,12 @@ angular.module('MetronicApp').controller('AdsearchController', ['$rootScope', '$
         })
         // $scope.adSearcher.filter();
     }])
+    .directive('search', function() {
+        return {
+            restrict: 'E',
+            scope: {},
+            template,
+            replace: false,
+            controller: 'AdsearchController'
+        }
+    })

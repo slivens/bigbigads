@@ -831,3 +831,79 @@ Pace - Page Progress
   }
 
 }
+
+
+/*头部页眉*/
+
+.page-header {
+    .page-header-top {
+        height: 50px;
+        .page-logo {
+            width: 330px;
+            height: 50px;
+            margin-top: 2px;
+            .logo-default {
+                margin: 0px 0 0 16px;
+            }
+        }
+        .page-header-menu {
+            margin: 0;
+            .hor-menu {
+                .nav {
+                    li {
+                        margin: 0px;
+                        a {
+                            display: inline-block;
+                            padding: 0px 10px;
+                            height: 52px;
+                            line-height: 50px;
+                            border-radius: 0px;
+                            color: #555;
+                            font-size: 1.6rem;
+                            font-family: 'Microsoft YaHei', '微软雅黑', "Helvetica Neue", Helvetica, Arial, sans-serif;
+                        }
+                        a:focus {
+                            background: none !important;
+                            color: #555;
+                            i {
+                                color: #BCC2CB;
+                            }
+                        }
+                    }
+                    li:hover {
+                        a {
+                            color: #ea7e00 !important;
+                            background: none !important;
+                            i {
+                                color: #ea7e00;
+                            }
+                        }
+                    }
+                    li.active,
+                    li.active:hover {
+                        a {
+                            background: none !important;
+                            border-bottom: 3px solid;
+                            cursor: default;
+                            color: #ea7e00;
+                        }
+                    }
+                }
+            }
+        }
+        .top-menu {
+            margin-top: 10px;
+            .navbar-nav {
+                li.dropdown {
+                    height: auto;
+                    .dropdown-toggle {
+                        padding: 0px;
+                    }
+                    .dropdown-menu-default {
+                        margin-top: 12px;
+                    }
+                }
+            }
+        }
+    }
+}

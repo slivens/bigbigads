@@ -2,10 +2,11 @@ import '../common/common.js'
 import '../bookmark/bookmark.js'
 import '../common/searcher.js'
 import '../../components/sidebar.js'
-// import template from './owner-search.html'
+import template from './owner-search.html'
 
 angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User',
     function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User) {
+        $scope.settings = settings
         // 搜索流程:location.search->searchOption->adSearcher.params
         // 将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
         function searchToQuery(option, searcher) {
@@ -295,3 +296,11 @@ angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope',
         })
     }
 ])
+    .directive('ownerSearch', function() {
+        return {
+            restrict: 'E',
+            replace: false,
+            template,
+            controller: 'AdserSearchController'
+        }
+    })

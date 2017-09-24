@@ -3,8 +3,9 @@ import 'sweetalert/dist/sweetalert.css'
 import 'angular-busy/dist/angular-busy.min.css'
 import './sass/global/font.scss'
 import './sass/global/components-md.scss'
-import './sass/layouts/layout3/layout.scss'
+// import './sass/layouts/layout3/layout.scss'
 import './sass/layouts/layout3/themes/yellow-orange.scss'
+import './styles/custom.scss'
 import './pages/common/settings.js'
 import './components/header.js'
 
@@ -248,10 +249,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     $stateProvider
         .state('/', {
             url: '/',
-            templateUrl: "views/search.html?t=" + ts,
-            data: {
-                pageTitle: 'Advertise Search'
-            },
+            template: '<search />',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -283,10 +281,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('adsearch', {
             url: '/adsearch',
-            templateUrl: "views/search.html?t=" + ts,
-            data: {
-                pageTitle: 'Advertise Search'
-            },
+            template: '<search />',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -356,7 +351,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('ownerSearch', {
             url: '/ownerSearch',
-            templateUrl: "views/owner-search/owner-search.html?t=" + ts,
+            template: '<owner-search />',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -378,6 +373,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
+                            'owner-search.css',
                             'owner-search.js'
                         ]
                     })
