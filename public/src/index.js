@@ -8,6 +8,7 @@ import './sass/layouts/layout3/themes/yellow-orange.scss'
 import './styles/index.scss'
 import './pages/common/settings.js'
 import './components/header.js'
+import './components/ng-spinner-bar.js'
 
 window.moment = require('moment')
 
@@ -21,7 +22,8 @@ var MetronicApp = angular.module("MetronicApp", [
     'ngResource',
     'cgBusy',
     'bba.settings',
-    'bba.header'
+    'bba.header',
+    'bba.ng-spinner-bar'
 ])
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */

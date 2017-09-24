@@ -2,6 +2,7 @@ import '../common/common'
 import '../../components/billings'
 import '../../components/subscription'
 import template from './profile.html'
+import changePwdTemplate from './changepwd.html'
 
 angular.module('MetronicApp').controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', function($scope, $location, User, $uibModal, TIMESTAMP) {
     // var vm = this
@@ -48,7 +49,7 @@ angular.module('MetronicApp').controller('ProfileController', ['$scope', '$locat
     })
     $scope.changePwd = function() {
         return $uibModal.open({
-            templateUrl: 'views/profile/changepwd.html?t=' + TIMESTAMP,
+            template: changePwdTemplate,
             size: 'md',
             animation: true,
             controller: 'ChangepwdController'
@@ -75,11 +76,6 @@ angular.module('MetronicApp').controller('ProfileController', ['$scope', '$locat
             $uibModalInstance.dismiss('cancel')
         }
         $scope.save = function(item) {
-            // console.log($scope.info)
-            // $scope.promise = bookmark.save(item);
-            // $scope.promise.then(function() {
-            //     $uibModalInstance.dismiss('success');
-            // });
             if (info.newpwd != info.repeatpwd) {
                 info.error = "repeat password is diffrent with new password"
                 return

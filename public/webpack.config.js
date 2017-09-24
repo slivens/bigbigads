@@ -7,7 +7,7 @@ var isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
     devtool: isProduction ? false : 'source-map',
     entry: {
-        bundle:['./src/index.js', './src/directives.js'],
+        bundle:['./src/index.js'],
         search:['./src/pages/search/search.js'],
         owner:['./src/pages/owner/owner.js'],
         analysis:['./src/pages/analysis/analysis.js'],
