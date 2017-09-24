@@ -322,7 +322,12 @@ class UserController extends Controller
         }
         Auth::login($user);
         dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
-        return redirect('/app/#');
+        $agent = new Agent();
+        if ($agent->isMobile()) {
+            return redirect('/m/#/login');
+        } else {
+            return redirect('/app/#');
+        }  
     }
 
     public function quickRegister(Request $request)
