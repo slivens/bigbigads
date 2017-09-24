@@ -472,7 +472,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('ranking', {
             url: '/ranking',
-            templateUrl: "views/ranking.html?t=" + ts,
+            template: "<ranking />",
             data: {
                 pageTitle: 'Ranking'
             },
@@ -502,7 +502,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('bookmark', {
             url: '/bookmark',
-            templateUrl: "views/bookmark.html?t=" + ts,
+            template: '<bookmark />',
             data: {
                 pageTitle: 'Bookmark'
             },
@@ -524,6 +524,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
+                            'search.css',
                             'search.js'
                         ]
                     })
@@ -567,11 +568,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     // User Profile
         .state("profile", {
             url: "/profile",
-            templateUrl: "views/profile/main.html?t=" + ts,
+            template: '<profile />',
             data: {
                 pageTitle: 'Profile'
             },
-            controller: "ProfileController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -590,32 +590,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                         ]
                     })
                 }]
-            }
-        })
-
-    // User Profile Dashboard
-        .state("profile.dashboard", {
-            url: "/dashboard",
-            templateUrl: "views/profile/dashboard.html?t=" + ts,
-            data: {
-                pageTitle: 'User Profile'
-            }
-        })
-
-    // User Profile Account
-        .state("profile.account", {
-            url: "/account",
-            templateUrl: "views/profile/account.html?t=" + ts,
-            data: {
-                pageTitle: 'User Account'
-            }
-        })
-    // User Profile Help
-        .state("profile.help", {
-            url: "/help",
-            templateUrl: "views/profile/help.html?t=" + ts,
-            data: {
-                pageTitle: 'User Help'
             }
         })
     $locationProvider.html5Mode(true)

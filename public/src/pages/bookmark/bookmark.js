@@ -1,3 +1,6 @@
+import template from './bookmark.html'
+
+// TODO:应该做更细的拆分，page不应该作为其他页面的子对象
 angular.module('MetronicApp').factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 'User', '$state', 'TIMESTAMP', function(Resource, $uibModal, SweetAlert, BookmarkItem, User, $state, TIMESTAMP) {
     var bookmark = new Resource('bookmark')
     bookmark.subItems = []
@@ -377,3 +380,12 @@ angular.module('MetronicApp').controller('BookmarkAddController', ['$scope', 'Bo
         }
     })
 }])
+    .directive('bookmark', function() {
+        return {
+            restrict: 'E',
+            scope: {},
+            template,
+            replace: false,
+            controller: 'BookmarkController'
+        }
+    })

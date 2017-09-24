@@ -1,6 +1,7 @@
 import '../common/common'
 import '../../components/billings'
 import '../../components/subscription'
+import template from './profile.html'
 
 angular.module('MetronicApp').controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', function($scope, $location, User, $uibModal, TIMESTAMP) {
     // var vm = this
@@ -96,3 +97,12 @@ angular.module('MetronicApp').controller('ProfileController', ['$scope', '$locat
             })
         }
     }])
+    .directive('profile', function() {
+        return {
+            restrict: 'E',
+            scope: {},
+            template,
+            replace: false,
+            controller: 'ProfileController'
+        }
+    })

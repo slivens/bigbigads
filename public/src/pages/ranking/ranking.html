@@ -1,4 +1,4 @@
-<div ng-controller="RankingController">
+<div>
     <!-- BEGIN MAIN CONTENT -->
    <div class="row">
         <div class="col-md-12">
@@ -41,7 +41,7 @@
                                         <tr ng-repeat="item in ranking.adsers | orderBy:ranking.sort.field:ranking.sort.reverse">
                                             <td>{{$index+1}}</td>
                                             <td class="text-center">
-                                                <img src="../assets/global/img/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + item.local_photo}}" alt="" class="rounded avatar">
+                                                <img src="/images/input-spinner.gif" lazy-img="{{settings.imgRemoteBase + item.local_photo}}" alt="" class="rounded avatar">
                                             </td>
                                             <td>
                                                 <a ng-href="{{item.page_website}}" target="_blank">{{item.adser_name ? item.adser_name:item.adser_username}}</a>
