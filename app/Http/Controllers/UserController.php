@@ -103,7 +103,12 @@ class UserController extends Controller
         $user->state = 1;
         $user->save();
         Auth::login($user);
-        return redirect("/app");
+        $agent = new Agent();
+        if ($agent->isMobile()) {
+            return redirect('/m/#/login');
+        } else {
+            return redirect('/app');
+        }
         //return view('auth.verify')->with("user", $user);
     }
 
@@ -252,6 +257,7 @@ class UserController extends Controller
             return redirect('welcome#?socialite=' . $name);
         } 
         Auth::login($user);
+        $agent = new Agent();
         if ($agent->isMobile()) {
             return redirect('/m/#/login');
         } else {
