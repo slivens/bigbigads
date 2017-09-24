@@ -5,7 +5,7 @@ import './sass/global/font.scss'
 import './sass/global/components-md.scss'
 // import './sass/layouts/layout3/layout.scss'
 import './sass/layouts/layout3/themes/yellow-orange.scss'
-import './styles/custom.scss'
+import './styles/index.scss'
 import './pages/common/settings.js'
 import './components/header.js'
 
@@ -250,6 +250,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         .state('/', {
             url: '/',
             template: '<search />',
+            data: {
+                pageTitle: 'Advertise Search'
+            },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -282,6 +285,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         .state('adsearch', {
             url: '/adsearch',
             template: '<search />',
+            data: {
+                pageTitle: 'Advertise Search'
+            },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -314,9 +320,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('adser', {
             url: '/adsearch/{adser}/{name}',
-            templateUrl: "views/adser.html?t=" + ts,
+            template: '<owner />',
             data: {
-                pageTitle: 'Specific Advertise'
+                pageTitle: 'Advertiser\'s ads'
             },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -341,8 +347,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             '/node_modules/highcharts/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            'search.css',
-                            'search.js'
+                            'owner.css',
+                            'owner.js'
                         ]
                     })
                 }]
@@ -352,6 +358,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         .state('ownerSearch', {
             url: '/ownerSearch',
             template: '<owner-search />',
+            data: {
+                pageTitle: 'Advertiser Search'
+            },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -382,7 +391,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('adserAnalysis', {
             url: '/adserAnalysis/{username}',
-            templateUrl: "views/owner-analysis/owner-analysis.html?t=" + ts,
+            template: "<owner-analysis />",
+            data: {
+                pageTitle: 'Advertiser Analysis'
+            },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([{
@@ -418,9 +430,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('adAnalysis', {
             url: '/adAnalysis/{id}',
-            templateUrl: "views/ad-analysis.html?t=" + ts,
+            template: "<analysis />",
             data: {
-                pageTitle: 'Advertise Analysis'
+                pageTitle: 'Specific Advertise Analysis'
             },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -521,7 +533,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('plans', {
             url: '/plans',
-            templateUrl: "views/plans.html?t=" + ts,
+            template: "<plans />",
             data: {
                 pageTitle: 'Plans'
             },
@@ -544,7 +556,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
                             '/node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
                             '/node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
-                            'profile.js'
+                            'plans.css',
+                            'plans.js'
                         ]
                     })
                 }]

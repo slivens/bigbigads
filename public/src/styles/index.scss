@@ -1,5 +1,7 @@
 /*引入公用样式*/
+@import 'variables';
 @import 'base';
+@import 'legacy';
 
 // Extra small screen / phone
 $screen-xs-min: 480px !default;
@@ -1517,7 +1519,7 @@ color: $black_placeholder !important;
 @import 'app_mobile';
 
 /*plans 界面样式*/
-@import 'plans';
+// @import 'plans';
 
 /*
 * 广告详情页

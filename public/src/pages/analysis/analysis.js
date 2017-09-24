@@ -3,6 +3,7 @@ import '../common/common.js'
 import '../bookmark/bookmark.js'
 import '../common/searcher.js'
 import '../../components/sidebar.js'
+import template from './analysis.html'
 
 angular.module('MetronicApp').controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window', '$http', 'Util', 'User', '$q',
     function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $window, $http, Util, User, $q) {
@@ -323,3 +324,12 @@ angular.module('MetronicApp').controller('AdAnalysisController', ['$rootScope', 
         }
     }
 ])
+    .directive('analysis', function() {
+        return {
+            restrict: 'E',
+            scope: {},
+            template,
+            replace: false,
+            controller: 'AdAnalysisController'
+        }
+    })

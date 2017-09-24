@@ -2,6 +2,7 @@ import './owner-analysis.scss'
 import '../common/common.js'
 import '../bookmark/bookmark.js'
 import '../common/searcher.js'
+import template from './owner-analysis.html'
 
 angular.module('MetronicApp').controller('AdserAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$http', '$uibModal', '$q', 'Util', '$timeout',
     function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $http, $uibModal, $q, Util, $timeout) {
@@ -292,3 +293,12 @@ angular.module('MetronicApp').controller('AdserAnalysisController', ['$rootScope
             $scope.$emit('competitor', item)
         }
     }])
+    .directive('ownerAnalysis', function() {
+        return {
+            restrict: 'E',
+            scope: {},
+            template,
+            replace: false,
+            controller: 'AdserAnalysisController'
+        }
+    })

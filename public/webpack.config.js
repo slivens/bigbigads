@@ -9,11 +9,13 @@ module.exports = {
     entry: {
         bundle:['./src/index.js', './src/directives.js'],
         search:['./src/pages/search/search.js'],
+        owner:['./src/pages/owner/owner.js'],
         analysis:['./src/pages/analysis/analysis.js'],
         "owner-search":['./src/pages/owner-search/owner-search.js'],
         "owner-analysis":['./src/pages/owner-analysis/owner-analysis.js'],
         ranking:['./src/pages/ranking/ranking.js'],
         profile:['./src/pages/profile/profile.js'],
+        plans:['./src/pages/plans/plans.js'],
         vendor:[
             'bootstrap', 
             'bootstrap-switch',
