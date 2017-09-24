@@ -35,6 +35,14 @@ class PublisherController extends Controller
         $keywords = $request->input('keywords');
         $page = $request->input('page') ? $request->input('page') : 1;
         $per_page = $request->input('per_page') ? $request->input('per_page') : 10;
+
+
+        if ($page > 10 || $per_page != 10) {
+            return response()->json([
+                'code'    => '401000',
+                'message' => 'No Permission Get More'
+            ], 401);
+        }
         
         $result = ApiPublisher::getPublishers($request, [
             'keywords' => $keywords,
