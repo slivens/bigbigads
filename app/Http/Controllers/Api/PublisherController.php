@@ -37,7 +37,7 @@ class PublisherController extends Controller
         $per_page = $request->input('per_page') ? $request->input('per_page') : 10;
 
 
-        if ($page > 10 || $per_page != 10) {
+        if ($page > 30 || $per_page != 10) {
             return response()->json([
                 'code'    => '401000',
                 'message' => 'No Permission Get More'
