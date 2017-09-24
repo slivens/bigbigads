@@ -252,7 +252,11 @@ class UserController extends Controller
             return redirect('welcome#?socialite=' . $name);
         } 
         Auth::login($user);
-        return redirect('/app/#');
+        if ($agent->isMobile()) {
+            return redirect('/m/#/login');
+        } else {
+            return redirect('/app/#');
+        }
     }    
 
     /**
