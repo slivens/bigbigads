@@ -79,7 +79,7 @@
             </div>
         </div>
         <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
-            <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid" cardTemplate="{{'views/adsearch-card.html' | nocache}}">
+            <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid" cardTemplateString="<adsearch-card />">
             </div>
             <div class="clearfix">
             </div>

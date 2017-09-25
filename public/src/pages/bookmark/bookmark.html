@@ -48,7 +48,7 @@
                 </uib-tabset>
                 <div ng-if="bookmark.type == 0">
                     <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
-                        <div deckgrid source="data.ads.ads_info" class="deckgrid" cardTemplate="{{'views/adsearch-card.html' | nocache}}">
+                        <div deckgrid source="data.ads.ads_info" class="deckgrid" cardTemplateString="<adsearch-card />">
                         </div>
                         <div class="clearfix">
                         </div>

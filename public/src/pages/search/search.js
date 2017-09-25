@@ -3,6 +3,7 @@ import '../bookmark/bookmark.js'
 import '../common/searcher.js'
 import '../../components/sidebar.js'
 import '../../components/register.js'
+import '../../components/adsearch-card.js'
 import template from './search.html'
 
 /* adsearch js */

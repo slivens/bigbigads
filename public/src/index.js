@@ -8,7 +8,9 @@ import './styles/index.scss'
 import './pages/common/settings.js'
 import './components/header.js'
 import './components/ng-spinner-bar.js'
-import {template as signTemplate, signController} from './components/sign.js'
+import {template as upgradeDlgTemplate, controller as upgradeDlgController} from './components/upgrade-dlg.js'
+import {template as signTemplate, controller as signController} from './components/sign.js'
+import {template as searchResultUpgradeDlgTemplate, controller as searchResultUpgradeDlgController} from './components/search-result-upgrade-dlg.js'
 
 window.moment = require('moment')
 
@@ -736,19 +738,10 @@ MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope'
         },
         openUpgrade: function() {
             return $uibModal.open({
-                templateUrl: 'views/upgrade.html?t=' + TIMESTAMP,
+                template: upgradeDlgTemplate,
                 size: 'md',
                 animation: true,
-                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
-                    $scope.goIndex = function() {
-                        window.open('/home', "_self")
-                        $uibModalInstance.dismiss('success')
-                    }
-                    $scope.goPlans = function() {
-                        $state.go("plans")
-                        $uibModalInstance.dismiss('success')
-                    }
-                }]
+                controller: upgradeDlgController
             })
         },
         openSign: function() {
@@ -762,15 +755,10 @@ MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope'
         },
         openSearchResultUpgrade: function() {
             return $uibModal.open({
-                templateUrl: 'views/search-result-upgrade.html?t=' + TIMESTAMP,
+                template: searchResultUpgradeDlgTemplate,
                 size: 'md',
                 animation: true,
-                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
-                    $scope.goPlans = function() {
-                        $state.go("plans")
-                        $uibModalInstance.dismiss('success')
-                    }
-                }]
+                controller: searchResultUpgradeDlgController
             })
         },
         openFreeDateLimit: function() {

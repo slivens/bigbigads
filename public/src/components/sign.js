@@ -1,6 +1,6 @@
 import template from './sign.html'
 
-const signController = function($scope, $uibModalInstance, $window) {
+const controller = function($scope, $uibModalInstance, $window) {
     var slides = $scope.slides = []
     var i
     $scope.addSlide = function() {
@@ -27,6 +27,6 @@ const signController = function($scope, $uibModalInstance, $window) {
     }
 }
 
-signController.$inject = ['$scope', '$uibModalInstance', '$window']
+controller.$inject = ['$scope', '$uibModalInstance', '$window']
 
-export {template, signController}
+export {template, controller}
