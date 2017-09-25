@@ -9,7 +9,18 @@ $brand-success:                                                         #5cb85c 
 $brand-main-color:														$brand-success;
 $main-color:                                                            #f2784b;
 $text-color:                        #333333 !default; 
+$text-muted-color:      			#444444 !default;
 
+$primary-link-color:                #65A0D0 !default;
+$brand-danger:          #d9534f !default;
+
+$font-size-base:          14px !default;
+$font-size-h1:            floor(($font-size-base * 2.6)) !default; // ~36px
+$font-size-h2:            floor(($font-size-base * 2.15)) !default; // ~30px 
+$font-size-h3:            ceil(($font-size-base * 1.7)) !default; // ~24px 
+$font-size-h4:            ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-h5:            $font-size-base !default; 
+$font-size-h6:            ceil(($font-size-base * 0.85)) !default; // ~12px 
 
 $direction:                         'ltr' !default;
 
@@ -19,6 +30,7 @@ $header-height-xs:             											($header-height * 2) !default; // head
 $page-header-top-height:												75px;
 
 $layout-img-path:           											'/images/' !default;
+$global-img-path:           		'/images/' !default; 
 
 // Extra small screen / phone
 $screen-xs-min:              		480px !default;
@@ -57,6 +69,12 @@ $link-color:            			#5b9bd1 !default;
 $link-hover-color:      			darken($link-color, 15%) !default;
 $brand-main-red-color:                                             		#f36a5a;  
 $brand-main-font-color:													#ffffff;
+
+$general-panel-bg-color:			#f1f4f7 !default;
+$general-panel-border-color:		darken(#f1f4f7, 3%) !default;
+$general-panel-font-color:			#3f444a !default;
+
+$page-content-solid-bg-color:       darken($general-panel-bg-color, 1%) !default; // content solid bg color. default:#F0F2F7.
 
 $header-search-font-color:                                      		#616d7d; 
 $header-hor-menu-default-link-font-color:                       		#BCC2CB;

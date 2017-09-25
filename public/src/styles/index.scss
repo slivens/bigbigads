@@ -1,11 +1,18 @@
 /*引入公用样式*/
 @import 'variables';
 @import 'base';
+@import 'font';
 @import 'legacy';
+@import 'mixins/_buttons';
 @import '_reset-general';
 @import '_animate';
 @import '_colors';
 @import '_dropdowns';
+@import '_buttons';
+@import '_typography';
+@import '_portlets';
+@import '_alerts';
+@import '_tabs';
 
 // Extra small screen / phone
 $screen-xs-min: 480px !default;
