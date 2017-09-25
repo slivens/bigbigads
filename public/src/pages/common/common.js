@@ -1,3 +1,5 @@
+import '../../components/audience.js'
+
 /* common js */
 angular.module('MetronicApp').directive('sweetalert', ['SweetAlert', function(SweetAlert) {
     return {
@@ -418,29 +420,6 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                     setTimeout(loop, 1000)
                     updatefix()
                 })()
-            }
-        }
-    }])
-    .directive('audience', ['$uibModal', 'TIMESTAMP', function($uibModal, TIMESTAMP) {
-        return {
-            link: function(scope, element, attrs) {
-                element.bind('click', function() {
-                    if (attrs.title) {
-                        var whySee = attrs.title.split("\n")
-                        return $uibModal.open({
-                            templateUrl: 'views/audience.html?t=' + TIMESTAMP,
-                            size: 'customer',
-                            animation: true,
-                            controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
-                                $scope.whySee = whySee
-                                $scope.audienceLength = whySee.length
-                                $scope.close = function() {
-                                    $uibModalInstance.dismiss('cancle')
-                                }
-                            }]
-                        })
-                    }
-                })
             }
         }
     }])

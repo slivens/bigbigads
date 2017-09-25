@@ -8,6 +8,7 @@ import './styles/index.scss'
 import './pages/common/settings.js'
 import './components/header.js'
 import './components/ng-spinner-bar.js'
+import {template as signTemplate, signController} from './components/sign.js'
 
 window.moment = require('moment')
 
@@ -752,36 +753,11 @@ MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope'
         },
         openSign: function() {
             return $uibModal.open({
-                templateUrl: 'views/sign.html?t=' + TIMESTAMP,
+                template: signTemplate,
                 size: 'customer',
                 backdrop: false,
                 animation: true,
-                controller: ['$scope', '$uibModalInstance', '$window', function($scope, $uibModalInstance, $window) {
-                    var slides = $scope.slides = []
-                    var i
-                    $scope.addSlide = function() {
-                        var imgItem = slides.length + 1
-                        slides.push({
-                            image: 'adscard_0' + imgItem + '.jpg'
-                        })
-                    }
-                    for (i = 0; i < 4; i++) {
-                        $scope.addSlide()
-                    }
-                    $scope.close = function() {
-                        $uibModalInstance.dismiss('cancle')
-                    }
-
-                    // 获取track码
-                    if ($window.localStorage.getItem('track')) {
-                        var track = JSON.parse($window.localStorage.getItem('track'))
-                        if (Date.parse(new Date()) < Date.parse(track.expired)) {
-                            $scope.trackCode = track.code
-                        }
-                    } else {
-                        $scope.trackCode = null
-                    }
-                }]
+                controller: signController
             })
         },
         openSearchResultUpgrade: function() {
