@@ -2,6 +2,7 @@ import '../common/common.js'
 import '../bookmark/bookmark.js'
 import '../common/searcher.js'
 import '../../components/sidebar.js'
+import '../../components/adser-search-card.js'
 import template from './owner-search.html'
 
 angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User',

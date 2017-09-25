@@ -1,4 +1,5 @@
 import template from './bookmark.html'
+import bookmarkAddDialogTemplate from './bookmark-add-dialog.html'
 
 // TODO:应该做更细的拆分，page不应该作为其他页面的子对象
 angular.module('MetronicApp').factory('Bookmark', ['Resource', '$uibModal', 'SweetAlert', 'BookmarkItem', 'User', '$state', 'TIMESTAMP', function(Resource, $uibModal, SweetAlert, BookmarkItem, User, $state, TIMESTAMP) {
@@ -23,7 +24,7 @@ angular.module('MetronicApp').factory('Bookmark', ['Resource', '$uibModal', 'Swe
             return
         }
         return $uibModal.open({
-            templateUrl: 'views/bookmark-add-dialog.html?t=' + TIMESTAMP,
+            template: bookmarkAddDialogTemplate,
             size: 'sm',
             animation: true,
             controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
