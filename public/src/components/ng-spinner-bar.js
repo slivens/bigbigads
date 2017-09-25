@@ -1,4 +1,4 @@
-// import './ng-spinner-bar.scss'
+import './ng-spinner-bar.scss'
 // import template from './ng-spinner-bar.html'
 
 angular.module('bba.ng-spinner-bar', ['ui.router']).directive('ngSpinnerBar', ['$rootScope', '$state',

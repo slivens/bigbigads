@@ -2,6 +2,9 @@
 @import 'variables';
 @import 'base';
 @import 'legacy';
+@import '_reset-general';
+@import '_animate';
+@import '_colors';
 
 // Extra small screen / phone
 $screen-xs-min: 480px !default;

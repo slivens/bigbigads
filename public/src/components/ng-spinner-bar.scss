@@ -126,3 +126,8 @@
          animation-delay: -0.16s;
     }
 }
+
+.page-spinner-bar > div,  
+.block-spinner-bar > div {
+    background: lighten($main-color, 5%);
+}

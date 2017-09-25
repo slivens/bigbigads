@@ -1,4 +1,8 @@
-@import 'mixins/_mixins';
+@import 'variables.scss';
+@import 'mixins/_clearfix.scss';
+@import 'mixins/_opacity.scss';
+@import 'mixins/_mixins.scss';
+
 
 @mixin reset-container() {    
   	> .container { 
@@ -143,3 +147,5 @@ body {
 		border-color: darken(#F1F3F8, 10%);
 	}
 }
+
+
