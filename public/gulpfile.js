@@ -58,10 +58,7 @@ gulp.task('prettify', function() {
 });
 
 gulp.task('lint', function()  {
-    gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js'])
-        .pipe(eslint())
-        .pipe(eslint.format())
-    gulp.src('./src/js/standalone/main.js')
+    gulp.src(['./src/js/**/*.js'])
         .pipe(eslint())
         .pipe(eslint.format())
         // .pipe(eslint.failAfterError())
@@ -70,27 +67,27 @@ gulp.task('lint', function()  {
 //压缩HTML和打版本
 gulp.task('html',  function() {
     if (config.mode === "develop") {
-        gulp.src(['./src/404.html'])
-                    .pipe(gulp.dest('./app/'));
+        // gulp.src(['./src/404.html'])
+        //             .pipe(gulp.dest('./app/'));
         // gulp.src(['./src/components/**/*.html'])
         //             .pipe(gulp.dest('./app/components'));
         // gulp.src(['./src/pages/**/*.html'])
         //             .pipe(gulp.dest('./app/views'));
-        return gulp.src(['./app/manifest.json','./src/index.html']).pipe(revCollector({
-                    replaceReved:true
-                    }))
-                    .pipe(gulp.dest('./app'));
+        // return gulp.src(['./app/manifest.json','./src/index.html']).pipe(revCollector({
+        //             replaceReved:true
+        //             }))
+        //             .pipe(gulp.dest('./app'));
     } else {
-        const htmlOptions = {
-                        removeComments: true,
-                        collapseWhitespace:true,
-                        minifyJS: true,
-                        minifyCss: true
-                    };
-        gulp.src(['./src/404.html'])
-                    .pipe(strip())
-                    .pipe(htmlmin(htmlOptions))
-                    .pipe(gulp.dest('./app/'));
+        // const htmlOptions = {
+        //                 removeComments: true,
+        //                 collapseWhitespace:true,
+        //                 minifyJS: true,
+        //                 minifyCss: true
+        //             };
+        // gulp.src(['./src/404.html'])
+        //             .pipe(strip())
+        //             .pipe(htmlmin(htmlOptions))
+        //             .pipe(gulp.dest('./app/'));
         // gulp.src(['./src/components/**/*.html'])
         //             .pipe(strip())
         //             .pipe(htmlmin(htmlOptions))
@@ -99,12 +96,12 @@ gulp.task('html',  function() {
         //             .pipe(strip())
         //             .pipe(htmlmin(htmlOptions))
         //             .pipe(gulp.dest('./app/views'));
-        return gulp.src(['./assets/*.json',  './app/manifest.json','./src/index.html']).pipe(revCollector({
-                    replaceReved:true
-                    }))
-                    .pipe(strip())
-                    .pipe(htmlmin(htmlOptions))
-                    .pipe(gulp.dest('./app'));
+        // return gulp.src(['./app/manifest.json','./src/index.html']).pipe(revCollector({
+        //             replaceReved:true
+        //             }))
+        //             .pipe(strip())
+        //             .pipe(htmlmin(htmlOptions))
+        //             .pipe(gulp.dest('./app'));
     }
 
     gulp.src(['./src/data/**/*']).pipe(gulp.dest('./app/data/'));

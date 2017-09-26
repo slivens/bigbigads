@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ManifestPlugin = require('webpack-manifest-plugin');
 var isProduction = process.env.NODE_ENV === 'production';
 
@@ -60,8 +61,11 @@ module.exports = {
                 }]
                 }),
         }, {
-            test:/\.(png|jpg|svg|gif)$/,
+            test:/\.(png|jpg|gif)$/,
             loader:"url-loader?limit=10000&name=/images/[name].[ext]"
+        }, {
+            test:/\.(svg|eot|ttf|woff|woff2)$/,
+            loader:"file-loader"
         }, {
             test: /\.(js|vue)$/,
             loader: 'eslint-loader',
@@ -95,6 +99,13 @@ module.exports = {
          new ManifestPlugin({
             fileName:'manifest.json',
             baseName:'/app/'
+         }),
+         new HtmlWebpackPlugin({
+            title: "bigbigads",
+            path: __dirname + '/app',
+            chunks: ['vendor', 'bundle'],
+            xhtml: true,
+            template: 'src/index.html'
          })
     ]
 }

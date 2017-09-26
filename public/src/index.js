@@ -1,3 +1,4 @@
+// import 'font-awesome/scss/font-awesome.scss'
 import "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"
 import 'sweetalert/dist/sweetalert.css'
 import 'angular-busy/dist/angular-busy.min.css'
