@@ -69,49 +69,8 @@
     <!-- DOC: Apply "page-header-menu-fixed" class to set the mega menu fixed  -->
     <!-- DOC: Apply "page-header-top-fixed" class to set the top menu fixed  -->
 
-    <body ng-controller="AppController" class="page-on-load">
-        <!-- BEGIN PAGE SPINNER -->
-        <div ng-spinner-bar class="page-spinner-bar">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-        </div>
-        <!-- END PAGE SPINNER -->
-        <div class="page-wrapper">
-            <div class="page-wrapper-row">
-                <div class="page-wrapper-top">
-                    <!-- BEGIN HEADER -->
-                    <header class="page-header"></header>
-                    <!-- <div data-ng-include="'tpl/header.html' | nocache" data-ng-controller="HeaderController" class="page-header"> </div> -->
-                    <!-- END HEADER -->
-                </div>
-            </div>
-            <div class="page-wrapper-row full-height">
-                <div class="page-wrapper-middle">
-                    <!-- BEGIN CONTAINER -->
-                    <div class="page-container">
-                        <!-- BEGIN PAGE HEAD -->
-                        <!-- <div data-ng-include="'tpl/page-head.html'" data-ng-controller="PageHeadController" class="page-head"> </div> -->
-                        <!-- END PAGE HEAD -->
-                        <!-- BEGIN PAGE CONTENT -->
-                        <div class="page-content">
-                            <div class="container-fluid">
-                                <!-- BEGIN ACTUAL CONTENT -->
-                                <div ui-view class="fade-in-up"> </div>
-                                <div id="popupview">
-                                    <div ui-view="popupview" class="fade-in-up"> </div>
-                                </div>
-                                <!-- END ACTUAL CONTENT -->
-                            </div>
-                        </div>
-                        <!-- END PAGE CONTENT -->
-                        <!-- BEGIN QUICK SIDEBAR -->
-                        <!-- END QUICK SIDEBAR -->
-                    </div>
-                    <!-- END CONTAINER -->
-                </div>
-            </div>
-        </div>
+    <body class="page-on-load">
+        <app />
         <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
         <!-- BEGIN CORE JQUERY PLUGINS -->
         <script src="../assets/global/plugins/jquery.min.js" type="text/javascript"></script>

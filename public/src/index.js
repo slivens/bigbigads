@@ -6,8 +6,7 @@ import 'angular-busy/dist/angular-busy.min.css'
 // import './sass/layouts/layout3/themes/yellow-orange.scss'
 import './styles/index.scss'
 import './pages/common/settings.js'
-import './components/header.js'
-import './components/ng-spinner-bar.js'
+import './components/app.js'
 import {template as upgradeDlgTemplate, controller as upgradeDlgController} from './components/upgrade-dlg.js'
 import {template as signTemplate, controller as signController} from './components/sign.js'
 import {template as searchResultUpgradeDlgTemplate, controller as searchResultUpgradeDlgController} from './components/search-result-upgrade-dlg.js'
@@ -25,8 +24,7 @@ var MetronicApp = angular.module("MetronicApp", [
     'ngResource',
     'cgBusy',
     'bba.settings',
-    'bba.header',
-    'bba.ng-spinner-bar'
+    'bba.app'
 ])
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -36,16 +34,6 @@ MetronicApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
     })
 }])
 
-// AngularJS v1.3.x workaround for old style controller declarition in HTML
-MetronicApp.config(['$controllerProvider', function($controllerProvider) {
-    // this option might be handy for migrating old apps, but please don't use it
-    // in new ones!
-    $controllerProvider.allowGlobals()
-}])
-
-/********************************************
- END: BREAKING CHANGE in AngularJS v1.3.x:
-*********************************************/
 /* Setup global settings */
 MetronicApp.constant('TIMESTAMP', Date.parse(new Date()))
 MetronicApp.constant('ADS_TYPE', {
@@ -195,12 +183,6 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {
             return showString
         }
     })
-/* Setup App Main Controller */
-MetronicApp.controller('AppController', ['$scope', '$rootScope', 'User', function($scope, $rootScope, User) {
-    $scope.$on('$viewContentLoaded', function() {
-        // Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
-    })
-}])
 
 /***
 Layout Partials.
@@ -227,19 +209,6 @@ MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', '$st
     }
     $scope.$on('$locationChangeSuccess', function() {
         tabmenu.name = $location.path()
-    })
-}])
-/* Setup Layout Part - Sidebar */
-MetronicApp.controller('SidebarController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
-        // Layout.initSidebar($state); // init sidebar
-    })
-}])
-
-/* Setup Layout Part - Footer */
-MetronicApp.controller('FooterController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
-        // Layout.initFooter(); // init footer
     })
 }])
 
@@ -790,63 +759,10 @@ MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope'
 }])
 MetronicApp.controller('UserController', ['$scope', '$http', '$window', 'User', function($scope, $http, $window, User) {
     $scope.User = User
-    $scope.formData = {name: ' ', email: '', password: ''}
-    $scope.registerError = {}
     $scope.isShow = false
     $scope.logout = function() {
         // 根据intercom的文档，用户退出应使用shutdown方法关闭本次会话
         Intercom('shutdown')
         window.open('/logout', "_self")
-    }
-    $scope.checkEmail = function() {
-        $scope.showHotmailMessage = false
-        var emails = ['hotmail.com', 'live.com', 'outlook.com']
-        angular.forEach(emails, function(item) {
-            if ($scope.formData.email && $scope.formData.email.split('@')[1] === item) {
-                $scope.showHotmailMessage = true
-            }
-        })
-    }
-    $scope.processForm = function(isValid) {
-        $scope.isShow = true
-        if ($scope.formData.name == ' ') { $scope.formData.name = $scope.formData.email.split('@')[0] }
-        if ($window.localStorage.getItem("track")) {
-            var track = JSON.parse($window.localStorage.track)
-            var expired = track.expired
-            if (moment().isBefore(expired)) {
-                $scope.formData.track = track.code
-            } else {
-                $window.localStorage.removeItem("track")
-            }
-        }
-        if (isValid) {
-            $http({
-                method: 'POST',
-                url: '../register',
-                data: $scope.formData,
-                headers: { 'X-Requested-With': 'XMLHttpRequest' } // server need to know this is a ajax.
-            })
-                .then(
-                    function successCallback(response) {
-                    // location.href = response.data.url;
-                        location.href = "/welcome?source=email"
-                    },
-                    function errorCallback(response) {
-                        $scope.isShow = false
-                        $scope.registerError = response.data
-                    }
-                )
-        }
-    }
-    /* 弹窗中的点击事件 */
-    $scope.shortcutReg = true // 初始化
-    $scope.useEmailReg = false // 初始化
-    $scope.turnToEmail = function() {
-        $scope.shortcutReg = false
-        $scope.useEmailReg = true
-    }
-    $scope.turnToShotcut = function() {
-        $scope.shortcutReg = true
-        $scope.useEmailReg = false
     }
 }])
