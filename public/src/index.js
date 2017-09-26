@@ -214,11 +214,11 @@ MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', '$st
 
 /* Setup Rounting For All Pages */
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', 'TIMESTAMP', function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider, TIMESTAMP) {
-    var ts = TIMESTAMP
+    // var ts = TIMESTAMP
     // Redirect any unmatched url
     $urlMatcherFactoryProvider.strictMode(false)
     // $urlRouterProvider.when("/", "/adsearch");
-    $urlRouterProvider.otherwise("/404.html?t=" + ts)
+    $urlRouterProvider.otherwise("/404")
 
     $stateProvider
         .state('/', {
@@ -565,6 +565,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                     })
                 }]
             }
+        })
+        .state('notfound', {
+            url: "/404",
+            template: "The Page Not Found"
         })
     $locationProvider.html5Mode(true)
 }])
