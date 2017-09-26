@@ -1,4 +1,8 @@
 import '../../components/audience.js'
+import '../../components/single-image.js'
+import '../../components/single-video.js'
+import '../../components/carousel.js'
+import '../../components/adcanvas.js'
 
 /* common js */
 angular.module('MetronicApp').directive('sweetalert', ['SweetAlert', function(SweetAlert) {
@@ -337,61 +341,6 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                 //     scope.$apply();
                 // });
             }
-        }
-    }])
-    .directive('singleImage', ['TIMESTAMP', function(TIMESTAMP) {
-        return {
-            restrict: 'E',
-            templateUrl: 'views/search/single-image.html?t=' + TIMESTAMP,
-            replace: false,
-            scope: {
-                card: '='
-            },
-            controller: ['$scope', 'settings', 'Searcher', function($scope, settings, Searcher) {
-                $scope.settings = settings
-                $scope.Searcher = Searcher
-            }]
-        }
-    }])
-    .directive('singleVideo', ['TIMESTAMP', function(TIMESTAMP) {
-        return {
-            restrict: 'E',
-            templateUrl: 'views/search/single-video.html?t=' + TIMESTAMP,
-            replace: false,
-            scope: {
-                card: '='
-            },
-            controller: ['$scope', 'settings', 'Searcher', function($scope, settings, Searcher) {
-                $scope.settings = settings
-                $scope.Searcher = Searcher
-            }]
-        }
-    }])
-    .directive('adcanvas', ['TIMESTAMP', function(TIMESTAMP) {
-        return {
-            restrict: 'E',
-            templateUrl: 'views/search/canvas.html?t=' + TIMESTAMP,
-            replace: false,
-            scope: {
-                card: '='
-            },
-            controller: ['$scope', 'settings', 'Searcher', function($scope, settings, Searcher) {
-                $scope.settings = settings
-                $scope.Searcher = Searcher
-            }]
-        }
-    }])
-    .directive('carousel', ['TIMESTAMP', function(TIMESTAMP) {
-        return {
-            restrict: 'E',
-            templateUrl: 'views/search/carousel.html?t=' + TIMESTAMP,
-            replace: false,
-            scope: {
-                card: '='
-            },
-            controller: ['$scope', 'settings', function($scope, settings) {
-                $scope.settings = settings
-            }]
         }
     }])
     .directive('fixsidebar', ['$timeout', '$rootScope', function($timeout, $rootScope) {

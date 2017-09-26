@@ -40,40 +40,6 @@ gulp.task('localhost-live', function() {
   });
 });
 
-//*** SASS compiler task
-gulp.task('sass', function () {
-    if (config.mode === "production") {
-        // var tasks = [];
-      // global theme stylesheet compilation
-      const global = gulp.src('./src/sass/global/*.scss').pipe(sass()).pipe(minifyCss()).pipe(gulp.dest('./assets/global/css')).pipe(gulp.dest('./assets/'));
-      const app = gulp.src('./src/sass/apps/*.scss').pipe(sass()).pipe(minifyCss()).pipe(gulp.dest('./assets/apps/css')).pipe(gulp.dest('./assets/'));
-      const pages = gulp.src('./src/sass/pages/*.scss').pipe(sass()).pipe(minifyCss()).pipe(gulp.dest('./assets/pages/css')).pipe(gulp.dest('./assets/'));
-
-      const layout = (gulp.src('./src/sass/layouts/layout3/*.scss').pipe(sass()).pipe(rev()).pipe(minifyCss()).pipe(gulp.dest('./assets/layouts/layout3/css')).pipe(rev.manifest('layouts-layout3.json')).pipe(gulp.dest('./assets/')));
-      const theme = gulp.src('./src/sass/layouts/layout3/themes/*.scss').pipe(sass()).pipe(rev()).pipe(minifyCss()).pipe(gulp.dest('./assets/layouts/layout3/css/themes')).pipe(rev.manifest('layouts-layout3-theme.json')).pipe(gulp.dest('./assets/'));
-      return mergeStream(global, app, pages, layout, theme);
-    } else {
-      // bootstrap compilation
-      gulp.src('./src/sass/bootstrap.scss').pipe(sass()).pipe(gulp.dest('./assets/global/plugins/bootstrap/css/'));
-
-      // global theme stylesheet compilation
-      gulp.src('./src/sass/global/*.scss').pipe(sourcemaps.init()).pipe(sass()).pipe(sourcemaps.write('./')).pipe(gulp.dest('./assets/global/css'));
-      gulp.src('./src/sass/apps/*.scss').pipe(sourcemaps.init()).pipe(sass()).pipe(sourcemaps.write('./')).pipe(gulp.dest('./assets/apps/css'));
-      gulp.src('./src/sass/pages/*.scss').pipe(sourcemaps.init()).pipe(sass()).pipe(sourcemaps.write('./')).pipe(gulp.dest('./assets/pages/css'));
-
-      // theme layouts compilation
-      // gulp.src('./src/sass/layouts/layout/*.scss').pipe(sourcemaps.init()).pipe(sass()).pipe(sourcemaps.write('./')).pipe(gulp.dest('./assets/layouts/layout/css'));
-      // gulp.src('./src/sass/layouts/layout/themes/*.scss').pipe(sourcemaps.init()).pipe(sass()).pipe(sourcemaps.write('./')).pipe(gulp.dest('./assets/layouts/layout/css/themes'));
-
-      gulp.src('./src/sass/layouts/layout3/*.scss').pipe(sourcemaps.init()).pipe(sass()).pipe(sourcemaps.write('./')).pipe(gulp.dest('./assets/layouts/layout3/css'));
-      gulp.src('./src/sass/layouts/layout3/themes/*.scss').pipe(sourcemaps.init()).pipe(sass()).pipe(sourcemaps.write('./')).pipe(gulp.dest('./assets/layouts/layout3/css/themes'));
-  }
-});
-
-//*** SASS watch(realtime) compiler task
-gulp.task('sass:watch', function () {
-	gulp.watch('./src/sass/**/*.scss', ['sass']);
-});
 
 gulp.task('clean', function() {
         return gulp.src(['./app/**/*.js', './app/*.css', './assets/*.json', './app/*.json', './app/**/*.html'], {read:false}).pipe(clean());
@@ -106,14 +72,10 @@ gulp.task('html',  function() {
     if (config.mode === "develop") {
         gulp.src(['./src/404.html'])
                     .pipe(gulp.dest('./app/'));
-        gulp.src(['./src/components/**/*.html'])
-                    .pipe(gulp.dest('./app/components'));
+        // gulp.src(['./src/components/**/*.html'])
+        //             .pipe(gulp.dest('./app/components'));
         // gulp.src(['./src/pages/**/*.html'])
         //             .pipe(gulp.dest('./app/views'));
-        gulp.src(['./src/views/**/*.html'])
-                    .pipe(gulp.dest('./app/views'));
-        gulp.src(['./src/tpl/**/*.html'])
-                    .pipe(gulp.dest('./app/tpl'));
         return gulp.src(['./app/manifest.json','./src/index.html']).pipe(revCollector({
                     replaceReved:true
                     }))
@@ -129,22 +91,14 @@ gulp.task('html',  function() {
                     .pipe(strip())
                     .pipe(htmlmin(htmlOptions))
                     .pipe(gulp.dest('./app/'));
-        gulp.src(['./src/components/**/*.html'])
-                    .pipe(strip())
-                    .pipe(htmlmin(htmlOptions))
-                    .pipe(gulp.dest('./app/components'));
+        // gulp.src(['./src/components/**/*.html'])
+        //             .pipe(strip())
+        //             .pipe(htmlmin(htmlOptions))
+        //             .pipe(gulp.dest('./app/components'));
         // gulp.src(['./src/pages/**/*.html'])
         //             .pipe(strip())
         //             .pipe(htmlmin(htmlOptions))
         //             .pipe(gulp.dest('./app/views'));
-        gulp.src(['./src/views/**/*.html'])
-                    .pipe(strip())
-                    .pipe(htmlmin(htmlOptions))
-                    .pipe(gulp.dest('./app/views'));
-        gulp.src(['./src/tpl/**/*.html'])
-                    .pipe(strip())
-                    .pipe(htmlmin(htmlOptions))
-                    .pipe(gulp.dest('./app/tpl'));
         return gulp.src(['./assets/*.json',  './app/manifest.json','./src/index.html']).pipe(revCollector({
                     replaceReved:true
                     }))
@@ -170,12 +124,12 @@ gulp.task('html:watch', function() {
     gulp.watch(['./src/**/*.html'], ['html']);
 });
 
-gulp.task('watch', ['sass:watch', 'rev:watch', 'html:watch']);
+gulp.task('watch', ['rev:watch', 'html:watch']);
 
 gulp.task('config-product', function() {
     config.mode = "production";
 })
 
 
-gulp.task('production', gulpsync.sync([["config-product"], ['sass', 'rev'], 'html']));
-gulp.task('develop', gulpsync.sync([['sass'], 'html']));
+gulp.task('production', gulpsync.sync([["config-product"], ['rev'], 'html']));
+gulp.task('develop', gulpsync.sync(['html']));

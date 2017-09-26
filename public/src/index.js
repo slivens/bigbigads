@@ -11,6 +11,7 @@ import './components/ng-spinner-bar.js'
 import {template as upgradeDlgTemplate, controller as upgradeDlgController} from './components/upgrade-dlg.js'
 import {template as signTemplate, controller as signController} from './components/sign.js'
 import {template as searchResultUpgradeDlgTemplate, controller as searchResultUpgradeDlgController} from './components/search-result-upgrade-dlg.js'
+import {template as filterDataLimitDlgTemplate, controller as filterDataLimitDlgController} from './components/filter-data-limit-dlg.js'
 
 window.moment = require('moment')
 
@@ -763,19 +764,10 @@ MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope'
         },
         openFreeDateLimit: function() {
             return $uibModal.open({
-                templateUrl: 'views/filter-data-limit.html?t=' + TIMESTAMP,
+                template: filterDataLimitDlgTemplate,
                 size: 'md',
                 animation: true,
-                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
-                    $scope.goPlans = function() {
-                        $state.go("plans")
-                        $uibModalInstance.dismiss('success')
-                    }
-                    $scope.goIndex = function() {
-                        window.open('/home', "_self")
-                        $uibModalInstance.dismiss('success')
-                    }
-                }]
+                controller: filterDataLimitDlgController
             })
         }
     }
