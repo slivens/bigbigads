@@ -18,8 +18,8 @@ module.exports = {
         plans:['./src/pages/plans/plans.js'],
         vendor:[
             'bootstrap', 
-            'bootstrap-switch',
-            'bootstrap-hover-dropdown',
+            // 'bootstrap-switch',
+            // 'bootstrap-hover-dropdown',
             'jquery-slimscroll',
             'sweetalert',
             'angular', 

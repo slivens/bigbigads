@@ -1,5 +1,5 @@
 
-<div ng-controller="BookmarkAddController" ng-init="card=$parent.card" cg-busy="card.queryPromise">
+<div ng-init="card=$parent.card" cg-busy="card.queryPromise">
     <div ng-show="bookmark.items.length == 0">No Bookmark Yet!</div>
     <form ng-submit="add(card)">
     <ul class="nav nav-pills nav-stacked">
