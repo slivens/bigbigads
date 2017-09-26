@@ -248,7 +248,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinModern.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
                             'search.css',
                             'search.js'
                         ]
@@ -283,8 +282,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinModern.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            '/node_modules/highcharts/highcharts.js',
-                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
                             'search.css',
                             'search.js'
                         ]
