@@ -4,6 +4,7 @@ import 'angular-busy/dist/angular-busy.min.css'
 // import './sass/global/font.scss'
 // import './sass/global/components-md.scss'
 // import './sass/layouts/layout3/themes/yellow-orange.scss'
+import swal from 'sweetalert'
 import './styles/index.scss'
 import './pages/common/settings.js'
 import './components/app.js'
@@ -14,6 +15,15 @@ import {template as filterDataLimitDlgTemplate, controller as filterDataLimitDlg
 
 window.moment = require('moment')
 
+function checkAdblock() {
+    if (typeof checkAdblockValue === 'undefined') {
+        swal({title: "Warning", text: "If you're not seeing any ads, it's possible you're running an Ad Blocking plugin on your browser. To view our ads, you'll need to disable it while you're here... ;-)", type: "warning"})
+    } else {
+        //          console.log('adblock is disabled');
+    }
+}
+
+checkAdblock()
 /* Metronic App */
 var MetronicApp = angular.module("MetronicApp", [
     "ui.router",
