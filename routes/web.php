@@ -102,7 +102,7 @@ Route::get('/ranking', function(Request $req) {
     }
 });
 
-Route::get('/userinfo', 'UserController@logInfo');
+Route::get('/userinfo', 'UserController@logInfo')->middleware('cors');
 Route::get('/registerVerify', 'UserController@registerVerify');
 Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
 
@@ -201,6 +201,7 @@ Route::get('/payment/{method}/prepare', 'SubscriptionController@prepareCheckout'
 Route::any('/payment/paypal/done', 'SubscriptionController@onPaypalDone')->name('paypal_done');
 Route::any('/payment/stripe/done', 'SubscriptionController@onStripeDone')->name('stripe_done');
 
+Route::get('/record-continue', 'UserController@recordContinue');
 /*
 Route::get('/faker', function(Request $request) {
     if ($request->key != 'liuwencan')

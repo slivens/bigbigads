@@ -179,7 +179,7 @@
                     <div class="clearfix">
                         <p class="text-center">Welcome to use BIGBIGADS' service. Please notice that we are redesigning the interface for our mobile app so you can only use basic function now. You can login to the desktop for full function.
                         </p>
-                        <a href="/app" class="btn continue-btn text-center">Continue</a>
+                        <a id="continue" class="btn continue-btn text-center">Continue</a>
                     </div>
                 </div>
             </div>
@@ -249,4 +249,6 @@ fbq('track', 'CompleteRegistration');
     a.appendChild(r);
 })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
+<script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
+<script type="text/javascript" src="dist/welcome.js?v=5" defer></script>
 </html>

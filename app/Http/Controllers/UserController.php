@@ -103,7 +103,12 @@ class UserController extends Controller
         $user->state = 1;
         $user->save();
         Auth::login($user);
-        return redirect("/app");
+        $agent = new Agent();
+        if ($agent->isMobile()) {
+            return redirect('/m/#/login');
+        } else {
+            return redirect('/app');
+        }
         //return view('auth.verify')->with("user", $user);
     }
 
@@ -252,7 +257,12 @@ class UserController extends Controller
             return redirect('welcome#?socialite=' . $name);
         } 
         Auth::login($user);
-        return redirect('/app/#');
+        $agent = new Agent();
+        if ($agent->isMobile()) {
+            return redirect('/m/#/login');
+        } else {
+            return redirect('/app/#');
+        }
     }    
 
     /**
@@ -322,7 +332,12 @@ class UserController extends Controller
         }
         Auth::login($user);
         dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
-        return redirect('/app/#');
+        $agent = new Agent();
+        if ($agent->isMobile()) {
+            return redirect('/m/#/login');
+        } else {
+            return redirect('/app/#');
+        }  
     }
 
     public function quickRegister(Request $request)
@@ -358,5 +373,12 @@ class UserController extends Controller
         //用户注册完后往队列加入一个2分钟延迟的任务，检测是否送达用户邮箱，否则的话使用gmail再重发一次
         $twoMinutesDelayJob = (new ResendRegistMail($user, 'delivered', 2))->delay(Carbon::now()->addMinutes(2));
         dispatch($twoMinutesDelayJob);
+    }
+
+    public function recordContinue(Request $request) {
+        if (Auth::check()) {
+            $user = Auth::user();
+            dispatch(new LogAction(ActionLog::ACTION_RECORD_CLICK_CONTINUE, $user->email, 'record_click_continue', $user->id, $request->ip() ));
+        }
     }
 }
