@@ -102,7 +102,7 @@ Route::get('/ranking', function(Request $req) {
     }
 });
 
-Route::get('/userinfo', 'UserController@logInfo');
+Route::get('/userinfo', 'UserController@logInfo')->middleware('cors');
 Route::get('/registerVerify', 'UserController@registerVerify');
 Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
 
