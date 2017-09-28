@@ -138,6 +138,10 @@ Route::any('/forward/{action}', 'SearchController@search');
 
 Route::post('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
 
+//票据下载,sid:订阅主键,iid:票据id，16位数字
+Route::get('/idownload/{sid}/{iid}', 'SubscriptionController@downloadInvoice');
+
+
 //邮件营销 
 Route::get('/edm', 'EDMController@index');
 Route::post('/edm/send', 'EDMController@send');

@@ -19,6 +19,8 @@ use Cache;
 use App\Jobs\SyncPaymentsJob;
 use App\Notifications\RefundRequestNotification;
 use App\Notifications\CancelSubOnSyncNotification;
+use Dompdf\Dompdf;
+use Illuminate\Support\Facades\Storage;
 
 class PaymentService implements PaymentServiceContract
 {
@@ -683,5 +685,135 @@ class PaymentService implements PaymentServiceContract
 
         
     }
+
+    /**
+    * 生成票据
+    * 字段值及定义：
+    * Reference ID:自定义票据id，作为invoice_id存入payments表作为下载传参，来源:计算获取---> ceil(microtime(true) * 100).mt_rand(1000, 9999)
+    * Amount of payment: payments.amount
+    * Date of payment:payments.details中解析timestamp,然后自定义格式转换，看情况改时区
+    * Payment account:payments.details中解析payer_email
+    * Package:plans.display_name
+    * Expiration time:payments.details中解析timestamp,然后依据package计算过期时间
+    * Method:Paypal或者Stripe,stripe的程序要另外写或者后期补上
+    * Name:users.name
+    * Email:payments.client_email
+    */
+    public function generateInvoice($transaction_id, $force = false)
+    {
+        //默认不强制生成
+        if(strlen($transaction_id) != 17 || empty($transaction_id)) {
+            $this->log("unknown param on generateInvoice", PaymentService::LOG_INFO);
+            return false;
+        }
+        $payment = Payment::select('payments.amount', 'payments.details', 'payments.client_email', 'payments.invoice_id', 'plans.display_name', 'users.name')
+            ->leftJoin('subscriptions', 'subscriptions.id', '=', 'payments.subscription_id')
+            ->leftJoin('plans', 'subscriptions.plan', '=', 'plans.name')
+            ->leftJoin('users', 'payments.client_id', '=', 'users.id')
+            ->where('payments.number', $transaction_id)
+            ->where('payments.status', 'completed')
+            ->first();
+        if(!$payment) {
+            $this->log("cannot find payments on use transaction id: $transaction_id", PaymentService::LOG_INFO);
+            return false;
+        }
+        if(!empty($payment->invoice_id) && !$force) {
+            //该交易的invoice_id不为空，则已经生成过
+            $this->log("cannot generate this invoice with transaction id: $transaction_id because it was generated.", PaymentService::LOG_INFO);
+            return false;
+        }
+
+        //$this->log($payment->details, PaymentService::LOG_INFO);
+        $data = (object)array();
+        $data->reference_id = ceil(microtime(true) * 100) . mt_rand(1000, 9999);//reference ID
+        $data->amount = '$ ' . $payment->amount;//amount
+        $data->package = $payment->display_name;//package
+        $data->name = $payment->name;//name
+        $data->email = $payment->client_email;//email
+        $data->method = 'Paypal';
+
+        $details = json_decode($payment->details);
+        //var_dump($details);
+
+        $data->payment_account = $details->payer_email;//payment account
+
+        $time = strtotime($details->time_stamp);
+        //目标时间格式 1 September 2017 at 5:16:04 p.m. HKT
+        $year_and_month = date("j F Y", $time);
+        $day = date("g:i:s", $time);
+        $ampm = date("a", $time);
+        if($ampm == 'am') {
+            $ampm = 'a.m.';
+        } else {
+            $ampm = 'p.m.';
+        }
+        $data->date = $year_and_month . ' at ' . $day . ' ' . $ampm . ' HKT';//date of payment
+
+        switch($data->package) {
+            case 'Annual':
+                $months = 12;
+                break;
+            case 'Quarterly':
+                $months = 3;
+                break;
+            case 'Monthly':
+                default:
+                $months = 1;
+                break;
+        }
+        //交易服务过期时间，格式 19 Sep 2017
+        $data->expiration_time = Carbon::parse($details->time_stamp)->addMonths($months)->format('j M Y');//expiration time
+        //渲染html,转换成pdf
+        $dompdf = new DOMPDF(); //if you use namespaces you may use new \DOMPDF()
+        $dompdf->loadHtml($this->getInvoicePage($data));
+        $dompdf->render();
+
+        //存储路径storage/app/public,可以通过public/storage访问
+        Storage::put("$data->reference_id.pdf", $dompdf ->output());
+
+        //保存invoice_id到payments
+        $re_payment = Payment::where('number', $transaction_id)->first();
+        $re_payment->invoice_id = $data->reference_id;
+        $re_payment->save();
+        $this->log("$transaction_id 's payment invoice was generated,reference id is $data->reference_id", PaymentService::LOG_INFO);
+    }
+
+    /**
+    * 调用视图并完成渲染，返回视图内容
+    *
+    * @param Array $invoice_data payments相关信息，用于视图中的内容赋值
+    * @return Object 视图内容
+    */
+    public function getInvoicePage($invoice_data)
+    {
+        $view = view('subscriptions.invoice')->with('data', $invoice_data);
+        return response($view)->getContent();//返回视图内容
+    }
+
+    /**
+    * 票据下载方法
+    *
+    * @param bigint $invoice_id 票据id,每个payment记录有一个，如果没有需要执行方法生成
+    * @return void 输出header，直接下载pdf,非打开
+    */
+    public function downloadInvoice($invoice_id)
+    {
+        $file_name = $invoice_id . '.pdf';
+        if(Storage::exists($file_name)) {
+            //找到文件
+            $this->log("download invoice file ,file name is $file_name", PaymentService::LOG_INFO);
+            $contents = Storage::get($file_name);
+            header('Content-type: application/pdf');
+            header('Content-Disposition: attachment; filename=' . $file_name);
+            echo $contents;
+        } else {
+            //不存在这个文件,因为这里传参只是票据id，如果不存在，无法对应到任何一个交易，所以没办法调用命令去生成再下载
+            $this->log("download invoice file but file is not exists,file name is $file_name", PaymentService::LOG_INFO);
+            return 'cannot find file';
+        }
+    }
+
+
+
 
 }

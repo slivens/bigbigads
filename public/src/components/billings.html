@@ -28,7 +28,7 @@
             <td>
             
                 <a class="btn btn-default" ng-click="$ctrl.refund(item)" ng-if="item.canRefund">Refund</a>
-                <!-- <a class="btn btn-default" ng-href="/invoice/{{item.invoice}}">Invoice</a> -->
+                <a class="btn btn-default" ng-href="/idownload/{{item.subscription_id}}/{{item.invoice_id}}">Invoice</a>
             </td>
         </tr>
     </table>

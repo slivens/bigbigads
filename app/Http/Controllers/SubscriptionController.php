@@ -236,6 +236,10 @@ final class SubscriptionController extends PayumController
         // 完成订阅后10秒后就去同步，基本上订单都已产生；如果没有产生，3分钟后再次同步试。同时webhook如果有收到，也会去同步。
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(10)));
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(30)));
+
+        //生成票据,此处入参为该订阅下所有的交易，执行过程中会跳过已经生成票据的交易
+        dispatch(new GenerateInvoice(OurPayment::where('subscription_id',$subscription->id)->get()));
+
         // 添加pay=success作为标示来触发统计七天内支付
         return redirect('/app/profile?active=0&pay=success');
     }
@@ -263,6 +267,7 @@ final class SubscriptionController extends PayumController
                     $subscription = Subscription::where('agreement_id', $agreementId)->first();
                     if ($subscription)
                         dispatch(new SyncPaymentsJob($subscription));
+                        dispatch(new GenerateInvoice(OurPayment::where('subscription_id',$subscription->id)->get()));//同步交易以后生成新交易的票据
                 }
             } else {
                 $resource = $request->resource;
@@ -291,6 +296,7 @@ final class SubscriptionController extends PayumController
                         break;
                     }
                     dispatch(new SyncPaymentsJob($subscription));
+                    dispatch(new GenerateInvoice(OurPayment::where('subscription_id',$subscription->id)->get()));//同步交易以后生成新交易的票据
                     break;
                 case 'PAYMENT.SALE.REFUNDED':
                     $payment = OurPayment::where('number', $resource['sale_id'])->first();
@@ -470,5 +476,29 @@ final class SubscriptionController extends PayumController
         $refund = $this->paymentService->requestRefund($payment);
         return ['code' => 0, 'desc' => 'success'];
     }
+
+    /**
+    * 票据下载方法
+    *
+    * @param int $sid subscription id ,订阅的id,非agreement_id
+    * @param int $iid invoice id ,票据的id，也是票据文件名称，具体文件名称为 票据id.pdf
+    * @return void 下载pdf
+    */
+    public function downloadInvoice($sid, $iid)
+    {
+        $user = Auth::user();
+        if(!$user) {
+            $this->log("verify users failed because user not found,use subscription id:$sid,invoice id:$iid",
+            PaymentService::LOG_INFO);
+        }
+        $isSubs = Subscription::where('user_id',$user->id)->where('id',$sid)->first();
+        if(!$isSubs) {
+            $this->log("verify subscription failed before download invoice,subscription id:$sid",
+            PaymentService::LOG_INFO);
+            return false;
+        }
+        return $this->paymentService->downloadInvoice($iid);
+    }
+
 
 }
