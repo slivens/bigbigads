@@ -1,3 +1,4 @@
+import './header.scss'
 import template from './header.html'
 
 angular

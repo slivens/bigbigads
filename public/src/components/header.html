@@ -52,16 +52,17 @@
         <a href="javascript:;" class="menu-toggler"></a>
         <!-- END RESPONSIVE MENU TOGGLER -->
         <!-- BEGIN TOP NAVIGATION MENU -->
-        <div class="top-menu">
-            <ul class="nav navbar-nav pull-right" ng-controller="UserController">
+        <div class="top-menu" ng-controller="UserController" >
+
+            <a class="btn font-white bg-yellow-gold" ng-href="/login" ng-if="!User.info.login">Login</a>
+            <ul class="nav navbar-nav pull-right" ng-if="User.info.login">
                 <!-- <li class="droddown dropdown-separator"> -->
                 <!--     <span class="separator"></span> -->
                 <!-- </li> -->
                 <!-- BEGIN USER LOGIN DROPDOWN -->
                 <li class="dropdown dropdown-user dropdown-dark">
-                    <a class="btn font-white bg-yellow-gold" ng-href="/login" ng-if="!User.info.login">Login</a>
-                    <a ng-href="/logout" class="btn font-white bg-yellow-gold hidden mobile-show" ng-if="User.info.login">Logout</a>
-                    <a href="javascript:;" class="dropdown-toggle mobile-hidden" dropdown-menu-hover data-toggle="dropdown" data-close-others="true" ng-if="User.info.login">
+                    <a ng-href="/logout" class="btn font-white bg-yellow-gold hidden mobile-show">Logout</a>
+                    <a href="javascript:;" class="dropdown-toggle mobile-hidden" data-toggle="dropdown" data-close-others="true">
                         <!-- <img alt="" class="img-circle" src="{{settings.layoutPath}}/img/avatar9.jpg"> -->
                         <i class="icon-user"></i>
                         <span class="username username-hide-mobile">{{User.info.user.name}}</span>

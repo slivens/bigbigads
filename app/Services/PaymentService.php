@@ -391,6 +391,8 @@ class PaymentService implements PaymentServiceContract
                 if (empty($payment->buyer_email)) {
                     $payment->buyer_email = $t->getPayerEmail();
                     $isDirty = true;
+                } else {
+                    $payment->buyer_email = $t->getPayerEmail();
                 }
                 // 当状态变化时要更新订单
                 if ($paypalStatus != $payment->status) {
@@ -477,8 +479,9 @@ class PaymentService implements PaymentServiceContract
             return false;
         $this->log("reset user {$user->email} to Free because of refund:{$payment->number}", PaymentService::LOG_INFO);
         $this->cancel($payment->subscription);
-        $user->role()->associate(Role::where('name', 'Free')->first());
-        $user->save();
+        $user->fixInfoByPayments();
+        /* $user->role()->associate(Role::where('name', 'Free')->first()); */
+        /* $user->save(); */
         return true;
     }
 

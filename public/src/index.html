@@ -17,19 +17,16 @@
         <meta content="bigbigads" name="author" />
         <meta http-equiv="cache-control"  content="no-cache" >
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
-        <!-- <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" /> -->
         <!-- TODO:对于引用包的css文件与js文件，最终将通过webpack统一打包 -->
         <link href="../node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <link href="../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
         <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="bundle.css" rel="stylesheet">
-        <link href="../assets/layouts/layout3/css/custom.css?v=2.0.2" rel="stylesheet" type="text/css" />
         <!-- END GLOBAL MANDATORY STYLES -->
         <!-- BEGIN DYMANICLY LOADED CSS FILES(all plugin and page related styles must be loaded between GLOBAL and THEME css files ) -->
         <link id="ng_load_plugins_before" />
         <!-- END DYMANICLY LOADED CSS FILES -->
         <!-- BEGIN THEME STYLES -->
-        <!-- DOC: To use 'rounded corners' style just load 'components-rounded.css' stylesheet instead of 'components.css' in the below style tag -->
         <!-- END THEME STYLES -->
         <link rel="shortcut icon" href="favicon.ico" />
         <script>
@@ -66,66 +63,16 @@
     </head>
     <!-- END HEAD -->
     <!-- BEGIN BODY -->
-    <!-- DOC: Apply "page-header-menu-fixed" class to set the mega menu fixed  -->
-    <!-- DOC: Apply "page-header-top-fixed" class to set the top menu fixed  -->
 
-    <body ng-controller="AppController" class="page-on-load">
-        <!-- BEGIN PAGE SPINNER -->
-        <div ng-spinner-bar class="page-spinner-bar">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-        </div>
-        <!-- END PAGE SPINNER -->
-        <div class="page-wrapper">
-            <div class="page-wrapper-row">
-                <div class="page-wrapper-top">
-                    <!-- BEGIN HEADER -->
-                    <header class="page-header"></header>
-                    <!-- <div data-ng-include="'tpl/header.html' | nocache" data-ng-controller="HeaderController" class="page-header"> </div> -->
-                    <!-- END HEADER -->
-                </div>
-            </div>
-            <div class="page-wrapper-row full-height">
-                <div class="page-wrapper-middle">
-                    <!-- BEGIN CONTAINER -->
-                    <div class="page-container">
-                        <!-- BEGIN PAGE HEAD -->
-                        <!-- <div data-ng-include="'tpl/page-head.html'" data-ng-controller="PageHeadController" class="page-head"> </div> -->
-                        <!-- END PAGE HEAD -->
-                        <!-- BEGIN PAGE CONTENT -->
-                        <div class="page-content">
-                            <div class="container-fluid">
-                                <!-- BEGIN ACTUAL CONTENT -->
-                                <div ui-view class="fade-in-up"> </div>
-                                <div id="popupview">
-                                    <div ui-view="popupview" class="fade-in-up"> </div>
-                                </div>
-                                <!-- END ACTUAL CONTENT -->
-                            </div>
-                        </div>
-                        <!-- END PAGE CONTENT -->
-                        <!-- BEGIN QUICK SIDEBAR -->
-                        <!-- END QUICK SIDEBAR -->
-                    </div>
-                    <!-- END CONTAINER -->
-                </div>
-            </div>
-            <div class="page-wrapper-row">
-                <div class="page-wrapper-bottom">
-                    <!-- BEGIN FOOTER -->
-                    <!-- <div data-ng-include="'tpl/footer.html'" data-ng-controller="FooterController"> </div> -->
-                    <!-- END FOOTER -->
-                </div>
-            </div>
-        </div>
+    <body class="page-on-load">
+        <app />
         <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
         <!-- BEGIN CORE JQUERY PLUGINS -->
-        <script src="../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
-        <script src="../assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+        <script src="/static/fuckadblock.js" type="text/javascript" defer></script>
+        <script src="/node_modules/jquery/dist/jquery.min.js" type="text/javascript" defer ></script>
         <!-- END CORE JQUERY PLUGINS -->
-        <script src="vendor.js" type="text/javascript"></script>
-        <script src="bundle.js" type="text/javascript"></script>
+        <script src="vendor.js" type="text/javascript" defer></script>
+        <script src="bundle.js" type="text/javascript" defer></script>
         <!-- Hotjar Tracking Code for http://bigbigads.com/app -->
         <script>
             (function(h,o,t,j,a,r){
@@ -138,17 +85,6 @@
             })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
         </script>
 <!-- check adblock -->
-<script src="/static/fuckadblock.js" type="text/javascript"></script>
-<script>
-    checkAdblock();
-    function checkAdblock(){
-        if(typeof checkAdblockValue === 'undefined') {
-            swal({title:"Warning",text:"If you're not seeing any ads, it's possible you're running an Ad Blocking plugin on your browser. To view our ads, you'll need to disable it while you're here... ;-)",type:"warning"});
-        } else {
-  //          console.log('adblock is disabled');
-        } 
-    }
-</script>
 <!-- 必应统计 -->
 <script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"5713181"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script><noscript><img src="//bat.bing.com/action/0?ti=5713181&Ver=2" height="0" width="0" style="display:none; visibility: hidden;" /></noscript>
 <!-- end check adblock -->

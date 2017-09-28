@@ -1,15 +1,29 @@
 import "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"
 import 'sweetalert/dist/sweetalert.css'
 import 'angular-busy/dist/angular-busy.min.css'
-import './sass/global/font.scss'
-import './sass/global/components-md.scss'
-import './sass/layouts/layout3/layout.scss'
-import './sass/layouts/layout3/themes/yellow-orange.scss'
+// import './sass/global/font.scss'
+// import './sass/global/components-md.scss'
+// import './sass/layouts/layout3/themes/yellow-orange.scss'
+import swal from 'sweetalert'
+import './styles/index.scss'
 import './pages/common/settings.js'
-import './components/header.js'
+import './components/app.js'
+import {template as upgradeDlgTemplate, controller as upgradeDlgController} from './components/upgrade-dlg.js'
+import {template as signTemplate, controller as signController} from './components/sign.js'
+import {template as searchResultUpgradeDlgTemplate, controller as searchResultUpgradeDlgController} from './components/search-result-upgrade-dlg.js'
+import {template as filterDataLimitDlgTemplate, controller as filterDataLimitDlgController} from './components/filter-data-limit-dlg.js'
 
 window.moment = require('moment')
 
+function checkAdblock() {
+    if (typeof checkAdblockValue === 'undefined') {
+        swal({title: "Warning", text: "If you're not seeing any ads, it's possible you're running an Ad Blocking plugin on your browser. To view our ads, you'll need to disable it while you're here... ;-)", type: "warning"})
+    } else {
+        //          console.log('adblock is disabled');
+    }
+}
+
+checkAdblock()
 /* Metronic App */
 var MetronicApp = angular.module("MetronicApp", [
     "ui.router",
@@ -20,7 +34,7 @@ var MetronicApp = angular.module("MetronicApp", [
     'ngResource',
     'cgBusy',
     'bba.settings',
-    'bba.header'
+    'bba.app'
 ])
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -30,16 +44,6 @@ MetronicApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
     })
 }])
 
-// AngularJS v1.3.x workaround for old style controller declarition in HTML
-MetronicApp.config(['$controllerProvider', function($controllerProvider) {
-    // this option might be handy for migrating old apps, but please don't use it
-    // in new ones!
-    $controllerProvider.allowGlobals()
-}])
-
-/********************************************
- END: BREAKING CHANGE in AngularJS v1.3.x:
-*********************************************/
 /* Setup global settings */
 MetronicApp.constant('TIMESTAMP', Date.parse(new Date()))
 MetronicApp.constant('ADS_TYPE', {
@@ -189,12 +193,6 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {
             return showString
         }
     })
-/* Setup App Main Controller */
-MetronicApp.controller('AppController', ['$scope', '$rootScope', 'User', function($scope, $rootScope, User) {
-    $scope.$on('$viewContentLoaded', function() {
-        // Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
-    })
-}])
 
 /***
 Layout Partials.
@@ -223,32 +221,19 @@ MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', '$st
         tabmenu.name = $location.path()
     })
 }])
-/* Setup Layout Part - Sidebar */
-MetronicApp.controller('SidebarController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
-        // Layout.initSidebar($state); // init sidebar
-    })
-}])
-
-/* Setup Layout Part - Footer */
-MetronicApp.controller('FooterController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
-        // Layout.initFooter(); // init footer
-    })
-}])
 
 /* Setup Rounting For All Pages */
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', 'TIMESTAMP', function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider, TIMESTAMP) {
-    var ts = TIMESTAMP
+    // var ts = TIMESTAMP
     // Redirect any unmatched url
     $urlMatcherFactoryProvider.strictMode(false)
     // $urlRouterProvider.when("/", "/adsearch");
-    $urlRouterProvider.otherwise("/404.html?t=" + ts)
+    $urlRouterProvider.otherwise("/404")
 
     $stateProvider
         .state('/', {
             url: '/',
-            templateUrl: "views/search.html?t=" + ts,
+            template: '<search />',
             data: {
                 pageTitle: 'Advertise Search'
             },
@@ -273,9 +258,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinModern.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            // '/node_modules/allmighty-autocomplete/script/autocomplete.js',
-                            // '/node_modules/allmighty-autocomplete/style/autocomplete.css',
+                            'search.css',
                             'search.js'
                         ]
                     })
@@ -284,7 +267,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('adsearch', {
             url: '/adsearch',
-            templateUrl: "views/search.html?t=" + ts,
+            template: '<search />',
             data: {
                 pageTitle: 'Advertise Search'
             },
@@ -309,10 +292,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinModern.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            '/node_modules/highcharts/highcharts.js',
-                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            // '/node_modules/allmighty-autocomplete/script/autocomplete.js',
-                            // '/node_modules/allmighty-autocomplete/style/autocomplete.css',
+                            'search.css',
                             'search.js'
                         ]
                     })
@@ -321,9 +301,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('adser', {
             url: '/adsearch/{adser}/{name}',
-            templateUrl: "views/adser.html?t=" + ts,
+            template: '<owner />',
             data: {
-                pageTitle: 'Specific Advertise'
+                pageTitle: 'Advertiser\'s ads'
             },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -348,7 +328,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
                             '/node_modules/highcharts/highcharts.js',
                             '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            'analysis.js'
+                            'owner.css',
+                            'owner.js'
                         ]
                     })
                 }]
@@ -357,7 +338,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('ownerSearch', {
             url: '/ownerSearch',
-            templateUrl: "views/owner-search/owner-search.html?t=" + ts,
+            template: '<owner-search />',
+            data: {
+                pageTitle: 'Advertiser Search'
+            },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -379,6 +363,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
                             '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
                             '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
+                            'owner-search.css',
                             'owner-search.js'
                         ]
                     })
@@ -387,7 +372,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('adserAnalysis', {
             url: '/adserAnalysis/{username}',
-            templateUrl: "views/owner-analysis/owner-analysis.html?t=" + ts,
+            template: "<owner-analysis />",
+            data: {
+                pageTitle: 'Advertiser Analysis'
+            },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([{
@@ -423,9 +411,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('adAnalysis', {
             url: '/adAnalysis/{id}',
-            templateUrl: "views/ad-analysis.html?t=" + ts,
+            template: "<analysis />",
             data: {
-                pageTitle: 'Advertise Analysis'
+                pageTitle: 'Specific Advertise Analysis'
             },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -465,7 +453,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('ranking', {
             url: '/ranking',
-            templateUrl: "views/ranking.html?t=" + ts,
+            template: "<ranking />",
             data: {
                 pageTitle: 'Ranking'
             },
@@ -495,7 +483,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('bookmark', {
             url: '/bookmark',
-            templateUrl: "views/bookmark.html?t=" + ts,
+            template: '<bookmark />',
             data: {
                 pageTitle: 'Bookmark'
             },
@@ -517,6 +505,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
                             '/node_modules/fancybox/dist/css/jquery.fancybox.css',
                             '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
+                            'search.css',
                             'search.js'
                         ]
                     })
@@ -526,7 +515,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         })
         .state('plans', {
             url: '/plans',
-            templateUrl: "views/plans.html?t=" + ts,
+            template: "<plans />",
             data: {
                 pageTitle: 'Plans'
             },
@@ -549,7 +538,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                             '/node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
                             '/node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
                             '/node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
-                            'profile.js'
+                            'plans.css',
+                            'plans.js'
                         ]
                     })
                 }]
@@ -559,11 +549,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     // User Profile
         .state("profile", {
             url: "/profile",
-            templateUrl: "views/profile/main.html?t=" + ts,
+            template: '<profile />',
             data: {
                 pageTitle: 'Profile'
             },
-            controller: "ProfileController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -584,31 +573,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 }]
             }
         })
-
-    // User Profile Dashboard
-        .state("profile.dashboard", {
-            url: "/dashboard",
-            templateUrl: "views/profile/dashboard.html?t=" + ts,
-            data: {
-                pageTitle: 'User Profile'
-            }
-        })
-
-    // User Profile Account
-        .state("profile.account", {
-            url: "/account",
-            templateUrl: "views/profile/account.html?t=" + ts,
-            data: {
-                pageTitle: 'User Account'
-            }
-        })
-    // User Profile Help
-        .state("profile.help", {
-            url: "/help",
-            templateUrl: "views/profile/help.html?t=" + ts,
-            data: {
-                pageTitle: 'User Help'
-            }
+        .state('notfound', {
+            url: "/404",
+            template: "The Page Not Found"
         })
     $locationProvider.html5Mode(true)
 }])
@@ -752,83 +719,35 @@ MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope'
         },
         openUpgrade: function() {
             return $uibModal.open({
-                templateUrl: 'views/upgrade.html?t=' + TIMESTAMP,
+                template: upgradeDlgTemplate,
                 size: 'md',
                 animation: true,
-                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
-                    $scope.goIndex = function() {
-                        window.open('/home', "_self")
-                        $uibModalInstance.dismiss('success')
-                    }
-                    $scope.goPlans = function() {
-                        $state.go("plans")
-                        $uibModalInstance.dismiss('success')
-                    }
-                }]
+                controller: upgradeDlgController
             })
         },
         openSign: function() {
             return $uibModal.open({
-                templateUrl: 'views/sign.html?t=' + TIMESTAMP,
+                template: signTemplate,
                 size: 'customer',
                 backdrop: false,
                 animation: true,
-                controller: ['$scope', '$uibModalInstance', '$window', function($scope, $uibModalInstance, $window) {
-                    var slides = $scope.slides = []
-                    var i
-                    $scope.addSlide = function() {
-                        var imgItem = slides.length + 1
-                        slides.push({
-                            image: 'adscard_0' + imgItem + '.jpg'
-                        })
-                    }
-                    for (i = 0; i < 4; i++) {
-                        $scope.addSlide()
-                    }
-                    $scope.close = function() {
-                        $uibModalInstance.dismiss('cancle')
-                    }
-
-                    // 获取track码
-                    if ($window.localStorage.getItem('track')) {
-                        var track = JSON.parse($window.localStorage.getItem('track'))
-                        if (Date.parse(new Date()) < Date.parse(track.expired)) {
-                            $scope.trackCode = track.code
-                        }
-                    } else {
-                        $scope.trackCode = null
-                    }
-                }]
+                controller: signController
             })
         },
         openSearchResultUpgrade: function() {
             return $uibModal.open({
-                templateUrl: 'views/search-result-upgrade.html?t=' + TIMESTAMP,
+                template: searchResultUpgradeDlgTemplate,
                 size: 'md',
                 animation: true,
-                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
-                    $scope.goPlans = function() {
-                        $state.go("plans")
-                        $uibModalInstance.dismiss('success')
-                    }
-                }]
+                controller: searchResultUpgradeDlgController
             })
         },
         openFreeDateLimit: function() {
             return $uibModal.open({
-                templateUrl: 'views/filter-data-limit.html?t=' + TIMESTAMP,
+                template: filterDataLimitDlgTemplate,
                 size: 'md',
                 animation: true,
-                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
-                    $scope.goPlans = function() {
-                        $state.go("plans")
-                        $uibModalInstance.dismiss('success')
-                    }
-                    $scope.goIndex = function() {
-                        window.open('/home', "_self")
-                        $uibModalInstance.dismiss('success')
-                    }
-                }]
+                controller: filterDataLimitDlgController
             })
         }
     }
@@ -851,63 +770,10 @@ MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope'
 }])
 MetronicApp.controller('UserController', ['$scope', '$http', '$window', 'User', function($scope, $http, $window, User) {
     $scope.User = User
-    $scope.formData = {name: ' ', email: '', password: ''}
-    $scope.registerError = {}
     $scope.isShow = false
     $scope.logout = function() {
         // 根据intercom的文档，用户退出应使用shutdown方法关闭本次会话
         Intercom('shutdown')
         window.open('/logout', "_self")
-    }
-    $scope.checkEmail = function() {
-        $scope.showHotmailMessage = false
-        var emails = ['hotmail.com', 'live.com', 'outlook.com']
-        angular.forEach(emails, function(item) {
-            if ($scope.formData.email && $scope.formData.email.split('@')[1] === item) {
-                $scope.showHotmailMessage = true
-            }
-        })
-    }
-    $scope.processForm = function(isValid) {
-        $scope.isShow = true
-        if ($scope.formData.name == ' ') { $scope.formData.name = $scope.formData.email.split('@')[0] }
-        if ($window.localStorage.getItem("track")) {
-            var track = JSON.parse($window.localStorage.track)
-            var expired = track.expired
-            if (moment().isBefore(expired)) {
-                $scope.formData.track = track.code
-            } else {
-                $window.localStorage.removeItem("track")
-            }
-        }
-        if (isValid) {
-            $http({
-                method: 'POST',
-                url: '../register',
-                data: $scope.formData,
-                headers: { 'X-Requested-With': 'XMLHttpRequest' } // server need to know this is a ajax.
-            })
-                .then(
-                    function successCallback(response) {
-                    // location.href = response.data.url;
-                        location.href = "/welcome?source=email"
-                    },
-                    function errorCallback(response) {
-                        $scope.isShow = false
-                        $scope.registerError = response.data
-                    }
-                )
-        }
-    }
-    /* 弹窗中的点击事件 */
-    $scope.shortcutReg = true // 初始化
-    $scope.useEmailReg = false // 初始化
-    $scope.turnToEmail = function() {
-        $scope.shortcutReg = false
-        $scope.useEmailReg = true
-    }
-    $scope.turnToShotcut = function() {
-        $scope.shortcutReg = true
-        $scope.useEmailReg = false
     }
 }])

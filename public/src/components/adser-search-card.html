@@ -1,0 +1,64 @@
+<div class="a-card fade-in-up mt-element-ribbon adver-card">
+    
+    <div class="portlet light aditem">
+        <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning xg-collect"  ng-if="mother.data.adsers.bookmark" ng-click="mother.cancelBookmark(1, card)">
+            <div class="ribbon-sub ribbon-bookmark xg-collect-border"></div>
+            <i class="fa fa-star"></i>
+        </div>
+        <div class="ribbon ribbon-vertical-right ribbon-shadow ribbon-color-warning xg-collect" uib-popover-template="'adser-bookmark-popover.html'" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.data.adsers.bookmark && card.adser_username">
+            <div class="ribbon-sub ribbon-bookmark xg-collect-border"></div>
+            <i class="fa fa-star" ng-class='{"font-white":!card.hasBookmark}' ></i>
+        </div>
+
+        <div class="aditem-ader row" >
+            <!-- avatar and adser info -->
+            <div class="col-md-12 text-center ">
+                <a  ng-href="https://www.facebook.com/{{card.adser_username}}" target="_blank">
+                    <img src="/assets/global/img/input-spinner.gif" lazy-img="{{card.small_photo}}" alt="" class="avatar" type="bba">
+                </a>
+            </div>
+            <!-- end avatar and adser info -->
+            <div class="col-md-12 text-center">
+                <p class="adser-name">
+                    <a ui-sref="adser({name:card.adser_name, adser:card.adser_username})">
+                        <span ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name"></span>
+                        <span ng-show="!card.adser_name">{{card.adser_username}}</span>
+                    </a>
+                    <i class="fa fa-check-circle fa-2x approve-icon" ng-show="card.page_verified"></i>
+                </p>
+            </div>
+                <div class="col-md-12 text-center">
+                    <p class="text-ellipsis adser-website_p">
+                        <a ng-href="{{card.page_website}}">{{card.page_website}}</a>
+                    </p>
+                </div>
+                <!-- <div class="pull-right"> -->
+                <!--     <a href="https://www.facebook.com/{{card.adser_username}}" class="label label-sm label-warning" ng-hide="empty(card.likepage)"> <i class="fa fa-thumbs-up blue"></i>Like Page</a> -->
+                <!-- </div> -->
+        </div>
+        
+     
+        
+        <div class="aditem-ader_bottom"> 
+            <div class="aditem-row">
+                <span class="pull-left">Category:</span><span class="pull-right"><a>{{card.page_category}}</a></span>
+            </div>
+            <div  class="aditem-row">
+                <span class="pull-left">Page Like:</span><span class="pull-right"><a>{{card.page_like_count}}</a></span>
+            </div>
+            <div  class="aditem-row">
+                <span class="pull-left">Global Rank:</span><span class="pull-right"><a>{{card.global_rank}}</a></span>
+            </div>
+            <div  class="aditem-row">
+                <!-- 数据端字段调整 -->
+                <span class="pull-left">Advertise Number:</span><span class="pull-right"><a>{{card.ads_number}}</a></span>
+            </div>
+            <div class="">
+                <a ui-sref="adserAnalysis({username:card.adser_username})" class="btn btn-block yellow-gold" ng-if="card.adser_username">
+                    Analysis
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>

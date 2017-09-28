@@ -1,3 +1,9 @@
+import '../../components/audience.js'
+import '../../components/single-image.js'
+import '../../components/single-video.js'
+import '../../components/carousel.js'
+import '../../components/adcanvas.js'
+
 /* common js */
 angular.module('MetronicApp').directive('sweetalert', ['SweetAlert', function(SweetAlert) {
     return {
@@ -337,61 +343,6 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
             }
         }
     }])
-    .directive('singleImage', ['TIMESTAMP', function(TIMESTAMP) {
-        return {
-            restrict: 'E',
-            templateUrl: 'views/search/single-image.html?t=' + TIMESTAMP,
-            replace: false,
-            scope: {
-                card: '='
-            },
-            controller: ['$scope', 'settings', 'Searcher', function($scope, settings, Searcher) {
-                $scope.settings = settings
-                $scope.Searcher = Searcher
-            }]
-        }
-    }])
-    .directive('singleVideo', ['TIMESTAMP', function(TIMESTAMP) {
-        return {
-            restrict: 'E',
-            templateUrl: 'views/search/single-video.html?t=' + TIMESTAMP,
-            replace: false,
-            scope: {
-                card: '='
-            },
-            controller: ['$scope', 'settings', 'Searcher', function($scope, settings, Searcher) {
-                $scope.settings = settings
-                $scope.Searcher = Searcher
-            }]
-        }
-    }])
-    .directive('adcanvas', ['TIMESTAMP', function(TIMESTAMP) {
-        return {
-            restrict: 'E',
-            templateUrl: 'views/search/canvas.html?t=' + TIMESTAMP,
-            replace: false,
-            scope: {
-                card: '='
-            },
-            controller: ['$scope', 'settings', 'Searcher', function($scope, settings, Searcher) {
-                $scope.settings = settings
-                $scope.Searcher = Searcher
-            }]
-        }
-    }])
-    .directive('carousel', ['TIMESTAMP', function(TIMESTAMP) {
-        return {
-            restrict: 'E',
-            templateUrl: 'views/search/carousel.html?t=' + TIMESTAMP,
-            replace: false,
-            scope: {
-                card: '='
-            },
-            controller: ['$scope', 'settings', function($scope, settings) {
-                $scope.settings = settings
-            }]
-        }
-    }])
     .directive('fixsidebar', ['$timeout', '$rootScope', function($timeout, $rootScope) {
         return {
             scope: true,
@@ -418,29 +369,6 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                     setTimeout(loop, 1000)
                     updatefix()
                 })()
-            }
-        }
-    }])
-    .directive('audience', ['$uibModal', 'TIMESTAMP', function($uibModal, TIMESTAMP) {
-        return {
-            link: function(scope, element, attrs) {
-                element.bind('click', function() {
-                    if (attrs.title) {
-                        var whySee = attrs.title.split("\n")
-                        return $uibModal.open({
-                            templateUrl: 'views/audience.html?t=' + TIMESTAMP,
-                            size: 'customer',
-                            animation: true,
-                            controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
-                                $scope.whySee = whySee
-                                $scope.audienceLength = whySee.length
-                                $scope.close = function() {
-                                    $uibModalInstance.dismiss('cancle')
-                                }
-                            }]
-                        })
-                    }
-                })
             }
         }
     }])

@@ -7,17 +7,19 @@ var isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
     devtool: isProduction ? false : 'source-map',
     entry: {
-        bundle:['./src/index.js', './src/directives.js'],
+        bundle:['./src/index.js'],
         search:['./src/pages/search/search.js'],
+        owner:['./src/pages/owner/owner.js'],
         analysis:['./src/pages/analysis/analysis.js'],
         "owner-search":['./src/pages/owner-search/owner-search.js'],
         "owner-analysis":['./src/pages/owner-analysis/owner-analysis.js'],
         ranking:['./src/pages/ranking/ranking.js'],
         profile:['./src/pages/profile/profile.js'],
+        plans:['./src/pages/plans/plans.js'],
         vendor:[
             'bootstrap', 
-            'bootstrap-switch',
-            'bootstrap-hover-dropdown',
+            // 'bootstrap-switch',
+            // 'bootstrap-hover-dropdown',
             'jquery-slimscroll',
             'sweetalert',
             'angular', 
@@ -47,8 +49,14 @@ module.exports = {
             use:ExtractTextPlugin.extract({
                 use:[{
                     loader:'css-loader',
+                    options: {
+                        sourceMap: !isProduction
+                    }
                 }, {
                     loader:'sass-loader',
+                    options: {
+                        sourceMap: !isProduction
+                    }
                 }]
                 }),
         }, {

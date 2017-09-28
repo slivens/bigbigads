@@ -1,0 +1,387 @@
+<div class="ml-sidebar" id="adsearch">
+    <!-- BEGIN MAIN CONTENT -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN: ACCORDION DEMO -->
+            <div class="col-xs-12 ">
+                <div class="mb10">
+                    <div class="clearfix">
+                        <!-- BEGIN HEADER SEARCH BOX -->
+                        <form class="search-form" ng-submit="islegal && search('search')">
+                            <div class="input-group">
+                                <span class="input-group-addon xg-type-select">
+                                    <select class="bs-select" data-width="150px" ng-model="filterOption.type" >
+                                        <option value="" >Ad Position</option>
+                                        <option ng-repeat="item in settings.searchSetting.adsTypes" policy-lock value="{{item.key}}" key="{{item.permission}}" trigger="lockButton">
+                                        {{item.value}}
+                                        </option>
+                                    </select>
+                                </span>
+                                <input type="search" class="form-control input-lg" placeholder="Enter a keyword, page name or domain name" ng-model="adSearcher.searchOption.search.text
+                                ">
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn yellow-gold btn-lg " ng-disabled="adSearcher.busy" ng-click="searchCheck(adSearcher.searchOption.search.text)">
+                                        <span class="search-btn-text mobile-hidden">Search</span>
+                                        <i class="fa fa-search search-btn-icon mobile-show"></i>
+                                    </button>
+                                </div>
+                                <!-- <div id="xg-autocomplete">
+                                    <autocomplete ng-model="adSearcher.searchOption.search.text" data="suggestions" on-type="googleQuery" attr-placeholder="Enter a keyword, page name or domain name" click-activation="true"></autocomplete>
+                                </div>
+                                <div class="input-group-btn xg-search-button">
+                                    <button type="submit" class="btn yellow-gold btn-lg " ng-disabled="adSearcher.busy" ng-click="searchCheck(adSearcher.searchOption.search.text)">
+                                        <span class="search-btn-text mobile-hidden">Search</span>
+                                        <i class="fa fa-search search-btn-icon mobile-show"></i>
+                                    </button>
+                                </div> --> 
+                            </div>
+                        </form>
+                        <div class="hotwords">
+                            <a ng-repeat="item in adSearcher.hotword track by $index" value="{{item.keyword}}" ng-disabled="adSearcher.busy" ng-click="quickSearch(item.keyword)">{{item.keyword}}</a>
+                        </div> 
+                        <!-- END HEADER SEARCH BOX -->
+                        <!-- <button policy-lock class="btn blue btn-outline btn-md disabled" key="export">Export</button> -->
+                        <!-- <button class="btn blue btn-outline btn-md " disabled="disabled">Subscribe</button> -->
+                    </div>
+
+                    <!-- 暂时注释Tips -->
+                    <!-- <div class="margin-top-10" ng-if="User.login">
+                        <span class="font-yellow-gold" ng-show="User.info.user.role.name ==='Free' && (currSearchOption.isdirty || adSearcher.searchOption.search.text)">Tips: The free level user can only see data 2 months before.</span>
+                    </div> -->
+                    <div class="alert alert-warning margin-top-10" ng-show="currSearchOption.isdirty">
+                        <div ng-if="currSearchOption.search.text">Search Text:{{currSearchOption.search.text}}</div>
+                        <div ng-if="currSearchOption.filter.type">Media Type:{{currSearchOption.filter.type | mediaType}}</div>
+                        <div ng-if="currSearchOption.filter.date.startDate && currSearchOption.filter.date.endDate">Time Frame:{{currSearchOption.filter.date.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.date.endDate.format("YYYY-MM-DD")}}</div>
+                        <div ng-if="currSearchOption.filter.firstSee.startDate && currSearchOption.filter.firstSee.endDate">First See Time Frame:{{currSearchOption.filter.firstSee.startDate.format("YYYY-MM-DD")}} ~ {{currSearchOption.filter.firstSee.endDate.format("YYYY-MM-DD")}}</div>
+                        <div ng-if="currSearchOption.filter.lang && currSearchOption.filter.lang.length">Language:{{currSearchOption.filter.lang}}</div>
+                        <div ng-if="currSearchOption.filter.state">Country:{{currSearchOption.filter.state}}</div>
+                        <div ng-if="currSearchOption.domain.text">Domain:{{currSearchOption.domain.text}}({{currSearchOption.domain.exclude ? "Not Contain" : "Must Contain"}})</div>
+                        <div ng-if="currSearchOption.audience.text">Audience:{{currSearchOption.audience.text}}({{currSearchOption.audience.exclude ? "Not Contain" : "Must Contain"}})</div>
+                        <div ng-if="currSearchOption.filter.category">Category:{{currSearchOption.filter.category}}</div>
+                        <div ng-if="currSearchOption.filter.format">Ad Type:{{currSearchOption.filter.format | formatType}}</div>
+                        <div ng-if="currSearchOption.filter.callToAction">Call To Action:{{currSearchOption.filter.callToAction}}</div>
+                        <div ng-if="currSearchOption.range">Search Mode:{{currSearchOption.range}}</div>
+                        <div ng-if="currSearchOption.filter.tracking && currSearchOption.filter.tracking.length">Tracking Tool: {{currSearchOption.filter.tracking}}</div>
+                        <div ng-if="currSearchOption.filter.affiliate && currSearchOption.filter.affiliate.length">affiliate: {{currSearchOption.filter.affiliate}}</div>
+                        <div ng-if="currSearchOption.filter.ecommerce && currSearchOption.filter.ecommerce.length">E_Commerce: {{currSearchOption.filter.ecommerce}}</div>
+                        <div ng-if="currSearchOption.filter.audienceAge && currSearchOption.filter.audienceAge.length">Audience Age: {{currSearchOption.filter.audienceAge}}</div>
+                        <div ng-if="currSearchOption.filter.audienceGender && currSearchOption.filter.audienceGender.length">Audience Gender: {{currSearchOption.filter.audienceGender}}</div>
+                        <div ng-if="currSearchOption.filter.audienceInterest && currSearchOption.filter.audienceInterest.length">Audience Interest: {{currSearchOption.filter.audienceInterest}}</div>
+                        <div ng-if="currSearchOption.filter.objective && currSearchOption.filter.objective.length">Objective: {{currSearchOption.filter.objective}}</div>
+                        <div ng-if="currSearchOption.filter.isDurationDirty()">Duration Range:{{currSearchOption.filter.duration.from}}~{{currSearchOption.filter.duration.to}}</div>
+                        <div ng-if="currSearchOption.filter.isSeeTimesDirty()">See Times Range:{{currSearchOption.filter.seeTimes.from}}~{{currSearchOption.filter.seeTimes.to}}</div>
+                        <div ng-if="currSearchOption.filter.isEngagementsDirty()">Engagements Filters:
+                            <div ng-if="currSearchOption.filter.engagements.likes.min || currSearchOption.filter.engagements.likes.max">Likes: {{currSearchOption.filter.engagements.likes.min}}~{{currSearchOption.filter.engagements.likes.max}}</div>
+                            <div ng-if="currSearchOption.filter.engagements.shares.min || currSearchOption.filter.engagements.shares.max">Shares: {{currSearchOption.filter.engagements.shares.min}}~{{currSearchOption.filter.engagements.shares.max}}</div>
+                            <div ng-if="currSearchOption.filter.engagements.comments.min || currSearchOption.filter.engagements.comments.max">Comments: {{currSearchOption.filter.engagements.comments.min}}~{{currSearchOption.filter.engagements.comments.max}}</div>
+                            <div ng-if="currSearchOption.filter.engagements.views.min || currSearchOption.filter.engagements.views.max">Video Views: {{currSearchOption.filter.engagements.views.min}}~{{currSearchOption.filter.engagements.views.max}}</div>
+                            <div ng-if="currSearchOption.filter.engagements.engagements.min || currSearchOption.filter.engagements.engagements.max">Engagements: {{currSearchOption.filter.engagements.engagements.min}}~{{currSearchOption.filter.engagements.engagements.max}}</div>
+                        </div>
+                    </div>
+                    <hr style="border-top:1px solid #dbdee6">
+                    <div class="text-center ads-Loading" ng-show="adSearcher.busy && (currSearchOption.search.text || adSearcher.params.where.length > 0) && adSearcher.params.limit[0] === 0">
+                        <div class="page-spinner-bar xg-page-spinner-bar" >
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="pull-right">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <!-- <button policy-lock key="search_sortby" class="btn yellow-gold btn-sm" ng-class="{'active':!adSearcher.params.sort.order}" ng-click="reverseSort()">Reverse</button> -->
+                            <span class="xg-mr5">Sort By</span>
+                            <select class="form-control bs-select" data-width="150px" ng-model="adSearcher.params.sort.field" ng-change="sortBy('search')">
+                                <!-- 暂时隐藏无权限的选项 -->
+                                <option policy-lock key="{{item.permission}}" trigger="lockButton" value="{{item.key}}" ng-repeat="item in settings.searchSetting.orderBy" ng-class='{"xg-order-border":item.last}' ng-if="User.can(item.permission)">
+                                    {{item.value}}
+                                </option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="xg-count-mt search-result" ng-show="!adSearcher.busy">
+
+                    <span ng-if="(adSearcher.ads.all_total_count == adSearcher.ads.total_count || !adSearcher.ads.all_total_count) && adSearcher.ads.total_count != 0">Found <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> Matching Ads </span>
+                    <span ng-if="adSearcher.ads.all_total_count && adSearcher.ads.all_total_count != adSearcher.ads.total_count">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}} </span> Matching Ads, You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> results <a class="font-yellow-gold xg-upgrade-button" ng-click="upgrade()"> Upgrade Now</a></span>
+                    <span ng-if="adSearcher.ads.total_count == 0 && adSearcher.ads.all_total_count == 0">Your search did not match any results.</span>
+                    <!-- <span ng-if="(User.info.user.role.name != 'Free') && (adSearcher.ads.total_count == 0)">Your search did not match any results.</span> -->
+                    <!-- <button class="btn yellow-gold btn-lg" ng-click="showStatics()">analysis</button> -->
+                    <i class="fa fa-hand-o-right font-yellow-gold xg-analysis" ng-if="User.can('ad_analysis')" ng-click="showStatics()"></i>
+                </div>
+            </div>
+            <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend" ng-class="{'half-opacity':adSearcher.busy && adSearcher.params.limit[0] === 0}">
+                <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid clearfix" cardTemplateString="<adsearch-card />">
+                </div>
+                <div class="clearfix">
+                </div>
+                <div class="text-center" ng-show="adSearcher.busy && adSearcher.params.limit[0] !== 0">
+                    <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div ng-if="!User.login && !adSearcher.isNoResult && adSearcher.isend" ng-include="'search-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>
+                <div ng-if="User.login && !adSearcher.isNoResult && adSearcher.isend" ng-include="'search-results-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>
+                <div ng-if="adSearcher.isNoResult" class="text-center col-md-12">
+                    <hr style="border-top:1px solid #dbdee6">
+                    <div>
+                        <img src="/assets/global/img/the_end.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- sidebar and sidebar controller -->
+    <!-- <button type="button" class="quick-sidebar-toggler bg-yellow-gold" data-toggle="collapse"> -->
+    <!-- <span class="sr-only">Toggle Filter Sidebar</span> -->
+    <!-- <i class="icon-grid"></i> -->
+    <!-- </button> -->
+
+    <sidebar class="page-quick-sidebar-wrapper xg-quick-sidebar-top52" ng-cloak />
+    <!-- <button type="button" class="bg-yellow-gold statics-btn" ng-click="showStatics()"> -->
+    <!--     <span class="sr-only">Toggle Statics Dialog</span> -->
+    <!--     <i class="icon-bar-chart font-white fa-2x"></i> -->
+    <!-- </button> -->
+</div>
+<!-- END MAIN CONTENT -->
+<!-- BEGIN statics dialog -->
+<script type="text/ng-template" id="statics-dlg.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">AD Search Statics</h3>
+    </div>
+    <div class="modal-body ad-analysis" id="modal-body">
+        <!-- begin sidebar -->
+        <div class="sidebar" fixsidebar>
+            <ul role="tablist" class="nav nav-pills nav-stacked text-center">
+                <li>
+                    <a href="#statics_overview">
+                        <i class="fa fa-bar-chart fa-2x font-yellow-gold"></i>
+                        <div>Overview {{card.end}}</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#statics_chart">
+                        <i class="fa fa-feed fa-2x font-yellow-gold"></i>
+                        <div>Interactive</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#statics_link">
+                        <i class="fa fa-link fa-2x font-yellow-gold"></i>
+                        <div>Link</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#statics_audience">
+                        <i class="fa fa-eye fa-2x font-yellow-gold"></i>
+                        <div>Audience</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- end sidebar -->
+        <!-- begin content -->
+        <div class="content row">
+            <div class="row" id="statics_overview">
+                <div class="col-md-4 col-sm-4">
+                    <rank-board title="Total Count">
+                        <div class="clearfix">
+                            <h5 class="pull-left"> </h5>
+                            <h5 class="font-yellow-gold pull-right">{{statics.total_count}}</h5>
+                        </div>
+                    </rank-board>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <rank-board title="Distinct Total Count">
+                        <div class="clearfix">
+                            <h5 class="pull-left"> </h5>
+                            <h5 class="font-yellow-gold pull-right">{{statics.distinct_total_count}}</h5>
+                        </div>
+                    </rank-board>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <rank-board title="Summary Views">
+                        <div class="clearfix">
+                            <h5 class="pull-left"></h5>
+                            <h5 class="font-yellow-gold pull-right">{{statics.sum_views}}</h5>
+                        </div>
+                    </rank-board>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <rank-board title="Summary Shares">
+                        <div class="clearfix">
+                            <h5 class="pull-left"></h5>
+                            <h5 class="font-yellow-gold pull-right">{{statics.sum_shares}}</h5>
+                        </div>
+                    </rank-board>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <rank-board title="Summary Likes">
+                        <div class="clearfix">
+                            <h5 class="pull-left"></h5>
+                            <h5 class="font-yellow-gold pull-right">{{statics.sum_likes}}</h5>
+                        </div>
+                    </rank-board>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <rank-board title="Summary Engagements">
+                        <div class="clearfix">
+                            <h5 class="pull-left"></h5>
+                            <h5 class="font-yellow-gold pull-right">{{statics.sum_engagements}}</h5>
+                        </div>
+                    </rank-board>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <rank-board title="Summary Comments">
+                        <div class="clearfix">
+                            <h5 class="pull-left"></h5>
+                            <h5 class="font-yellow-gold pull-right">{{statics.sum_comments}}</h5>
+                        </div>
+                    </rank-board>
+                </div>
+            </div>
+            <!-- 图表表示 -->
+            <div class="row" id="statics_chart">
+                <div class=" col-xs-12" ng-if="statics.adLangConfig">
+                    <highchart id="adLangChart" config="statics.adLangConfig"></highchart>
+                </div>
+                <div class=" col-xs-12" ng-if="statics.adserNameConfig">
+                    <highchart id="adserNameChart" config="statics.adserNameConfig"></highchart>
+                </div>
+                <div class="col-xs-12" ng-if="statics.adserUsernameConfig">
+                    <highchart id="adserUsernameChart" config="statics.adserUsernameConfig"></highchart>
+                </div>
+                <div class=" col-xs-12" ng-if="statics.categoryConfig">
+                    <highchart id="categoryChart" config="statics.categoryConfig"></highchart>
+                </div>
+                <div class=" col-xs-12" ng-if="statics.mediaTypeConfig">
+                    <highchart id="mediaTypeChart" config="statics.mediaTypeConfig"></highchart>
+                </div>
+            </div>
+            <div class="container-fluid" id="statics_link">
+                <!-- 内容太长，改以表格表示 -->
+                <div class="row" ng-if="statics.button_link">
+                    <h4 class="font-yellow-gold">Button Link:</h4>
+                    <div>
+                        <table class="table table-hover linktable">
+                            <tr>
+                                <th>#</th>
+                                <th>Link</th>
+                                <th>Number</th>
+                            </tr>
+                            <tr ng-repeat="(key, val) in statics.button_link track by $index">
+                                <td>{{$index + 1}}</td>
+                                <td>{{key}}</td>
+                                <td>{{val}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" ng-if="statics.link">
+                    <h4 class="font-yellow-gold">Link:</h4>
+                    <div>
+                        <table class="table table-hover linktable">
+                            <tr>
+                                <th>#</th>
+                                <th>Link</th>
+                                <th>Number</th>
+                            </tr>
+                            <tr ng-repeat="(key, val) in statics.link track by $index">
+                                <td>{{$index + 1}}</td>
+                                <td>{{key}}</td>
+                                <td>{{val}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" ng-if="statics.dest_site">
+                    <h4 class="font-yellow-gold">Destsite Link:</h4>
+                    <div>
+                        <table class="table table-hover linktable">
+                            <tr>
+                                <th>#</th>
+                                <th>Link</th>
+                                <th>Number</th>
+                            </tr>
+                            <tr ng-repeat="(key, val) in statics.dest_site track by $index">
+                                <td>{{$index + 1}}</td>
+                                <td>{{key}}</td>
+                                <td>{{val}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" ng-if="statics.whyseeads" id="statics_audience">
+                    <h4 class="font-yellow-gold">Audience:</h4>
+                    <div>
+                        <table class="table table-hover linktable">
+                            <tr>
+                                <th>#</th>
+                                <th>Audience</th>
+                                <th>Number</th>
+                            </tr>
+                            <tr ng-repeat="(key, val) in statics.whyseeads track by $index">
+                                <td>{{$index + 1}}</td>
+                                <td>{{key}}</td>
+                                <td>{{val}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end content -->
+    <div class="modal-footer">
+        <button class="btn btn-warning" type="button" ng-click="close()">Close</button>
+    </div>
+    </div>
+</script>
+<script type="text/ng-template" id="search-limited-banner.html">
+    <div class="dashboard-stat dashboard-stat-v2 col-md-12 xg-limited-banner">
+        <div ng-if="adSearcher.ads.total_count!=0">
+            <div class="text-center col-md-7">
+                <p ng-if="User.info.user.role.plan == 'standard'">You can only see 300 results per search in standard level.Please contact us if you need to see more: help@bigbigads.com</p>
+                <p ng-if="User.info.user.role.plan == 'free'">You can only see 100 results per search in free level.Please contact us if you need to see more: help@bigbigads.com</p>
+            </div>
+            <div register class="col-md-5">
+            </div>
+            <div class="col-md-12">
+                <div class="pull-left col-md-5">
+                </div>
+                <div class="col-md-2"></div>
+                <div class="text-center col-md-5 xg-buybut-mt60">
+                </div>
+            </div>
+            <div class="col-md-12 text-center xg-subscribe">
+            </div>
+        </div>
+        <div ng-if="adSearcher.ads.total_count==0">
+            <div class="col-md-12 text-center xg-subscribe">
+                <a href="/product">Learn more about Bigbigads</a>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="search-results-limited-banner.html">
+    <div class="dashboard-stat dashboard-stat-v2 col-md-12 xg-limited-banner">
+        <div ng-if="adSearcher.ads.total_count!=0">
+            <div class="text-center col-md-12">
+                <p ng-if="User.info.user.role.name == 'Standard'">You can only see 300 results per search in standard level. Please contact us if you need to see more: help@bigbigads.com</p>
+                <p ng-if="User.info.user.role.name == 'Free'">You can only see 100 results per search in free level. Please contact us if you need to see more: help@bigbigads.com</p>
+            </div>
+        </div>
+        <div>
+            <div class="col-md-12 text-center xg-subscribe">
+                <a href="/product">Learn more about Bigbigads</a>
+            </div>
+        </div>
+    </div>
+</script>
+<!-- END statics dialog -->

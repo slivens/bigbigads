@@ -1,3 +1,6 @@
+// import '../common/common'
+import template from './ranking.html'
+
 angular.module('MetronicApp').controller('RankingController', ['$scope', 'settings', '$http', 'SweetAlert', '$location', 'User', function($scope, settings, $http, SweetAlert, $location, User) {
     var ranking = {
         active: 0,
@@ -80,3 +83,12 @@ angular.module('MetronicApp').controller('RankingController', ['$scope', 'settin
         }
     })
 }])
+    .directive('ranking', function() {
+        return {
+            restrict: 'E',
+            scope: {},
+            template,
+            replace: true,
+            controller: 'RankingController'
+        }
+    })

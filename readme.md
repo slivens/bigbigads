@@ -56,19 +56,21 @@ APP_ENV=local
 APP_DEBUG=true
 ```
 
-如果要修改`js`，**修改前**单独开一个窗口，执行如下命令：
+如果要修改`src`目录下的文件，除了`src/index.html`之外，其他`js`,`html`以及`scss`都可以实时监听。**修改前**单独开一个窗口，执行如下命令：
 
 ```
-$webpack --watch
+$webpack -w
 ```
 
-如果要修改`sass`，或者`html`文件，**修改前**单独开一个窗口，执行如下命令，监听文件有变化则重新生成目标文件
+会方便调试。如果改的是`src/index.html`或者其他像`json`之类的文件，仍然需要执行`npm run devleop`重新生成。
+
+如果出现`eslint`提示不符合排版要求的错误，可单独开个窗口先做下自动修复，执行：
 
 ```
-$gulp watch
+npm run fixlint
 ```
 
-请配合`Chrome Devtool`做调试开发。
+在开发时，请**一定**配合`Chrome Devtool`做调试。
 
 
 ## 权限配置指南
