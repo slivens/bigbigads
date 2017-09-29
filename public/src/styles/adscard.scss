@@ -22,6 +22,10 @@
                 margin-right: 5px;
             }
         }
+        // 修改添加书签的弹窗，避免则挡住创建书签收藏夹的弹窗（1050），避免则挡住头部菜单导航（500）
+        .popover{
+            z-index: 400;
+        }
         .card-insight-btn {
             display: inline-block;
             border-radius: 6px !important;

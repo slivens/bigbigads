@@ -1308,6 +1308,20 @@ color: $black_placeholder !important;
 
     .reg-email-div{
         margin-top: 15px;
+        .input-wrapper{
+            display: flex;
+            align-items:center;
+            position: relative;
+            .fa{
+               position: absolute;
+               left: 8px;
+                color:#ccc;
+                z-index: 5;
+            }   
+            .form-control{
+                padding-left: 30px;
+            }
+        }
         .turn-back-span{
             height: 35px;
             display: block;
