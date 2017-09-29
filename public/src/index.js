@@ -38,13 +38,6 @@ var MetronicApp = angular.module("MetronicApp", [
     'bba.app'
 ])
 
-/* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
-MetronicApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
-    $ocLazyLoadProvider.config({
-        // global configs go here
-    })
-}])
-
 /* Setup global settings */
 MetronicApp.constant('TIMESTAMP', Date.parse(new Date()))
 MetronicApp.constant('ADS_TYPE', {
@@ -239,30 +232,19 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 pageTitle: 'Advertise Search'
             },
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: ' #ng_load_plugins_before',
-                        files: [
-                            '/node_modules/angular-deckgrid/angular-deckgrid.js',
-                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
-                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
-                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
-                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
-                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
-                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinModern.css',
-                            '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            'search.css',
-                            'search.js'
-                        ]
+                deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    let d = $q.defer()
+                    import(
+                        './pages/search/search.js' /* webpackChunkName:"search" */
+                    ).then(m => {
+                        let module = m.default(angular)
+                        $ocLazyLoad.load({
+                            name: 'search' // 页面创建一个属于自己的模块，此处传递模块名，$ocLazyLoad会将其加入到angular的核心中，如果没有这句，即便模块加载成功了也无法引用
+                        })
+                        d.resolve(module)
                     })
+
+                    return d.promise
                 }]
             }
         })
@@ -273,30 +255,19 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 pageTitle: 'Advertise Search'
             },
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: ' #ng_load_plugins_before',
-                        files: [
-                            '/node_modules/angular-deckgrid/angular-deckgrid.js',
-                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
-                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
-                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
-                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
-                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
-                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinModern.css',
-                            '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            'search.css',
-                            'search.js'
-                        ]
+                deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    let d = $q.defer()
+                    import(
+                        './pages/search/search.js' /* webpackChunkName:"search" */
+                    ).then(m => {
+                        let module = m.default(angular)
+                        $ocLazyLoad.load({
+                            name: 'search'
+                        })
+                        d.resolve(module)
                     })
+
+                    return d.promise
                 }]
             }
         })

@@ -9,7 +9,7 @@ module.exports = {
     devtool: isProduction ? false : 'source-map',
     entry: {
         bundle:['./src/index.js'],
-        search:['./src/pages/search/search.js'],
+        // search:['./src/pages/search/search.js'],
         owner:['./src/pages/owner/owner.js'],
         analysis:['./src/pages/analysis/analysis.js'],
         "owner-search":['./src/pages/owner-search/owner-search.js'],
@@ -38,6 +38,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, './app'),
         filename: !isProduction ? '[name].js' : 'js/[name]-[hash:10].js', // 使用chunkhash会导致一个问题:a.js引用b.js，生成a-1.js,b-1.js, b.js变化而a.js没变化，生成a-1.js, b-2.js。用户从自己的缓存讲出a-1.js，去引用b-1.js。
+        chunkFilename: !isProduction ? '[name].js' : 'js/[name]-[hash:10].js',
     },
     module: {
         rules:[{
@@ -85,6 +86,9 @@ module.exports = {
         }, {
             test: /\.html$/,
             loader: 'html-loader'
+        }, {
+            test: /\.json$/,
+            loader: 'json-loader'
         }
         ]
     },
@@ -95,7 +99,10 @@ module.exports = {
          new webpack.optimize.CommonsChunkPlugin({
             name:['vendor']
             }),
-         new ExtractTextPlugin(!isProduction ? '[name].css' : '[name]-[hash:10].css'),
+         new ExtractTextPlugin({
+            filename: !isProduction ? '[name].css' : '[name]-[hash:10].css',
+            allChunks: true // 重要：出于性能考虑，css与js是分开的两个文件；当通过import实现lazyload时，没有加该参数，则加载进来的js文件是不带样式的，而加了该参数则能解决此问题。
+            }),
          new ManifestPlugin({
             fileName:'manifest.json',
             baseName:'/app/'
