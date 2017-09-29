@@ -2,7 +2,7 @@
 <!--[if IE 8]> <html lang="en" class="ie8 no-js" data-ng-app="MetronicApp"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js" data-ng-app="MetronicApp"> <![endif]-->
 <!--[if !IE]><!-->
-<html lang="en" data-ng-app="MetronicApp">
+<html lang="en">
     <!--<![endif]-->
     <!-- BEGIN HEAD -->
 
@@ -48,6 +48,10 @@
             fbq('init', '1555915891116409'); // Insert your pixel ID here.
             fbq('track', 'PageView');
         </script>
+        <!-- style是必要的 -->
+        <style type="text/css">
+    
+        </style>
         <!-- TODO:对于引用包的css文件与js文件，最终将通过webpack统一打包 -->
         <link href="../node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <link href="../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
@@ -65,7 +69,12 @@
     <!-- BEGIN BODY -->
 
     <body class="page-on-load">
-        <app></app>
+        <!-- 该标签的目的是通过node自动生成静态页面，实现Above The Fold可以立刻显示，当页面完成后，将自动移除。-->
+        <div id="server-render">
+        </div>
+        <div ng-app="MetronicApp">
+            <app></app>
+        </div>
         <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
         <!-- BEGIN CORE JQUERY PLUGINS -->
         <!-- END CORE JQUERY PLUGINS -->
