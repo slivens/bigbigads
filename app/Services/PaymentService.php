@@ -442,6 +442,7 @@ class PaymentService implements PaymentServiceContract
                         $refund->note = "auto synced refunds";
                         $refund->status = Refund::STATE_ACCEPTED;
                         $refund->payment_id = $payment->id;//payment()->associate($payment);
+                        $refund->refunded_at = $this->getRefundedCompletedTime($payment->number);//获取交易的退款<<完成>>时间
                         $res = $refund->save();
                         $this->log("generate refund automatically:$res", PaymentService::LOG_INFO);
                     }
@@ -689,6 +690,20 @@ class PaymentService implements PaymentServiceContract
         return Carbon::parse($cancel_arr->getTimeStamp())->timezone('Asia/Shanghai')->toDateTimeString();
 
         
+    }
+
+    /**
+     * 获取交易的退款时间
+     * 如果使用searchTransaction api，只能获取到交易状态从completed转变成refunded的时间，或者说是refunded这个状态的创建时间，而非完成时间
+     * 调用PaypalService的sale方法获取交易的详细内容，然后返回当中的updated_time作为退款完成时间
+     * @param string $transaction_id 交易的id，17位，payments表的number字段值
+     * @return void
+     */
+    public function getRefundedCompletedTime($transaction_id){
+        if(strlen($transaction_id) != 17) return false;
+        $service = $this->getPaypalService();
+        $saleInfo = $service->sale($transaction_id);
+        return Carbon::parse($saleInfo->getUpdateTime())->timezone('Asia/Shanghai')->toDateTimeString();
     }
 
     /**
