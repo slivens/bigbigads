@@ -58,7 +58,7 @@ gulp.task('localhost-live', function() {
 
 
 gulp.task('clean', function() {
-        return gulp.src(['./app/**/*.js', './app/*.css', './assets/*.json', './app/*.json', './app/**/*.html'], {read:false}).pipe(clean());
+        return gulp.src(['./app/**/*.map', './app/**/*.js', './app/*.css', './assets/*.json', './app/*.json', './app/**/*.html'], {read:false}).pipe(clean());
 })
 
 //*** HTML formatter task
@@ -80,30 +80,23 @@ gulp.task('lint', function()  {
         // .pipe(eslint.failAfterError())
 });
 
-//压缩HTML和打版本
-gulp.task('html',  function() {
-    if (config.mode === "develop") {
-    } else {
-    }
-    gulp.src(['./src/data/**/*']).pipe(gulp.dest('./app/data/'));
-});
 
-gulp.task('rev', function() {
-    return gulp.src(['./app/manifest.json', './app/js/bundle*.js']).pipe(revCollector({
-                    replaceReved:true
-                    }))
-                    .pipe(gulp.dest('./app/js/'));
-})
+// gulp.task('rev', function() {
+//     return gulp.src(['./app/manifest.json', './app/js/bundle*.js']).pipe(revCollector({
+//                     replaceReved:true
+//                     }))
+//                     .pipe(gulp.dest('./app/js/'));
+// })
 
-gulp.task('rev:watch', function() {
-    return gulp.watch(['./src/js/**/*.js'], ['rev']);
-});
+// gulp.task('rev:watch', function() {
+//     return gulp.watch(['./src/js/**/*.js'], ['rev']);
+// });
 
-gulp.task('html:watch', function() {
-    gulp.watch(['./src/**/*.html'], ['html']);
-});
+// gulp.task('html:watch', function() {
+//     gulp.watch(['./src/**/*.html'], ['html']);
+// });
 
-gulp.task('watch', ['rev:watch', 'html:watch']);
+// gulp.task('watch', ['rev:watch', 'html:watch']);
 
 gulp.task('config-product', function() {
     config.mode = "production";
@@ -176,5 +169,5 @@ gulp.task("test", async function() {
     fs.writeFileSync('app/index.html', $.html())
 })
 
-gulp.task('production', gulpsync.sync([["config-product"], ['rev'], 'html']));
-gulp.task('develop', gulpsync.sync(['html']));
+// gulp.task('production', gulpsync.sync([["config-product"], 'html']));
+// gulp.task('develop', gulpsync.sync(['html']));

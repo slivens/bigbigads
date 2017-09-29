@@ -3,9 +3,16 @@ import '../common/common.js'
 import '../bookmark/bookmark.js'
 import '../common/searcher.js'
 import '../../components/sidebar.js'
+import Highcharts from 'highcharts'
+import HighchartsMap from 'highcharts/modules/map.js'
+import CustomWorld from '../common/world.js'
+import 'highcharts-ng'
 import template from './analysis.html'
 
-angular.module('MetronicApp').controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window', '$http', 'Util', 'User', '$q',
+window.Highcharts = Highcharts
+HighchartsMap(Highcharts)
+CustomWorld(Highcharts)
+export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).controller('AdAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$window', '$http', 'Util', 'User', '$q',
     function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $window, $http, Util, User, $q) {
         var vm = this
         // angualr 页面中使用Math.ceil() 无效
@@ -31,9 +38,9 @@ angular.module('MetronicApp').controller('AdAnalysisController', ['$rootScope', 
         $scope.adSearcher.params.ads_detail = 1
         var promise = $scope.adSearcher.filter("analysis")
         var arr
-        var countryPromise = $http.get('/app/data/map-country.json').then(function(res) {
-            vm.countries = res.data
-            return res.data
+        var countryPromise = import('../../data/map-country.json').then(function(res) {
+            vm.countries = res
+            return res
         })
         $q.all([countryPromise, promise]).then(function(res) {
             // 只取首条消息

@@ -5,8 +5,8 @@
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "product": "gulp clean && NODE_ENV=production webpack -p && gulp production",
-    "develop": "gulp clean && webpack && gulp develop",
+    "product": "gulp clean && NODE_ENV=production webpack -p",
+    "develop": "gulp clean && webpack",
     "lint": "eslint --ext .js src/",
     "fixlint": "eslint --ext .js src/ --fix"
   },
