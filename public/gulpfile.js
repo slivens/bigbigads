@@ -33,6 +33,7 @@ var config = {
     },
     mode:"develop"
 }
+
 function readFilePromise (filepath, encoding) {
   return new Promise((resolve, reject) => {
     fs.readFile(filepath, encoding, (err, content) => {
@@ -108,14 +109,16 @@ gulp.task('config-product', function() {
     config.mode = "production";
 })
 
-gulp.task('critical', function(cb) {
+gulp.task('critical', async function(cb) {
+    let revData = await readFilePromise('app/manifest.json')
+    let revs = JSON.parse(revData)
     return penthouse({
         url: 'http://bigbigads.dev/app/', // can also use file:/// protocol for local files
         // cssString: 'body { color; red }', // the original css to extract critcial css from
         css: [
             'node_modules/bootstrap/dist/css/bootstrap.min.css', 
-            'app/bundle.css', 
-            'app/search.css', 
+            'app/' + revs['bundle.css'], 
+            'app/' + revs['search.css'], 
             'assets/global/plugins/select2/css/select2.min.css',
             'assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css'
             ], // path to original css file on disk

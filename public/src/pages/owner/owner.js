@@ -297,7 +297,7 @@ angular.module('MetronicApp').controller('AdserController', ['$rootScope', '$sco
                 SweetAlert.swal(res.statusText)
             }
         })
-        console.log("params", $scope.adSearcher.params)
+        // console.log("params", $scope.adSearcher.params)
     }
     $scope.search = function(action) {
         var option = $scope.adSearcher.searchOption
