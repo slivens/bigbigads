@@ -708,8 +708,9 @@ class PaymentService implements PaymentServiceContract
     {
         //默认不强制生成
         if(strlen($transaction_id) != 17 || empty($transaction_id)) {
-            $this->log("unknown param on generateInvoice", PaymentService::LOG_INFO);
-            return false;
+            $re_str1 = "unknown param on generateInvoice";
+            $this->log($re_str1, PaymentService::LOG_INFO);
+            return $re_str1;
         }
         $payment = Payment::select('payments.amount', 'payments.details', 'payments.client_email', 'payments.invoice_id', 'plans.display_name', 'users.name')
             ->leftJoin('subscriptions', 'subscriptions.id', '=', 'payments.subscription_id')
@@ -719,13 +720,15 @@ class PaymentService implements PaymentServiceContract
             ->where('payments.status', 'completed')
             ->first();
         if(!$payment) {
-            $this->log("cannot find payments on use transaction id: $transaction_id", PaymentService::LOG_INFO);
-            return false;
+            $re_str2 = "payment is invalid on use transaction id: $transaction_id,maybe status is not completed";
+            $this->log($re_str2, PaymentService::LOG_INFO);
+            return $re_str2;
         }
         if(!empty($payment->invoice_id) && !$force) {
             //该交易的invoice_id不为空，则已经生成过
-            $this->log("cannot generate this invoice with transaction id: $transaction_id because it was generated.", PaymentService::LOG_INFO);
-            return false;
+            $re_str3 = "cannot generate this invoice with transaction id: $transaction_id because it was generated.";
+            $this->log($re_str3, PaymentService::LOG_INFO);
+            return $re_str3;
         }
 
         //$this->log($payment->details, PaymentService::LOG_INFO);
@@ -774,13 +777,15 @@ class PaymentService implements PaymentServiceContract
         $dompdf->render();
 
         //存储路径storage/app/public,可以通过public/storage访问
-        Storage::put("$data->reference_id.pdf", $dompdf ->output());
+        Storage::put("$data->reference_id.pdf", $dompdf->output());
 
         //保存invoice_id到payments
         $re_payment = Payment::where('number', $transaction_id)->first();
         $re_payment->invoice_id = $data->reference_id;
         $re_payment->save();
-        $this->log("$transaction_id 's payment invoice was generated,reference id is $data->reference_id", PaymentService::LOG_INFO);
+        $re_str4 = "$transaction_id 's payment invoice was generated,reference id is $data->reference_id";
+        $this->log($re_str4, PaymentService::LOG_INFO);
+        return $re_str4;
     }
 
     /**
