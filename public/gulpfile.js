@@ -22,6 +22,10 @@ const eslint = require('gulp-eslint');
 const gulpsync = require('gulp-sync')(gulp);
 const htmlmin = require('gulp-htmlmin');
 const strip = require('gulp-strip-comments');
+const critical = require('critical');
+const penthouse = require('penthouse')
+const fs = require('fs')
+const cheerio = require('cheerio')
 
 var config = {
     script:{
@@ -29,6 +33,18 @@ var config = {
     },
     mode:"develop"
 }
+
+function readFilePromise (filepath, encoding) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filepath, encoding, (err, content) => {
+      if (err) {
+        return reject(err)
+      }
+      resolve(content)
+    })
+  })
+  }
+
 //*** Localhost server tast
 gulp.task('localhost', function() {
   connect.server();
@@ -40,43 +56,9 @@ gulp.task('localhost-live', function() {
   });
 });
 
-//*** SASS compiler task
-gulp.task('sass', function () {
-    if (config.mode === "production") {
-        // var tasks = [];
-      // global theme stylesheet compilation
-      const global = gulp.src('./src/sass/global/*.scss').pipe(sass()).pipe(minifyCss()).pipe(gulp.dest('./assets/global/css')).pipe(gulp.dest('./assets/'));
-      const app = gulp.src('./src/sass/apps/*.scss').pipe(sass()).pipe(minifyCss()).pipe(gulp.dest('./assets/apps/css')).pipe(gulp.dest('./assets/'));
-      const pages = gulp.src('./src/sass/pages/*.scss').pipe(sass()).pipe(minifyCss()).pipe(gulp.dest('./assets/pages/css')).pipe(gulp.dest('./assets/'));
-
-      const layout = (gulp.src('./src/sass/layouts/layout3/*.scss').pipe(sass()).pipe(rev()).pipe(minifyCss()).pipe(gulp.dest('./assets/layouts/layout3/css')).pipe(rev.manifest('layouts-layout3.json')).pipe(gulp.dest('./assets/')));
-      const theme = gulp.src('./src/sass/layouts/layout3/themes/*.scss').pipe(sass()).pipe(rev()).pipe(minifyCss()).pipe(gulp.dest('./assets/layouts/layout3/css/themes')).pipe(rev.manifest('layouts-layout3-theme.json')).pipe(gulp.dest('./assets/'));
-      return mergeStream(global, app, pages, layout, theme);
-    } else {
-      // bootstrap compilation
-      gulp.src('./src/sass/bootstrap.scss').pipe(sass()).pipe(gulp.dest('./assets/global/plugins/bootstrap/css/'));
-
-      // global theme stylesheet compilation
-      gulp.src('./src/sass/global/*.scss').pipe(sourcemaps.init()).pipe(sass()).pipe(sourcemaps.write('./')).pipe(gulp.dest('./assets/global/css'));
-      gulp.src('./src/sass/apps/*.scss').pipe(sourcemaps.init()).pipe(sass()).pipe(sourcemaps.write('./')).pipe(gulp.dest('./assets/apps/css'));
-      gulp.src('./src/sass/pages/*.scss').pipe(sourcemaps.init()).pipe(sass()).pipe(sourcemaps.write('./')).pipe(gulp.dest('./assets/pages/css'));
-
-      // theme layouts compilation
-      // gulp.src('./src/sass/layouts/layout/*.scss').pipe(sourcemaps.init()).pipe(sass()).pipe(sourcemaps.write('./')).pipe(gulp.dest('./assets/layouts/layout/css'));
-      // gulp.src('./src/sass/layouts/layout/themes/*.scss').pipe(sourcemaps.init()).pipe(sass()).pipe(sourcemaps.write('./')).pipe(gulp.dest('./assets/layouts/layout/css/themes'));
-
-      gulp.src('./src/sass/layouts/layout3/*.scss').pipe(sourcemaps.init()).pipe(sass()).pipe(sourcemaps.write('./')).pipe(gulp.dest('./assets/layouts/layout3/css'));
-      gulp.src('./src/sass/layouts/layout3/themes/*.scss').pipe(sourcemaps.init()).pipe(sass()).pipe(sourcemaps.write('./')).pipe(gulp.dest('./assets/layouts/layout3/css/themes'));
-  }
-});
-
-//*** SASS watch(realtime) compiler task
-gulp.task('sass:watch', function () {
-	gulp.watch('./src/sass/**/*.scss', ['sass']);
-});
 
 gulp.task('clean', function() {
-        return gulp.src(['./app/**/*.js', './app/*.css', './assets/*.json', './app/*.json', './app/**/*.html'], {read:false}).pipe(clean());
+        return gulp.src(['./app/**/*.map', './app/**/*.js', './app/*.css', './assets/*.json', './app/*.json', './app/**/*.html'], {read:false}).pipe(clean());
 })
 
 //*** HTML formatter task
@@ -92,90 +74,100 @@ gulp.task('prettify', function() {
 });
 
 gulp.task('lint', function()  {
-    gulp.src(['./src/js/**/*.js', '!./src/js/standalone/**/*.js'])
-        .pipe(eslint())
-        .pipe(eslint.format())
-    gulp.src('./src/js/standalone/main.js')
+    gulp.src(['./src/js/**/*.js'])
         .pipe(eslint())
         .pipe(eslint.format())
         // .pipe(eslint.failAfterError())
 });
 
-//压缩HTML和打版本
-gulp.task('html',  function() {
-    if (config.mode === "develop") {
-        gulp.src(['./src/404.html'])
-                    .pipe(gulp.dest('./app/'));
-        gulp.src(['./src/components/**/*.html'])
-                    .pipe(gulp.dest('./app/components'));
-        // gulp.src(['./src/pages/**/*.html'])
-        //             .pipe(gulp.dest('./app/views'));
-        gulp.src(['./src/views/**/*.html'])
-                    .pipe(gulp.dest('./app/views'));
-        gulp.src(['./src/tpl/**/*.html'])
-                    .pipe(gulp.dest('./app/tpl'));
-        return gulp.src(['./app/manifest.json','./src/index.html']).pipe(revCollector({
-                    replaceReved:true
-                    }))
-                    .pipe(gulp.dest('./app'));
-    } else {
-        const htmlOptions = {
-                        removeComments: true,
-                        collapseWhitespace:true,
-                        minifyJS: true,
-                        minifyCss: true
-                    };
-        gulp.src(['./src/404.html'])
-                    .pipe(strip())
-                    .pipe(htmlmin(htmlOptions))
-                    .pipe(gulp.dest('./app/'));
-        gulp.src(['./src/components/**/*.html'])
-                    .pipe(strip())
-                    .pipe(htmlmin(htmlOptions))
-                    .pipe(gulp.dest('./app/components'));
-        // gulp.src(['./src/pages/**/*.html'])
-        //             .pipe(strip())
-        //             .pipe(htmlmin(htmlOptions))
-        //             .pipe(gulp.dest('./app/views'));
-        gulp.src(['./src/views/**/*.html'])
-                    .pipe(strip())
-                    .pipe(htmlmin(htmlOptions))
-                    .pipe(gulp.dest('./app/views'));
-        gulp.src(['./src/tpl/**/*.html'])
-                    .pipe(strip())
-                    .pipe(htmlmin(htmlOptions))
-                    .pipe(gulp.dest('./app/tpl'));
-        return gulp.src(['./assets/*.json',  './app/manifest.json','./src/index.html']).pipe(revCollector({
-                    replaceReved:true
-                    }))
-                    .pipe(strip())
-                    .pipe(htmlmin(htmlOptions))
-                    .pipe(gulp.dest('./app'));
-    }
 
-    gulp.src(['./src/data/**/*']).pipe(gulp.dest('./app/data/'));
-});
-gulp.task('rev', function() {
-    return gulp.src(['./app/manifest.json', './app/js/bundle*.js']).pipe(revCollector({
-                    replaceReved:true
-                    }))
-                    .pipe(gulp.dest('./app/js/'));
-})
+// gulp.task('rev', function() {
+//     return gulp.src(['./app/manifest.json', './app/js/bundle*.js']).pipe(revCollector({
+//                     replaceReved:true
+//                     }))
+//                     .pipe(gulp.dest('./app/js/'));
+// })
 
-gulp.task('rev:watch', function() {
-    return gulp.watch(['./src/js/**/*.js'], ['rev']);
-});
+// gulp.task('rev:watch', function() {
+//     return gulp.watch(['./src/js/**/*.js'], ['rev']);
+// });
 
-gulp.task('html:watch', function() {
-    gulp.watch(['./src/**/*.html'], ['html']);
-});
+// gulp.task('html:watch', function() {
+//     gulp.watch(['./src/**/*.html'], ['html']);
+// });
 
-gulp.task('watch', ['sass:watch', 'rev:watch', 'html:watch']);
+// gulp.task('watch', ['rev:watch', 'html:watch']);
 
 gulp.task('config-product', function() {
     config.mode = "production";
 })
 
+gulp.task('critical', async function(cb) {
+    let revData = await readFilePromise('app/manifest.json')
+    let revs = JSON.parse(revData)
+    return penthouse({
+        url: 'http://bigbigads.dev/app/', // can also use file:/// protocol for local files
+        // cssString: 'body { color; red }', // the original css to extract critcial css from
+        css: [
+            'node_modules/bootstrap/dist/css/bootstrap.min.css', 
+            'app/' + revs['bundle.css'], 
+            'app/' + revs['search.css'], 
+            'assets/global/plugins/select2/css/select2.min.css',
+            'assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css'
+            ], // path to original css file on disk
+        // OPTIONAL params
+        width: 1300, // viewport width
+        height: 900, // viewport height
+        forceInclude: [ // selectors to keep
+            '.keepMeEvenIfNotSeenInDom',
+            /^\.regexWorksToo/
+        ],
+        propertiesToRemove: [
+            '(.*)transition(.*)',
+            'cursor',
+            'pointer-events',
+            '(-webkit-)?tap-highlight-color',
+            '(.*)user-select'
+        ],
+        timeout: 60000, // ms; abort critical CSS generation after this timeout
+        strict: false, // set to true to throw on CSS errors (will run faster if no errors)
+        maxEmbeddedBase64Length: 1000, // characters; strip out inline base64 encoded resources larger than this
+        userAgent: 'Penthouse Critical Path CSS Generator', // specify which user agent string when loading the page
+        renderWaitTime: 100, // ms; render wait timeout before CSS processing starts (default: 100)
+        blockJSRequests: false, // set to false to load (external) JS (default: true)
+        customPageHeaders: {
+            'Accept-Encoding': 'identity' // add if getting compression errors like 'Data corrupted'
+        },
+        screenshots: {
+            // turned off by default
+            basePath: './', // absolute or relative; excluding file extension
+            type: 'jpeg', // jpeg or png, png default
+            quality: 20 // only applies for jpeg type
+            // -> these settings will produce homepage-before.jpg and homepage-after.jpg
+        },
+        htmltag: 'app'
+    })
+    .then(async function(res) {
+        // console.log(res)
+        // use the critical css
+        fs.writeFileSync('app/critical.css', res.formattedCss)
+        fs.writeFileSync('app/static.html', res.html)
+    })
+    .catch(err => {
+        console.log("error", err)
+        // handle the error
+    })   
+})
 
-gulp.task('production', gulpsync.sync([["config-product"], ['sass', 'rev'], 'html']));
-gulp.task('develop', gulpsync.sync([['sass'], 'html']));
+gulp.task("test", async function() {
+    let css = await readFilePromise('app/critical.css')
+    let criticalHtml = await readFilePromise('app/static.html')
+    let orig = await readFilePromise('app/index.html')       
+    let $ = cheerio.load(orig)
+    $('style').html(css)
+    $('#server-render').html(criticalHtml)
+    fs.writeFileSync('app/index.html', $.html())
+})
+
+// gulp.task('production', gulpsync.sync([["config-product"], 'html']));
+// gulp.task('develop', gulpsync.sync(['html']));

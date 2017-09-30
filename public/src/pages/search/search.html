@@ -114,7 +114,7 @@
                 </div>
             </div>
             <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend" ng-class="{'half-opacity':adSearcher.busy && adSearcher.params.limit[0] === 0}">
-                <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid clearfix" cardTemplate="{{'views/adsearch-card.html' | nocache}}">
+                <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid clearfix" cardTemplateString="<adsearch-card />">
                 </div>
                 <div class="clearfix">
                 </div>
@@ -139,7 +139,7 @@
     <!-- <i class="icon-grid"></i> -->
     <!-- </button> -->
 
-    <sidebar class="page-quick-sidebar-wrapper xg-quick-sidebar-top52" ng-cloak />
+    <sidebar ng-cloak />
     <!-- <button type="button" class="bg-yellow-gold statics-btn" ng-click="showStatics()"> -->
     <!--     <span class="sr-only">Toggle Statics Dialog</span> -->
     <!--     <i class="icon-bar-chart font-white fa-2x"></i> -->
@@ -350,7 +350,7 @@
                 <p ng-if="User.info.user.role.plan == 'standard'">You can only see 300 results per search in standard level.Please contact us if you need to see more: help@bigbigads.com</p>
                 <p ng-if="User.info.user.role.plan == 'free'">You can only see 100 results per search in free level.Please contact us if you need to see more: help@bigbigads.com</p>
             </div>
-            <div class="col-md-5" ng-include="'tpl/register.html' | nocache">
+            <div register class="col-md-5">
             </div>
             <div class="col-md-12">
                 <div class="pull-left col-md-5">

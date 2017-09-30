@@ -1,11 +1,18 @@
 /*引入公用样式*/
 @import 'variables';
 @import 'base';
+@import 'font';
 @import 'legacy';
+@import 'mixins/_buttons';
 @import '_reset-general';
 @import '_animate';
 @import '_colors';
 @import '_dropdowns';
+@import '_buttons';
+@import '_typography';
+@import '_portlets';
+@import '_alerts';
+@import '_tabs';
 
 // Extra small screen / phone
 $screen-xs-min: 480px !default;
@@ -1521,15 +1528,6 @@ color: $black_placeholder !important;
 * 该文件应该放在尾部，避免被样式覆盖
 */
 @import 'app_mobile';
-
-/*plans 界面样式*/
-// @import 'plans';
-
-/*
-* 广告详情页
-* @import 'analysis';
-* 独立页面的样式要通过懒加载，不需要在该样式中引用
-*/
 
 /*广告卡*/
 @import 'adscard';

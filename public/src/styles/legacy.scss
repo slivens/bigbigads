@@ -19,6 +19,13 @@ body {
 	padding: 0px;
 }
 
+body {
+    background-color: $bg-color;  
+
+    &.page-md {
+        background: lighten($bg-color, 5%);
+    }
+}
 .page-wrapper {
 	display: table;
 	width: 100%;

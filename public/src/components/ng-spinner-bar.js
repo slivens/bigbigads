@@ -17,6 +17,7 @@ angular.module('bba.ng-spinner-bar', ['ui.router']).directive('ngSpinnerBar', ['
                 $rootScope.$on('$stateChangeSuccess', function(event) {
                     element.addClass('hide') // hide spinner bar
                     $('body').removeClass('page-on-load') // remove page loading indicator
+                    $('#server-render').remove()
 
                     // auto scorll to page top
                     setTimeout(function() {
@@ -37,14 +38,14 @@ angular.module('bba.ng-spinner-bar', ['ui.router']).directive('ngSpinnerBar', ['
                     element.addClass('hide') // hide spinner bar
                 })
 
-                $rootScope.$on('loading', function() {
-                    element.removeClass('hide') // show spinner bar
-                    $('body').addClass('page-on-load') // remove page loading indicator
-                })
-                $rootScope.$on('completed', function() {
-                    element.addClass('hide') // hide spinner bar
-                    $('body').removeClass('page-on-load') // remove page loading indicator
-                })
+                // $rootScope.$on('loading', function() {
+                //     element.removeClass('hide') // show spinner bar
+                //     $('body').addClass('page-on-load') // remove page loading indicator
+                // })
+                // $rootScope.$on('completed', function() {
+                //     element.addClass('hide') // hide spinner bar
+                //     $('body').removeClass('page-on-load') // remove page loading indicator
+                // })
             }
         }
     }

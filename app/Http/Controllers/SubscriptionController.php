@@ -205,6 +205,10 @@ final class SubscriptionController extends PayumController
 
         $agreement = $service->onPay($request);
 
+        if (!$agreement) {
+            echo "Paypal encountered some error, please <a href='/app/profile?active=0'>Back</a> and retry.";
+            return;
+        }
         $payer = $agreement->getPayer();
         $info = $payer->getPayerInfo();
         //中途取消的情况下返回profile页面

@@ -1,5 +1,5 @@
 <!-- BEGIN PAGE BREADCRUMB -->
-<div ng-controller="AdserController" class="ml-sidebar">
+<div class="ml-sidebar">
 <ul class="page-breadcrumb breadcrumb">
     <li>
         <a ui-sref="adsearch">ad search</a>
@@ -79,7 +79,7 @@
             </div>
         </div>
         <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
-            <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid" cardTemplate="{{'views/adsearch-card.html' | nocache}}">
+            <div deckgrid source="adSearcher.ads.ads_info" class="deckgrid" cardTemplateString="<adsearch-card />">
             </div>
             <div class="clearfix">
             </div>
@@ -109,7 +109,7 @@
 			<!-- <i class="icon-grid"></i> -->
  <!-- </button> -->
 
- <sidebar class="page-quick-sidebar-wrapper xg-quick-sidebar-top52" ng-cloak />
+ <sidebar ng-cloak />
  <script type="text/ng-template" id="adser-limited-banner.html">
     <div class="dashboard-stat dashboard-stat-v2 col-md-12 xg-limited-banner">
         <div ng-if="adSearcher.ads.total_count!=0">

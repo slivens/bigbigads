@@ -1,16 +1,31 @@
+import 'font-awesome/css/font-awesome.css'
+import 'simple-line-icons/css/simple-line-icons.css'
+import 'bootstrap/dist/css/bootstrap.css'
 import "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"
 import 'sweetalert/dist/sweetalert.css'
 import 'angular-busy/dist/angular-busy.min.css'
-import './sass/global/font.scss'
-import './sass/global/components-md.scss'
-import './sass/layouts/layout3/themes/yellow-orange.scss'
+import swal from 'sweetalert'
 import './styles/index.scss'
 import './pages/common/settings.js'
-import './components/header.js'
-import './components/ng-spinner-bar.js'
+import './components/app.js'
+import {template as upgradeDlgTemplate, controller as upgradeDlgController} from './components/upgrade-dlg.js'
+import {template as signTemplate, controller as signController} from './components/sign.js'
+import {template as searchResultUpgradeDlgTemplate, controller as searchResultUpgradeDlgController} from './components/search-result-upgrade-dlg.js'
+import {template as filterDataLimitDlgTemplate, controller as filterDataLimitDlgController} from './components/filter-data-limit-dlg.js'
 
 window.moment = require('moment')
 
+// function checkAdblock() {
+//     if (typeof checkAdblockValue === 'undefined') {
+//         swal({title: "Warning", text: "If you're not seeing any ads, it's possible you're running an Ad Blocking plugin on your browser. To view our ads, you'll need to disable it while you're here... ;-)", type: "warning"})
+//     } else {
+//         //          console.log('adblock is disabled');
+//     }
+// }
+import('./lib/fuckadblock.js' /* webpackChunkName:"fuckadblock" */).catch(() => {
+    swal({title: "Warning", text: "If you're not seeing any ads, it's possible you're running an Ad Blocking plugin on your browser. To view our ads, you'll need to disable it while you're here... ;-)", type: "warning"})
+})
+// checkAdblock()
 /* Metronic App */
 var MetronicApp = angular.module("MetronicApp", [
     "ui.router",
@@ -21,27 +36,9 @@ var MetronicApp = angular.module("MetronicApp", [
     'ngResource',
     'cgBusy',
     'bba.settings',
-    'bba.header',
-    'bba.ng-spinner-bar'
+    'bba.app'
 ])
 
-/* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
-MetronicApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
-    $ocLazyLoadProvider.config({
-        // global configs go here
-    })
-}])
-
-// AngularJS v1.3.x workaround for old style controller declarition in HTML
-MetronicApp.config(['$controllerProvider', function($controllerProvider) {
-    // this option might be handy for migrating old apps, but please don't use it
-    // in new ones!
-    $controllerProvider.allowGlobals()
-}])
-
-/********************************************
- END: BREAKING CHANGE in AngularJS v1.3.x:
-*********************************************/
 /* Setup global settings */
 MetronicApp.constant('TIMESTAMP', Date.parse(new Date()))
 MetronicApp.constant('ADS_TYPE', {
@@ -191,19 +188,26 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {
             return showString
         }
     })
-/* Setup App Main Controller */
-MetronicApp.controller('AppController', ['$scope', '$rootScope', 'User', function($scope, $rootScope, User) {
-    $scope.$on('$viewContentLoaded', function() {
-        // Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
-    })
+MetronicApp.factory('loader', ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+    return (name) => {
+        let d = $q.defer()
+            import(
+                `./pages/${name}/${name}.js` /* webpackChunkName:`${name}` */
+            ).then(m => {
+                let module
+                if (typeof (m.default) === 'function')
+                    module = m.default(angular)
+                else
+                    module = m.default
+                $ocLazyLoad.load({
+                    name // 页面创建一个属于自己的模块，此处传递模块名，$ocLazyLoad会将其加入到angular的核心中，如果没有这句，即便模块加载成功了也无法引用
+                })
+                d.resolve(module)
+            })
+
+            return d.promise
+    }
 }])
-
-/***
-Layout Partials.
-By default the partials are loaded through AngularJS ng-include directive. In case they loaded in server side(e.g: PHP include function) then below partial 
-initialization can be disabled and Layout.init() should be called on page load complete as explained above.
-***/
-
 MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', '$state', function($scope, $location, User, $state) {
     var tabmenu = {
         name: $location.path()
@@ -225,28 +229,16 @@ MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', '$st
         tabmenu.name = $location.path()
     })
 }])
-/* Setup Layout Part - Sidebar */
-MetronicApp.controller('SidebarController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
-        // Layout.initSidebar($state); // init sidebar
-    })
-}])
-
-/* Setup Layout Part - Footer */
-MetronicApp.controller('FooterController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
-        // Layout.initFooter(); // init footer
-    })
-}])
 
 /* Setup Rounting For All Pages */
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', 'TIMESTAMP', function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider, TIMESTAMP) {
-    var ts = TIMESTAMP
+    // var ts = TIMESTAMP
     // Redirect any unmatched url
     $urlMatcherFactoryProvider.strictMode(false)
     // $urlRouterProvider.when("/", "/adsearch");
-    $urlRouterProvider.otherwise("/404.html?t=" + ts)
+    $urlRouterProvider.otherwise("/404")
 
+    // TODO:resolve中的重复代码需要清理下
     $stateProvider
         .state('/', {
             url: '/',
@@ -255,31 +247,19 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 pageTitle: 'Advertise Search'
             },
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: ' #ng_load_plugins_before',
-                        files: [
-                            '/node_modules/angular-deckgrid/angular-deckgrid.js',
-                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
-                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
-                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
-                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
-                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
-                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinModern.css',
-                            '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            'search.css',
-                            'search.js'
-                        ]
+                deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    let d = $q.defer()
+                    import(
+                        './pages/search/search.js' /* webpackChunkName:"search" */
+                    ).then(m => {
+                        let module = m.default(angular)
+                        $ocLazyLoad.load({
+                            name: 'search' // 页面创建一个属于自己的模块，此处传递模块名，$ocLazyLoad会将其加入到angular的核心中，如果没有这句，即便模块加载成功了也无法引用
+                        })
+                        d.resolve(module)
                     })
+
+                    return d.promise
                 }]
             }
         })
@@ -290,32 +270,19 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 pageTitle: 'Advertise Search'
             },
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: ' #ng_load_plugins_before',
-                        files: [
-                            '/node_modules/angular-deckgrid/angular-deckgrid.js',
-                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
-                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
-                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
-                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
-                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
-                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinModern.css',
-                            '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            '/node_modules/highcharts/highcharts.js',
-                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            'search.css',
-                            'search.js'
-                        ]
+                deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    let d = $q.defer()
+                    import(
+                        './pages/search/search.js' /* webpackChunkName:"search" */
+                    ).then(m => {
+                        let module = m.default(angular)
+                        $ocLazyLoad.load({
+                            name: 'search'
+                        })
+                        d.resolve(module)
                     })
+
+                    return d.promise
                 }]
             }
         })
@@ -326,32 +293,18 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 pageTitle: 'Advertiser\'s ads'
             },
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: ' #ng_load_plugins_before',
-                        files: [
-                            '/node_modules/angular-deckgrid/angular-deckgrid.js',
-                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
-                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
-                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
-                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
-                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
-                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
-                            '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            '/node_modules/highcharts/highcharts.js',
-                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            'owner.css',
-                            'owner.js'
-                        ]
+                deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    let d = $q.defer()
+                    import(
+                        './pages/owner/owner.js' /* webpackChunkName:"owner" */
+                    ).then(m => {
+                        let module = m.default(angular)
+                        $ocLazyLoad.load({
+                            name: 'owner'
+                        })
+                        d.resolve(module)
                     })
+                    return d.promise
                 }]
             }
 
@@ -363,30 +316,24 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 pageTitle: 'Advertiser Search'
             },
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: ' #ng_load_plugins_before',
-                        files: [
-                            '/node_modules/angular-deckgrid/angular-deckgrid.js',
-                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
-                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
-                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
-                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
-                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css',
-                            '../assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css',
-                            '../assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js',
-                            'owner-search.css',
-                            'owner-search.js'
-                        ]
+                deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    let d = $q.defer()
+                    let name = 'owner-search'
+                    import(
+                        "./pages/owner-search/owner-search.js" /* webpackChunkName:"owner-search" */
+                    ).then(m => {
+                        let module
+                        if (typeof (m.default) === 'function')
+                            module = m.default(angular)
+                        else
+                            module = m.default
+                        $ocLazyLoad.load({
+                            name // 页面创建一个属于自己的模块，此处传递模块名，$ocLazyLoad会将其加入到angular的核心中，如果没有这句，即便模块加载成功了也无法引用
+                        })
+                        d.resolve(module)
                     })
+
+                    return d.promise
                 }]
             }
         })
@@ -397,35 +344,24 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 pageTitle: 'Advertiser Analysis'
             },
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'MetronicApp',
-                        insertBefore: ' #ng_load_plugins_before',
-                        files: [
-                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
-                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            '/node_modules/jqcloud2/dist/jqcloud.min.css',
-                            '/node_modules/jqcloud2/dist/jqcloud.min.js',
-                            '../assets/global/plugins/angular-jqcloud.js',
-                            'owner-analysis.css',
-                            'owner-analysis.js'
-                        ]
-                    }, {
-                        serie: true,
-                        insertBefore: ' #ng_load_plugins_before',
-                        files: [
-                            '/node_modules/highcharts/highcharts.js',
-                            '/node_modules/highcharts/modules/map.js',
-                            '../assets/global/scripts/world.min.js'
-                        ]
-                    }]).then(function() {
-
+                deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    let d = $q.defer()
+                    let name = 'owner-analysis'
+                    import(
+                        "./pages/owner-analysis/owner-analysis.js" /* webpackChunkName:"owner-analysis" */
+                    ).then(m => {
+                        let module
+                        if (typeof (m.default) === 'function')
+                            module = m.default(angular)
+                        else
+                            module = m.default
+                        $ocLazyLoad.load({
+                            name // 页面创建一个属于自己的模块，此处传递模块名，$ocLazyLoad会将其加入到angular的核心中，如果没有这句，即便模块加载成功了也无法引用
+                        })
+                        d.resolve(module)
                     })
+
+                    return d.promise
                 }]
             }
         })
@@ -436,37 +372,24 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 pageTitle: 'Specific Advertise Analysis'
             },
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'MetronicApp',
-                        insertBefore: ' #ng_load_plugins_before',
-                        files: [
-                            '/node_modules/angular-deckgrid/angular-deckgrid.js',
-                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
-                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
-                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
-                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
-                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            '/node_modules/highcharts-ng/dist/highcharts-ng.min.js',
-                            'analysis.css',
-                            'analysis.js'
-                        ]
-                    }, {
-                        serie: true,
-                        insertBefore: ' #ng_load_plugins_before',
-                        files: [
-                            '/node_modules/highcharts/highcharts.js',
-                            '/node_modules/highcharts/modules/map.js',
-                            '../assets/global/scripts/world.min.js'
-                        ]
-                    }]).then(function() {
-
+                deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    let d = $q.defer()
+                    let name = 'analysis'
+                    import(
+                        "./pages/analysis/analysis.js" /* webpackChunkName:"analysis" */
+                    ).then(m => {
+                        let module
+                        if (typeof (m.default) === 'function')
+                            module = m.default(angular)
+                        else
+                            module = m.default
+                        $ocLazyLoad.load({
+                            name // 页面创建一个属于自己的模块，此处传递模块名，$ocLazyLoad会将其加入到angular的核心中，如果没有这句，即便模块加载成功了也无法引用
+                        })
+                        d.resolve(module)
                     })
+
+                    return d.promise
                 }]
             }
 
@@ -478,26 +401,24 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 pageTitle: 'Ranking'
             },
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: ' #ng_load_plugins_before',
-                        files: [
-                            '/node_modules/angular-deckgrid/angular-deckgrid.js',
-                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
-                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
-                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
-                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
-                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            'ranking.js'
-                        ]
+                deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    let d = $q.defer()
+                    let name = 'ranking'
+                    import(
+                        "./pages/ranking/ranking.js" /* webpackChunkName:"ranking" */
+                    ).then(m => {
+                        let module
+                        if (typeof (m.default) === 'function')
+                            module = m.default(angular)
+                        else
+                            module = m.default
+                        $ocLazyLoad.load({
+                            name // 页面创建一个属于自己的模块，此处传递模块名，$ocLazyLoad会将其加入到angular的核心中，如果没有这句，即便模块加载成功了也无法引用
+                        })
+                        d.resolve(module)
                     })
+
+                    return d.promise
                 }]
             }
         })
@@ -508,27 +429,24 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 pageTitle: 'Bookmark'
             },
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: ' #ng_load_plugins_before',
-                        files: [
-                            '/node_modules/angular-deckgrid/angular-deckgrid.js',
-                            '/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
-                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
-                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
-                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
-                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            'search.css',
-                            'search.js'
-                        ]
+                deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    let d = $q.defer()
+                    let name = 'search'
+                    import(
+                        "./pages/search/search.js" /* webpackChunkName:"search" */
+                    ).then(m => {
+                        let module
+                        if (typeof (m.default) === 'function')
+                            module = m.default(angular)
+                        else
+                            module = m.default
+                        $ocLazyLoad.load({
+                            name // 页面创建一个属于自己的模块，此处传递模块名，$ocLazyLoad会将其加入到angular的核心中，如果没有这句，即便模块加载成功了也无法引用
+                        })
+                        d.resolve(module)
                     })
+
+                    return d.promise
                 }]
             }
 
@@ -540,28 +458,24 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 pageTitle: 'Plans'
             },
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: ' #ng_load_plugins_before',
-                        files: [
-                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
-                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
-                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
-                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            '/node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-                            '/node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
-                            '/node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
-                            'plans.css',
-                            'plans.js'
-                        ]
+                deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    let d = $q.defer()
+                    let name = 'plans'
+                    import(
+                        "./pages/plans/plans.js" /* webpackChunkName:"plans" */
+                    ).then(m => {
+                        let module
+                        if (typeof (m.default) === 'function')
+                            module = m.default(angular)
+                        else
+                            module = m.default
+                        $ocLazyLoad.load({
+                            name // 页面创建一个属于自己的模块，此处传递模块名，$ocLazyLoad会将其加入到angular的核心中，如果没有这句，即便模块加载成功了也无法引用
+                        })
+                        d.resolve(module)
                     })
+
+                    return d.promise
                 }]
             }
 
@@ -574,24 +488,30 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 pageTitle: 'Profile'
             },
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
-                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
-                            '/node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js',
-                            '/node_modules/fancybox/dist/css/jquery.fancybox.css',
-                            '/node_modules/fancybox/dist/js/jquery.fancybox.pack.js',
-                            '/node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-                            '/node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
-                            '/node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
-                            'profile.js'
-                        ]
+                deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    let d = $q.defer()
+                    let name = 'profile'
+                    import(
+                        "./pages/profile/profile.js" /* webpackChunkName:"profile" */
+                    ).then(m => {
+                        let module
+                        if (typeof (m.default) === 'function')
+                            module = m.default(angular)
+                        else
+                            module = m.default
+                        $ocLazyLoad.load({
+                            name // 页面创建一个属于自己的模块，此处传递模块名，$ocLazyLoad会将其加入到angular的核心中，如果没有这句，即便模块加载成功了也无法引用
+                        })
+                        d.resolve(module)
                     })
+
+                    return d.promise
                 }]
             }
+        })
+        .state('notfound', {
+            url: "/404",
+            template: "The Page Not Found"
         })
     $locationProvider.html5Mode(true)
 }])
@@ -735,83 +655,35 @@ MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope'
         },
         openUpgrade: function() {
             return $uibModal.open({
-                templateUrl: 'views/upgrade.html?t=' + TIMESTAMP,
+                template: upgradeDlgTemplate,
                 size: 'md',
                 animation: true,
-                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
-                    $scope.goIndex = function() {
-                        window.open('/home', "_self")
-                        $uibModalInstance.dismiss('success')
-                    }
-                    $scope.goPlans = function() {
-                        $state.go("plans")
-                        $uibModalInstance.dismiss('success')
-                    }
-                }]
+                controller: upgradeDlgController
             })
         },
         openSign: function() {
             return $uibModal.open({
-                templateUrl: 'views/sign.html?t=' + TIMESTAMP,
+                template: signTemplate,
                 size: 'customer',
                 backdrop: false,
                 animation: true,
-                controller: ['$scope', '$uibModalInstance', '$window', function($scope, $uibModalInstance, $window) {
-                    var slides = $scope.slides = []
-                    var i
-                    $scope.addSlide = function() {
-                        var imgItem = slides.length + 1
-                        slides.push({
-                            image: 'adscard_0' + imgItem + '.jpg'
-                        })
-                    }
-                    for (i = 0; i < 4; i++) {
-                        $scope.addSlide()
-                    }
-                    $scope.close = function() {
-                        $uibModalInstance.dismiss('cancle')
-                    }
-
-                    // 获取track码
-                    if ($window.localStorage.getItem('track')) {
-                        var track = JSON.parse($window.localStorage.getItem('track'))
-                        if (Date.parse(new Date()) < Date.parse(track.expired)) {
-                            $scope.trackCode = track.code
-                        }
-                    } else {
-                        $scope.trackCode = null
-                    }
-                }]
+                controller: signController
             })
         },
         openSearchResultUpgrade: function() {
             return $uibModal.open({
-                templateUrl: 'views/search-result-upgrade.html?t=' + TIMESTAMP,
+                template: searchResultUpgradeDlgTemplate,
                 size: 'md',
                 animation: true,
-                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
-                    $scope.goPlans = function() {
-                        $state.go("plans")
-                        $uibModalInstance.dismiss('success')
-                    }
-                }]
+                controller: searchResultUpgradeDlgController
             })
         },
         openFreeDateLimit: function() {
             return $uibModal.open({
-                templateUrl: 'views/filter-data-limit.html?t=' + TIMESTAMP,
+                template: filterDataLimitDlgTemplate,
                 size: 'md',
                 animation: true,
-                controller: ['$scope', '$uibModalInstance', '$state', function($scope, $uibModalInstance, $state) {
-                    $scope.goPlans = function() {
-                        $state.go("plans")
-                        $uibModalInstance.dismiss('success')
-                    }
-                    $scope.goIndex = function() {
-                        window.open('/home', "_self")
-                        $uibModalInstance.dismiss('success')
-                    }
-                }]
+                controller: filterDataLimitDlgController
             })
         }
     }
@@ -834,63 +706,10 @@ MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope'
 }])
 MetronicApp.controller('UserController', ['$scope', '$http', '$window', 'User', function($scope, $http, $window, User) {
     $scope.User = User
-    $scope.formData = {name: ' ', email: '', password: ''}
-    $scope.registerError = {}
     $scope.isShow = false
     $scope.logout = function() {
         // 根据intercom的文档，用户退出应使用shutdown方法关闭本次会话
         Intercom('shutdown')
         window.open('/logout', "_self")
-    }
-    $scope.checkEmail = function() {
-        $scope.showHotmailMessage = false
-        var emails = ['hotmail.com', 'live.com', 'outlook.com']
-        angular.forEach(emails, function(item) {
-            if ($scope.formData.email && $scope.formData.email.split('@')[1] === item) {
-                $scope.showHotmailMessage = true
-            }
-        })
-    }
-    $scope.processForm = function(isValid) {
-        $scope.isShow = true
-        if ($scope.formData.name == ' ') { $scope.formData.name = $scope.formData.email.split('@')[0] }
-        if ($window.localStorage.getItem("track")) {
-            var track = JSON.parse($window.localStorage.track)
-            var expired = track.expired
-            if (moment().isBefore(expired)) {
-                $scope.formData.track = track.code
-            } else {
-                $window.localStorage.removeItem("track")
-            }
-        }
-        if (isValid) {
-            $http({
-                method: 'POST',
-                url: '../register',
-                data: $scope.formData,
-                headers: { 'X-Requested-With': 'XMLHttpRequest' } // server need to know this is a ajax.
-            })
-                .then(
-                    function successCallback(response) {
-                    // location.href = response.data.url;
-                        location.href = "/welcome?source=email"
-                    },
-                    function errorCallback(response) {
-                        $scope.isShow = false
-                        $scope.registerError = response.data
-                    }
-                )
-        }
-    }
-    /* 弹窗中的点击事件 */
-    $scope.shortcutReg = true // 初始化
-    $scope.useEmailReg = false // 初始化
-    $scope.turnToEmail = function() {
-        $scope.shortcutReg = false
-        $scope.useEmailReg = true
-    }
-    $scope.turnToShotcut = function() {
-        $scope.shortcutReg = true
-        $scope.useEmailReg = false
     }
 }])
