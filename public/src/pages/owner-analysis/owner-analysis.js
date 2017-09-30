@@ -2,9 +2,17 @@ import './owner-analysis.scss'
 import '../common/common.js'
 import '../bookmark/bookmark.js'
 import '../common/searcher.js'
+import Highcharts from 'highcharts'
+import HighchartsMap from 'highcharts/modules/map.js'
+import CustomWorld from '../common/world.js'
+import 'highcharts-ng'
 import template from './owner-analysis.html'
 
-angular.module('MetronicApp').controller('AdserAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$http', '$uibModal', '$q', 'Util', '$timeout',
+window.Highcharts = Highcharts
+HighchartsMap(Highcharts)
+CustomWorld(Highcharts)
+
+export default angular.module('owner-analysis', ['MetronicApp', 'highcharts-ng']).controller('AdserAnalysisController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', '$stateParams', '$http', '$uibModal', '$q', 'Util', '$timeout',
     function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, $stateParams, $http, $uibModal, $q, Util, $timeout) {
         /*
             * 广告主分析接口未定，暂时用临时接口
@@ -129,8 +137,8 @@ angular.module('MetronicApp').controller('AdserAnalysisController', ['$rootScope
                             addrCount += audienceArr.addr[key].value
                         }
                         // 去获取地图数据
-                        $http.get('/app/data/map-country.json').then(function(res) {
-                            vm.countries = res.data
+                        import('../../data/map-country.json').then(function(res) {
+                            vm.countries = res
                             for (key in audienceArr.addr) {
                                 var countryShortName = audienceArr.addr[key].country.toUpperCase() // 转换成大写
                                 audienceArr.addr[key].country = countryShortName

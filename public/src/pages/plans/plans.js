@@ -2,7 +2,7 @@ import '../common/common'
 import './plans.scss'
 import template from './plans.html'
 
-angular.module('MetronicApp').controller('PlansController', ['$scope', 'Resource', 'User', function($scope, Resource, User) {
+export default angular.module('plans', ['MetronicApp']).controller('PlansController', ['$scope', 'Resource', 'User', function($scope, Resource, User) {
     var plans = new Resource('plans')
     plans.getPolicy = function(item, permissionKey, groupKey) {
         var group = item.groupPermissions[groupKey]

@@ -1,7 +1,9 @@
 // import '../common/common'
 import template from './ranking.html'
+import 'select2/dist/css/select2.min.css'
+import 'select2'
 
-angular.module('MetronicApp').controller('RankingController', ['$scope', 'settings', '$http', 'SweetAlert', '$location', 'User', function($scope, settings, $http, SweetAlert, $location, User) {
+export default angular.module('ranking', ['MetronicApp']).controller('RankingController', ['$scope', 'settings', '$http', 'SweetAlert', '$location', 'User', function($scope, settings, $http, SweetAlert, $location, User) {
     var ranking = {
         active: 0,
         sort: {field: null, reverse: true},

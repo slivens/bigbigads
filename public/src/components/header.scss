@@ -492,9 +492,9 @@ Page Header
                             content: "\e065"#{'/*rtl:"\e066"*/'};               
                         }
 
-                        .page-quick-sidebar-open &:before {
-                            content: "\e066"#{'/*rtl:"\e065"*/'};
-                        }
+                        // .page-quick-sidebar-open &:before {
+                        //     content: "\e066"#{'/*rtl:"\e065"*/'};
+                        // }
 
                         &:hover {
                             color: #a4b4bb;

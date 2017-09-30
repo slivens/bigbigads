@@ -3,9 +3,21 @@ import '../bookmark/bookmark.js'
 import '../common/searcher.js'
 import '../../components/sidebar.js'
 import '../../components/adser-search-card.js'
+import 'angular-deckgrid/angular-deckgrid'
+import 'ng-infinite-scroll'
+import 'angular-daterangepicker'
+import 'bootstrap-daterangepicker/daterangepicker.css'
+import 'bootstrap-daterangepicker'
+import 'select2/dist/css/select2.min.css'
+import 'select2'
+import 'bootstrap-select/dist/css/bootstrap-select.min.css'
+import 'bootstrap-select'
+import 'ion-rangeslider/css/ion.rangeSlider.css'
+import 'ion-rangeslider/css/ion.rangeSlider.skinModern.css'
+import 'ion-rangeslider'
 import template from './owner-search.html'
 
-angular.module('MetronicApp').controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User',
+export default angular.module('owner-search', ['MetronicApp', 'daterangepicker', 'akoenig.deckgrid', 'infinite-scroll']).controller('AdserSearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User',
     function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User) {
         $scope.settings = settings
         // 搜索流程:location.search->searchOption->adSearcher.params
