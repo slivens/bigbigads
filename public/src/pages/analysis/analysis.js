@@ -31,17 +31,18 @@ angular.module('MetronicApp').controller('AdAnalysisController', ['$rootScope', 
         $scope.adSearcher.params.ads_detail = 1
         var promise = $scope.adSearcher.filter("analysis")
         var arr
+        if (!User.done)
+            return
+        if (!User.login) {
+            window.open('/login', '_self')
+            return
+        }
         var countryPromise = $http.get('/app/data/map-country.json').then(function(res) {
             vm.countries = res.data
             return res.data
         })
         $q.all([countryPromise, promise]).then(function(res) {
             // 只取首条消息
-            if (!User.done)
-                return
-            if (!User.login) {
-                window.open('/login', '_self')
-            }
             var ads = res[1]
             // objective 转换为正常单词
             var objectStr = {
@@ -68,7 +69,7 @@ angular.module('MetronicApp').controller('AdAnalysisController', ['$rootScope', 
             if ($scope.card.whyseeads_all)
                 $scope.card.whyseeads_all = $scope.card.whyseeads_all.split('\n')
 
-                // 广告impression
+            // 广告impression
             if ($scope.card.impression_trend) {
                 arr = JSON.parse($scope.card.impression_trend)
                 var time
@@ -77,11 +78,11 @@ angular.module('MetronicApp').controller('AdAnalysisController', ['$rootScope', 
                     time = key
                 }
                 /*
-                     * 查看几天天数可修改
-                     * impression 可能存空值
-                     * 将["2017-03-21":{"12","11"...}] 转为 [{"03-21","12"},{"03-22","11"}...]
-                     * getTrendArr(开始的时间，长度， 每天的访问量数组)
-                     */
+                * 查看几天天数可修改
+                * impression 可能存空值
+                * 将["2017-03-21":{"12","11"...}] 转为 [{"03-21","12"},{"03-22","11"}...]
+                * getTrendArr(开始的时间，长度， 每天的访问量数组)
+                */
                 var impressionArr = arr[time] ? Util.getTrendArr(time, 7, arr[time]) : false
                 if (impressionArr) {
                     // 对器数组进行判断，如果是七天中超过5天为无效数据，则判断该数据无效
@@ -110,37 +111,73 @@ angular.module('MetronicApp').controller('AdAnalysisController', ['$rootScope', 
             }
             // 如果whyseeads不为空，填充到广告趋势
             if ($scope.card.whyseeads) {
-                // $scope.card.whyseeads = $scope.card.whyseeads.split('\n');
                 $scope.card.whyseeads = JSON.parse($scope.card.whyseeads)
 
-                // 计算interesting的总数
+                // 获取当前用户的权限名称
+                if (User.user.role.name) {
+                    $scope.userPlan = User.user.role.plan
+                }
+
+                /*
+                * interesting数据处理
+                * 如果是免费用户，则最多只显示三条的interest的信息
+                * 如果是免费的用户，并且insterest的信息大于三组，则加个标识
+                */
                 if ($scope.card.whyseeads.interests) {
-                    var interestsCount = 0
-                    $scope.interestsArr = []
+                    $scope.card.interestsArr = []
+                    let interestsCount = 0
                     for (key in $scope.card.whyseeads.interests) {
-                        $scope.interestsArr.push({
+                        $scope.card.interestsArr.push({
                             'name': key,
                             'value': $scope.card.whyseeads.interests[key]
                         })
-
+                        // 对总数继续计数
                         interestsCount += $scope.card.whyseeads.interests[key]
                     }
                     /*
-                         * 对数组的value进行排序,具体用法见common.js
-                         * srrSort(整个数组，要根据排序的名称，正序0/逆序1)
-                         */
-                    $scope.interestsArr = Util.arrSort($scope.interestsArr, "value", 1)
-                    $scope.interestsArr.count = interestsCount
+                     * 对数组的value进行排序,具体用法见common.js
+                     * srrSort(整个数组，要根据排序的名称，正序0/逆序1)
+                     */
+                    $scope.card.interestsArr = Util.arrSort($scope.card.interestsArr, "value", 1)
+                    // 加个限制标识,免费用户，刚好且小于三条时，就不显示标识
+                    if ($scope.userPlan == 'free' && Object.keys($scope.card.whyseeads.interests).length >= 3) {
+                        $scope.card.interestsArr.limit = 3
+                    }
+                    $scope.card.interestsArr.count = interestsCount
+                    console.log($scope.card.interestsArr)
                 }
-                // 广告详情-性别比例
+
+                /*
+                * 性别占比与年龄分布处理
+                * 免费用户只能见三个月前的数据，三个月内填充假数据
+                */
+                let lastSee = Date.parse($scope.card.last_see || new Date())
+                let nowDate = Date.parse(new Date()) - (3 * 30 * 24 * 60 * 60 * 1000)
+
+                // 如果为三个月内数据，且为免费用户，则填充假数据
                 if ($scope.card.whyseeads.gender) {
-                    var asdGender = $scope.card.whyseeads.gender
-                    $scope.card.gnederPieCharts = Util.pieChartsConfig([['Male', asdGender[0]], ['Female', asdGender[1]]], '60%', ['#7cb5ec', '#ee5689'])
+                    let genderArr = []
+                    let asdGender = $scope.card.whyseeads.gender
+                    if ((lastSee > nowDate) && $scope.userPlan == 'free') {
+                        genderArr = [['Male', 1], ['Female', 1]]
+                        $scope.card.whyseeads.limit = true // 添加标识
+                    } else {
+                        genderArr = [['Male', asdGender[0]], ['Female', asdGender[1]]]
+                    }
+                    $scope.card.gnederPieCharts = Util.pieChartsConfig(genderArr, '60%', ['#7cb5ec', '#ee5689'])
                 } else $scope.card.gnederPieCharts = false
+
                 // 广告详情-年龄分布
                 if ($scope.card.whyseeads.age) {
-                    var arr1 = $scope.card.whyseeads.age.map(function(v) { return v[0] })
-                    var arr2 = $scope.card.whyseeads.age.map(function(v) { return v[1] })
+                    let arr1, arr2
+                    if ((lastSee > nowDate) && $scope.userPlan == 'free') {
+                        arr1 = [1, 1, 1, 1, 0, 0]
+                        arr2 = [1, 1, 1, 1, 0, 0]
+                    } else {
+                        arr1 = $scope.card.whyseeads.age.map(function(v) { return v[0] })
+                        arr2 = $scope.card.whyseeads.age.map(function(v) { return v[1] })
+                    }
+
                     // 堆叠分布 barChartsConfig(barXAxis[X轴数据], barData[数据*], barPercent[以百分号形式显示])
                     $scope.card.ageBarCharts = Util.barChartsConfig(
                         ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'], [{
@@ -154,7 +191,12 @@ angular.module('MetronicApp').controller('AdAnalysisController', ['$rootScope', 
                         ['#7cb5ec', '#ee5689']
                     )
                 } else $scope.card.ageBarCharts = false
-                // 国家分布
+
+                /*
+                * 国家信息处理
+                * 免费用户只能看三条记录 + Upgred
+                * 如果少于三条，则全部显示
+                */
                 if ($scope.card.whyseeads.addr) {
                     // 将country里的值改为大写,并转换全称
                     for (key in $scope.card.whyseeads.addr) {
@@ -169,7 +211,21 @@ angular.module('MetronicApp').controller('AdAnalysisController', ['$rootScope', 
                     }
                     $scope.card.whyseeads.count = adsVisitCountryCount
                     // 国家图表 mapChartsConfig(mapData[国家数据], mapValueCount[数据总数], mapName[标题名称], mapLegend[是否显示图例])
-                    $scope.card.addrMapCharts = Util.mapChartsConfig($scope.card.whyseeads.addr, adsVisitCountryCount, 'Top countries by impression')
+                    $scope.card.countryArr = []
+                    let countryItem = 0
+                    if ($scope.userPlan == 'free' && $scope.card.whyseeads.addr.length > 3) {
+                        $scope.card.whyseeads.addr.forEach(function(items) {
+                            if (countryItem < 3) $scope.card.countryArr.push(items)
+                            countryItem++
+                        })
+                        $scope.card.countryArr.limit = 3
+                    } else {
+                        $scope.card.countryArr = $scope.card.whyseeads.addr
+                    }
+                    $scope.card.countryArr.count = adsVisitCountryCount
+                    console.log($scope.card.countryArr)
+                    $scope.card.addrMapLimit = $scope.userPlan == 'free'
+                    $scope.card.addrMapCharts = Util.mapChartsConfig($scope.card.countryArr, adsVisitCountryCount, 'Top countries by impression')
                 } else $scope.card.addrMapCharts = false
             }
             // 设备占比，当pc为0或不存在时，怎移动设备为100%
@@ -205,8 +261,8 @@ angular.module('MetronicApp').controller('AdAnalysisController', ['$rootScope', 
         }
 
         /**
-             * 查找相似图
-             */
+         * 查找相似图
+         */
         searcher.findSimilar = function(watermark) {
             if (!watermark)
                 return false
@@ -236,8 +292,8 @@ angular.module('MetronicApp').controller('AdAnalysisController', ['$rootScope', 
             return similarPromise
         }
         /**
-             * 加载广告趋势
-             */
+         * 加载广告趋势
+         */
         searcher.getTrends = function(eventid) {
             // eventid = "118849271971984";//for test
             var params = {
