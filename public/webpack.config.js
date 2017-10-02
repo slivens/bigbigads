@@ -44,10 +44,12 @@ module.exports = {
         rules:[{
             test:/\.css$/,
             use:ExtractTextPlugin.extract({
-                use:'css-loader',
-                options: {
-                    sourceMap: !isProduction
-                }
+                use:[{
+                    loader: 'css-loader',
+                    options: {
+                        sourceMap: !isProduction
+                    }
+                }]
             })
         },{
             test:/\.scss$/,
