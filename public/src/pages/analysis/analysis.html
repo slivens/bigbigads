@@ -177,7 +177,7 @@
                         <highchart class="charts-bar" config="card.ageBarCharts"></highchart>   
                     </div>
                 </div>
-                <a href="/plans" ng-if = "card.whyseeads.limit">
+                <a href="./plans" ng-if = "card.whyseeads.limit" target="_blank">
                     <div class="analy-upgrade ads-font-26 ads-weight-600" >
                         you need to Upgrade
                     </div>
@@ -211,7 +211,7 @@
                         </div>
                         <div class="stat-number">{{((interstItem.value / card.interestsArr.count) * 100).toFixed(2)}}%</div>
                         <div ng-if= "interstItem.limit" class="">
-                            If you want see more you need to <a href="./plans">Upgrade</a>
+                            If you want see more you need to <a href="./plans" target="_blank">Upgrade</a>
                         </div>
                     </div>
                 </div>
@@ -239,7 +239,7 @@
                 <div class="col-md-6">
                     <div class="charts-wrapper adsmapchart-wrapper" style="padding: 0;min-height: 350px">
                         <highchart class="charts-adsmap" config="card.addrMapCharts" ng-class="{'ads-filder-blur' : card.addrMapLimit}"></highchart>
-                        <a href="./plans" ng-if="card.addrMapLimit">
+                        <a href="./plans" ng-if="card.addrMapLimit" target="_blank">
                             <div class="analy-upgrade ads-font-26 ads-weight-600">
                                 You need to Upgrade
                             </div>
@@ -267,7 +267,7 @@
                                                 {{adsItems.name}}
                                             </div>
                                             <div class="country-name ads-text-ellipsis" title="Upgrade" ng-if="(card.countryArr.limit ? $index >= card.countryArr.limit : false)">
-                                                <a href="/plans">Upgrade</a>
+                                                <a href="./plans" target="_blank">Upgrade</a>
                                             </div>
                                         </td>
                                         <td class="analy-td3">
