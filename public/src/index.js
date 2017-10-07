@@ -1,3 +1,4 @@
+import 'jquery'
 import 'font-awesome/css/font-awesome.css'
 import 'simple-line-icons/css/simple-line-icons.css'
 import 'bootstrap/dist/css/bootstrap.css'
