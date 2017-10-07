@@ -10,65 +10,73 @@
             <div class="filter-title">Filter</div>
             <form role="form" ng-submit="submit()">
                 <!-- 过滤项需求变更，无权限不显示过滤项 -->
-                <div class="input-group" ng-if = "User.can('date_filter')">
+                <div class="input-group">
                     <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-calendar"></i></span>
-                    <input date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.date" options="daterangeOption" placeholder="Time Frame" aria-describedby="filterbydate_addon"/> 
+                    <input date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.date" options="daterangeOption" placeholder="Last See Time Frame" aria-describedby="filterbydate_addon"/> 
+                    <i class="fa fa-lock lock xg-lock-unauthorised" ng-if = "!User.can('last_time_filter')"></i>
                 </div>
                 <!-- 新增first_time时间过滤,仅内部使用 -->
-                <div class="input-group" ng-if="User.info.user.role.name ==='Pro'">
+                <div class="input-group">
                     <span class="input-group-addon" id="filterbydate_addon"><i class="fa fa-calendar"></i></span>
                     <input date-range-picker type="text" class="form-control has_left_icon date-picker" ng-model="$parent.filterOption.firstSee" options="daterangeOption" placeholder="First See Time Frame" aria-describedby="filterbydate_addon"/> 
+                    <i class="fa fa-lock lock xg-lock-unauthorised" ng-if = "!User.can('first_time_filter')"></i>
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon" id="searchrange_addon"><i class="fa fa-search"></i></span>
                     <select id="search_range_select" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Search Mode" ng-model="$parent.searchOption.rangeselected" >
                         <option ng-repeat="item in $parent.searchOption.range" policy-lock key="{{item.permission}}" trigger="disabled" value="{{item.key}}" ng-if="User.can(item.permission)">{{item.value}}</option>
                     </select>
+                    <i class="fa fa-lock lock xg-lock-unauthorised" ng-if = "!User.can('search_mode_filter')"></i>
                 </div>
-                <div class="input-group" ng-if = "User.can('format_filter')">
-                     <span class="input-group-addon" id="format_addon"><i class="fa fa-picture-o"></i></span>
-                          <select select2 class="form-control has_left_icon" id="format" multiple="multiple"  data-placeholder="Ad Type" ng-model="$parent.filterOption.formatSelected"> 
-                              <option ng-repeat="item in $parent.settings.searchSetting.formatList" policy-lock key="{{item.permission}}" trigger="lockButton" value="{{item.key}}">{{item.value}}</option>
-                          </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.formatList" > -->
+                <div class="input-group">
+                    <span class="input-group-addon" id="format_addon"><i class="fa fa-picture-o"></i></span>
+                    <select select2 class="form-control has_left_icon" id="format" multiple="multiple"  data-placeholder="Ad Type" ng-model="$parent.filterOption.formatSelected"> 
+                        <option ng-repeat="item in $parent.settings.searchSetting.formatList" policy-lock key="{{item.permission}}" trigger="lockButton" value="{{item.key}}">{{item.value}}</option>
+                    </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.formatList" > -->
+                    <i class="fa fa-lock lock xg-lock-unauthorised" ng-if = "!User.can('format_filter')"></i>
                 </div>
                 <div class="input-group callToAction_group">
                     <span class="input-group-addon" id="calltoaction_addon"><i class="fa glyphicon glyphicon-hand-down"></i></span>
                     <select select2 class="form-control has_left_icon callToAction_select2"  multiple="multiple" data-placeholder="Call to Action" ng-model="$parent.filterOption.callToAction">
                         <option ng-repeat="item in $parent.settings.searchSetting.buttondescList" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
                     </select ><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.buttondescList" > -->
+                    <i class="fa fa-lock lock xg-lock-unauthorised" ng-if = "!User.can('call_action_filter')"></i>
                 </div> 
                 <div class="input-group">
                     <span class="input-group-addon" id="language_addon"><i class="fa fa-language"></i></span>
                     <select  select2 class="form-control has_left_icon" id="language" multiple="multiple"  data-placeholder="Language" ng-model="$parent.filterOption.lang"  >
                         <option ng-repeat="item in $parent.settings.searchSetting.langList" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
                     </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" -->
-
+                    <i class="fa fa-lock lock xg-lock-unauthorised" ng-if = "!User.can('lang_filter')"></i>
                 </div>
-                <div ng-if = "User.can('country_filter')">
+                <div>
                     <div class="input-group">
                     <span class="input-group-addon" id="country_addon"><i class="fa fa-flag"></i></span>
                     <select  select2 class="form-control has_left_icon" id="country" multiple="multiple"  data-placeholder="Country or Region" ng-model="$parent.filterOption.state">
                         <option ng-repeat="item in $parent.settings.searchSetting.country" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
                     </select><!-- ng-options="item.key as item.value for item in $parent.settings.searchSetting.langList" -->
-                     </div>
+                    <i class="fa fa-lock lock xg-lock-unauthorised" ng-if = "!User.can('country_filter')"></i>
+                    </div>
                 </div>
-                <div ng-if = "User.can('objective_filter')">
+                <div>
                     <div class="input-group">
                     <span class="input-group-addon" id="country_addon"><i class="fa fa-inbox"></i></span>
                     <select  select2 class="form-control has_left_icon" id="objective" multiple="multiple"  data-placeholder="Objective" ng-model="$parent.filterOption.objective">
                         <option ng-repeat="item in $parent.settings.searchSetting.objective" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
                     </select>
+                    <i class="fa fa-lock lock xg-lock-unauthorised" ng-if = "!User.can('objective_filter')"></i>
                     </div>
                 </div>  
-                <div class="input-group" ng-if = "User.can('e_commerce_filter')">
+                <div class="input-group">
                     <span class="input-group-addon" id="trackingtools_addon"><i class="fa fa-external-link-square"></i></span>
                     <select id="tracking_tools_select" select2 class="form-control has_left_icon"  multiple="multiple" data-placeholder="Eshop Filter" ng-model="$parent.filterOption.ecommerce" style="width: 200px">
                         <option ng-repeat="item in $parent.settings.searchSetting.eCommerceList" policy-lock key="{{item.permission}}" trigger="lockButton" value="{{item.key}}">{{item.value}}</option>
                     </select>
+                    <i class="fa fa-lock lock xg-lock-unauthorised" ng-if = "!User.can('e_commerce_filter')"></i>
                 </div>
                 <hr class="xg-hr">
 
-                <div ng-if = "User.can('advance_audience_search')">
+                <div>
                     <div id="linkAudienceDiv" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                         <div>
                             <div class="input-group">
@@ -76,6 +84,7 @@
                             <select  select2 class="form-control has_left_icon" id="audienceAge" multiple="multiple"  data-placeholder="Audience Age" ng-model="$parent.filterOption.audienceAge">
                                 <option ng-repeat="item in $parent.settings.searchSetting.audienceAge" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
                             </select>
+                            <i class="fa fa-lock lock xg-lock-unauthorised" ng-if = "!User.can('audience_age_filter')"></i>
                             </div>
                         </div>  
                         <div>
@@ -85,6 +94,7 @@
                                 <option value="">Audience Gender</option>
                                 <option ng-repeat="item in $parent.settings.searchSetting.audienceGender" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.value}}</option>
                             </select>
+                            <i class="fa fa-lock lock xg-lock-unauthorised" ng-if = "!User.can('audience_gender_filter')"></i>
                             </div>
                         </div>
                         <div>
@@ -93,6 +103,7 @@
                             <select select2 class="form-control has_left_icon" id="AudienceInterest" multiple="multiple" ng-model="$parent.filterOption.audienceInterest" data-placeholder="Audience Interest">
                                 <option ng-repeat="item in $parent.adSearcher.audienceInterest" policy-lock key="{{item.permission}}" trigger="lockButton">{{item.interest}}</option>    
                             </select>
+                            <i class="fa fa-lock lock xg-lock-unauthorised" ng-if = "!User.can('audience_interest_filter')"></i>
                             </div>
                         </div>
 
@@ -155,10 +166,12 @@
                 <!--end emarketing filter div-->
 
                 <!--begin advance filter div-->
-                <div ng-if = "User.can('advance_filter')">
+                <div>
                     <div id="collapseDiv" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                             
-                        <div class="filter-title">Customized Ad Run</div>
+                        <div class="filter-title">Customized Ad Run
+                            <i class="fa fa-lock lock xg-lock" ng-if = "!User.can('duration_filter')"></i>
+                        </div>
                         <!-- <div class="dropdown-menu open btn-block" role="menu" aria-labelledby="ad_run_filter" ng-click="$event.stopPropagation();">  -->
                         <div class="customads-rundiv open btn-block clearfix">
                                 
@@ -175,7 +188,9 @@
                                 <!-- <div class="col-md-12 text-left apply-button"><button type="button" class="applyBtn btn btn-sm btn-success">Apply</button></div> -->
                         </div>
 
-                        <div class="filter-title margin-top-15">Customized Engagements</div> 
+                        <div class="filter-title margin-top-15">Customized Engagements
+                            <i class="fa fa-lock lock xg-lock" ng-if = "!User.can('advance_likes_filter')"></i>
+                        </div> 
                         <table class="table table-condensed table-engamentfilter table-hover" >
                             <tbody>
                                 <tr >

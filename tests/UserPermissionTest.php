@@ -40,7 +40,7 @@ class UserPermissionTest extends TestCase
         }
 
         //从前端角色获取用户信息，确认有包含新增的权限和策略
-        $this->actingAs($user)->json('GET', '/userinfo')->seeJsonStructure(['permissions' => ['monitor_ad_keyword']]);
+        $this->actingAs($user)->json('GET', '/userinfo_web')->seeJsonStructure(['permissions' => ['monitor_ad_keyword']]);
         //TODO：策略的检查出错
         /* $this->actingAs($user)->json('GET', '/userinfo')->seeJson(['user' => ['usage' => ['monitor_ad_keyword' => $item]]]); */
 

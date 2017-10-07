@@ -280,6 +280,18 @@ export default (angular) => {
                 $scope.adSearcher.removeFilter("objective")
             }
 
+            // 日期范围
+            if (!option.firstSee.startDate || !option.firstSee.endDate) {
+                $scope.adSearcher.removeFilter('first_see')
+            } else {
+                startDate = option.firstSee.startDate.format('YYYY-MM-DD')
+                endDate = option.firstSee.endDate.format('YYYY-MM-DD')
+                $scope.adSearcher.addFilter({
+                    field: "first_see",
+                    min: startDate,
+                    max: endDate
+                })
+            }
             $scope.isFreeLimitDate = false
             if (User.user.role.plan === 'free') {
                 if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0)) {
@@ -376,34 +388,102 @@ export default (angular) => {
             $location.search({})
             $state.reload()
         }
-        $scope.searchCheck = function(value) {
+        $scope.searchCheck = function(isSend) {
+            $scope.illeageFilterParams = {}
+            $scope.currIlleageOption = {}
             if (User.done) {
                 var islegal = true
                 var isFilterLimit
-                isFilterLimit = Util.isFilterLimit($scope.filterOption, $scope.searchOption)
-                var isAdvanceFilterLimit = Util.isAdvanceFilterLimit($scope.filterOption)
-                if (!isFilterLimit) {
-                    User.openUpgrade()
+                var isLengthLimit
+                var isAdvanceFilterLimit
+                var illeageParams = {}
+                var illeageWhere = []
+                var isAdPositionLimit
+                var isDateLimit
+                var isSearchModeLimit
+                var isSortLimit
+                var value = $scope.adSearcher.searchOption.search.text
+                var currIlleageOption = {}
+                // isNumberLimit = Util.isNumberLimit(value);
+                if (!User.login) {
+                    User.openSign()
                     islegal = false
+                } else {
+                    // 需求变更，所有权限公开，除去tracking 和 affiliate 过滤数据过少不公开
+                    // 收集无权限过滤的选项并发送到后端记录
+                    // 去除原本对date 时间过滤的文案提示，统一提示为账号升级
+                    // 紧急需求，本应该可以在Util把权限检查完成，只返回是否合法，放到下次在develop组件式中优化
+                    // 检查搜索词长度
+                    isLengthLimit = Util.isLengthLimit(value)
+                    // 检查基本过滤项
+                    isFilterLimit = Util.isFilterLimit($scope.filterOption, $scope.searchOption)
+                    // 检查高级过滤项
+                    isAdvanceFilterLimit = Util.isAdvanceFilterLimit($scope.adSearcher.searchOption.filter)
+                    // 检查Ad Position过滤项,单独检查是因为与其他过滤项数据格式不一致,还需要对每个项做单独权限判断
+                    isAdPositionLimit = Util.isAdPosionFilterLimit(settings.searchSetting.adsTypes, $scope.filterOption.type)
+                    // 检查日期过滤项
+                    isDateLimit = Util.isDateLimit($scope.filterOption)
+                    // 检查search mode过滤项,单独检查是因为与其他过滤项数据格式不一致
+                    isSearchModeLimit = Util.isSearchModeLimit($scope.searchOption, settings.searchSetting.rangeList, value)
+                    // 检查sort by
+                    isSortLimit = Util.isSortLimit($scope.adSearcher.params.sort.field, settings.searchSetting.orderBy)
+                    // console.log('isSortLimit', isSortLimit)
+                    // console.log('isFilterLimit', isFilterLimit)
+                    // console.log('isAdvanceFilterLimit', isAdvanceFilterLimit)
+                    // console.log('isAdPositionLimit', isAdPositionLimit)
+                    // console.log('isDateLimit', isDateLimit)
+                    // console.log('isSearchModeLimit', isSearchModeLimit)
+                    if (!isFilterLimit.flag || !isAdvanceFilterLimit.flag || !isDateLimit.flag || !isAdPositionLimit.flag || !isSearchModeLimit.flag || !isSortLimit.flag) {
+                        islegal = false
+                    }
+                    if (!isLengthLimit) {
+                        SweetAlert.swal("Text Limit: 300 Character Only")
+                        islegal = false
+                    }
+                    if (!islegal) {
+                        if (!isFilterLimit.flag) {
+                            angular.forEach(isFilterLimit.params, function(value) {
+                                illeageWhere.push(value)
+                            })
+                            currIlleageOption = angular.extend(currIlleageOption, isFilterLimit.currIlleageOption)
+                        }
+                        if (!isAdvanceFilterLimit.flag) {
+                            angular.forEach(isAdvanceFilterLimit.params, function(value) {
+                                illeageWhere.push(value)
+                            })
+                            currIlleageOption = angular.extend(currIlleageOption, isAdvanceFilterLimit.currIlleageOption)
+                        }
+                        if (!isAdPositionLimit.flag) {
+                            angular.forEach(isAdPositionLimit.params, function(value) {
+                                illeageWhere.push(value)
+                            })
+                            currIlleageOption = angular.extend(currIlleageOption, isAdPositionLimit.currIlleageOption)
+                        }
+                        if (!isDateLimit.flag) {
+                            angular.forEach(isDateLimit.params, function(value) {
+                                illeageWhere.push(value)
+                            })
+                            currIlleageOption = angular.extend(currIlleageOption, isDateLimit.currIlleageOption)
+                        }
+                        if (!isSortLimit.flag) {
+                            currIlleageOption = angular.extend(currIlleageOption, isSortLimit.currIlleageOption)
+                            illeageParams.sort = isSortLimit.sort
+                            $scope.illeageFilterParams.sort = isSortLimit.sort
+                        }
+                        $scope.currIlleageOption = angular.extend($scope.currIlleageOption, currIlleageOption)
+                        illeageParams.where = illeageWhere
+                        if (!isSearchModeLimit.flag) {
+                            illeageParams.key = isSearchModeLimit.key
+                        }
+                        if (isSend) {
+                            Util.unauthorisedFilterRequest(illeageParams)
+                            User.openUpgrade(currIlleageOption)
+                        }
+                        $scope.illeageFilterParams.where = illeageParams.where
+                    }
+                    $scope.islegal = islegal
+                    return islegal
                 }
-                if (!isAdvanceFilterLimit) {
-                    $scope.adSearcher.removeFilter('duration_days')
-                    $scope.adSearcher.removeFilter('see_times')
-                }
-                if ((User.info.user.role.name === 'Free') && ($scope.filterOption.date.endDate !== null) && !isAdvanceFilterLimit) {
-                // 临时去除free注册用户时间筛选框功能
-                    User.openFreeDateLimit()
-                    islegal = false
-                } else if (!isAdvanceFilterLimit) {
-                    User.openUpgrade()
-                    islegal = false
-                } else if ((User.info.user.role.name === 'Free') && ($scope.filterOption.date.endDate !== null)) {
-                    User.openFreeDateLimit()
-                    islegal = false
-                }
-
-                $scope.islegal = islegal
-                return islegal
             } else {
                 SweetAlert.swal("getting userinfo, please try again")
             }
@@ -415,6 +495,25 @@ export default (angular) => {
             field: 'adser_username',
             value: $stateParams.adser
         })
+        $scope.checkBeforeSort = function() {
+            // 使用sort by 前权限检查
+            var illeageParams = {}
+            var isLimit = false
+            // 需要在此检查一次是否使用了其他过滤，但是不需要打开提示框，由点击sort by统一打印
+            $scope.searchCheck(false)
+            if ($scope.illeageFilterParams.where || $scope.illeageFilterParams.key || $scope.illeageFilterParams.sort) {
+                illeageParams.where = $scope.illeageFilterParams.where ? $scope.illeageFilterParams.where : ''
+                illeageParams.key = $scope.illeageFilterParams.key ? $scope.illeageFilterParams.key : ''
+                illeageParams.sort = $scope.illeageFilterParams.sort ? $scope.illeageFilterParams.sort : ''
+                isLimit = true
+            }
+            if (isLimit) {
+                User.openUpgrade($scope.currIlleageOption)
+                Util.unauthorisedFilterRequest(illeageParams)
+                return false
+            }
+            return true
+        }
         $scope.sortBy = function(action) {
             var freeMin = '2016-01-01'
             var freeMax = moment().subtract(3, 'month').format('YYYY-MM-DD')

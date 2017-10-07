@@ -77,4 +77,13 @@ class ActionLog extends Model
      const ACTION_MOBILE_ADSER_SHARE_TOPADS = "MOBILE_ADSER_SHARE_TOPADS";
      const ACTION_MOBILE_ADSER_COMMENT_TOPADS = "MOBILE_ADSER_COMMENT_TOPADS";
     
+    /*
+     * 记录用户点击欢迎页面CONTINUE按钮
+     */
+    const ACTION_RECORD_CLICK_CONTINUE = "RECORD_CLICK_CONTINUE";
+     
+    /*
+     * 请求无权限过滤行为记录
+     */
+    const ACTION_USER_REQUEST_FILTER = "USER_REQUEST_FILTER";
 }

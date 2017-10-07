@@ -56,7 +56,7 @@ angular.module('MetronicApp').controller('QuickSidebarController', ['$scope', '$
     $scope.submit = function() {
         var legal = true
         if (!$scope.$parent.inAdvertiserMode) {
-            legal = $scope.$parent.searchCheck($scope.$parent.adSearcher.searchOption.search.text)
+            legal = $scope.$parent.searchCheck(true)
         }
         if (legal) {
             angular.element($window).scrollTop(0)

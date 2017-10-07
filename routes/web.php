@@ -101,8 +101,11 @@ Route::get('/ranking', function(Request $req) {
         return response(["code"=>-4201, "desc"=>"no permission of ranking"], 422);
     }
 });
-
-Route::get('/userinfo', 'UserController@logInfo');
+// 由于移动端访问过于频繁，暂时更改路由名称并
+Route::get('/userinfo_web', 'UserController@logInfo')->middleware('cors');
+Route::get('/userinfo', function (Request $request) { // 这会专门为移动端端准备一个用户数据接口，源web端分离
+        return $request->user();
+});
 Route::get('/registerVerify', 'UserController@registerVerify');
 Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
 
@@ -214,3 +217,5 @@ Route::get('/faker', function(Request $request) {
 /* Route::any('/payment/stripe', function() { */
 /*     return view('subscriptions.stripe')->with('key', env('STRIPE_PUBLISHABLE_KEY')); */
 /* }); */
+Route::get('/record-continue', 'UserController@recordContinue');
+Route::post('/filter-record', 'UserController@filterLogRecord');

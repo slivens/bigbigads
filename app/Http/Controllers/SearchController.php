@@ -238,6 +238,18 @@ class SearchController extends Controller
                     if ($obj['field'] == "audience_gender" && !$user->can('audience_gender_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
+                    if ($obj['field'] == "media_type" && !$user->can('format_filter')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "buttondesc" && !$user->can('call_action_filter')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "ad_lang" && !$user->can('lang_filter')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
+                    if ($obj['field'] == "audience_interest" && !$user->can('audience_interest_filter')) {
+                        throw new \Exception("no permission of filter", -4001);
+                    }
                     if ($obj['field'] == "watermark_md5" && !$user->can('analysis_similar')) {
                         $params['where'][$key]['field'] = "";
                         $params['where'][$key]['value'] = "";

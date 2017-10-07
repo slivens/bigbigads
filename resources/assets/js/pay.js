@@ -148,7 +148,7 @@ new Vue({
         toCheckout: function() {
             const that = this
             // 支付按钮加上有效订阅判断
-            axios.get('/userinfo').then(response => {
+            axios.get('/userinfo_web').then(response => {
                 const sub = response.data.effective_sub
                 if (!sub) {
                     this.showLoading = false

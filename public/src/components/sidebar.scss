@@ -392,6 +392,13 @@ $zindex-quick-sidebar:                                                  999 !def
 .page-quick-sidebar {
     .input-group {
         margin-bottom: 10px;
+        .xg-lock-unauthorised {
+            position: absolute;
+            margin-top: 10px;
+            margin-left: -25px;
+            z-index: 10;
+            color: #6f6f6f !important;
+        }
     }
     form {
         i {
@@ -494,5 +501,9 @@ $zindex-quick-sidebar:                                                  999 !def
                 border-color: #66afe9;
             }
         }
+    }
+    .xg-lock {
+        margin-left: 5px;
+        color: #6f6f6f !important;
     }
 }

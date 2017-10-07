@@ -581,7 +581,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
 
 MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', '$uibModal', 'TIMESTAMP', function($window, $http, $q, $location, $rootScope, settings, ADS_TYPE, $uibModal, TIMESTAMP) {
     // 获取信息完成后应该广播消息，然后其他需要在获取用户信息才能继续的操作就放到接收到广播后处理
-    var infourl = settings.remoteurl + "/userinfo"
+    var infourl = settings.remoteurl + "/userinfo_web"
     var user = {
         retreived: false,
         done: false,
@@ -654,12 +654,19 @@ MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope'
                 return {type: usage[0], value: usage[1], used: usage[2]}
             return {type: usage[0], value: usage[1], used: 0}
         },
-        openUpgrade: function() {
+        openUpgrade: function(currIlleageOption) {
             return $uibModal.open({
                 template: upgradeDlgTemplate,
                 size: 'md',
                 animation: true,
-                controller: upgradeDlgController
+                controller: upgradeDlgController,
+                resolve: {
+                    data: function() {
+                        return {
+                            currIlleageOption: currIlleageOption
+                        }
+                    }
+                }
             })
         },
         openSign: function() {
