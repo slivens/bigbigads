@@ -158,26 +158,27 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
                 * 性别占比与年龄分布处理
                 * 免费用户只能见三个月前的数据，三个月内填充假数据
                 */
-                let lastSee = Date.parse($scope.card.last_see || new Date())
-                let nowDate = Date.parse(new Date()) - (3 * 30 * 24 * 60 * 60 * 1000)
+                let lastSeeTime = moment($scope.card.last_see || moment().format("YYYY-MM-DD")) // 如果不存在last_see 默认为现在时间
+                let nowTime = moment()
+                let timeInterval = nowTime.diff(lastSeeTime, 'month') // 相隔时间,单位为月份
 
                 // 如果为三个月内数据，且为免费用户，则填充假数据
                 if ($scope.card.whyseeads.gender) {
                     let genderArr = []
                     let asdGender = $scope.card.whyseeads.gender
-                    if ((lastSee > nowDate) && $scope.userPlan == 'free') {
+                    if ((timeInterval < 3) && $scope.userPlan == 'free') {
                         genderArr = [['Male', 1], ['Female', 1]]
                         $scope.card.whyseeads.limit = true // 添加标识
                     } else {
                         genderArr = [['Male', asdGender[0]], ['Female', asdGender[1]]]
                     }
-                    $scope.card.gnederPieCharts = Util.pieChartsConfig(genderArr, '60%', ['#7cb5ec', '#ee5689'])
-                } else $scope.card.gnederPieCharts = false
+                    $scope.card.genderPieCharts = Util.pieChartsConfig(genderArr, '60%', ['#7cb5ec', '#ee5689'])
+                } else $scope.card.genderPieCharts = false
 
                 // 广告详情-年龄分布
                 if ($scope.card.whyseeads.age) {
                     let arr1, arr2
-                    if ((lastSee > nowDate) && $scope.userPlan == 'free') {
+                    if ((timeInterval < 3) && $scope.userPlan == 'free') {
                         arr1 = [1, 1, 1, 1, 0, 0]
                         arr2 = [1, 1, 1, 1, 0, 0]
                     } else {
