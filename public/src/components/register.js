@@ -1,4 +1,5 @@
 import template from './register.html'
+import './register.scss'
 
 angular.module('MetronicApp').controller('RegisterController', ['$scope', '$http', '$window', 'User', function($scope, $http, $window, User) {
     $scope.User = User
