@@ -1,4 +1,4 @@
-<div class="ml-sidebar advertiser" id="adsersearch">
+<div class="ml-sidebar advertiser" id="owner-search">
     <!-- BEGIN MAIN CONTENT -->
     <div class="row">
         <!-- BEGIN: ACCORDION DEMO -->
@@ -64,7 +64,7 @@
 
         </div>
         <div infinite-scroll="adSearcher.getMore()" class="clearfix" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
-            <div deckgrid source="adSearcher.ads.adser_info" class="deckgrid clearfix" cardTemplate="{{'views/adser-search-card.html' | nocache}}">
+            <div deckgrid source="adSearcher.ads.adser_info" class="deckgrid clearfix" cardTemplateString="<adser-search-card />">
             </div>
             <div class="clearfix">
             </div>

@@ -1,4 +1,6 @@
-#adsersearch {
+@import 'owner-search-card';
+
+#owner-search {
     min-height: calc(100vh + 1px);
     @media (max-width: 480px) {
 	    .deckgrid[deckgrid]::before {
@@ -58,4 +60,3 @@
     }
 }
 
-@import 'owner-search-card';
