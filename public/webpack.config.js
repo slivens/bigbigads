@@ -9,18 +9,9 @@ module.exports = {
     devtool: isProduction ? false : 'source-map',
     entry: {
         bundle:['./src/index.js'],
-        // search:['./src/pages/search/search.js'],
-        // owner:['./src/pages/owner/owner.js'],
-        // analysis:['./src/pages/analysis/analysis.js'],
-        // "owner-search":['./src/pages/owner-search/owner-search.js'],
-        // "owner-analysis":['./src/pages/owner-analysis/owner-analysis.js'],
-        // ranking:['./src/pages/ranking/ranking.js'],
-        // profile:['./src/pages/profile/profile.js'],
-        // plans:['./src/pages/plans/plans.js'],
         vendor:[
+            'jquery',
             'bootstrap', 
-            // 'bootstrap-switch',
-            // 'bootstrap-hover-dropdown',
             'jquery-slimscroll',
             'sweetalert',
             'angular', 
@@ -44,7 +35,12 @@ module.exports = {
         rules:[{
             test:/\.css$/,
             use:ExtractTextPlugin.extract({
-                use:'css-loader'
+                use:[{
+                    loader: 'css-loader',
+                    options: {
+                        sourceMap: !isProduction
+                    }
+                }]
             })
         },{
             test:/\.scss$/,
@@ -92,9 +88,9 @@ module.exports = {
         }
         ]
     },
-	externals:{
-			'jquery':'window.jQuery'
-		},
+	// externals:{
+	// 		'jquery':'window.jQuery'
+	// 	},
     plugins:[
          new webpack.optimize.CommonsChunkPlugin({
             name:['vendor']
@@ -107,6 +103,11 @@ module.exports = {
             fileName:'manifest.json',
             baseName:'/app/'
          }),
+        new webpack.ProvidePlugin({
+            'window.jQuery': 'jquery',
+            '$': 'jquery',
+            'jQuery': 'jquery'
+		 }),
          new HtmlWebpackPlugin({
             title: "bigbigads",
             path: __dirname + '/app',

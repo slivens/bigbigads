@@ -1,4 +1,4 @@
-<form name="registerForm" class="register-form form-horizontal" ng-submit="processForm(registerForm.$valid)" novalidate>
+<form name="registerForm" id="register-form" class="register-form form-horizontal" ng-submit="processForm(registerForm.$valid)" novalidate>
     <h3 class="form-title">Get the ad intelligence for free!</h3>
     <div class="reg-shortcut-div" ng-show="shortcutReg">
         <a class="register-fbbtn btn register-btn" ng-href="/socialite/facebook{{trackCode != null ? '?track='+trackCode : ''}}">
@@ -31,32 +31,34 @@
         <i class="fa fa-arrow-left turn-back" ng-click="turnToShotcut()"></i>
     </span>
         <div ng-class="{'has-error':registerForm.email.$dirty && registerForm.email.$invalid || registerError.email,'form-group':true}">
-            <div class="input-icon">
+            <div class="input-wrapper">
                 <i class="fa fa-envelope"></i>
-                <input class="form-control placeholder-no-fix" type="email" autocomplete="off" placeholder="Work Email" name="email" ng-model="formData.email" maxlength="40" ng-minlength="5" required />
-                <p class="help-block text-left">
-                    <span ng-show="registerForm.email.$dirty && registerForm.email.$error.required">Email is required.</span>
-                    <span ng-show="registerForm.email.$dirty && registerForm.email.$error.email">Invalid email.</span>
-                    <span ng-show="registerForm.email.$dirty && registerForm.email.$error.minlength">Email is too short.</span>
-                    <span ng-show="registerError.email">{{registerError.email.toString()}}</span>
-                </p>
+                <input class="form-control placeholder-no-fix" type="email" autocomplete="true" placeholder="Work Email" name="email" ng-model="formData.email" maxlength="40" ng-minlength="5" required ng-blur="defaultName()"/>
             </div>
+            <p class="help-block text-left">
+                <span ng-show="registerForm.email.$dirty && registerForm.email.$error.required">Email is required.</span>
+                <span ng-show="registerForm.email.$dirty && registerForm.email.$error.email">Invalid email.</span>
+                <span ng-show="registerForm.email.$dirty && registerForm.email.$error.minlength">Email is too short.</span>
+                <span ng-show="registerError.email">{{registerError.email.toString()}}</span>
+            </p>
         </div>
         <div ng-class="{'has-error':registerForm.name.$dirty && registerForm.name.$invalid || registerError.name,'form-group':true}">
-            <div class="input-icon">
+            <div class="input-wrapper">
                 <i class="fa fa-user"></i>
-                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="name" ng-model="formData.name" required ng-maxlength="39" value="{{formData.email.split('@')[0]}}" />
-                <p class="help-block text-left">
-                    <span ng-show="registerForm.name.$dirty && registerForm.name.$error.required">Username is required</span>
-                    <span ng-show="registerForm.name.$dirty && registerForm.name.$error.maxlength">Username is too long</span>
-                    <span ng-show="registerError.name">{{registerError.name.toString()}}</span>
-                </p>
+                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" ng-model="formData.name" required ng-maxlength="39"/>
             </div>
+            <p class="help-block text-left">
+                <span ng-show="registerForm.name.$dirty && registerForm.name.$error.required">Username is required</span>
+                <span ng-show="registerForm.name.$dirty && registerForm.name.$error.maxlength">Username is too long</span>
+                <span ng-show="registerError.name">{{registerError.name.toString()}}</span>
+            </p>
+            
         </div>
         <div ng-class="{'has-error':registerForm.password.$dirty && registerForm.password.$invalid || registerError.password,'form-group':true}">
-            <div class="input-icon">
+            <div class="input-wrapper">
                 <i class="fa fa-lock"></i>
-                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Password" name="password" ng-model="formData.password" required ng-minlength="6" ng-maxlength="72" /> </div>
+                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" ng-model="formData.password" required ng-minlength="6" ng-maxlength="72" /> 
+            </div>
             <p class="help-block text-left">
                 <span ng-show="registerForm.password.$dirty && registerForm.password.$error.required">Password is required.</span>
                 <span ng-show="registerForm.password.$dirty && registerForm.password.$error.minlength">Password is too short.</span>
@@ -67,6 +69,7 @@
         <div class="form-actions clearfix button-div">
             <button type="submit" id="register-submit-btn" class="btn signup-btn pull-right margin-top-30" ng-disabled="isShow || registerForm.$invalid"><img src="/assets/global/img/ajax-modal-loading.gif" class="img-waiting" ng-show="isShow"> Sign Up </button>
         </div>
+
     </div>
     <p class="text-left reg-remind-text">By signing up, I hereby agree to the Bigbigads <a href="../terms_service">Terms</a> and <a href="../privacy_policy">Privacy Policy</a>, and to receive emails &amp; updates. </p>
    <!--  <p class="text-left">Already have an account? <a href="../login"> Sign In </a></p> -->
