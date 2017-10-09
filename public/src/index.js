@@ -581,7 +581,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
 
 MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', '$uibModal', 'TIMESTAMP', function($window, $http, $q, $location, $rootScope, settings, ADS_TYPE, $uibModal, TIMESTAMP) {
     // 获取信息完成后应该广播消息，然后其他需要在获取用户信息才能继续的操作就放到接收到广播后处理
-    var infourl = settings.remoteurl + "/userinfo_web"
+    var infourl = settings.remoteurl + "/userinfo"
     var user = {
         retreived: false,
         done: false,

@@ -102,10 +102,7 @@ Route::get('/ranking', function(Request $req) {
     }
 });
 // 由于移动端访问过于频繁，暂时更改路由名称并
-Route::get('/userinfo_web', 'UserController@logInfo')->middleware('cors');
-Route::get('/userinfo', function (Request $request) { // 这会专门为移动端端准备一个用户数据接口，源web端分离
-        return $request->user();
-});
+Route::get('/userinfo', 'UserController@logInfo');
 Route::get('/registerVerify', 'UserController@registerVerify');
 Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
 
