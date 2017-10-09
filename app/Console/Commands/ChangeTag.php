@@ -43,7 +43,7 @@ class ChangeTag extends Command
         $email = $this->argument('user_email');
         $tag = $this->argument('tag');
         
-        if($tag == 'white' || strtolower($tag) == 'whilelist') {
+        if($tag == 'white' || strtolower($tag) == 'whitelist') {
             $tag = User::TAG_WHITELIST;
         } elseif($tag == 'black' || strtolower($tag) == 'blacklist') {
             $tag = User::TAG_BLACKLIST;
@@ -58,9 +58,9 @@ class ChangeTag extends Command
             $user->tag = $tag;
             $user->save();
             $now = Carbon::now()->toDateTimeString();
-            $re_str = "user (name: $user->name ,email: $email) has change tag to $tag,change time is $now";
-            log::info($re_str);
-            $this->comment($re_str);
+            $comment = "user (name: $user->name ,email: $email) has change tag to $tag,change time is $now";
+            Log::info($comment);
+            $this->comment($comment);
         }
     }
 }

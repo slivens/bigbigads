@@ -20,7 +20,7 @@ use App\Jobs\SyncPaymentsJob;
 use App\Notifications\RefundRequestNotification;
 use App\Notifications\CancelSubOnSyncNotification;
 use Dompdf\Dompdf;
-use Illuminate\Support\Facades\Storage;
+use Storage;
 
 class PaymentService implements PaymentServiceContract
 {
@@ -723,55 +723,51 @@ class PaymentService implements PaymentServiceContract
     {
         //默认不强制生成
         if(strlen($transaction_id) != 17 || empty($transaction_id)) {
-            $re_str1 = "unknown param on generateInvoice";
-            $this->log($re_str1, PaymentService::LOG_INFO);
-            return $re_str1;
+            //交易id的格式不符合
+            $unknownParamMessage = "unknown param on generateInvoice";
+            $this->log($unknownParamMessage, PaymentService::LOG_INFO);
+            return $unknownParamMessage;
         }
-        $payment = Payment::select('payments.amount', 'payments.details', 'payments.client_email', 'payments.invoice_id', 'plans.display_name', 'users.name')
-            ->leftJoin('subscriptions', 'subscriptions.id', '=', 'payments.subscription_id')
-            ->leftJoin('plans', 'subscriptions.plan', '=', 'plans.name')
-            ->leftJoin('users', 'payments.client_id', '=', 'users.id')
-            ->where('payments.number', $transaction_id)
-            ->where('payments.status', 'completed')
-            ->first();
+        $payment = Payment::where('number',$transaction_id)->where('status','completed')->first();
+
         if(!$payment) {
-            $re_str2 = "payment is invalid on use transaction id: $transaction_id,maybe status is not completed";
-            $this->log($re_str2, PaymentService::LOG_INFO);
-            return $re_str2;
+            //交易的状态不对或者查不到交易
+            $invalidPaymentMessage = "payment is invalid on use transaction id: $transaction_id,maybe status is not completed";
+            $this->log($invalidPaymentMessage, PaymentService::LOG_INFO);
+            return $invalidPaymentMessage;
         }
         if(!empty($payment->invoice_id) && !$force) {
             //该交易的invoice_id不为空，则已经生成过
-            $re_str3 = "cannot generate this invoice with transaction id: $transaction_id because it was generated.";
-            $this->log($re_str3, PaymentService::LOG_INFO);
-            return $re_str3;
+            $isGeneratedMessage = "cannot generate this invoice with transaction id: $transaction_id because it was generated.";
+            $this->log($isGeneratedMessage, PaymentService::LOG_INFO);
+            return $isGeneratedMessage;
         }
 
         //$this->log($payment->details, PaymentService::LOG_INFO);
         $data = (object)array();
         $data->reference_id = ceil(microtime(true) * 100) . mt_rand(1000, 9999);//reference ID
         $data->amount = '$ ' . $payment->amount;//amount
-        $data->package = $payment->display_name;//package
-        $data->name = $payment->name;//name
+        $data->package = $payment->subscription->getPlan()->display_name;//package
+        $data->name = $payment->client->name;//name
         $data->email = $payment->client_email;//email
         $data->method = 'Paypal';
 
         $details = json_decode($payment->details);
-        //var_dump($details);
-
         $data->payment_account = $details->payer_email;//payment account
+        $time = Carbon::parse($details->time_stamp)->setTimezone('Asia/Hong_Kong');//需要转换时区
 
-        $time = strtotime($details->time_stamp);
         //目标时间格式 1 September 2017 at 5:16:04 p.m. HKT
-        $year_and_month = date("j F Y", $time);
-        $day = date("g:i:s", $time);
-        $ampm = date("a", $time);
+        $yearAndMonth = $time->format("j F Y");
+        $day = $time->format("g:i:s");
+        $ampm = $time->format("a");
         if($ampm == 'am') {
             $ampm = 'a.m.';
         } else {
             $ampm = 'p.m.';
         }
-        $data->date = $year_and_month . ' at ' . $day . ' ' . $ampm . ' HKT';//date of payment
+        $data->date = $yearAndMonth . ' at ' . $day . ' ' . $ampm . ' HKT';//date of payment 
 
+        //交易服务过期时间，格式 19 Sep 2017
         switch($data->package) {
             case 'Annual':
                 $months = 12;
@@ -784,8 +780,8 @@ class PaymentService implements PaymentServiceContract
                 $months = 1;
                 break;
         }
-        //交易服务过期时间，格式 19 Sep 2017
-        $data->expiration_time = Carbon::parse($details->time_stamp)->addMonths($months)->format('j M Y');//expiration time
+        $data->expiration_time = $time->addMonths($months)->format('j M Y');//expiration time
+
         //渲染html,转换成pdf
         $dompdf = new DOMPDF(); //if you use namespaces you may use new \DOMPDF()
         $dompdf->loadHtml($this->getInvoicePage($data));
@@ -795,12 +791,14 @@ class PaymentService implements PaymentServiceContract
         Storage::put("$data->reference_id.pdf", $dompdf->output());
 
         //保存invoice_id到payments
-        $re_payment = Payment::where('number', $transaction_id)->first();
-        $re_payment->invoice_id = $data->reference_id;
-        $re_payment->save();
-        $re_str4 = "$transaction_id 's payment invoice was generated,reference id is $data->reference_id";
-        $this->log($re_str4, PaymentService::LOG_INFO);
-        return $re_str4;
+        $paymentInfo = Payment::where('number', $transaction_id)->first();
+        $paymentInfo->invoice_id = $data->reference_id;
+        $paymentInfo->save();
+
+        //返回成功消息
+        $generateSuccessMessage = "$transaction_id 's payment invoice was generated,reference id is $data->reference_id";
+        $this->log($generateSuccessMessage, PaymentService::LOG_INFO);
+        return $generateSuccessMessage;
     }
 
     /**
@@ -809,9 +807,9 @@ class PaymentService implements PaymentServiceContract
     * @param Array $invoice_data payments相关信息，用于视图中的内容赋值
     * @return Object 视图内容
     */
-    public function getInvoicePage($invoice_data)
+    public function getInvoicePage($invoiceData)
     {
-        $view = view('subscriptions.invoice')->with('data', $invoice_data);
+        $view = view('subscriptions.invoice')->with('data', $invoiceData);
         return response($view)->getContent();//返回视图内容
     }
 
@@ -821,24 +819,19 @@ class PaymentService implements PaymentServiceContract
     * @param bigint $invoice_id 票据id,每个payment记录有一个，如果没有需要执行方法生成
     * @return void 输出header，直接下载pdf,非打开
     */
-    public function downloadInvoice($invoice_id)
+    public function downloadInvoice($invoiceId)
     {
-        $file_name = $invoice_id . '.pdf';
-        if(Storage::exists($file_name)) {
+        $fileName = $invoiceId . '.pdf';
+        if(Storage::exists($fileName)) {
             //找到文件
-            $this->log("download invoice file ,file name is $file_name", PaymentService::LOG_INFO);
-            $contents = Storage::get($file_name);
-            header('Content-type: application/pdf');
-            header('Content-Disposition: attachment; filename=' . $file_name);
-            echo $contents;
+            $this->log("download invoice file ,file name is $fileName", PaymentService::LOG_INFO);
+            //另一种做法是存储使用存储路径，读取使用公开路径，中间做一个软链接
+            $savePath = 'storage/' . $this->config['invoice']['save_path'];
+            return response()->download(realpath(base_path($savePath)) . '/' . $fileName,$fileName);
         } else {
             //不存在这个文件,因为这里传参只是票据id，如果不存在，无法对应到任何一个交易，所以没办法调用命令去生成再下载
-            $this->log("download invoice file but file is not exists,file name is $file_name", PaymentService::LOG_INFO);
+            $this->log("download invoice file but file is not exists,file name is $fileName", PaymentService::LOG_INFO);
             return 'cannot find file';
         }
     }
-
-
-
-
 }
