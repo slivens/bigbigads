@@ -44,11 +44,11 @@ class ChangeTag extends Command
         $tag = $this->argument('tag');
         
         if($tag == 'white' || strtolower($tag) == 'whilelist') {
-            $tag = 'whitelist';
+            $tag = User::TAG_WHITELIST;
         } elseif($tag == 'black' || strtolower($tag) == 'blacklist') {
-            $tag = 'blacklist';
+            $tag = User::TAG_BLACKLIST;
         } else {
-            $tag = 'default';
+            $tag = User::TAG_DEFAULT;
         }
         $user = User::where('email',$email)->first();
         if(!$user) {
