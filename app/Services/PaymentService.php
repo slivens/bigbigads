@@ -673,18 +673,18 @@ class PaymentService implements PaymentServiceContract
      */
     public function getCancaledTime($agreement_id){
         if(strpos($agreement_id,'I-') != 0){
-            $this->log("unknown param on getCancelTime");
+            $this->log("unknown param on getCancelTime", PaymentService::LOG_INFO);
             return false;
         }
         $service = $this->getPaypalService();
         $transactions = $service->transactions($agreement_id);
         if(!$transactions || empty($transactions)){
-            $this->log("cannot find transaction list with $agreement_id on getCancelTime");
+            $this->log("cannot find transaction list with $agreement_id on getCancelTime", PaymentService::LOG_INFO);
             return false;
         }
         $cancel_arr = end($transactions);
         if($cancel_arr->getStatus() != 'Canceled'){
-            $this->log("$agreement_id is not a canceled subscription");
+            $this->log("$agreement_id is not a canceled subscription", PaymentService::LOG_INFO);
             return false;
         }
         return Carbon::parse($cancel_arr->getTimeStamp())->timezone('Asia/Shanghai')->toDateTimeString();
