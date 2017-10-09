@@ -4,7 +4,7 @@ import '../../components/subscription'
 import template from './profile.html'
 import changePwdTemplate from './changepwd.html'
 
-angular.module('MetronicApp').controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', function($scope, $location, User, $uibModal, TIMESTAMP) {
+export default angular.module('profile', ['MetronicApp']).controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', function($scope, $location, User, $uibModal, TIMESTAMP) {
     // var vm = this
     var profile = {
         init: function() {
