@@ -162,11 +162,6 @@ Route::get('/image', function(Request $request) {
     return $response;
 });
 
-Route::get('/mobile', function (Request $request) {
-    //手机端的跳转也支持track统计
-    return view('mobile');
-})->middleware('track');
-
 /*移动端登录提示页面*/
 Route::get('/mobile_maintain', function () {
     return view('mobile_maintain');

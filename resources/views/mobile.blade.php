@@ -26,7 +26,7 @@
         </a> -->
 
         <!--toggle button-->
-        <a href="/m/#/login" class="header-login-button pull-right">Login</a>
+        <a href="/mobile" class="header-login-button pull-right">Login</a>
     </div>
 
     <!--content-->
