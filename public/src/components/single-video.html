@@ -28,8 +28,8 @@
                     <span ng-bind-html="card.description | toHtml"></span>
                 </p>
                 <div class="aditem-caption margin-top-10 clearfix" ng-if="card.caption || card.buttonlink">
-                    <div class="xg-label-caption" ng-if="card.caption" ng-bind-html="card.caption | toHtml">
-                    </div>
+                    <label class="xg-label-caption" ng-if="card.caption" ng-bind-html="card.caption | toHtml">
+                    </label>
                     <div class="pull-right" ng-if="card.buttondesc">
                         <a href="{{card.buttonlink}}" class="xg-a-likepage xg-label" target="_blank">{{card.buttondesc}}</a>
                     </div>
