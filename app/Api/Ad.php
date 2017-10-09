@@ -4,32 +4,31 @@ namespace App\Api;
 
 use GuzzleHttp\Client;
 
-use Log;
-use App\ActionLog;
-use App\Jobs\LogAction;
-use App\Services\AnonymousUser;
-use Illuminate\Support\Facades\Auth;
-
 class Ad
 {
-    static public function getAds($request, $params = [], $page = 1, $per_page = 10)
+    static public function getAds($params = [], $page = 1, $per_page = 10)
     {
-        $where = [];
-        $user = Auth::check() ? Auth::user() : AnonymousUser::user($request);
-        if (isset($params['publisher'])) {
-            $where[] = [
+        $mobile_media_url = env('MOBILE_IMAGE_URL');
+        $body = [];
+        $body['search_result'] = 'ads';
+        $body['limit']         = [($page - 1) * $per_page, $per_page];
+        $body['where']         = [];
+        $body['select']        = 'link,caption,description,type,shares,views,likes,comments,message,adser_name,event_id,adser_username,local_picture,small_photo,name,share_rate,shares_per30d,like_rate,likes_per30d,comment_rate,comments_per_30d,total_impression';
+
+        if (isset($params['owner'])) {
+            $body['where'][] = [
                 'field' => 'adser_username',
-                'value' => is_string($params['publisher'])
-                    ? $params['publisher']
-                    : join(',', is_array($params['publisher'])
-                        ? $params['publisher']
-                        : $params['publisher']->toArray()
+                'value' => is_string($params['owner'])
+                    ? $params['owner']
+                    : join(',', is_array($params['owner'])
+                        ? $params['owner']
+                        : $params['owner']->toArray()
                     )
             ];
         }
 
         if (isset($params['id'])) {
-            $where[] = [
+            $body['where'][] = [
                 'field' => 'ads_id',
                 'value' => is_string($params['id'])
                     ? $params['id']
@@ -46,29 +45,37 @@ class Ad
             else if ($params['type'] == 'video') $type = 'SingleVideo';
             else if ($params['type'] == 'carousel') $type = 'Carousel';
 
-            $where[] = ['field' => 'media_type', 'value' => $type];
+            $body['where'][] = ['field' => 'media_type', 'value' => $type];
         }
 
-        $params = array(
-            'search_result' => 'ads',
-            'limit'         => [($page - 1) * $per_page, $per_page],
-            'where'         => $where,
-        );
-        // $client = new Client();
-        // $result = $client->request('POST', env('AD_SEARCH_URL'), [
-        //     'json' => [
-        //         'search_result' => 'ads',
-        //         'limit'         => [($page - 1) * $per_page, $per_page],
-        //         'where'         => $where,
-        //     ],
-        // ]);
+        if (isset($params['type'])) {
+            $type = 'other';
+            if ($params['type'] == 'image') $type = 'SingleImage';
+            else if ($params['type'] == 'video') $type = 'SingleVideo';
+            else if ($params['type'] == 'carousel') $type = 'Carousel';
 
-        // $result = json_decode($result->getBody(), true);
-        $result = Curl::request($params, env('AD_SEARCH_URL'));
+            $body['where'][] = ['field' => 'media_type', 'value' => $type];
+        }
 
-        dispatch(new LogAction(ActionLog::ACTION_MOBILE_ADSER_ADS_ANALYSIS, json_encode($params), "mobile_adser_ads_analysis : " . '查看XXX类型的广告分析'.",cache_total_count: " . '总数', $user->id, $request->ip()));
+        if (isset($params['order'])) {
+            $body['sort'] = [
+                'field' => $params['order'][0],
+                'order' => $params['order'][1]
+            ];
+        }
 
-        if (!array_key_exists('ads_info', $result)) return [];
+        $client = new Client();
+        $result = $client->request('POST', env('MOBILE_ADS_SEARCH_API'), [
+            'json' => $body,
+        ]);
+
+        $result = json_decode($result->getBody(), true);
+
+        if (!array_key_exists('ads_info', $result)) return [
+            'data'  => [],
+            'last'  => 0,
+            'total' => 0,
+        ];
 
         $data = [];
         foreach ($result['ads_info'] as $ad_info) {
@@ -93,34 +100,55 @@ class Ad
             // 评论数量
             if (array_key_exists('shares', $ad_info)) $ad['comments'] = $ad_info['comments'];
 
+            if (array_key_exists('share_rate', $ad_info)) $ad['share_rate'] = $ad_info['share_rate'];
+            if (array_key_exists('like_rate', $ad_info)) $ad['like_rate'] = $ad_info['like_rate'];
+            if (array_key_exists('comment_rate', $ad_info)) $ad['comment_rate'] = $ad_info['comment_rate'];
+            if (array_key_exists('total_impression', $ad_info)) $ad['total_impression'] = $ad_info['total_impression'];
+            if (array_key_exists('shares_per_30d', $ad_info)) $ad['shares_per_30d'] = $ad_info['shares_per_30d'];
+            if (array_key_exists('likes_per_30d', $ad_info)) $ad['likes_per_30d'] = $ad_info['likes_per_30d'];
+            if (array_key_exists('comment_per_30d', $ad_info)) $ad['comment_per_30d'] = $ad_info['comment_per_30d'];
+
             // 链接
             if ($ad['type'] == 'carousel') $ad['link'] = json_decode($ad_info['link'], true);
             else $ad['link'] = $ad_info['link'];
 
             // 发布者
-            $ad['publisher'] = [
+            $ad['owner'] = [
                 'name'        => $ad_info['adser_name'],
-                'avatar'      => $ad_info['small_photo'],
+                'avatar'      => $mobile_media_url . $ad_info['small_photo'],
                 'facebook_id' => $ad_info['adser_username'],
             ];
 
             // 内容
             if (array_key_exists('message', $ad_info)) $ad['content']['message'] = $ad_info['message'];
 
-            if ($ad['type'] == 'image' || $ad['type'] == 'other') {
-                $ad['content']['media'] = $ad_info['local_picture'];
+            if ($ad['type'] == 'image') {
+                $ad['content']['media'] = $mobile_media_url . $ad_info['local_picture'];
             } else if ($ad['type'] == 'carousel') {
                 $pictures = json_decode($ad_info['local_picture'], true);
                 $ad['content']['media'] = [];
                 foreach ($pictures as $picture) {
-                    $ad['content']['media'][] = $picture['source'];
+                    $ad['content']['media'][] = $mobile_media_url . $picture['source'];
                 }
             } else if ($ad['type'] == 'video') {
                 $local_picture = json_decode($ad_info['local_picture'], true);
                 $ad['content']['media'] = [
-                    'image' => $local_picture['source'],
-                    'video' => $local_picture['video'],
+                    'image' => $mobile_media_url . $local_picture['source'],
+                    'video' => $mobile_media_url . $local_picture['video'],
                 ];
+            } else if ($ad['type'] == 'other') {
+                $local_picture = json_decode($ad_info['local_picture'], true);
+
+                if (is_array($local_picture)) {
+                    $ad['type'] = 'carousel';
+                    $ad['content']['media'] = array_map(function ($picture) use ($mobile_media_url) {
+                        if (is_array($picture)) return $mobile_media_url . $picture['source'];
+                        return $mobile_media_url . $picture;
+                    }, $local_picture);
+                } else {
+                    $ad['type'] = 'image';
+                    $ad['content']['media'] = $mobile_media_url . $ad_info['local_picture'];
+                }
             }
 
             if ($ad['type'] == 'image' || $ad['type'] == 'video') {
@@ -134,12 +162,20 @@ class Ad
             $data[$ad['event_id']] = $ad;
         }
 
-        return $data;
+        return [
+            'data'  => $data,
+            'last'  => ceil($result['total_count'] / $per_page),
+            'total' => $result['total_count'],
+        ];
     }
 
-    static public function getAd($request, $id)
+    static public function getAd($id)
     {
-        $ads = self::getAds($request, ['id' => $id], 1, 1);
-        return reset($ads);
+        $ads = self::getAds(['id' => $id], 1, 1);
+        if ($ads) {
+            return reset($ads['data']);
+        } else {
+            return false;
+        }
     }
 }

@@ -4,14 +4,20 @@ namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
 use TCG\Voyager\Models\Post;
-use Illuminate\Http\Request;
+use Jenssegers\Agent\Agent;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
-        return view('index')->with('recents', $recents);
+        $agent = new Agent();
+
+        if ($agent->isMobile()) {
+            return view('mobile');
+        } else {
+            $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
+            return view('index')->with('recents', $recents);
+        }
     }
 
     public function getTotalCount()
