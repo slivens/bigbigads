@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 /* 广告词动画切换 */
 toChangeWord(0)
 /* 获取广告数量 */
-getAdsCount()
+// getAdsCount() 暂时去掉广告书自动更新
 /* home界面的广告词切换 */
 function toChangeWord(item) {
     var word = ["To see resonate image <br/>for ad designer",
