@@ -517,15 +517,19 @@ export default (angular) => {
         $scope.sortBy = function(action) {
             var freeMin = '2016-01-01'
             var freeMax = moment().subtract(3, 'month').format('YYYY-MM-DD')
-            if (User.info.user.role.name === 'Free') {
-                $scope.adSearcher.addFilter({
-                    field: "time",
-                    min: freeMin,
-                    max: freeMax,
-                    role: "free"
-                })
+            var checkBeforeSortResult
+            checkBeforeSortResult = $scope.checkBeforeSort()
+            if (checkBeforeSortResult) {
+                if (User.info.user.role.name === 'Free') {
+                    $scope.adSearcher.addFilter({
+                        field: "time",
+                        min: freeMin,
+                        max: freeMax,
+                        role: "free"
+                    })
+                }
+                $scope.adSearcher.filter(action)
             }
-            $scope.adSearcher.filter(action)
         }
         $scope.upgrade = function() {
             if (Util.isMobile()) {

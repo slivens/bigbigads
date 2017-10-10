@@ -516,7 +516,7 @@ export default angular => {
             $scope.searchCheck = function(isSend) {
                 // 检查所有的过滤项
                 $scope.illeageFilterParams = {} // 收集无权限的过滤项，用于发送给后端，格式与请求参数一致
-                $scope.currIlleageOption = {}   // 收集无权限的过滤项，用于模态框显示
+                $scope.currIlleageOption = {} // 收集无权限的过滤项，用于模态框显示
                 if (User.done) {
                     var islegal = true
                     var isFilterLimit
@@ -632,6 +632,7 @@ export default angular => {
             $scope.sortBy = function(action) {
                 var freeMin = '2016-01-01'
                 var freeMax = moment().subtract(3, 'month').format('YYYY-MM-DD')
+                var checkBeforeSortResult
                 if (User.info.user.role.name === 'Free') {
                     $scope.adSearcher.addFilter({
                         field: "time",
@@ -640,17 +641,20 @@ export default angular => {
                         role: "free"
                     })
                 }
+                checkBeforeSortResult = $scope.checkBeforeSort()
                 // 独立的filter，返回的异常上面的与$scope.filter无关
                 // 由于select2插件添加点击事件无效，未登录用户点击sort by弹出注册框采用后台返回错误的形式打开
-                $scope.adSearcher.filter(action).then(function() {}, function(res) {
-                    if (res.data instanceof Object) {
-                        switch (res.data.code) {
-                        case -4199:
-                            User.openSign()
-                            break
+                if (checkBeforeSortResult) {
+                    $scope.adSearcher.filter(action).then(function() {}, function(res) {
+                        if (res.data instanceof Object) {
+                            switch (res.data.code) {
+                            case -4199:
+                                User.openSign()
+                                break
+                            }
                         }
-                    }
-                })
+                    })
+                }
             }
             $scope.upgrade = function() {
                 if (Util.isMobile()) {
