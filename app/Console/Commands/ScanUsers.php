@@ -83,6 +83,7 @@ class ScanUsers extends Command
                     if ($user->resetIfExpired()){
                         $this->info("{$user->email} has expired");
                     }
+                    
                 }
             }
         }
