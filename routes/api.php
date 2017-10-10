@@ -14,21 +14,15 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    // 获取登录用户信息
+    Route::get('users/current', 'Api\UserController@getCurrentUser');
 
-    Route::get('publishers', 'Api\PublisherController@search')->middleware('cors');
+    // 获取广告主列表
+    Route::get('owners', 'Api\OwnerController@getOwners');
 
-    // 获取单个的发布者信息
-    Route::get('publisher/{facebook_id}', 'Api\PublisherController@getPublisher')->middleware('cors');
-
-    // 获取发布者的分析数据
-    Route::get('adserAnalysis/{facebook_id}', 'Api\AdserAnalysisController@show')->middleware('cors');
-
-    // 获取特定发布者的Top前20广告, 以top_pression share_rate like_rate comment_rate
-    Route::get('topAds/{facebook_id}/{rate_type}', 'Api\AdserAnalysisController@getTopAds')->middleware('cors');
+    // 获取广告主信息
+    Route::get('owners/{facebook_id}', 'Api\OwnerController@getOwner');
 
     // 获取广告详情
-    Route::get('ads/{event_id}', 'Api\AdController@getAd')->middleware('cors');
+    Route::get('ads/{event_id}', 'Api\AdController@getAd');
 });
