@@ -668,42 +668,49 @@ class PaymentService implements PaymentServiceContract
     /**
      * 获取订阅的退订时间
      * 使用订阅id获取交易列表，取退订的时间，转换时区后返回
-     * @param string $agreement_id 订阅Id,I-XXX
-     * @return datetime $time 退订时间，经过时区转换过的
+     * @param string $agreementId 订阅Id,I-XXX
+     * @return datetime 退订时间，经过时区转换过的
+     * 
+     * @todo 这个方法只适用于paypal的订阅，stripe订阅要另外写，或者补充
      */
-    public function getCancaledTime($agreement_id){
-        if(strpos($agreement_id,'I-') != 0){
-            $this->log("unknown param on getCancelTime", PaymentService::LOG_INFO);
+    public function getCancalledTime($agreementId){
+        //访问数据库确定订阅状态，只有canceled状态的订阅会被处理
+        if(Subscription::where('agreement_id',$agreementId)->value('status') != 'canceled'){
+            $this->log("check status in database,this subscription(agreement id: $agreementId) is not a canceled subscription", PaymentService::LOG_INFO);
             return false;
         }
         $service = $this->getPaypalService();
-        $transactions = $service->transactions($agreement_id);
+        $transactions = $service->transactions($agreementId);
         if(!$transactions || empty($transactions)){
-            $this->log("cannot find transaction list with $agreement_id on getCancelTime", PaymentService::LOG_INFO);
+            $this->log("cannot find transaction list with $agreementId on use paypal api", PaymentService::LOG_INFO);
             return false;
         }
-        $cancel_arr = end($transactions);
-        if($cancel_arr->getStatus() != 'Canceled'){
-            $this->log("$agreement_id is not a canceled subscription", PaymentService::LOG_INFO);
+        $cancelArr = end($transactions);
+        if($cancelArr->getStatus() != 'Canceled'){
+            $this->log("check status in paypal,this subscription(agreement id: $agreementId) is not a canceled subscription", PaymentService::LOG_INFO);
             return false;
         }
-        return Carbon::parse($cancel_arr->getTimeStamp())->timezone('Asia/Shanghai')->toDateTimeString();
+        return Carbon::parse($cancelArr->getTimeStamp())->timezone('Asia/Hong_Kong')->toDateTimeString();
 
         
     }
 
     /**
      * 获取交易的退款时间
-     * 如果使用searchTransaction api，只能获取到交易状态从completed转变成refunded的时间，或者说是refunded这个状态的创建时间，而非完成时间
+     * 如果使用searchTransaction api，只能获取到交易状态从completed转变成refunded的时间，或者说是refunding这个状态的创建时间，而非完成时间
      * 调用PaypalService的sale方法获取交易的详细内容，然后返回当中的updated_time作为退款完成时间
-     * @param string $transaction_id 交易的id，17位，payments表的number字段值
-     * @return void
+     * @param string $transactionId 交易的id，17位，payments表的number字段值
+     * @return datetime 交易的更新时间，经过时区转换
      */
-    public function getRefundedCompletedTime($transaction_id){
-        if(strlen($transaction_id) != 17) return false;
+    public function getRefundedCompletedTime($transactionId){
+        if(strlen($transactionId) != 17) return false;
         $service = $this->getPaypalService();
-        $saleInfo = $service->sale($transaction_id);
-        return Carbon::parse($saleInfo->getUpdateTime())->timezone('Asia/Shanghai')->toDateTimeString();
+        $saleInfo = $service->sale($transactionId);
+        if(!$saleInfo || $saleInfo->getId() != $transactionId) {
+            $this->log("cannot get sale info on use paypal api with transaction id($transactionId)", PaymentService::LOG_INFO);
+            return false;
+        }
+        return Carbon::parse($saleInfo->getUpdateTime())->timezone('Asia/Hong_Kong')->toDateTimeString();
     }
 
     /**
@@ -718,34 +725,37 @@ class PaymentService implements PaymentServiceContract
     * Method:Paypal或者Stripe,stripe的程序要另外写或者后期补上
     * Name:users.name
     * Email:payments.client_email
+    * @param string $transactionId 交易的id，17位，payments表的number字段值
+    * @param bool $force 是否强制生成
+    * @return string $generateSuccessMessage 票据成功生成的消息语句，字符串
     */
-    public function generateInvoice($transaction_id, $force = false)
+    public function generateInvoice($transactionId, $force = false)
     {
         //默认不强制生成
-        if(strlen($transaction_id) != 17 || empty($transaction_id)) {
+        if(strlen($transactionId) != 17 || empty($transactionId)) {
             //交易id的格式不符合
             $unknownParamMessage = "unknown param on generateInvoice";
             $this->log($unknownParamMessage, PaymentService::LOG_INFO);
             return $unknownParamMessage;
         }
-        $payment = Payment::where('number',$transaction_id)->where('status','completed')->first();
+        $payment = Payment::where('number',$transactionId)->where('status','completed')->first();
 
         if(!$payment) {
             //交易的状态不对或者查不到交易
-            $invalidPaymentMessage = "payment is invalid on use transaction id: $transaction_id,maybe status is not completed";
+            $invalidPaymentMessage = "payment is invalid on use transaction id: $transactionId,maybe status is not completed or isn't exists";
             $this->log($invalidPaymentMessage, PaymentService::LOG_INFO);
             return $invalidPaymentMessage;
         }
         if(!empty($payment->invoice_id) && !$force) {
             //该交易的invoice_id不为空，则已经生成过
-            $isGeneratedMessage = "cannot generate this invoice with transaction id: $transaction_id because it was generated.";
+            $isGeneratedMessage = "cannot generate this invoice with transaction id: $transactionId because it was generated.";
             $this->log($isGeneratedMessage, PaymentService::LOG_INFO);
             return $isGeneratedMessage;
         }
 
         //$this->log($payment->details, PaymentService::LOG_INFO);
         $data = (object)array();
-        $data->reference_id = ceil(microtime(true) * 100) . mt_rand(1000, 9999);//reference ID
+        $data->referenceId = ceil(microtime(true) * 100) . mt_rand(1000, 9999);//reference ID
         $data->amount = '$ ' . $payment->amount;//amount
         $data->package = $payment->subscription->getPlan()->display_name;//package
         $data->name = $payment->client->name;//name
@@ -753,7 +763,7 @@ class PaymentService implements PaymentServiceContract
         $data->method = 'Paypal';
 
         $details = json_decode($payment->details);
-        $data->payment_account = $details->payer_email;//payment account
+        $data->paymentAccount = $details->payer_email;//payment account
         $time = Carbon::parse($details->time_stamp)->setTimezone('Asia/Hong_Kong');//需要转换时区
 
         //目标时间格式 1 September 2017 at 5:16:04 p.m. HKT
@@ -780,23 +790,23 @@ class PaymentService implements PaymentServiceContract
                 $months = 1;
                 break;
         }
-        $data->expiration_time = $time->addMonths($months)->format('j M Y');//expiration time
+        $data->expirationTime = $time->addMonths($months)->format('j M Y');//expiration time
 
         //渲染html,转换成pdf
         $dompdf = new DOMPDF(); //if you use namespaces you may use new \DOMPDF()
         $dompdf->loadHtml($this->getInvoicePage($data));
         $dompdf->render();
 
-        //存储路径storage/app/public,可以通过public/storage访问
-        Storage::put("$data->reference_id.pdf", $dompdf->output());
+        //存储路径storage/app/invoice
+        Storage::put($this->config['invoice']['save_path'] . '/' . "$data->referenceId.pdf", $dompdf->output());
 
         //保存invoice_id到payments
-        $paymentInfo = Payment::where('number', $transaction_id)->first();
-        $paymentInfo->invoice_id = $data->reference_id;
+        $paymentInfo = Payment::where('number', $transactionId)->first();
+        $paymentInfo->invoice_id = $data->referenceId;
         $paymentInfo->save();
 
         //返回成功消息
-        $generateSuccessMessage = "$transaction_id 's payment invoice was generated,reference id is $data->reference_id";
+        $generateSuccessMessage = "$transactionId 's payment invoice was generated,reference id is $data->referenceId.";
         $this->log($generateSuccessMessage, PaymentService::LOG_INFO);
         return $generateSuccessMessage;
     }
@@ -804,8 +814,8 @@ class PaymentService implements PaymentServiceContract
     /**
     * 调用视图并完成渲染，返回视图内容
     *
-    * @param Array $invoice_data payments相关信息，用于视图中的内容赋值
-    * @return Object 视图内容
+    * @param array $invoice_data payments相关信息，用于视图中的内容赋值
+    * @return object 视图内容
     */
     public function getInvoicePage($invoiceData)
     {
@@ -814,24 +824,43 @@ class PaymentService implements PaymentServiceContract
     }
 
     /**
+     * 检查票据是否存在
+     * 
+     * @param int $invoiceId 票据id
+     * @return bool
+     */
+    public function checkInvoiceExists($invoiceId)
+    {
+        $fileName = $invoiceId . '.pdf';
+        //这里直接访问票据存储路径获取文件，另一种做法是存储使用存储路径，读取使用公开路径，中间做一个软链接,但是可见性要改成public
+        $savePath = $this->config['invoice']['save_path'] . '/' . $fileName;
+        if(Storage::exists($savePath)) {
+            //找到文件
+            return true;
+        } else {
+            //不存在这个文件,因为这里传参只是票据id，如果不存在，无法对应到任何一个交易，所以没办法调用命令去生成再下载
+            //可以从外部调用生成
+            $this->log("invoice file is not exists,file name is $fileName", PaymentService::LOG_INFO);
+            return false;
+        }
+    }
+
+    /**
     * 票据下载方法
+    * 不再做验证，权限验证和文件验证在其他地方完成
     *
-    * @param bigint $invoice_id 票据id,每个payment记录有一个，如果没有需要执行方法生成
-    * @return void 输出header，直接下载pdf,非打开
+    * @param int $invoice_id 票据id,每个payment记录有一个，如果没有需要执行方法生成
+    * @return object 下载文件
+    * @todo 是否有需要做防止恶意下载的限制
     */
     public function downloadInvoice($invoiceId)
     {
+        $this->log("download invoice");
         $fileName = $invoiceId . '.pdf';
-        if(Storage::exists($fileName)) {
-            //找到文件
-            $this->log("download invoice file ,file name is $fileName", PaymentService::LOG_INFO);
-            //另一种做法是存储使用存储路径，读取使用公开路径，中间做一个软链接
-            $savePath = 'storage/' . $this->config['invoice']['save_path'];
-            return response()->download(realpath(base_path($savePath)) . '/' . $fileName,$fileName);
-        } else {
-            //不存在这个文件,因为这里传参只是票据id，如果不存在，无法对应到任何一个交易，所以没办法调用命令去生成再下载
-            $this->log("download invoice file but file is not exists,file name is $fileName", PaymentService::LOG_INFO);
-            return 'cannot find file';
-        }
+        //这里直接访问票据存储路径获取文件，另一种做法是存储使用存储路径，读取使用公开路径，中间做一个软链接,但是可见性要改成public
+        $savePath = $this->config['invoice']['save_path'] . '/' . $fileName;
+        $url = storage_path() . '/app/' . $savePath;
+        $this->log("download invoice file ,file name is $fileName,download url is $url", PaymentService::LOG_INFO);
+        return response()->download($url, $fileName);
     }
 }

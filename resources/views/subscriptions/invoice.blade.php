@@ -77,7 +77,7 @@ hr{
                                 Reference ID
                             </div>
                             <div class="col-xs-4 col-sm-4 row_right">
-                            {{$data->reference_id}}
+                            {{$data->referenceId}}
                             </div>
                         </div>
                         <div class="row">
@@ -101,7 +101,7 @@ hr{
                                 Payment account
                             </div>
                             <div class="col-xs-4 col-sm-4 row_right">
-                                {{$data->payment_account}}
+                                {{$data->paymentAccount}}
                             </div>
                         </div>
                         <div class="row">
@@ -117,7 +117,7 @@ hr{
                                 Expiration time
                             </div>
                             <div class="col-xs-4 col-sm-4 row_right">
-                                {{$data->expiration_time}}
+                                {{$data->expirationTime}}
                             </div>
                         </div>
                     </div>

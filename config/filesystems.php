@@ -45,7 +45,7 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path(env('FILE_SAVE_PATH')),
+            'root' => storage_path('app'),
         ],
 
         'public' => [

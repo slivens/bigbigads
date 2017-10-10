@@ -478,23 +478,40 @@ final class SubscriptionController extends PayumController
     }
 
     /**
-    * 票据下载方法
-    *
-    * @param int $sid subscription id ,订阅的id,非agreement_id
-    * @param int $iid invoice id ,票据的id，也是票据文件名称，具体文件名称为 票据id.pdf
-    * @return void 下载pdf
-    */
-    public function downloadInvoice($sid, $iid)
+     *  票据文件查找
+     *  下载前确认文件是否存在，不存在返回提示
+     * @param int $invoice_id 票据id
+     * @todo 如果文件不存在，将生成票据任务推入队列，并且需要做判断，一定时间内只能推1次
+     */
+    public function findInvoice($sub_id, $invoice_id)
     {
         $user = Auth::user();
         if(!$user) {
-            Log::info("verify users failed because user not found,use subscription id:$sid,invoice id:$iid");
+            Log::info("verify users failed because user not found,use subscription id:$sub_id,invoice id:$invoice_id");
+            return ['code' => 404000, 'message' => 'user is not login'];
         }
-        $isSubs = Subscription::where('user_id', $user->id)->where('id', $sid)->first();
+        $isSubs = Subscription::where('user_id', $user->id)->where('id', $sub_id)->first();
         if(!$isSubs) {
-            Log::info("verify subscription failed before download invoice,subscription id:$sid");
-            return false;
+            Log::info("verify subscription failed before download invoice,subscription id:$sub_id");
+            return ['code' => 404000, 'message' => "find subscription fail on use subscription id ($sub_id) and user id($user->id)"];
         }
-        return $this->paymentService->downloadInvoice($iid);
+        if($this->paymentService->checkInvoiceExists($invoice_id)) {
+            return ['code' => 0, 'success' => true];
+        } else {
+            return ['code' => 404000, 'message' => 'file is not exists'];
+        }
+    }
+
+    /**
+    * 票据下载方法
+    *
+    * @param int $sub_id subscription id ,订阅的id,非agreement_id
+    * @param int $invoice_id ,票据的id，也是票据文件名称，具体文件名称为 票据id.pdf
+    * @return object 下载文件
+    */
+    public function downloadInvoice($invoice_id)
+    {
+        Log::info("downloading Invoice file on use invoice_id:$invoice_id");
+        return $this->paymentService->downloadInvoice($invoice_id);
     }
 }

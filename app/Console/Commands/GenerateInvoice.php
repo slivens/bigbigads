@@ -40,13 +40,13 @@ class GenerateInvoice extends Command
     {
         $this->comment("generate invoice start");
         $tids = $this->argument('transaction_id')? : [];
-        $isforce = $this->option('force');
+        $isForce = $this->option('force');
         $path = env('INVOICE_SAVE_PATH');
         if(empty($tids)) {
             $payments = Payment::where('payments.status', 'completed');
             //空交易id参数的情况下，强制生成=全表生成，不强制生成=生成表中invoice_id为空的记录的票据
             //调用命令时统一加第二个参数，强制生成
-            if(!$isforce) {
+            if(!$isForce) {
                 $payments->whereNull('invoice_id');//强制更新没有这个条件
             }
             $payments->chunk(10, function ($payments) {
@@ -58,15 +58,15 @@ class GenerateInvoice extends Command
             });
         } else {
             $paymentService = app(\App\Contracts\PaymentService::class);
-            if($isforce) {
+            if($isForce) {
                 //强制更新，重新生成一个票据
                 $this->comment("the invoice was re-generate");
                 $this->comment($paymentService->generateInvoice($tids, true));
             }else {
                 //不强制，如果已经生成，给予提示
-                $invoice_id = Payment::where('number', $tids)->value('invoice_id');
-                if(!empty($invoice_id)) {
-                    $this->comment("$tids has a invoice,that id is $invoice_id,file path is storage/" . $path . "/" . $invoice_id . ".pdf");
+                $invoiceId = Payment::where('number', $tids)->value('invoice_id');
+                if(!empty($invoiceId)) {
+                    $this->comment("$tids has a invoice,that id is $invoiceId,file path is storage/" . $path . "/" . $invoiceId . ".pdf");
                     return;
                 } else {
                     //如果没生成执行生成

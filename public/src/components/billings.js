@@ -49,6 +49,27 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
             })
         })
     }
+    ctrl.invoiceDownload = function(item) {
+        SweetAlert.swal({
+            title: "download invoice?",
+            type: "warning",
+            showCancelButton: true
+        }, function(isConfirm) {
+            if (!isConfirm)
+                return
+            $http.get(`/hasInvoice/${item.subscription_id}/${item.invoice_id}`).then(function(res) {
+                if (res.data.code != 0) {
+                    SweetAlert.swal(res.data.message)
+                    return
+                }
+                if (res.success)
+                    throw res
+                window.open(`/invoice/download/${item.invoice_id}`)
+            }).catch(function(res) {
+                SweetAlert.swal(res.data.message)
+            })
+        })
+    }
     ctrl.$onChanges = function(obj) {
         if (obj.shouldInit.currentValue !== "true") // || ctrl.inited)
             return
