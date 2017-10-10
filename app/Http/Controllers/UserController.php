@@ -359,4 +359,19 @@ class UserController extends Controller
         $twoMinutesDelayJob = (new ResendRegistMail($user, 'delivered', 2))->delay(Carbon::now()->addMinutes(2));
         dispatch($twoMinutesDelayJob);
     }
+
+    public function recordContinue(Request $request) {
+        if (Auth::check()) {
+            $user = Auth::user();
+            dispatch(new LogAction(ActionLog::ACTION_RECORD_CLICK_CONTINUE, $user->email, 'record_click_continue', $user->id, $request->ip() ));
+        }
+    }
+
+    public function filterLogRecord(Request $request) {
+        $user = Auth::user();
+        if ($user->id != $request->userId) {
+            return ['code' => -1, 'desc' => 'Unauthorised User'];
+        }
+        dispatch(new LogAction(ActionLog::ACTION_USER_REQUEST_FILTER, json_encode($request->params), '', $user->id, $request->ip()));
+    }
 }
