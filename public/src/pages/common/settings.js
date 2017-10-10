@@ -561,6 +561,9 @@ angular.module('bba.settings', []).factory('settings', ['$rootScope', function($
                 key: "Arabic",
                 value: "Arabic"
             }, {
+                key: "Dutch",
+                value: "Dutch"
+            }, {
                 key: "Others",
                 value: "Others"
             }],

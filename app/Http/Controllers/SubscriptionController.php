@@ -26,6 +26,7 @@ use App\Contracts\PaymentService;
 use App\Jobs\SyncPaymentsJob;
 use App\Jobs\SyncSubscriptionsJob;
 use App\Jobs\LogAction;
+use GuzzleHttp\Client;
 
 final class SubscriptionController extends PayumController
 {
@@ -236,8 +237,12 @@ final class SubscriptionController extends PayumController
         // 完成订阅后10秒后就去同步，基本上订单都已产生；如果没有产生，3分钟后再次同步试。同时webhook如果有收到，也会去同步。
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(10)));
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(30)));
-        // 添加pay=success作为标示来触发统计七天内支付
-        return redirect('/app/profile?active=0&pay=success');
+        // 更改七日内的统计为guzzle 同步请求
+        $domain = env('APP_URL');
+        $url = $domain . 'payStatistics.html';
+        $client = new Client();
+        $client->request('GET', $url);
+        return redirect('/app/profile?active=0');
     }
 
     /**

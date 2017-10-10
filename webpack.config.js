@@ -13,6 +13,7 @@ module.exports = {
         stripe: ['./resources/assets/js/stripe.js'],
         plan: ['./resources/assets/js/plan.js'],
         product: ['./resources/assets/js/product.js'],
+        welcome: ['./resources/assets/js/welcome.js'],
         vendor: ['jquery', 'swiper', 'bootstrap', 'moment', 'js-url']
     },
     output: {

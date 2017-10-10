@@ -654,12 +654,19 @@ MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope'
                 return {type: usage[0], value: usage[1], used: usage[2]}
             return {type: usage[0], value: usage[1], used: 0}
         },
-        openUpgrade: function() {
+        openUpgrade: function(currIlleageOption) {
             return $uibModal.open({
                 template: upgradeDlgTemplate,
                 size: 'md',
                 animation: true,
-                controller: upgradeDlgController
+                controller: upgradeDlgController,
+                resolve: {
+                    data: function() {
+                        return {
+                            currIlleageOption: currIlleageOption
+                        }
+                    }
+                }
             })
         },
         openSign: function() {
