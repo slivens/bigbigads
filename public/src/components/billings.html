@@ -28,7 +28,7 @@
             <td>
             
                 <a class="btn btn-default" ng-click="$ctrl.refund(item)" ng-if="item.canRefund">Refund</a>
-                <a class="btn btn-default" ng-click="$ctrl.invoiceDownload(item)">Invoice</a>
+                <a class="btn btn-default" ng-click="$ctrl.invoiceDownload(item)" ng-if="item.canDownloadInvoice">Invoice</a>
             </td>
         </tr>
     </table>

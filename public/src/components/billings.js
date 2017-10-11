@@ -20,6 +20,9 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
                         item.canRefund = true
                     if (item.is_effective && !ctrl.effective_id)
                         ctrl.effective_id = item.id
+                    // 状态为completed且没有退款记录的订单才能下载票据
+                    if (item.status == 'completed' && !item.refund)
+                        item.canDownloadInvoice = true
                 })
             })
             ctrl.inited = true
@@ -45,7 +48,7 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
                     throw res
                 ctrl.init()
             }).catch(function(res) {
-                SweetAlert.swal(res.data.message)
+                SweetAlert.swal(res.data.desc)
             })
         })
     }
@@ -57,16 +60,12 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
         }, function(isConfirm) {
             if (!isConfirm)
                 return
-            $http.get(`/hasInvoice/${item.subscription_id}/${item.invoice_id}`).then(function(res) {
-                if (res.data.code != 0) {
-                    SweetAlert.swal(res.data.message)
-                    return
-                }
+            $http.get(`/invoices/${item.invoice_id}/status`).then(function(res) {
                 if (res.success)
                     throw res
-                window.open(`/invoice/download/${item.invoice_id}`)
+                window.open(`/invoices/${item.invoice_id}`)
             }).catch(function(res) {
-                SweetAlert.swal(res.data.message)
+                SweetAlert.swal(res.data.desc)
             })
         })
     }

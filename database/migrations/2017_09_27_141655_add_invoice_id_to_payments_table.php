@@ -14,7 +14,7 @@ class AddInvoiceIdToPaymentsTable extends Migration
     public function up()
     {
         Schema::table('payments', function (Blueprint $table) {
-            $table->bigInteger('invoice_id')->nullable();
+            $table->bigInteger('invoice_id')->unique()->nullable();
         });
     }
 

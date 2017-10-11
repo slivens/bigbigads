@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
 use Log;
-use DB;
 use App\User;
 use App\Role;
 use App\Plan;
@@ -25,6 +24,7 @@ use App\Payment as OurPayment;
 use App\Contracts\PaymentService;
 use App\Jobs\SyncPaymentsJob;
 use App\Jobs\SyncSubscriptionsJob;
+use App\Jobs\GenerateInvoiceJob;
 use App\Jobs\LogAction;
 use GuzzleHttp\Client;
 
@@ -98,7 +98,7 @@ final class SubscriptionController extends PayumController
      */
    public function pay(Request $req)
     {
-        //check that we have nonce and plan in the incoming HTTP request
+        // check that we have nonce and plan in the incoming HTTP request
         if(empty( $req->input('planid') ) ){
             return redirect()->back()->withErrors(['message' => 'Invalid request']);
         }
@@ -107,7 +107,7 @@ final class SubscriptionController extends PayumController
         $user = Auth::user();
         $coupon = null;
         $discount = 0;
-        //如果存在对应的优惠券就使用
+        // 如果存在对应的优惠券就使用
         if ($req->has('coupon')) {
             $coupon = $this->checkCoupon($req->coupon, $plan->amount);
             if (!$coupon)
@@ -122,7 +122,7 @@ final class SubscriptionController extends PayumController
                 return redirect()->back()->withErrors(['message' => 'You have used the coupon']);
         }
 
-        //创建一个新的订阅(是否要清除已有的未支付订阅呢？需要的，防止数据库被填满，由于Paypal的token可能还在生效，所以在onPay时要确保不能支付成功)
+        // 创建一个新的订阅(是否要清除已有的未支付订阅呢？需要的，防止数据库被填满，由于Paypal的token可能还在生效，所以在onPay时要确保不能支付成功)
         Subscription::where('user_id', $user->id)->where('status', Subscription::STATE_CREATED)->delete();
         $subscription = new Subscription();
         $subscription->user_id = $user->id;
@@ -135,6 +135,7 @@ final class SubscriptionController extends PayumController
         $subscription->frequency_interval = $plan->frequency_interval;
         $subscription->gateway = PaymentService::GATEWAY_STRIPE;
         $subscription->status = Subscription::STATE_CREATED;
+        $subscription->tag = Subscription::TAG_DEFAULT;
         $subscription->save();
 
         if ($req->has('payType') && $req->payType == 'stripe') {
@@ -142,7 +143,7 @@ final class SubscriptionController extends PayumController
         }       
         $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
         $approvalUrl = $service->createPayment($plan, $coupon ? ['setup_fee' => $plan->amount - $discount] : null);
-        //由于此时订阅的相关ID没产生，所以没办法通过保存ID，此时就先通过token作为中转
+        // 由于此时订阅的相关ID没产生，所以没办法通过保存ID，此时就先通过token作为中转
 		$queryStr = parse_url($approvalUrl, PHP_URL_QUERY);
 		$queryTmpArr = explode("&", $queryStr);
 		$queryArr  = [];
@@ -212,10 +213,10 @@ final class SubscriptionController extends PayumController
         }
         $payer = $agreement->getPayer();
         $info = $payer->getPayerInfo();
-        //中途取消的情况下返回profile页面
+        // 中途取消的情况下返回profile页面
         if ($agreement == null) return redirect('/app/profile?active=0');
         $detail = $agreement->getAgreementDetails();
-        //abort(401, "error on agreement");
+        // abort(401, "error on agreement");
         $subscription->agreement_id = $agreement->getId();
         $subscription->quantity = 1;
         $subscription->status = $subscription->translateStatus($agreement->getState());
@@ -238,7 +239,7 @@ final class SubscriptionController extends PayumController
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(10)));
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(30)));
         
-        //生成票据,此处入参为该订阅下所有的交易，执行过程中会跳过已经生成票据的交易
+        // 生成票据,此处入参为该订阅下所有的交易，执行过程中会跳过已经生成票据的交易
         dispatch(new GenerateInvoiceJob(OurPayment::where('subscription_id', $subscription->id)->get()));
 
         // 更改七日内的统计为guzzle 同步请求
@@ -480,43 +481,5 @@ final class SubscriptionController extends PayumController
             return $this->responseError("you have request refunding before", -1);
         $refund = $this->paymentService->requestRefund($payment);
         return ['code' => 0, 'desc' => 'success'];
-    }
-
-    /**
-     *  票据文件查找
-     *  下载前确认文件是否存在，不存在返回提示
-     * @param int $invoice_id 票据id
-     * @todo 如果文件不存在，将生成票据任务推入队列，并且需要做判断，一定时间内只能推1次
-     */
-    public function findInvoice($sub_id, $invoice_id)
-    {
-        $user = Auth::user();
-        if(!$user) {
-            Log::info("verify users failed because user not found,use subscription id:$sub_id,invoice id:$invoice_id");
-            return ['code' => 404000, 'message' => 'user is not login'];
-        }
-        $isSubs = Subscription::where('user_id', $user->id)->where('id', $sub_id)->first();
-        if(!$isSubs) {
-            Log::info("verify subscription failed before download invoice,subscription id:$sub_id");
-            return ['code' => 404000, 'message' => "find subscription fail on use subscription id ($sub_id) and user id($user->id)"];
-        }
-        if($this->paymentService->checkInvoiceExists($invoice_id)) {
-            return ['code' => 0, 'success' => true];
-        } else {
-            return ['code' => 404000, 'message' => 'file is not exists'];
-        }
-    }
-
-    /**
-    * 票据下载方法
-    *
-    * @param int $sub_id subscription id ,订阅的id,非agreement_id
-    * @param int $invoice_id ,票据的id，也是票据文件名称，具体文件名称为 票据id.pdf
-    * @return object 下载文件
-    */
-    public function downloadInvoice($invoice_id)
-    {
-        Log::info("downloading Invoice file on use invoice_id:$invoice_id");
-        return $this->paymentService->downloadInvoice($invoice_id);
     }
 }

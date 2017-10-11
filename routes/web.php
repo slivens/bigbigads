@@ -139,8 +139,8 @@ Route::any('/forward/{action}', 'SearchController@search');
 Route::post('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
 
 
-Route::get('/hasInvoice/{sub_id}/{invoice_id}', 'SubscriptionController@findInvoice');
-Route::get('/invoice/download/{invoice_id}', 'SubscriptionController@downloadInvoice');
+Route::get('/invoices/{invoice_id}/status', 'InvoiceController@getGenerateStatus');
+Route::get('/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
 
 
 //邮件营销 

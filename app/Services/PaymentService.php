@@ -731,9 +731,9 @@ class PaymentService implements PaymentServiceContract
     */
     public function generateInvoice($transactionId, $force = false)
     {
-        //默认不强制生成
+        // 默认不强制生成
         if(strlen($transactionId) != 17 || empty($transactionId)) {
-            //交易id的格式不符合
+            // 交易id的格式不符合
             $unknownParamMessage = "unknown param on generateInvoice";
             $this->log($unknownParamMessage, PaymentService::LOG_INFO);
             return $unknownParamMessage;
@@ -741,32 +741,31 @@ class PaymentService implements PaymentServiceContract
         $payment = Payment::where('number',$transactionId)->where('status','completed')->first();
 
         if(!$payment) {
-            //交易的状态不对或者查不到交易
+            // 交易的状态不对或者查不到交易
             $invalidPaymentMessage = "payment is invalid on use transaction id: $transactionId,maybe status is not completed or isn't exists";
             $this->log($invalidPaymentMessage, PaymentService::LOG_INFO);
             return $invalidPaymentMessage;
         }
         if(!empty($payment->invoice_id) && !$force) {
-            //该交易的invoice_id不为空，则已经生成过
+            // 该交易的invoice_id不为空，则已经生成过
             $isGeneratedMessage = "cannot generate this invoice with transaction id: $transactionId because it was generated.";
             $this->log($isGeneratedMessage, PaymentService::LOG_INFO);
             return $isGeneratedMessage;
         }
 
-        //$this->log($payment->details, PaymentService::LOG_INFO);
         $data = (object)array();
-        $data->referenceId = ceil(microtime(true) * 100) . mt_rand(1000, 9999);//reference ID
-        $data->amount = '$ ' . $payment->amount;//amount
-        $data->package = $payment->subscription->getPlan()->display_name;//package
-        $data->name = $payment->client->name;//name
-        $data->email = $payment->client_email;//email
+        $data->referenceId = ceil(microtime(true) * 100) . mt_rand(1000, 9999);// reference ID
+        $data->amount = '$ ' . $payment->amount;// amount
+        $data->package = $payment->subscription->getPlan()->display_name;// package
+        $data->name = $payment->client->name;// name
+        $data->email = $payment->client_email;// email
         $data->method = 'Paypal';
 
         $details = json_decode($payment->details);
-        $data->paymentAccount = $details->payer_email;//payment account
-        $time = Carbon::parse($details->time_stamp)->setTimezone('Asia/Hong_Kong');//需要转换时区
+        $data->paymentAccount = $details->payer_email;// payment account
+        $time = Carbon::parse($details->time_stamp)->setTimezone('Asia/Hong_Kong');// 需要转换时区
 
-        //目标时间格式 1 September 2017 at 5:16:04 p.m. HKT
+        // 目标时间格式 1 September 2017 at 5:16:04 p.m. HKT
         $yearAndMonth = $time->format("j F Y");
         $day = $time->format("g:i:s");
         $ampm = $time->format("a");
@@ -775,9 +774,9 @@ class PaymentService implements PaymentServiceContract
         } else {
             $ampm = 'p.m.';
         }
-        $data->date = $yearAndMonth . ' at ' . $day . ' ' . $ampm . ' HKT';//date of payment 
+        $data->date = $yearAndMonth . ' at ' . $day . ' ' . $ampm . ' HKT';// date of payment
 
-        //交易服务过期时间，格式 19 Sep 2017
+        // 交易服务过期时间，格式 19 Sep 2017
         switch($data->package) {
             case 'Annual':
                 $months = 12;
@@ -790,22 +789,23 @@ class PaymentService implements PaymentServiceContract
                 $months = 1;
                 break;
         }
-        $data->expirationTime = $time->addMonths($months)->format('j M Y');//expiration time
+        $data->expirationTime = $time->addMonths($months)->format('j M Y');// expiration time
 
-        //渲染html,转换成pdf
-        $dompdf = new DOMPDF(); //if you use namespaces you may use new \DOMPDF()
+        // 保存invoice_id到payments
+        $paymentInfo = Payment::where('number', $transactionId)->first();
+        $paymentInfo->invoice_id = $data->referenceId;
+        $updatePayment = $paymentInfo->save();
+
+        // 渲染html,转换成pdf
+        $dompdf = new DOMPDF(); // if you use namespaces you may use new \DOMPDF()
         $dompdf->loadHtml($this->getInvoicePage($data));
         $dompdf->render();
 
-        //存储路径storage/app/invoice
-        Storage::put($this->config['invoice']['save_path'] . '/' . "$data->referenceId.pdf", $dompdf->output());
+        // 如果票据id成功更新到表，那么生成文件
+        // 存储路径storage/app/invoice
+        if($updatePayment) Storage::put($this->config['invoice']['save_path'] . '/' . "$data->referenceId.pdf", $dompdf->output());
 
-        //保存invoice_id到payments
-        $paymentInfo = Payment::where('number', $transactionId)->first();
-        $paymentInfo->invoice_id = $data->referenceId;
-        $paymentInfo->save();
-
-        //返回成功消息
+        // 返回成功消息
         $generateSuccessMessage = "$transactionId 's payment invoice was generated,reference id is $data->referenceId.";
         $this->log($generateSuccessMessage, PaymentService::LOG_INFO);
         return $generateSuccessMessage;
@@ -820,7 +820,7 @@ class PaymentService implements PaymentServiceContract
     public function getInvoicePage($invoiceData)
     {
         $view = view('subscriptions.invoice')->with('data', $invoiceData);
-        return response($view)->getContent();//返回视图内容
+        return response($view)->getContent();// 返回视图内容
     }
 
     /**
@@ -832,14 +832,14 @@ class PaymentService implements PaymentServiceContract
     public function checkInvoiceExists($invoiceId)
     {
         $fileName = $invoiceId . '.pdf';
-        //这里直接访问票据存储路径获取文件，另一种做法是存储使用存储路径，读取使用公开路径，中间做一个软链接,但是可见性要改成public
+        // 这里直接访问票据存储路径获取文件，另一种做法是存储使用存储路径，读取使用公开路径，中间做一个软链接,但是可见性要改成public
         $savePath = $this->config['invoice']['save_path'] . '/' . $fileName;
         if(Storage::exists($savePath)) {
-            //找到文件
+            // 找到文件
             return true;
         } else {
-            //不存在这个文件,因为这里传参只是票据id，如果不存在，无法对应到任何一个交易，所以没办法调用命令去生成再下载
-            //可以从外部调用生成
+            // 不存在这个文件,因为这里传参只是票据id，如果不存在，无法对应到任何一个交易，所以没办法调用命令去生成再下载
+            // 可以从外部调用生成
             $this->log("invoice file is not exists,file name is $fileName", PaymentService::LOG_INFO);
             return false;
         }
@@ -857,7 +857,7 @@ class PaymentService implements PaymentServiceContract
     {
         $this->log("download invoice");
         $fileName = $invoiceId . '.pdf';
-        //这里直接访问票据存储路径获取文件，另一种做法是存储使用存储路径，读取使用公开路径，中间做一个软链接,但是可见性要改成public
+        // 这里直接访问票据存储路径获取文件，另一种做法是存储使用存储路径，读取使用公开路径，中间做一个软链接,但是可见性要改成public
         $savePath = $this->config['invoice']['save_path'] . '/' . $fileName;
         $url = storage_path() . '/app/' . $savePath;
         $this->log("download invoice file ,file name is $fileName,download url is $url", PaymentService::LOG_INFO);
