@@ -21,7 +21,7 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
                     if (item.is_effective && !ctrl.effective_id)
                         ctrl.effective_id = item.id
                     // 状态为completed且没有退款记录的订单才能下载票据
-                    if (item.status == 'completed' && !item.refund)
+                    if (item.status == 'completed')
                         item.canDownloadInvoice = true
                 })
             })
