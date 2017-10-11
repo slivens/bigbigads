@@ -18,7 +18,8 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, './public/dist'),
-        filename: '[name].js',
+        filename: !isProduction ? '[name].js' : '[name]-[hash].js',
+        chunkFilename: !isProduction ? '[name].js' : 'js/[name]-[hash].js',
     },
     module: {
         rules: [{
@@ -70,9 +71,9 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             name: ['vendor']
         }),
-        new ExtractTextPlugin('[name].css'),
+        new ExtractTextPlugin(!isProduction ? '[name].css' : '[name]-[hash].css'),
         new ManifestPlugin({
-            fileName: 'manifest.json',
+            fileName: 'rev-manifest.json', // 该名称不可以改，Laravel 5.3需要引用该名称的文件
             baseName: '/'
         }),
         new webpack.ProvidePlugin({

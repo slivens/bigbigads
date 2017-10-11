@@ -42,7 +42,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="../assets/pages/css/blog.css" rel="stylesheet" type="text/css" />
         <!-- END PAGE LEVEL STYLES -->
         <!-- BEGIN THEME LAYOUT STYLES -->
-        <link rel="stylesheet" type="text/css" href="./../dist/home.css?v=2.0.1"><!-- the css of head and foot -->
+        <link href="{{bba_version('home.css')}}" rel="stylesheet">
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="/static/images/favicon.ico" /> 
         @include('tpl.script')
@@ -309,21 +309,11 @@ License: You must have a valid license purchased only from themeforest(the above
                         <!-- END CONTENT -->
 
 @include('tpl.footer')
-        <!--[if lt IE 9]>
-<script src="../assets/global/plugins/respond.min.js"></script>
-<script src="../assets/global/plugins/excanvas.min.js"></script> 
-<script src="../assets/global/plugins/ie8.fix.min.js"></script> 
-<![endif]-->
         <!-- BEGIN CORE PLUGINS -->
         <script src="../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
         <script src="../assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
         <script src="../assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-        <!-- END CORE PLUGINS -->
-        <!-- BEGIN THEME GLOBAL SCRIPTS -->
-        <!-- END THEME GLOBAL SCRIPTS -->
-        <!-- BEGIN THEME LAYOUT SCRIPTS -->
-        <!-- END THEME LAYOUT SCRIPTS -->
     </body>
 
 </html>
