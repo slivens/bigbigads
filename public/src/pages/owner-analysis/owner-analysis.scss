@@ -113,36 +113,99 @@
     .oj-WEBSITE_CONVERSIONS {
         background-position: 0 -377px;
     }
+    .ads-verified-blue{
+        color:#5890ff;
+    }
+    .ads-verified-gray{
+        color:#9298a4;
+    }
     // overview
+    .analy-body{
+        .overview-adser{
+            height: 190px;
+            .ads-head-wrapper{
+                background: rgba(204, 204, 204, 0.90);
+                padding: 15px;
+                height: 80px;
+                overflow: visible;
+            }
+        }
+    }
     .analy-overview{
-        display: flex;
-        background: #6f94a7;
-        padding: 15px;
+        border-bottom: 1px solid #eee;
+        
+        position: relative;
+        overflow: hidden;
+        .filter-bg{
+            /**  格式，filer: blur(模糊半径)
+             *  模糊半径，取值范围0~Npx，0为无效果
+             */
+            background-size: 102% auto;
+            background-repeat: no-repeat;
+            background-position: center;
+             position: absolute;
+             height: 100%;
+             width: 100%;
+             left: 0;
+             top:0;
+             -webkit-filter: blur(10px);
+             -moz-filter: blur(10px);
+             -o-filter: blur(10px);
+             -ms-filter: blur(10px);
+             filter: blur(30px);
+        }
+        .analy-head{
+            height: 100px;
+            background: rgba(0,0,0,.3);
+            position: relative;
+        }
+        .overview-wrapper{
+            position: relative;
+            display: flex;
+            background: rgba(255, 255, 255, 0.90);
+            padding-bottom: 15px;
+        }
+        .analy-adser-head{
+            margin-top: -60px; 
+            width: 200px;
+            .adser-head{
+                margin: 0 auto;
+                display: block;
+                width: 120px;
+                height: 120px;
+                border-radius: 60px;
+                border:1px solid #e5e5e5;
+                background: #fff;
+                overflow: hidden;
+            }
+            .adser-name{
+                width: 130px;
+                margin: 0 auto;
+                margin-top: 15px;
+            }
+        }
         .overview-info{
+            position: relative;
             flex:1;
-            .overview-website{
-                margin-top: 0px;
-                color:#fff;
-                font-weight: 600;
-                a{
-                    color: #fff;
-                    width: 300px;
-                    display: inline-block;
-                }
+            margin-top: -60px;
+            .info-head{
+                height: 60px;
             }
             .info-date{
                 display: flex;
                 margin-top: 20px;
+                flex-wrap: wrap;
                 .data-card{
                     flex:1;
+                    min-width: 150px;
                     padding: 15px 0;
+                    margin:5px 0;
                     padding-left: 15px;
                     border:1px dashed #ccc;
                     border-left: 4px solid #ccc;
                     border-radius: 4px;
                     overflow: hidden;
                     margin-right: 15px;
-                    background: rgba(229,229,229,.75);
                     p{
                         margin: 0px;
                     }
@@ -156,31 +219,7 @@
                 }
             }
         }
-        .overview-adser{
-            width: 200px;
-            display: flex;
-            justify-content: center;
-            align-items:center;
-            flex-direction: column;
-            padding: 15px;
-            .adser-head{
-                width: 150px;
-                height: 150px;
-                border-radius: 75px;
-                border:1px solid #e5e5e5;
-                background: #fff;
-                overflow: hidden;
-            }
-            .adser-name{
-                margin-top: 20px;
-                width: 100%;
-                margin-bottom: 0px;
-                display:flex;
-                align-items:center;
-                justify-content: center;
-                color:#fff;
-            }
-        }
+
     }
     //analy-audience
     .analy-audience{
@@ -190,6 +229,10 @@
             display: flex;
             flex-direction: column;
             height: 250px;
+            .audience-card-head{
+                padding: 15px;
+                border-bottom: 1px solid #eee;
+            }
             .card-title {
                 font-size: 22px;
                 font-weight: 100;
@@ -198,6 +241,7 @@
                 font-size: 14px;
                 font-weight: 400;
                 color:#bbb;
+                margin-bottom: 0;
             }
             .card-number{
                 flex:1;
@@ -268,6 +312,25 @@
                 }
             }
         }
+        .devchart-wrapper{
+            display: -webkit-flex;
+            display: flex;
+            .charts-wrapper{
+                flex:1;
+                display: -webkit-flex;
+                display: flex;
+                justify-content: center;
+                align-items:center;
+
+                highchart{
+                    min-height: 140px !important;
+                    flex:1;
+                }
+            }
+            .charts-number{
+                flex:1
+            }
+        }
     }
     //analy-geography
     .analy-geography{
@@ -332,7 +395,11 @@
                 }
                 .interest-footer{
                     padding: 5px 10px;
-                    background: #b0d5f9;
+                    background: #337ab7;
+                    .page-num{
+                        margin-right: 8px;
+                        color:#fff;
+                    }
                 }
             }
         }
@@ -350,7 +417,8 @@
                 .map-table{
                     margin: 0;
                     thead{
-                        background: #7cb5ec;
+                        background: #337ab7;
+                        color:#fff;
                     }
                     td {
                         padding: 8px;
@@ -366,7 +434,7 @@
                     }
                     .map-td3{
                         width: 15%;
-                        min-width: 40px;
+                        min-width: 70px;
                     }
                     .map-td4{
                         vertical-align: top;
@@ -401,27 +469,114 @@
     }
     .analy-object{
         background: #fff;
+        .object-title{
+
+        }
         .object-charts{
-            .panel-body{
+            .chart-wrapper{
                 display: flex;
-                .chart-wrapper{
-                    display: flex;
-                    flex:1.5;
+                height: 400px;
+                box-sizing: content-box;
+                justify-content: center;
+                highchart{
                     height: 250px;
-                    highchart{
-                        flex:1
+                    width: 100%;
+                    .highcharts-container {
+                        overflow: visible !important;
+                        .highcharts-root {
+                            overflow: visible !important;
+                            height: 250px !important;
+                            .highcharts-background{
+                            }
+                        } 
                     }
                 }
-                .chart-data{
-                    flex:1;
+            }
+        }
+    }
+    
+    // 导航菜单
+    .analy-menu{
+        padding:0 15px;
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        .menu-list{
+            padding: 15px;
+            display: flex;
+            align-items:center;
+            justify-content: center;
+            cursor: pointer;
+            border-bottom:3px solid;
+            border-color: transparent;
+            margin-bottom: -1px;
+            font-weight: 600;
+            font-size: 18px;
+            color: #337ab7;
+            &:hover{
+                color:#7cb5ec;
+            }
+            &.active{
+                color:#eb6130;
+                border-bottom: 3px solid #eb6130;
+                cursor: default;
+            }
+        }
+    }
+    .adser-analy-rate {
+        margin-top: 30px;
+        .rate-title{
+            color: #3598dc;
+            padding: 15px;
+            margin-bottom: 30px;
+            font-weight: 800;
+            border-bottom: 1px solid rgba(53, 152, 220, 0.32);
+        }
+        .rate-items-wrapper{
+            min-height: 405px;
+            padding: 0;
+            .rate-down-exten {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                .rate-down-icon{
+                    margin-right: 8px;
+                }
+            }
+        }
+        .analy-nodata{min-height: 446px;}
+        .rate-weapper {
+            border-bottom: 1px dashed #eee;
+            padding: 5px 15px;
+            &:hover{
+                    background: #efefef;
+                }
+            .rate-link{
+                 text-decoration: none;
+                 &:hover{
+                     text-decoration: none;
+                 }
+            }
+            .rate-body {
+                display: flex;
+                align-items: center;
+                height: 70px;
+                overflow: hidden;
+                text-decoration: none;
+                .rate-sort{
+                    padding: 5px 5px;
+                    width: 30px;
                     display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    .data-list{
-                        margin: 8px 0;
-                        font-weight: 200;
-                        font-size: 14px;
-                    }
+                    align-items:flex-start;
+                    height: 100%;
+                }
+                .rate-ads-img {
+                    width: 120px;
+                    height: auto;
+                }
+                .rate-info {
+                    flex: 1;
+                    display: block;
                 }
             }
         }
