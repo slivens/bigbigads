@@ -72,9 +72,8 @@ class LoginController extends Controller
     protected function authenticated($request, $user)
     {
         $agent = new Agent();
-        if ($agent->isMobile()) {
-            return redirect('/m/#/login');
-        }
+        if ($agent->isMobile()) return redirect('/mobile');
+
         //没审核通过或被冻结就不允许登陆
         if ($user->state == 0) {
             //临时新加需求，由于邮箱未送达率达到了近25%,暂时新加开关邮箱验证的功能，用户注册过后直接进入/app，对于state=0的用户

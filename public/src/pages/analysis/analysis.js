@@ -30,6 +30,7 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
             end: true,
             similars: []
         }
+        $scope.settings = settings
         $scope.id = $stateParams.id
         $scope.adSearcher.addFilter({
             field: 'ads_id',

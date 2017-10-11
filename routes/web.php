@@ -101,7 +101,7 @@ Route::get('/ranking', function(Request $req) {
         return response(["code"=>-4201, "desc"=>"no permission of ranking"], 422);
     }
 });
-
+// 由于移动端访问过于频繁，暂时更改路由名称并
 Route::get('/userinfo', 'UserController@logInfo');
 Route::get('/registerVerify', 'UserController@registerVerify');
 Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
@@ -158,11 +158,6 @@ Route::get('/image', function(Request $request) {
     return $response;
 });
 
-Route::get('/mobile', function (Request $request) {
-    //手机端的跳转也支持track统计
-    return view('mobile');
-})->middleware('track');
-
 /*移动端登录提示页面*/
 Route::get('/mobile_maintain', function () {
     return view('mobile_maintain');
@@ -214,3 +209,5 @@ Route::get('/faker', function(Request $request) {
 /* Route::any('/payment/stripe', function() { */
 /*     return view('subscriptions.stripe')->with('key', env('STRIPE_PUBLISHABLE_KEY')); */
 /* }); */
+Route::get('/record-continue', 'UserController@recordContinue');
+Route::post('/filter-record', 'UserController@filterLogRecord');
