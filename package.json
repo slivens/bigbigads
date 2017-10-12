@@ -30,6 +30,7 @@
     "gulp-env": "^0.4.0",
     "gulp-sass": "^3.1.0",
     "gulp-util": "^3.0.8",
+    "image-webpack-loader": "^3.4.2",
     "laravel-elixir": "^6.0.0-9",
     "laravel-elixir-vue-2": "^0.2.0",
     "laravel-elixir-webpack-official": "^1.0.2",
