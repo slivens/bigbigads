@@ -47,7 +47,15 @@ module.exports = {
             }),
         }, {
             test: /\.(png|jpg|svg|gif|eot|woff|woff2|ttf)$/,
-            loader: "file-loader"
+            loader: [
+                "file-loader",
+                {
+                    loader: "image-webpack-loader",
+                    options: {
+                        bypassOnDebug: !isProduction
+                    }
+                }
+            ]
         }, {
             test: /\.(js|vue)$/,
             loader: 'eslint-loader',
