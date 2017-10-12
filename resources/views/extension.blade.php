@@ -7,7 +7,9 @@
     <title>Bigbigads Extension | Largest Facebook Ad Examples</title>
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
+    <!-- TODO: home.css should be removed in later version-->
     <link href="{{bba_version('home.css')}}" rel="stylesheet">
+    <link href="{{bba_version('extension.css')}}" rel="stylesheet">
     @include('tpl.script')
 </head>
 <body id="extension">
@@ -71,5 +73,6 @@
 @include('tpl.footer')
 </body>
 <script type="text/javascript" src="{{bba_version('vendor.js')}}" defer></script>
+<script type="text/javascript" src="{{bba_version('extension.js')}}" defer></script>
 </html>
 

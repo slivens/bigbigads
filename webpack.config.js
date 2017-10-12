@@ -14,6 +14,7 @@ module.exports = {
         plan: ['./resources/assets/js/plan.js'],
         product: ['./resources/assets/js/product.js'],
         welcome: ['./resources/assets/js/welcome.js'],
+        extension: ['./resources/assets/js/extension.js'],
         vendor: ['jquery', 'swiper', 'bootstrap', 'moment', 'js-url']
     },
     output: {
