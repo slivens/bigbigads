@@ -1,28 +1,11 @@
 // const elixir = require('laravel-elixir');
 const gutil = require("gulp-util");
 const env = require('gulp-env');
-const critical = require('critical');
-const webpack = require("webpack");
-const webpackConfig = require("./webpack.config.js");
-var gulp    = require('gulp'),
-    htmlmin = require('gulp-htmlmin');
-// require('laravel-elixir-vue-2');
+// const critical = require('critical');
+const imagemin = require('gulp-imagemin');
 
-/*
- |--------------------------------------------------------------------------
- | Elixir Asset Management
- |--------------------------------------------------------------------------
- |
- | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Sass
- | file for our application, as well as publishing vendor resources.
- |
- */
-
-// elixir(mix => {
-//     mix.sass('app.scss')
-//        .webpack('app.js');
-// });
+const  gulp    = require('gulp');
+// const htmlmin = require('gulp-htmlmin');
 
 // Generate & Inline Critical-path CSS
 // gulp.task('critical',  function (cb) {
@@ -39,46 +22,21 @@ var gulp    = require('gulp'),
 //     });
 // });
 
-gulp.task('compress', function() {
-    var opts = {
-        collapseWhitespace:    true,
-        removeAttributeQuotes: true,
-        removeComments:        true,
-        minifyJS:              true
-    };
+// gulp.task('compress', function() {
+//     var opts = {
+//         collapseWhitespace:    true,
+//         removeAttributeQuotes: true,
+//         removeComments:        true,
+//         minifyJS:              true
+//     };
 
-    return gulp.src('./storage/framework/views/*')
-               .pipe(htmlmin(opts))
-               .pipe(gulp.dest('./storage/framework/views/'));
-});
+//     return gulp.src('./storage/framework/views/*')
+//                .pipe(htmlmin(opts))
+//                .pipe(gulp.dest('./storage/framework/views/'));
+// });
 
-gulp.task('webpack:build-dev', function(cb) {
-    var myConfig = Object.create(webpackConfig);
-    webpack(myConfig, function(err, stats) {
-		if(err) throw new gutil.PluginError("webpack:build-dev", err);
-		gutil.log("[webpack:build-dev]", stats.toString({
-			colors: true
-		}));
-		cb();
-        });
-})
-
-gulp.task('webpack:build', function(cb) {
-	// modify some webpack config options
-	var myConfig = Object.create(webpackConfig);
-	myConfig.plugins = myConfig.plugins.concat(
-		new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production')
-		}),
-		new webpack.optimize.UglifyJsPlugin()
-	);
-
-	// run webpack
-	webpack(myConfig, function(err, stats) {
-		if(err) throw new gutil.PluginError("webpack:build", err);
-		gutil.log("[webpack:build]", stats.toString({
-			colors: true
-		}));
-		cb();
-	});
+gulp.task('minify', function() {
+    gulp.src('public/static/images/**/*')
+        .pipe(imagemin())
+        .pipe(gulp.dest('public/dist/images'))
 })
