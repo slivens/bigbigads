@@ -8,7 +8,7 @@ var isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
     devtool: isProduction ? false : 'source-map',
     entry: {
-        bundle:['./src/index.js'],
+        bundle:["babel-polyfill", './src/index.js'],
         vendor:[
             'jquery',
             'bootstrap', 
