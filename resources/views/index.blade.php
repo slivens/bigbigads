@@ -10,10 +10,8 @@
     <title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
     <link href="{{bba_version('home.css')}}" rel="stylesheet">
-    <style type="text/css">
-
-    </style>
 @include('tpl.script')
+@if (!is_psi_agent())
 <!-- Facebook Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -30,6 +28,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 /></noscript>
 <!-- DO NOT MODIFY -->
 <!-- End Facebook Pixel Code -->
+@endif
 </head>
 <body>
 @include('tpl.header')

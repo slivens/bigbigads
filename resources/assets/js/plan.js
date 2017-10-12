@@ -1,3 +1,5 @@
+import './../sass/plan.scss'
+
 (function() {
     function turnToPricing() {
         $("#stand-card-div").addClass("transform-rotatey")

@@ -8,6 +8,7 @@
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
     <link href="{{bba_version('home.css')}}" rel="stylesheet">
+    <link href="{{bba_version('plan.css')}}" rel="stylesheet">
     @include('tpl.script')
 </head>
 <body id="plan">

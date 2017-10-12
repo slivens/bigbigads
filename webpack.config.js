@@ -14,6 +14,8 @@ module.exports = {
         plan: ['./resources/assets/js/plan.js'],
         product: ['./resources/assets/js/product.js'],
         welcome: ['./resources/assets/js/welcome.js'],
+        extension: ['./resources/assets/js/extension.js'],
+        methodology: ['./resources/assets/js/methodology.js'],
         vendor: ['jquery', 'swiper', 'bootstrap', 'moment', 'js-url']
     },
     output: {
@@ -45,7 +47,15 @@ module.exports = {
             }),
         }, {
             test: /\.(png|jpg|svg|gif|eot|woff|woff2|ttf)$/,
-            loader: "file-loader"
+            loader: [
+                "file-loader",
+                {
+                    loader: "image-webpack-loader",
+                    options: {
+                        bypassOnDebug: !isProduction
+                    }
+                }
+            ]
         }, {
             test: /\.(js|vue)$/,
             loader: 'eslint-loader',
