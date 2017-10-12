@@ -15,7 +15,7 @@ import {template as searchResultUpgradeDlgTemplate, controller as searchResultUp
 import {template as filterDataLimitDlgTemplate, controller as filterDataLimitDlgController} from './components/filter-data-limit-dlg.js'
 
 window.moment = require('moment')
-
+window.Promise = Promise
 // function checkAdblock() {
 //     if (typeof checkAdblockValue === 'undefined') {
 //         swal({title: "Warning", text: "If you're not seeing any ads, it's possible you're running an Ad Blocking plugin on your browser. To view our ads, you'll need to disable it while you're here... ;-)", type: "warning"})
