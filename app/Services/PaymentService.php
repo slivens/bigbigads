@@ -288,11 +288,11 @@ class PaymentService implements PaymentServiceContract
             case 'cancelled':
                 $newStatus = Subscription::STATE_CANCLED;
                 //当订阅退订时获取其退订时间
-                $cancel_time = $this->getCancaledTime($sub->agreement_id);
+                $cancel_time = $this->getCancelledTime($sub->agreement_id);
                 if($cancel_time){
                     $newData['canceled_at'] = $cancel_time;
                 }else{
-                    $this->log("cannot get cancal time on {$sub->agreement_id},but subscription was cancelled", PaymentService::LOG_INFO);
+                    $this->log("cannot get cancel time on {$sub->agreement_id},but subscription was cancelled", PaymentService::LOG_INFO);
                 }
                 break;
             case 'suspended':
@@ -392,7 +392,7 @@ class PaymentService implements PaymentServiceContract
                 $payment->currency = $amount->getCurrency();
                 $payment->subscription()->associate($item);
                 $payment->details = $t->toJSON();
-                $payment->created_at = $carbon;
+                //$payment->created_at = $carbon;//注释于20171013,该字段由数据库维护，不指定
 
                 // TODO: 该代码主要解决早期buyer_email为空的问题，应该直接赋值，移除判断
                 if (empty($payment->buyer_email)) {
@@ -673,11 +673,10 @@ class PaymentService implements PaymentServiceContract
      * 
      * @todo 这个方法只适用于paypal的订阅，stripe订阅要另外写，或者补充
      */
-    public function getCancalledTime($agreementId){
-        //访问数据库确定订阅状态，只有canceled状态的订阅会被处理
+    public function getCancelledTime($agreementId){
         if(Subscription::where('agreement_id',$agreementId)->value('status') != 'canceled'){
             $this->log("check status in database,this subscription(agreement id: $agreementId) is not a canceled subscription", PaymentService::LOG_INFO);
-            return false;
+            //return false;
         }
         $service = $this->getPaypalService();
         $transactions = $service->transactions($agreementId);

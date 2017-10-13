@@ -30,7 +30,7 @@ class InvoiceController extends Controller
         $payment = Payment::where('invoice_id', $invoice_id)->first();
         // 请求的票据id无效
         if(!$payment) {
-            return $this->responseError("Cannot download invoice,because request invoice id is invalid");
+            return $this->responseError("Cannot download invoice,invalid invoice");
         }
         if($payment->client_id != $user->id) {
             Log::info("this invoice (id:$invoice_id) is not users (id:$user->id)");

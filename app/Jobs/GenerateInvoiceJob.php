@@ -30,13 +30,14 @@ class GenerateInvoiceJob implements ShouldQueue
      */
     public function handle()
     {
+        Log::info('generate invoice');
         if (!$this->payments instanceof Collection) {
             Log::warning("jobs:GenerateInvoice : payments are invalid");
             return;
         }
         $paymentService = app(\App\Contracts\PaymentService::class);
         foreach($this->payments as $payment) {
-            log::info('use payment number: ' . $payment->number);
+            Log::info('use payment number: ' . $payment->number . 'to generate invoice');
             $paymentService->generateInvoice($payment->number);//此处入参为交易id,17位，payment的number字段值
         }
     }
