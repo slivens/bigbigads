@@ -89,7 +89,7 @@
             .register-div{
                 padding: px(15);
                 width: 100%;
-                background: url(/static/images/mobile/bg_01.jpg) no-repeat center;
+                background: url(/dist/images/mobile/bg_01.jpg) no-repeat center;
                 background-size: 100% 100%;
                 min-height: 400px;
                 .ads-reg-title{
@@ -181,7 +181,7 @@
                 }
             }
             .introduce-div{
-    			background: url("/static/images/mobile/bg_02.png") repeat;
+    			background: url("/dist/images/mobile/bg_02.png") repeat;
                 padding: px(15);
                 .introduce-title{
                     margin-top: px(15);

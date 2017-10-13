@@ -14,11 +14,14 @@ module.exports = {
         plan: ['./resources/assets/js/plan.js'],
         product: ['./resources/assets/js/product.js'],
         welcome: ['./resources/assets/js/welcome.js'],
+        extension: ['./resources/assets/js/extension.js'],
+        methodology: ['./resources/assets/js/methodology.js'],
         vendor: ['jquery', 'swiper', 'bootstrap', 'moment', 'js-url']
     },
     output: {
         path: path.resolve(__dirname, './public/dist'),
-        filename: '[name].js',
+        filename: !isProduction ? '[name].js' : '[name]-[hash].js',
+        chunkFilename: !isProduction ? '[name].js' : 'js/[name]-[hash].js',
     },
     module: {
         rules: [{
@@ -44,7 +47,15 @@ module.exports = {
             }),
         }, {
             test: /\.(png|jpg|svg|gif|eot|woff|woff2|ttf)$/,
-            loader: "file-loader"
+            loader: [
+                "file-loader",
+                {
+                    loader: "image-webpack-loader",
+                    options: {
+                        bypassOnDebug: !isProduction
+                    }
+                }
+            ]
         }, {
             test: /\.(js|vue)$/,
             loader: 'eslint-loader',
@@ -70,9 +81,9 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             name: ['vendor']
         }),
-        new ExtractTextPlugin('[name].css'),
+        new ExtractTextPlugin(!isProduction ? '[name].css' : '[name]-[hash].css'),
         new ManifestPlugin({
-            fileName: 'manifest.json',
+            fileName: 'rev-manifest.json', // 该名称不可以改，Laravel 5.3需要引用该名称的文件
             baseName: '/'
         }),
         new webpack.ProvidePlugin({

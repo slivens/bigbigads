@@ -9,11 +9,9 @@
 
     <title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <link href="./dist/home.css?v=2.0.6" rel="stylesheet">
-    <style type="text/css">
-
-    </style>
+    <link href="{{bba_version('home.css')}}" rel="stylesheet">
 @include('tpl.script')
+@if (!is_psi_agent())
 <!-- Facebook Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -30,6 +28,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 /></noscript>
 <!-- DO NOT MODIFY -->
 <!-- End Facebook Pixel Code -->
+@endif
 </head>
 <body>
 @include('tpl.header')
@@ -305,8 +304,8 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         </div>
     </div>
 </div>
-<script type="text/javascript" src="dist/vendor.js?v=2.0.6" defer></script>
-<script type="text/javascript" src="dist/home.js?v=2.0.6" defer></script>
+<script type="text/javascript" src="{{bba_version('vendor.js')}}" defer></script>
+<script type="text/javascript" src="{{bba_version('home.js')}}" defer></script>
 </body>
 </html>
     

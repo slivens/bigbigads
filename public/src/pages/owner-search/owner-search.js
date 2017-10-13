@@ -1,3 +1,4 @@
+import './owner-search.scss'
 import '../common/common.js'
 import '../bookmark/bookmark.js'
 import '../common/searcher.js'

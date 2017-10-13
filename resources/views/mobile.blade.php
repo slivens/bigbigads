@@ -10,7 +10,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" />
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
     <title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
-    <link href="./dist/mobile.css?v=2.0.2" rel="stylesheet">
+    <link href="{{bba_version('mobile.css')}}" rel="stylesheet">
     @include('tpl.script')
 </head>
 <body id="new_index">
@@ -265,8 +265,8 @@
     @include('tpl.mobile_footer')
     <div class="footer"></div>
     <!--end header-->
-<script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
-<script type="text/javascript" src="dist/mobile.js?v=2.0.2" defer></script>
+<script type="text/javascript" src="{{bba_version('vendor.js')}}" defer></script>
+<script type="text/javascript" src="{{bba_version('mobile.js')}}" defer></script>
 <!-- <script src="./static/jquery-3.1.1.js"></script> -->
 <!-- <script src="./static/js/mobile.js"></script> -->
 </body>

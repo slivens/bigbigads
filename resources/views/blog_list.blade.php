@@ -20,7 +20,7 @@
         <link href="./assets/layouts/layout3/css/layout.css" rel="stylesheet" type="text/css" />
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="./static/images/favicon.ico" /> 
-        <link href="./dist/home.css?v=2.0.1" rel="stylesheet">
+        <link href="{{bba_version('home.css')}}" rel="stylesheet">
         @include('tpl.script')
     </head>
     <!-- END HEAD -->
@@ -84,11 +84,6 @@
         </div>
         <!-- END CONTAINER -->
         <!-- END QUICK NAV -->
-        <!--[if lt IE 9]>
-<script src="../assets/global/plugins/respond.min.js"></script>
-<script src="../assets/global/plugins/excanvas.min.js"></script> 
-<script src="../assets/global/plugins/ie8.fix.min.js"></script> 
-<![endif]-->
         <!-- BEGIN CORE PLUGINS -->
         <script src="./assets/global/plugins/jquery.min.js" type="text/javascript"></script>
         <script src="./assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
