@@ -392,7 +392,7 @@ class PaymentService implements PaymentServiceContract
                 $payment->currency = $amount->getCurrency();
                 $payment->subscription()->associate($item);
                 $payment->details = $t->toJSON();
-                //$payment->created_at = $carbon;//注释于20171013,该字段由数据库维护，不指定
+                //$payment->created_at = $carbon;// 注释于20171013,该字段由数据库维护，不指定
 
                 // TODO: 该代码主要解决早期buyer_email为空的问题，应该直接赋值，移除判断
                 if (empty($payment->buyer_email)) {
@@ -435,20 +435,26 @@ class PaymentService implements PaymentServiceContract
 
                 // 补全退款申请单和根据退款状态处理用户状态
                 if ($payment->status == Payment::STATE_REFUNDED) {
+                    $this->log("generate refund on payment $payment->number", PaymentService::LOG_INFO);
                     $refund = $payment->refund;
                     if (!$refund) {
+                        $this->log("payment $payment->number dont have refund record", PaymentService::LOG_INFO);
                         $refund = new Refund();
                         $refund->amount = $payment->amount;
                         $refund->note = "auto synced refunds";
                         $refund->status = Refund::STATE_ACCEPTED;
                         $refund->payment_id = $payment->id;//payment()->associate($payment);
-                        $refund->refunded_at = $this->getRefundedCompletedTime($payment->number);//获取交易的退款<<完成>>时间
+                        $refund->refunded_at = $this->getRefundedCompletedTime($payment->number);// 获取交易的退款<<完成>>时间
                         $res = $refund->save();
                         $this->log("generate refund automatically:$res", PaymentService::LOG_INFO);
                     }
+                    $this->log("payment $payment->number has refund record", PaymentService::LOG_INFO);
                     if ($refund->status != Refund::STATE_ACCEPTED) {
+                        $this->log("but status is not accept,now change to it", PaymentService::LOG_INFO);
                         $refund->status = Refund::STATE_ACCEPTED;
+                        $refund->refunded_at = $this->getRefundedCompletedTime($payment->number);// 获取交易的退款<<完成>>时间
                         $refund->save();
+                        $this->log("payment $payment->number refunded_at: $refund->refunded_at", PaymentService::LOG_INFO);
                     }
                     $this->handleRefundedPayment($payment);
                 }
@@ -646,6 +652,7 @@ class PaymentService implements PaymentServiceContract
                break;
             case 'completed':
                 $refund->status = Refund::STATE_ACCEPTED;
+                $refund->refunded_at = $this->getRefundedCompletedTime($payment->number);// 获取交易的退款<<完成>>时间
                 break;
             case 'canceled':
             case 'failed':
