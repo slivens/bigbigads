@@ -18,6 +18,7 @@ class InvoiceController extends Controller
      *  需要确认归属，即票据id对应的交易属于当前登录的用户
      *  需要确认文件是否存在
      * @param int $invoice_id 票据id
+     * @return object 正确返回success=>true,code=>0的json,错误返回错误提示
      * @todo 如果文件不存在，将生成票据任务推入队列，并且需要做判断，一定时间内只能推1次
      */
     public function getGenerateStatus($invoice_id)

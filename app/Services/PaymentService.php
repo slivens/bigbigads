@@ -680,7 +680,8 @@ class PaymentService implements PaymentServiceContract
      * 
      * @todo 这个方法只适用于paypal的订阅，stripe订阅要另外写，或者补充
      */
-    public function getCancelledTime($agreementId){
+    public function getCancelledTime($agreementId)
+    {
         if(Subscription::where('agreement_id',$agreementId)->value('status') != 'canceled'){
             $this->log("check status in database,this subscription(agreement id: $agreementId) is not a canceled subscription", PaymentService::LOG_INFO);
             //return false;
@@ -708,7 +709,8 @@ class PaymentService implements PaymentServiceContract
      * @param string $transactionId 交易的id，17位，payments表的number字段值
      * @return datetime 交易的更新时间，经过时区转换
      */
-    public function getRefundedCompletedTime($transactionId){
+    public function getRefundedCompletedTime($transactionId)
+    {
         if(strlen($transactionId) != 17) return false;
         $service = $this->getPaypalService();
         $saleInfo = $service->sale($transactionId);
@@ -783,19 +785,16 @@ class PaymentService implements PaymentServiceContract
         $data->date = $yearAndMonth . ' at ' . $day . ' ' . $ampm . ' HKT';// date of payment
 
         // 交易服务过期时间，格式 19 Sep 2017
-        switch($data->package) {
-            case 'Annual':
+        switch(strtolower($payment->subscription->frequency)) {
+            case 'year':
                 $months = 12;
                 break;
-            case 'Quarterly':
-                $months = 3;
-                break;
-            case 'Monthly':
-                default:
+            case 'month':
+            default:
                 $months = 1;
                 break;
         }
-        $data->expirationTime = $time->addMonths($months)->format('j M Y');// expiration time
+        $data->expirationTime = $time->addMonths($months * $payment->subscription->frequency_interval)->format('j M Y');// expiration time
 
         // 保存invoice_id到payments
         $paymentInfo = Payment::where('number', $transactionId)->first();
