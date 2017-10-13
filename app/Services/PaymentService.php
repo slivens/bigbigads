@@ -392,7 +392,7 @@ class PaymentService implements PaymentServiceContract
                 $payment->currency = $amount->getCurrency();
                 $payment->subscription()->associate($item);
                 $payment->details = $t->toJSON();
-                //$payment->created_at = $carbon;// 注释于20171013,该字段由数据库维护，不指定
+                $payment->created_at = $carbon;
 
                 // TODO: 该代码主要解决早期buyer_email为空的问题，应该直接赋值，移除判断
                 if (empty($payment->buyer_email)) {
