@@ -103,6 +103,13 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {
             }
         }
     })
+    /*
+    * 获取图片的长个宽，以及判断是竖图还是方图
+    * tyep 
+    * 0: 返回宽度值
+    * 1: 返回高度值
+    * 2：用于判断是否为横图，返回为true则为横图，返回false则为竖图
+    */
     .filter('getImageSize', function() {
         // @param type 0表示宽度,1表示高度
         return function(url, type) {
@@ -113,7 +120,7 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {
             size = url.slice(pos + 1).split('*')
             if (size.length != 2)
                 return 0
-            return size[type]
+            return (type == 0 || type == 1) ? size[type] : size[0] > size[1]
         }
     })
     .filter('mediaType', function() {
