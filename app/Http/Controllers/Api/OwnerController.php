@@ -16,7 +16,7 @@ class OwnerController extends Controller
     public function getOwners(Request $request)
     {
         $user = $request->user();
-        $keywords = $request->input('keywords');
+        $keywords = $request->input('keywords') ? $request->input('keywords') : '';
         $page = $request->input('page') ? $request->input('page') : 1;
         $per_page = $request->input('per_page') ? $request->input('per_page') : 10;
 
@@ -34,7 +34,8 @@ class OwnerController extends Controller
         $result = ApiOwner::getOwners($params, $page, $per_page);
 
         if ($page == 1) {
-            dispatch(new LogAction(ActionLog::ACTION_MOBILE_OWNER_SEARCH, json_encode($request->all()), json_encode([
+            $action_type = $keywords ? ActionLog::ACTION_MOBILE_OWNER_SEARCH : ActionLog::ACTION_MOBILE_OWNER_SEARCH_NULL;
+            dispatch(new LogAction($action_type, json_encode($request->all()), json_encode([
                 'total' => $result['total'],
             ]), $user->id, $request->ip()));
         } else {
