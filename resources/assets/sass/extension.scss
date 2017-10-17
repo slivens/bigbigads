@@ -1,5 +1,21 @@
-// 引用在线字体
-@import url('//fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,700,800,900');
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 300;
+  src: url(./fonts/raleway/weight_300.woff) format('woff');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: url(./fonts/raleway/weight_400.woff) format('woff');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 600;
+  src: url(./fonts/raleway/weight_600.woff) format('woff');
+}
 #extension {
     font-family: 'Raleway', 'Microsoft YaHei', '\5FAE\8F6F\96C5\9ED1', "Helvetica Neue", Helvetica, Arial, sans-serif;
     .exten-banner {
