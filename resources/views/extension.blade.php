@@ -19,8 +19,8 @@
         <p class="ads-font-48 exten-title ads-weight-600">Get in-depth Facebook Ad analysis with one click.</p>
         <p class="ads-font-28 exten-suptitle">Simple &amp; Powerful</p>
         <div class="row bnner-img">
-            <div class="col-md-8 col-md-offset-2 col-xs-12 col-xs-offset-0 images-wrapper">
-                <img src="./static/images/extension/bg_01.jpg" alt="">
+            <div class="col-md-8 col-md-offset-2 col-xs-12 col-xs-offset-0 video-wrapper">
+                <iframe class="youtube-video" width="100%" height="100%" src="https://www.youtube.com/embed/9cfmC1rpEEI?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
     </div>
@@ -74,5 +74,6 @@
 </body>
 <script type="text/javascript" src="{{bba_version('vendor.js')}}" defer></script>
 <script type="text/javascript" src="{{bba_version('extension.js')}}" defer></script>
+<script type="text/javascript" src="{{bba_version('home.js')}}" defer></script>
 </html>
 
