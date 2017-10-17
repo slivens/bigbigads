@@ -630,6 +630,11 @@ export default angular => {
             }
             // sort by 过滤free用户也需要加上time限制
             $scope.sortBy = function(action) {
+                if (!User.done) return false
+                if (!User.login) {
+                    User.openSign()
+                    return false
+                }
                 var freeMin = '2016-01-01'
                 var freeMax = moment().subtract(3, 'month').format('YYYY-MM-DD')
                 var checkBeforeSortResult
