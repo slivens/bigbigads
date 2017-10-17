@@ -232,9 +232,9 @@ A:
 ## 展示网站(Bigbigads根目录)
 
 ```
-$webpack #开发环境单次编译
-$webpack --watch #开发环境监听
-$NODE_ENV='production' webpack -p #生产环境
+$npm run develop #开发环境单次编译
+$npm run watch #开发环境监听
+$npm run product #生产环境
 ```
 
 ## 开发配置
