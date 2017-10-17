@@ -21,8 +21,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('owners', 'Api\OwnerController@getOwners');
 
     // 获取广告主信息
-    Route::get('owners/{facebook_id}', 'Api\OwnerController@getOwner');
+    Route::get('owners/{facebook_id}', 'Api\OwnerController@getOwner')->middleware('throttle:30');
 
     // 获取广告详情
-    Route::get('ads/{event_id}', 'Api\AdController@getAd');
+    Route::get('ads/{event_id}', 'Api\AdController@getAd')->middleware('throttle:30');
 });

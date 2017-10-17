@@ -115,70 +115,73 @@ class Owner
         $result = $analysis;
         $result['audience'] = [];
 
-        // 用户性别分布
-        if (array_key_exists('gender', $audience)) {
-            $result['audience']['gender'] = [
-                'male'   => $audience['gender'][0],
-                'female' => $audience['gender'][1],
-            ];
-        }
-
-        // 用户兴趣分布
-        if (array_key_exists('interests', $audience)) {
-            foreach ($audience['interests'] as $keyword => $amount) {
-                $result['audience']['interests'][] = [
-                    'keyword' => $keyword,
-                    'amount'  => $amount,
+        // 受众不一定存在
+        if ($audience) {
+            // 用户性别分布
+            if (array_key_exists('gender', $audience)) {
+                $result['audience']['gender'] = [
+                    'male'   => $audience['gender'][0],
+                    'female' => $audience['gender'][1],
                 ];
             }
-        }
 
-        // 用户年龄分布
-        if (array_key_exists('age', $audience)) {
-            $result['audience']['age'] = [];
-            foreach ($audience['age'] as $key => $value) {
-                switch ($key) {
-                    case 0:
-                        $range = [18, 24];
-                        break;
-                    case 1:
-                        $range = [25, 34];
-                        break;
-                    case 2:
-                        $range = [35, 44];
-                        break;
-                    case 3:
-                        $range = [45, 54];
-                        break;
-                    case 4:
-                        $range = [55, 64];
-                        break;
-                    case 5:
-                        $range = [65, 0];
-                        break;
+            // 用户兴趣分布
+            if (array_key_exists('interests', $audience)) {
+                foreach ($audience['interests'] as $keyword => $amount) {
+                    $result['audience']['interests'][] = [
+                        'keyword' => $keyword,
+                        'amount'  => $amount,
+                    ];
                 }
-
-                $result['audience']['age'][] = [
-                    'range'  => [
-                        'min' => $range[0],
-                        'max' => $range[1],
-                    ],
-                    'amount' => [
-                        'male'   => $value[0],
-                        'female' => $value[1],
-                    ],
-                ];
             }
-        }
 
-        // 用户国家分布
-        if (array_key_exists('addr', $audience)) {
-            $result['audience']['country'] = [];
-            foreach ($audience['addr'] as $key => $value) {
-                $result['audience']['country'][] = [
-                    'code'   => strtoupper($value['country']),
-                    'amount' => $value['value'],
-                ];
+            // 用户年龄分布
+            if (array_key_exists('age', $audience)) {
+                $result['audience']['age'] = [];
+                foreach ($audience['age'] as $key => $value) {
+                    switch ($key) {
+                        case 0:
+                            $range = [18, 24];
+                            break;
+                        case 1:
+                            $range = [25, 34];
+                            break;
+                        case 2:
+                            $range = [35, 44];
+                            break;
+                        case 3:
+                            $range = [45, 54];
+                            break;
+                        case 4:
+                            $range = [55, 64];
+                            break;
+                        case 5:
+                            $range = [65, 0];
+                            break;
+                    }
+
+                    $result['audience']['age'][] = [
+                        'range'  => [
+                            'min' => $range[0],
+                            'max' => $range[1],
+                        ],
+                        'amount' => [
+                            'male'   => $value[0],
+                            'female' => $value[1],
+                        ],
+                    ];
+                }
+            }
+
+            // 用户国家分布
+            if (array_key_exists('addr', $audience)) {
+                $result['audience']['country'] = [];
+                foreach ($audience['addr'] as $key => $value) {
+                    $result['audience']['country'][] = [
+                        'code'   => strtoupper($value['country']),
+                        'amount' => $value['value'],
+                    ];
+                }
             }
         }
 

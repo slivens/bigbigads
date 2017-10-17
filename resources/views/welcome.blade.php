@@ -179,7 +179,7 @@
                     <div class="clearfix">
                         <p class="text-center">Welcome to use BIGBIGADS' service. Please notice that we are redesigning the interface for our mobile app so you can only use basic function now. You can login to the desktop for full function.
                         </p>
-                        <a href="/app" class="btn continue-btn text-center">Continue</a>
+                        <a id="continue" class="btn continue-btn text-center">Continue</a>
                     </div>
                 </div>
             </div>
