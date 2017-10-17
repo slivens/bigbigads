@@ -796,7 +796,7 @@ class PaymentService implements PaymentServiceContract
         }
         $data->expirationTime = $time->addMonths($months * $payment->subscription->frequency_interval)->format('j M Y');// expiration time
 
-        // 保存invoice_id到payments
+        // 保存票据id到payments
         $paymentInfo = Payment::where('number', $transactionId)->first();
         $paymentInfo->invoice_id = $data->referenceId;
         $updatePayment = $paymentInfo->save();
@@ -854,7 +854,7 @@ class PaymentService implements PaymentServiceContract
     * 票据下载方法
     * 不再做验证，权限验证和文件验证在其他地方完成
     *
-    * @param int $invoice_id 票据id,每个payment记录有一个，如果没有需要执行方法生成
+    * @param int $invoiceId 票据id,每个payment记录有一个，如果没有需要执行方法生成
     * @return object 下载文件
     * @todo 是否有需要做防止恶意下载的限制
     */
