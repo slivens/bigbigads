@@ -63,7 +63,7 @@ hr{
         </div>
         <div class="content">
             <div class="content_title">
-                <h1><b>Receipt From BIGBIGADS</b></h1>
+                <h1><b>Invoice From BIGBIGADS</b></h1>
                 <p>Your transaction is completed and processed securely.</p>
                 <p>Please retain this copy for your records.</p>
             </div>

@@ -160,12 +160,18 @@ final class SubscriptionController extends PayumController
 
     /**
      * 获取帐单信息
+     * 额外添加首单交易完成时间，针对每个交易所属的订阅单独获取，目的在于使发票下载许可延期7天
      * @return \App\Payment[]
      */
     public function billings()
     {
         $user = Auth::user();
-        return $user->payments()->with('refund')->orderBy('created_at', 'desc')->get();
+        $payments = $user->payments()->with('refund')->orderBy('created_at', 'desc')->get();
+        foreach ($payments as $payment) {
+            $firstPayment = $user->payments()->where('subscription_id', $payment->subscription_id)->orderBy('created_at', 'asc')->first();// 取回该交易上级订阅的首单交易
+            $payment->firstCompletedTime = $firstPayment->getStartDateAttribute();
+        } 
+        return $payments;
     }
 
     /**

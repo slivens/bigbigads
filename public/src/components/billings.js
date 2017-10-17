@@ -20,9 +20,14 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
                         item.canRefund = true
                     if (item.is_effective && !ctrl.effective_id)
                         ctrl.effective_id = item.id
-                    // 状态为completed且没有退款记录的订单才能下载票据
-                    if (item.status == 'completed')
+                    // 状态为completed且没有退款记录的订单才能下载票据，所有交易在首单交易完成的7天后开放下载
+                    if (item.status == 'completed' && moment().diff(moment(item.firstCompletedTime), 'days') >= 7) {
                         item.canDownloadInvoice = true
+                        item.closeDownload = false
+                    } else {
+                        item.closeDownload = true
+                    }
+                    item.invoiceMessages = 'Please generate the invoice after 7 days.'
                 })
             })
             ctrl.inited = true

@@ -862,7 +862,7 @@ class PaymentService implements PaymentServiceContract
     {
         $this->log("download invoice");
         $fileName = $invoiceId . '.pdf';
-        // 这里直接访问票据存储路径获取文件，另一种做法是存储使用存储路径，读取使用公开路径，中间做一个软链接,但是可见性要改成public
+        // 这里直接访问票据存储路径获取文件，另一种做法是存储使用存储路径，读取使用公开路径，中间做一个软链接
         $savePath = $this->config['invoice']['save_path'] . '/' . $fileName;
         $url = storage_path() . '/app/' . $savePath;
         $this->log("download invoice file ,file name is $fileName,download url is $url", PaymentService::LOG_INFO);
