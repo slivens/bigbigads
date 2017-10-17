@@ -11,12 +11,12 @@ class HomeController extends Controller
     public function index()
     {
         $agent = new Agent();
-
+        $totalAdsNumber = '14,835,000';
         if ($agent->isMobile()) {
-            return view('mobile');
+            return view('mobile')->with('totalAdsNumber', $totalAdsNumber);
         } else {
             $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
-            return view('index')->with('recents', $recents);
+            return view('index', compact('recents', 'totalAdsNumber'));
         }
     }
 
