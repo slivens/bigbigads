@@ -74,6 +74,5 @@
 </body>
 <script type="text/javascript" src="{{bba_version('vendor.js')}}" defer></script>
 <script type="text/javascript" src="{{bba_version('extension.js')}}" defer></script>
-<script type="text/javascript" src="{{bba_version('home.js')}}" defer></script>
 </html>
 
