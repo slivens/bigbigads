@@ -15,12 +15,9 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
             ctrl.subscriptionId = user.subscription_id
             ctrl.queryPromise = billings.get().then(() => {
                 billings.items.map(function(item) {
-                    // 7天以内且成功支付的订单才允许申请退款
-                    if (moment().diff(moment(item.firstCompletedTime), 'days') <= 7 && item.status == 'completed' && !item.refund)
-                        item.canRefund = true
                     if (item.is_effective && !ctrl.effective_id)
                         ctrl.effective_id = item.id
-                    // 状态为completed且没有退款记录的订单才能下载票据，所有交易在首单交易完成的7天后开放下载
+                    // 所有成交状态的交易在首单交易完成的7天后开放票据下载
                     if (item.status == 'completed' && moment().diff(moment(item.firstCompletedTime), 'days') >= 7) {
                         item.canDownloadInvoice = true
                         item.closeDownload = false

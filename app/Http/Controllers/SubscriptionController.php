@@ -169,7 +169,8 @@ final class SubscriptionController extends PayumController
     /**
      * 获取帐单信息
      * 时间限制：
-     * 首单成交时间7天之内可以申请退款，7天后可以下载票据
+     * 首个订阅的首单成交时间7天之内可以申请1次退款，其他交易不能退款。
+     * 7天后所有成功交易可以下载票据
      * 
      * @return \App\Payment[]
      */
@@ -177,9 +178,14 @@ final class SubscriptionController extends PayumController
     {
         $user = Auth::user();
         $payments = $user->payments()->with('refund')->orderBy('created_at', 'desc')->get();
-        $firstPayment = $user->payments()->orderBy('created_at', 'asc')->first();// 取回该用户下首单交易
-        $firstTime = Carbon::parse($firstPayment->created_at)->toDateTimeString();
+        $firstPayment = $user->payments()->orderBy('created_at', 'asc')->first();// 取回该用户下首单交易,只有这单交易可以退款
+        $firstTime = Carbon::parse($firstPayment->created_at)->toDateTimeString();//使用该字段与交易状态确定交易是否可下载票据
         foreach ($payments as $payment) {
+            if ($payment->number == $firstPayment->number) {
+                $payment->canRefund = Carbon::parse($firstPayment->created_at)->diffInDays(Carbon::now()) < 7;//表达式返回true为距今7天内，可退款
+            } else {
+                $payment->canRefund = false;
+            }
             $payment->firstCompletedTime = $firstTime;
         }
         return $payments;
