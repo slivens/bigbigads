@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Payment;
+use App\Exceptions\GenericException;
 
 class GenerateInvoice extends Command
 {
@@ -43,7 +44,7 @@ class GenerateInvoice extends Command
         $isForce = $this->option('force');
         $path = env('INVOICE_SAVE_PATH');
         if(empty($tids)) {
-            $payments = Payment::where('payments.status', 'completed');
+            $payments = Payment::where('payments.status', Payment::STATE_COMPLETED);
             //空交易id参数的情况下，强制生成=全表生成，不强制生成=生成表中invoice_id为空的记录的票据
             //调用命令时统一加第二个参数，强制生成
             if(!$isForce) {
@@ -53,7 +54,12 @@ class GenerateInvoice extends Command
                 $service = app(\App\Contracts\PaymentService::class);
                 foreach ($payments as $p) {
                     $this->comment("generate $p->number's invoice...");
-                    $this->comment($service->generateInvoice($p->number, true));
+                    try{
+                        $generateResult = $service->generateInvoice($p->number, true);
+                        $this->comment("payment(id: $p->number) invoice was generated,invoice id is " . $generateResult);
+                    }catch(GenericException $e){
+                        $this->comment($e->getMessage());
+                    }
                 }
             });
         } else {
@@ -61,16 +67,26 @@ class GenerateInvoice extends Command
             if($isForce) {
                 //强制更新，重新生成一个票据
                 $this->comment("the invoice was re-generate");
-                $this->comment($paymentService->generateInvoice($tids, true));
+                try{
+                    $generateResult = $paymentService->generateInvoice($tids, true);
+                    $this->comment("payment(id: $tids) invoice was generated,invoice id is " . $generateResult);
+                }catch(GenericException $e){
+                    $this->comment($e->getMessage());
+                }
             }else {
                 //不强制，如果已经生成，给予提示
                 $invoiceId = Payment::where('number', $tids)->value('invoice_id');
                 if(!empty($invoiceId)) {
-                    $this->comment("$tids has a invoice,that id is $invoiceId,file path is storage/" . $path . "/" . $invoiceId . ".pdf");
+                    $this->comment("$tids has a invoice,that id is $invoiceId,file path is storage/" . $path . '/' . $invoiceId . '.pdf');
                     return;
                 } else {
                     //如果没生成执行生成
-                    $this->comment($paymentService->generateInvoice($tids));
+                    try{
+                        $generateResult = $paymentService->generateInvoice($tids);
+                        $this->comment("payment(id: $tids) invoice was generated,invoice id is " . $generateResult);
+                    }catch(GenericException $e){
+                        $this->comment($e->getMessage());
+                    }
                 }
             }
         } 

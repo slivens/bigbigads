@@ -16,7 +16,7 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
             ctrl.queryPromise = billings.get().then(() => {
                 billings.items.map(function(item) {
                     // 7天以内且成功支付的订单才允许申请退款
-                    if (moment().diff(moment(item.start_date), 'days') <= 7 && item.status == 'completed' && !item.refund)
+                    if (moment().diff(moment(item.firstCompletedTime), 'days') <= 7 && item.status == 'completed' && !item.refund)
                         item.canRefund = true
                     if (item.is_effective && !ctrl.effective_id)
                         ctrl.effective_id = item.id
