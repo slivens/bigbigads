@@ -19,8 +19,8 @@
         <p class="ads-font-48 exten-title ads-weight-600">Get in-depth Facebook Ad analysis with one click.</p>
         <p class="ads-font-28 exten-suptitle">Simple &amp; Powerful</p>
         <div class="row bnner-img">
-            <div class="col-md-8 col-md-offset-2 col-xs-12 col-xs-offset-0 images-wrapper">
-                <img src="./static/images/extension/bg_01.jpg" alt="">
+            <div class="col-md-8 col-md-offset-2 col-xs-12 col-xs-offset-0 video-wrapper">
+                <iframe class="youtube-video" width="100%" height="100%" src="https://www.youtube.com/embed/9cfmC1rpEEI?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
     </div>
@@ -30,7 +30,7 @@
         <div class="row">
             <div class="col-sm-4 col-xs-12 instro-wrapper">
                 <a href="">
-                    <img src="./static/images/extension/icon_01.png" class="instro-img" alt="">
+                    <img src="./dist/images/extension/icon_01.png" class="instro-img" alt="">
                 </a>
                 <p class="ads-font-24 ads-weight-600 instro-title">
                     Insight
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="col-sm-4 col-xs-12 instro-wrapper">
-                <img src="./static/images/extension/icon_02.png" class="instro-img" alt="">
+                <img src="./dist/images/extension/icon_02.png" class="instro-img" alt="">
                 <p class="ads-font-24 ads-weight-600 instro-title">
                     Inspiration
                 </p>
@@ -50,7 +50,7 @@
             </div>
             <div class="col-sm-4 col-xs-12 instro-wrapper">
                 <a href="">
-                    <img src="./static/images/extension/icon_03.png" class="instro-img" alt="">
+                    <img src="./dist/images/extension/icon_03.png" class="instro-img" alt="">
                 </a>
                 <p class="ads-font-24 ads-weight-600 instro-title">
                     Improve
