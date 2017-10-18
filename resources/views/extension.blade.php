@@ -32,9 +32,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-4 col-xs-12 instro-wrapper">
-                <a href="">
-                    <img src="./dist/images/extension/icon_01.png" class="instro-img" alt="">
-                </a>
+                <img src="./dist/images/extension/icon_01.png" class="instro-img" alt="">
                 <p class="ads-font-24 ads-weight-600 instro-title">
                     Insight
                 </p>
@@ -52,9 +50,7 @@
                 </div>
             </div>
             <div class="col-sm-4 col-xs-12 instro-wrapper">
-                <a href="">
-                    <img src="./dist/images/extension/icon_03.png" class="instro-img" alt="">
-                </a>
+                <img src="./dist/images/extension/icon_03.png" class="instro-img" alt="">
                 <p class="ads-font-24 ads-weight-600 instro-title">
                     Improve
                 </p>
