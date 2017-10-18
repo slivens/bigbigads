@@ -186,7 +186,7 @@ Route::get('/welcome', function () {
 });
 Route::get('/extension', function () {
     return view('extension');
-});
+})->middleware('track');
 Route::get('/methodology', function () {
     return view('methodology');
 });

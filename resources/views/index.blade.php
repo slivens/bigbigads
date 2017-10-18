@@ -43,8 +43,10 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
     <div class="introduce-data">
         <div class="intro-data-top intro-data-div">
             <div class="intro-datarome bottom-dashed-line">
-                <span id="adsnumber">10,000,000<sup>+</sup></span>
+                @if (isset($totalAdsNumber))
+                <span>{{ $totalAdsNumber }}<sup>+</sup></span>
                 <p>Ads</p>
+                @endif
             </div>
             <div class="intro-datarome left-dashed-line">
                 <span id="adsernumber">3,000,000<sup>+</sup></span>
