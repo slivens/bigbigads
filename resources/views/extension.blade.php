@@ -30,7 +30,7 @@
         <div class="row">
             <div class="col-sm-4 col-xs-12 instro-wrapper">
                 <a href="">
-                    <img src="./static/images/extension/icon_01.png" class="instro-img" alt="">
+                    <img src="./dist/images/extension/icon_01.png" class="instro-img" alt="">
                 </a>
                 <p class="ads-font-24 ads-weight-600 instro-title">
                     Insight
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="col-sm-4 col-xs-12 instro-wrapper">
-                <img src="./static/images/extension/icon_02.png" class="instro-img" alt="">
+                <img src="./dist/images/extension/icon_02.png" class="instro-img" alt="">
                 <p class="ads-font-24 ads-weight-600 instro-title">
                     Inspiration
                 </p>
@@ -50,7 +50,7 @@
             </div>
             <div class="col-sm-4 col-xs-12 instro-wrapper">
                 <a href="">
-                    <img src="./static/images/extension/icon_03.png" class="instro-img" alt="">
+                    <img src="./dist/images/extension/icon_03.png" class="instro-img" alt="">
                 </a>
                 <p class="ads-font-24 ads-weight-600 instro-title">
                     Improve
