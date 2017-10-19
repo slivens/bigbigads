@@ -43,7 +43,7 @@ class ChangeTag extends Command
         $email = $this->argument('user_email');
         $tag = $this->argument('tag');
         
-        if(strtolower($tag) == 'white' || strtolower($tag) == 'whitelist') {
+        if (strtolower($tag) == 'white' || strtolower($tag) == 'whitelist') {
             $tag = User::TAG_WHITELIST;
         } elseif (strtolower($tag) == 'black' || strtolower($tag) == 'blacklist') {
             $tag = User::TAG_BLACKLIST;
@@ -51,7 +51,7 @@ class ChangeTag extends Command
             $tag = User::TAG_DEFAULT;
         }
         $user = User::where('email', $email)->first();
-        if(!$user) {
+        if (!$user) {
             $this->comment('cannot find user with ' . $email);
             return;
         } else {
