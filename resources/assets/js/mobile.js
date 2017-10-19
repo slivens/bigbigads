@@ -1,8 +1,13 @@
+import moment from 'moment'
+import 'js-url'
+
+import 'animate.css/animate.css'
 import 'bootstrap/dist/css/bootstrap.css'
+import 'font-awesome/css/font-awesome.min.css'
+
 import './../sass/demo.scss'
 import './../sass/mobile.scss'
-import 'animate.css/animate.css'
-import 'font-awesome/css/font-awesome.min.css'
+
 (function() {
     changeWord(0)
     getAdsCount() // 获取广告数和广告主数量
@@ -70,5 +75,31 @@ import 'font-awesome/css/font-awesome.min.css'
         count = count.toString().replace(/(^|\s)\d+/g, (m) => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
         count = count + ",000"
         return count
+    }
+
+    /* eslint-disable no-undef */
+    const trackCode = url('?track')
+    if (trackCode) {
+        let days = trackCode.match(/\d\d$/)
+        days = days ? Number(days[0]) : 90
+        window.localStorage.setItem('track', JSON.stringify({
+            code: trackCode,
+            expired: moment().add(days, 'days').format('YYYY-MM-DD')
+        }))
+    }
+
+    let track
+    if (window.localStorage.getItem('track')) {
+        track = JSON.parse(window.localStorage.getItem('track'))
+        if (Date.parse(new Date()) < Date.parse(track.expired)) {
+            (document.querySelectorAll('[name=track]') || []).forEach(ele => { ele.value = track.code })
+        }
+    }
+
+    if (track) {
+        (document.querySelectorAll('.socialite') || []).forEach((ele) => {
+            ele.href = `${ele.href}?track=${track.code}`
+            ele.classList.remove('disabled')
+        })
     }
 })()

@@ -35,7 +35,8 @@ angular.module('MetronicApp').directive('lazyImg', ['$timeout', 'Util', function
                         $scope.lazyImg = '/watermark/default.jpg'
                         imageSrc = Util.getImageRandomSrc('') + $scope.lazyImg
                     } else {
-                        imageSrc = Util.getImageRandomSrc('') + '/thumb.php?src=' + $scope.lazyImg.replace(/#.+\*.+$/, '') + '&size=' + width + 'x'
+                        // imageSrc = Util.getImageRandomSrc('') + '/thumb.php?src=' + $scope.lazyImg.replace(/#.+\*.+$/, '') + '&size=' + width + 'x'
+                        imageSrc = Util.getImageRandomSrc('') + $scope.lazyImg.replace(/#.+\*.+$/, '') + '#size=' + width + 'x'
                     }
                 } else {
                     imageSrc = $scope.lazyImg
@@ -658,64 +659,341 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                 return angular.isArray(value)
             },
             isFilterLimit: function(filter, searchOption) {
-                if ((User.info.user.role.name != 'Free') || User.login) {
-                    return true
-                }
+                // 检查是否使用了某个过滤项和是否具有权限, 同时将无权限的过滤选项记录
+                // if ((User.info.user.role.name != 'Free')) {
+                //     return true
+                // }
                 var isLimit = false
-                // var isDateLimit
-                var isFormatLimit
-                var isCallToActionLimit
-                var isLangLimit
-                var isRangeSelectedLimit
-                // console.log(filter);
-                if ((filter.hasOwnProperty('formatSelected')) && (filter.formatSelected.length === 0)) {
-                    isFormatLimit = false
-                } else if (filter.hasOwnProperty('formatSelected')) {
-                    isFormatLimit = true
+                var illeageWhere = []
+                var filterLimitState
+                // 由于变量命明没统一,造成代码无法优雅处理, 采用对象+数组的方式做权限判断
+                var filterObject = {
+                    adType: {
+                        property: 'formatSelected',
+                        permission: 'format_filter',
+                        field: 'media_type',
+                        mode: 'Must',
+                        flag: ''
+                    },
+                    callToAction: {
+                        property: 'callToAction',
+                        permission: 'call_action_filter',
+                        field: 'buttondesc',
+                        mode: 'Must',
+                        flag: ''
+                    },
+                    language: {
+                        property: 'lang',
+                        permission: 'lang_filter',
+                        field: 'ad_lang',
+                        mode: 'Must',
+                        flag: ''
+                    },
+                    ecommerce: {
+                        property: 'ecommerce',
+                        permission: 'e_commerce_filter',
+                        field: 'ecommerce',
+                        mode: 'Must',
+                        flag: ''
+                    },
+                    objective: {
+                        property: 'objective',
+                        permission: 'objective_filter',
+                        field: 'objective',
+                        mode: 'Must',
+                        flag: ''
+                    },
+                    state: {
+                        property: 'state',
+                        permission: 'country_filter',
+                        field: 'state',
+                        mode: 'Must',
+                        flag: ''
+                    },
+                    audienceAge: {
+                        property: 'audienceAge',
+                        permission: 'audience_age_filter',
+                        field: 'audience_age',
+                        mode: 'Must',
+                        flag: ''
+                    },
+                    audienceInterest: {
+                        property: 'audienceInterest',
+                        permission: 'audience_interest_filter',
+                        field: 'audience_interest',
+                        mode: 'Must',
+                        flag: ''
+                    },
+                    audienceGender: {
+                        property: 'audienceGender',
+                        permission: 'audience_gender_filter',
+                        field: 'audience_gender',
+                        mode: 'simple',
+                        flag: ''
+                    }
                 }
-                if ((filter.hasOwnProperty('callToAction')) && (filter.callToAction.length === 0)) {
-                    isCallToActionLimit = false
-                } else if (filter.hasOwnProperty('callToAction')) {
-                    isCallToActionLimit = true
-                }
-                if ((filter.hasOwnProperty('lang')) && (filter.lang.length === 0)) {
-                    isLangLimit = false
-                } else if (filter.hasOwnProperty('lang')) {
-                    isLangLimit = true
-                }
-                if ((searchOption.hasOwnProperty('rangeselected')) && (searchOption.rangeselected.length === 0)) {
-                    isRangeSelectedLimit = false
-                } else if (searchOption.hasOwnProperty('rangeselected')) {
-                    isRangeSelectedLimit = true
-                }
-                if (isFormatLimit || isCallToActionLimit || isLangLimit || isRangeSelectedLimit) isLimit = true
+                var filterValue = ['adType', 'callToAction', 'language', 'ecommerce', 'objective', 'state', 'audienceAge', 'audienceInterest', 'audienceGender']
+                var valueProperty // 对应filterObject 过滤项的property
+                var valuePermission // 对应filterObject 过滤项的permission
+                var valueField // 对应filterObject 过滤项的field
+                var valueFlag // 对应filterObject 过滤项的flag
+                var valueMode
+                var currIlleageOption = {}
+                angular.forEach(filterValue, function(value) {
+                    valueProperty = filterObject[value].property
+                    valuePermission = filterObject[value].permission
+                    valueField = filterObject[value].field
+                    valueMode = filterObject[value].mode
+                    // valueFlag = filterObject[value].flag
+                    // filterValue filterObject的过滤项权限数组，每一个对应filterObject的属性对象
+                    // filterObject[value] 具体的过滤权限对象，例如 filterObject.state 的属性名、权限名、请求参数、具体参数名和是否合法的标示
+                    // filter 即 $scope.filterOption , filter[value.property] 为用户选择的具体过滤选项
+                    if ((filter.hasOwnProperty(valueProperty)) && (filter[valueProperty].length === 0)) {
+                        filterObject[value].flag = false
+                    } else if (filter.hasOwnProperty(valueProperty) && !User.can(valuePermission)) {
+                        filterObject[value].flag = true
+                        if (valueMode === 'simple') {
+                            // 单选过滤框
+                            illeageWhere.push({"field": valueField, "value": filter[valueProperty]})
+                            currIlleageOption[valueProperty] = filter[valueProperty]
+                        } else {
+                            // 多选过滤框
+                            illeageWhere.push({"field": valueField, "value": filter[valueProperty].join(',')})
+                            currIlleageOption[valueProperty] = filter[valueProperty].join(',')
+                        }
+                    }
+                })
+                angular.forEach(filterValue, function(value) {
+                    valueFlag = filterObject[value].flag
+                    if (valueFlag) isLimit = true
+                })
+                // if ((filter.hasOwnProperty('formatSelected')) && (filter.formatSelected.length === 0)) {
+                //     isFormatLimit = false
+                // } else if (filter.hasOwnProperty('formatSelected') && !User.can('format_filter')) {
+                //     isFormatLimit = true
+                //     illeageWhere.push({"field": "media_type", "value": filter.formatSelected[0]})
+                // }
                 if (isLimit) {
-                    return false
+                    filterLimitState = {
+                        flag: false,
+                        params: illeageWhere,
+                        currIlleageOption: currIlleageOption
+                    }
                 } else {
-                    return true
+                    filterLimitState = {
+                        flag: true,
+                        params: ''
+                    }
                 }
+                return filterLimitState
             },
             isAdvanceFilterLimit: function(filter) {
                 // 需求变更，free用户无高级过滤权限
-                if (User.info.user.role.name != 'Free') {
-                    return true
-                }
+                // if (User.info.user.role.name != 'Free') {
+                //     return true
+                // }
                 var isLimit = false
                 var isDurationLimit = false
+                var isSeeTimeLimit = false
                 var isEngagementsLimit = false
-                if ((filter.duration.from !== 0) || (filter.duration.to !== 180)) isLimit = true
-                if ((filter.seeTimes.from !== 0) || (filter.seeTimes.to !== 180)) isLimit = true
-                angular.forEach(filter.engagements, function(data) {
-                    if (data.max || data.min) {
+                var illeageFilerRecord = []
+                var engagementsArray = ['likes', 'engagements', 'shares', 'views', 'comments']
+                var AdvanceFilterLimitState
+                var currIlleageOption = {}
+                if (((filter.duration.from !== 0) || (filter.duration.to !== 180)) && !User.can('duration_filter')) {
+                    isDurationLimit = true
+                    illeageFilerRecord.push({"field": "duration", "from": filter.duration.from, "to": filter.duration.to})
+                    currIlleageOption.duration = {
+                        from: filter.duration.from,
+                        to: filter.duration.to
+                    }
+                }
+                if (((filter.seeTimes.from !== 0) || (filter.seeTimes.to !== 180)) && !User.can('see_times_filter')) {
+                    isSeeTimeLimit = true
+                    illeageFilerRecord.push({"field": "see_times", "from": filter.seeTimes.from, "to": filter.seeTimes.to})
+                    currIlleageOption.seeTimes = {
+                        from: filter.seeTimes.from,
+                        to: filter.seeTimes.to
+                    }
+                }
+                angular.forEach(engagementsArray, function(data) {
+                    if (filter.engagements.hasOwnProperty(data) && (filter.engagements[data].max || filter.engagements[data].min) && !User.can('see_times_filter')) {
                         isEngagementsLimit = true
+                        illeageFilerRecord.push({'field': data, 'max': filter.engagements[data].max, 'min': filter.engagements[data].min})
+                        currIlleageOption[data] = {
+                            max: filter.engagements[data].max,
+                            min: filter.engagements[data].min
+                        }
                     }
                 })
-                if (isDurationLimit || isEngagementsLimit) isLimit = true
+                if (isDurationLimit || isEngagementsLimit || isSeeTimeLimit) isLimit = true
                 if (isLimit) {
-                    return false
+                    AdvanceFilterLimitState = {
+                        flag: false,
+                        params: illeageFilerRecord,
+                        currIlleageOption: currIlleageOption
+                    }
                 } else {
-                    return true
+                    AdvanceFilterLimitState = {
+                        flag: true,
+                        params: ''
+                    }
                 }
+                return AdvanceFilterLimitState
+            },
+            isAdPosionFilterLimit: function(adTypeSetting, params) {
+                var isLimit = false
+                var AdPosionFilterLimitState
+                var illeageFilerRecord = []
+                var currIlleageOption = {}
+                angular.forEach(adTypeSetting, function(adType) {
+                    if (adType.key === params && !User.can(adType.permission)) {
+                        isLimit = true
+                        illeageFilerRecord.push({'field': 'ads_type', 'value': params})
+                        currIlleageOption.ads_type = params
+                    }
+                })
+                if (isLimit) {
+                    AdPosionFilterLimitState = {
+                        flag: false,
+                        params: illeageFilerRecord,
+                        currIlleageOption: currIlleageOption
+                    }
+                } else {
+                    AdPosionFilterLimitState = {
+                        flag: true,
+                        params: ''
+                    }
+                }
+                return AdPosionFilterLimitState
+            },
+            isSortLimit: function(sort, orderBy) {
+                var isLimit = false
+                var illeageFilerRecord = []
+                var sortLimitState
+                var currIlleageOption = {}
+                angular.forEach(orderBy, function(value) {
+                    if (value.key === sort && !User.can(value.permission)) {
+                        isLimit = true
+                        illeageFilerRecord.push({'field': sort, order: 1})
+                        console.log('value', value)
+                        currIlleageOption.sort = value.value
+                    }
+                })
+                if (isLimit) {
+                    sortLimitState = {
+                        flag: false,
+                        sort: illeageFilerRecord,
+                        currIlleageOption: currIlleageOption
+                    }
+                } else {
+                    sortLimitState = {
+                        flag: true,
+                        sort: ''
+                    }
+                }
+                return sortLimitState
+            },
+            isDateLimit: function(filter) {
+                var dateObject = {
+                    date: {
+                        property: 'date',
+                        permission: 'last_time_filter',
+                        field: 'time'
+                    },
+                    firstSee: {
+                        property: 'firstSee',
+                        permission: 'first_time_filter',
+                        field: 'first_see'
+                    }
+                }
+                var dateFilter = ['date', 'firstSee']
+                var isLimit = false
+                var illeageFilerRecord = []
+                var valueProperty
+                var valuePermission
+                var valueField
+                var dateLimitState
+                var currIlleageOption = {}
+                angular.forEach(dateFilter, function(value) {
+                    valueProperty = dateObject[value].property
+                    valuePermission = dateObject[value].permission
+                    valueField = dateObject[value].field
+                    if (filter.hasOwnProperty(valueProperty) && !User.can(valuePermission) && filter[valueProperty].startDate) {
+                        isLimit = true
+                        illeageFilerRecord.push({"field": valueField, "min": filter[valueProperty].startDate.format('YYYY-MM-DD'), "max": filter[valueProperty].endDate.format('YYYY-MM-DD')})
+                        currIlleageOption[valueProperty] = {
+                            startDate: filter[valueProperty].startDate.format('YYYY-MM-DD'),
+                            endDate: filter[valueProperty].endDate.format('YYYY-MM-DD')
+                        }
+                    }
+                })
+                if (isLimit) {
+                    dateLimitState = {
+                        flag: false,
+                        params: illeageFilerRecord,
+                        currIlleageOption: currIlleageOption
+                    }
+                } else {
+                    dateLimitState = {
+                        flag: true,
+                        params: ''
+                    }
+                }
+                return dateLimitState
+            },
+            isSearchModeLimit: function(searchOption, rangeList, string) {
+                var isLimit
+                var illeageFilerRecord = []
+                var searchFields = ''
+                var SearchModeLimitState = {}
+                var currIlleageOption = {}
+                // console.log('isSearchModeLimit') 
+                if ((searchOption.hasOwnProperty('rangeselected')) && (searchOption.rangeselected.length === 0)) {
+                    isLimit = false
+                } else if (searchOption.hasOwnProperty('rangeselected')) {
+                    angular.forEach(searchOption.rangeselected, function(range) {
+                        angular.forEach(rangeList, function(value) {
+                            if (range == value.key && !User.can(value.permission)) {
+                                searchFields += range
+                                isLimit = true
+                            }
+                        })
+                    })
+                    if (searchFields) {
+                        // string = string ? string : ''
+                        illeageFilerRecord.push({string: string, search_fields: searchFields, relation: "Must"})
+                        currIlleageOption.range = searchFields
+                    }
+                }
+                if (isLimit) {
+                    SearchModeLimitState = {
+                        key: illeageFilerRecord,
+                        currIlleageOption: currIlleageOption,
+                        flag: false
+                    }
+                } else {
+                    SearchModeLimitState = {
+                        key: [],
+                        flag: true
+                    }
+                }
+                return SearchModeLimitState
+            },
+            unauthorisedFilterRequest: function(params) {
+                // 向后端发送无权限的请求
+                var recordParams
+                var url = settings.remoteurl + '/filter-record'
+                recordParams = {
+                    params: params,
+                    userId: User.info.user.id
+                }
+                $http.post(
+                    url,
+                    recordParams
+                ).success(function(data) {
+                    // defer.resolve(data);
+                })
             },
             getImageRandomSrc: function(src) {
                 // 图片采用随机向4个域名发起请求的方式，

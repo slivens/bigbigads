@@ -10,7 +10,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" />
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
     <title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
-    <link href="./dist/mobile.css?v=2.0.2" rel="stylesheet">
+    <link href="{{bba_version('mobile.css')}}" rel="stylesheet">
     @include('tpl.script')
 </head>
 <body id="new_index">
@@ -42,7 +42,9 @@
                 <div class="data-content data-top">
                     <div class="data-roomdiv data-roomdiv-left">
                         <p class="data-number">
-                        <span id="adsnumber">8,460,000<sup>+</sup></span></p>
+                        @if (isset($totalAdsNumber))
+                        <span>{{ $totalAdsNumber }}<sup>+</sup></span></p>
+                        @endif
                         <p class="data-text">Ads</p>
                     </div>
                     <div class="data-roomdiv">
@@ -72,15 +74,15 @@
         <div id="ads-register" class="register-div clearfix">
             <p class="ads-font-28 text-center ads-reg-title">Your online advertising,<br/> at its best. </p>
             <p class="ads-reg-text ads-font-16 text-center">Bigbigads'  facebook ad examples make sure you to create your Low-Cost, High-Performance ad campaign. </p>
-            <a class="ads-reg-btn btn reg-with-fb" href="/socialite/facebook?track={{request()->get('track')}}">
+            <a class="ads-reg-btn btn socialite reg-with-fb" href="/socialite/facebook">
                 <i class="fa fa-facebook-square reg-btn-icon"></i>
                 <span class="ads-font-18 reg-btn-text">Sign Up With Facebook</span>
             </a>
-            <a class="ads-reg-btn btn reg-with-linkedin" href="/socialite/linkedin?track={{request()->get('track')}}">
+            <a class="ads-reg-btn btn socialite reg-with-linkedin" href="/socialite/linkedin">
                 <i class="fa fa-linkedin-square reg-btn-icon"></i>
                 <span class="ads-font-18 reg-btn-text">Sign Up With Linkedin</span>
             </a>
-            <a class="ads-reg-btn btn reg-sub-btn" href="/socialite/google?track={{request()->get('track')}}">
+            <a class="ads-reg-btn btn socialite reg-sub-btn" href="/socialite/google">
                 <i class="fa fa-google-plus-square reg-btn-icon"></i>
                 <span class="ads-font-18 reg-btn-text">Sign Up With Google+</span>
             </a>
@@ -265,8 +267,8 @@
     @include('tpl.mobile_footer')
     <div class="footer"></div>
     <!--end header-->
-<script type="text/javascript" src="dist/vendor.js?v=5" defer></script>
-<script type="text/javascript" src="dist/mobile.js?v=2.0.2" defer></script>
+<script type="text/javascript" src="{{bba_version('vendor.js')}}" defer></script>
+<script type="text/javascript" src="{{bba_version('mobile.js')}}" defer></script>
 <!-- <script src="./static/jquery-3.1.1.js"></script> -->
 <!-- <script src="./static/js/mobile.js"></script> -->
 </body>

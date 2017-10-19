@@ -561,6 +561,9 @@ angular.module('bba.settings', []).factory('settings', ['$rootScope', function($
                 key: "Arabic",
                 value: "Arabic"
             }, {
+                key: "Dutch",
+                value: "Dutch"
+            }, {
                 key: "Others",
                 value: "Others"
             }],
@@ -632,6 +635,19 @@ angular.module('bba.settings', []).factory('settings', ['$rootScope', function($
                 }, {
                     key: "Taiwan",
                     value: "Taiwan"
+                }, {
+                    // 新增国家过滤项 South Africa, Malaysia, Australia, Saudi Arabia
+                    key: "South Africa",
+                    value: "South Africa"
+                }, {
+                    key: "Malaysia",
+                    value: "Malaysia"
+                }, {
+                    key: "Australia",
+                    value: "Australia"
+                }, {
+                    key: "Saudi Arabia",
+                    value: "Saudi Arabia"
                 }],
             trackingList: [{
                 key: "CPV Lab",

@@ -10,7 +10,7 @@
     <meta content="The bigbigads.com's phone interface is being maintained" name="description" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
-    <link href="./dist/home.css?v=2.0.5" rel="stylesheet">
+    <link href="{{bba_version('home.css')}}" rel="stylesheet">
     <!-- END GLOBAL MANDATORY STYLES -->
     <link rel="shortcut icon" type="image/x-icon" href="static/images/favicon.ico" media="screen">
 <style type="text/css">
@@ -179,7 +179,7 @@
                     <div class="clearfix">
                         <p class="text-center">Welcome to use BIGBIGADS' service. Please notice that we are redesigning the interface for our mobile app so you can only use basic function now. You can login to the desktop for full function.
                         </p>
-                        <a href="/app" class="btn continue-btn text-center">Continue</a>
+                        <a id="continue" class="btn continue-btn text-center">Continue</a>
                     </div>
                 </div>
             </div>
@@ -249,4 +249,9 @@ fbq('track', 'CompleteRegistration');
     a.appendChild(r);
 })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
+<!-- 必应统计 -->
+<script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"5713181"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script><noscript><img src="//bat.bing.com/action/0?ti=5713181&Ver=2" height="0" width="0" style="display:none; visibility: hidden;" /></noscript>
+
+<script type="text/javascript" src="{{bba_version('vendor.js')}}" defer></script>
+<script type="text/javascript" src="{{bba_version('welcome.js')}}" defer></script>
 </html>

@@ -9,11 +9,9 @@
 
     <title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <link href="./dist/home.css?v=2.0.5" rel="stylesheet">
-    <style type="text/css">
-
-    </style>
+    <link href="{{bba_version('home.css')}}" rel="stylesheet">
 @include('tpl.script')
+@if (!is_psi_agent())
 <!-- Facebook Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -30,6 +28,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 /></noscript>
 <!-- DO NOT MODIFY -->
 <!-- End Facebook Pixel Code -->
+@endif
 </head>
 <body>
 @include('tpl.header')
@@ -44,11 +43,13 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
     <div class="introduce-data">
         <div class="intro-data-top intro-data-div">
             <div class="intro-datarome bottom-dashed-line">
-                <span id="adsnumber">8,460,000<sup>+</sup></span>
+                @if (isset($totalAdsNumber))
+                <span>{{ $totalAdsNumber }}<sup>+</sup></span>
                 <p>Ads</p>
+                @endif
             </div>
             <div class="intro-datarome left-dashed-line">
-                <span id="adsernumber">2,054,000<sup>+</sup></span>
+                <span id="adsernumber">3,000,000<sup>+</sup></span>
                 <p>Advertisers</p>
             </div>
         </div>
@@ -73,17 +74,17 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         </p>
         <div class="row ads-introduce">
             <div class="col-md-4 ads-introduce-div">
-                <img src="./static/images/home/show_01.jpg" alt="" class="introduce-img">
+                <img src="./dist/images/home/show_01.jpg" alt="" class="introduce-img">
                 <p class="introduce-title text-center">Facebook Marketing Strategy</p>
                 <p class="instroduce-text">In a digital world, your competitor's marketing strategy is evolving quickly. Do you know what they are up to for an upcoming festival? Bigbigads does.</p>
             </div>
             <div class="col-md-4 ads-introduce-div">
-                <img src="./static/images/home/show_02.jpg" alt="" class="introduce-img">
+                <img src="./dist/images/home/show_02.jpg" alt="" class="introduce-img">
                 <p class="introduce-title text-center">Competitive Intelligence</p>
                 <p class="instroduce-text">Find new competitors you don't know, track the ad campaign of existing competitors, find their winning ads, use the advantage to create your ads more efficiently.</p>
             </div>
             <div class="col-md-4 ads-introduce-div">
-                <img src="./static/images/home/show_03.jpg" alt="" class="introduce-img">
+                <img src="./dist/images/home/show_03.jpg" alt="" class="introduce-img">
                 <p class="introduce-title text-center">Creative inspiration</p>
                 <p class="instroduce-text">Find out how to sell a product with social proof, break through culture difference for the audience in a new geo, know what kind of ad resonates with the audience in a specific niche market, know your potential customer better.</p>
             </div>
@@ -105,7 +106,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         <div class="clearfix">
             <div class="video-content">
                 <div id="youtubeImage"></div>     
-                <iframe id="youtubeFrame" class="hidden" width="100%" height="100%" data-url="https://www.youtube.com/embed/rEDusFMbVvk?rel=0&amp;controls=1&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+                <iframe id="youtubeFrame" class="hidden" width="100%" height="100%" data-url="https://www.youtube.com/embed/rEDusFMbVvk?rel=0&amp;controls=1&amp;showinfo=0&amp;autoplay=1" frameborder="0" allowfullscreen ></iframe>
 
         <!-- <span class="video-content_play" data-toggle="modal" data-target="#md_video"></span> -->
             </div>
@@ -305,8 +306,8 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         </div>
     </div>
 </div>
-<script type="text/javascript" src="dist/vendor.js?v=5.1" defer></script>
-<script type="text/javascript" src="dist/home.js?v=2.0.5" defer></script>
+<script type="text/javascript" src="{{bba_version('vendor.js')}}" defer></script>
+<script type="text/javascript" src="{{bba_version('home.js')}}" defer></script>
 </body>
 </html>
     

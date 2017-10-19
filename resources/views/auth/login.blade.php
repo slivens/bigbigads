@@ -28,7 +28,7 @@
         <!-- BEGIN THEME LAYOUT STYLES -->
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="favicon.ico" />
-        <link href="./dist/home.css?v=1" rel="stylesheet">
+        <link href="{{bba_version('home.css')}}" rel="stylesheet">
         @include('tpl.script')
          </head>
     <!-- END HEAD -->

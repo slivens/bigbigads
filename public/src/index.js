@@ -15,7 +15,7 @@ import {template as searchResultUpgradeDlgTemplate, controller as searchResultUp
 import {template as filterDataLimitDlgTemplate, controller as filterDataLimitDlgController} from './components/filter-data-limit-dlg.js'
 
 window.moment = require('moment')
-
+window.Promise = Promise
 // function checkAdblock() {
 //     if (typeof checkAdblockValue === 'undefined') {
 //         swal({title: "Warning", text: "If you're not seeing any ads, it's possible you're running an Ad Blocking plugin on your browser. To view our ads, you'll need to disable it while you're here... ;-)", type: "warning"})
@@ -654,12 +654,19 @@ MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope'
                 return {type: usage[0], value: usage[1], used: usage[2]}
             return {type: usage[0], value: usage[1], used: 0}
         },
-        openUpgrade: function() {
+        openUpgrade: function(currIlleageOption) {
             return $uibModal.open({
                 template: upgradeDlgTemplate,
                 size: 'md',
                 animation: true,
-                controller: upgradeDlgController
+                controller: upgradeDlgController,
+                resolve: {
+                    data: function() {
+                        return {
+                            currIlleageOption: currIlleageOption
+                        }
+                    }
+                }
             })
         },
         openSign: function() {

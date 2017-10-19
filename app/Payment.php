@@ -81,7 +81,7 @@ class Payment extends BasePayment
             return false;
         $start = new Carbon($this->start_date);
         $end = new Carbon($this->end_date);
-        return Carbon::now()->between($start, $end);
+        return Carbon::now()->between($start->subMinute(), $end);
     }
 
     public function getIsEffectiveAttribute()

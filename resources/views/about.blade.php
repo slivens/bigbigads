@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="./static/custom.css">
     <link rel="stylesheet" type="text/css" href="./static/demo.css"> -->
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-    <link href="./dist/home.css?v=2.0.5" rel="stylesheet">
+    <link href="{{bba_version('home.css')}}" rel="stylesheet">
     <!--<script src="static/jquery-3.1.1.js"></script>-->
     <!--<script src="static/bootstrap.js"></script>-->
     @include('tpl.script')
@@ -131,8 +131,8 @@
     </div>
 </section>
 @include('tpl.footer')
-<script type="text/javascript" src="dist/vendor.js?v=2.0.5" defer></script>
-<script type="text/javascript" src="dist/home.js?v=2.0.5" defer></script>
+<script type="text/javascript" src="{{bba_version('vendor.js')}}" defer></script>
+<script type="text/javascript" src="{{bba_version('home.js')}}" defer></script>
 </body>
 </html>
 
