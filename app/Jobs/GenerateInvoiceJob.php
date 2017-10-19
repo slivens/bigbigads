@@ -72,7 +72,7 @@ class GenerateInvoiceJob implements ShouldQueue
                 $logMessage .= $extraMessage;
             }
             Log::info($logMessage);
-            $paymentService->generateInvoice($payment->number, $this->isForce);// 此处入参为交易id,17位，payment的number字段值
+            $paymentService->generateInvoice($payment->number, $this->isForce);// 此处入参为交易id,payment的number字段值
         }
     }
 }
