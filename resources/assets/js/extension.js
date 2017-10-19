@@ -1,7 +1,7 @@
 import './../sass/extension.scss'
 import track from './track.js'
 
-track.storage()
+track.setTrack()
 $("#downloadExtension").click(function() {
     // 发送bing统计事件
     window.uetq = window.uetq || []

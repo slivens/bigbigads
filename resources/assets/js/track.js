@@ -2,7 +2,7 @@ import 'js-url'
 import moment from 'moment'
 
 const track = {
-    storage: function() {
+    setTrack: function() {
         document.addEventListener('DOMContentLoaded', function(event) {
             /* eslint-disable no-undef */
             var track = url("?track")
