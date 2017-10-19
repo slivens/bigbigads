@@ -72,15 +72,15 @@
         <div id="ads-register" class="register-div clearfix">
             <p class="ads-font-28 text-center ads-reg-title">Your online advertising,<br/> at its best. </p>
             <p class="ads-reg-text ads-font-16 text-center">Bigbigads'  facebook ad examples make sure you to create your Low-Cost, High-Performance ad campaign. </p>
-            <a class="ads-reg-btn btn reg-with-fb" href="/socialite/facebook?track={{request()->get('track')}}">
+            <a class="ads-reg-btn btn socialite reg-with-fb" href="/socialite/facebook">
                 <i class="fa fa-facebook-square reg-btn-icon"></i>
                 <span class="ads-font-18 reg-btn-text">Sign Up With Facebook</span>
             </a>
-            <a class="ads-reg-btn btn reg-with-linkedin" href="/socialite/linkedin?track={{request()->get('track')}}">
+            <a class="ads-reg-btn btn socialite reg-with-linkedin" href="/socialite/linkedin">
                 <i class="fa fa-linkedin-square reg-btn-icon"></i>
                 <span class="ads-font-18 reg-btn-text">Sign Up With Linkedin</span>
             </a>
-            <a class="ads-reg-btn btn reg-sub-btn" href="/socialite/google?track={{request()->get('track')}}">
+            <a class="ads-reg-btn btn socialite reg-sub-btn" href="/socialite/google">
                 <i class="fa fa-google-plus-square reg-btn-icon"></i>
                 <span class="ads-font-18 reg-btn-text">Sign Up With Google+</span>
             </a>
