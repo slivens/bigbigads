@@ -1,8 +1,13 @@
+import moment from 'moment'
+import 'js-url'
+
+import 'animate.css/animate.css'
 import 'bootstrap/dist/css/bootstrap.css'
+import 'font-awesome/css/font-awesome.min.css'
+
 import './../sass/demo.scss'
 import './../sass/mobile.scss'
-import 'animate.css/animate.css'
-import 'font-awesome/css/font-awesome.min.css'
+
 (function() {
     changeWord(0)
     getAdsCount() // 获取广告数和广告主数量
@@ -70,5 +75,16 @@ import 'font-awesome/css/font-awesome.min.css'
         count = count.toString().replace(/(^|\s)\d+/g, (m) => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
         count = count + ",000"
         return count
+    }
+
+    /* eslint-disable no-undef */
+    const track = url('?track')
+    if (track) {
+        let days = track.match(/\d\d$/)
+        days = days ? Number(days[0]) : 90
+        window.localStorage.setItem('track', JSON.stringify({
+            code: track,
+            expired: moment().add(days, 'days').format('YYYY-MM-DD')
+        }))
     }
 })()
