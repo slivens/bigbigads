@@ -206,7 +206,7 @@
                             <span title="Upgrade"><a href="./plans" target="_blank">Upgrade</a></span>
                         </div>
                         <div class="progress stat-progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{(interstItem.value / card.interestsArr.count) * 100}}%;">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="{'width': ((interstItem.value / card.interestsArr.count) * 100) + '%'}">
                             </div>
                         </div>
                         <div class="stat-number">{{((interstItem.value / card.interestsArr.count) * 100).toFixed(2)}}%</div>
@@ -276,7 +276,7 @@
                                         <td class="analy-td4">
                                             <div class="progress-wrapper">
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:{{((adsItems.value / card.countryArr.count) * 100)}}%;">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="{'width':((adsItems.value / card.countryArr.count) * 100) + '%'}">
                                                         <span class="sr-only">{{((adsItems.value / card.countryArr.count) * 100).toFixed(2)}} % Complete</span>
                                                     </div>
                                                 </div>
