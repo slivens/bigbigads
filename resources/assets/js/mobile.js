@@ -78,13 +78,28 @@ import './../sass/mobile.scss'
     }
 
     /* eslint-disable no-undef */
-    const track = url('?track')
-    if (track) {
-        let days = track.match(/\d\d$/)
+    const trackCode = url('?track')
+    if (trackCode) {
+        let days = trackCode.match(/\d\d$/)
         days = days ? Number(days[0]) : 90
         window.localStorage.setItem('track', JSON.stringify({
-            code: track,
+            code: trackCode,
             expired: moment().add(days, 'days').format('YYYY-MM-DD')
         }))
+    }
+
+    let track
+    if (window.localStorage.getItem('track')) {
+        track = JSON.parse(window.localStorage.getItem('track'))
+        if (Date.parse(new Date()) < Date.parse(track.expired)) {
+            (document.querySelectorAll('[name=track]') || []).forEach(ele => { ele.value = track.code })
+        }
+    }
+
+    if (track) {
+        (document.querySelectorAll('.socialite') || []).forEach((ele) => {
+            ele.href = `${ele.href}?track=${track.code}`
+            ele.classList.remove('disabled')
+        })
     }
 })()

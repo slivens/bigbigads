@@ -74,17 +74,17 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         </p>
         <div class="row ads-introduce">
             <div class="col-md-4 ads-introduce-div">
-                <img src="./static/images/home/show_01.jpg" alt="" class="introduce-img">
+                <img src="./dist/images/home/show_01.jpg" alt="" class="introduce-img">
                 <p class="introduce-title text-center">Facebook Marketing Strategy</p>
                 <p class="instroduce-text">In a digital world, your competitor's marketing strategy is evolving quickly. Do you know what they are up to for an upcoming festival? Bigbigads does.</p>
             </div>
             <div class="col-md-4 ads-introduce-div">
-                <img src="./static/images/home/show_02.jpg" alt="" class="introduce-img">
+                <img src="./dist/images/home/show_02.jpg" alt="" class="introduce-img">
                 <p class="introduce-title text-center">Competitive Intelligence</p>
                 <p class="instroduce-text">Find new competitors you don't know, track the ad campaign of existing competitors, find their winning ads, use the advantage to create your ads more efficiently.</p>
             </div>
             <div class="col-md-4 ads-introduce-div">
-                <img src="./static/images/home/show_03.jpg" alt="" class="introduce-img">
+                <img src="./dist/images/home/show_03.jpg" alt="" class="introduce-img">
                 <p class="introduce-title text-center">Creative inspiration</p>
                 <p class="instroduce-text">Find out how to sell a product with social proof, break through culture difference for the audience in a new geo, know what kind of ad resonates with the audience in a specific niche market, know your potential customer better.</p>
             </div>
@@ -106,7 +106,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         <div class="clearfix">
             <div class="video-content">
                 <div id="youtubeImage"></div>     
-                <iframe id="youtubeFrame" class="hidden" width="100%" height="100%" data-url="https://www.youtube.com/embed/rEDusFMbVvk?rel=0&amp;controls=1&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+                <iframe id="youtubeFrame" class="hidden" width="100%" height="100%" data-url="https://www.youtube.com/embed/rEDusFMbVvk?rel=0&amp;controls=1&amp;showinfo=0&amp;autoplay=1" frameborder="0" allowfullscreen ></iframe>
 
         <!-- <span class="video-content_play" data-toggle="modal" data-target="#md_video"></span> -->
             </div>

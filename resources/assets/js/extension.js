@@ -1,16 +1,18 @@
 import './../sass/extension.scss'
-import 'js-url'
-import moment from 'moment'
+import track from './track.js'
 
-document.addEventListener('DOMContentLoaded', function(event) {
+track.setTrack()
+$("#downloadExtension").click(function() {
+    // 发送bing统计事件
+    window.uetq = window.uetq || []
+    window.uetq.push({
+        'ec': 'conversion',
+        'ea': 'bba_download_extension',
+        'el': 'click',
+        'ev': 12
+    })
     /* eslint-disable no-undef */
-    var track = url("?track")
-    if (track) {
-        var days = track.match(/\d\d$/)
-        days = days ? Number(days[0]) : 90
-        window.localStorage.setItem('track', JSON.stringify({
-            "code": track,
-            "expired": moment().add(days, 'days').format('YYYY-MM-DD')
-        }))
-    }
+    // 发送google统计事件
+    ga('send', 'event', 'conversion', 'click', 'download_extension', 12)
+    window.open('//chrome.google.com/webstore/detail/bigbigadsfacebook-ad-exam/aeicgjbjcnodlaomefmanfbkhpcdlcbk', '_self')
 })

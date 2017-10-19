@@ -78,8 +78,7 @@ class RegisterController extends Controller
         //临时新加需求,由于邮箱未送达率达到了近25%,暂时新加开关邮箱验证的功能，用户注册过后直接进入/app，对于state=0的用户
         //暂时不做任何的限制
         //后续需求会给出对这次放过的未进行邮箱验证的用户处理方式
-
-        //暂定注册流程 注册 -> 欢迎界面 
+        //暂定注册流程 注册 -> 欢迎界面
         dispatch(new SendRegistMail($user));
         return redirect('welcome?socialite=email');
         /* 需求变更，暂时抛弃，以后流程会再更改，加入新用户引导的部分
