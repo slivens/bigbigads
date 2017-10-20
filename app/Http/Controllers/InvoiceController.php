@@ -69,10 +69,9 @@ class InvoiceController extends Controller
             return $this->responseError('Cannot download invoice,because this is not a completed payment.');
         }
         $firstPayment = $user->payments()->where('subscription_id', $payment->subscription_id)->orderBy('created_at', 'asc')->first();
-        Log::info('payment: ' . $payment->number . "'s first payment is " . $firstPayment->number);
         if (Carbon::now()->diffInDays($firstPayment->created_at) < 7) {
             // 首单交易时间距今7天内
-            return $this->responseError('Please generate the invoice after 7 days.');
+            return $this->responseError('Please download the invoice after 7 days.');
         }
         if ($this->paymentService->checkInvoiceExists($invoiceId)) {
             // 确认文件存在，成功通过
@@ -84,6 +83,7 @@ class InvoiceController extends Controller
             );
         } else {
             // 请求的票据id有效，存在交易表中，但是对应的文件不在磁盘中，重新生成，这里使用强制生成
+            Log::info("payment number:$payment->number invoice is not exist, will be re-generate.");
             dispatch(new GenerateInvoiceJob(Payment::where('invoice_id', $invoiceId)->get(), true));// 入参必须为collection类型，前面的first()获得的是payment类型
             return $this->responseError('Cannot download invoice,please refresh this page and try again later.');
         }
@@ -109,7 +109,7 @@ class InvoiceController extends Controller
         $firstPayment = $user->payments()->where('subscription_id', $thisPayment->subscription_id)->orderBy('created_at', 'asc')->first();
         if (Carbon::now()->diffInDays($firstPayment->created_at) < 7) {
             // 首单交易时间距今7天内
-            return $this->responseError('Please generate the invoice after 7 days.');
+            return $this->responseError('Please download the invoice after 7 days.');
         }
         if ($thisPayment->status == Payment::STATE_COMPLETED) {
             // 通过验证，执行下载

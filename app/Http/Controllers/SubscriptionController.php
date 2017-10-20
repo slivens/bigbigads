@@ -177,18 +177,7 @@ final class SubscriptionController extends PayumController
     public function billings()
     {
         $user = Auth::user();
-        $payments = $user->payments()->orderBy('created_at', 'desc')->get();
-        $firstPayment = $user->payments()->with('refund')->orderBy('created_at', 'asc')->first();// 取回该用户下首单交易,只有这单交易可以退款
-        $firstTime = Carbon::parse($firstPayment->created_at)->toDateTimeString();//使用该字段与交易状态确定交易是否可下载票据
-        foreach ($payments as $payment) {
-            if ($payment->number == $firstPayment->number) {
-                $payment->canRefund = Carbon::parse($firstPayment->created_at)->diffInDays(Carbon::now()) < 7 && !$firstPayment->refund()->first();//表达式返回true为距今7天内且没有退款记录，可退款
-            } else {
-                $payment->canRefund = false;
-            }
-            $payment->firstCompletedTime = $firstTime;
-        }
-        return $payments;
+        return $user->payments()->orderBy('created_at', 'desc')->get();
     }
 
     /**

@@ -8,23 +8,28 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
         User.getInfo().then(function() {
             // $scope.userInfo = User.info;
             // $scope.subscription = User.info.subscription;
-            if (!User.login)
-                return
-            var user = User.info.user
+            if (!User.login) return
 
+            const user = User.info.user
             ctrl.subscriptionId = user.subscription_id
             ctrl.queryPromise = billings.get().then(() => {
-                billings.items.map(function(item) {
-                    if (item.is_effective && !ctrl.effective_id)
-                        ctrl.effective_id = item.id
-                    // 所有成交状态的交易在首单交易完成的7天后开放票据下载
-                    if (item.status == 'completed' && moment().diff(moment(item.firstCompletedTime), 'days') >= 7) {
-                        item.canDownloadInvoice = true
-                        item.closeDownload = false
-                    } else {
-                        item.closeDownload = true
+                const firstCompleted = billings.items[billings.items.length - 1]
+
+                billings.items.map((item, index) => {
+                    item.openDownload = false
+
+                    if (billings.items.length - 1 === index) {
+                        item.canRefund = item.status == 'completed' && moment().diff(moment(firstCompleted.start_date), 'days') < 7 && !item.refund
                     }
-                    item.invoiceMessages = 'Please generate the invoice after 7 days.'
+
+                    if (item.is_effective && !ctrl.effective_id) ctrl.effective_id = item.id
+
+                    // 所有成交状态的交易在首单交易完成的7天后开放票据下载
+                    if (item.status == 'completed' && moment().diff(moment(firstCompleted.start_date), 'days') >= 7) {
+                        item.openDownload = true
+                    }
+
+                    item.invoiceMessages = 'Please download the invoice after 7 days.'
                 })
             })
             ctrl.inited = true
