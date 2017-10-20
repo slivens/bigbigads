@@ -20,10 +20,12 @@ class PlanFeedbackController extends Controller
             'page'          => 'max:200',
             'phone'         => 'max:64',
             'skype'         => 'max:64',
+            'level'         => 'required'
         ]);
         if ($validator->fails()) {
             return $validator->messages();
         }
+        //die($request->level);
         $planFeedback = PlanFeedback::create([
             'first_name'    => $request->firstName,
             'last_name'     => $request->lastName,
@@ -35,8 +37,10 @@ class PlanFeedbackController extends Controller
             'skype'         => $request->skype,
             'price'         => $request->price,
             'feedback'      => $request->feedback,
-            'location'      => $request->location
+            'location'      => $request->location,
+            'level'         => $request->level
         ]);
         $planFeedback->save();
+        return ['code' => 0, 'desc' => 'success'];
     }
 }
