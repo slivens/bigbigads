@@ -166,7 +166,7 @@ class BigbigadsSeeder extends Seeder
             'bookmark_limit_perday'     => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000]
         ];
         $this->insertPermissions('bookmark', $bookmarkPermission, $roles);
-        $this->insertPolicies($rankingPolicy, $roles);
+        $this->insertPolicies($bookmarkPolicy, $roles);
     }
 
     public function insertMonitorPermissions(&$roles)
@@ -181,7 +181,7 @@ class BigbigadsSeeder extends Seeder
             'monitor_advertiser'    => [Policy::PERMANENT, 0, 0, 0, 20, 0, 0, 0]
         ];
         $this->insertPermissions('monitor', $monitorPermission, $roles);
-        $this->insertPolicies($monitorPermission, $roles);
+        $this->insertPolicies($monitorPolicy, $roles);
     }
 
     public function insertSearchPermissions(&$roles)
@@ -324,8 +324,10 @@ class BigbigadsSeeder extends Seeder
             //广告统计
             $this->insertAdStaticsPermissions($roles);
             //广告主分析
+ 
             $this->insertAdsersPermissions($roles);
             //Export Permissions And Policies
+
             $this->insertExportPermissions($roles);
 
             $this->insertStaticsPermissions($roles);
