@@ -15,17 +15,7 @@ class Refund extends Model
     {
         return $this->belongsTo(\App\Payment::class);
     }
-    /**
-     * 获取该条退款单的paypal买家邮箱，然后查他的劣迹，即他是否之前退款过多次
-     * @return annually和monthly
-     */
-    public function getSubscriptionCount($buyer_email)
-    {
-        $count = 0;
-        $count = Payment::where('buyer_email', $buyer_email)
-            ->where('status','refunded')->count();
-        return $count;
-    }
+
     /**
      * Voyager根据同名field去查找外键，需要优化下
      */
