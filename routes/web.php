@@ -211,3 +211,5 @@ Route::get('/faker', function(Request $request) {
 /* }); */
 Route::get('/record-continue', 'UserController@recordContinue');
 Route::post('/filter-record', 'UserController@filterLogRecord');
+
+Route::post('/record-feedback', 'PlanFeedbackController@store');
