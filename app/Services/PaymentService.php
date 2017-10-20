@@ -654,5 +654,16 @@ class PaymentService implements PaymentServiceContract
         $this->log("refund failed");
         return false;    
     }
+    /**
+     * @param 参数是paypal买家邮箱
+     * 然后查他的退款历史次数，即他之前是否退款过多次
+     * @return count
+     */
+    public function getRefundHistoryCount($buyer_email)
+    {
+        $count = Payment::where('buyer_email', $buyer_email)
+            ->where('status',Payment::STATE_REFUNDED)->count();
+        return $count;
+    }
 
 }
