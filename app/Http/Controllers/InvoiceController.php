@@ -68,7 +68,7 @@ class InvoiceController extends Controller
             Log::info("this payment (invoice_id:$invoiceId) is not a completed payment");
             return $this->responseError('Cannot download invoice,because this is not a completed payment.');
         }
-        $firstPayment = $user->payments()->where('subscription_id', $payment->subscription_id)->orderBy('created_at', 'asc')->first();
+        $firstPayment = $user->payments()->orderBy('created_at', 'asc')->first();
         if (Carbon::now()->diffInDays($firstPayment->created_at) < 7) {
             // 首单交易时间距今7天内
             return $this->responseError('Please download the invoice after 7 days.');
@@ -106,7 +106,7 @@ class InvoiceController extends Controller
             return $this->responseError('You will be login first!');
         }
         $thisPayment = Payment::where('invoice_id', $invoiceId)->where('client_id', $user->id)->first();
-        $firstPayment = $user->payments()->where('subscription_id', $thisPayment->subscription_id)->orderBy('created_at', 'asc')->first();
+        $firstPayment = $user->payments()->orderBy('created_at', 'asc')->first();
         if (Carbon::now()->diffInDays($firstPayment->created_at) < 7) {
             // 首单交易时间距今7天内
             return $this->responseError('Please download the invoice after 7 days.');

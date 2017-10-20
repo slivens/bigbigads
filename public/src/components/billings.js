@@ -16,18 +16,13 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
                 const firstCompleted = billings.items[billings.items.length - 1]
 
                 billings.items.map((item, index) => {
-                    item.openDownload = false
-
+                    item.openDownload = true
                     if (billings.items.length - 1 === index) {
+                        item.openDownload = false
                         item.canRefund = item.status == 'completed' && moment().diff(moment(firstCompleted.start_date), 'days') < 7 && !item.refund
                     }
 
                     if (item.is_effective && !ctrl.effective_id) ctrl.effective_id = item.id
-
-                    // 所有成交状态的交易在首单交易完成的7天后开放票据下载
-                    if (item.status == 'completed' && moment().diff(moment(firstCompleted.start_date), 'days') >= 7) {
-                        item.openDownload = true
-                    }
 
                     item.invoiceMessages = 'Please download the invoice after 7 days.'
                 })
@@ -70,7 +65,10 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
             $http.get(`/invoices/${item.invoice_id}/status`).then(function(res) {
                 if (res.success)
                     throw res
-                window.open(`/invoices/${item.invoice_id}`)
+                const downloadLink = document.createElement('a')
+                downloadLink.href = `/invoices/${item.invoice_id}`
+                downloadLink.download = true
+                downloadLink.click()
             }).catch(function(res) {
                 SweetAlert.swal(res.data.desc)
             })
