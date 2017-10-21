@@ -66,7 +66,9 @@
 <section class="exten-bottom">
 <div class="container bottom-con">
     <p class="ads-font-32 ads-weight-600 bottom-text">What are you waiting for?</p>
-    <a href="//chrome.google.com/webstore/detail/bigbigadsfacebook-ad-exam/aeicgjbjcnodlaomefmanfbkhpcdlcbk" class="btn bottom-btn ads-font-18 ads-weight-600 text-center download-btn"><i class="fa fa-download down-icon"></i> Download Extension Now!</a>
+    <!-- <a id="downloadExtension" href="//chrome.google.com/webstore/detail/bigbigadsfacebook-ad-exam/aeicgjbjcnodlaomefmanfbkhpcdlcbk" class="btn bottom-btn ads-font-18 ads-weight-600 text-center download-btn"><i class="fa fa-download down-icon"></i> Download Extension Now!</a>
+ -->
+    <button id="downloadExtension" href="#" class="btn bottom-btn ads-font-18 ads-weight-600 text-center download-btn"><i class="fa fa-download down-icon"></i> Download Extension Now!</button>
 </div>
 </section>
 @include('tpl.footer')

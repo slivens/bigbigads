@@ -11,6 +11,22 @@
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
     <title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
     <link href="{{bba_version('mobile.css')}}" rel="stylesheet">
+    <!-- Facebook Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+    fbq('init', '1555915891116409'); // Insert your pixel ID here. 
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- DO NOT MODIFY -->
+    <!-- End Facebook Pixel Code -->
     @include('tpl.script')
 </head>
 <body id="new_index">
@@ -74,15 +90,15 @@
         <div id="ads-register" class="register-div clearfix">
             <p class="ads-font-28 text-center ads-reg-title">Your online advertising,<br/> at its best. </p>
             <p class="ads-reg-text ads-font-16 text-center">Bigbigads'  facebook ad examples make sure you to create your Low-Cost, High-Performance ad campaign. </p>
-            <a class="ads-reg-btn btn reg-with-fb" href="/socialite/facebook?track={{request()->get('track')}}">
+            <a class="ads-reg-btn btn socialite reg-with-fb" href="/socialite/facebook">
                 <i class="fa fa-facebook-square reg-btn-icon"></i>
                 <span class="ads-font-18 reg-btn-text">Sign Up With Facebook</span>
             </a>
-            <a class="ads-reg-btn btn reg-with-linkedin" href="/socialite/linkedin?track={{request()->get('track')}}">
+            <a class="ads-reg-btn btn socialite reg-with-linkedin" href="/socialite/linkedin">
                 <i class="fa fa-linkedin-square reg-btn-icon"></i>
                 <span class="ads-font-18 reg-btn-text">Sign Up With Linkedin</span>
             </a>
-            <a class="ads-reg-btn btn reg-sub-btn" href="/socialite/google?track={{request()->get('track')}}">
+            <a class="ads-reg-btn btn socialite reg-sub-btn" href="/socialite/google">
                 <i class="fa fa-google-plus-square reg-btn-icon"></i>
                 <span class="ads-font-18 reg-btn-text">Sign Up With Google+</span>
             </a>
