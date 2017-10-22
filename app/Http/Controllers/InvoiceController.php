@@ -15,6 +15,7 @@ use Log;
 use App\Payment;
 use App\Contracts\PaymentService;
 use App\Jobs\GenerateInvoiceJob;
+use App\Exceptions\GenericException;
 use Carbon\Carbon;
 
 /**
@@ -45,6 +46,8 @@ class InvoiceController extends Controller
      * @param int $invoiceId 票据id
      * 
      * @return object 正确返回success=>true,code=>0的json,错误返回错误提示
+     * 
+     * @deprecated 弃用，前端直接访问下载路由接口
      */
     public function getGenerateStatus($invoiceId)
     {
@@ -96,6 +99,7 @@ class InvoiceController extends Controller
      * @param int $invoiceId ,票据的id，也是票据文件名称，具体文件名称为 票据id.pdf
      * 
      * @return object 下载文件
+     * @todo   下载出错的话需要返回一个视图用来显示错误消息
      */
     public function downloadInvoice($invoiceId)
     {
@@ -111,13 +115,26 @@ class InvoiceController extends Controller
             // 首单交易时间距今7天内
             return $this->responseError('Please download the invoice after 7 days.');
         }
-        if ($thisPayment->status == Payment::STATE_COMPLETED) {
-            // 通过验证，执行下载
-            Log::info("downloading Invoice file on use invoice_id:$invoiceId");
-            return $this->paymentService->downloadInvoice($invoiceId);
+
+        if ($this->paymentService->checkInvoiceExists($invoiceId)) {
+            // 确认文件存在，转向下载
+            if ($thisPayment->status == Payment::STATE_COMPLETED) {
+                // 通过验证，执行下载
+                Log::info("downloading Invoice file on use invoice_id:$invoiceId");
+                try {
+                    return $this->paymentService->downloadInvoice($invoiceId);
+                } catch (GenericException $e) {
+                    return $this->responseError($e->getMessages());
+                }
+            } else {
+                // 非成功交易
+                $this->responseError('Cannot download invoice,because this is not a completed payment or is not your payment.');
+            }
         } else {
-            // 非成功交易
-            return $this->responseError('Cannot download invoice,because this is not a completed payment or is not your payment.');
+            // 请求的票据id有效，存在交易表中，但是对应的文件不在磁盘中，重新生成，这里使用强制生成
+            Log::info("payment number:$thisPayment->number invoice is not exist, will be re-generate.");
+            dispatch(new GenerateInvoiceJob(Payment::where('invoice_id', $invoiceId)->get(), true));// 入参必须为collection类型，前面的first()获得的是payment类型
+            return $this->responseError('Cannot download invoice,please refresh this page and try again later.');
         }
     }
 }

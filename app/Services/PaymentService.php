@@ -784,6 +784,7 @@ class PaymentService implements PaymentServiceContract
      * 
      * @return string $referenceId   票据id
      * 
+     * @todo stripe票据生成
      * @author ChenTeng <shanda030258@hotmail.com>
      */
     public function generateInvoice($transactionId, $force = false)
@@ -799,6 +800,10 @@ class PaymentService implements PaymentServiceContract
             // 交易的状态不对或者查不到交易
             throw new GenericException($this, "payment is invalid on use transaction id: $transactionId,maybe status is not completed or isn't exists");
         }
+        if ($payment->subscription->gateway != PaymentService::GATEWAY_PAYPAL) {
+            //暂时不处理非paypal订单
+            throw new GenericException($this, "this payment(transaction id: $transactionId) is stripe payment,ignore");
+        }
         if (!empty($payment->invoice_id) && !$force) {
             // 该交易的invoice_id不为空，则已经生成过
             throw new GenericException($this, "cannot generate this invoice with transaction id: $transactionId because it was generated.");
@@ -812,7 +817,7 @@ class PaymentService implements PaymentServiceContract
         $data->email = $payment->client_email;// email
         $data->method = 'Paypal';
 
-        $details = json_decode($payment->details);
+        $details = json_decode($payment->details);//paypal的details全部都是string类型
         $data->paymentAccount = $details->payer_email;// payment account
         $time = Carbon::parse($details->time_stamp)->setTimezone(Carbon::now()->tz);// 需要转换时区
 

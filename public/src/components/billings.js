@@ -18,7 +18,7 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
                 billings.items.map((item, index) => {
                     item.openDownload = true
                     if (billings.items.length - 1 === index) {
-                        item.openDownload = false
+                        item.openDownload = item.status == 'completed' && moment().diff(moment(firstCompleted.start_date), 'days') >= 7
                         item.canRefund = item.status == 'completed' && moment().diff(moment(firstCompleted.start_date), 'days') < 7 && !item.refund
                     }
 
@@ -55,24 +55,7 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
         })
     }
     ctrl.invoiceDownload = function(item) {
-        SweetAlert.swal({
-            title: "download invoice?",
-            type: "warning",
-            showCancelButton: true
-        }, function(isConfirm) {
-            if (!isConfirm)
-                return
-            $http.get(`/invoices/${item.invoice_id}/status`).then(function(res) {
-                if (res.success)
-                    throw res
-                const downloadLink = document.createElement('a')
-                downloadLink.href = `/invoices/${item.invoice_id}`
-                downloadLink.download = true
-                downloadLink.click()
-            }).catch(function(res) {
-                SweetAlert.swal(res.data.desc)
-            })
-        })
+        item.openDownload ? window.open(`/invoices/${item.invoice_id}`) : SweetAlert.swal('Please download the invoice after 7 days.')
     }
     ctrl.$onChanges = function(obj) {
         if (obj.shouldInit.currentValue !== "true") // || ctrl.inited)
