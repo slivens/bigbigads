@@ -93,4 +93,18 @@ class Role extends Model
         }   
         return true;
     }
+
+    /**
+     * 打印出角色的权限与策略情况，主要方便排查问题
+     */
+    public function dumpUsage($print)
+    {
+        $key = "role-" . $this->name;
+        $cache = Cache::get($key, null);
+        if ($cache === null)
+            throw new GenericException($this, "{$this->name}:role usage cache is null");
+        foreach($cache as $key => $policy) {
+            call_user_func($print, "{$key}:" . json_encode($policy));
+        }
+    }
 }

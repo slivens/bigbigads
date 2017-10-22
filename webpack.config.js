@@ -16,6 +16,7 @@ module.exports = {
         welcome: ['./resources/assets/js/welcome.js'],
         extension: ['./resources/assets/js/extension.js'],
         methodology: ['./resources/assets/js/methodology.js'],
+        login: ['./resources/assets/js/login.js'],
         vendor: ['jquery', 'swiper', 'bootstrap', 'moment', 'js-url']
     },
     output: {
