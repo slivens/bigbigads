@@ -15,7 +15,7 @@ class PlanFeedbackController extends Controller
             'firstName'     => 'required|between:1,50',
             'lastName'      => 'required|between:1,50',
             'email'         => 'required|between:4,100',
-            'company'       => 'required|max:200',
+            'company'       => 'max:200',
             'website'       => 'max:200',
             'page'          => 'max:200',
             'phone'         => 'max:64',
