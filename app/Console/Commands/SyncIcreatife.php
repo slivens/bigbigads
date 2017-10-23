@@ -22,7 +22,7 @@ class SyncIcreatife extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '同步icreatife的订阅内容和交易内容到本地,可指定订阅id,默认只更新库中tag为icreatife的订阅';
 
     /**
      * Create a new command instance.
@@ -60,8 +60,17 @@ class SyncIcreatife extends Command
         $paymentsService->setLogger($this);
         $paymentsService->setParameter(PaymentService::PARAMETER_FORCE, true);
         $paymentsService->setParameter(PaymentService::PARAMETER_TAGS, ['icreatife']);
-        $paymentsService->syncSubscriptions([], $agreeId);
-        $paymentsService->syncPayments([], $agreeId);
+        $sub = null;
+        if ($agreeId) {
+            $sub = Subscription::where('agreement_id', $agreeId)->first();
+            if (!$sub) {
+                $this->error("$agreeId not found");
+                return;
+            }
+
+        }
+        $paymentsService->syncSubscriptions([], $sub);
+        $paymentsService->syncPayments([], $sub);
         /* if (empty($agreeId)) { */
         /*     $unSyncSubs = Subscription::where('agreement_id','like','I-%')->where('created_at','<','2017-06-07')->get();//返回的是多个订阅组合成的二维数组 */
         /* }else{ */
