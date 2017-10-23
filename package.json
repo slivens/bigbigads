@@ -14,6 +14,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "bootstrap-sass": "^3.3.7",
+    "bootstrap-select": "^1.12.4",
     "css-loader": "^0.28.4",
     "del": "^2.2.2",
     "eslint": "^4.3.0",
