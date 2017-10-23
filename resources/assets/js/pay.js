@@ -127,7 +127,7 @@ new Vue({
                 })
             } else {
                 that.showLoading = true
-                that.errorMessage = "Invalid"
+                that.errorMessage = 'Please enter your email to continue. Contact help@bigbigads.com if you need help.'
                 that.$refs.modal.open()
             }
         },
@@ -137,7 +137,7 @@ new Vue({
             var userEmail = that.email
             if (!isEmail(userEmail)) {
                 that.emailErr = true
-                that.emailMessage = "Invalid"
+                that.emailMessage = 'Please enter your email to continue. Contact help@bigbigads.com if you need help.'
                 return false
             } else {
                 that.emailErr = false
