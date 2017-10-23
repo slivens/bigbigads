@@ -166,7 +166,7 @@ class BigbigadsSeeder extends Seeder
             'bookmark_limit_perday'     => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000]
         ];
         $this->insertPermissions('bookmark', $bookmarkPermission, $roles);
-        $this->insertPolicies($rankingPolicy, $roles);
+        $this->insertPolicies($bookmarkPolicy, $roles);
     }
 
     public function insertMonitorPermissions(&$roles)
@@ -181,7 +181,7 @@ class BigbigadsSeeder extends Seeder
             'monitor_advertiser'    => [Policy::PERMANENT, 0, 0, 0, 20, 0, 0, 0]
         ];
         $this->insertPermissions('monitor', $monitorPermission, $roles);
-        $this->insertPolicies($monitorPermission, $roles);
+        $this->insertPolicies($monitorPolicy, $roles);
     }
 
     public function insertSearchPermissions(&$roles)
@@ -223,11 +223,11 @@ class BigbigadsSeeder extends Seeder
             'phone_filter'                  => [false, true,  true,  true,  true,  true,  true],    //              Mobile
             'rightcolumn_filter'            => [false, true,  true,  true,  true,  true,  true],    //              Right Column
             'app_filter'                    => [false, true,  true,  true,  true,  true,  true],    //              App
-            'advance_likes_filter'          => [false, true,  true,  true,  true,  true,  false],   
-            'advance_shares_filter'         => [false, true,  true,  true,  true,  true,  false],   
-            'advance_comments_filter'       => [false, true,  true,  true,  true,  true,  false],   
-            'advance_video_views_filter'    => [false, true,  true,  true,  true,  true,  false],   
-            'advance_engagement_filter'     => [false, true,  true,  true,  true,  true,  false],   
+            'advance_likes_filter'          => [false, true,  true,  true,  true,  true,  true],   
+            'advance_shares_filter'         => [false, true,  true,  true,  true,  true,  true],   
+            'advance_comments_filter'       => [false, true,  true,  true,  true,  true,  true],   
+            'advance_video_views_filter'    => [false, true,  true,  true,  true,  true,  true],   
+            'advance_engagement_filter'     => [false, true,  true,  true,  true,  true,  true],   
             'search_init_perday'            => [true,  true,  true,  true,  true,  true,  true],    
             'search_limit_perday'           => [true,  true,  true,  true,  true,  true,  true],
             'search_where_perday'           => [true,  true,  true,  true,  true,  true,  true],
@@ -324,8 +324,10 @@ class BigbigadsSeeder extends Seeder
             //广告统计
             $this->insertAdStaticsPermissions($roles);
             //广告主分析
+ 
             $this->insertAdsersPermissions($roles);
             //Export Permissions And Policies
+
             $this->insertExportPermissions($roles);
 
             $this->insertStaticsPermissions($roles);
