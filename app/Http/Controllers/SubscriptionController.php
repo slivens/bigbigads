@@ -177,7 +177,7 @@ final class SubscriptionController extends PayumController
     public function billings()
     {
         $user = Auth::user();
-        return $user->payments()->orderBy('created_at', 'desc')->get();
+        return $user->payments()->with('refund')->orderBy('created_at', 'desc')->get();
     }
 
     /**
