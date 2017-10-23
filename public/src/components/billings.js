@@ -18,9 +18,9 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
                 billings.items.map((item, index) => {
                     item.openDownload = true
                     if (billings.items.length - 1 === index) {
-                        item.openDownload = item.status == 'completed' && moment().diff(moment(firstCompleted.start_date), 'days') >= 7
                         item.canRefund = item.status == 'completed' && moment().diff(moment(firstCompleted.start_date), 'days') < 7 && !item.refund
                     }
+                    item.openDownload = item.status == 'completed' && moment().diff(moment(firstCompleted.start_date), 'days') >= 7
 
                     if (item.is_effective && !ctrl.effective_id) ctrl.effective_id = item.id
 
