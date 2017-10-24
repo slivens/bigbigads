@@ -709,17 +709,6 @@ class PaymentService implements PaymentServiceContract
         $this->log("refund failed");
         return false;    
     }
-    /**
-     * @param 参数是paypal买家邮箱
-     * 然后查他的退款历史次数，即他之前是否退款过多次
-     * @return count
-     */
-    public function getRefundHistoryCount($buyer_email)
-    {
-        $count = Payment::where('buyer_email', $buyer_email)
-            ->where('status',Payment::STATE_REFUNDED)->count();
-        return $count;
-    }
 
     /**
      * 获取订阅的退订时间
@@ -795,7 +784,7 @@ class PaymentService implements PaymentServiceContract
      * 
      * @return string $referenceId   票据id
      * 
-     * @todo stripe票据生成
+     * @todo   stripe票据生成
      * @author ChenTeng <shanda030258@hotmail.com>
      */
     public function generateInvoice($transactionId, $force = false)
@@ -826,7 +815,7 @@ class PaymentService implements PaymentServiceContract
         $data->package = $payment->subscription->getPlan()->display_name;// package
         $data->name = $payment->client->name;// name
         $data->email = $payment->client_email;// email
-        $data->method = 'Paypal';
+        $data->method = ucfirst($payment->subscription->gateway);// Paypal / Stripe;
 
         $details = json_decode($payment->details);//paypal的details全部都是string类型
         $data->paymentAccount = $details->payer_email;// payment account
