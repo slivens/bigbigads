@@ -524,7 +524,7 @@ window.uetq || []; window.uetq.push({'ec':'conversion', 'ea':'click_signup_stand
         <table class="table table-striped">
             <tr>
                 <td>
-                    <h5>First name <sup class="text-danger">*</sup></h5>
+                    <h5>First Name <sup class="text-danger">*</sup></h5>
                     <div class="form-input-wrapper">
                         <input type="text" id="info-firstname" class="form-control" blur='ads-input-check' request="true" placeholder="First Name" request-maxlen=50>
                         <label for="" class="control-label ads-control-label">request</label>
@@ -532,7 +532,7 @@ window.uetq || []; window.uetq.push({'ec':'conversion', 'ea':'click_signup_stand
                     
                 </td>
                 <td>
-                    <h5>Lats name <sup class="text-danger">*</sup></h5>
+                    <h5>Last Name <sup class="text-danger">*</sup></h5>
                     <div class="form-input-wrapper">
                         <input type="text" id="info-lastname" class="form-control" blur='ads-input-check' request="true" placeholder="Last Name" request-maxlen=50>
                         <label for="" class="control-label ads-control-label">request</label>
