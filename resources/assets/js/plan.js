@@ -133,7 +133,7 @@ function checkValue(eml) {
     // 邮箱类型判断
     if (type == "email") {
         if (val.length > 0 && !isEmail(val)) {
-            return inputRes(false, "Error Email")
+            return inputRes(false, "Invalid Email")
         }
     }
 
@@ -142,13 +142,13 @@ function checkValue(eml) {
         dom.val(val.replace(/\D/g, '')) // 其值只能是数字
         // 手机号因为各国的格式不一致，不好判断，暂时判断条件为长度范围在5~20
         if (val.length < 5 || val.length > 20) {
-            return inputRes(false, "Error phone")
+            return inputRes(false, "Invalid phone")
         }
     }
 
     // 长度限制
     if (val && maxLen && val.length > maxLen) {
-        return inputRes(false, "Error Length")
+        return inputRes(false, "Invalid Length")
     }
     // 其他的不做要求的都认为是对的
     return inputRes(true)
@@ -261,7 +261,7 @@ function openResultModal(result) {
         'error': {
             'title': 'Submit failure',
             'emoji': '😐',
-            'text': 'Sorry for the mistake, please try again later.',
+            'text': 'Please enter the correct information to continue.',
             'class': 'result-error'
         }
     }

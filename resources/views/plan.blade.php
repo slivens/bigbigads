@@ -498,11 +498,11 @@ window.uetq || []; window.uetq.push({'ec':'conversion', 'ea':'click_signup_stand
                             <a href="./register" class="btn">Start Now</a>
                         </td>
                         <td>
-                            <a open-modal="#info-modal" modal-data = "lite"  class="btn">Start Now</a></td>
+                            <a open-modal="#info-modal" modal-data = "lite"  class="btn">Join Now</a></td>
                         <td>
                             <a href="#plan" class="btn" id="app-to-top">Start Now</a></td>
                         <td>
-                            <a open-modal="#info-modal" modal-data = "plus" class="btn">Start Now</a></td>
+                            <a open-modal="#info-modal" modal-data = "plus" class="btn">Join Now</a></td>
                     </tr>
                 </tfoot>
             </table>
@@ -630,9 +630,8 @@ window.uetq || []; window.uetq.push({'ec':'conversion', 'ea':'click_signup_stand
           </div>
           <div class="modal-body">
             <p class="ads-font-18">
-                <span class="ads-font-22" id="result-emoji">😃</span>
+                <span class="ads-font-22" id="result-emoji"></span>
                 <span class="" id="result-text">
-                    Thank you for your participation .
                 </span>
             </p>
           </div>
