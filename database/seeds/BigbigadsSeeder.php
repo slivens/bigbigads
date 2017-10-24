@@ -253,7 +253,7 @@ class BigbigadsSeeder extends Seeder
         ];
         //给权限指定策略，策略数组的第一个数值表示策略类型，Policy::DAY表示按天累计，Policy::VALUE表示是一个固定值，Policy::PERMANENT表示永久累计，后面数值同上。需要注意的是，只有角色有对应的权限，才会有检查策略。
         $searchPolicy = [
-            'search_times_perday'           => [Policy::DAY, 100, 1000, 3000, 5000, 1000, 1000, 300],
+            'search_times_perday'           => [Policy::DAY, 100, 500, 3000, 5000, 1000, 1000, 300],
             'result_per_search'             => [Policy::VALUE, 100, 300, 2000, 5000, 300, 300, 300],
             'keyword_times_perday'          => [Policy::DAY, 1000, 1000, 1000, 1000, 1000, 1000, 1000],
             'search_init_perday'            => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
