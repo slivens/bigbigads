@@ -26,6 +26,7 @@ class User extends Authenticatable
 
     const TAG_DEFAULT = "default";
     const TAG_WHITELIST = "whitelist";
+    const TAG_BLACKLIST = "blacklist";
 
     /**
      * The attributes that are mass assignable.

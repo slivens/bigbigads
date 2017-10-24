@@ -13,5 +13,8 @@ return [
     'stripe' => [
         'publishable_key' => env('STRIPE_PUBLISHABLE_KEY'),
         'secret_key' => env('STRIPE_SECRET_KEY')
+    ],
+    'invoice' => [
+        'save_path' => env('INVOICE_SAVE_PATH')
     ]
 ];
