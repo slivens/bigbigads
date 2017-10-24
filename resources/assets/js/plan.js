@@ -20,23 +20,37 @@ import 'bootstrap-select'
 var princeArr = {
     'lite': [{
         'id': 101,
+        'price': '25,35',
         'value': '25-35($)'
     }, {
         'id': 102,
+        'price': '35,45',
         'value': '35-45($)'
     }, {
         'id': 103,
+        'price': '45,60',
         'value': '45-60($)'
+    }, {
+        'id': 104,
+        'price': 'other',
+        'value': 'Other'
     }],
     'plus': [{
         'id': 201,
+        'price': '149,199',
         'value': '149-199($)'
     }, {
         'id': 202,
+        'price': '199,249',
         'value': '199-249($)'
     }, {
         'id': 203,
+        'price': '249,399',
         'value': '249-399($)'
+    }, {
+        'id': 204,
+        'price': 'other',
+        'value': 'Other'
     }]
 }
 // 初始化定义国家数组
@@ -148,6 +162,7 @@ function checkValue(eml) {
 function openModal() {
     let modalData = $(this).attr("modal-data") // 获取要传值给模态框的数据
     $("[value = 'level']").html(modalData)
+    $("#submit-info").attr('info-level', modalData) // 将level等级的数据赋值到提交按钮
 
     // 判断是否为空，用于判断第一次加载是加载数据，之后就不用重复加载了
     if (!countryData) {
@@ -172,7 +187,7 @@ function openModal() {
     // 价格option，lite个plus的价格option不一致
     let priceOption = ''
     princeArr[modalData].forEach(function(item) {
-        priceOption += `<option id="${item.id}" value="${item.value}">${item.value}</option>`
+        priceOption += `<option id="${item.id}" price="${item.price}">${item.value}</option>`
     })
     $('[option = "priceOption"]').html(priceOption)
     $('#info-modal').modal('show')
@@ -185,6 +200,7 @@ function openModal() {
 * 打开结果模态框，显示结果
 */
 function submitInfo() {
+    $(this).attr("disabled", "disabled") // 点击后屏蔽按钮，避免重复点击
     if (checkValue("#info-firstname") && checkValue("#info-lastname") && checkValue("#info-email") && checkValue("#info-company") && checkValue("#info-website") && checkValue("#info-page") && checkValue("#info-phone") && checkValue("#info-skype") && checkValue("#info-location")) {
         // 获取用户填写的数据
         let firstName = $("#info-firstname").val()
@@ -196,9 +212,9 @@ function submitInfo() {
         let phone = $("#info-phone").val()
         let skype = $("#info-skype").val()
         let location = $("#info-location").val()
-        let price = $("#info-price").val()
+        let price = $("#info-price").find("option:selected").attr("price")
         let feedback = $("#info-feedback").val()
-        let level = $("[value = 'level']").html()
+        let level = $(this).attr("info-level")
         let data = {
             'firstName': firstName,
             'lastName': lastName,
@@ -226,7 +242,7 @@ function submitInfo() {
         }).catch(function(res) {
             openResultModal('error')
         })
-    }
+    } else $(this).removeAttr("disabled")
 }
 
 /*
@@ -249,6 +265,7 @@ function openResultModal(result) {
             'class': 'result-error'
         }
     }
+    $("#submit-info").removeAttr("disabled") // 解禁按钮
     $("#info-modal").modal("hide")
     $("#result-title").html(data[result].title)
     $("#result-emoji").html(data[result].emoji)

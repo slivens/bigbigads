@@ -518,9 +518,7 @@ window.uetq || []; window.uetq.push({'ec':'conversion', 'ea':'click_signup_stand
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <p class="modal-title ads-font-22 ads-weight-600">Submit to Join Waiting list ( 
-            <span value = "level"></span> Level )
-            <span value = "level"></span></p>
+        <p class="modal-title ads-font-22 ads-weight-600">Submit to Join Waiting list
       </div>
       <div class="modal-body">
         <table class="table table-striped">
@@ -550,9 +548,9 @@ window.uetq || []; window.uetq.push({'ec':'conversion', 'ea':'click_signup_stand
                     </div>
                 </td>
                 <td>
-                    <h5>Company Name</h5>
+                    <h5>Company Name <sup class="text-danger">*</sup></h5>
                     <div class="form-input-wrapper">
-                        <input type="text" id="info-company" class="form-control"  blur='ads-input-check' placeholder="Company Name" request-maxlen=200>
+                        <input type="text" id="info-company" class="form-control"  blur='ads-input-check' request="true" placeholder="Company Name" request-maxlen=200>
                         <label class="control-label ads-control-label">request</label>
                     </div>
                 </td>
@@ -596,7 +594,7 @@ window.uetq || []; window.uetq.push({'ec':'conversion', 'ea':'click_signup_stand
                     </select>
                 </td>
                 <td>
-                    <h5 class="ads-font-14">How much would you like to pay for <span value = "level"></span> level?</h5>
+                    <h5 class="ads-font-14">How much would you like to pay for <span class="ads-weight-600" value = "level"></span> level?</h5>
                     <select name="" id="info-price" option = "priceOption" class="form-control">
                     </select>
                 </td>
@@ -612,7 +610,7 @@ window.uetq || []; window.uetq.push({'ec':'conversion', 'ea':'click_signup_stand
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="submit-info">Submit</button>
+        <button type="button" class="btn btn-primary" id="submit-info" info-level="">Submit</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
