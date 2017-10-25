@@ -54,6 +54,12 @@ class CheckUsage extends Command
         foreach (Role::all() as $role) {
             try {
                 $role->checkCacheUsage();
+                if ($verbose && !$email) {
+                    $this->info("Role {$role->name} usage detail:");
+                    $role->dumpUsage(function ($msg) {
+                        $this->comment($msg);
+                    });
+                }
             } catch(\App\Exceptions\GenericException $e) {
                 $this->error($e->getMessage());
                 if ($fixRole) {

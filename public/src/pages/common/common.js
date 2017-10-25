@@ -35,7 +35,8 @@ angular.module('MetronicApp').directive('lazyImg', ['$timeout', 'Util', function
                         $scope.lazyImg = '/watermark/default.jpg'
                         imageSrc = Util.getImageRandomSrc('') + $scope.lazyImg
                     } else {
-                        imageSrc = Util.getImageRandomSrc('') + '/thumb.php?src=' + $scope.lazyImg.replace(/#.+\*.+$/, '') + '&size=' + width + 'x'
+                        // imageSrc = Util.getImageRandomSrc('') + '/thumb.php?src=' + $scope.lazyImg.replace(/#.+\*.+$/, '') + '&size=' + width + 'x'
+                        imageSrc = Util.getImageRandomSrc('') + $scope.lazyImg.replace(/#.+\*.+$/, '') + '#size=' + width + 'x'
                     }
                 } else {
                     imageSrc = $scope.lazyImg

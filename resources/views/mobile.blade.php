@@ -58,7 +58,9 @@
                 <div class="data-content data-top">
                     <div class="data-roomdiv data-roomdiv-left">
                         <p class="data-number">
-                        <span id="adsnumber">8,460,000<sup>+</sup></span></p>
+                        @if (isset($totalAdsNumber))
+                        <span>{{ $totalAdsNumber }}<sup>+</sup></span></p>
+                        @endif
                         <p class="data-text">Ads</p>
                     </div>
                     <div class="data-roomdiv">

@@ -152,7 +152,6 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
                         $scope.card.interestsArr.limit = 3
                     }
                     $scope.card.interestsArr.count = interestsCount
-                    console.log($scope.card.interestsArr)
                 }
 
                 /*
@@ -213,6 +212,10 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
                         $scope.card.whyseeads.addr[key].country = countryShortName
                         $scope.card.whyseeads.addr[key].name = vm.countries[countryShortName] ? vm.countries[countryShortName].name : countryShortName // 添加全称 
                     }
+
+                    // 排序处理
+                    Util.arrSort($scope.card.whyseeads.addr, "value", 1)
+
                     // 计算总数
                     var adsVisitCountryCount = 0
                     for (key in $scope.card.whyseeads.addr) {
@@ -232,7 +235,6 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
                         $scope.card.countryArr = $scope.card.whyseeads.addr
                     }
                     $scope.card.countryArr.count = adsVisitCountryCount
-                    console.log($scope.card.countryArr)
                     $scope.card.addrMapLimit = $scope.userPlan == 'free'
                     $scope.card.addrMapCharts = Util.mapChartsConfig($scope.card.countryArr, adsVisitCountryCount, 'Top countries by impression')
                 } else $scope.card.addrMapCharts = false
