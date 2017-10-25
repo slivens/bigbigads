@@ -75,6 +75,7 @@ class UserController extends Controller
                                     $user->email,
                                     'sh7oS9Q3bk0m-Vs3pEeUjCOMKGjoyjf1bVcTfCiY'
                                 );
+            $res['track'] = $user->affiliate->track;
         } else {
             $user = AnonymousUser::user($req);
             $res['login'] = false;

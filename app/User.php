@@ -63,7 +63,7 @@ class User extends Authenticatable
 
     public function affiliates()
     {
-        return $this->hasMany('App\Affiliate', 'email', 'email');
+        return $this->hasOne('App\Affiliate', 'email', 'email');
     }
 
     /**
