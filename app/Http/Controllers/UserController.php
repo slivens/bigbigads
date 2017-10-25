@@ -103,7 +103,12 @@ class UserController extends Controller
         $user->state = 1;
         $user->save();
         Auth::login($user);
-        return redirect("/app");
+        $agent = new Agent();
+        if ($agent->isMobile()) {
+            return redirect('/mobile');
+        } else {
+            return redirect('/app');
+        }
         //return view('auth.verify')->with("user", $user);
     }
 
@@ -252,7 +257,12 @@ class UserController extends Controller
             return redirect('welcome#?socialite=' . $name);
         } 
         Auth::login($user);
-        return redirect('/app/#');
+        $agent = new Agent();
+        if ($agent->isMobile()) {
+            return redirect('/mobile');
+        } else {
+            return redirect('/app/#');
+        }
     }    
 
     /**
@@ -322,7 +332,12 @@ class UserController extends Controller
         }
         Auth::login($user);
         dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
-        return redirect('/app/#');
+        $agent = new Agent();
+        if ($agent->isMobile()) {
+            return redirect('/mobile');
+        } else {
+            return redirect('/app/#');
+        }
     }
 
     public function quickRegister(Request $request)

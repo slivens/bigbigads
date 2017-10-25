@@ -21,7 +21,9 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\SyncIcreatife::class,
         \App\Console\Commands\ScanUsers::class,
         \App\Console\Commands\SyncByUser::class,
-        \App\Console\Commands\CheckUsage::class
+        \App\Console\Commands\CheckUsage::class,
+        \App\Console\Commands\GenerateInvoice::class,
+        \App\Console\Commands\ChangeTag::class
     ];
 
     /**

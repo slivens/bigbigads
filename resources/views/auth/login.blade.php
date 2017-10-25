@@ -14,21 +14,11 @@
         <meta content="Bigbigads Login Description " name="description" />
         <meta content="bigbigads" name="author" />
         <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
-        <!-- BEGIN GLOBAL MANDATORY STYLES -->
-        <!--<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />-->
-        <link href="./assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
-
-        <!-- END GLOBAL MANDATORY STYLES -->
-        <!-- BEGIN THEME GLOBAL STYLES -->
+        <!-- TODO: The css should be removed in the future -->
         <link href="./assets/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css" />
-        <!-- END THEME GLOBAL STYLES -->
-        <!-- BEGIN PAGE LEVEL STYLES -->
-        <link href="./assets/pages/css/login-3.css" rel="stylesheet" type="text/css" />
-        <!-- END PAGE LEVEL STYLES -->
-        <!-- BEGIN THEME LAYOUT STYLES -->
-        <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="favicon.ico" />
         <link href="{{bba_version('home.css')}}" rel="stylesheet">
+        <link href="{{bba_version('login.css')}}" rel="stylesheet">
         @include('tpl.script')
          </head>
     <!-- END HEAD -->
@@ -153,7 +143,7 @@
                     <!--create an acount-->
                     <div class="col-xs-12 text-left">
                     <p> Don't have an account?&nbsp;
-                        <a  id="register-btn" href="{{url('/register')}}" >Sign Up</a>
+                        <a  id="register-btn"  >Sign Up</a>
                     </p>
                     </div>
                 </div>
@@ -185,7 +175,7 @@
                     <button type="submit" class="btn submit-btn margin-top-30"> Submit </button>
                 </div>
                 <class class="margin-top-30">
-                    <p>Try again to <a id="back-btn" class="grey-salsa btn-outline" href="{{url('/login')}}" >Sign in</a></p>
+                    <p>Try again to <a id="back-btn" class="grey-salsa btn-outline" >Sign in</a></p>
                 </class>
             </form>
             <!-- END FORGOT PASSWORD FORM -->
@@ -273,7 +263,7 @@
                 <div class="margin-top-30">
                 <p>
                         If you have the account click to
-                        <a id="register-back-btn" type="button" class=" grey-salsa btn-outline" href="{{url('/login')}}">Log in </a> 
+                        <a id="register-back-btn" type="button" class=" grey-salsa btn-outline">Log in </a> 
                 </p>
                 </div>
             </form>
@@ -289,23 +279,10 @@
         <div class="submit-background hidden" id="submit-background">
             <img src="/assets/global/img/ajax-modal-loading.gif" class="img-loading">
         </div>
-        <!-- END LOGIN -->
-        <!--[if lt IE 9]>
-<script src="../assets/global/plugins/respond.min.js"></script>
-<script src="../assets/global/plugins/excanvas.min.js"></script> 
-<script src="../assets/global/plugins/ie8.fix.min.js"></script> 
-<![endif]-->
-        <!-- BEGIN CORE PLUGINS -->
-        <script src="./assets/global/plugins/jquery.min.js" type="text/javascript" defer></script>
-        <script src="./assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript" defer></script>
-        <!-- END CORE PLUGINS -->
-        <!-- BEGIN PAGE LEVEL PLUGINS -->
-        <script src="./assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript" defer></script>
-        <script src="./assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript" defer></script>
-        <!-- END PAGE LEVEL PLUGINS -->
-        <!-- BEGIN PAGE LEVEL SCRIPTS -->
-        <script src="./assets/pages/scripts/login.js?v=4" type="text/javascript" defer></script>
-<script type="text/javascript">
+
+        <script src="{{bba_version('vendor.js')}}" type="text/javascript" defer ></script>
+        <script src="{{bba_version('login.js')}}" type="text/javascript" defer ></script>
+        <script type="text/javascript">
         (function() {
             var i;
             var eles;

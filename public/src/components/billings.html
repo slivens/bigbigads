@@ -1,7 +1,7 @@
  <div cg-busy="$ctrl.queryPromise">
 
     <div class="alert alert-info">
-        BIGBIGADS offers a 7days refund to first time subscribers.We'll process your refund within 3 business days.
+        BIGBIGADS offers a 7-days money-back guarantee to first time purchasers.Please click on the refund button below within 7 days and we'll review and refund your payment in 3-5 business days.
     </div>
 
     <table class="table table-striped ">
@@ -26,9 +26,8 @@
             <td>{{item.status}}</td>
             <!-- <td><span ng-if="item.refund" class="text-danger">Refund Status:{{item.refund.status}}</span><span ng-if="item.refund.note"><br/>Note:{{item.refund.note}}</span></td> -->
             <td>
-            
+                <a class="btn btn-default" ng-click="item.openDownload && $ctrl.invoiceDownload(item)" ng-disabled="!item.openDownload" ng-attr-title="{{item.invoiceMessages}}">Invoice</a>
                 <a class="btn btn-default" ng-click="$ctrl.refund(item)" ng-if="item.canRefund">Refund</a>
-                <!-- <a class="btn btn-default" ng-href="/invoice/{{item.invoice}}">Invoice</a> -->
             </td>
         </tr>
     </table>
