@@ -30,7 +30,8 @@
         "payum/paypal-express-checkout-nvp": "^1.4",
         "payum/stripe": "^1.4",
         "defuse/php-encryption": "^2.1",
-        "rap2hpoutre/laravel-log-viewer": "^0.10.4"
+        "rap2hpoutre/laravel-log-viewer": "^0.10.4",
+        "firebase/php-jwt": "^5.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
