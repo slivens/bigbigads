@@ -444,14 +444,15 @@ header {
 /*video*/
 
 .home-getstart-btn {
-    padding: 20px 120px !important;
-    border-radius: 40px !important;
+    padding: 20px 120px;
+    border-radius: 40px;
     overflow: hidden;
-    font-size: 1.5rem !important;
-    font-weight: 600 !important;
+    font-size: 1.5rem;
+    font-weight: 600;
     margin: 0 auto;
-    margin-bottom: 50px !important;
-    display: block !important;
+    margin-bottom: 50px;
+    display: block;
+    max-width: 500px;
     .small-word {
         font-size: 1rem;
         font-weight: 200;
@@ -465,6 +466,7 @@ header {
         width: 100%;
         padding: 20px 0;
         background: #eef6fe;
+        padding: 50px 0;
         .ads-word-yes {
             padding: 0 20px;
             font-size: 3.75rem;
@@ -506,26 +508,45 @@ header {
     line-height: 2.5rem;
 }
 
+
+
+
 .video-content {
-    background: url("./images/home/youtube.jpg") no-repeat;
-    width: 800px;
-    height: 406px;
-    margin: 0 auto;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    background-size: 100% 100%;
-    text-align: center;
-    border: 4px solid #fff;
-    overflow: hidden;
-    /*line-height: 25rem;*/
-    #youtubeImage {
-        height: 100%;
-        width: 100%;
-        cursor: pointer;
-    }
-    .ytp-pause-overlay {
-        display: none !important;
-    }
+            .video-wrapper {
+            margin: 0 auto;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            width: 800px;
+            height: 445px;
+            background: url('./images/extension/extension_bg01.jpg') center center no-repeat;
+            background-size: 100% auto;
+            cursor: pointer;
+            .youtube-image{
+                height: 100%;
+                width: 100%;
+                position: relative;
+                .play-button{
+                    position: absolute;
+                    top:50%;
+                    left: 50%;
+                    margin-left: -34px;
+                    margin-top: -34px;
+                    font-size: 68px;
+                    color: rgba(33, 33, 33, 0.6);
+                    z-index: 99;
+                }
+                &:hover{
+                    .play-button{
+                        color: rgba(255, 0, 0, 1);
+                    }
+                }
+            }
+            .youtube-video{
+                flex:1;
+                width: 100%; 
+                height: 100%;
+            }
+        }
 }
 
 .video-iframe {
