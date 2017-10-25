@@ -31,7 +31,7 @@ new Vue({
         inited: true,
         errorMessage: "",
         email: '',
-        emailErr: false,
+        emailErr: true,
         emailMessage: "Required",
         showLoading: true, // showLoding 控制的是hidden的样式，当为true的时候，为隐藏！
         complete: false, // complete为true时，表示信用卡卡号是OK的
@@ -137,7 +137,7 @@ new Vue({
             var userEmail = that.email
             if (!isEmail(userEmail)) {
                 that.emailErr = true
-                that.emailMessage = 'Please enter your email to continue. Contact help@bigbigads.com if you need help.'
+                that.emailMessage = 'Invalid'
                 return false
             } else {
                 that.emailErr = false
