@@ -121,6 +121,8 @@ Route::group(['middleware'=>'auth'], function() {
     });
     Route::post('changepwd', 'UserController@changepwd');
     Route::put('/payments/{number}/refund_request', 'SubscriptionController@requestRefund');
+    // Route::get('/invoices/{invoice_id}/status', 'InvoiceController@getGenerateStatus');
+    Route::get('/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
 
 });
 
@@ -137,6 +139,8 @@ Route::resource('/rest/coupon', 'CouponController');//后面将改成统一由Re
 Route::any('/forward/{action}', 'SearchController@search');
 
 Route::post('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
+
+
 
 //邮件营销 
 Route::get('/edm', 'EDMController@index');

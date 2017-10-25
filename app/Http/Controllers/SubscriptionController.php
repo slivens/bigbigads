@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
 use Log;
-use DB;
 use App\User;
 use App\Role;
 use App\Plan;
@@ -25,6 +24,7 @@ use App\Payment as OurPayment;
 use App\Contracts\PaymentService;
 use App\Jobs\SyncPaymentsJob;
 use App\Jobs\SyncSubscriptionsJob;
+use App\Jobs\GenerateInvoiceJob;
 use App\Jobs\LogAction;
 use GuzzleHttp\Client;
 
@@ -62,8 +62,8 @@ final class SubscriptionController extends PayumController
         if ($req->plan || $req->name) {
             $planid = $req->plan;
             $name = $req->name;
-            $plan = Plan::where('id',$planid)->orwhere('name',$name)->first();//find($planid);
-            if(is_null($plan)){
+            $plan = Plan::where('id', $planid)->orwhere('name', $name)->first();//find($planid);
+            if (is_null($plan)) {
                 return view('errors.404');
             } else {
                 return view('subscriptions.pay', ['plan'=>$plan, 'key' =>  env('STRIPE_PUBLISHABLE_KEY') ]);
@@ -79,27 +79,33 @@ final class SubscriptionController extends PayumController
     protected function checkCoupon($code, $price)
     {
         $coupon = Coupon::where('code', $code)->first();    
-        if (!$coupon)
+        if (!$coupon) {
             return false;
-        if ($price < $coupon->total)
+        }
+        if ($price < $coupon->total) {
             return false;
-        if ($coupon->used >= $coupon->uses)
+        }
+        if ($coupon->used >= $coupon->uses) {
             return false;
-        if (!$coupon->start  || !$coupon->end)
+        }
+        if (!$coupon->start  || !$coupon->end) {
             return false;
+        }
         $now = new Carbon();
-        if ($now->lt(new Carbon($coupon->start)) || $now->gt(new Carbon($coupon->end)))
+        if ($now->lt(new Carbon($coupon->start)) || $now->gt(new Carbon($coupon->end))) {
             return false;
+        }
         return $coupon;
     }
     /**
      * 支付表单提示的处理
+     * 
      * @warning 如果用户已经订阅了，不允许创建同样的订阅
      */
-   public function pay(Request $req)
+    public function pay(Request $req)
     {
-        //check that we have nonce and plan in the incoming HTTP request
-        if(empty( $req->input('planid') ) ){
+        // check that we have nonce and plan in the incoming HTTP request
+        if (empty($req->input('planid'))) {
             return redirect()->back()->withErrors(['message' => 'Invalid request']);
         }
 
@@ -107,22 +113,24 @@ final class SubscriptionController extends PayumController
         $user = Auth::user();
         $coupon = null;
         $discount = 0;
-        //如果存在对应的优惠券就使用
+        // 如果存在对应的优惠券就使用
         if ($req->has('coupon')) {
             $coupon = $this->checkCoupon($req->coupon, $plan->amount);
-            if (!$coupon)
+            if (!$coupon) {
                 return redirect()->back()->withErrors(['message' => 'Invalid coupon']);
+            }
             $discount = $coupon->getDiscountAmount($plan->amount);
             /* if ($coupon->type == 0) { */
             /*     $discount = floor($plan->amount * $coupon->discount / 100); */
             /* } else if ($coupon->type == 1) { */
             /*     $discount = $coupon->discount; */
             /* } */
-            if (Subscription::where('quantity', '>', 0)->where('user_id', $user->id)->where('coupon_id', $coupon->id)->count() >= $coupon->customer_uses)
+            if (Subscription::where('quantity', '>', 0)->where('user_id', $user->id)->where('coupon_id', $coupon->id)->count() >= $coupon->customer_uses) {
                 return redirect()->back()->withErrors(['message' => 'You have used the coupon']);
+            }
         }
 
-        //创建一个新的订阅(是否要清除已有的未支付订阅呢？需要的，防止数据库被填满，由于Paypal的token可能还在生效，所以在onPay时要确保不能支付成功)
+        // 创建一个新的订阅(是否要清除已有的未支付订阅呢？需要的，防止数据库被填满，由于Paypal的token可能还在生效，所以在onPay时要确保不能支付成功)
         Subscription::where('user_id', $user->id)->where('status', Subscription::STATE_CREATED)->delete();
         $subscription = new Subscription();
         $subscription->user_id = $user->id;
@@ -135,6 +143,7 @@ final class SubscriptionController extends PayumController
         $subscription->frequency_interval = $plan->frequency_interval;
         $subscription->gateway = PaymentService::GATEWAY_STRIPE;
         $subscription->status = Subscription::STATE_CREATED;
+        $subscription->tag = Subscription::TAG_DEFAULT;
         $subscription->save();
 
         if ($req->has('payType') && $req->payType == 'stripe') {
@@ -142,13 +151,13 @@ final class SubscriptionController extends PayumController
         }       
         $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
         $approvalUrl = $service->createPayment($plan, $coupon ? ['setup_fee' => $plan->amount - $discount] : null);
-        //由于此时订阅的相关ID没产生，所以没办法通过保存ID，此时就先通过token作为中转
-		$queryStr = parse_url($approvalUrl, PHP_URL_QUERY);
-		$queryTmpArr = explode("&", $queryStr);
-		$queryArr  = [];
-		foreach($queryTmpArr as $key => $item) {
-			$t = explode("=", $item);
-			$queryArr[$t[0]] = $t[1];
+        // 由于此时订阅的相关ID没产生，所以没办法通过保存ID，此时就先通过token作为中转
+        $queryStr = parse_url($approvalUrl, PHP_URL_QUERY);
+        $queryTmpArr = explode("&", $queryStr);
+        $queryArr  = [];
+        foreach ($queryTmpArr as $key => $item) {
+            $t = explode("=", $item);
+            $queryArr[$t[0]] = $t[1];
         }
 
         $subscription->agreement_id = $queryArr['token'];
@@ -159,6 +168,10 @@ final class SubscriptionController extends PayumController
 
     /**
      * 获取帐单信息
+     * 时间限制：
+     * 首个订阅的首单成交时间7天之内可以申请1次退款，其他交易不能退款。
+     * 7天后所有成功交易可以下载票据
+     * 
      * @return \App\Payment[]
      */
     public function billings()
@@ -169,6 +182,8 @@ final class SubscriptionController extends PayumController
 
     /**
      * 获取所有计划
+     * 
+     * @return Role $items 计划列表
      */
     public function plans()
     {
@@ -196,8 +211,9 @@ final class SubscriptionController extends PayumController
     public function onPay(Request $request)
     {
         echo "processing...don't close the window.";
-        if ($request->success == 'false')
+        if ($request->success == 'false') {
             return redirect('/app/profile?active=0');
+        }
         $subscription = Subscription::where('agreement_id', $request->token)->first();
         if (!($subscription instanceof Subscription)) {
             abort(401, "no subscription found");
@@ -212,10 +228,12 @@ final class SubscriptionController extends PayumController
         }
         $payer = $agreement->getPayer();
         $info = $payer->getPayerInfo();
-        //中途取消的情况下返回profile页面
-        if ($agreement == null) return redirect('/app/profile?active=0');
+        // 中途取消的情况下返回profile页面
+        if ($agreement == null) {
+            return redirect('/app/profile?active=0');
+        }
         $detail = $agreement->getAgreementDetails();
-        //abort(401, "error on agreement");
+        // abort(401, "error on agreement");
         $subscription->agreement_id = $agreement->getId();
         $subscription->quantity = 1;
         $subscription->status = $subscription->translateStatus($agreement->getState());
@@ -237,6 +255,10 @@ final class SubscriptionController extends PayumController
         // 完成订阅后10秒后就去同步，基本上订单都已产生；如果没有产生，3分钟后再次同步试。同时webhook如果有收到，也会去同步。
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(10)));
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(30)));
+        
+        // 生成票据,此处入参为该订阅下所有的交易，执行过程中会跳过已经生成票据的交易
+        dispatch(new GenerateInvoiceJob(OurPayment::where('subscription_id', $subscription->id)->get()));
+
         // 更改七日内的统计为guzzle 同步请求
         $domain = env('APP_URL');
         $url = $domain . 'payStatistics.html';
@@ -247,6 +269,7 @@ final class SubscriptionController extends PayumController
 
     /**
      * 处理Paypal支付的通知
+     * 
      * @warning 在Sandbox下测试发现，Webhook的webhook机制非常不可靠。要么收不到，要么收到了但是发现验证失败，能成功验证的次数不多。
      */
     public function onPayWebhooks(Request $request)
@@ -259,15 +282,17 @@ final class SubscriptionController extends PayumController
         $webhook_id = $request->id;//webhook id
         $count = Webhook::where('webhook_id',$webhook_id)->count();
         // webhook有记录说明处理过就不再处理
-        if($count == 0 ) {
+        if ($count == 0 ) {
             // 如果是无效的webhook就主从查询（可能是Paypal本身问题返回验证失败，也可能是伪造的），不管哪种情况，主动与Paypal做一次同步即可
             if (!$isValid) {
                 switch ($request->event_type) {
                 case 'PAYMENT.SALE.COMPLETED':
                     $agreementId = $request->resource['billing_agreement_id'];
                     $subscription = Subscription::where('agreement_id', $agreementId)->first();
-                    if ($subscription)
+                    if ($subscription) {
                         dispatch(new SyncPaymentsJob($subscription));
+                        dispatch(new GenerateInvoiceJob(OurPayment::where('subscription_id', $subscription->id)->get()));//同步交易以后生成新交易的票据
+                    }
                 }
             } else {
                 $resource = $request->resource;
@@ -279,7 +304,7 @@ final class SubscriptionController extends PayumController
                 $webhook->summary = $request->summary;
                 $webhook->webhook_content = base64_encode(serialize($resource));
                 $re = $webhook->save();
-                Log::info('$webhook->save(): '.$re);
+                Log::info('$webhook->save(): ' . $re);
                 switch ($webhook->event_type) {
                 case 'BILLING.SUBSCRIPTION.CANCELLED':
                     break;
@@ -296,6 +321,7 @@ final class SubscriptionController extends PayumController
                         break;
                     }
                     dispatch(new SyncPaymentsJob($subscription));
+                    dispatch(new GenerateInvoiceJob(OurPayment::where('subscription_id', $subscription->id)->get()));//同步交易以后生成新交易的票据
                     break;
                 case 'PAYMENT.SALE.REFUNDED':
                     $payment = OurPayment::where('number', $resource['sale_id'])->first();
@@ -312,8 +338,9 @@ final class SubscriptionController extends PayumController
 
     protected function preparePaypalCheckout(Request $request)
     {
-        if (!$request->has('amount'))
+        if (!$request->has('amount')) {
             return "amount parameter is required";
+        }
         $storage = $this->getPayum()->getStorage('Payum\Core\Model\ArrayObject');
         $details = $storage->create();
         $details['PAYMENTREQUEST_0_CURRENCYCODE'] = 'USD';
@@ -325,30 +352,35 @@ final class SubscriptionController extends PayumController
 
     protected function payByStripe(Request &$req, Plan &$plan, &$user, $coupon)
     {
-        if (!$req->has('stripeToken'))
+        if (!$req->has('stripeToken')) {
             return redirect()->back()->withErrors(['message' => 'invalid credit card']);
+        }
         $discount = 0;
         if ($coupon) {
             $discount = $coupon->getDiscountAmount($plan->amount);
         }
-		$storage = $this->getPayum()->getStorage(Payment::class);
-		$payment = $storage->create();
-		$payment->setNumber($this->generateNo());
-		$payment->setCurrencyCode($plan->currency);
-		$payment->setTotalAmount(0); 
-		$payment->setDescription($plan->display_name);
-		$payment->setClientId($user->id);
-		$payment->setClientEmail($user->email);
-        $payment->setDetails(new \ArrayObject([
-            'amount' => ($plan->amount  - $discount) * 100, 
-            'currency' => $plan->currency, 
-            'card' => $req->stripeToken,
-            'local' => [
-                'save_card' => true,
-                'customer' => ['plan' => $plan->name]
-            ]
-        ]));
-		$storage->update($payment);
+        $storage = $this->getPayum()->getStorage(Payment::class);
+        $payment = $storage->create();
+        $payment->setNumber($this->generateNo());
+        $payment->setCurrencyCode($plan->currency);
+        $payment->setTotalAmount(0); 
+        $payment->setDescription($plan->display_name);
+        $payment->setClientId($user->id);
+        $payment->setClientEmail($user->email);
+        $payment->setDetails(
+            new \ArrayObject(
+                [
+                    'amount' => ($plan->amount  - $discount) * 100, 
+                    'currency' => $plan->currency, 
+                    'card' => $req->stripeToken,
+                    'local' => [
+                        'save_card' => true,
+                        'customer' => ['plan' => $plan->name]
+                    ]
+                ]
+            )
+        );
+        $storage->update($payment);
 
         $captureToken = $this->getPayum()->getTokenFactory()->createCaptureToken('stripe', $payment, 'stripe_done');
         return redirect($captureToken->getTargetUrl());
@@ -380,10 +412,12 @@ final class SubscriptionController extends PayumController
 
         $gateway->execute($status = new GetHumanStatus($token));
 
-        return \Response::json(array(
-            'status' => $status->getValue(),
-            'details' => iterator_to_array($status->getFirstModel())
-        ));
+        return \Response::json(
+            array(
+                'status' => $status->getValue(),
+                'details' => iterator_to_array($status->getFirstModel())
+            )
+        );
     }
 
     public function onStripeDone(Request $request)
@@ -439,10 +473,12 @@ final class SubscriptionController extends PayumController
         if ($sub->status == Subscription::STATE_CANCLED) {
             return ['code' => 0, 'desc' => 'success'];
         }
-        if ($sub->status != Subscription::STATE_SUBSCRIBED && $sub->status != Subscription::STATE_PAYED)
+        if ($sub->status != Subscription::STATE_SUBSCRIBED && $sub->status != Subscription::STATE_PAYED) {
             return new Response(['code' => -1, 'desc' => "not a valid state:{$sub->status}"]);
-        if (!$this->paymentService->cancel($sub))
+        }
+        if (!$this->paymentService->cancel($sub)) {
             return ['code' => -1, 'desc' => "cancel failed"];
+        }
         dispatch(new LogAction(ActionLog::ACTION_USER_CANCEL, $sub->toJson(), "", $user->id));
         return ['code' => 0, 'desc' => 'success'];
     }
@@ -452,8 +488,9 @@ final class SubscriptionController extends PayumController
     {
         $user = Auth::user();
         $sub = $user->subscriptions()->where('agreement_id', $sid)->first();
-        if (!$sub)
+        if (!$sub) {
             return ['code' => -1, 'desc' => "$sid not found"];
+        }
         // 如果扣款失败，会自动被取消，因此同步的处理只需要处理pending的情况
         $this->paymentService->syncSubscriptions([], $sub);
         $this->paymentService->syncPayments([], $sub);
@@ -468,12 +505,13 @@ final class SubscriptionController extends PayumController
     public function requestRefund($no)
     {
         $payment = OurPayment::where('number', $no)->first();
-        if (!$payment)
+        if (!$payment) {
             return $this->responseError("no such payment $no", -1);
-        if ($payment->refund)
+        }
+        if ($payment->refund) {
             return $this->responseError("you have request refunding before", -1);
+        }
         $refund = $this->paymentService->requestRefund($payment);
         return ['code' => 0, 'desc' => 'success'];
     }
-
 }

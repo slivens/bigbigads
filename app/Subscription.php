@@ -42,6 +42,11 @@ class Subscription extends Model
      */
     const STATE_PENDING = "pending";
 
+    /**
+     * 默认的tag值
+     */
+    const TAG_DEFAULT = "default";
+
 
     public function user()
     {
