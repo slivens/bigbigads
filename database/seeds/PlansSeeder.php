@@ -45,30 +45,43 @@ class PlansSeeder extends Seeder
                     "role"=> "Free"
                 ],
                 [
-                    "name" => "start_monthly",
-                    "display_name" => "Start Level",
-                    "desc" => "Start Plan for one month",
+                    "name" => "lite_monthly",
+                    "display_name" => "Lite Monthly",
+                    "desc" => "Lite Plan for one month",
                     "display_order" => 1, 
                     "type" => "REGULAR",
                     "frequency" => "MONTH",
                     "frequency_interval" => 1,
                     "cycles" => 0,
-                    "amount" => 10,
+                    "amount" => 59.99,
                     "currency" => "USD",
-                    "role" => "Start"
+                    "role" => "Lite"
                 ],
                 [
-                    "name" => "start",
-                    "display_name" => "Start Level",
-                    "desc" => "Start Plan for one year",
+                    "name" => "lite_quarterly",
+                    "display_name" => "Lite Quarterly",
+                    "desc" => "Lite Plan for three month",
+                    "display_order" => 1, 
+                    "type" => "REGULAR",
+                    "frequency" => "MONTH",
+                    "frequency_interval" => 3,
+                    "cycles" => 0,
+                    "amount" => 119.97,
+                    "currency" => "USD",
+                    "role" => "Lite"
+                ],
+                [
+                    "name" => "lite_annual",
+                    "display_name" => "Lite Annual",
+                    "desc" => "Lite Plan for one year",
                     "display_order" => 1, 
                     "type" => "REGULAR",
                     "frequency" => "YEAR",
                     "frequency_interval" => 1,
                     "cycles" => 0,
-                    "amount" => 100,
+                    "amount" => 299.88,
                     "currency" => "USD",
-                    "role" => "Start"
+                    "role" => "Lite"
                 ],
                 [
                     "name" => "standard_monthly",
@@ -165,18 +178,19 @@ class PlansSeeder extends Seeder
 
             //每次填充都会清空所有计划
             Plan::where('id', '>', 0)->delete();
-            foreach($plans as $key=>$item) {
+            foreach ($plans as $key=>$item) {
                 $role = Role::where("name", $item["role"])->first();
-                if ($role instanceof Role) 
+                if ($role instanceof Role) {
                     $item["role_id"] = $role->id;
+                }
                 unset($item["role"]);
                 Plan::create($item);
             }
             echo "insert plans\n";
 
             //将计划绑定到对应的角色上，先清空再绑定
-            Role::where('id', '>', 2)->update(['plan' => NULL]);
-            $roles = ["Free" => "free", "Standard" => "standard", "Advanced" => "advanced", "Pro" => "vip"];
+            Role::where('id', '>', 2)->update(['plan' => null]);
+            $roles = ["Free" => "free", "Lite" => "lite", "Standard" => "standard", "Advanced" => "advanced", "Pro" => "vip"];
             foreach ($roles as $key => $item) {
                 $role = Role::where('name', $key)->first();
                 $role->plan = $item;

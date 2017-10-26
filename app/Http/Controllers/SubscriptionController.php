@@ -50,7 +50,7 @@ final class SubscriptionController extends PayumController
      */
     public function generateNo()
     {
-        return substr(implode("", array_map('ord', str_split(str_random(12),1))), 0, 16);
+        return substr(implode("", array_map('ord', str_split(str_random(12), 1))), 0, 16);
     }
 
     /**
@@ -58,14 +58,15 @@ final class SubscriptionController extends PayumController
      */
     public function form(Request $req)
     {
-        //暂时当$planid不存在时重定向到404页面
+        // 暂时当$planid不存在时重定向到404页面
         if ($req->plan || $req->name) {
             $planid = $req->plan;
             $name = $req->name;
-            $plan = Plan::where('id', $planid)->orwhere('name', $name)->first();//find($planid);
+            $plan = Plan::where('id', $planid)->orwhere('name', $name)->first();// find($planid);
             if (is_null($plan)) {
                 return view('errors.404');
             } else {
+                $plan->amount = number_format($plan->amount, 2); //价格统一格式：2位小数
                 return view('subscriptions.pay', ['plan'=>$plan, 'key' =>  env('STRIPE_PUBLISHABLE_KEY') ]);
             }
         } else {
