@@ -33,15 +33,19 @@ class UserController extends Controller
     /**
      * 更改密码
      */
-    public function changepwd(Request $req) {
-        $this->validate($req, [
+    public function changepwd(Request $req)
+    {
+        $this->validate(
+            $req, [
             'newpwd' => 'required|min:8|max:32',
             'repeatpwd' => 'required|min:8|max:32'
-        ]);
+            ]
+        );
         $user = Auth::user();
         /* return ['code'=>-1, 'desc' =>$user->email . ":" . $req->oldpwd]; */
-        if (!Auth::attempt(['email' => $user->email, 'password' => $req->oldpwd]))
+        if (!Auth::attempt(['email' => $user->email, 'password' => $req->oldpwd])) {
             return ['code' => -1, 'desc' => 'password is wrong'];
+        }
         if ($req->newpwd != $req->repeatpwd) {
             return ['code' => -1, 'desc' => 'new password and repeat password is not the same'];
         }
@@ -54,28 +58,30 @@ class UserController extends Controller
      */
     public function logInfo(Request $req)
     {
-        //返回登陆用户的session信息，包含
-        //用户基本信息、权限信息
+        // 返回登陆用户的session信息，包含
+        // 用户基本信息、权限信息
         $res = [];
         $user = Auth::user();
         if ($user) {
             $user->load('role', 'role.permissions', 'role.policies', 'subscriptions', 'subscriptions.payments');
             $res['login'] = true;
             $res['user'] = $user;
-            //将购买的相关计划也要返回，必须缓存，这一步很慢
+            // 将购买的相关计划也要返回，必须缓存，这一步很慢
             if ($user['subscription_id'] != null) {
                 $user->load('subscription');//有订阅就把订阅信息也一起加载
             }
             $res['effective_sub'] = $user->getEffectiveSub()?true:false;
             $res['permissions'] = $user->getMergedPermissions()->groupBy('key');
             $res['groupPermissions'] = $user->getMergedPermissions()->groupBy('table_name');
-            //提供用户邮箱的hamc，用于intercom的用户验证
+            // 提供用户邮箱的hamc，用于intercom的用户验证
             $res['emailHmac'] = hash_hmac(
-                                    'sha256',
-                                    $user->email,
-                                    'sh7oS9Q3bk0m-Vs3pEeUjCOMKGjoyjf1bVcTfCiY'
-                                );
+                'sha256',
+                $user->email,
+                'sh7oS9Q3bk0m-Vs3pEeUjCOMKGjoyjf1bVcTfCiY'
+            );
             $res['track'] = $user->affiliate->track;
+            $res['click'] = $user->affiliate->click;
+            $res['action'] = $user->affiliate->action;
         } else {
             $user = AnonymousUser::user($req);
             $res['login'] = false;
@@ -110,14 +116,15 @@ class UserController extends Controller
         } else {
             return redirect('/app');
         }
-        //return view('auth.verify')->with("user", $user);
+        // return view('auth.verify')->with("user", $user);
     }
 
 
     /**
      * 发送验证邮件
      */
-    public function sendVerifyMail(Request $request) {
+    public function sendVerifyMail(Request $request)
+    {
         if (!($request->has('email'))) {
             return view('auth.verify')->with('error', "parameter error");
         }
@@ -128,7 +135,7 @@ class UserController extends Controller
         $this->registerDispatch($user);
         $info = "Your email {$request->email} has sent, please check your email.";
         $email = $request->email;
-        return view('auth.verify',compact('info','email'));
+        return view('auth.verify', compact('info', 'email'));
     }
 
     /**
@@ -177,7 +184,7 @@ class UserController extends Controller
         $token = $socialiteUser->token;
         $providerId = $socialiteUser->id;
         /* if (empty($email)) { */
-        /*     return $this->message("sorry, no email information in your '$name' account"); */
+        /* return $this->message("sorry, no email information in your '$name' account"); */
         /* } */
         Log::debug("oauth:" . json_encode($socialiteUser));
         Log::debug("request:" . json_encode(request()->all()));
@@ -188,8 +195,10 @@ class UserController extends Controller
 
     /**
      * 根据新需求完成自动绑定
-     * @var Request $request 
-     * @var String $name
+     * 
+     * @param Request Request $request 
+     * @param String          $name    name
+     * 
      * @ref socialiteCallback
      */
     protected function autoBind(Request $request, $name, $socialiteUser)
@@ -202,19 +211,21 @@ class UserController extends Controller
             $email = $socialiteUser->id . '@bigbigads.com';
             $edm = 0;
         }
-        //没有帐号就先创建匿名帐号
+        // 没有帐号就先创建匿名帐号
         $user = User::where('email', $email)->first();
         if (!$user instanceof User) {
             $userName = $socialiteUser->nickname;
-            if (empty($userName))
+            if (empty($userName)) {
                 $userName= $socialiteUser->name;
-
-            $user = User::create([
+            }
+            $user = User::create(
+                [
                 'name' => $userName,
                 'email' => $email,
                 'password' => bcrypt(str_random(10)),
                 'role_id' => 3
-            ]);
+                ]
+            );
             $user->state = 1;//社交帐号直接通过验证
             /* $user->role_id = 3; */
             $user->edm = 0;
@@ -232,7 +243,7 @@ class UserController extends Controller
             $user->save();
             event(new Registered($user));
         }
-        //在有帐号的情况下，完成自动绑定并登陆
+        // 在有帐号的情况下，完成自动绑定并登陆
         if (\App\Socialite::where(['provider_id' => $providerId, 'provider' => $name])->count() > 0) {
             $binded = true;
         }
@@ -245,12 +256,12 @@ class UserController extends Controller
             $item->save();
             $agent = new Agent();     
             if ($agent->isMobile() || $agent->isTablet()) {
-                dispatch(new LogAction(ActionLog::ACTION_USER_BIND_SOCIALITE_MOBILE_BASE . strtoupper($name), json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
+                dispatch(new LogAction(ActionLog::ACTION_USER_BIND_SOCIALITE_MOBILE_BASE . strtoupper($name), json_encode(["name" => $user->name, "email" => $user->email]), $name, $user->id, Request()->ip()));
             } else {
-                dispatch(new LogAction(ActionLog::ACTION_USER_BIND_SOCIALITE_BASE . strtoupper($name), json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
+                dispatch(new LogAction(ActionLog::ACTION_USER_BIND_SOCIALITE_BASE . strtoupper($name), json_encode(["name" => $user->name, "email" => $user->email]), $name, $user->id, Request()->ip()));
             }
-            //社交登录请求转化代码页面，需求变更，弃用，改为跳转至注册欢迎页面
-            /*$domain = env('APP_URL');
+            // 社交登录请求转化代码页面，需求变更，弃用，改为跳转至注册欢迎页面
+            /* $domain = env('APP_URL');
             $url = $domain . 'socialiteStat.html?query=socialte_' . $name;
             $client = new GuzzleHttp\Client();
             $res = $client->requestAsync('GET', $url);*/
@@ -268,6 +279,7 @@ class UserController extends Controller
 
     /**
      * 绑定已有用户的表单
+     * 
      * @deprecated 需求变更，抛弃
      */
     public function bindForm(Request $request, $name)
@@ -277,6 +289,7 @@ class UserController extends Controller
 
     /**
      * 提交绑定后的处理
+     * 
      * @deprecated 需求变更，抛弃
      */
     public function bind(Request $request, $name)
@@ -288,7 +301,7 @@ class UserController extends Controller
         }
         $email = $socialiteUser->email;
         $providerId = $socialiteUser->id;
-        //没有帐号就先创建帐号
+        // 没有帐号就先创建帐号
         $user = User::where('email', $email)->first();
         if (!$user instanceof User) {
             $rules = [
@@ -300,15 +313,18 @@ class UserController extends Controller
             }
 
             $userName = $socialiteUser->nickname;
-            if (empty($userName))
+            if (empty($userName)) {
                 $userName= $socialiteUser->name;
-            $user = User::create([
+            }
+            $user = User::create(
+                [
                 'name' => $userName,
                 'email' => $email,
                 'password' => bcrypt($request->password),
                 'role_id' => 3
-            ]);
-            $user->state = 1;//社交帐号直接通过验证
+                ]
+            );
+            $user->state = 1;// 社交帐号直接通过验证
             /* $user->role_id = 3; */
             $user->verify_token = str_random(40);
             $user->save();
@@ -319,10 +335,11 @@ class UserController extends Controller
             return back()->with('status', 'wrong password');
         }
 
-        //有帐号就检查是否绑定，已经绑定就直接登陆
+        // 有帐号就检查是否绑定，已经绑定就直接登陆
         $binded = false;
-        if (\App\Socialite::where(['provider_id' => $providerId, 'provider' => $name])->count() > 0)
+        if (\App\Socialite::where(['provider_id' => $providerId, 'provider' => $name])->count() > 0) {
             $binded = true;
+        }
         if (!$binded) {
             $item =  new \App\Socialite();
             $item->provider_id = $providerId;
@@ -332,7 +349,7 @@ class UserController extends Controller
             $item->save();
         }
         Auth::login($user);
-        dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name , $user->id, Request()->ip() ));
+        dispatch(new LogAction("USER_BIND_SOCIALITE", json_encode(["name" => $user->name, "email" => $user->email]), $name, $user->id, Request()->ip()));
         $agent = new Agent();
         if ($agent->isMobile()) {
             return redirect('/mobile');
@@ -343,14 +360,15 @@ class UserController extends Controller
 
     public function quickRegister(Request $request)
     {
-        //新需求，新增快捷注册，页面异步请求，用户无需填写密码，由前端页面生成
-        $validator = Validator::make($request->all(), [
+        // 新需求，新增快捷注册，页面异步请求，用户无需填写密码，由前端页面生成
+        $validator = Validator::make(
+            $request->all(), [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6',
-        ]);
-        if ($validator->fails()) 
-        {
+            ]
+        );
+        if ($validator->fails()) {
             return ['code' => -1, 'desc' => $validator->messages()];
         }
         // create 接受的是数组
@@ -364,26 +382,29 @@ class UserController extends Controller
         event(new Registered($user));
         $this->registerDispatch($user);
         Auth::login($user);
-        //返回成功信息通信前端注册成功
+        // 返回成功信息通信前端注册成功
         return ['code' => 0, 'desc' => 'register success'];
     
     }
 
-    public function registerDispatch($user) {
-        dispatch(new SendRegistMail($user));//Mail::to($user->email)->queue(new RegisterVerify($user));//发送验证邮件
-        //用户注册完后往队列加入一个2分钟延迟的任务，检测是否送达用户邮箱，否则的话使用gmail再重发一次
+    public function registerDispatch($user)
+    {
+        dispatch(new SendRegistMail($user));// Mail::to($user->email)->queue(new RegisterVerify($user));//发送验证邮件
+        // 用户注册完后往队列加入一个2分钟延迟的任务，检测是否送达用户邮箱，否则的话使用gmail再重发一次
         $twoMinutesDelayJob = (new ResendRegistMail($user, 'delivered', 2))->delay(Carbon::now()->addMinutes(2));
         dispatch($twoMinutesDelayJob);
     }
 
-    public function recordContinue(Request $request) {
+    public function recordContinue(Request $request)
+    {
         if (Auth::check()) {
             $user = Auth::user();
-            dispatch(new LogAction(ActionLog::ACTION_RECORD_CLICK_CONTINUE, $user->email, 'record_click_continue', $user->id, $request->ip() ));
+            dispatch(new LogAction(ActionLog::ACTION_RECORD_CLICK_CONTINUE, $user->email, 'record_click_continue', $user->id, $request->ip()));
         }
     }
 
-    public function filterLogRecord(Request $request) {
+    public function filterLogRecord(Request $request)
+    {
         $user = Auth::user();
         if ($user->id != $request->userId) {
             return ['code' => -1, 'desc' => 'Unauthorised User'];
