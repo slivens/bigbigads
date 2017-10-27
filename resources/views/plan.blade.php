@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bigbigads Pricing | Largest Facebook Ad Examples</title>
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
-    <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
+    <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen" /> 
     <link href="{{bba_version('home.css')}}" rel="stylesheet">
     <link href="{{bba_version('plan.css')}}" rel="stylesheet">
     @include('tpl.script')
@@ -495,7 +495,7 @@ window.uetq || []; window.uetq.push({'ec':'conversion', 'ea':'click_signup_stand
                         </td>
                         <td>
                             
-                            <a href="./register" class="btn">Start Now</a>
+                            <a href="/register" class="btn">Start Now</a>
                         </td>
                         <td>
                             <a open-modal="#info-modal" modal-data = "lite"  class="btn">Join Now</a></td>
@@ -590,12 +590,12 @@ window.uetq || []; window.uetq.push({'ec':'conversion', 'ea':'click_signup_stand
             <tr>
                 <td >
                     <h5>Location</h5>
-                    <select name="" id="info-location" class="form-control selectpicker" option = "locationOption" title="--Select--" data-size="10" data-live-search="true">
+                    <select name="" id="info-location" class="form-control selectpicker" option="locationOption" title="--Select--" data-size="10" data-live-search="true">
                     </select>
                 </td>
                 <td>
-                    <h5 class="ads-font-14">How much would you like to pay for <span class="ads-weight-600" value = "level"></span> level?</h5>
-                    <select name="" id="info-price" option = "priceOption" class="form-control">
+                    <h5 class="ads-font-14">How much would you like to pay for <span class="ads-weight-600" value="level"></span> level?</h5>
+                    <select name="" id="info-price" option="priceOption" class="form-control">
                     </select>
                 </td>
 
