@@ -41,6 +41,6 @@ class PlanFeedbackController extends Controller
             'level'         => $request->level
         ]);
         $planFeedback->save();
-        return ['code' => 0, 'desc' => 'success'];
+        return response()->json(['code' => 0, 'desc' => 'success']);
     }
 }
