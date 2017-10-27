@@ -1,4 +1,23 @@
+/*覆盖样式*/
+.page-header{
+    height: 50px;
+}
+/*legacy 插件样式干扰，强行覆盖*/
+.page-content{
+    .container-fluid{
+        padding: 0;
+    }
+}
 #plans {
+    a{
+        &:hover{
+            text-decoration: none;
+        }
+        &:active{
+            text-decoration: none;
+        }
+        color: inherit;
+    }
     .btn {
         background: #eb6130;
         color: #fff;
@@ -49,251 +68,188 @@
         font-weight: 200;
         margin-left: 5px;
     }
-    .pricing-adscard {
-        margin-top: 50px;
-        margin-bottom: 50px;
-        p{
-            margin: 0 0 10px;
-        }
-        .card-div {
-            width: 100%;
-            margin: 0 auto;
-            overflow: hidden;
-            background: #fff;
-            box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.3);
-            .adscard-head {
-                padding-bottom: 0px;
-                .adscard-text {
-                    min-height: 44px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-                hr {
-                    margin-bottom: 5px;
-                }
-                .pricing-money-p {
-                    margin: 0 0 10px;
-                }
-            }
-            .table {
-                border-color: #f5f5fc;
-                tr {
-                    td {
-                        border-color: #f5f5fc;
-                        padding-left: 50px;
-                        color: #787878;
-                        font-size: 18px;
-                    }
-                    td:hover {
-                        color: #555;
-                    }
-                }
-                tr:nth-child(odd) {
-                    background: #fbfbfd;
-                }
-            }
-            .adscard-foot {
-                border-color: #f5f5fc;
-                display: flex;
-                justify-content: center;
-                .adscard-btn {
-                    padding: 15px 20px;
-                    margin-top: 20px;
-                    margin-bottom: 15px;
-                    width: 100%;
-                    margin: 0px 27px;
-                }
-            }
-        }
-        .pricing-card {
-            background: #fff;
-            transition: 0.6s;
-            transform-style: preserve-3d;
-            transform: rotateY(180deg);
 
-            .card-banner {
-                margin: 15px 20px;
-                background: #28b873;
-                color: #fff;
-                height: 30px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                position: relative;
-                .inon-tri-let {
-                    position: absolute;
-                    height: 0px;
-                    width: 0px;
-                    border: 15px solid transparent;
-                    border-left: 15px solid #fff;
-                    left: 0px;
-                    top: 0px;
-                }
-                .inon-tri-right {
-                    position: absolute;
-                    height: 0px;
-                    width: 0px;
-                    border: 15px solid transparent;
-                    border-right: 15px solid #fff;
-                    right: 0px;
-                    top: 0px;
-                }
-                .inon-mark {
-                    position: absolute;
-                    height: 20px;
-                    width: 20px;
-                    right: -20px;
-                    top: 5px;
-                    border-radius: 10px;
-                    border: 1px solid #28b873;
-                    color: #28b873;
-                    display: flex;
-                    justify-content: center;
-                    cursor: pointer;
-                }
-            }
-            .pricing-info-div {
-                position: relative;
-                padding: 5px 5px;
-                height: 120px;
-                border: 1px solid #ccc;
-                margin: 10px 10px;
-                transition: 0.2s;
-                .pricing-cost-div {
-                    height: 100%;
-                    display: flex;
-                    justify-content: center;
-                    flex-direction: column;
-                    color: #ccc;
-                    .pricing-name {
-                        color: #000;
-                    }
-                    .pricing-money {
-                        color: #000;
-                    }
-                }
-                .select-btn-div {
-                    height: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    .select-btn {
-                        border-radius: 18px;
-                    }
-                }
-                .info-mark {
-                    position: absolute;
-                    background: #28b873;
-                    color: #fff;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    transform: rotate(-90deg);
-                    width: 100px;
-                    height: 20px;
-                    top: 45px;
-                    left: -50px;
-                    border-radius: 4px 4px 0 0;
-                    display: none;
-                    transition: 0.2s;
-                }
-            }
-            .pricing-info-div:hover {
-                border: 4px solid #28b873;
-                margin: 10px 7px;
-                .info-mark {
-                    display: flex;
-                }
-            }
-            .pricing-info-div:focus {
-                border: 4px solid #28b873;
-                margin: 20px 7px;
-                .info-mark {
-                    display: flex;
-                }
-            }
+    .plan-banner {
+        padding-top: 50px;
+        padding-bottom: 100px;
+        margin-bottom: 80px;
+        background-image: linear-gradient(to top, #ccc 0%, #68e0cf 100%);
+        .plan-suptitle {
+            margin-top: 30px;
         }
+        .plan-card-wrapper {
+            box-sizing: border-box;
+            margin-top: 80px;
+            .plan-card {
+                width: 280px;
+                background: #fff;
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .15);
+                position: relative;
+                display: inline-block;
+                vertical-align: top;
+                margin: 0 30px 40px;
+                height: 380px;
+                text-align: left;
+                box-sizing: border-box;
 
-        .adscard-free {
-            margin-bottom: 30px;
-            .adscard-head {
-                background: #3d5aa5;
-                color: #fff;
-            }
-            .adscard-btn {
-                background: #3d5aa5;
-            }
-        }
-        .adscard-stand {
-            /*3D旋转特效*/
-            -webkit-perspective: 1000;
-            -moz-perspective: 1000;
-            -ms-perspective: 1000;
-            perspective: 1000;
-            -ms-transform: perspective(1000px);
-            -moz-transform: perspective(1000px);
-            -moz-transform-style: preserve-3d;
-            -ms-transform-style: preserve-3d;
-            .stand-card-div {
-                margin: 0 auto;
-                transition: 0.6s;
+                transition: .6s;
                 transform-style: preserve-3d;
                 position: relative;
-                box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.3);
-            }
-            .card-div {
-                backface-visibility: hidden;
-                -webkit-backface-visibility: hidden;
-                /* Chrome 和 Safari */
-                -moz-backface-visibility: hidden;
-                /* Firefox */
-                -ms-backface-visibility: visible;
-                /*IE 对此渲染貌似是相反的，原因不明*/
-                top: 0;
-                left: 0;
-                box-shadow: none;
-            }
-            .pricing-card {
-                position: absolute;
-                z-index: -1;
-                transform: rotateY(180deg);
-                .pricingcrad-back {
-                    position: absolute;
-                    left: 15px;
-                    top: 15px;
-                    height: 30px;
-                    width: 30px;
-                    border-radius: 15px;
-                    color: #ccc;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    transition: 0.2s;
+                border-radius: 6px;
+                .card-header {
+                    margin-left: -32px;
+                    padding: 0px 15px;
+                    color: #fff;
+                    width: 70%;
+                    height: 50px;
+                    line-height: 50px;
+                    border-left: 1px solid rgba(33, 33, 33, .35);
+                    box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.54);
+                }
+                .card-content {
+                    margin-top: 50px;
+                }
+                .card-footer {
+                    margin-top: 60px;
+                    .btn {
+                        width: 60%;
+                        border-radius: 50vh;
+                        padding: 8px 0px;
+                        border: 1px solid rgba(0, 0, 0, 0.17);
+                        color: #fff;
+                        text-shadow: 0 1px 0 #ccc;
+                    }
+                }
+                &.plan-card-orange {
+                    .card-header {
+                        background-color: #eb6130;
+                    }
+                    .card-footer {
+                        .btn {
+                            background: linear-gradient(to bottom, #eb6130, #FF9800)
+                        }
+                    }
+                    .card-back {
+                        .back-header {
+                            background-color: #eb6130;
+                        }
+                    }
+                }
+                &.plan-card-green {
+                    .card-header {
+                        background-color: #99CC66;
+                    }
+                    .card-footer {
+                        .btn {
+                            background: linear-gradient(to bottom, #8BC34A, #CDDC39)
+                        }
+                    }
+                }
+                &.plan-card-blue {
+                    .card-header {
+                        background-color: #2196F3;
+                    }
+                    .card-footer {
+                        .btn {
+                            background: linear-gradient(to bottom, #2196F3, #3abcf7)
+                        }
+                    }
+                }
+
+                .card-body {
+                    top: 0;
+                    left: 0;
+                    border-radius: 6px;
+                } // 卡片正面
+                .card-front {
+                    padding: 45px 30px 0;
                     cursor: pointer;
+                    height: 100%;
+                    &:hover {
+                        box-shadow: 0px 0px 5px 2px rgba(255, 87, 34, 0.35);
+                    }
+                } // 卡片背面
+                .card-back {
+                    width: 100%;
+                    height: 100%;
+                    padding-top: 0px;
+                    background: #fff;
+                    position: absolute;
+                    z-index: -1;
+                    transform: rotateY(180deg);
+                    display: none;
+                    .back-header {
+                        height: 50px;
+                        line-height: 50px;
+                        color: #fff;
+                        width: calc(100% + 4px);
+                        border-left: 1px solid rgba(33, 33, 33, 0.35);
+                        box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.54);
+                        margin-left: -2px;
+                        margin-right: -2px;
+                        position: relative;
+                        .back-button {
+                            position: absolute;
+                            top: 14px;
+                            left: 14px;
+                            cursor: pointer;
+                            transition: 0.2s;
+                            height: 24px;
+                            width: 24px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 12px;
+                            &:hover {
+                                transform: scale(1.1);
+                                border: 1px solid #fff;
+                            }
+                        }
+                    }
+                    .price-list-wrapper {
+                        display: flex;
+                        flex-direction: column;
+                        height: calc(100% - 50px);
+                        padding: 15px;
+                        .price-list {
+                            flex: 1;
+                            display: inline-block;
+                            width: 100%;
+                            padding: 6px 15px;
+                            margin: 6px 0;
+                            border: 1px solid #ccc;
+                            overflow: hidden;
+                            border-radius: 4px;
+                            border-left: 4px solid #ccc;
+                            transition: box-shadow 0.20s;
+                            .price-list-text {
+                                display: none;
+                                margin-top: 10px;
+                            }
+                            &:hover {
+                                border-color: #eb6130;
+                                box-shadow: 0px 0px 5px 2px rgba(255, 87, 34, 0.18);
+                                .price-list-text {
+                                    color: #333;
+                                    display: inline-block;
+                                }
+                            }
+                        }
+                    }
                 }
-                .pricingcrad-back:hover {
-                    transform: scale(1.2);
-                    color: #eb6130;
-                    border: 1px solid #ccc;
+                &.transform-turn {
+                    transform: rotateY(180deg);
+                    .card-front {
+
+                        position: absolute;
+                        z-index: -1;
+                        display: none;
+                    }
+                    .card-back {
+                        position: relative;
+                        display: inline-block;
+                    }
                 }
-            }
-            .stand-card {
-                position: static;
-            }
-            .adscard-head {
-                background: #eb6130;
-                color: #fff;
-            }
-        }
-        .stand-card-div.transform-turn {
-            transform: rotateY(180deg);
-            .pricing-card {
-                position: static;
-            }
-            .stand-card {
-                position: absolute;
-                z-index: -2;
             }
         }
     }
