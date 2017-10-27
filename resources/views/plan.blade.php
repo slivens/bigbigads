@@ -590,7 +590,7 @@ window.uetq || []; window.uetq.push({'ec':'conversion', 'ea':'click_signup_stand
             <tr>
                 <td >
                     <h5>Location</h5>
-                    <select name="" id="info-location" class="form-control selectpicker" option = "locationOption"title="--Select--" data-size="10" data-live-search="true">
+                    <select name="" id="info-location" class="form-control selectpicker" option = "locationOption" title="--Select--" data-size="10" data-live-search="true">
                     </select>
                 </td>
                 <td>
