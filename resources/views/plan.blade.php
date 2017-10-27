@@ -59,9 +59,9 @@
                     </div>
                 </div>
                 <div class="card-back card-body ">
-                    <div class="back-header ads-font-22 ads-weight-200 text-center">
+                    <div class="back-header ads-font-22 ads-weight-200 text-center" turn-front="lite-card">
                         7-day money-back
-                        <span class="fa fa-angle-left back-button ads-font-18" turn-front="lite-card"></span>
+                        <span class="fa fa-chevron-circle-left back-button ads-font-24"></span>
                     </div>
                     <div class="price-list-wrapper">
                         <a class="price-list" href="/pay?name=Lite_monthly">
@@ -100,7 +100,7 @@
                         <div class="ads-font-24 ads-weight-200 card-text">Start from</div>
                         <div class="text-center card-money">
                             <span class="ads-font-16">$</span>
-                            <span class="ads-font-48 ads-weight-200">99</span>
+                            <span class="ads-font-48 ads-weight-200">65</span>
                             <span class="ads-font-14">.00 / month</span>
                         </div>
                     </div>
@@ -111,9 +111,9 @@
                     </div>
                 </div>
                 <div class="card-back card-body ">
-                    <div class="back-header ads-font-22 ads-weight-200 text-center">
+                    <div class="back-header ads-font-22 ads-weight-200 text-center" turn-front="standard-card">
                         7-day money-back
-                        <span class="fa fa-angle-left back-button ads-font-18" turn-front="standard-card" ></span>
+                        <span class="fa fa-chevron-circle-left back-button ads-font-24"></span>
                     </div>
                     <div class="price-list-wrapper">
                         <a class="price-list" href="/pay?name=standard_monthly">
@@ -125,19 +125,19 @@
                         <a class="price-list" href="/pay?name=standard_quarter_monthly">
                             <div class="ads-weight-200"> 
                                 <span class="ads-font-24 ads-weight-200">Quarterly</span>
-                                (<span class="ads-font-16">$69.00</span><span class="ads-font-12">/m</span>)
+                                (<span class="ads-font-16">$79.00</span><span class="ads-font-12">/m</span>)
                             </div>
                             <p class="ads-font-12 price-list-text">
-                                Billed as One payment of $207.00
+                                Billed as One payment of $237.00
                             </p>
                         </a>
                         <a class="price-list" href="/pay?name=standard">
                             <div class="ads-weight-200"> 
                                 <span class="ads-font-24 ads-weight-200">Annual</span>
-                                (<span class="ads-font-16">$49.00</span><span class="ads-font-12">/m</span>)
+                                (<span class="ads-font-16">$65.00</span><span class="ads-font-12">/m</span>)
                             </div>
                             <p class="ads-font-12 price-list-text">
-                                Billed as One payment of $588.00
+                                Billed as One payment of $780.00
                             </p>
                         </a>
                     </div>
