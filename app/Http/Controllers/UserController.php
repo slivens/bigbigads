@@ -41,9 +41,9 @@ class UserController extends Controller
         $user = Auth::user();
         /* return ['code'=>-1, 'desc' =>$user->email . ":" . $req->oldpwd]; */
         if (!Auth::attempt(['email' => $user->email, 'password' => $req->oldpwd]))
-            return ['code' => -1, 'desc' => 'password is wrong'];
+            return ['code' => -1, 'desc' => trans('auth.failed')];
         if ($req->newpwd != $req->repeatpwd) {
-            return ['code' => -1, 'desc' => 'new password and repeat password is not the same'];
+            return ['code' => -1, 'desc' => trans('auth.failed_repeat')];
         }
         $this->resetPassword($user, $req->newpwd);
         return ['code' => 0, 'desc' => 'success'];
