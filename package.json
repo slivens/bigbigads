@@ -1,9 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "develop": "gulp minify && webpack",
+    "develop": "rimraf public/dist/** && gulp minify && webpack",
     "watch": "gulp minify && webpack -w",
-    "product": "gulp minify && NODE_ENV=production webpack -p",
+    "product": "rimraf public/dist/** && gulp minify && NODE_ENV=production webpack -p",
     "lint": "eslint --ext .js,.vue resources/assets/js",
     "fixlint": "eslint --ext .js,.vue resources/assets/js --fix"
   },
@@ -69,6 +69,7 @@
     "layzr.js": "^2.2.2",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
+    "rimraf": "^2.6.2",
     "stripe": "^4.24.1",
     "sweet-modal-vue": "1.1.2",
     "swiper": "^3.4.2",
