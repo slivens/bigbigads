@@ -8,15 +8,17 @@
 *   4）用户信息征集提交
 * 依赖插件：axios、 bootstrap-select
 * 修改历史：
-* 2010.10.23： 添加用户信息征集
+* 2017.10.23： 添加用户信息征集
+* 2017.10.28： 将linkToUp剪切到common.js
 * 
 **************************************************************/
 import './../sass/plan.scss'
 import axios from 'axios'
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'
 import 'bootstrap-select'
+import {linkToUp} from './common' // 从common中导该方法
 
-// 定义加个数组
+// 定义价格数组
 var princeArr = {
     'lite': [{
         'id': 101,
@@ -64,22 +66,6 @@ function turnToPricing() {
 // 关闭价格页面
 function turnToStand() {
     $("#stand-card-div").removeClass("transform-rotatey")
-}
-
-// 页面内锚点连接上滑
-function linkToUp() {
-    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-        var $target = $(this.hash)
-        $target = ($target.length && $target) || $('[name=' + this.hash.slice(1) + ']')
-        if ($target.length) {
-            var targetOffset = $target.offset().top
-            $('html,body').animate({
-                scrollTop: targetOffset
-            },
-            300)
-            return false
-        }
-    }
 }
 
 // 当上滑到某种程度的时候，向下的图标隐藏
@@ -168,13 +154,14 @@ function openModal() {
     if (!countryData) {
         // 获取国家数据,并填充到select中，这里采用的是boorstrap-select插件
         let locationOption = ''
-        axios.get('../src/data/map-country.json').then(function(res) {
-            countryData = res.data
+        let countryJson = import('../data/world-country.json')
+        countryJson.then(function(res) {
+            countryData = res
             let item = 1
-            for (var key in countryData) {
-                locationOption += `<option locationid="${item}" value="${countryData[key].name}">${countryData[key].name}</option>`
+            countryData.forEach(function(items) {
+                locationOption += `<option locationid="${item}" value="${items[1]}">${items[1]}</option>`
                 item++
-            }
+            })
             $('[option = "locationOption"]').html(locationOption)
             $('[option = "locationOption"]').selectpicker('refresh')
         }).catch(function() {
@@ -229,7 +216,6 @@ function submitInfo() {
             'feedback': feedback,
             'level': level
         }
-        console.log(data)
         axios({
             method: 'post',
             url: "/record-feedback",
