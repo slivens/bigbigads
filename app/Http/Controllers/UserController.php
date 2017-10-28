@@ -79,9 +79,19 @@ class UserController extends Controller
                 $user->email,
                 'sh7oS9Q3bk0m-Vs3pEeUjCOMKGjoyjf1bVcTfCiY'
             );
-            $res['track'] = $user->affiliate->track;
-            $res['click'] = $user->affiliate->click;
-            $res['action'] = $user->affiliate->action;
+            // 可能存在affiliate不存在的情况
+            if ($user->affiliate) {
+                // 获取http或则是https
+                $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';  
+                $res['user']['track'] = $http_type.$_SERVER['HTTP_HOST']."?track=".$user->affiliate->track;
+                $res['user']['click'] = $user->affiliate->click;
+                $res['user']['action'] = $user->affiliate->action;
+            } else {
+                $res['user']['track'] = false;
+                $res['user']['click'] = 0;
+                $res['user']['action'] = 0;
+            }
+            
         } else {
             $user = AnonymousUser::user($req);
             $res['login'] = false;

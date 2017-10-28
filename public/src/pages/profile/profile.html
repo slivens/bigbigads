@@ -1,4 +1,4 @@
-<div>
+<div id="profile">
     <div class="portlet light bordered">
         <div class="portlet-body" cg-busy="userPromise"> 
             <div class="alert alert-danger" ng-if="!userInfo.login">
@@ -13,33 +13,61 @@
                 </uib-tab>
                 <uib-tab index="2" heading="Account Settings">
                     <div class="portlet">
-                    <div class="portlet-title">
-                        <h3> Account Settings <i class="icon-pencil"></i></h3>
-                    </div>
-                    <div class="porlet-body">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                Member Email
+                        <div class="profile-title">
+                            <h3> Account Settings <i class="icon-pencil"></i></h3>
+                        </div>
+                        <div class="porlet-body">
+                            <div class=" profile-row">
+                                <div class="row-left">
+                                    Member Email
+                                </div>
+                                <div class="roe-right">
+                                    {{user.email}}
+                                </div>
                             </div>
-                            <div class="col-xs-4">
-                                {{user.email}}
+                            <div class=" profile-row">
+                                <div class="row-left">Member Name</div>
+                                <div class="roe-right">{{user.name}}</div>
+                            </div>
+                            <div class=" profile-row">
+                                <div class="row-left">Member since</div>
+                                <div class="roe-right">{{user.created_at}}</div>
+                            </div>
+                            <div class=" profile-row">
+                                <div class="row-left">Password</div>
+                                <div class="roe-right">
+                                    <button class="btn btn-primary" ng-click="changePwd()">Change</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-3">Member Name</div>
-                            <div class="col-xs-4">{{user.name}}</div>
+
+                        <div class="profile-aff">
+                            
+                        
+                        <div class="profile-title">
+                            <h3>Affiliate <i class="fa fa-paper-plane-o"></i></h3>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-3">Member since</div>
-                            <div class="col-xs-4">{{user.created_at}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-3">Password</div>
-                            <div class="col-xs-4">
-                                <button class="btn btn-primary" ng-click="changePwd()">Change</button>
+                        <div class="porlet-body">
+                            <div class="profile-row">
+                                <div class="row-left">
+                                    Promotion Code
+                                </div>
+                                <div class="col-xs-7">
+                                    <!--自定义的复制到剪贴板指令，具体用法详见common.js:496-->
+                                    <copy-Dom value="{{user.track}}" button-text="Copy" success-text="Copied" ng-if="user.track"></copy-Dom>
+                                    <span class="text-danger" ng-if="!user.track">No Data</span>
+                                </div>
+                            </div>
+                            <div class=" profile-row">
+                                <div class="row-left">Click:</div>
+                                <div class="col-xs-7">{{user.click}}</div>
+                            </div>
+                            <div class=" profile-row">
+                                <div class="row-left">Register:</div>
+                                <div class="col-xs-7">{{user.action}}</div>
                             </div>
                         </div>
-                    </div>
+                        </div>
                     </div>
                 </uib-tab>
             </uib-tabset>
