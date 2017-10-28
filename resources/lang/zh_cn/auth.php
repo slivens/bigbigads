@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Invalid email / password combination.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'failed_repeat' => 'new password and repeat password is not the same'
+    'failed' => '无效的email或密码',
+    'throttle' => '访问次数太多，请过 :seconds 秒后再测试',
+    'failed_repeat' => '重复密码与密码不一致'
 ];

@@ -405,6 +405,7 @@ class PaymentService implements PaymentServiceContract
                 } else {
                     $payment->buyer_email = $t->getPayerEmail();
                 }
+                $this->log("======start of paypalStatus: $paypalStatus , payment->status: $payment->status ===========", PaymentService::LOG_INFO);
                 // 当状态变化时要更新订单
                 if ($paypalStatus != $payment->status) {
                     $this->log("status will change:{$payment->status} -> $paypalStatus", PaymentService::LOG_INFO);
@@ -412,7 +413,7 @@ class PaymentService implements PaymentServiceContract
                     $isDirty = true;
                     switch ($paypalStatus) {
                     case 'completed':
-                        if ($payment->refund && $payment->refund->isRefunding()) {
+                          if ($payment->refund && $payment->refund->isRefunding()) {
                             $payment->status = Payment::STATE_REFUNDING;
                             $this->log("the payment is refunding, change to `refunding` instead of `completed`", PaymentService::LOG_INFO);
                         } else {
@@ -425,17 +426,18 @@ class PaymentService implements PaymentServiceContract
                         $payment->status = $paypalStatus;
                     }
                     if ($payment->status == Payment::STATE_COMPLETED) {
-                        $this->log("handle payment...");
+                        $this->log("handle payment...", PaymentService::LOG_INFO);
                     }
                 }
 
                 if ($isDirty) {
                     $payment->save();
                     $this->handlePayment($payment);
-                    $this->log("payment {$payment->number} is synced");
+                    $this->log("payment {$payment->number} is synced", PaymentService::LOG_INFO);
                 } else {
                     $this->log("payment {$payment->number} has no change", PaymentService::LOG_INFO);
                 }
+                $this->log("=====end of paypalStatus: $paypalStatus , payment->status: $payment->status ===========", PaymentService::LOG_INFO);
 
                 // 补全退款申请单和根据退款状态处理用户状态
                 if ($payment->status == Payment::STATE_REFUNDED) {
@@ -492,12 +494,19 @@ class PaymentService implements PaymentServiceContract
     public function handleRefundedPayment(Payment $payment)
     {
         $user = $payment->subscription->user;
-        if ($payment->status != Payment::STATE_REFUNDED)
+        if ($payment->status != Payment::STATE_REFUNDED){
+            $this->log('=========payment->status != Payment::STATE_REFUNDED===========', PaymentService::LOG_INFO);
             return false;
-        if (!$payment->subscription->isActive())
+        }
+        //modify by chenxin 20171026 新增一个判断，退款后台点击接受按钮时，用户已经在paypal后台退订成功了，这时候订阅的状态是Cancelled，所以要加入判断。
+        if (!$payment->subscription->isActive()) {
+            $this->log('=========!$payment->subscription->isActive()===========', PaymentService::LOG_INFO);
             return false;
-        if ($payment->subscription->hasEffectivePayment())
+            }
+        if ($payment->subscription->hasEffectivePayment()){
+            $this->log('=========$payment->subscription->hasEffectivePayment()===========', PaymentService::LOG_INFO);
             return false;
+        }
         $this->log("reset user {$user->email} to Free because of refund:{$payment->number}", PaymentService::LOG_INFO);
         $this->cancel($payment->subscription);
         $user->fixInfoByPayments();
@@ -527,6 +536,7 @@ class PaymentService implements PaymentServiceContract
 
         // 切换用户计划
         $subscription->user->fixInfoByPayments();
+        $this->log("handle user {$subscription->user->email} payments,fixInfoByPayments() exec finish", PaymentService::LOG_INFO);
     }
 
 
@@ -676,7 +686,7 @@ class PaymentService implements PaymentServiceContract
         $amount = $refund->amount;
         $payment = $refund->payment;
         // TODO:stripe情况
-        $this->log("handle refunding {$payment->number}...");
+        $this->log("handle refunding {$payment->number}...", PaymentService::LOG_INFO);
         $paypalService = $this->getPaypalService();
         if ($payment->subscription->gateway == PaymentService::GATEWAY_PAYPAL) {
             // 退款成功后，应该同步该订单的状态，同时及时修正用户权限
