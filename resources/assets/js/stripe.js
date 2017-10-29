@@ -2,7 +2,7 @@ import Vue from 'vue'
 // import axios from 'axios'
 // import moment from 'moment'
 // import Stripe from 'stripe'
-import { Card, createToken } from 'vue-stripe-elements'
+import { Card, createToken } from 'vue-stripe-elements-plus'
 
 // Stripe.setPublishableKey(window.laravel.stripeKey)
 
