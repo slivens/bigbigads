@@ -9,6 +9,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen" /> 
     <link href="{{bba_version('home.css')}}" rel="stylesheet">
     <link href="{{bba_version('plan.css')}}" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('tpl.script')
 </head>
 <body id="plan">

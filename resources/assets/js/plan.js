@@ -218,7 +218,10 @@ function submitInfo() {
         }
         axios({
             method: 'post',
-            url: "/record-feedback",
+            url: "/feedback/plan",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             data: data
         }).then(function(res) {
             // 信息提交成功
