@@ -161,7 +161,7 @@ export default angular.module('owner-analysis', ['MetronicApp', 'highcharts-ng']
                         for (key in audienceArr.addr) {
                             var countryShortName = audienceArr.addr[key].country.toUpperCase() // 转换成大写
                             audienceArr.addr[key].country = countryShortName
-                            audienceArr.addr[key].name = vm.countries[countryShortName] ? vm.countries[countryShortName].name : countryShortName // 添加全称 
+                            audienceArr.addr[key].name = vm.countries[countryShortName] ? vm.countries[countryShortName].name : countryShortName // 添加全称
                         }
                         $scope.card.addrMapCharts = Util.mapChartsConfig(audienceArr.addr, addrCount, 'Top countries by impression')
                         // 对国家分布数据进行排序
@@ -270,9 +270,9 @@ export default angular.module('owner-analysis', ['MetronicApp', 'highcharts-ng']
                 $scope.card.adsNumPieCharts = Util.pieChartsConfig(newAdsPieArr, '0%', ['#2196F3', '#64B5F6', '#90CAF9', '#BBDEFB'], objPieLegend)
             } else $scope.card.adsNumPieCharts = false
 
-            /* 
+            /*
             * 广告类型占比
-            * 将数据组装成数组，然后进行排序  
+            * 将数据组装成数组,然后进行排序
             */
             var adsTypeArr = []
             adsTypeArr.push({'name': 'Images', 'value': $scope.card.info.image_ad_count || 0})

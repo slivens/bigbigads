@@ -70,6 +70,7 @@
                         <div ng-if="currSearchOption.filter.objective && currSearchOption.filter.objective.length">Objective: {{currSearchOption.filter.objective}}</div>
                         <div ng-if="currSearchOption.filter.isDurationDirty()">Duration Range:{{currSearchOption.filter.duration.from}}~{{currSearchOption.filter.duration.to}}</div>
                         <div ng-if="currSearchOption.filter.isSeeTimesDirty()">See Times Range:{{currSearchOption.filter.seeTimes.from}}~{{currSearchOption.filter.seeTimes.to}}</div>
+                        <div ng-if="currSearchOption.sort">Sort By: {{currSearchOption.sort | SortTypes}}</div>
                         <div ng-if="currSearchOption.filter.isEngagementsDirty()">Engagements Filters:
                             <div ng-if="currSearchOption.filter.engagements.likes.min || currSearchOption.filter.engagements.likes.max">Likes: {{currSearchOption.filter.engagements.likes.min}}~{{currSearchOption.filter.engagements.likes.max}}</div>
                             <div ng-if="currSearchOption.filter.engagements.shares.min || currSearchOption.filter.engagements.shares.max">Shares: {{currSearchOption.filter.engagements.shares.min}}~{{currSearchOption.filter.engagements.shares.max}}</div>

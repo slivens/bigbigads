@@ -23,7 +23,7 @@ export default (angular) => {
         // 搜索流程:location.search->searchOption->adSearcher.params
         // 将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
         function searchToQuery(option, searcher) {
-            $location.search(searcher.searchToQuery(option))
+            $location.search(searcher.searchToQuery(option, searcher.params.sort.field))
         }
         // 将query转化成搜索参数
         function queryToSearch(option, searcher) {
@@ -292,6 +292,10 @@ export default (angular) => {
                     max: endDate
                 })
             }
+
+            // sort by 体现在页面currSearchOption上
+            if (option.sort) $scope.currSearchOption.sort = option.sort
+
             $scope.isFreeLimitDate = false
             if (User.user.role.plan === 'free') {
                 if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0)) {
@@ -373,11 +377,11 @@ export default (angular) => {
             $scope.currSearchOption.range = range.join(',')
             $scope.filter($scope.filterOption, action)
             if (User.info.user.role.plan === 'free') {
-                if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 2) {
+                if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 2 || $scope.adSearcher.params.sort.field != 'view_count') {
                     $scope.currSearchOption.isdirty = true
                 }
             } else {
-                if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 1) {
+                if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 1 || $scope.adSearcher.params.sort.field != 'view_count') {
                     $scope.currSearchOption.isdirty = true
                 }
             }
@@ -520,20 +524,14 @@ export default (angular) => {
                 User.openSign()
                 return false
             }
-            var freeMin = '2016-01-01'
-            var freeMax = moment().subtract(3, 'month').format('YYYY-MM-DD')
+            // var freeMin = '2016-01-01'
+            // var freeMax = moment().subtract(3, 'month').format('YYYY-MM-DD')
             var checkBeforeSortResult
+            // var searchTotalTimes
             checkBeforeSortResult = $scope.checkBeforeSort()
             if (checkBeforeSortResult) {
-                if (User.info.user.role.name === 'Free') {
-                    $scope.adSearcher.addFilter({
-                        field: "time",
-                        min: freeMin,
-                        max: freeMax,
-                        role: "free"
-                    })
-                }
-                $scope.adSearcher.filter(action)
+                $scope.filterOption.sort = $scope.adSearcher.params.sort.field
+                $scope.search(action)
             }
         }
         $scope.upgrade = function() {
