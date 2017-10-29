@@ -529,6 +529,10 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                         poster.find("button").removeAttr("disabled")
                     }, 3000)
                 })
+                // 点击输入框的时候，会让其选中
+                poster.find("input").click(function() {
+                    $(this).select()
+                })
             }
         }
     })
