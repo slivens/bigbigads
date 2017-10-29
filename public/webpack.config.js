@@ -23,7 +23,8 @@ module.exports = {
             'angular-resource', 
             'angular-ui-bootstrap',
             'angular-sweetalert',
-            'moment'
+            'moment',
+            'i18n-js'
             ]
     },
     output: {
@@ -92,6 +93,11 @@ module.exports = {
 	// 		'jquery':'window.jQuery'
 	// 	},
     plugins:[
+         new webpack.DefinePlugin({
+            PRODUCTION: JSON.stringify(isProduction),
+            LOCALE: JSON.stringify('en'), // 当前Locale
+            DEFAULT_LOCALE: JSON.stringify('en') //默认Locale
+         }),
          new webpack.optimize.CommonsChunkPlugin({
             name:['vendor']
             }),
