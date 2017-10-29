@@ -14,7 +14,7 @@ class FeedbackController extends Controller
         $validator = Validator::make($request->all(), [
             'firstName'     => 'required|between:1,50',
             'lastName'      => 'required|between:1,50',
-            'email'         => 'required|email|max:255|unique:users',
+            'email'         => 'required|email|max:255',
             'company'       => 'required|max:200',
             'website'       => 'max:200',
             'page'          => 'max:200',
