@@ -29,7 +29,7 @@
         }
         .copy-dom-wrapper {
             input {
-                border: 0px;
+                border: 0;
                 border-bottom: 1px solid rgba(0, 0, 0, .15);
                 min-width: 300px;
                 max-width: 600px;
@@ -51,12 +51,6 @@
                     display: none;
                 }
             }
-        }
-    }
-    .profile-aff {
-        .copy-wrapper {
-
-            .copy-input {}
         }
     }
 }
