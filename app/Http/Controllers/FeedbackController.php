@@ -6,15 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\PlanFeedback;
 
-class PlanFeedbackController extends Controller
+class FeedbackController extends Controller
 {
-    public function store(Request $request)
+    public function plan(Request $request)
     {
         // plan 的反馈收集是在开放新的plan lite plus的用户调查，该功能估计只开放一个月时间，等plan开放就关闭该功能
         $validator = Validator::make($request->all(), [
             'firstName'     => 'required|between:1,50',
             'lastName'      => 'required|between:1,50',
-            'email'         => 'required|between:4,100',
+            'email'         => 'required|email|max:255|unique:users',
             'company'       => 'required|max:200',
             'website'       => 'max:200',
             'page'          => 'max:200',
