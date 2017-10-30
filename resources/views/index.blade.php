@@ -257,7 +257,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 
 
 <!--blog slider-->
-<section class="blog">
+<!-- <section class="blog">
     <div class="container ">
         <p class="blog-head-title text-center">From Our Blog </p>
         <div class="blog-slider clearfix ">
@@ -276,13 +276,12 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
                     </div>
                     @endforeach
                 </div>
-                <!-- Add Arrows -->
                 <div class="blog-slider-next blog-slider_btn"></div>
                 <div class="blog-slider-prev blog-slider_btn"></div>
             </div>
         </div>
     </div>
-</section>
+</section> -->
 @include('tpl.footer')
 <!-- Modal -->
 
