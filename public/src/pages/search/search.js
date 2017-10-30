@@ -34,6 +34,8 @@ export default angular => {
                 searcher.queryToSearch($location.search(), option)
             }
             var adSearcher = $scope.adSearcher = new Searcher()
+            // $scope.restrict用于标示用户今日内是否受限
+            $scope.isRestrict = false
             adSearcher.checkAndGetMore = function() {
                 if (!User.done) {
                     adSearcher.getMore('search')
@@ -52,7 +54,22 @@ export default angular => {
                     adSearcher.isend = true
                     return
                 }
-                adSearcher.getMore('search')
+                adSearcher.getMore('search').then(function() {}, function(res) {
+                    // 使下拉请求也支持sweetalert弹出后端错误
+                    if (res.data instanceof Object) {
+                        switch (res.data.code) {
+                        case -4100:
+                            $scope.isRestrict = true
+                            User.openSearchResultUpgrade()
+                            break
+                        default:
+                            break
+                        }
+                        $scope.islegal = false
+                    } else {
+                        SweetAlert.swal(res.statusText)
+                    }
+                })
             }
             // $scope.adSearcher.search($scope.adSearcher.defparams, true);
             $scope.reverseSort = function() {
@@ -660,6 +677,7 @@ export default angular => {
                 // 由于select2插件添加点击事件无效，未登录用户点击sort by弹出注册框采用后台返回错误的形式打开
                 if (checkBeforeSortResult) {
                     // rmz 调整为排序时带上用户所选的过滤项
+                    $scope.filterOption.sort = $scope.adSearcher.params.sort.field
                     $scope.search(action)
                     // $scope.adSearcher.filter(action).then(function() {}, function(res) {
                     //     if (res.data instanceof Object) {

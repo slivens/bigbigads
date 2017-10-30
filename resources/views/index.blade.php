@@ -152,7 +152,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
 </section>
 
 <!--blog slider-->
-<!-- <section class="blog hidden">
+<section class="blog hidden">
     <div class="container ">
         <p class="blog-head-title text-center">From Our Blog </p>
         <div class="blog-slider clearfix ">
@@ -176,7 +176,7 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
             </div>
         </div>
     </div>
-</section> -->
+</section>
 @include('tpl.footer')
 <!-- Modal -->
 

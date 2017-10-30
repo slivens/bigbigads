@@ -231,7 +231,6 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                     }
                     // console.log(res.data);
                 }, function(res) {
-                    console.log('res:::::::::', res)
                     vm.isend = true
                     defer.reject(res)
                     // console.log(res);
@@ -247,7 +246,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 if (vm.busy)
                     return
                 vm.params.limit[0] += settings.searchSetting.pageCount
-                vm.search(vm.params, false, action)
+                return vm.search(vm.params, false, action)
             }
             vm.filter = function(action) {
                 var promise

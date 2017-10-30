@@ -51,7 +51,21 @@ export default (angular) => {
                 adSearcher.isend = true
                 return
             }
-            adSearcher.getMore('adser')
+            adSearcher.getMore('adser').then(function() {}, function(res) {
+                if (res.data instanceof Object) {
+                    switch (res.data.code) {
+                    case -4100:
+                        $scope.isRestrict = true
+                        User.openSearchResultUpgrade()
+                        break
+                    default:
+                        break
+                    }
+                    $scope.islegal = false
+                } else {
+                    SweetAlert.swal(res.statusText)
+                }
+            })
         }
         // $scope.adSearcher.search($scope.adSearcher.defparams, true);
         $scope.reverseSort = function() {
@@ -319,9 +333,17 @@ export default (angular) => {
             $scope.currSearchOption.format = format.join(',')
             $scope.currSearchOption.callToAction = buttondesc.join(',')
             action = 'adser'
+            $scope.isRestrict = false
             $scope.adSearcher.filter(action || 'adser').then(function() {}, function(res) {
                 if (res.data instanceof Object) {
-                // SweetAlert.swal(res.data.desc);
+                    switch (res.data.code) {
+                    case -4100:
+                        $scope.isRestrict = true
+                        User.openSearchResultUpgrade()
+                        break
+                    default:
+                        break
+                    }
                 } else {
                     SweetAlert.swal(res.statusText)
                 }

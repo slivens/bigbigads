@@ -370,7 +370,7 @@ class SearchController extends Controller
      * 统计全部的空词请求    空词 + 任何条件过滤 + 下拉
      * 统计全部的非空词请求 非空词 + 任何条件过滤 + 下拉
      */
-    protected function checkIsBeyondAdSearchPerday($req, $user)
+    protected function updateAdSearchResource($req, $user)
     {
         if (count($req->keys) > 0 && $req->keys[0]['string']) {
             $searchKeyTotalPerday = $user->getUsage('search_key_total_perday');
@@ -387,9 +387,9 @@ class SearchController extends Controller
 
     /**
      * 新增需求：
-     * 统计特别广告主下的空词请求 任何条件过滤 + 下拉
+     * 统计特别广告主下的请求 任何条件过滤 + 下拉
      */
-    protected function checkIsBeyondSpecificAdserPerday($req, $user)
+    protected function updateSpecificAdserResource($req, $user)
     {
         $specificAdserTimesPerday = $user->getUsage('specific_adser_times_perday');
         if ($specificAdserTimesPerday[2] < intval($specificAdserTimesPerday[1])) {
@@ -400,7 +400,7 @@ class SearchController extends Controller
     /**
      * 轮询所有搜索资源使用情况，某一资源超过限制全部搜索资源该日禁用
      */
-    protected function checkIsRestrictAdSearch($req, $user, $jsonData)
+    protected function checkIsRestrictGetAdResource($req, $user, $jsonData)
     {
         $searchPolicyArray = [
             'specific_adser_times_perday'       => ActionLog::ACTION_SEARCH_RESTRICT_PERDAY_ADSER,
@@ -539,9 +539,9 @@ class SearchController extends Controller
                         //search 页面使用过滤,由于search mode后参数情况不一样，是添加在了keys里面，所以有两种情况
                         //1.keys长度不为0，但是string为0，where长度大于等于0，说明是仅使用了search mode过滤或者包含search mode的组合过滤。
                         //2.keys长度为0，where长度不为0，说明是使用了除search mode以外的过滤。
-                        if (count($req->keys) > 0 && array_key_exists('string', $req->keys[0]) && !$req->keys[0]['string'] && count($req->where) >= 0 && ($lastParamsArray['sort'] != $req->sort && $req->sort != 'view_count')) {
+                        if (count($req->keys) > 0 && array_key_exists('string', $req->keys[0]) && !$req->keys[0]['string'] && count($req->where) >= 0 && $req->sort['field'] != 'view_count') {
                             $subAction = 'where';
-                        } else if (count($req->keys) === 0 && count($req->where) > 0 && ($lastParamsArray['sort'] != $req->sort && $req->sort != 'view_count')) {
+                        } else if (count($req->keys) === 0 && count($req->where) > 0 && $req->sort['field'] != 'view_count') {
                             $subAction = 'where';
                         }
                     }
@@ -554,7 +554,7 @@ class SearchController extends Controller
                     //需要另外判断免费用户，每次过滤都会带有ads_id和time
                     if ($user->hasRole('Free')) {
                         //特定adser 页面初始化
-                        if (count($req->keys) === 0 && count($req->where) === 2 && $req->limit['0'] === 0) {
+                        if (count($req->keys) === 0 && count($req->where) === 2 && $req->limit['0'] === 0 && $req->sort['field'] == 'view_count') {
                             $subAction = 'init';
                         }
                         if ($req->limit['0'] != 0 && $req->limit['0'] != $lastParamsArray['limit']['0']) {
@@ -570,19 +570,18 @@ class SearchController extends Controller
                             }
                         }
                     } else {
-                        //特定adser 页面初始化
-                        if (count($req->keys) === 0 && count($req->where) === 1 && $req->limit['0'] === 0) {
+                        if (count($req->keys) === 0 && count($req->where) === 1 && $req->limit['0'] === 0 && $req->sort['field'] === 'view_count') {
                             $subAction = 'init';
                         }
-                        if ($req->limit['0'] != 0 && $req->limit['0'] != $lastParamsArray['limit']['0'] /*&& $req->where == $lastParamsArray['where']*/) {
+                        if ($req->limit['0'] != 0 && $req->limit['0'] != $lastParamsArray['limit']['0']) {
                             $subAction = 'scroll';
                         } else {
                             //特定adser 页面使用过滤,由于search mode后参数情况不一样，是添加在了keys里面，所以有两种情况
                             //1.keys长度不为0，但是string为0，where长度大于等于1，说明是使用了search mode组合的过滤。
                             //2.keys长度为0，where长度不为0，说明是使用了除search mode以外的过滤。
-                            if (count($req->keys) > 0 && array_key_exists('string', $req->keys[0]) && !$req->keys[0]['string'] && count($req->where) >= 1 /*&& $req->where != $lastParamsArray['where']*/) {                       
+                            if (count($req->keys) > 0 && array_key_exists('string', $req->keys[0]) && !$req->keys[0]['string'] && count($req->where) >= 1 || ($lastParamsArray['sort'] != $req->sort && $req->sort['field'] != 'view_count')) {
                                 $subAction = 'where';
-                            } else if (count($req->keys) === 0 && count($req->where) > 1) {
+                            } else if (count($req->keys) === 0 && count($req->where) > 1 || ($lastParamsArray['sort'] != $req->sort && $req->sort['field'] != 'view_count')) {
                                 $subAction = 'where';
                             }
                         }
@@ -701,13 +700,13 @@ class SearchController extends Controller
                 }else {
                     $searchResult = "total_count: " . $json['total_count'];
                 }
-                try {
-                    $this->checkIsBeyondAdSearchPerday($req, $user);
-                    $this->checkIsRestrictAdSearch($req, $user, $jsonData);
-                } catch(\Exception $e) {
-                    return $this->responseError($e->getMessage(),$e->getCode());
-                }
                 if (in_array($act["action"], ['search'])) {
+                    try {
+                        $this->updateAdSearchResource($req, $user);
+                        $this->checkIsRestrictGetAdResource($req, $user, $jsonData);
+                    } catch(\Exception $e) {
+                        return $this->responseError($e->getMessage(),$e->getCode());
+                    }
                     switch ($subAction) {
                         case 'init': {
                             //页面初始化，应该重置result_per_search 已使用的次数
@@ -765,8 +764,8 @@ class SearchController extends Controller
                 }
                 if (in_array($act["action"], ['adser'])) {
                     try {
-                        $this->checkIsBeyondSpecificAdserPerday($req, $user);
-                        $this->checkIsRestrictAdSearch($req, $user, $jsonData);
+                        $this->updateSpecificAdserResource($req, $user);
+                        $this->checkIsRestrictGetAdResource($req, $user, $jsonData);
                     } catch(\Exception $e) {
                         return $this->responseError($e->getMessage(),$e->getCode());
                     }
