@@ -16,7 +16,7 @@ import './../sass/plan.scss'
 import axios from 'axios'
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'
 import 'bootstrap-select'
-import {linkToUp} from './common' // 从common中导该方法
+import {linkToUp} from './dom-common' // 从common中导该方法
 
 // 定义价格数组
 var princeArr = {
