@@ -1,6 +1,7 @@
 import '../sass/login.scss'
 import 'jquery-validation'
 import 'jquery-validation/dist/additional-methods'
+import tr from '../lib/intl'
 
 var Login = (function() {
     var handleLogin = function() {
@@ -9,7 +10,7 @@ var Login = (function() {
             errorClass: 'help-block', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             rules: {
-                username: {
+                email: {
                     required: true
                 },
                 password: {
@@ -21,11 +22,12 @@ var Login = (function() {
             },
 
             messages: {
-                username: {
-                    required: "Username is required."
+                email: {
+                    required: tr('auth.validation.email_required'),
+                    email: tr("validation.email")
                 },
                 password: {
-                    required: "Password is required."
+                    required: tr('auth.validation.password_required')
                 }
             },
 
