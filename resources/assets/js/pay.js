@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './../sass/demo.scss'
 import './../sass/pay.scss'
 import 'font-awesome/css/font-awesome.min.css'
-import { Card, createToken } from 'vue-stripe-elements'
+import { Card, createToken } from 'vue-stripe-elements-plus'
 
 // Vue.component('coupon', require('./components/Coupon.vue'))
 
