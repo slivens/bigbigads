@@ -1,11 +1,15 @@
 import './../sass/plan.scss'
 
 (function() {
-    function turnToPricing() {
-        $("#stand-card-div").addClass("transform-rotatey")
+    // 翻转到背面
+    function turnToBack() {
+        var cardName = $(this).attr("turn-back") // 获取要翻转卡片的名称
+        $('[card-name=' + cardName + ']').addClass("transform-turn")
     }
-    function turnToStand() {
-        $("#stand-card-div").removeClass("transform-rotatey")
+    // 翻转到正面
+    function turnToFront() {
+        var cardName = $(this).attr("turn-front")
+        $('[card-name=' + cardName + ']').removeClass("transform-turn")
     }
     /* 页面内锚点连接上滑 */
     function linkToUp() {
@@ -35,8 +39,8 @@ import './../sass/plan.scss'
             $("#click-to-down").removeClass("hidden")
         }
     }
-    $("#stand-card .adscard-btn").on("click", turnToPricing)
-    $("#pricingcard-back").on("click", turnToStand)
+    $("[turn-back]").on("click", turnToBack)
+    $("[turn-front]").on("click", turnToFront)
     $("#app-to-top .btn").on("click", linkToUp)
     $("#click-to-down").on("click", linkToUp)
     hideTheDownIcon()

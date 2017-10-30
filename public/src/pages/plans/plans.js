@@ -27,13 +27,6 @@ export default angular.module('plans', ['MetronicApp']).controller('PlansControl
 
         return true
     }
-    $scope.showPlanItem = function() {
-        $scope.isTurn = true
-    }
-    $scope.hiddenPlanItem = function() {
-        $scope.isTurn = false
-    }
-
     plans.goPlanID = function(item) {
         var id
         if (!item.plans)
