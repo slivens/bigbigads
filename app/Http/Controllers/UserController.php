@@ -43,14 +43,8 @@ class UserController extends Controller
         );
         $user = Auth::user();
         /* return ['code'=>-1, 'desc' =>$user->email . ":" . $req->oldpwd]; */
-<<<<<<< HEAD
-        if (!Auth::attempt(['email' => $user->email, 'password' => $req->oldpwd])) {
-            return ['code' => -1, 'desc' => 'password is wrong'];
-        }
-=======
         if (!Auth::attempt(['email' => $user->email, 'password' => $req->oldpwd]))
             return ['code' => -1, 'desc' => trans('auth.failed')];
->>>>>>> origin/develop
         if ($req->newpwd != $req->repeatpwd) {
             return ['code' => -1, 'desc' => trans('auth.failed_repeat')];
         }
@@ -84,9 +78,17 @@ class UserController extends Controller
                 $user->email,
                 'sh7oS9Q3bk0m-Vs3pEeUjCOMKGjoyjf1bVcTfCiY'
             );
-            $res['track'] = $user->affiliate->track;
-            $res['click'] = $user->affiliate->click;
-            $res['action'] = $user->affiliate->action;
+            // 可能存在affiliate不存在的情况
+            if ($user->affiliate) {
+                $res['user']['affiliateUrl'] = env('APP_URL') . '?track=' . $user->affiliate->track;
+                $res['user']['click'] = $user->affiliate->click;
+                $res['user']['action'] = $user->affiliate->action;
+            } else {
+                $res['user']['affiliateUrl'] = false;
+                $res['user']['click'] = 0;
+                $res['user']['action'] = 0;
+            }
+            
         } else {
             $user = AnonymousUser::user($req);
             $res['login'] = false;

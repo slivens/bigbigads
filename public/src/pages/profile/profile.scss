@@ -1,0 +1,56 @@
+// 淡进淡出动画
+@keyframes fadeinout {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    85% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+#profile {
+    .profile-title {
+        border-bottom: 1px solid #eee;
+        margin-bottom: 15px;
+    }
+    .profile-row {
+        margin-top: 8px;
+        line-height: 34px;
+        display: flex;
+        .row-left {
+            width: 200px;
+            margin-left: 15px;
+        }
+        .copy-dom-wrapper {
+            input {
+                border: 0;
+                border-bottom: 1px solid rgba(0, 0, 0, .15);
+                min-width: 300px;
+                max-width: 600px;
+                margin-right: 20px;
+                padding-left: 15px;
+                background: #fff;
+                color: #333;
+            }
+            span {
+                font-size: 14px;
+                color: #555;
+                margin-left: 8px;
+                vertical-align: text-bottom;
+                line-height: 0;
+                &.show-text {
+                    animation: fadeinout 3.1s linear 1;
+                }
+                &.hiden-text {
+                    display: none;
+                }
+            }
+        }
+    }
+}
