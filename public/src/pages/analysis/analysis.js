@@ -210,7 +210,7 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
                     for (key in $scope.card.whyseeads.addr) {
                         var countryShortName = $scope.card.whyseeads.addr[key].country.toUpperCase() // 转换成大写
                         $scope.card.whyseeads.addr[key].country = countryShortName
-                        $scope.card.whyseeads.addr[key].name = vm.countries[countryShortName] ? vm.countries[countryShortName].name : countryShortName // 添加全称 
+                        $scope.card.whyseeads.addr[key].name = vm.countries[countryShortName] ? vm.countries[countryShortName].name : countryShortName // 添加全称
                     }
 
                     // 排序处理

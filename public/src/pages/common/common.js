@@ -948,7 +948,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                 var searchFields = ''
                 var SearchModeLimitState = {}
                 var currIlleageOption = {}
-                // console.log('isSearchModeLimit') 
+                // console.log('isSearchModeLimit')
                 if ((searchOption.hasOwnProperty('rangeselected')) && (searchOption.rangeselected.length === 0)) {
                     isLimit = false
                 } else if (searchOption.hasOwnProperty('rangeselected')) {

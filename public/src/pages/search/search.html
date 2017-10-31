@@ -70,6 +70,7 @@
                         <div ng-if="currSearchOption.filter.objective && currSearchOption.filter.objective.length">Objective: {{currSearchOption.filter.objective}}</div>
                         <div ng-if="currSearchOption.filter.isDurationDirty()">Duration Range:{{currSearchOption.filter.duration.from}}~{{currSearchOption.filter.duration.to}}</div>
                         <div ng-if="currSearchOption.filter.isSeeTimesDirty()">See Times Range:{{currSearchOption.filter.seeTimes.from}}~{{currSearchOption.filter.seeTimes.to}}</div>
+                        <div ng-if="currSearchOption.sort">Sort By: {{currSearchOption.sort | SortTypes}}</div>
                         <div ng-if="currSearchOption.filter.isEngagementsDirty()">Engagements Filters:
                             <div ng-if="currSearchOption.filter.engagements.likes.min || currSearchOption.filter.engagements.likes.max">Likes: {{currSearchOption.filter.engagements.likes.min}}~{{currSearchOption.filter.engagements.likes.max}}</div>
                             <div ng-if="currSearchOption.filter.engagements.shares.min || currSearchOption.filter.engagements.shares.max">Shares: {{currSearchOption.filter.engagements.shares.min}}~{{currSearchOption.filter.engagements.shares.max}}</div>
@@ -123,7 +124,7 @@
                     <span class="sr-only">Loading...</span>
                 </div>
                 <div ng-if="!User.login && !adSearcher.isNoResult && adSearcher.isend" ng-include="'search-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>
-                <div ng-if="User.login && !adSearcher.isNoResult && adSearcher.isend" ng-include="'search-results-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>
+                <div ng-if="User.login && !adSearcher.isNoResult && adSearcher.isend && !isRestrict" ng-include="'search-results-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>
                 <div ng-if="adSearcher.isNoResult" class="text-center col-md-12">
                     <hr style="border-top:1px solid #dbdee6">
                     <div>

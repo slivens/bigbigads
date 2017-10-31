@@ -42,6 +42,7 @@
                     <div ng-if="currSearchOption.filter.objective && currSearchOption.filter.objective.length">Objective: {{currSearchOption.filter.objective}}</div>
                     <div ng-if="currSearchOption.filter.isDurationDirty()">Duration Range:{{currSearchOption.filter.duration.from}}~{{currSearchOption.filter.duration.to}}</div>
                     <div ng-if="currSearchOption.filter.isSeeTimesDirty()">See Times Range:{{currSearchOption.filter.seeTimes.from}}~{{currSearchOption.filter.seeTimes.to}}</div>
+                    <div ng-if="currSearchOption.sort">Sort By: {{currSearchOption.sort | SortTypes}}</div>
                     <div ng-if="currSearchOption.filter.isEngagementsDirty()">Engagements Filters:
                         <div ng-if="currSearchOption.filter.engagements.likes.min || currSearchOption.filter.engagements.likes.max">Likes: {{currSearchOption.filter.engagements.likes.min}}~{{currSearchOption.filter.engagements.likes.max}}</div>
                         <div ng-if="currSearchOption.filter.engagements.shares.min || currSearchOption.filter.engagements.shares.max">Shares: {{currSearchOption.filter.engagements.shares.min}}~{{currSearchOption.filter.engagements.shares.max}}</div>
@@ -76,6 +77,7 @@
                 <span ng-if="!adSearcher.ads.all_total_count && adSearcher.ads.total_count != 0">Found <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> Matching Ads </span>
 
                 <span ng-if="adSearcher.ads.all_total_count">Found <span class="font-yellow-gold">{{adSearcher.ads.all_total_count | adsCount}} </span> Matching Ads/You can see <span class="font-yellow-gold">{{adSearcher.ads.total_count | adsCount}}</span> results <a class="font-yellow-gold xg-upgrade-button" ng-click="upgrade()"> Upgrade Now</a></span>
+                <span ng-if="adSearcher.ads.total_count == 0">Your search did not match any results.</span>
             </div>
         </div>
         <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
@@ -89,7 +91,7 @@
 			</div>
 
             <div ng-if="!User.login && !adSearcher.isNoResult && adSearcher.isend" ng-include="'adser-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>
-            <div ng-if="User.login && !adSearcher.isNoResult && adSearcher.isend" ng-include="'adser-results-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>  
+            <div ng-if="User.login && !adSearcher.isNoResult && adSearcher.isend && !isRestrict" ng-include="'adser-results-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>  
             <div ng-if="adSearcher.isNoResult" class="text-center col-md-12" >
 
                 <hr style="border-top:1px solid #dbdee6">
