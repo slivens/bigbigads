@@ -375,12 +375,12 @@ class SearchController extends Controller
         if (count($req->keys) > 0 && $req->keys[0]['string']) {
             $searchKeyTotalPerday = $user->getUsage('search_key_total_perday');
             if ($searchKeyTotalPerday[2] < intval($searchKeyTotalPerday[1])) {
-                $user->updateUsage('search_key_total_perday', $searchKeyTotalPerday[2] + 1, Carbon::now());
+                $this->checkAndUpdateUsagePerday($user, 'search_key_total_perday');
             }
         } else {
             $searchWithoutKeyTotalPerday = $user->getUsage('search_without_key_total_perday');
             if ($searchWithoutKeyTotalPerday[2] < intval( $searchWithoutKeyTotalPerday[1])) {
-                $user->updateUsage('search_without_key_total_perday', $searchWithoutKeyTotalPerday[2] + 1, Carbon::now());
+                $this->checkAndUpdateUsagePerday($user, 'search_without_key_total_perday');
             }
         }
     }
@@ -389,11 +389,11 @@ class SearchController extends Controller
      * 新增需求：
      * 统计特别广告主下的请求 任何条件过滤 + 下拉
      */
-    protected function updateSpecificAdserResource($req, $user)
+    protected function updateSpecificAdserResource($user)
     {
         $specificAdserTimesPerday = $user->getUsage('specific_adser_times_perday');
         if ($specificAdserTimesPerday[2] < intval($specificAdserTimesPerday[1])) {
-            $user->updateUsage('specific_adser_times_perday', $specificAdserTimesPerday[2] + 1, Carbon::now());
+            $this->checkAndUpdateUsagePerday($user, 'specific_adser_times_perday');
         }
     }
 
@@ -764,7 +764,7 @@ class SearchController extends Controller
                 }
                 if (in_array($act["action"], ['adser'])) {
                     try {
-                        $this->updateSpecificAdserResource($req, $user);
+                        $this->updateSpecificAdserResource($user);
                         $this->checkIsRestrictGetAdResource($req, $user, $jsonData);
                     } catch(\Exception $e) {
                         return $this->responseError($e->getMessage(),$e->getCode());
