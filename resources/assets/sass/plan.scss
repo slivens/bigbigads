@@ -1,40 +1,40 @@
 #plan {
     background: #fff;
-    .plan-right{
+    .plan-right {
         display: block;
         margin: 0 auto;
         height: 20px;
         width: 20px;
         background: url(./images/svg/right_01.svg) no-repeat center center;
     }
-    .plan-error{
+    .plan-error {
         display: block;
         margin: 0 auto;
         height: 20px;
         width: 20px;
         background: url(./images/svg/error_01.svg) no-repeat center center;
     }
-    .plan-beta{
+    .plan-beta {
         padding: 0px 6px;
         border-radius: 8px;
         margin-left: 5px;
         background: #28b873;
         font-size: 12px;
         font-weight: 200;
-        color:#fff;
+        color: #fff;
     }
-    .plan-header{
+    .plan-header {
         background: #F4F7F9;
         padding: 50px 0;
-        .header-title{
+        .header-title {
             color: #1D96F3;
         }
-        .header-suptitle{
+        .header-suptitle {
             color: #98A7B4;
             margin-top: 30px;
         }
     }
-    .plan-small{
+    .plan-small {
         color: #1D96F3;
         font-size: 12px;
         font-weight: 200;
@@ -220,11 +220,11 @@
         .adscard-free {
             margin-bottom: 30px;
             .adscard-head {
-                background:#1D96F3;
+                background: #1D96F3;
                 color: #fff;
             }
             .adscard-btn {
-                background:#1D96F3;
+                background: #1D96F3;
             }
         }
         .adscard-stand {
@@ -299,12 +299,12 @@
             }
         }
     }
-    .click-to-down{
+    .click-to-down {
         width: 50px;
         height: 0px;
         position: fixed;
         z-index: 99;
-        bottom:50px;
+        bottom: 50px;
         left: 50%;
         margin-left: -25px;
         min-height: 50px;
@@ -312,7 +312,7 @@
         margin-bottom: 20px;
         display: flex;
         justify-content: center;
-        .down-icon{
+        .down-icon {
             width: 30px;
             height: 30px;
             border: 3px solid transparent;
@@ -322,8 +322,7 @@
             opacity: .8;
             -webkit-transform: rotate(45deg);
             -webkit-animation: down-icon 1.0s infinite ease-in-out;
-        }
-        // 动画
+        } // 动画
         @keyframes down-icon {
             0% {
                 opacity: 0;
@@ -346,45 +345,43 @@
                 transform: translate(0, 16px) rotate(45deg)
             }
         }
-
     }
-    .plan-table{
+    .plan-table {
         margin-bottom: 50px;
-        .table{
-            ul{
+        .table {
+            ul {
                 padding: 0;
                 margin: 0;
             }
-            
-            td{
+
+            td {
                 vertical-align: middle;
                 text-align: center;
                 color: #565E66;
             }
-            thead{
-                td{
+            thead {
+                td {
                     vertical-align: top;
-                    p{
+                    p {
                         margin-bottom: 0;
                     }
                 }
-                td:first-child{
-                    color:#98A7B4;
+                td:first-child {
+                    color: #98A7B4;
                     text-align: left;
                     font-weight: 400;
                     vertical-align: middle;
                 }
-
             }
-            tbody{
-                td{
+            tbody {
+                td {
                     font-weight: 200;
                     vertical-align: middle;
                     text-align: center;
                     color: #1D96F3;
                 }
-                tr{
-                    td:first-child{
+                tr {
+                    td:first-child {
                         text-align: left;
                         color: #565E66;
                         font-size: 16px;
@@ -392,28 +389,90 @@
                     }
                 }
             }
-            tfoot{
-                td{
-                    padding-top:15px;
-                    padding-bottom: 15px; 
+            tfoot {
+                td {
+                    padding-top: 15px;
+                    padding-bottom: 15px;
                     vertical-align: top;
-                    border:none;
-                    .btn{
+                    border: none;
+                    .btn {
                         margin-top: 20px;
                     }
                 }
-                td:first-child{
-                    color:#98A7B4;
+                td:first-child {
+                    color: #98A7B4;
                     text-align: left;
                     font-weight: 400;
                     padding: 0;
                 }
-                
             }
         }
     }
 }
 
+#info-modal {
+    .modal-content {
+        table {
+            td {
+                width: 50%;
+            }
+        }
+    }
+    .modal-body {
+        background: #fff;
+    }
+    .modal-header {
+        background-image: linear-gradient(to top, #1D96F3 0%, #4267b2 100%);
+        color: #fff;
+    }
+    .form-input-wrapper {
+        position: relative;
+        .ads-control-label {
+            position: absolute;
+            right: 10px;
+            top: 0px;
+            display: none;
+        }
+        &.has-error {
+            .ads-control-label {
+                display: inline-block;
+            }
+        }
+    }
+}
+
+#result-modal {
+    .modal-content {
+        overflow: hidden;
+    }
+    .modal-header {
+        background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+        .result-fa {
+            margin-right: 8px;
+        }
+        .modal-title {
+            color: #fff;
+            display: flex;
+            align-items: center
+        }
+    }
+    &.result-success {
+        .result-fa {
+            color: #9c6;
+            &.error-fa {
+                display: none;
+            }
+        }
+    }
+    &.result-error {
+        .result-fa {
+            color: #c33;
+            &.success-fa {
+                display: none;
+            }
+        }
+    }
+}
 
 @media screen and (max-width: 768px) {
     #plan {
@@ -484,6 +543,7 @@
         }
     }
 }
+
 
 
 /*
