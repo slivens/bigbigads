@@ -15,6 +15,7 @@
 import './../sass/plan.scss'
 import axios from 'axios'
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'
+import 'font-awesome/css/font-awesome.min.css'
 import 'bootstrap-select'
 import {linkToUp} from './dom-common' // 从common中导该方法
 

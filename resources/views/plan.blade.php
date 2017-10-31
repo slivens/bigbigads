@@ -41,8 +41,8 @@
                 </a>
             </div>
             <!--lite-->
-            <div class="plan-card plan-card-orange" card-name="lite-card">
-                <div class="card-front card-body" turn-back="lite-card">
+            <div class="plan-card-orange plan-card" card-name="lite-card">
+                <div class="card-body card-front" turn-back="lite-card">
                     <div class="card-header ads-font-30 ads-weight-200">Lite <span class="ads-font-12">(BATA)</span></div>
                     <div class="card-content">
                         <div class="ads-font-24 ads-weight-200 card-text">Start from</div>
@@ -58,7 +58,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="card-back card-body">
+                <div class="card-body card-back">
                     <div class="back-header ads-font-22 ads-weight-200 text-center" turn-front="lite-card">
                         7-day money-back
                         <span class="fa fa-chevron-circle-left back-button ads-font-24"></span>
@@ -144,7 +144,7 @@
             </div>
         </div>
     </section>
-    
+
     <div class="click-to-down hidden-xs hidden-sm">
         <a href="#plan-table" id="click-to-down">
             <div class="down-icon"></div>
@@ -616,7 +616,12 @@
         </div><!-- /.modal -->
     </section>
 
-@include('tpl.footer')
+<div class="mobile-hidden">
+    @include('tpl.footer')
+</div>
+<div class="mobile-show">
+    @include('tpl.mobile_footer')
+</div>
 </body>
 <script type="text/javascript" src="{{bba_version('vendor.js')}}" defer></script>
 <script type="text/javascript" src="{{bba_version('plan.js')}}" defer></script>
