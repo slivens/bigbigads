@@ -1,6 +1,7 @@
 import '../sass/login.scss'
 import 'jquery-validation'
 import 'jquery-validation/dist/additional-methods'
+import tr from '../lib/intl'
 
 var Login = (function() {
     var handleLogin = function() {
@@ -9,7 +10,7 @@ var Login = (function() {
             errorClass: 'help-block', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             rules: {
-                username: {
+                email: {
                     required: true
                 },
                 password: {
@@ -21,15 +22,16 @@ var Login = (function() {
             },
 
             messages: {
-                username: {
-                    required: "Username is required."
+                email: {
+                    required: tr('auth.validation.email_required'),
+                    email: tr("validation.email")
                 },
                 password: {
-                    required: "Password is required."
+                    required: tr('auth.validation.password_required')
                 }
             },
 
-            invalidHandler: function(event, validator) { // display error alert on form submit   
+            invalidHandler: function(event, validator) { // display error alert on form submit
                 $('.alert-danger', $('.login-form')).show()
             },
 
@@ -83,7 +85,7 @@ var Login = (function() {
                 }
             },
 
-            invalidHandler: function(event, validator) { // display error alert on form submit   
+            invalidHandler: function(event, validator) { // display error alert on form submit
 
             },
 
@@ -174,7 +176,7 @@ var Login = (function() {
                 }
             },
 
-            invalidHandler: function(event, validator) { // display error alert on form submit   
+            invalidHandler: function(event, validator) { // display error alert on form submit
 
             },
 
@@ -189,7 +191,7 @@ var Login = (function() {
             },
 
             errorPlacement: function(error, element) {
-                if (element.attr("name") == "tnc") { // insert checkbox errors after the container                  
+                if (element.attr("name") == "tnc") { // insert checkbox errors after the container
                     error.insertAfter($('#register_tnc_error'))
                 } else if (element.closest('.input-icon').length === 1) {
                     error.insertAfter(element.closest('.input-icon'))

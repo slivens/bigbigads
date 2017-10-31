@@ -13,16 +13,12 @@ import {template as upgradeDlgTemplate, controller as upgradeDlgController} from
 import {template as signTemplate, controller as signController} from './components/sign.js'
 import {template as searchResultUpgradeDlgTemplate, controller as searchResultUpgradeDlgController} from './components/search-result-upgrade-dlg.js'
 import {template as filterDataLimitDlgTemplate, controller as filterDataLimitDlgController} from './components/filter-data-limit-dlg.js'
+// import tr from './lib/intl.js'
 
 window.moment = require('moment')
+// 见 Issue #31 为了让babel的promise垫片可以工作，否则在IE下会提示Promise not defined错误
 window.Promise = Promise
-// function checkAdblock() {
-//     if (typeof checkAdblockValue === 'undefined') {
-//         swal({title: "Warning", text: "If you're not seeing any ads, it's possible you're running an Ad Blocking plugin on your browser. To view our ads, you'll need to disable it while you're here... ;-)", type: "warning"})
-//     } else {
-//         //          console.log('adblock is disabled');
-//     }
-// }
+
 import('./lib/fuckadblock.js' /* webpackChunkName:"fuckadblock" */).catch(() => {
     swal({title: "Warning", text: "If you're not seeing any ads, it's possible you're running an Ad Blocking plugin on your browser. To view our ads, you'll need to disable it while you're here... ;-)", type: "warning"})
 })
@@ -189,6 +185,18 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {
             return showString
         }
     })
+    .filter('SortTypes', ['settings', function(settings) {
+        // Sort by 搜索项名称转换
+        return function(sortItem) {
+            if (!sortItem) return
+            angular.forEach(settings.searchSetting.orderBy, function(item) {
+                if (item.key === sortItem) {
+                    sortItem = item.value
+                }
+            })
+            return sortItem
+        }
+    }])
 MetronicApp.factory('loader', ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
     return (name) => {
         let d = $q.defer()
@@ -208,27 +216,6 @@ MetronicApp.factory('loader', ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
 
             return d.promise
     }
-}])
-MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', '$state', function($scope, $location, User, $state) {
-    var tabmenu = {
-        name: $location.path()
-    }
-    $scope.tabmenu = tabmenu
-    $scope.User = User
-    $scope.checkAccount = function() {
-        if ((User.info.user.role.name != 'Free') && (User.info.user.role.name != 'Standard')) return
-        User.openUpgrade()
-    }
-    $scope.goBookMark = function() {
-        if (!User.login) {
-            User.openSign()
-        } else {
-            $state.go("bookmark")
-        }
-    }
-    $scope.$on('$locationChangeSuccess', function() {
-        tabmenu.name = $location.path()
-    })
 }])
 
 /* Setup Rounting For All Pages */
@@ -527,10 +514,12 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
     }
     $rootScope.$state = $state // state to be accessed from view
     $rootScope.$settings = settings // state to be accessed from view
+    $rootScope.User = User
+    // $rootScope.tr = tr
     // 使用boot方法启动是另一套js
     var APP_ID = "pv0r2p1a"
     var w = window; var ic = w.Intercom; if (typeof ic === "function") { ic('reattach_activator'); ic('update', intercomSettings) } else {
-        /* eslint-disable no-inner-declarations */ 
+        /* eslint-disable no-inner-declarations */
         var d = document; var i = function() { i.c(arguments) }; i.q = []; i.c = function(args) { i.q.push(args) }; w.Intercom = i; function l() {
             var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true
             s.src = 'https://widget.intercom.io/widget/' + APP_ID
@@ -552,7 +541,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
                 app_id: "pv0r2p1a"
             })
         }
-        // intercom生成的代码 
+        // intercom生成的代码
         // var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function (){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pv0r2p1a';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}
     })
     setInterval(function() {
