@@ -253,3 +253,6 @@ Route::get('/faker', function(Request $request) {
 /* }); */
 Route::get('/record-continue', 'UserController@recordContinue');
 Route::post('/filter-record', 'UserController@filterLogRecord');
+
+// 以后会在新增新的反馈收集，就统一处理反馈的控制器及其具体的反馈收集项
+Route::post('/feedback/plan', 'FeedbackController@plan')->middleware('throttle:30,60');
