@@ -83,7 +83,7 @@ class RegisterController extends Controller
         //暂定注册流程 注册 -> 欢迎界面
 
         // 对属于BBA系统测试的邮箱，不发送邮件，只记录log
-        if (self::checkIsBBAEmail($user->email)) {
+        if ($this->checkIsBBAEmail($user->email)) {
             dispatch(new LogAction(ActionLog::ACTION_REGISTERED_BY_BIGBIGADSTEST, $user->email, "registered_by_bigbigadstest", $user->id, $request->ip()));
         } else {
             dispatch(new SendRegistMail($user));
