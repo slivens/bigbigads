@@ -15,13 +15,23 @@ class FreezeChecker
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, bool $after = false)
     {
+        if ($after) {
+            $response = $next($request);
+        }
         $user = Auth::user();
         if (($user instanceof User) && ($user->state  == User::STATE_FREEZED)) {
+            Auth::logout();
             // TODO:必须优化返回码，统一规定
-            return response(["code"=> -5000, "desc"=> trans('auth.freezed')], 422);
+            if ($request->wantsJson()) {
+                return response(["code"=> -5000, "desc"=> trans('auth.freezed')], 422);
+            } else {
+                return abort(500, trans('auth.freezed'));
+            }
         }
-        return $next($request);
+        if (!$after)
+            $response = $next($request);
+        return $response;
     }
 }

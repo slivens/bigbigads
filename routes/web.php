@@ -39,7 +39,7 @@ Route::get('/forget', function() {
 });
 
 Route::get('/socialite/{name}', 'UserController@socialiteRedirect');
-Route::get('/socialite/{name}/callback', 'UserController@socialiteCallback');
+Route::get('/socialite/{name}/callback', 'UserController@socialiteCallback')->middleware('auth.freeze:true');
 Route::get('/socialite/{name}/bind', 'UserController@bindForm');
 Route::post('/socialite/{name}/bind', 'UserController@bind')->name('socialiteBindPost');
 
