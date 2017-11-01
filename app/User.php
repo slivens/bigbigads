@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Cache;
 use TCG\Voyager\Models\Permission;
 use Carbon\Carbon;
 use App\Policy;
-use App\Affiliate;
 use App\Jobs\LogAction;
 use Psy\Exception\ErrorException;
 use Log;
@@ -67,7 +66,7 @@ class User extends Authenticatable
 
     public function affiliates()
     {
-        return $this->hasMany('App\Affiliate', 'email', 'email');
+        return $this->hasMany(Affiliate::class, 'email', 'email');
     }
 
     /**
