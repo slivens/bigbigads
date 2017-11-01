@@ -280,6 +280,7 @@ export default angular.module('owner-search', ['MetronicApp', 'daterangepicker',
                     relation: option.audience.exclude ? 'Not' : 'Must'
                 })
             }
+
             $scope.currSearchOption.range = range.join(',')
             $scope.filter($scope.filterOption)
             if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 0) {

@@ -252,7 +252,7 @@
                 </div>
 
                 <div class="form-actions button-div">
-                    <button type="submit" id="register-submit-btn" class="btn signup-btn margin-top-30"> Sign Up </button>
+                    <button type="submit" id="register-submit-btn" class="btn signup-btn margin-top-30" name="signup"> Sign Up </button>
                 </div>
 
                 <p class="text-center margin-top-15">By signing up, you agree to the

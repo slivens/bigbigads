@@ -71,7 +71,7 @@ angular.module('MetronicApp').factory('Bookmark', ['Resource', '$uibModal', 'Swe
             text: 'By clicking Yes you would delete the whole ' + item.name + ' folder',
             type: 'warning',
             showCancelButton: true,
-            // confirmButtonColor: '#DD6B55',   
+            // confirmButtonColor: '#DD6B55',
             confirmButtonText: 'Yes',
             cancelButtonText: 'Cancel',
             closeOnConfirm: true,
@@ -217,7 +217,7 @@ angular.module('MetronicApp').controller('BookmarkController', ['$scope', 'setti
             text: bookFolderText + cardText,
             type: 'warning',
             showCancelButton: true,
-            // confirmButtonColor: '#DD6B55',   
+            // confirmButtonColor: '#DD6B55',
             confirmButtonText: 'Yes',
             cancelButtonText: 'Cancel',
             closeOnConfirm: true,
@@ -275,7 +275,7 @@ angular.module('MetronicApp').controller('BookmarkController', ['$scope', 'setti
     })
 
     // setTimeout(function() {
-    //     QuickSidebar.init(); // init quick sidebar        
+    //     QuickSidebar.init(); // init quick sidebar
     // }, 200);
 }])
     .directive('bookmark', function() {

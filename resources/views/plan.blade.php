@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bigbigads Pricing | Largest Facebook Ad Examples</title>
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
-    <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
+    <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen" /> 
     <link href="{{bba_version('home.css')}}" rel="stylesheet">
     <link href="{{bba_version('plan.css')}}" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('tpl.script')
 </head>
 <body id="plan">
@@ -158,14 +159,14 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <td class="ads-font-12 ads-weidth-600 text-center">FEATURES</td>
-                        <td class="ads-font-24 ads-weidth-600 text-center">Free</td>
-                        <td class="ads-font-24 ads-weidth-600 text-center">
+                        <td class="ads-font-12 ads-weight-600 text-center">FEATURES</td>
+                        <td class="ads-font-24 ads-weight-600 text-center">Free</td>
+                        <td class="ads-font-24 ads-weight-600 text-center">
                             Lite
                             <p class="plan-small">Bata</p>
                         </td>
-                        <td class="ads-font-24 ads-weidth-600 text-center">Standard</td>
-                        <td class="ads-font-24 ads-weidth-600 text-center">
+                        <td class="ads-font-24 ads-weight-600 text-center">Standard</td>
+                        <td class="ads-font-24 ads-weight-600 text-center">
                             Plus</p>
                             <p class="plan-small">coming soon</p>
                         </td>
@@ -463,20 +464,20 @@
                     </tr>
                 </tbody>
                 <tfoot>
-                    <tr class="text-center" id="app-to-top">
+                    <tr class="text-center">
                         <td class="tfoot-item-titel">
                             
                         </td>
                         <td>
                             
-                            <a href="#plan" class="btn">Start Now</a>
+                            <a href="/register" class="btn">Start Now</a>
                         </td>
                         <td>
-                            <a href="#plan" class="btn">Start Now</a></td>
+                            <a open-modal="#info-modal" modal-data = "lite"  class="btn">Join Now</a></td>
                         <td>
-                            <a href="#plan" class="btn">Start Now</a></td>
+                            <a href="#plan" class="btn" id="app-to-top">Start Now</a></td>
                         <td>
-                            <a href="#plan" class="btn">Start Now</a></td>
+                            <a open-modal="#info-modal" modal-data = "plus" class="btn">Join Now</a></td>
                     </tr>
                 </tfoot>
             </table>
@@ -484,6 +485,139 @@
         </div>
     </div>
 </section>
+
+<!--motile-->
+<section>
+<div id="info-modal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p class="modal-title ads-font-22 ads-weight-600">Submit to Join Waiting list
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped">
+            <tr>
+                <td>
+                    <h5>First Name <sup class="text-danger">*</sup></h5>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="info-firstname" class="form-control" blur='ads-input-check' request="true" placeholder="First Name" request-maxlen=50>
+                        <label for="" class="control-label ads-control-label">request</label>
+                    </div>
+                    
+                </td>
+                <td>
+                    <h5>Last Name <sup class="text-danger">*</sup></h5>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="info-lastname" class="form-control" blur='ads-input-check' request="true" placeholder="Last Name" request-maxlen=50>
+                        <label for="" class="control-label ads-control-label">request</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Email <sup class="text-danger">*</sup></h5>
+                    <div class="form-input-wrapper">
+                        <input type="email" id="info-email" class="form-control" blur='ads-input-check' request="true" request-type="email" placeholder="Email" request-maxlen=100>
+                        <label for="" class="control-label ads-control-label">request</label>
+                    </div>
+                </td>
+                <td>
+                    <h5>Company Name <sup class="text-danger">*</sup></h5>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="info-company" class="form-control"  blur='ads-input-check' request="true" placeholder="Company Name" request-maxlen=200>
+                        <label class="control-label ads-control-label">request</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Website</h5>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="info-website" class="form-control" blur='ads-input-check' placeholder="Website" request-maxlen=200>
+                        <label class="control-label ads-control-label">request</label>
+                    </div>
+                </td>
+                <td>
+                    <h5>Page</h5>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="info-page" class="form-control" blur='ads-input-check' placeholder="Page" request-maxlen=200>
+                        <label class="control-label ads-control-label">request</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Phone</h5>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="info-phone" class="form-control" blur='ads-input-check' request-type="phone" placeholder="Phone" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                        <label for="" class="control-label ads-control-label"></label>
+                    </div>
+                </td>
+                <td>
+                    <h5>Skype</h5>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="info-skype" class="form-control" blur='ads-input-check' placeholder="Skype" request-maxlen=64>
+                        <label for="" class="control-label ads-control-label"></label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td >
+                    <h5>Location</h5>
+                    <select name="" id="info-location" class="form-control selectpicker" option="locationOption" title="--Select--" data-size="10" data-live-search="true">
+                    </select>
+                </td>
+                <td>
+                    <h5 class="ads-font-14">How much would you like to pay for <span class="ads-weight-600" value="level"></span> level?</h5>
+                    <select name="" id="info-price" option="priceOption" class="form-control">
+                    </select>
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <h5>Feedback:</h5>
+                    <textarea class="form-control" id="info-feedback"></textarea>
+                </td>
+            </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="submit-info" info-level="">Submit</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</section>
+
+<section>
+    <div id="result-modal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">
+                <i class="fa fa-check-circle ads-font-28 result-fa success-fa"></i>
+                <i class="fa fa-times-circle ads-font-28  result-fa error-fa"></i>
+                <span id="result-title" class="ads-weight-600">submit successfully</span>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <p class="ads-font-18">
+                <span class="ads-font-22" id="result-emoji"></span>
+                <span class="" id="result-text">
+                </span>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default ads-weight-600" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</section>
+
 @include('tpl.footer')
 </body>
 <script type="text/javascript" src="{{bba_version('vendor.js')}}" defer></script>
