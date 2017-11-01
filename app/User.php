@@ -165,7 +165,7 @@ class User extends Authenticatable
     {
         // 用户权限的设计
         if (is_null($value)) {
-            return [];//$this->initUsageByRole($this->role);
+            return [];
         } 
         /* $items = $this->role->groupedPolicies(); */
         $value = json_decode($value, true);
@@ -287,7 +287,7 @@ class User extends Authenticatable
         }
         $this->policies()->detach($policy->id);
         $this->policies()->attach($policy->id, ['value' =>  $value]);
-        Cache::forever($this->cacheKey(), $this->policies);
+        Cache::forever($this->cacheKey(), $this->policies()->get());//直接使用$this->policies在单元测试环境中会发现没更新过来
         $this->reInitUsage();
         return true;
     }
@@ -456,15 +456,16 @@ class User extends Authenticatable
         $role = Role::where('name', 'Free')->first();
         if ($this->role_id == $role->id)
             return false;
-        $this->role_id = $role->id;
+        $this->role()->associate($role); // 不应该直接设置ID
         $this->expired = null;
-        $this->initUsageByRole($role);
+        $this->reInitUsage();
         $this->save();
         return true;
     }
 
     /**
      * 如果过期就重置
+     * @todo 应该补充单元测试
      */
     public function resetIfExpired()
     {
@@ -524,8 +525,8 @@ class User extends Authenticatable
         $dirty = false;
         // 角色不一致就重置角色
         if ($this->role_id != $role->id) {
-            $this->role_id = $role->id;
-            $this->initUsageByRole($role);
+            $this->role()->associate($role);
+            $this->reInitUsage();
             $dirty = true;
             Log::info("{$this->email} role change to {$role->name}, reset usage");
         }

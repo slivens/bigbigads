@@ -56,7 +56,8 @@ class ManagePolicy extends Command
         $rebuild = $this->option('rebuild');
 
         if (!$email && !$rebuild) {
-            $this->error("$email 不能为空");
+            $this->error("email 不能为空");
+            return;
         }
         if ($email) {
             $user = User::where('email', $email)->first();
