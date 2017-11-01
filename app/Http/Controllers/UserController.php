@@ -62,6 +62,7 @@ class UserController extends Controller
         $res = [];
         $user = Auth::user();
         if ($user) {
+            // TODO:Role的permission与policies必须从缓存中读取
             $user->load('role', 'role.permissions', 'role.policies', 'subscriptions', 'subscriptions.payments');
             $res['login'] = true;
             $res['user'] = $user;
