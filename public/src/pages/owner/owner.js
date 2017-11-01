@@ -51,7 +51,7 @@ export default (angular) => {
                 adSearcher.isend = true
                 return
             }
-            adSearcher.getMore('adser').then(function() {}, function(res) {
+            adSearcher.getMore('adser').catch(function(res) {
                 if (res.data instanceof Object) {
                     switch (res.data.code) {
                     case -4100:
@@ -334,7 +334,7 @@ export default (angular) => {
             $scope.currSearchOption.callToAction = buttondesc.join(',')
             action = 'adser'
             $scope.isRestrict = false
-            $scope.adSearcher.filter(action || 'adser').then(function() {}, function(res) {
+            $scope.adSearcher.filter(action || 'adser').catch(function(res) {
                 if (res.data instanceof Object) {
                     switch (res.data.code) {
                     case -4100:
