@@ -54,7 +54,7 @@ export default angular => {
                     adSearcher.isend = true
                     return
                 }
-                adSearcher.getMore('search').then(function() {}, function(res) {
+                adSearcher.getMore('search').catch(function(res) {
                     // 使下拉请求也支持sweetalert弹出后端错误
                     if (res.data instanceof Object) {
                         switch (res.data.code) {
@@ -379,15 +379,8 @@ export default angular => {
                 $scope.currSearchOption.filter.format = format.join(',')
                 $scope.currSearchOption.filter.callToAction = buttondesc.join(',')
                 // console.log(action);
-                $scope.adSearcher.filter(action || 'search').then(function() {}, function(res) {
+                $scope.adSearcher.filter(action || 'search').catch(function(res) {
                     if (res.data instanceof Object) {
-                    /* if(res.data.desc === 'no permission of search'){
-                        User.openSign();
-                        } */
-                    // User.openUpgrade();
-                    /* if(res.data.code === -4001){
-                            User.openUpgrade();
-                        } */
                         switch (res.data.code) {
                         case -4100:
                             User.openSearchResultUpgrade()
