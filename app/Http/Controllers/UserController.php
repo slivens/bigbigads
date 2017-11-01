@@ -79,11 +79,11 @@ class UserController extends Controller
                 'sh7oS9Q3bk0m-Vs3pEeUjCOMKGjoyjf1bVcTfCiY'
             );
             // 可能存在affiliate不存在的情况
-            if ($affiliate = $user->affiliates()->get()) {
+            if ($affiliate = $user->affiliates()->first()) {
                 // track/click/action三个数据只从第一条affiliate记录取（暂行）
-                $res['user']['affiliateUrl'] = env('APP_URL') . '?track=' . $affiliate[0]->track;
-                $res['user']['click'] = $affiliate[0]->click;
-                $res['user']['action'] = $affiliate[0]->action;
+                $res['user']['affiliateUrl'] = env('APP_URL') . '?track=' . $affiliate->track;
+                $res['user']['click'] = $affiliate->click;
+                $res['user']['action'] = $affiliate->action;
             } else {
                 $res['user']['affiliateUrl'] = false;
                 $res['user']['click'] = 0;
