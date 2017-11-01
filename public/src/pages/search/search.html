@@ -349,6 +349,7 @@
         <div ng-if="adSearcher.ads.total_count!=0">
             <div class="text-center col-md-7">
                 <p ng-if="User.info.user.role.plan == 'standard'">You can only see 300 results per search in standard level.Please contact us if you need to see more: help@bigbigads.com</p>
+                <p ng-if="User.info.user.role.name == 'Lite'">You can only see 300 results per search in lite level. Please contact us if you need to see more: help@bigbigads.com</p>
                 <p ng-if="User.info.user.role.plan == 'free'">You can only see 100 results per search in free level.Please contact us if you need to see more: help@bigbigads.com</p>
             </div>
             <div register class="col-md-5">
@@ -375,6 +376,7 @@
         <div ng-if="adSearcher.ads.total_count!=0">
             <div class="text-center col-md-12">
                 <p ng-if="User.info.user.role.name == 'Standard'">You can only see 300 results per search in standard level. Please contact us if you need to see more: help@bigbigads.com</p>
+                <p ng-if="User.info.user.role.name == 'Lite'">You can only see 300 results per search in lite level. Please contact us if you need to see more: help@bigbigads.com</p>
                 <p ng-if="User.info.user.role.name == 'Free'">You can only see 100 results per search in free level. Please contact us if you need to see more: help@bigbigads.com</p>
             </div>
         </div>

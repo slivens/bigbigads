@@ -154,7 +154,7 @@ class SearchController extends Controller
                     $params['sort']['field'] = 'view_count';
                 }        
                 return $params;
-            }else if(Auth::check() && ($user->hasRole('Free') || $user->hasRole('Standard'))) {
+            }else if(Auth::check() && ($user->hasRole('Free') || $user->hasRole('Standard') || $user->hasRole('Lite'))) {
                 if (array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0 || (array_key_exists('sort', $params) && $params['sort']['field'] != 'view_count')) {
                     $params['search_result'] = 'ads';
                     $isHasTime = false;
@@ -338,19 +338,19 @@ class SearchController extends Controller
             return $this->responseError("no search permission");
         }            
         if (count($logActionUsage) < 4) {
-                $carbon = Carbon::now();
-            } else {
-                //如果已经初始化过，就直接读取；为什么会有两种写法？这是由于从数据库反序列化后的格式跟缓存中的格式不一样导致的。
-                if ($logActionUsage[3] instanceof Carbon)
-                    $carbon = new Carbon($logActionUsage[3]->date, $logActionUsage[3]->timezone);
-                else
-                    $carbon = new Carbon($logActionUsage[3]['date'], $logActionUsage[3]['timezone']);
-            } 
-            if (!$carbon->isToday()) {
-                $logActionUsage[2] = 0;
-            }
-            $user->updateUsage($logAction, $logActionUsage[2] + 1, Carbon::now());
-            return $logActionUsage[2] + 1;
+            $carbon = Carbon::now();
+        } else {
+            //如果已经初始化过，就直接读取；为什么会有两种写法？这是由于从数据库反序列化后的格式跟缓存中的格式不一样导致的。
+            if ($logActionUsage[3] instanceof Carbon)
+                $carbon = new Carbon($logActionUsage[3]->date, $logActionUsage[3]->timezone);
+            else
+                $carbon = new Carbon($logActionUsage[3]['date'], $logActionUsage[3]['timezone']);
+        }
+        if (!$carbon->isToday()) {
+            $logActionUsage[2] = 0;
+        }
+        $user->updateUsage($logAction, $logActionUsage[2] + 1, Carbon::now());
+        return $logActionUsage[2] + 1;
     }
 
     protected function checkIsHotWord($key) {
@@ -375,12 +375,12 @@ class SearchController extends Controller
         if (count($req->keys) > 0 && $req->keys[0]['string']) {
             $searchKeyTotalPerday = $user->getUsage('search_key_total_perday');
             if ($searchKeyTotalPerday[2] < intval($searchKeyTotalPerday[1])) {
-                $user->updateUsage('search_key_total_perday', $searchKeyTotalPerday[2] + 1, Carbon::now());
+                $this->checkAndUpdateUsagePerday($user, 'search_key_total_perday');
             }
         } else {
             $searchWithoutKeyTotalPerday = $user->getUsage('search_without_key_total_perday');
             if ($searchWithoutKeyTotalPerday[2] < intval( $searchWithoutKeyTotalPerday[1])) {
-                $user->updateUsage('search_without_key_total_perday', $searchWithoutKeyTotalPerday[2] + 1, Carbon::now());
+                $this->checkAndUpdateUsagePerday($user, 'search_without_key_total_perday');
             }
         }
     }
@@ -389,11 +389,11 @@ class SearchController extends Controller
      * 新增需求：
      * 统计特别广告主下的请求 任何条件过滤 + 下拉
      */
-    protected function updateSpecificAdserResource($req, $user)
+    protected function updateSpecificAdserResource($user)
     {
         $specificAdserTimesPerday = $user->getUsage('specific_adser_times_perday');
         if ($specificAdserTimesPerday[2] < intval($specificAdserTimesPerday[1])) {
-            $user->updateUsage('specific_adser_times_perday', $specificAdserTimesPerday[2] + 1, Carbon::now());
+            $this->checkAndUpdateUsagePerday($user, 'specific_adser_times_perday');
         }
     }
 
@@ -764,7 +764,7 @@ class SearchController extends Controller
                 }
                 if (in_array($act["action"], ['adser'])) {
                     try {
-                        $this->updateSpecificAdserResource($req, $user);
+                        $this->updateSpecificAdserResource($user);
                         $this->checkIsRestrictGetAdResource($req, $user, $jsonData);
                     } catch(\Exception $e) {
                         return $this->responseError($e->getMessage(),$e->getCode());

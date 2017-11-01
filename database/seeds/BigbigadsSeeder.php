@@ -54,7 +54,7 @@ class BigbigadsSeeder extends Seeder
             'ad_analysis_times_perday'  => [true,  true,  true,  true,  true,  true,  true]
         ];
         $policies = [
-            'ad_analysis_times_perday'  => [Policy::DAY, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+            'ad_analysis_times_perday'  => [Policy::DAY, 100, 1000, 1000, 1000, 1000, 1000, 500]
         ];
         // $this->insertPermissions('AdAnalysis', $adAnalysis, $adAnalysisPermission, $roles);
         $this->insertPermissions('AdAnalysis', $adAnalysisPermission, $roles);
@@ -211,8 +211,8 @@ class BigbigadsSeeder extends Seeder
             'likes_sort'                        => [true,  true,  true,  true,  true,  true,  true],    //          Like
             'shares_sort'                       => [true,  true,  true,  true,  true,  true,  true],    //          Share
             'comment_sort'                      => [true,  true,  true,  true,  true,  true,  true],    //          Comment
-            'duration_sort'                     => [false, false, true,  true,  true,  true,  true],    //          Duration
-            'views_sort'                        => [true,  true,  true,  true,  true,  true,  true],    //          Views
+            'duration_sort'                     => [false, true,  true,  true,  true,  true,  false],   //          Duration
+            'views_sort'                        => [false, false, true,  true,  true,  true,  false],   //          Views
             'engagements_sort'                  => [false, false, true,  true,  false, false, false],   //          Engagements
             'engagement_inc_sort'               => [false, false, true,  true,  false, false, false],   //          Engagements Growth
             'likes_inc_sort'                    => [false, false, true,  true,  false, false, false],   //          Likes Growth
@@ -222,7 +222,7 @@ class BigbigadsSeeder extends Seeder
             'timeline_filter'                   => [false, true,  true,  true,  true,  true,  true],    // Ad Position: Newsfeed
             'phone_filter'                      => [false, true,  true,  true,  true,  true,  true],    //              Mobile
             'rightcolumn_filter'                => [false, true,  true,  true,  true,  true,  true],    //              Right Column
-            'app_filter'                        => [false, true,  true,  true,  true,  true,  true],    //              App
+            'app_filter'                        => [false, true,  true,  true,  true,  true,  false],   //              App
             'advance_likes_filter'              => [false, true,  true,  true,  true,  true,  true],
             'advance_shares_filter'             => [false, true,  true,  true,  true,  true,  true],
             'advance_comments_filter'           => [false, true,  true,  true,  true,  true,  true],
@@ -269,10 +269,10 @@ class BigbigadsSeeder extends Seeder
             'specific_adser_limit_perday'       => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
             'specific_adser_where_perday'       => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
             'search_total_times'                => [Policy::PERMANENT, 0, 0, 0, 0, 0, 0, 0],
-            'search_without_key_total_perday'   => [Policy::DAY, 200, 1000, 5000, 5000, 5000, 5000, 5000],
-            'search_key_total_perday'           => [Policy::DAY, 200, 1000, 5000, 5000, 5000, 5000, 5000],
+            'search_without_key_total_perday'   => [Policy::DAY, 200, 1000, 5000, 5000, 5000, 5000, 500],
+            'search_key_total_perday'           => [Policy::DAY, 200, 1000, 5000, 5000, 5000, 5000, 500],
             'hot_search_times_perday'           => [Policy::DAY, 5000, 5000, 5000, 5000, 5000, 5000, 5000],
-            'specific_adser_times_perday'       => [Policy::DAY, 200, 1000, 5000, 5000, 5000, 5000, 5000],
+            'specific_adser_times_perday'       => [Policy::DAY, 200, 1000, 5000, 5000, 5000, 5000, 500],
         ];
         // $this->insertPermissions('Advertisement', $search, $searchPermission,  $roles);
         $this->insertPermissions('Advertisement', $searchPermission,  $roles);
