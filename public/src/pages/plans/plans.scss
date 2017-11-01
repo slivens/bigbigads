@@ -1,12 +1,10 @@
+@import '../../styles/base';
 /*覆盖样式*/
-
 .page-header {
     height: 50px;
 }
 
-
 /*legacy 插件样式干扰，强行覆盖*/
-
 .page-content {
     .container-fluid {
         padding: 0;
@@ -85,19 +83,20 @@
         .plan-card-wrapper {
             box-sizing: border-box;
             margin-top: 80px;
+            text-align: center;
+            perspective: 1000px;
+            -webkit-perspective: 1000px; // 透视
             .plan-card {
-                // text-align: left;
                 width: 280px;
                 height: 380px;
                 position: relative;
                 display: inline-block;
                 margin: 0 30px 40px;
                 border-radius: 6px;
-
-                perspective: 800px;
-                -webkit-perspective: 800px; // 定义子元素保留3d位置
                 transform-style: preserve-3d;
                 -webkit-transform-style: preserve-3d;
+                transition: transform .6s;
+                -webkit-transition: -webkit-transform .6s;
                 .card-header {
                     margin-left: -32px;
                     padding: 0px 15px;
@@ -177,8 +176,6 @@
                 .card-front {
                     padding: 45px 30px 0;
                     cursor: pointer;
-                    transform: rotateY(0deg);
-                    -webkit-transform: rotateY( 0deg);
                     &:hover {
                         box-shadow: 0px 0px 5px 2px rgba(255, 87, 34, 0.35);
                     }
@@ -242,16 +239,14 @@
                     }
                 }
                 &.transform-turn {
+                    transform: rotateY(180deg);
+                    -webkit-transform: rotateY(180deg);
                     .card-front {
                         z-index: 0;
-                        transform: rotateY(180deg);
-                        -webkit-transform: rotateY(180deg);
                         overflow: hidden;
                     }
                     .card-back {
                         z-index: 99;
-                        transform: rotateY(0deg);
-                        -webkit-transform: rotateY(0deg);
                     }
                 }
             }
@@ -327,73 +322,46 @@
 
 @media screen and (max-width: 768px) {
     #plans {
-        .pricing-adscard {
-            .card-div {
-                .table {
-                    tr {
-                        td {
-                            padding-left: px(25);
+        .plan-suptitle {
+            padding: px(15);
+        }
+        .plan-banner {
+            min-width: 100%;
+            width: 100%;
+            .plan-card-wrapper {
+                .plan-card {
+                    width: px(300);
+                    height: px(400);
+                    .card-header {
+                        height: px(50);
+                        line-height: px(50);
+                    }
+                    .card-content {
+                        margin-top: px(50);
+                    }
+                    .card-footer {
+                        margin-top: px(60);
+                        .btn {
+                            padding: px(8) 0;
+                            font-size: px(16);
                         }
                     }
-                }
-            }
-            .stand-card-div {
-                .card-div {
-                    margin-top: px(30);
-                }
-            }
-            .stand-card-div.transform-rotatey {
-                transform: rotateY(180deg);
-                .pricing-card {
-                    position: static;
-                    z-index: 1;
-                }
-                .stand-card {
-                    position: absolute;
-                    z-index: -2;
-                    display: none;
-                }
-            }
-            .pricing-card {
-                .pricingcrad-back {
-                    font-size: px(18);
-                    left: px(10) !important;
-                    top: px(20) !important;
-                }
-                .card-banner {
-                    font-size: px(14);
-                    font-weight: 200;
-                }
-                .pricing-info-div {
-                    padding-left: px(15);
-                    padding-right: px(15);
-                    margin-left: 0;
-                    margin-right: 0;
-                    height: px(117);
-                    .pricing-cost-div {
-                        padding: 0;
+                    .card-body.card-back {
+                        display: flex;
+                        flex-direction: column;
+                        .price-list {
+                            .price-list-text {
+                                display: inline-block !important;
+                            }
+                        }
+                        .back-header {
+                            height: px(50);
+                            line-height: px(50);
+                        }
+                        .price-list-wrapper {
+                            flex: 1;
+                        }
                     }
-                    .select-btn-div {
-                        padding: 0;
-                    }
-                }
-            }
-        }
-    }
-}
-
-@media screen and (min-width: 1024px) {
-    #plans {
-        .pricing-adscard {
-            .stand-card-div {
-                width: 404px;
-            }
-            .card-div {
-                //固定死高度与宽度
-                height: 520px;
-                width: 404px;
-                .pricing-info-div {
-                    height: 117px;
                 }
             }
         }

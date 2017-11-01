@@ -46,19 +46,19 @@
             box-sizing: border-box;
             margin-top: 80px;
             text-align: center;
+            perspective: 1000px;
+            -webkit-perspective: 1000px; // 透视
             .plan-card {
-                // text-align: left;
                 width: 280px;
                 height: 380px;
                 position: relative;
                 display: inline-block;
                 margin: 0 30px 40px;
                 border-radius: 6px;
-
-                perspective: 800px;
-                -webkit-perspective: 800px; // 定义子元素保留3d位置
                 transform-style: preserve-3d;
                 -webkit-transform-style: preserve-3d;
+                transition: transform .6s;
+                -webkit-transition: -webkit-transform .6s;
                 .card-header {
                     margin-left: -32px;
                     padding: 0px 15px;
@@ -138,8 +138,6 @@
                 .card-front {
                     padding: 45px 30px 0;
                     cursor: pointer;
-                    transform: rotateY(0deg);
-                    -webkit-transform: rotateY( 0deg);
                     &:hover {
                         box-shadow: 0px 0px 5px 2px rgba(255, 87, 34, 0.35);
                     }
@@ -203,16 +201,14 @@
                     }
                 }
                 &.transform-turn {
+                    transform: rotateY(180deg);
+                    -webkit-transform: rotateY(180deg);
                     .card-front {
                         z-index: 0;
-                        transform: rotateY(180deg);
-                        -webkit-transform: rotateY(180deg);
                         overflow: hidden;
                     }
                     .card-back {
                         z-index: 99;
-                        transform: rotateY(0deg);
-                        -webkit-transform: rotateY(0deg);
                     }
                 }
             }
@@ -395,61 +391,61 @@
     }
 }
 
+
+// 移动端的兼容适配
 @media screen and (max-width: 768px) {
     #plan {
-        .plan-suptitle{
+        .plan-suptitle {
             padding: px(15);
         }
-        .plan-banner{
+        .plan-banner {
             min-width: 100%;
             width: 100%;
-            .plan-card-wrapper{
-               .plan-card{
+            .plan-card-wrapper {
+                .plan-card {
                     width: px(300);
                     height: px(400);
-                    .card-content{
+                    .card-header {
+                        height: px(50);
+                        line-height: px(50);
+                    }
+                    .card-content {
                         margin-top: px(50);
                     }
-                    .card-footer{
+                    .card-footer {
                         margin-top: px(60);
+                        .btn {
+                            padding: px(8) 0;
+                            font-size: px(16);
+                        }
                     }
-                } 
-            }
-            
-        }
-        .pricing-banner {
-            min-height: px(120);
-            background-size: auto 100%;
-        }
-        .title-main {
-            font-size: px(22);
-        }
-        .title-second {
-            font-size: px(18);
-            font-weight: 200;
-        }
-    }
-}
-
-
-/*
-* pc界面
-*/
-
-@media screen and (min-width: 1024px) {
-    #plan {
-        .pricing-adscard {
-            .stand-card-div {
-                width: 404px;
-            }
-            .card-div {
-                //固定死高度与宽度
-                height: 520px;
-                width: 404px;
-                .pricing-info-div {
-                    height: 117px;
+                    .card-body.card-back {
+                        display: flex;
+                        flex-direction: column;
+                        .price-list {
+                            .price-list-text {
+                                display: inline-block !important;
+                            }
+                        }
+                        .back-header {
+                            height: px(50);
+                            line-height: px(50);
+                        }
+                        .price-list-wrapper {
+                            flex: 1;
+                        }
+                    }
                 }
             }
+        }
+    }
+
+    #info-modal {
+        .modal-dialog {
+            margin: 0;
+        }
+        .modal-footer {
+            display: flex; // 底部的按钮会被在线聊天的挡住，所以让其居左
         }
     }
 }
