@@ -263,9 +263,9 @@ class SearchController extends Controller
                     }
             }
             //使用数组来处理过滤参数和权限名称不一致的情况比使用switch更优雅。
-            $sortPermissions = ['view_count' => 'date_sort', 'duration_days' => 'duration_sort', 'engagements' => 'engagements_sort', 'views' => 'views_sort', 'engagements_per_7d' => 'engagement_inc_sort',
+            $sortPermissions = ['last_view_date' => 'date_sort', 'duration_days' => 'duration_sort', 'engagements' => 'engagements_sort', 'views' => 'views_sort', 'engagements_per_7d' => 'engagement_inc_sort',
                                 'views_per_7d' => 'views_inc_sort', 'likes' => 'likes_sort', 'shares' => 'shares_sort', 'comments' => 'comment_sort', 'likes_per_7d' => 'likes_inc_sort', 'shares_per_7d' => 'shares_inc_sort',
-                                'comments_per_7d' => 'comments_inc_sort'];
+                                'comments_per_7d' => 'comments_inc_sort', 'view_count' => 'view_count_sort'];
             $key = $sortPermissions[$params['sort']['field']];
             if ($key && !$user->can($key)) {
                 throw new \Exception("no permission of sort", -4002);
