@@ -154,7 +154,7 @@ class SearchController extends Controller
                     $params['sort']['field'] = 'view_count';
                 }        
                 return $params;
-            }else if(Auth::check() && ($user->hasRole('Free') || $user->hasRole('Standard'))) {
+            }else if(Auth::check() && ($user->hasRole('Free') || $user->hasRole('Standard') || $user->hasRole('Lite'))) {
                 if (array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0 || (array_key_exists('sort', $params) && $params['sort']['field'] != 'view_count')) {
                     $params['search_result'] = 'ads';
                     $isHasTime = false;
@@ -338,19 +338,19 @@ class SearchController extends Controller
             return $this->responseError("no search permission");
         }            
         if (count($logActionUsage) < 4) {
-                $carbon = Carbon::now();
-            } else {
-                //如果已经初始化过，就直接读取；为什么会有两种写法？这是由于从数据库反序列化后的格式跟缓存中的格式不一样导致的。
-                if ($logActionUsage[3] instanceof Carbon)
-                    $carbon = new Carbon($logActionUsage[3]->date, $logActionUsage[3]->timezone);
-                else
-                    $carbon = new Carbon($logActionUsage[3]['date'], $logActionUsage[3]['timezone']);
-            } 
-            if (!$carbon->isToday()) {
-                $logActionUsage[2] = 0;
-            }
-            $user->updateUsage($logAction, $logActionUsage[2] + 1, Carbon::now());
-            return $logActionUsage[2] + 1;
+            $carbon = Carbon::now();
+        } else {
+            //如果已经初始化过，就直接读取；为什么会有两种写法？这是由于从数据库反序列化后的格式跟缓存中的格式不一样导致的。
+            if ($logActionUsage[3] instanceof Carbon)
+                $carbon = new Carbon($logActionUsage[3]->date, $logActionUsage[3]->timezone);
+            else
+                $carbon = new Carbon($logActionUsage[3]['date'], $logActionUsage[3]['timezone']);
+        }
+        if (!$carbon->isToday()) {
+            $logActionUsage[2] = 0;
+        }
+        $user->updateUsage($logAction, $logActionUsage[2] + 1, Carbon::now());
+        return $logActionUsage[2] + 1;
     }
 
     protected function checkIsHotWord($key) {
