@@ -171,7 +171,6 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
                     </div>
                     @endforeach
                 </div>
-                <!-- Add Arrows -->
                 <div class="blog-slider-next blog-slider_btn"></div>
                 <div class="blog-slider-prev blog-slider_btn"></div>
             </div>
