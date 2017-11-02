@@ -492,7 +492,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
         }
     }])
 
-    /* 
+    /*
     * 复制到剪贴板
     * copy-dom 上有三个属性，分别是value, button-text, success-text
     * value: 要复制的文本
