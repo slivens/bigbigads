@@ -405,7 +405,9 @@ class SearchController extends Controller
         $searchPolicyArray = [
             'specific_adser_times_perday'       => ActionLog::ACTION_SEARCH_RESTRICT_PERDAY_ADSER,
             'search_key_total_perday'           => ActionLog::ACTION_SEARCH_KEY_RESTRICT,
-            'search_without_key_total_perday'   => ActionLog::ACTION_SEARCH_WITHOUT_KEY_RESTRICT
+            'search_without_key_total_perday'   => ActionLog::ACTION_SEARCH_WITHOUT_KEY_RESTRICT,
+            'search_times_perday'               => ActionLog::ACTION_SEARCH_TIMES_PERDAY,
+            'ad_analysis_times_perday'          => ActionLog::ACTION_AD_ANALYSIS_TIMES_PERDAY
         ];
         foreach ($searchPolicyArray as $key => $value) {
             $usage = $user->getUsage($key);

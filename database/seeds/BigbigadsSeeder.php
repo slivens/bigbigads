@@ -213,7 +213,7 @@ class BigbigadsSeeder extends Seeder
             'shares_sort'                       => [true,  true,  true,  true,  true,  true,  true],    //          Share
             'comment_sort'                      => [true,  true,  true,  true,  true,  true,  true],    //          Comment
             'duration_sort'                     => [false, true,  true,  true,  true,  true,  false],   //          Duration
-            'views_sort'                        => [false, false, true,  true,  true,  true,  false],   //          Views
+            'views_sort'                        => [false, true,  true,  true,  true,  true,  false],   //          Views
             'engagements_sort'                  => [false, false, true,  true,  false, false, false],   //          Engagements
             'engagement_inc_sort'               => [false, false, true,  true,  false, false, false],   //          Engagements Growth
             'likes_inc_sort'                    => [false, false, true,  true,  false, false, false],   //          Likes Growth
