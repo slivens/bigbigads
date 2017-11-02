@@ -64,6 +64,10 @@ class AppServiceProvider extends ServiceProvider
             return new \App\Services\PaymentService(config('payment'));
         });
 
+        $this->app->singleton('app.service.payment', function() {
+            return app(\App\Contracts\PaymentService::class);
+        });
+
         $this->app->resolving('payum.builder', function(\Payum\Core\PayumBuilder $payumBuilder) {
             $payumBuilder
 				// this method registers filesystem storages, consider to change them to something more

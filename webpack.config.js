@@ -21,8 +21,9 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, './public/dist'),
+        publicPath: '/dist/',
         filename: !isProduction ? '[name].js' : '[name]-[hash].js',
-        chunkFilename: !isProduction ? '[name].js' : 'js/[name]-[hash].js',
+        chunkFilename: !isProduction ? '[name].js' : '[name]-[chunkhash].js',
     },
     module: {
         rules: [{
@@ -76,9 +77,17 @@ module.exports = {
         }, {
             test: /\.vue$/,
             loader: 'vue-loader',
+        }, {
+            test: /\.json$/,
+            loader: 'json-loader'
         }]
     },
     plugins: [
+         new webpack.DefinePlugin({
+            PRODUCTION: JSON.stringify(isProduction),
+            LOCALE: JSON.stringify('en'), // 当前Locale
+            DEFAULT_LOCALE: JSON.stringify('en') //默认Locale
+         }),
         new webpack.optimize.CommonsChunkPlugin({
             name: ['vendor']
         }),

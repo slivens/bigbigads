@@ -15,5 +15,8 @@ return [
 
     'failed' => 'Invalid email / password combination.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
+    'failed_repeat' => 'new password and repeat password is not the same',
+    'login' => 'Login',
+    'signup' => 'Sign Up',
+    'freezed' => 'You Account has been freezed'
 ];

@@ -1,3 +1,4 @@
+import './profile.scss'
 import '../common/common'
 import '../../components/billings'
 import '../../components/subscription'

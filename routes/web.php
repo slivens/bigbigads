@@ -39,7 +39,7 @@ Route::get('/forget', function() {
 });
 
 Route::get('/socialite/{name}', 'UserController@socialiteRedirect');
-Route::get('/socialite/{name}/callback', 'UserController@socialiteCallback');
+Route::get('/socialite/{name}/callback', 'UserController@socialiteCallback')->middleware('auth.freeze:true');
 Route::get('/socialite/{name}/bind', 'UserController@bindForm');
 Route::post('/socialite/{name}/bind', 'UserController@bind')->name('socialiteBindPost');
 
@@ -136,7 +136,7 @@ Route::get('logout', 'Auth\LoginController@logout');
 Route::resource('bookmark', 'BookmarkController');
 Route::resource('BookmarkItem', 'BookmarkItemController');
 Route::resource('/rest/coupon', 'CouponController');//后面将改成统一由ReourceController+Hooks的方式控制
-Route::any('/forward/{action}', 'SearchController@search');
+Route::any('/forward/{action}', 'SearchController@search')->middleware('auth.freeze');
 
 Route::post('/onPayWebhooks', 'SubscriptionController@onPayWebhooks');
 
@@ -215,3 +215,6 @@ Route::get('/faker', function(Request $request) {
 /* }); */
 Route::get('/record-continue', 'UserController@recordContinue');
 Route::post('/filter-record', 'UserController@filterLogRecord');
+
+// 以后会在新增新的反馈收集，就统一处理反馈的控制器及其具体的反馈收集项
+Route::post('/feedback/plan', 'FeedbackController@plan')->middleware('throttle:30,60');

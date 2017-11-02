@@ -1,0 +1,12 @@
+{
+    "validation": {
+        "email": "Please enter a valid email",
+        "required": "This field is required"
+    },
+    "auth": {
+        "validation": {
+            "email_required": "Email is required",
+            "password_required": "Password is required"
+        }
+    }
+}

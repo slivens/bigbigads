@@ -27,13 +27,15 @@ export default angular => {
 
             $scope.settings = settings
             function searchToQuery(option, searcher) {
-                $location.search(searcher.searchToQuery(option))
+                $location.search(searcher.searchToQuery(option, searcher.params.sort.field))
             }
             // 将query转化成搜索参数
             function queryToSearch(option, searcher) {
                 searcher.queryToSearch($location.search(), option)
             }
             var adSearcher = $scope.adSearcher = new Searcher()
+            // $scope.restrict用于标示用户今日内是否受限
+            $scope.isRestrict = false
             adSearcher.checkAndGetMore = function() {
                 if (!User.done) {
                     adSearcher.getMore('search')
@@ -52,7 +54,22 @@ export default angular => {
                     adSearcher.isend = true
                     return
                 }
-                adSearcher.getMore('search')
+                adSearcher.getMore('search').catch(function(res) {
+                    // 使下拉请求也支持sweetalert弹出后端错误
+                    if (res.data instanceof Object) {
+                        switch (res.data.code) {
+                        case -4100:
+                            $scope.isRestrict = true
+                            User.openSearchResultUpgrade()
+                            break
+                        default:
+                            break
+                        }
+                        $scope.islegal = false
+                    } else {
+                        SweetAlert.swal(res.statusText)
+                    }
+                })
             }
             // $scope.adSearcher.search($scope.adSearcher.defparams, true);
             $scope.reverseSort = function() {
@@ -325,9 +342,12 @@ export default angular => {
                     $scope.adSearcher.removeFilter("objective")
                 }
 
+                // sort by 体现在页面currSearchOption上
+                if (option.sort) $scope.currSearchOption.sort = option.sort
+
                 $scope.isFreeLimitDate = false
                 if (User.user.role.plan === 'free') {
-                    if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0)) {
+                    if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0) || $scope.adSearcher.params.sort.field != 'last_view_date') {
                         angular.forEach($scope.adSearcher.params.where, function(data) {
                             if (data.field === 'time') {
                                 $scope.adSearcher.removeFilter('time')
@@ -359,15 +379,8 @@ export default angular => {
                 $scope.currSearchOption.filter.format = format.join(',')
                 $scope.currSearchOption.filter.callToAction = buttondesc.join(',')
                 // console.log(action);
-                $scope.adSearcher.filter(action || 'search').then(function() {}, function(res) {
+                $scope.adSearcher.filter(action || 'search').catch(function(res) {
                     if (res.data instanceof Object) {
-                    /* if(res.data.desc === 'no permission of search'){
-                        User.openSign();
-                        } */
-                    // User.openUpgrade();
-                    /* if(res.data.code === -4001){
-                            User.openUpgrade();
-                        } */
                         switch (res.data.code) {
                         case -4100:
                             User.openSearchResultUpgrade()
@@ -595,7 +608,6 @@ export default angular => {
                                 illeageParams.key = isSearchModeLimit.key
                                 $scope.illeageFilterParams.key = isSearchModeLimit.key
                             }
-                            console.log(isSend)
                             if (isSend) {
                                 Util.unauthorisedFilterRequest(illeageParams)
                                 User.openUpgrade(currIlleageOption)
@@ -635,30 +647,40 @@ export default angular => {
                     User.openSign()
                     return false
                 }
-                var freeMin = '2016-01-01'
-                var freeMax = moment().subtract(3, 'month').format('YYYY-MM-DD')
+                // var freeMin = '2016-01-01'
+                // var freeMax = moment().subtract(3, 'month').format('YYYY-MM-DD')
                 var checkBeforeSortResult
-                if (User.info.user.role.name === 'Free') {
-                    $scope.adSearcher.addFilter({
-                        field: "time",
-                        min: freeMin,
-                        max: freeMax,
-                        role: "free"
-                    })
-                }
+                // var searchTotalTimes
+                // if (User.info.user.role.name === 'Free') {
+                //     searchTotalTimes = User.getPolicy('search_total_times')
+                //     if (searchTotalTimes[2] > 10) {
+                //         $scope.filterOption.date = {
+                //             startDate: freeMin,
+                //             endDate: freeMax
+                //         }
+                //     } else {
+                //         $scope.filterOption.date = {
+                //             startDate: freeMin,
+                //             endDate: moment().format('YYYY-MM-DD')
+                //         }
+                //     }
+                // }
                 checkBeforeSortResult = $scope.checkBeforeSort()
                 // 独立的filter，返回的异常上面的与$scope.filter无关
                 // 由于select2插件添加点击事件无效，未登录用户点击sort by弹出注册框采用后台返回错误的形式打开
                 if (checkBeforeSortResult) {
-                    $scope.adSearcher.filter(action).then(function() {}, function(res) {
-                        if (res.data instanceof Object) {
-                            switch (res.data.code) {
-                            case -4199:
-                                User.openSign()
-                                break
-                            }
-                        }
-                    })
+                    // rmz 调整为排序时带上用户所选的过滤项
+                    $scope.filterOption.sort = $scope.adSearcher.params.sort.field
+                    $scope.search(action)
+                    // $scope.adSearcher.filter(action).then(function() {}, function(res) {
+                    //     if (res.data instanceof Object) {
+                    //         switch (res.data.code) {
+                    //         case -4199:
+                    //             User.openSign()
+                    //             break
+                    //         }
+                    //     }
+                    // })
                 }
             }
             $scope.upgrade = function() {

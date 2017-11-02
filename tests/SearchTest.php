@@ -43,8 +43,8 @@ class SearchTest extends TestCase
            return; 
         }
 		$role->generateCache();
-        $user->role_id = $role->id;
-        $user->initUsageByRole($user->role);
+        $user->role()->associate($role);
+        $user->reInitUsage();
         $user->save();
         $this->search($user);
         return $user;

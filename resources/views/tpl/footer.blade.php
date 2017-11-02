@@ -5,7 +5,9 @@
             <li class="footer-title"> ABOUT BIGBIGADS</li>
             <li><a href="{{url('/about')}}">About Us</a></li>
             <li><a href="{{url('/methodology')}}">Methodology</a></li>
-            <li><a href="{{url('/blog')}}">Blog</a></li>
+            <li class="hidden"><a href="{{url('/blog')}}">Blog</a></li>
+            <li><a href="{{url('/terms_service')}}">Terms Service</a></li>
+            <li><a href="{{url('/privacy_policy')}}">Privacy Policy</a></li>
         </ul>
         <ul class="col-md-3 col-sm-6">
             <li class="footer-title"> USING BIGBIGADS</li>
