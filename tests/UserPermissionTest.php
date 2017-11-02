@@ -32,10 +32,10 @@ class UserPermissionTest extends TestCase
         $this->assertTrue($user->can('monitor_ad_keyword'));
 
         //策略替换测试
-        $user->addUserUsage('monitor_ad_keyword', 20, 1);
-        $item = $user->getUsage('monitor_ad_keyword');
+        $this->assertTrue($user->setPolicy('search_times_perday', 20));
+        $item = $user->getUsage('search_times_perday');
         //echo json_encode($item);
-        if (intval($item[1]) != 20 || $item[2] != 1) {
+        if (intval($item[1]) != 20) {
             $this->assertTrue(false);
         }
 

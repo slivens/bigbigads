@@ -207,12 +207,13 @@ class BigbigadsSeeder extends Seeder
             'see_times_filter'                  => [false, true,  true,  true,  true,  true,  true],    // Customized Ad Run see_times
             'lang_filter'                       => [true,  true,  true,  true,  true,  true,  true],    // language filter
             'engagement_filter'                 => [false, true,  true,  true,  false, false, true],    // engagement filter
-            'date_sort'                         => [true,  true,  true,  true,  true,  true,  true],    // sort by: Last_Seen 
+            'view_count_sort'                   => [false, false, true,  true,  true,  true,  false],    // sort by: Default
+            'date_sort'                         => [true,  true,  true,  true,  true,  true,  true],    //          Last_Seen 
             'likes_sort'                        => [true,  true,  true,  true,  true,  true,  true],    //          Like
             'shares_sort'                       => [true,  true,  true,  true,  true,  true,  true],    //          Share
             'comment_sort'                      => [true,  true,  true,  true,  true,  true,  true],    //          Comment
             'duration_sort'                     => [false, true,  true,  true,  true,  true,  false],   //          Duration
-            'views_sort'                        => [false, false, true,  true,  true,  true,  false],   //          Views
+            'views_sort'                        => [false, true,  true,  true,  true,  true,  false],   //          Views
             'engagements_sort'                  => [false, false, true,  true,  false, false, false],   //          Engagements
             'engagement_inc_sort'               => [false, false, true,  true,  false, false, false],   //          Engagements Growth
             'likes_inc_sort'                    => [false, false, true,  true,  false, false, false],   //          Likes Growth

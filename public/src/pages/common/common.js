@@ -491,6 +491,60 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
             }
         }
     }])
+
+    /* 
+    * 复制到剪贴板
+    * copy-dom 上有三个属性，分别是value, button-text, success-text
+    * value: 要复制的文本
+    * button-text：按钮上的文字
+    * success-text: 复制成功后的文字
+    */
+    .directive('copyDom', function() {
+        return {
+            restrict: 'EA',
+            link: function(scope, element, attrs) {
+                let poster = $('<div class="copy-dom-wrapper"></div>')
+                let copyText = attrs.value // 要复制的文字
+                let buttonText = attrs.buttonText // 按钮上的文字
+                let markedWords = '' // 复制后提示语言
+                let markedClass = '' // 复制后样式
+                let html = `<input type="text" readOnly = "true" value="${copyText}"/>
+                    <button class="btn btn-primary">
+                        <i class="fa fa-clipboard"></i>
+                        ${buttonText}
+                    </button>
+                    <span></span>`
+                poster.html(html)
+                element.before(poster)
+                element.hide()
+                poster.find('button').click(function() {
+                    let inputDom = poster.find("input")
+                    inputDom.select() // 选择对象
+                    // 可能存在复制失败的情况
+                    try {
+                        document.execCommand("Copy") // 执行浏览器复制命令
+                        markedWords = attrs.successText // 复制成功后的提示
+                        markedClass = 'text-success'
+                    } catch (err) {
+                        markedWords = 'Replication failed and attempted manual replication' // 复制失败，尝试手动复制
+                        markedClass = 'text-danger'
+                    }
+                    poster.find("span").html("(" + markedWords + ")").removeClass("hiden-text").addClass("show-text").addClass(markedClass)
+                    // 暂时屏蔽点击按钮
+                    $(this).attr("disabled", "disabled")
+                    // 三秒后隐藏提示语，并恢复按钮可以点击
+                    setTimeout(function() {
+                        poster.find("span").addClass("hiden-text").removeClass("show-text")
+                        poster.find("button").removeAttr("disabled")
+                    }, 3000)
+                })
+                // 点击输入框的时候，会让其选中
+                poster.find("input").click(function() {
+                    $(this).select()
+                })
+            }
+        }
+    })
     // 去重复：定义一个过滤器，用于去除重复的数组，确保显示的每一条都唯一
     .filter('unique', function() {
         return function(collection) {

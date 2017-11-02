@@ -45,7 +45,7 @@ Artisan::command('bba:change {email} {roleName}', function($email, $roleName) {
         if ($user instanceof App\User) {
             $oldrole = $user->role;
             $user->role()->associate($role);
-            $user->initUsageByRole($role);
+            $user->reInitUsage();
             $user->save();
             $this->info("$email change to role:$roleName");
 
