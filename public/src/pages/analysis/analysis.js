@@ -125,7 +125,33 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
                 if (User.user.role.name) {
                     $scope.userPlan = User.user.role.plan
                 }
-
+                /*
+                * 受众
+                */
+                let audienceName = {
+                    'speak_languages': 'speak languages',
+                    'audience_called': 'audience called',
+                    'education_level': 'education level',
+                    'custom_audiences_visited_their_website_or_used_one_of_their_apps': 'custom audiences',
+                    'demographics_near_their_business': 'demographics',
+                    'relationship': 'relationship',
+                    'interests': 'interests'
+                }
+                let audienceArr = []
+                for (let key1 in $scope.card.whyseeads) {
+                    if (audienceName[key1] && $scope.card.whyseeads[key1]) {
+                        for (let key2 in $scope.card.whyseeads[key1]) {
+                            audienceArr.push({
+                                'type': audienceName[key1],
+                                'name': key2.replace(/_/g, ' '),
+                                'value': $scope.card.whyseeads[key1][key2]
+                            })
+                        }
+                    }
+                }
+                // 根据type进行排序
+                $scope.card.audieces = audienceArr.length && Util.arrSort(audienceArr, 'type', 0)
+                console.log('shouzhong', $scope.card.audieces)
                 /*
                 * interesting数据处理
                 * 如果是免费用户，则最多只显示三条的interest的信息
