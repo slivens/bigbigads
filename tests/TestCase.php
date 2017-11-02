@@ -24,8 +24,10 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
            $this->assertTrue(false);
            return; 
         }
+        $role->generateCache();
         $user->role()->associate($role);
-        $user->initUsageByRole($user->role);
+        $user->setCachePolicies();
+        $user->reInitUsage();
         return $user;
     }
 

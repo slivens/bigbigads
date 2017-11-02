@@ -10,7 +10,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
             vm.defparams = {
                 "search_result": opt && opt.searchType ? opt.searchType : "ads",
                 "sort": {
-                    "field": "view_count",
+                    "field": "last_view_date",
                     "order": 1
                 },
                 "where": [],
