@@ -153,7 +153,9 @@ class InvoiceController extends Controller
      * 只有保存且有订单的情况下才生成票据
      *
      * @param array $customInfo 接收到的定制信息
-     * @return array
+     * @return json
+     * 
+     * @todo 需要优化写法
      */
     public function saveInvoiceCustomer(Request $request)
     {
