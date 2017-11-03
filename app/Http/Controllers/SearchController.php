@@ -373,14 +373,16 @@ class SearchController extends Controller
     protected function updateAdSearchResource($req, $user)
     {
         if (count($req->keys) > 0 && $req->keys[0]['string']) {
+            $this->checkAndUpdateUsagePerday($user, 'search_key_total_perday');
             $searchKeyTotalPerday = $user->getUsage('search_key_total_perday');
-            if ($searchKeyTotalPerday[2] < intval($searchKeyTotalPerday[1])) {
-                $this->checkAndUpdateUsagePerday($user, 'search_key_total_perday');
+            if ($searchKeyTotalPerday[2] >= intval($searchKeyTotalPerday[1])) {
+                throw new \Exception("you reached search times today, default result will show", -4100);
             }
         } else {
+            $this->checkAndUpdateUsagePerday($user, 'search_without_key_total_perday');
             $searchWithoutKeyTotalPerday = $user->getUsage('search_without_key_total_perday');
-            if ($searchWithoutKeyTotalPerday[2] < intval( $searchWithoutKeyTotalPerday[1])) {
-                $this->checkAndUpdateUsagePerday($user, 'search_without_key_total_perday');
+            if ($searchWithoutKeyTotalPerday[2] >= intval($searchWithoutKeyTotalPerday[1])) {
+                throw new \Exception("you reached search times today, default result will show", -4100);
             }
         }
     }
@@ -391,9 +393,10 @@ class SearchController extends Controller
      */
     protected function updateSpecificAdserResource($user)
     {
+        $this->checkAndUpdateUsagePerday($user, 'specific_adser_times_perday');
         $specificAdserTimesPerday = $user->getUsage('specific_adser_times_perday');
-        if ($specificAdserTimesPerday[2] < intval($specificAdserTimesPerday[1])) {
-            $this->checkAndUpdateUsagePerday($user, 'specific_adser_times_perday');
+        if ($specificAdserTimesPerday[2] >= intval($specificAdserTimesPerday[1])) {
+            throw new \Exception("you reached search times today, default result will show", -4100);
         }
     }
 
@@ -411,7 +414,15 @@ class SearchController extends Controller
         ];
         foreach ($searchPolicyArray as $key => $value) {
             $usage = $user->getUsage($key);
-            if ($usage[2] >= intval($usage[1])) {
+            if (count($usage) < 4) {
+                $carbon = Carbon::now();
+            } else {
+                if ($usage[3] instanceof Carbon)
+                    $carbon = new Carbon($usage[3]->date, $usage[3]->timezone);
+                else
+                    $carbon = new Carbon($usage[3]['date'], $usage[3]['timezone']);
+            }
+            if ($usage[2] >= intval($usage[1]) && $carbon->isToday()) {
                 dispatch(new LogAction($value, $jsonData, $key . ': RESTRICT', $user->id, $req->ip()));
                 throw new \Exception("you reached search times today, default result will show", -4100);
             }
@@ -704,8 +715,8 @@ class SearchController extends Controller
                 }
                 if (in_array($act["action"], ['search'])) {
                     try {
-                        $this->updateAdSearchResource($req, $user);
                         $this->checkIsRestrictGetAdResource($req, $user, $jsonData);
+                        $this->updateAdSearchResource($req, $user);
                     } catch(\Exception $e) {
                         return $this->responseError($e->getMessage(),$e->getCode());
                     }
@@ -766,8 +777,8 @@ class SearchController extends Controller
                 }
                 if (in_array($act["action"], ['adser'])) {
                     try {
-                        $this->updateSpecificAdserResource($user);
                         $this->checkIsRestrictGetAdResource($req, $user, $jsonData);
+                        $this->updateSpecificAdserResource($user);  
                     } catch(\Exception $e) {
                         return $this->responseError($e->getMessage(),$e->getCode());
                     }
