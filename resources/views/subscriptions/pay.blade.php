@@ -153,44 +153,6 @@ use \Illuminate\Support\Facades\Input;
                                     <!-- End DigiCert site seal HTML and JavaScript -->
                                 </div>
                             </div>
-                            <div class="or-line">
-                                <span class="under-line"></span>
-                                <span class="under-line-word">OR</span>
-                                <span class="under-line"></span>
-                            </div>
-
-                            <form v-on:submit.prevent ref="payform" action="/pay" method="post" id="payment-form">
-                                <div class="row pay-creditcard">
-                                    <div class="col-sm-6 ads-font-14">
-                                            {{ csrf_field() }}
-
-                                            <input type="hidden"  v-model="token" name="stripeToken">
-                                            <input type="hidden"  value="{{$plan->id}}" name="planid">
-                                            <input type="hidden"  value="stripe" name="payType">
-                                            <div class="form-row">
-                                                <label for="card-element">
-                                                    Credit or debit card
-                                                </label>
-                                                <card class='stripe-card'
-                                                       :class='{ complete }'
-                                                       stripe='{{$key}}'
-                                                       :options='stripeOptions'
-                                                       @change='complete = $event.complete'
-                                                       />
-                                            </div>
-                                    </div>
-                                    <div class="col-sm-6 creditcard-btn clearfix">
-                                        <div class="text-center">
-                                            <button class="btn ads-font-22" @click='pay' :disabled="!complete"><i class="glyphicon glyphicon-credit-card credit-icon ads-font-24"></i>Credit Card</button>
-                                        </div>
-                                        <div class="text-center safety-signs">
-                                             <img src="static/images/pay/verified_secured_pic01.gif" alt="">
-                                        </div>
-                                    </div>
-
-                                    <div class="creditcard-disable text-center ads-font-22" disabled="disabled" > Coming Soon:Check out with Credit Card</div>
-                                </div>
-                            </form>
                             <hr>
                             <h4>Terms of Sales:</h4>
                             <ul class="ads-font-14">
