@@ -210,6 +210,21 @@ class InvoiceController extends Controller
                 ],
                 $extraData
             );
+            if (count($user->payments) > 0) {
+                $res = [
+                    'code' => 0,
+                    'desc' => 'The Invoice will be re-generate in few seconds.',
+                    'status' =>'success'
+                ];
+                //推入队列执行,有修改才执行
+                dispatch((new GenerateInvoiceJob(Payment::where('client_id', $user->id)->get(), true, $extraData)));
+            } else {
+                $res = [
+                    'code' => 0,
+                    'desc' => 'Then you must payed for one time.',
+                    'status' =>'success'
+                ];
+            }
         }
         return response()->json($res);
     }
