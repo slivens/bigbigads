@@ -17,6 +17,53 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
         var vm = this
         // angualr 页面中使用Math.ceil() 无效
         $scope.ceil = Math.ceil
+
+        /*
+        * 用户限制表
+        * 0：不限制
+        * 1、2、3....限制的数量
+        * true 限制
+        * false 不限制
+        * 暂时只针对free用户限制
+        */
+        var permission = {
+            'free': {
+                'audiencesList': 3, // 受众数据条数，仅显示三条
+                'demographyShow': false, // 人口统计显示：不限制
+                'demographyTime': 3, // 限制时间3个月
+                'countryMapShow': true, // 国家地图限制：不限制
+                'countryTableList': 3, // 国家国家数据条数3条
+                'countryTableShow': false // 表格显示，不限制
+            },
+            'lite': {
+                'audiencesList': 0,
+                'demographyShow': false,
+                'demographyTime': 0,
+                'countryTableList': 0,
+                'countryTableShow': false
+            },
+            'standard': {
+                'audiencesList': 0,
+                'demographyShow': false,
+                'demographyTime': 0,
+                'countryTableList': 0,
+                'countryTableShow': false
+            },
+            'plus': {
+                'audiencesList': 0,
+                'demographyShow': false,
+                'demographyTime': 0,
+                'countryTableList': 0,
+                'countryTableShow': false
+            },
+            'vip': {
+                'audiencesList': 0,
+                'demographyShow': false,
+                'demographyTime': 0,
+                'countryTableList': 0,
+                'countryTableShow': false
+            }
+        }
         var searcher = $scope.adSearcher = new Searcher()
         // $scope.adSearcher.search($scope.adSearcher.defparams, true);
         $scope.reverseSort = function() {
@@ -52,6 +99,9 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
         $q.all([countryPromise, promise]).then(function(res) {
             // 只取首条消息
             var ads = res[1]
+
+            $scope.userLimit = permission[User.user.role.plan]
+            console.log($scope.userLimit)
             // objective 转换为正常单词
             var objectStr = {
                 "APP_INSTALLS": "App Installs",
@@ -127,15 +177,22 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
                 }
                 /*
                 * 受众
+                * 将所有受众的信息都集合到一个数组中
+                * 根据用户的权限，对数据数据显示进行限制
+                * 限制根据：userLimit
                 */
                 let audienceName = {
-                    'speak_languages': 'speak languages',
-                    'audience_called': 'audience called',
-                    'education_level': 'education level',
-                    'custom_audiences_visited_their_website_or_used_one_of_their_apps': 'custom audiences',
-                    'demographics_near_their_business': 'demographics',
-                    'relationship': 'relationship',
-                    'interests': 'interests'
+                    'speak_languages': 'speak languages', // 语言
+                    'audience_called': 'audience called', // 受众称呼
+                    'education_level': 'education level', // 学历
+                    'custom_audiences_visited_their_website_or_used_one_of_their_apps': 'custom audiences', // 受众定制
+                    'demographics_near_their_business': 'demographics', // 人口统计
+                    'relationship': 'relationship', // 关系
+                    'interests': 'interests', // 兴趣
+                    'job_title': 'job title', // 工作职位
+                    'education_school': 'education school', // 教育学校
+                    'work_company': 'work company', // 工作公司
+                    'connections_like_their_Page_list': 'connections' // 链接
                 }
                 let audienceArr = []
                 for (let key1 in $scope.card.whyseeads) {
@@ -152,33 +209,13 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
                 // 根据type进行排序
                 $scope.card.audieces = audienceArr.length && Util.arrSort(audienceArr, 'type', 0)
                 console.log('shouzhong', $scope.card.audieces)
+
                 /*
-                * interesting数据处理
-                * 如果是免费用户，则最多只显示三条的interest的信息
-                * 如果是免费的用户，并且insterest的信息大于三组，则加个标识
+                * $scope.userLimit.audiencesList 为限制受众的长度，free的为3 ，意思是仅显示3条数据
+                * standard的及以上为0 ，则不做限制，全部展示
+                * 如果受众的长度小于限制的长度， 则不做限制， 全部显示
                 */
-                if ($scope.card.whyseeads.interests) {
-                    $scope.card.interestsArr = []
-                    let interestsCount = 0
-                    for (key in $scope.card.whyseeads.interests) {
-                        $scope.card.interestsArr.push({
-                            'name': key,
-                            'value': $scope.card.whyseeads.interests[key]
-                        })
-                        // 对总数继续计数
-                        interestsCount += $scope.card.whyseeads.interests[key]
-                    }
-                    /*
-                     * 对数组的value进行排序,具体用法见common.js
-                     * srrSort(整个数组，要根据排序的名称，正序0/逆序1)
-                     */
-                    $scope.card.interestsArr = Util.arrSort($scope.card.interestsArr, "value", 1)
-                    // 加个限制标识,免费用户，刚好且小于三条时，就不显示标识
-                    if ($scope.userPlan == 'free' && Object.keys($scope.card.whyseeads.interests).length >= 3) {
-                        $scope.card.interestsArr.limit = 3
-                    }
-                    $scope.card.interestsArr.count = interestsCount
-                }
+                if ($scope.userLimit.audiencesList && audienceArr.length <= $scope.userLimit.audiencesList) $scope.userLimit.audiencesList = 0
 
                 /*
                 * 性别占比与年龄分布处理
@@ -190,23 +227,24 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
 
                 // 如果为三个月内数据，且为免费用户，则填充假数据
                 if ($scope.card.whyseeads.gender) {
-                    let genderArr = []
-                    let asdGender = $scope.card.whyseeads.gender
-                    if ((timeInterval < 3) && $scope.userPlan == 'free') {
+                    let genderArr = [] // 性别占比 数组
+                    let adsGender = $scope.card.whyseeads.gender
+                    if ($scope.userLimit.demographyTime && timeInterval < $scope.userLimit.demographyTime) {
                         genderArr = [['Male', 1], ['Female', 1]]
-                        $scope.card.whyseeads.limit = true // 添加标识
+                        $scope.userLimit.demographyShow = true // 限制显示
                     } else {
-                        genderArr = [['Male', asdGender[0]], ['Female', asdGender[1]]]
+                        genderArr = [['Male', adsGender[0]], ['Female', adsGender[1]]]
                     }
                     $scope.card.genderPieCharts = Util.pieChartsConfig(genderArr, '60%', ['#7cb5ec', '#ee5689'])
                 } else $scope.card.genderPieCharts = false
 
                 // 广告详情-年龄分布
                 if ($scope.card.whyseeads.age) {
-                    let arr1, arr2
-                    if ((timeInterval < 3) && $scope.userPlan == 'free') {
+                    let arr1, arr2 // 龄分布 数组
+                    if ($scope.userLimit.demographyTime && timeInterval < $scope.userLimit.demographyTime) {
                         arr1 = [1, 1, 1, 1, 0, 0]
                         arr2 = [1, 1, 1, 1, 0, 0]
+                        $scope.userLimit.demographyShow = true // 限制显示
                     } else {
                         arr1 = $scope.card.whyseeads.age.map(function(v) { return v[0] })
                         arr2 = $scope.card.whyseeads.age.map(function(v) { return v[1] })
@@ -247,19 +285,23 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
                     for (key in $scope.card.whyseeads.addr) {
                         adsVisitCountryCount += $scope.card.whyseeads.addr[key].value
                     }
-                    $scope.card.whyseeads.count = adsVisitCountryCount
+                    // $scope.card.whyseeads.count = adsVisitCountryCount
                     // 国家图表 mapChartsConfig(mapData[国家数据], mapValueCount[数据总数], mapName[标题名称], mapLegend[是否显示图例])
-                    $scope.card.countryArr = []
+                    $scope.card.countryArr = [] // 国家数组
                     let countryItem = 0
-                    if ($scope.userPlan == 'free' && $scope.card.whyseeads.addr.length > 3) {
+                    if ($scope.userLimit.countryTableList && $scope.card.whyseeads.addr.length > $scope.userLimit.countryTableList) {
                         $scope.card.whyseeads.addr.forEach(function(items) {
-                            if (countryItem < 3) $scope.card.countryArr.push(items)
+                            if (countryItem < $scope.userLimit.countryTableList) $scope.card.countryArr.push(items)
                             countryItem++
                         })
-                        $scope.card.countryArr.limit = 3
                     } else {
                         $scope.card.countryArr = $scope.card.whyseeads.addr
                     }
+                    // 如果国家表格的数据小于三条， 则让表格高斯模糊显示
+                    if ($scope.userLimit.countryTableList && $scope.card.whyseeads.addr.length <= $scope.userLimit.countryTableList) {
+                        $scope.userLimit.countryTableShow = true
+                    } else $scope.userLimit.countryTableShow = false
+
                     $scope.card.countryArr.count = adsVisitCountryCount
                     $scope.card.addrMapLimit = $scope.userPlan == 'free'
                     $scope.card.addrMapCharts = Util.mapChartsConfig($scope.card.countryArr, adsVisitCountryCount, 'Top countries by impression')
