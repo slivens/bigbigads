@@ -121,7 +121,7 @@ Route::group(['middleware'=>'auth'], function() {
     });
     Route::post('changepwd', 'UserController@changepwd');
     Route::put('/payments/{number}/refund_request', 'SubscriptionController@requestRefund');
-    // Route::get('/invoices/{invoice_id}/status', 'InvoiceController@getGenerateStatus');
+    Route::post('/invoices/customize', 'InvoiceController@saveInvoiceCustomer');
     Route::get('/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
 
 });
