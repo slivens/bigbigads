@@ -203,7 +203,7 @@ hr{
                         @if ($data->tax_no)
                         <div class="row">
                             <div class="col-xs-8 col-sm-4 row_left">
-                                Tax No
+                                Tax No.
                             </div>
                             <div class="col-xs-4 col-sm-4 row_right">
                                 {{$data->tax_no}}

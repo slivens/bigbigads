@@ -6,13 +6,14 @@ import template from './profile.html'
 import changePwdTemplate from './changepwd.html'
 
 export default angular.module('profile', ['MetronicApp']).controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', '$http', 'SweetAlert', function($scope, $location, User, $uibModal, TIMESTAMP, $http, SweetAlert) {
-    // var vm = this
-    var profile = {
-        init: function() {
+    let profile = {
+        isFirstInit: false,
+        init() {
             var search = $location.search()
             if (search.active && search.active != this.active) {
                 this.active = Number(search.active)
             }
+
             if (search.pay && search.pay == 'success') {
                 /* eslint-disable */
                 // 七天内 支付成功的谷歌统计,暂时忽略刷新造成的统计干扰
@@ -34,6 +35,21 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
                 // 添加谷歌七日内付款成功统计事件,临时方案，后续会按要求以guzzle同步请求实现
                 ga('send', 'event', 'conversion', 'payed', 'pay_standard');
                 /* eslint-enable */
+            }
+
+            if (!this.isFirstInit) {
+                this.isFirstInit = true
+
+                $http({
+                    method: 'GET',
+                    url: `/users/${User.info.user.id}/customizeInvoice`
+                }).then((res) => {
+                    $scope.companyName = res.data.company_name
+                    $scope.address = res.data.address
+                    $scope.contactInfo = res.data.contact_info
+                    $scope.website = res.data.website
+                    $scope.taxNo = res.data.tax_no
+                })
             }
         }
     }
@@ -63,16 +79,11 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         $scope.userInfo = User.info
         $scope.User = User
         $scope.user = user
-        $scope.companyName = User.info.customized_invoice.company_name
-        $scope.address = User.info.customized_invoice.address
-        $scope.contactInfo = User.info.customized_invoice.contact_info
-        $scope.website = User.info.customized_invoice.website
-        $scope.taxNo = User.info.customized_invoice.tax_no
     })
     $scope.customizeSubmit = function() {
         $http({
             method: "POST",
-            url: "/invoices/customize",
+            url: `/users/${this.user.id}/customizeInvoice`,
             params: {
                 'company_name': this.companyName,
                 'address': this.address,

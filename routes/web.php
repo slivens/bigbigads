@@ -121,9 +121,9 @@ Route::group(['middleware'=>'auth'], function() {
     });
     Route::post('changepwd', 'UserController@changepwd');
     Route::put('/payments/{number}/refund_request', 'SubscriptionController@requestRefund');
-    Route::post('/invoices/customize', 'InvoiceController@saveInvoiceCustomer');
+    Route::get('/users/{user_id}/customizeInvoice', 'UserController@getInvoiceCustomer');
+    Route::post('/users/{user_id}/customizeInvoice', 'UserController@saveInvoiceCustomer');
     Route::get('/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
-
 });
 
 //pay页面需要支持不登录可访问

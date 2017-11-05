@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Log;
 use App\Payment;
-use App\CustomizedInvoice;
 use App\Contracts\PaymentService;
 use App\Jobs\GenerateInvoiceJob;
 use App\Exceptions\GenericException;
@@ -143,91 +142,5 @@ class InvoiceController extends Controller
             // 票据Id无效
             return $this->responseError('Invalid invoice id');
         }
-    }
-
-
-    /**
-     * 存储提交上来的定制信息
-     * 新创建的用户，没有交易订单但是可以存储，存储完毕后给出提示信息，没有票据生成操作
-     * 已经付款的用户，有交易订单，已经有生成过票据，存储完毕后重新生成票据，每个自然月操作1次
-     * 只有保存且有订单的情况下才生成票据
-     *
-     * @param array $customInfo 接收到的定制信息
-     * @return json
-     * 
-     * @todo 需要优化写法
-     */
-    public function saveInvoiceCustomer(Request $request)
-    {
-        $user = Auth::user();
-        $extraData = [
-            'company_name' => $request->company_name,
-            'address' => $request->address,
-            'contact_info' => $request->contact_info,
-            'website' => $request->website,
-            'tax_no' => $request->tax_no
-        ];
-        if ($custom = CustomizedInvoice::where('user_id', $user->id)->first()) {
-            if ($custom->canSave()) {
-                $modified_custom = CustomizedInvoice::updateOrCreate(
-                    [
-                        'user_id' => $user->id
-                    ],
-                    $extraData
-                );
-                if ($modified_custom != $custom) {
-                    if (count($user->payments) > 0) {
-                        $res = [
-                            'code' => 0,
-                            'desc' => 'The Invoice will be re-generate in few seconds.',
-                            'status' =>'success'
-                        ];
-                        //推入队列执行,有修改才执行
-                        dispatch((new GenerateInvoiceJob(Payment::where('client_id', $user->id)->get(), true, $extraData)));
-                    } else {
-                        $res = [
-                            'code' => 0,
-                            'desc' => 'Then you must payed for one time.',
-                            'status' =>'success'
-                        ];
-                    }
-                } else {
-                    $res = [
-                            'code' => 0,
-                            'desc' => 'But information is not changed.',
-                            'status' =>'success'
-                    ];
-                }
-            } else {
-                $res = [
-                    'code' => -1,
-                    'desc' => 'Only change once in 1 month.',
-                    'status' =>'error'
-                ];
-            }
-        } else {
-            CustomizedInvoice::updateOrCreate(
-                [
-                    'user_id' => $user->id
-                ],
-                $extraData
-            );
-            if (count($user->payments) > 0) {
-                $res = [
-                    'code' => 0,
-                    'desc' => 'The Invoice will be re-generate in few seconds.',
-                    'status' =>'success'
-                ];
-                //推入队列执行,有修改才执行
-                dispatch((new GenerateInvoiceJob(Payment::where('client_id', $user->id)->get(), true, $extraData)));
-            } else {
-                $res = [
-                    'code' => 0,
-                    'desc' => 'Then you must payed for one time.',
-                    'status' =>'success'
-                ];
-            }
-        }
-        return response()->json($res);
     }
 }
