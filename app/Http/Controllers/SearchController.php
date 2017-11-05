@@ -151,11 +151,11 @@ class SearchController extends Controller
                     $params['search_result'] = 'cache_ads';
                     $params['where'] = [];
                     $params['keys'] = [];
-                    $params['sort']['field'] = 'view_count';
+                    $params['sort']['field'] = 'last_view_date';
                 }        
                 return $params;
             }else if(Auth::check() && ($user->hasRole('Free') || $user->hasRole('Standard') || $user->hasRole('Lite'))) {
-                if (array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0 || (array_key_exists('sort', $params) && $params['sort']['field'] != 'view_count')) {
+                if (array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0 || (array_key_exists('sort', $params) && $params['sort']['field'] != 'last_view_date')) {
                     $params['search_result'] = 'ads';
                     $isHasTime = false;
                     //新增free用户在总搜索次数在没有超过10次(暂定)的情况下，结合voyager setting
@@ -263,9 +263,9 @@ class SearchController extends Controller
                     }
             }
             //使用数组来处理过滤参数和权限名称不一致的情况比使用switch更优雅。
-            $sortPermissions = ['view_count' => 'date_sort', 'duration_days' => 'duration_sort', 'engagements' => 'engagements_sort', 'views' => 'views_sort', 'engagements_per_7d' => 'engagement_inc_sort',
+            $sortPermissions = ['last_view_date' => 'date_sort', 'duration_days' => 'duration_sort', 'engagements' => 'engagements_sort', 'views' => 'views_sort', 'engagements_per_7d' => 'engagement_inc_sort',
                                 'views_per_7d' => 'views_inc_sort', 'likes' => 'likes_sort', 'shares' => 'shares_sort', 'comments' => 'comment_sort', 'likes_per_7d' => 'likes_inc_sort', 'shares_per_7d' => 'shares_inc_sort',
-                                'comments_per_7d' => 'comments_inc_sort'];
+                                'comments_per_7d' => 'comments_inc_sort', 'view_count' => 'view_count_sort'];
             $key = $sortPermissions[$params['sort']['field']];
             if ($key && !$user->can($key)) {
                 throw new \Exception("no permission of sort", -4002);
@@ -373,14 +373,16 @@ class SearchController extends Controller
     protected function updateAdSearchResource($req, $user)
     {
         if (count($req->keys) > 0 && $req->keys[0]['string']) {
+            $this->checkAndUpdateUsagePerday($user, 'search_key_total_perday');
             $searchKeyTotalPerday = $user->getUsage('search_key_total_perday');
-            if ($searchKeyTotalPerday[2] < intval($searchKeyTotalPerday[1])) {
-                $this->checkAndUpdateUsagePerday($user, 'search_key_total_perday');
+            if ($searchKeyTotalPerday[2] >= intval($searchKeyTotalPerday[1])) {
+                throw new \Exception("you reached search times today, default result will show", -4100);
             }
         } else {
+            $this->checkAndUpdateUsagePerday($user, 'search_without_key_total_perday');
             $searchWithoutKeyTotalPerday = $user->getUsage('search_without_key_total_perday');
-            if ($searchWithoutKeyTotalPerday[2] < intval( $searchWithoutKeyTotalPerday[1])) {
-                $this->checkAndUpdateUsagePerday($user, 'search_without_key_total_perday');
+            if ($searchWithoutKeyTotalPerday[2] >= intval($searchWithoutKeyTotalPerday[1])) {
+                throw new \Exception("you reached search times today, default result will show", -4100);
             }
         }
     }
@@ -391,9 +393,10 @@ class SearchController extends Controller
      */
     protected function updateSpecificAdserResource($user)
     {
+        $this->checkAndUpdateUsagePerday($user, 'specific_adser_times_perday');
         $specificAdserTimesPerday = $user->getUsage('specific_adser_times_perday');
-        if ($specificAdserTimesPerday[2] < intval($specificAdserTimesPerday[1])) {
-            $this->checkAndUpdateUsagePerday($user, 'specific_adser_times_perday');
+        if ($specificAdserTimesPerday[2] >= intval($specificAdserTimesPerday[1])) {
+            throw new \Exception("you reached search times today, default result will show", -4100);
         }
     }
 
@@ -405,11 +408,21 @@ class SearchController extends Controller
         $searchPolicyArray = [
             'specific_adser_times_perday'       => ActionLog::ACTION_SEARCH_RESTRICT_PERDAY_ADSER,
             'search_key_total_perday'           => ActionLog::ACTION_SEARCH_KEY_RESTRICT,
-            'search_without_key_total_perday'   => ActionLog::ACTION_SEARCH_WITHOUT_KEY_RESTRICT
+            'search_without_key_total_perday'   => ActionLog::ACTION_SEARCH_WITHOUT_KEY_RESTRICT,
+            'search_times_perday'               => ActionLog::ACTION_SEARCH_TIMES_PERDAY,
+            'ad_analysis_times_perday'          => ActionLog::ACTION_AD_ANALYSIS_TIMES_PERDAY
         ];
         foreach ($searchPolicyArray as $key => $value) {
             $usage = $user->getUsage($key);
-            if ($usage[2] >= intval($usage[1])) {
+            if (count($usage) < 4) {
+                $carbon = Carbon::now();
+            } else {
+                if ($usage[3] instanceof Carbon)
+                    $carbon = new Carbon($usage[3]->date, $usage[3]->timezone);
+                else
+                    $carbon = new Carbon($usage[3]['date'], $usage[3]['timezone']);
+            }
+            if ($usage[2] >= intval($usage[1]) && $carbon->isToday()) {
                 dispatch(new LogAction($value, $jsonData, $key . ': RESTRICT', $user->id, $req->ip()));
                 throw new \Exception("you reached search times today, default result will show", -4100);
             }
@@ -539,9 +552,9 @@ class SearchController extends Controller
                         //search 页面使用过滤,由于search mode后参数情况不一样，是添加在了keys里面，所以有两种情况
                         //1.keys长度不为0，但是string为0，where长度大于等于0，说明是仅使用了search mode过滤或者包含search mode的组合过滤。
                         //2.keys长度为0，where长度不为0，说明是使用了除search mode以外的过滤。
-                        if (count($req->keys) > 0 && array_key_exists('string', $req->keys[0]) && !$req->keys[0]['string'] && count($req->where) >= 0 && $req->sort['field'] != 'view_count') {
+                        if (count($req->keys) > 0 && array_key_exists('string', $req->keys[0]) && !$req->keys[0]['string'] && count($req->where) >= 0 && $req->sort['field'] != 'last_view_date') {
                             $subAction = 'where';
-                        } else if (count($req->keys) === 0 && count($req->where) > 0 && $req->sort['field'] != 'view_count') {
+                        } else if (count($req->keys) === 0 && count($req->where) > 0 && $req->sort['field'] != 'last_view_date') {
                             $subAction = 'where';
                         }
                     }
@@ -554,7 +567,7 @@ class SearchController extends Controller
                     //需要另外判断免费用户，每次过滤都会带有ads_id和time
                     if ($user->hasRole('Free')) {
                         //特定adser 页面初始化
-                        if (count($req->keys) === 0 && count($req->where) === 2 && $req->limit['0'] === 0 && $req->sort['field'] == 'view_count') {
+                        if (count($req->keys) === 0 && count($req->where) === 2 && $req->limit['0'] === 0 && $req->sort['field'] == 'last_view_date') {
                             $subAction = 'init';
                         }
                         if ($req->limit['0'] != 0 && $req->limit['0'] != $lastParamsArray['limit']['0']) {
@@ -570,7 +583,7 @@ class SearchController extends Controller
                             }
                         }
                     } else {
-                        if (count($req->keys) === 0 && count($req->where) === 1 && $req->limit['0'] === 0 && $req->sort['field'] === 'view_count') {
+                        if (count($req->keys) === 0 && count($req->where) === 1 && $req->limit['0'] === 0 && $req->sort['field'] === 'last_view_date') {
                             $subAction = 'init';
                         }
                         if ($req->limit['0'] != 0 && $req->limit['0'] != $lastParamsArray['limit']['0']) {
@@ -579,9 +592,9 @@ class SearchController extends Controller
                             //特定adser 页面使用过滤,由于search mode后参数情况不一样，是添加在了keys里面，所以有两种情况
                             //1.keys长度不为0，但是string为0，where长度大于等于1，说明是使用了search mode组合的过滤。
                             //2.keys长度为0，where长度不为0，说明是使用了除search mode以外的过滤。
-                            if (count($req->keys) > 0 && array_key_exists('string', $req->keys[0]) && !$req->keys[0]['string'] && count($req->where) >= 1 || ($lastParamsArray['sort'] != $req->sort && $req->sort['field'] != 'view_count')) {
+                            if (count($req->keys) > 0 && array_key_exists('string', $req->keys[0]) && !$req->keys[0]['string'] && count($req->where) >= 1 || ($lastParamsArray['sort'] != $req->sort && $req->sort['field'] != 'last_view_date')) {
                                 $subAction = 'where';
-                            } else if (count($req->keys) === 0 && count($req->where) > 1 || ($lastParamsArray['sort'] != $req->sort && $req->sort['field'] != 'view_count')) {
+                            } else if (count($req->keys) === 0 && count($req->where) > 1 || ($lastParamsArray['sort'] != $req->sort && $req->sort['field'] != 'last_view_date')) {
                                 $subAction = 'where';
                             }
                         }
@@ -702,8 +715,8 @@ class SearchController extends Controller
                 }
                 if (in_array($act["action"], ['search'])) {
                     try {
-                        $this->updateAdSearchResource($req, $user);
                         $this->checkIsRestrictGetAdResource($req, $user, $jsonData);
+                        $this->updateAdSearchResource($req, $user);
                     } catch(\Exception $e) {
                         return $this->responseError($e->getMessage(),$e->getCode());
                     }
@@ -764,8 +777,8 @@ class SearchController extends Controller
                 }
                 if (in_array($act["action"], ['adser'])) {
                     try {
-                        $this->updateSpecificAdserResource($user);
                         $this->checkIsRestrictGetAdResource($req, $user, $jsonData);
+                        $this->updateSpecificAdserResource($user);  
                     } catch(\Exception $e) {
                         return $this->responseError($e->getMessage(),$e->getCode());
                     }

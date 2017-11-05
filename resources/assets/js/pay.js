@@ -12,6 +12,9 @@ import { Card, createToken } from 'vue-stripe-elements-plus'
 
 // Vue.component('coupon', require('./components/Coupon.vue'))
 
+// Ie 不兼容 promise
+if (!window.Promise) window.Promise = Promise
+
 /* 判断邮箱 */
 function isEmail(szMail) {
     var szReg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/
