@@ -5,12 +5,13 @@ import tr from '../lib/intl.js'
 
 /* Setup App Main Controller */
 angular.module('bba.app', ['ui.router', 'bba.header', 'bba.ng-spinner-bar'])
-    .controller('AppController', ['$rootScope', function($rootScope) {
-        let ctrl = this
+    .controller('AppController', ['$state', '$rootScope', function($state, $rootScope) {
         $rootScope.tr = tr
         $rootScope.$on('$stateChangeSuccess', () => {
-            ctrl.serverRendered = true
+            this.serverRendered = true
         })
+
+        this.state = $state
     }])
     .component('app', {
         template,
