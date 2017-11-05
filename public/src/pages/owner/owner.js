@@ -34,6 +34,7 @@ export default (angular) => {
             username: $stateParams.adser
         }
         var adSearcher = $scope.adSearcher = new Searcher()
+        $scope.isFreeze = false
         adSearcher.checkAndGetMore = function() {
             if (!User.done) {
                 adSearcher.getMore('adser')
@@ -57,6 +58,10 @@ export default (angular) => {
                     case -4100:
                         $scope.isRestrict = true
                         User.openSearchResultUpgrade()
+                        break
+                    case -5000:
+                        $scope.isFreeze = true
+                        SweetAlert.swal(res.data.desc)
                         break
                     default:
                         break
@@ -340,6 +345,10 @@ export default (angular) => {
                     case -4100:
                         $scope.isRestrict = true
                         User.openSearchResultUpgrade()
+                        break
+                    case -5000:
+                        $scope.isFreeze = true
+                        SweetAlert.swal(res.data.desc)
                         break
                     default:
                         break
