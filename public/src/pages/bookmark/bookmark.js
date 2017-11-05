@@ -1,4 +1,3 @@
-import './bookmark.scss'
 import template from './bookmark.html'
 import bookmarkAddDialogTemplate from './bookmark-add-dialog.html'
 import '../../components/bookmark-popover.js'

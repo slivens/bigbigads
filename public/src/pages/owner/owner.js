@@ -15,7 +15,6 @@ import 'bootstrap-select'
 import 'ion-rangeslider/css/ion.rangeSlider.css'
 import 'ion-rangeslider/css/ion.rangeSlider.skinModern.css'
 import 'ion-rangeslider'
-import './owner.scss'
 import template from './owner.html'
 
 export default (angular) => {

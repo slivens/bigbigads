@@ -16,7 +16,6 @@ import 'bootstrap-select'
 import 'ion-rangeslider/css/ion.rangeSlider.css'
 import 'ion-rangeslider/css/ion.rangeSlider.skinModern.css'
 import 'ion-rangeslider'
-import './search.scss'
 import template from './search.html'
 
 /* adsearch js */
