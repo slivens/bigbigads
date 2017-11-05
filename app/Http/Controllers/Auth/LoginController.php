@@ -86,7 +86,7 @@ class LoginController extends Controller
 			// Authentication passed...
         } else if ($user->state == 2) {
             Auth::logout();
-            return view('auth.verify')->with('error', "Your account has freezed, please contact the Administrator!!!");
+            return view('auth.verify')->with('error', "Your account was temporarily banned. Please check your mail-box or contact help@bigbigads.com for more info.");
         }
         //简化处理
         $user->resetIfExpired();

@@ -51,12 +51,17 @@ export default (angular) => {
                 adSearcher.isend = true
                 return
             }
+            $scope.isFreeze = false
             adSearcher.getMore('adser').catch(function(res) {
                 if (res.data instanceof Object) {
                     switch (res.data.code) {
                     case -4100:
                         $scope.isRestrict = true
                         User.openSearchResultUpgrade()
+                        break
+                    case -5000:
+                        $scope.isFreeze = true
+                        SweetAlert.swal(res.data.desc)
                         break
                     default:
                         break
@@ -334,12 +339,17 @@ export default (angular) => {
             $scope.currSearchOption.callToAction = buttondesc.join(',')
             action = 'adser'
             $scope.isRestrict = false
+            $scope.isFreeze = false
             $scope.adSearcher.filter(action || 'adser').catch(function(res) {
                 if (res.data instanceof Object) {
                     switch (res.data.code) {
                     case -4100:
                         $scope.isRestrict = true
                         User.openSearchResultUpgrade()
+                        break
+                    case -5000:
+                        $scope.isFreeze = true
+                        SweetAlert.swal(res.data.desc)
                         break
                     default:
                         break
