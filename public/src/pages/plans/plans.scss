@@ -1,15 +1,4 @@
 @import '../../styles/base';
-/*覆盖样式*/
-.page-header {
-    height: 50px;
-}
-
-/*legacy 插件样式干扰，强行覆盖*/
-.page-content {
-    .container-fluid {
-        padding: 0;
-    }
-}
 
 #plans {
     a {
