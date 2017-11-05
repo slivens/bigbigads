@@ -36,6 +36,7 @@ export default angular => {
             var adSearcher = $scope.adSearcher = new Searcher()
             // $scope.restrict用于标示用户今日内是否受限
             $scope.isRestrict = false
+            $scope.isFreeze = false
             adSearcher.checkAndGetMore = function() {
                 if (!User.done) {
                     adSearcher.getMore('search')
@@ -61,6 +62,10 @@ export default angular => {
                         case -4100:
                             $scope.isRestrict = true
                             User.openSearchResultUpgrade()
+                            break
+                        case -5000:
+                            $scope.isFreeze = true
+                            SweetAlert.swal(res.data.desc)
                             break
                         default:
                             break
@@ -389,7 +394,10 @@ export default angular => {
                             window.open('/login', "_self")
                             break
                         case -4200:
+                            SweetAlert.swal(res.data.desc)
+                            break
                         case -5000:
+                            $scope.isFreeze = true
                             SweetAlert.swal(res.data.desc)
                             break
                         }
