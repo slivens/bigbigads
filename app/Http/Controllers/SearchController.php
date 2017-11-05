@@ -151,11 +151,11 @@ class SearchController extends Controller
                     $params['search_result'] = 'cache_ads';
                     $params['where'] = [];
                     $params['keys'] = [];
-                    $params['sort']['field'] = 'last_view_date';
+                    $params['sort']['field'] = 'default';
                 }        
                 return $params;
             }else if(Auth::check() && ($user->hasRole('Free') || $user->hasRole('Standard') || $user->hasRole('Lite'))) {
-                if (array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0 || (array_key_exists('sort', $params) && $params['sort']['field'] != 'last_view_date')) {
+                if (array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0 || (array_key_exists('sort', $params) && $params['sort']['field'] != 'default')) {
                     $params['search_result'] = 'ads';
                     $isHasTime = false;
                     //新增free用户在总搜索次数在没有超过10次(暂定)的情况下，结合voyager setting
@@ -265,7 +265,7 @@ class SearchController extends Controller
             //使用数组来处理过滤参数和权限名称不一致的情况比使用switch更优雅。
             $sortPermissions = ['last_view_date' => 'date_sort', 'duration_days' => 'duration_sort', 'engagements' => 'engagements_sort', 'views' => 'views_sort', 'engagements_per_7d' => 'engagement_inc_sort',
                                 'views_per_7d' => 'views_inc_sort', 'likes' => 'likes_sort', 'shares' => 'shares_sort', 'comments' => 'comment_sort', 'likes_per_7d' => 'likes_inc_sort', 'shares_per_7d' => 'shares_inc_sort',
-                                'comments_per_7d' => 'comments_inc_sort', 'view_count' => 'view_count_sort'];
+                                'comments_per_7d' => 'comments_inc_sort', 'view_count' => 'view_count_sort', 'default' => 'default_filter'];
             $key = $sortPermissions[$params['sort']['field']];
             if ($key && !$user->can($key)) {
                 throw new \Exception("no permission of sort", -4002);
@@ -552,9 +552,9 @@ class SearchController extends Controller
                         //search 页面使用过滤,由于search mode后参数情况不一样，是添加在了keys里面，所以有两种情况
                         //1.keys长度不为0，但是string为0，where长度大于等于0，说明是仅使用了search mode过滤或者包含search mode的组合过滤。
                         //2.keys长度为0，where长度不为0，说明是使用了除search mode以外的过滤。
-                        if (count($req->keys) > 0 && array_key_exists('string', $req->keys[0]) && !$req->keys[0]['string'] && count($req->where) >= 0 && $req->sort['field'] != 'last_view_date') {
+                        if (count($req->keys) > 0 && array_key_exists('string', $req->keys[0]) && !$req->keys[0]['string'] && count($req->where) >= 0 && $req->sort['field'] != 'default') {
                             $subAction = 'where';
-                        } else if (count($req->keys) === 0 && count($req->where) > 0 && $req->sort['field'] != 'last_view_date') {
+                        } else if (count($req->keys) === 0 && count($req->where) > 0 && $req->sort['field'] != 'default') {
                             $subAction = 'where';
                         }
                     }
@@ -567,7 +567,7 @@ class SearchController extends Controller
                     //需要另外判断免费用户，每次过滤都会带有ads_id和time
                     if ($user->hasRole('Free')) {
                         //特定adser 页面初始化
-                        if (count($req->keys) === 0 && count($req->where) === 2 && $req->limit['0'] === 0 && $req->sort['field'] == 'last_view_date') {
+                        if (count($req->keys) === 0 && count($req->where) === 2 && $req->limit['0'] === 0 && $req->sort['field'] == 'default') {
                             $subAction = 'init';
                         }
                         if ($req->limit['0'] != 0 && $req->limit['0'] != $lastParamsArray['limit']['0']) {
@@ -583,7 +583,7 @@ class SearchController extends Controller
                             }
                         }
                     } else {
-                        if (count($req->keys) === 0 && count($req->where) === 1 && $req->limit['0'] === 0 && $req->sort['field'] === 'last_view_date') {
+                        if (count($req->keys) === 0 && count($req->where) === 1 && $req->limit['0'] === 0 && $req->sort['field'] === 'default') {
                             $subAction = 'init';
                         }
                         if ($req->limit['0'] != 0 && $req->limit['0'] != $lastParamsArray['limit']['0']) {
@@ -592,9 +592,9 @@ class SearchController extends Controller
                             //特定adser 页面使用过滤,由于search mode后参数情况不一样，是添加在了keys里面，所以有两种情况
                             //1.keys长度不为0，但是string为0，where长度大于等于1，说明是使用了search mode组合的过滤。
                             //2.keys长度为0，where长度不为0，说明是使用了除search mode以外的过滤。
-                            if (count($req->keys) > 0 && array_key_exists('string', $req->keys[0]) && !$req->keys[0]['string'] && count($req->where) >= 1 || ($lastParamsArray['sort'] != $req->sort && $req->sort['field'] != 'last_view_date')) {
+                            if (count($req->keys) > 0 && array_key_exists('string', $req->keys[0]) && !$req->keys[0]['string'] && count($req->where) >= 1 || ($lastParamsArray['sort'] != $req->sort && $req->sort['field'] != 'default')) {
                                 $subAction = 'where';
-                            } else if (count($req->keys) === 0 && count($req->where) > 1 || ($lastParamsArray['sort'] != $req->sort && $req->sort['field'] != 'last_view_date')) {
+                            } else if (count($req->keys) === 0 && count($req->where) > 1 || ($lastParamsArray['sort'] != $req->sort && $req->sort['field'] != 'default')) {
                                 $subAction = 'where';
                             }
                         }
