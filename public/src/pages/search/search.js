@@ -394,7 +394,10 @@ export default angular => {
                             window.open('/login', "_self")
                             break
                         case -4200:
+                            SweetAlert.swal(res.data.desc)
+                            break
                         case -5000:
+                            $scope.isFreeze = true
                             SweetAlert.swal(res.data.desc)
                             break
                         }
