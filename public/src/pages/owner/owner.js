@@ -34,6 +34,7 @@ export default (angular) => {
             username: $stateParams.adser
         }
         var adSearcher = $scope.adSearcher = new Searcher()
+        $scope.isFreeze = false
         adSearcher.checkAndGetMore = function() {
             if (!User.done) {
                 adSearcher.getMore('adser')
@@ -51,7 +52,6 @@ export default (angular) => {
                 adSearcher.isend = true
                 return
             }
-            $scope.isFreeze = false
             adSearcher.getMore('adser').catch(function(res) {
                 if (res.data instanceof Object) {
                     switch (res.data.code) {
@@ -339,7 +339,6 @@ export default (angular) => {
             $scope.currSearchOption.callToAction = buttondesc.join(',')
             action = 'adser'
             $scope.isRestrict = false
-            $scope.isFreeze = false
             $scope.adSearcher.filter(action || 'adser').catch(function(res) {
                 if (res.data instanceof Object) {
                     switch (res.data.code) {
