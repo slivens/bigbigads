@@ -885,13 +885,12 @@ class PaymentService implements PaymentServiceContract
             ->where('user_id', $payment->client_id)
             ->first();
         }
-        if ($extra) {
+
             $data->company_name = $extra['company_name'] ? : false;
             $data->address = $extra['address']? : false;
             $data->contact_info = $extra['contact_info'] ? : false;
             $data->website = $extra['website'] ? : false;
             $data->tax_no = $extra['tax_no'] ? : false;
-        }
 
         // 渲染html,转换成pdf
         $dompdf = new DOMPDF(); // if you use namespaces you may use new \DOMPDF()
