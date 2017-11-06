@@ -107,4 +107,20 @@ class LoginController extends Controller
             return view('auth.login');
         }
     }
+
+    /**
+     * 默认的logout，没有删除session即重新生成，导致session大量累计
+     * 无法准确地判断在线用户。此处改写为regenerate时先删除上一个session。
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->flush();
+
+        $request->session()->regenerate(true);
+
+        return redirect('/');
+    }
+
 }

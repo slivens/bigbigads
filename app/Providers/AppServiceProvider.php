@@ -12,6 +12,7 @@ use Payum\LaravelPackage\Storage\EloquentStorage;
 use App\Payment;
 use Payum\LaravelPackage\Model\Token;
 use Payum\Core\Storage\FilesystemStorage;
+use Illuminate\Support\Facades\Session;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,6 +45,12 @@ class AppServiceProvider extends ServiceProvider
             return true;
         });
         $this->app['view']->addNamespace('cashier', base_path() . '/vendor/laravel/cashier-braintree/resources/views');
+
+        Session::extend('enhanced', function($app) {
+            $store = $app['config']->get('session.store') ?: 'redis';          
+            $minutes = $app['config']['session.lifetime'];  
+            return new \App\Extensions\EnhancedSessionHandler(clone $app['cache']->store($store), $minutes);
+        });
     }
 
     /**
