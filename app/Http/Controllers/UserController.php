@@ -426,12 +426,14 @@ class UserController extends Controller
 
     /**
      * 获取用户票据自定义信息
+     * 只获取表单显示的部分内容
      *
-     * @return void
+     * @return json
      */
     public function getInvoiceCustomer(Request $request)
     {
-        return CustomizedInvoice::select('company_name', 'address', 'contact_info', 'website', 'tax_no')->where('user_id', $request->user_id)->first();
+        $customer = CustomizedInvoice::select('company_name', 'address', 'contact_info', 'website', 'tax_no')->where('user_id', $request->user_id)->first();
+        return response()->json($customer);
     }
 
     
