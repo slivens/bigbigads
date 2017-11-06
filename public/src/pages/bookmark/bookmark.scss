@@ -1,0 +1,36 @@
+#bookmark{
+	 // mobile
+    @media (max-width: 720px) {
+        .deckgrid[deckgrid]::before {
+            content: '1 .column.column-1-1';
+        }
+    }
+    // ipad
+    @media (min-width: 721px) and (max-width: 769px) {
+        .deckgrid[deckgrid]::before {
+            content: '2 .column.column-1-2';
+        }
+    }
+    // 大于769之后，会出现左边的filter，会占据页面一部分
+     @media (min-width: 770px) and (max-width: 991px) {
+        .deckgrid[deckgrid]::before {
+            content: '1 .column.column-1-1';
+        }
+    }
+
+    @media (min-width: 992px) and (max-width: 1300px) {
+        .deckgrid[deckgrid]::before {
+            content: '2 .column.column-1-2';
+        }
+    }
+    @media (min-width: 1301px) and (max-width: 1700px) {
+        .deckgrid[deckgrid]::before {
+            content: '3 .column.column-1-3';
+        }
+    }
+    @media (min-width: 1701px) {
+        .deckgrid[deckgrid]::before {
+            content: '4 .column.column-1-4';
+        }
+    }
+}
