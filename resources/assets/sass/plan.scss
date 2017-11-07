@@ -1,3 +1,5 @@
+@import 'base';
+@import 'mobile_footer';
 #plan {
     background: #fff;
     .plan-right {
@@ -23,278 +25,190 @@
         font-weight: 200;
         color: #fff;
     }
-    .plan-header {
-        background: #F4F7F9;
-        padding: 50px 0;
-        .header-title {
-            color: #1D96F3;
-        }
-        .header-suptitle {
-            color: #98A7B4;
-            margin-top: 30px;
-        }
-    }
     .plan-small {
         color: #1D96F3;
         font-size: 12px;
         font-weight: 200;
         margin-left: 5px;
     }
-    .pricing-banner {
-        width: 100%;
-        background: url(./images/pricing/pricing_banner.jpg) no-repeat bottom center;
-        height: 190px;
-        background-size: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        .pricing-banner-text {
-            color: #0383d5;
-            font-weight: 600;
-        }
-    }
-    .content-title {
-        .title-main {
-            color: #eb6130;
-            margin-top: 50px;
-        }
-    }
 
-    // plan-card
     .plan-banner {
         padding-top: 50px;
         padding-bottom: 100px;
         margin-bottom: 80px;
+        background-color: #ccc;
         background-image: linear-gradient(to top, #ccc 0%, #68e0cf 100%);
-        .plan-suptitle{
+        min-width: 1050px;
+        .plan-suptitle {
             margin-top: 30px;
         }
-        .plan-card-wrapper{
+        .plan-card-wrapper {
             box-sizing: border-box;
             margin-top: 80px;
-            .plan-card{
+            text-align: center;
+            perspective: 1000px;
+            -webkit-perspective: 1000px; // 透视
+            .plan-card {
                 width: 280px;
-                background: #fff;
-                box-shadow: 0 2px 2px 0 rgba(0,0,0,.15);
+                height: 380px;
                 position: relative;
                 display: inline-block;
-                vertical-align: top;
                 margin: 0 30px 40px;
-                height: 380px;
-                text-align: left;
-                box-sizing: border-box;
-
-                transition: .6s;
-                transform-style: preserve-3d;
-                position: relative;
                 border-radius: 6px;
-                .card-header{
+                transform-style: preserve-3d;
+                -webkit-transform-style: preserve-3d;
+                transition: transform .6s;
+                -webkit-transition: -webkit-transform .6s;
+                .card-header {
                     margin-left: -32px;
                     padding: 0px 15px;
-                    color:#fff;
+                    color: #fff;
                     width: 70%;
                     height: 50px;
                     line-height: 50px;
                     border-left: 1px solid rgba(33, 33, 33, .35);
                     box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.54);
                 }
-                .card-content{
+                .card-content {
                     margin-top: 50px;
                 }
-                .card-footer{
+                .card-footer {
                     margin-top: 60px;
-                    .btn{
+                    .btn {
                         width: 60%;
                         border-radius: 50vh;
                         padding: 8px 0px;
                         border: 1px solid rgba(0, 0, 0, 0.17);
-                        color:#fff;
+                        color: #fff;
                         text-shadow: 0 1px 0 #ccc;
                     }
                 }
-                &.plan-card-orange{
-                    .card-header{
+                &.plan-card-orange {
+                    .card-header {
                         background-color: #eb6130;
                     }
-                    .card-footer{
-                        .btn{
+                    .card-footer {
+                        .btn {
                             background: linear-gradient(to bottom, #eb6130, #FF9800)
                         }
                     }
-                    .card-back{
-                        .back-header{
+                    .card-back {
+                        .back-header {
                             background-color: #eb6130;
                         }
                     }
                 }
-                &.plan-card-green{
-                    .card-header{
+                &.plan-card-green {
+                    .card-header {
                         background-color: #99CC66;
                     }
-                    .card-footer{
-                        .btn{
+                    .card-footer {
+                        .btn {
                             background: linear-gradient(to bottom, #8BC34A, #CDDC39)
                         }
                     }
                 }
-                &.plan-card-blue{
-                    .card-header{
+                &.plan-card-blue {
+                    .card-header {
                         background-color: #2196F3;
                     }
-                     .card-footer{
-                        .btn{
+                    .card-footer {
+                        .btn {
                             background: linear-gradient(to bottom, #2196F3, #3abcf7)
                         }
                     }
                 }
-                
-                .card-body{
+                .card-body {
                     top: 0;
                     left: 0;
+                    height: 100%;
+                    width: 100%;
+                    background: #fff;
+                    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .15);
                     border-radius: 6px;
-                }
-                // 卡片正面
-                .card-front{
+                    position: absolute;
+                    background: #fff;
+                    text-align: left;
+                    backface-visibility: hidden;
+                    -webkit-backface-visibility: hidden;
+                    -ms-backface-visibility: visible; // IE 这个貌似是相反的
+                    transition: transform .6s;
+                    -webkit-transition: -webkit-transform .6s;
+                } // 卡片正面
+                .card-front {
                     padding: 45px 30px 0;
                     cursor: pointer;
-                    height: 100%;
-                    &:hover{
+                    &:hover {
                         box-shadow: 0px 0px 5px 2px rgba(255, 87, 34, 0.35);
                     }
-                }
-                // 卡片背面
-                .card-back{
-                    width: 100%;
-                    height: 100%;
-                    padding-top: 0px;
-                    background: #fff;
-                    position: absolute;
+                } // 卡片背面
+                .card-back {
+                    transform: rotateY(-180deg);
+                    -webkit-transform: rotateY(-180deg);
                     z-index: -1;
-                    transform: rotateY(180deg);
-                    display: none;
-                    .back-header{
+                    overflow: hidden;
+                    .back-header {
                         height: 50px;
                         line-height: 50px;
-                        color:#fff;
-                        width: calc(100% + 4px);
-                        border-left: 1px solid rgba(33, 33, 33, 0.35);
+                        color: #fff;
+                        width: 100%;
                         box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.54);
-                        margin-left: -2px;
-                        margin-right: -2px;
                         position: relative;
                         cursor: pointer;
-                        .back-button{
+                        .back-button {
                             position: absolute;
                             top: 14px;
                             left: 14px;
                             transition: 0.2s;
                         }
-                        &:hover{
-                            .back-button{
+                        &:hover {
+                            .back-button {
                                 transform: scale(1.2);
                             }
                         }
                     }
-                    .price-list-wrapper{
+                    .price-list-wrapper {
                         display: flex;
                         flex-direction: column;
+                        height: 330px; // 380px - 50px
                         height: calc(100% - 50px);
                         padding: 15px;
-                        .price-list{
-                            flex:1;
+                        .price-list {
+                            height: 88px;
+                            flex: 1;
                             display: inline-block;
                             width: 100%;
                             padding: 6px 15px;
                             margin: 6px 0;
-                            border:1px solid #ccc;
+                            border: 1px solid #ccc;
                             overflow: hidden;
                             border-radius: 4px;
                             border-left: 4px solid #ccc;
                             transition: box-shadow 0.20s;
-                            .price-list-text{
+                            .price-list-text {
                                 display: none;
                                 margin-top: 10px;
                             }
-                            &:hover{
-                                border-color:#eb6130;
+                            &:hover {
+                                border-color: #eb6130;
                                 box-shadow: 0px 0px 5px 2px rgba(255, 87, 34, 0.18);
-                                .price-list-text{
-                                    color:#333;
+                                .price-list-text {
+                                    color: #333;
                                     display: inline-block;
                                 }
                             }
-                            
                         }
                     }
-
-        .adscard-free {
-            margin-bottom: 30px;
-            .adscard-head {
-                background: #1D96F3;
-                color: #fff;
-            }
-            .adscard-btn {
-                background: #1D96F3;
-            }
-        }
-        .adscard-stand {
-            /*3D旋转特效*/
-            -webkit-perspective: 1000;
-            -moz-perspective: 1000;
-            -ms-perspective: 1000;
-            perspective: 1000;
-            -ms-transform: perspective(1000px);
-            -moz-transform: perspective(1000px);
-            -moz-transform-style: preserve-3d;
-            -ms-transform-style: preserve-3d;
-            .stand-card-div {
-                margin: 0 auto;
-                transition: 0.6s;
-                transform-style: preserve-3d;
-                position: relative;
-                box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.3);
-            }
-            .card-div {
-                backface-visibility: hidden;
-                -webkit-backface-visibility: hidden;
-                /* Chrome 和 Safari */
-                -moz-backface-visibility: hidden;
-                /* Firefox */
-                -ms-backface-visibility: visible;
-                /*IE 对此渲染貌似是相反的，原因不明*/
-                top: 0;
-                left: 0;
-                box-shadow: none;
-            }
-            .pricing-card {
-                position: absolute;
-                z-index: -1;
-                transform: rotateY(180deg);
-                .pricingcrad-back {
-                    position: absolute;
-                    left: 15px;
-                    top: 15px;
-                    height: 30px;
-                    width: 30px;
-                    border-radius: 15px;
-                    color: #ccc;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    transition: 0.2s;
-                    cursor: pointer;
                 }
-                &.transform-turn{
+                &.transform-turn {
                     transform: rotateY(180deg);
-                    .card-front{
-                       
-                        position: absolute;
-                        z-index: -1;
-                        display: none;
+                    -webkit-transform: rotateY(180deg);
+                    .card-front {
+                        z-index: 0;
+                        overflow: hidden;
                     }
-                    .card-back{
-                        position: relative;
-                        display: inline-block;
+                    .card-back {
+                        z-index: 99;
                     }
                 }
             }
@@ -321,6 +235,8 @@
             border-right: 3px solid #1D96F3;
             z-index: 99;
             opacity: .8;
+            transform: rotate(45deg);
+            animation: down-icon 1.0s infinite ease-in-out;
             -webkit-transform: rotate(45deg);
             -webkit-animation: down-icon 1.0s infinite ease-in-out;
         } // 动画
@@ -475,101 +391,61 @@
     }
 }
 
+
+// 移动端的兼容适配
 @media screen and (max-width: 768px) {
     #plan {
-        .pricing-banner {
-            min-height: px(120);
-            background-size: auto 100%;
+        .plan-suptitle {
+            padding: px(15);
         }
-        .title-main {
-            font-size: px(22);
-        }
-        .title-second {
-            font-size: px(18);
-            font-weight: 200;
-        }
-        .pricing-adscard {
-            .card-div {
-                .table {
-                    tr {
-                        td {
-                            padding-left: px(25);
+        .plan-banner {
+            min-width: 100%;
+            width: 100%;
+            .plan-card-wrapper {
+                .plan-card {
+                    width: px(300);
+                    height: px(400);
+                    .card-header {
+                        height: px(50);
+                        line-height: px(50);
+                    }
+                    .card-content {
+                        margin-top: px(50);
+                    }
+                    .card-footer {
+                        margin-top: px(60);
+                        .btn {
+                            padding: px(8) 0;
+                            font-size: px(16);
                         }
                     }
-                }
-            }
-            .stand-card-div {
-                .card-div {
-                    margin-top: px(30);
-                }
-            }
-            .stand-card-div.transform-rotatey {
-                transform: rotateY(180deg);
-                .pricing-card {
-                    position: static;
-                    z-index: 1;
-                }
-                .stand-card {
-                    position: absolute;
-                    z-index: -2;
-                    display: none;
-                }
-            }
-        }
-        .pricing-adscard {
-            .pricing-card {
-                .pricingcrad-back {
-                    font-size: px(18);
-                    left: px(10) !important;
-                    top: px(20) !important;
-                }
-                .card-banner {
-                    font-size: px(14);
-                    font-weight: 200;
-                }
-                .pricing-info-div {
-                    padding-left: px(15);
-                    padding-right: px(15);
-                    margin-left: 0;
-                    margin-right: 0;
-                    height: px(117);
-                    .pricing-cost-div {
-                        padding: 0;
-                    }
-                    .select-btn-div {
-                        padding: 0;
+                    .card-body.card-back {
+                        display: flex;
+                        flex-direction: column;
+                        .price-list {
+                            .price-list-text {
+                                display: inline-block !important;
+                            }
+                        }
+                        .back-header {
+                            height: px(50);
+                            line-height: px(50);
+                        }
+                        .price-list-wrapper {
+                            flex: 1;
+                        }
                     }
                 }
             }
         }
     }
-}
 
-
-
-/*
-* 对于广告卡需要不同屏幕进行适配
-*/
-
-
-/*
-* pc界面
-*/
-
-@media screen and (min-width: 1024px) {
-    #plan {
-        .pricing-adscard {
-            .stand-card-div {
-                width: 404px;
-            }
-            .card-div {
-                //固定死高度与宽度
-                height: 520px;
-                width: 404px;
-                .pricing-info-div {
-                    height: 117px;
-                }
-            }
+    #info-modal {
+        .modal-dialog {
+            margin: 0;
+        }
+        .modal-footer {
+            display: flex; // 底部的按钮会被在线聊天的挡住，所以让其居左
         }
     }
 }

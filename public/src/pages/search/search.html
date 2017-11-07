@@ -124,7 +124,7 @@
                     <span class="sr-only">Loading...</span>
                 </div>
                 <div ng-if="!User.login && !adSearcher.isNoResult && adSearcher.isend" ng-include="'search-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>
-                <div ng-if="User.login && !adSearcher.isNoResult && adSearcher.isend && !isRestrict" ng-include="'search-results-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>
+                <div ng-if="User.login && !adSearcher.isNoResult && adSearcher.isend && !isRestrict && !isFreeze" ng-include="'search-results-limited-banner.html'" ng-class='{"xg-mt80":adSearcher.isNoResult}'></div>
                 <div ng-if="adSearcher.isNoResult" class="text-center col-md-12">
                     <hr style="border-top:1px solid #dbdee6">
                     <div>

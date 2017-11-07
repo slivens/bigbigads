@@ -18,5 +18,5 @@ return [
     'failed_repeat' => 'new password and repeat password is not the same',
     'login' => 'Login',
     'signup' => 'Sign Up',
-    'freezed' => 'You Account has been freezed'
+    'freezed' => 'Your account was temporarily banned. Please check your mail-box or contact help@bigbigads.com for more info.'
 ];

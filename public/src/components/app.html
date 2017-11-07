@@ -19,14 +19,13 @@
             <div class="page-container">
                 <!-- BEGIN PAGE CONTENT -->
                 <div class="page-content">
-                    <div class="container-fluid">
+                    <div ng-class="{ 'container-fluid': !$ctrl.state.current.data.removeContainer }">
                         <!-- BEGIN ACTUAL CONTENT -->
                         <div ui-view> </div>
                         <div id="popupview">
                             <div ui-view="popupview" class="fade-in-up"> </div>
                         </div>
                         <!-- END ACTUAL CONTENT -->
-                    </div>
                 </div>
                 <!-- END PAGE CONTENT -->
                 <!-- BEGIN QUICK SIDEBAR -->
