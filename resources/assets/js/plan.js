@@ -261,7 +261,6 @@ function openResultModal(result) {
             'class': 'result-error'
         }
     }
-
     $("#submit-info").removeAttr("disabled") // 解禁按钮
     $("#info-modal").modal("hide")
     $("#result-title").html(data[result].title)

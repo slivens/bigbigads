@@ -10,9 +10,12 @@
  * @since    1.0.0
  */
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Log;
 use App\Payment;
+use App\CustomizedInvoice;
 use App\Contracts\PaymentService;
 use App\Jobs\GenerateInvoiceJob;
 use App\Exceptions\GenericException;
@@ -30,11 +33,11 @@ use Carbon\Carbon;
  */
 class InvoiceController extends Controller
 {
-    private $_paymentService;
+    private $paymentService;
     
-    public function __construct(PaymentService $_paymentService)
+    public function __construct(PaymentService $paymentService)
     {
-        $this->paymentService = $_paymentService;
+        $this->paymentService = $paymentService;
     }
     /**
      *  票据文件确认
@@ -115,26 +118,99 @@ class InvoiceController extends Controller
             // 首单交易时间距今7天内
             return $this->responseError('Please download the invoice after 7 days.');
         }
-
-        if ($this->paymentService->checkInvoiceExists($invoiceId)) {
-            // 确认文件存在，转向下载
-            if ($thisPayment->status == Payment::STATE_COMPLETED) {
-                // 通过验证，执行下载
-                Log::info("downloading Invoice file on use invoice_id:$invoiceId");
-                try {
-                    return $this->paymentService->downloadInvoice($invoiceId);
-                } catch (GenericException $e) {
-                    return $this->responseError($e->getMessages());
+        if ($thisPayment) {
+            if ($this->paymentService->checkInvoiceExists($invoiceId)) {
+                // 确认文件存在，转向下载
+                if ($thisPayment->status == Payment::STATE_COMPLETED) {
+                    // 通过验证，执行下载
+                    Log::info("downloading Invoice file on use invoice_id:$invoiceId");
+                    try {
+                        return $this->paymentService->downloadInvoice($invoiceId);
+                    } catch (GenericException $e) {
+                        return $this->responseError($e->getMessages());
+                    }
+                } else {
+                    // 非成功交易
+                    $this->responseError('Cannot download invoice,because this is not a completed payment or is not your payment.');
                 }
             } else {
-                // 非成功交易
-                $this->responseError('Cannot download invoice,because this is not a completed payment or is not your payment.');
+                // 请求的票据id有效，存在交易表中，但是对应的文件不在磁盘中，重新生成，这里使用强制生成
+                Log::info("payment number:$thisPayment->number invoice is not exist, will be re-generate.");
+                dispatch(new GenerateInvoiceJob(Payment::where('invoice_id', $invoiceId)->get(), true));// 入参必须为collection类型，前面的first()获得的是payment类型
+                return $this->responseError('Cannot download invoice,please refresh this page and try again later.');
             }
         } else {
-            // 请求的票据id有效，存在交易表中，但是对应的文件不在磁盘中，重新生成，这里使用强制生成
-            Log::info("payment number:$thisPayment->number invoice is not exist, will be re-generate.");
-            dispatch(new GenerateInvoiceJob(Payment::where('invoice_id', $invoiceId)->get(), true));// 入参必须为collection类型，前面的first()获得的是payment类型
-            return $this->responseError('Cannot download invoice,please refresh this page and try again later.');
+            // 票据Id无效
+            return $this->responseError('Invalid invoice id');
         }
+    }
+
+
+    /**
+     * 存储提交上来的定制信息
+     * 新创建的用户，没有交易订单但是可以存储，存储完毕后给出提示信息，没有票据生成操作
+     * 已经付款的用户，有交易订单，已经有生成过票据，存储完毕后重新生成票据，每个自然月操作1次
+     * 只有保存且有订单的情况下才生成票据
+     *
+     * @param array $customInfo 接收到的定制信息
+     * @return array
+     */
+    public function saveInvoiceCustomer(Request $request)
+    {
+        $user = Auth::user();
+        $extraData = [
+            'company_name' => $request->company_name,
+            'address' => $request->address,
+            'contact_info' => $request->contact_info,
+            'website' => $request->website,
+            'tax_no' => $request->tax_no
+        ];
+        if ($custom = CustomizedInvoice::where('user_id', $user->id)->first()) {
+            if ($custom->canSave()) {
+                $modified_custom = CustomizedInvoice::updateOrCreate(
+                    [
+                        'user_id' => $user->id
+                    ],
+                    $extraData
+                );
+                if ($modified_custom != $custom) {
+                    if (count($user->payments) > 0) {
+                        $res = [
+                            'code' => 0,
+                            'desc' => 'The Invoice will be re-generate in few seconds.',
+                            'status' =>'success'
+                        ];
+                        //推入队列执行,有修改才执行
+                        dispatch((new GenerateInvoiceJob(Payment::where('client_id', $user->id)->get(), true, $extraData)));
+                    } else {
+                        $res = [
+                            'code' => 0,
+                            'desc' => 'Then you must payed for one time.',
+                            'status' =>'success'
+                        ];
+                    }
+                } else {
+                    $res = [
+                            'code' => 0,
+                            'desc' => 'But information is not changed.',
+                            'status' =>'success'
+                    ];
+                }
+            } else {
+                $res = [
+                    'code' => -1,
+                    'desc' => 'Only change once in 1 month.',
+                    'status' =>'error'
+                ];
+            }
+        } else {
+            CustomizedInvoice::updateOrCreate(
+                [
+                    'user_id' => $user->id
+                ],
+                $extraData
+            );
+        }
+        return response()->json($res);
     }
 }
