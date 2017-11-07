@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Cache;
 use TCG\Voyager\Models\Permission;
 use Carbon\Carbon;
 use App\Policy;
-use App\CustomizedInvoice;
 use App\Jobs\LogAction;
 use Psy\Exception\ErrorException;
 use Log;
@@ -606,17 +605,5 @@ class User extends Authenticatable
         foreach ($this->usage as $key => $value) {
             call_user_func($print, "$key:" . json_encode($this->getUsage($key)));
         }
-    }
-
-    /**
-     * 取回用户自定义票据内容
-     *
-     * @return void
-     */
-    public function customizedInvoiceInfo()
-    {
-        return CustomizedInvoice::select(['company_name', 'address', 'contact_info', 'website', 'tax_no'])
-        ->where('user_id', $this->id)
-        ->first();
     }
 }
