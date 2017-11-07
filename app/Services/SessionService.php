@@ -4,16 +4,18 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Arr;
 use Session;
 use Illuminate\Contracts\Cache\Repository as CacheContract;
+use Carbon\Carbon;
 
 /**
  * 用于统计在线用户的实现相对比较粗糙，需要对Laravel的框架中的服务更熟悉才能直接调用相关对象，否则就只能按照当前实现只使用文档中提供的服务，未提到的就原始实现。
  */
 class SessionService implements \App\Contracts\SessionService
 {
-    /* protected $cache; */
-    private $sessions;
+    private $sessionInfo;
+    private $userInfo;
 
     public function __construct()
     {
@@ -24,8 +26,8 @@ class SessionService implements \App\Contracts\SessionService
      */
     public function sessionInfos() : Collection
     {
-        if ($this->sessions)
-            return $this->sessions;
+        if ($this->sessionInfo)
+            return $this->sessionInfo;
         $keys = Redis::keys('laravel:session.*');
         $result = new Collection();
 
@@ -33,16 +35,18 @@ class SessionService implements \App\Contracts\SessionService
             $session = $this->session($key);
             if (!$session || !isset($session['session_statics']))
                 continue;
+            if (!isset($session['session_statics']['email']))
+                continue;
             $result[$key] = $session['session_statics'];    
         }
-        $this->sessions = $result;
+        $this->sessionInfo = $result;
         return $result;
     }
 
     /**
      * @{inheritDoc}
      */
-    public function session($sessionId)
+    public function session(string $sessionId) : ?array
     {
         $sessionStr = Redis::get($sessionId);
         if (!$sessionStr)
@@ -59,25 +63,43 @@ class SessionService implements \App\Contracts\SessionService
      */
     public function userInfos() : Collection
     {
-        $sessions = $this->sessionInfos();
+        if ($this->userInfo)
+            return $this->userInfo;
+        $sessionInfo = $this->sessionInfos();
         $infos = new Collection();
-        foreach ($sessions as $key => $statics) {
+        foreach ($sessionInfo as $key => $statics) {
             $subSet = $infos->get($statics['email'], []);
             $subSet[$key] = $statics;
             $infos[$statics['email']] = $subSet;
         }
+        $this->userInfo = $infos;
         return $infos;
     }
 
     /**
      * @{inheritDoc}
      */
-    public function removeSession(string $sessionId)
+    public function removeSession(string $sessionId) : void
     {
+        Redis::del($sessionId);
     }
 
-
-    public function removeUserSessions(string $email, int $reserved = 0)
+    /**
+     * @{inheritDoc}
+     */
+    public function removeUserSessions(string $email, int $reserved = 0) : int
     {
+        $userInfos = $this->userInfos();
+        if (!isset($userInfos[$email]))
+            return 0;
+        $sorted = Arr::sort($userInfos[$email], function($val, $key) {
+            return new Carbon($val['updated']);
+        });
+        $keys = array_keys($sorted);
+        $delCount = count($keys) - $reserved;
+        for ($i = 0; $i < min(count($keys), $delCount); ++$i) {
+            $this->removeSession($keys[$i]);
+        }
+        return min($reserved, count($keys));
     }
 }

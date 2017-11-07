@@ -29,22 +29,25 @@ class EnhancedSessionHandler extends CacheBasedSessionHandler
     protected function updateSession($sessionId, $session)
     {
         $ip = request()->ip();
-        $userId = isset($session[Auth::getName()]) ? $session[Auth::getName()] : -1;
+        $userId = Auth::id(); //isset($session[Auth::getName()]) ? $session[Auth::id()] : -1;
 
         /* Log::info('session:' .  request()->ip() . ' , '   . $userId . ' ' . json_encode($session)); */
         try {
             if (!isset($session[self::SESSION_STATICS])) {
                 $session[self::SESSION_STATICS] = ['ips' => []];
             }
-            if ($ip && $userId > 0) {
+            if ($userId) {
                 // 保存该IP最近一次的访问时间
                 $now = Carbon::now()->toIso8601String();
-                $session[self::SESSION_STATICS]['ips'][$ip] = $now;
+                if ($ip) {
+                    $session[self::SESSION_STATICS]['ips'][$ip] = $now;
+                }
                 if (!isset($session[self::SESSION_STATICS]['email']))
                     $session[self::SESSION_STATICS]['email'] = Auth::user()->email;
                 $session[self::SESSION_STATICS]['updated'] = $now;
             } else {
-                    unset($session[self::SESSION_STATICS]['ips'][$ip]);
+                unset($session[self::SESSION_STATICS]['ips'][$ip]);
+                unset($session[self::SESSION_STATICS]['email']);
             }
         } catch(\Exception $e) {
         }
