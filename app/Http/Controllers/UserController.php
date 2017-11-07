@@ -53,6 +53,31 @@ class UserController extends Controller
     }
 
     /**
+     * 修改用户名&邮箱
+     * 需要做检测，尤其邮箱需要
+     * 
+     * @param Request $req post请求上来的数据，包含type(email/name),param(修改后的用户名或者邮箱)
+     * @return json
+     * 
+     * @todo 邮箱验证有现成方法，延后验证，要是没通过如何？回退的话，之前的邮箱存在什么地方
+     */
+    public function changeProfile(Request $req)
+    {
+        $user = Auth::user();
+        if ($req->type == 'email') {
+            $user->email = $req->param;
+            // $this->registerDispatch($user);// 发送验证邮件
+        } elseif ($req->type == 'name') {
+            $user->name = $req->param;
+        }
+        if ($user->save()) {
+            return response()->json(['code'=>0,'desc'=>'success']);
+        } else {
+            return response()->json(['code'=>-1,'desc'=>'failed']);
+        }
+    }
+
+    /**
      * 返回登陆用户信息
      */
     public function logInfo(Request $req)
@@ -262,7 +287,7 @@ class UserController extends Controller
             $item->bind = $email;
             $item->remark = json_encode($socialiteUser);
             $item->save();
-            $agent = new Agent();     
+            $agent = new Agent();
             if ($agent->isMobile() || $agent->isTablet()) {
                 dispatch(new LogAction(ActionLog::ACTION_USER_BIND_SOCIALITE_MOBILE_BASE . strtoupper($name), json_encode(["name" => $user->name, "email" => $user->email]), $name, $user->id, Request()->ip()));
             } else {

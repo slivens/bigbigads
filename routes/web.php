@@ -123,7 +123,7 @@ Route::group(['middleware'=>'auth'], function() {
     Route::put('/payments/{number}/refund_request', 'SubscriptionController@requestRefund');
     // Route::get('/invoices/{invoice_id}/status', 'InvoiceController@getGenerateStatus');
     Route::get('/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
-
+    Route::post('users/changeProfile/{type}/{param}', 'UserController@changeProfile');
 });
 
 //pay页面需要支持不登录可访问

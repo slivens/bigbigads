@@ -5,7 +5,7 @@ import '../../components/subscription'
 import template from './profile.html'
 import changePwdTemplate from './changepwd.html'
 
-export default angular.module('profile', ['MetronicApp']).controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', function($scope, $location, User, $uibModal, TIMESTAMP) {
+export default angular.module('profile', ['MetronicApp']).controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', '$http', function($scope, $location, User, $uibModal, TIMESTAMP, $http) {
     // var vm = this
     var profile = {
         init: function() {
@@ -48,14 +48,36 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         // console.log($location.search());
         profile.init()
     })
-    $scope.changePwd = function() {
+    $scope.change = function(type) {
+        switch (type) {
+        case 'uEmail':
+            $http.post(`/users/changeProfile/email/${User.info.user.email}`).then(function(res) {
+                profile.changeStatus = res.data.desc
+            })
+            break
+        case 'uName':
+            $http.post(`/users/changeProfile/name/${User.info.user.name}`).then(function(res) {
+                profile.changeStatus = res.data.desc
+            })
+            break
+        case 'pwd':
+        default:
+            return $uibModal.open({
+                template: changePwdTemplate,
+                size: 'md',
+                animation: true,
+                controller: 'ChangepwdController'
+            })
+        }
+    }
+    /* $scope.changePwd = function() {
         return $uibModal.open({
             template: changePwdTemplate,
             size: 'md',
             animation: true,
             controller: 'ChangepwdController'
         })
-    }
+    } */
     $scope.userPromise = User.getInfo()
     $scope.userPromise.then(function() {
         var user = User.info.user

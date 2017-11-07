@@ -1,73 +1,57 @@
 <div id="profile">
+    <h1>Profile</h1>
     <div class="portlet light bordered">
         <div class="portlet-body" cg-busy="userPromise"> 
             <div class="alert alert-danger" ng-if="!userInfo.login">
                 Please Login First!
             </div>
             <uib-tabset active="profile.active" ng-if="userInfo.login">
-                <uib-tab index="0" heading="Subscription Plan">
+                <uib-tab index="0" heading="Profile Setting" class="text-danger">
                     <subscription  />
                 </uib-tab>
-                <uib-tab index="1" heading="Billings">
+                <uib-tab index="1" heading="Billing Setting">
                     <billings should-init="{{profile.active == 1}}" />
                 </uib-tab>
-                <uib-tab index="2" heading="Account Settings">
+                <uib-tab index="2" heading="Support">
                     <div class="portlet">
-                        <div class="profile-title">
-                            <h3> Account Settings <i class="icon-pencil"></i></h3>
-                        </div>
                         <div class="porlet-body">
-                            <div class=" profile-row">
-                                <div class="row-left">
-                                    Member Email
-                                </div>
-                                <div class="row-right">
-                                    {{user.email}}
-                                </div>
-                            </div>
-                            <div class="profile-row">
-                                <div class="row-left">Member Name</div>
-                                <div class="row-right">{{user.name}}</div>
-                            </div>
-                            <div class="profile-row">
-                                <div class="row-left">Member since</div>
-                                <div class="row-right">{{user.created_at}}</div>
-                            </div>
-                            <div class="profile-row">
-                                <div class="row-left">Password</div>
-                                <div class="row-right">
-                                    <button class="btn btn-primary" ng-click="changePwd()">Change</button>
+                            <label>{{profile.changeStatus}}</label>
+                            <div class="row profile-row">
+                                <div class="col-xs-4 col-md-3 col-lg-2"> Member Email</div>
+                                <div class="col-xs-4 col-md-4 col-lg-2"><input type="text" ng-model="user.email" value="{{user.email}}" /></div>
+                                <div class="col-xs-4 col-md-2 col-lg-2">
+                                    <button class="btn btn-primary" ng-click="change('uEmail')">Edit</button>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="profile-aff">
-                            
-                        
-                        <div class="profile-title">
-                            <h3>Affiliate <i class="fa fa-paper-plane-o"></i></h3>
-                        </div>
-                        <div class="porlet-body">
-                            <div class="profile-row">
-                                <div class="row-left">
-                                    Promotion Code
+                            <div class="row profile-row">
+                                <div class="col-xs-4 col-md-3 col-lg-2">Member Name</div>
+                                <div class="col-xs-4 col-md-4 col-lg-2"><input type="text" ng-model="user.name" value="{{user.name}}" /></div>
+                                <div class="col-xs-4 col-md-2 col-lg-2">
+                                    <button class="btn btn-primary" ng-click="change('uName')">Edit</button>
                                 </div>
-                                <div class="col-xs-7">
+                            </div>
+                            <div class="row profile-row">
+                                <div class="col-xs-4 col-md-3 col-lg-2">Member since</div>
+                                <div class="col-xs-4 col-md-4 col-lg-2">{{user.created_at}}</div>
+                            </div>
+                            <div class="row profile-row">
+                                <div class="col-xs-4 col-md-3 col-lg-2">Password</div>
+                                <div class="col-xs-4 col-md-4 col-lg-2">******</div>
+                                <div class="col-xs-4 col-md-2 col-lg-2">
+                                    <button class="btn btn-primary" ng-click="change('pwd')">Edit</button>
+                                </div>
+                            </div>
+                            <div class="row profile-row">
+                                <div class="col-xs-4 col-md-3 col-lg-2">
+                                    Affiliate
+                                </div>
+                                <div class="col-xs-7 col-md-5 col-lg-6">
                                     <!--自定义的复制到剪贴板指令，具体用法详见common.js:496-->
                                     <copy-dom value="{{user.affiliateUrl}}" button-text="Copy" success-text="Copied" ng-if="user.affiliateUrl">
                                     </copy-dom>
                                     <span class="text-danger" ng-if="!user.affiliateUrl">No Data</span>
                                 </div>
                             </div>
-                            <div class=" profile-row">
-                                <div class="row-left">Click:</div>
-                                <div class="col-xs-7">{{user.click}}</div>
-                            </div>
-                            <div class=" profile-row">
-                                <div class="row-left">Register:</div>
-                                <div class="col-xs-7">{{user.action}}</div>
-                            </div>
-                        </div>
                         </div>
                     </div>
                 </uib-tab>
