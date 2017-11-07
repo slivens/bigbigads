@@ -697,6 +697,11 @@ export default angular => {
                 }
                 $state.go("plans")
             }
+            $scope.notice = function() {
+                if (Util.checkIsPushNotification()) {
+                    User.openNotification()
+                }
+            }
             $scope.Util = Util
             $scope.User = User
             $scope.Searcher = Searcher
@@ -705,6 +710,7 @@ export default angular => {
             User.getInfo().then(function() {
             // 根据search参数页面初始化
                 $scope.search('search')
+                $scope.notice()
             })
         }
     ])

@@ -1,0 +1,29 @@
+<div class="dashboard-stat dashboard-stat-v2 xg-upgrade-banner" >
+	<div class="xg-upgrade-banner-head" >
+		<h3 class="text-center">
+			<strong></strong>
+		</h3>
+	</div>
+	<div class="text-center xg-upgrade-banner-body">
+        <h4>这礼拜你获得以下免费过滤项权限</h4>
+        <br>
+        <div class="alert alert-warning margin-top-10 text-left">
+            <div ng-if="User.can('first_time_filter')">First See Time Frame</div>
+            <div ng-if="User.can('last_time_filter')">First See Time Frame</div>
+            <div ng-if="User.can('format_filter')">Ad Type</div>
+            <div ng-if="User.can('country_filter')">Country or Region</div>
+            <div ng-if="User.can('objective_filter')">Objective</div>
+            <div ng-if="User.can('e_commerce_filter')">Eshop Filter</div>
+            <div ng-if="User.can('audience_age_filter')">Audience Age</div>
+            <div ng-if="User.can('audience_gender_filter')">Audience Gender</div>
+            <div ng-if="User.can('audience_interest_filter')">Audience Interest</div>
+            <div ng-if="User.can('duration_filter')">Customized Ad Run duration</div>
+            <div ng-if="User.can('see_times_filter')">Customized Ad Run See Times</div>
+            <div ng-if="User.can('advance_likes_filter')">Customized Engagements</div>
+        </div>
+		<br><br>
+        <a class="btn btn-lg xg-subscribe-color" ng-click="close()">I had known</a>
+    </div>
+    <br><br>
+    <div class="xg-upgrade-banner-foot"></div>
+</div>

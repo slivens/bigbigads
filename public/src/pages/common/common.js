@@ -558,7 +558,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
             return output
         }
     })
-    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', 'User', '$state', 'settings', 'TIMESTAMP', '$http', function($uibModal, $stateParams, SweetAlert, User, $state, settings, TIMESTAMP, $http) {
+    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', 'User', '$state', 'settings', 'TIMESTAMP', '$http', '$window', function($uibModal, $stateParams, SweetAlert, User, $state, settings, TIMESTAMP, $http, $window) {
         return {
             matchkey: function(origstr, destArr) {
                 var orig = origstr.split(',')
@@ -1402,6 +1402,24 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                         pointFormat: barPercent ? '<b>{point.name}</b><br>{series.name}:{point.y:.1f}%' : '<b>{point.name}</b><br>{series.name}:{point.y}'
                     },
                     series: barDataArr || [{ name: 'Male', data: [1, 2, 0, 0, 5] }, { name: 'Female', data: [2, 1, 0, 0, 5] }]
+                }
+            },
+            checkIsPushNotification: function() {
+                if (!User.login) return false
+                if (User.info.user.role.plan != 'free') return false
+                var userNotification
+                var now = moment().format('YYYY-MM-DD')
+                // localStorage内不存在通知信息或过期,重置通知信息
+                if (!$window.localStorage.userNotification || moment(JSON.parse($window.localStorage.userNotification).expired).isBefore(now)) {
+                    $window.localStorage.setItem('userNotification', JSON.stringify({"status": 'notPush', "expired": now}))
+                }
+                userNotification = JSON.parse($window.localStorage.userNotification)
+                // localStorage内通知信息status为未推送且在今天之内,表明今天未推送消息
+                if (userNotification.status === 'notPush' && moment(userNotification.expired).isSame(now)) {
+                    $window.localStorage.setItem('userNotification', JSON.stringify({"status": 'pushed', "expired": userNotification.expired}))
+                    return true
+                } else {
+                    return false
                 }
             }
         }

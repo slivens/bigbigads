@@ -13,6 +13,7 @@ import {template as upgradeDlgTemplate, controller as upgradeDlgController} from
 import {template as signTemplate, controller as signController} from './components/sign.js'
 import {template as searchResultUpgradeDlgTemplate, controller as searchResultUpgradeDlgController} from './components/search-result-upgrade-dlg.js'
 import {template as filterDataLimitDlgTemplate, controller as filterDataLimitDlgController} from './components/filter-data-limit-dlg.js'
+import {template as pushNotificationDlgTemplate, controller as pushNotificationDlgController} from './components/push-notification.js'
 // import tr from './lib/intl.js'
 
 window.moment = require('moment')
@@ -681,6 +682,14 @@ MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope'
                 size: 'md',
                 animation: true,
                 controller: filterDataLimitDlgController
+            })
+        },
+        openNotification: function() {
+            return $uibModal.open({
+                template: pushNotificationDlgTemplate,
+                size: 'md',
+                animation: true,
+                controller: pushNotificationDlgController
             })
         }
     }
