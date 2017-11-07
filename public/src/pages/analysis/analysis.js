@@ -1,7 +1,7 @@
 import './analysis.scss'
 import '../common/common.js'
-import '../bookmark/bookmark.js'
 import '../common/searcher.js'
+import '../bookmark/bookmark.js'
 import '../../components/sidebar.js'
 import Highcharts from 'highcharts'
 import HighchartsMap from 'highcharts/modules/map.js'
@@ -391,7 +391,8 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
         }
     }
 ])
-    .directive('analysis', function() {
+    .directive('analysis', ['$templateCache', function($templateCache) {
+        $templateCache.put("ad-bookmark-popover.html", '<bookmark-popover/>')
         return {
             restrict: 'E',
             scope: {},
@@ -399,4 +400,4 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
             replace: false,
             controller: 'AdAnalysisController'
         }
-    })
+    }])

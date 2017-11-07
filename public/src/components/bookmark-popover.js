@@ -1,9 +1,11 @@
+import './bookmark-popover.scss'
 import template from './bookmark-popover.html'
 
 angular.module('MetronicApp').controller('BookmarkAddController', ['$scope', 'Bookmark', 'BookmarkItem', 'User', '$q', 'SweetAlert', function($scope, Bookmark, BookmarkItem, User, $q, SweetAlert) {
     $scope.card.select = []
     $scope.bookmark = Bookmark
     $scope.selectedSubItems = []
+    $scope.ceil = Math.ceil
     $scope.add = function(card) {
         var promises = []
         var i

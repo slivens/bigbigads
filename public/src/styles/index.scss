@@ -1124,29 +1124,6 @@ body.modal-open {
     margin-left: $adser-analysis-sidebar-width !important;
 }
 
-//广告分析样式
-.ad-analysis {
-    overflow: hidden;
-    position: relative;
-    .sidebar {
-        margin: 20px;
-        width: $adser-analysis-sidebar-width !important;
-        position: absolute;
-        left: 0;
-        top: 0;
-    }
-    .content {
-        padding: 20px;
-        margin-left: $adser-analysis-sidebar-width !important;
-        .analysis-div {
-            min-height: 450px;
-        }
-        .content-loading {
-            margin-top: 100px;
-        }
-    }
-}
-
 //placeholder颜色大小字体
 $black_placeholder:#000;
 
