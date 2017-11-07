@@ -129,28 +129,23 @@ Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
 Route::get('/plans', 'SubscriptionController@plans');
 
 Route::group(
-    ['middleware'=>'auth'],
-    function () {
+    ['middleware'=>'auth'], function () {
         // Route::get('/pay', 'SubscriptionController@form');
         Route::post('/pay', 'SubscriptionController@pay');
         Route::get('/billings', 'SubscriptionController@billings');
         Route::post('/subscription/{id}/cancel', 'SubscriptionController@cancel');
         Route::get(
-            '/invoice/{invoice}',
-            function (Request $request, $invoiceId) {
+            '/invoice/{invoice}', function (Request $request, $invoiceId) {
                 return Auth::user()->downloadInvoice(
-                    $invoiceId,
-                    [
+                    $invoiceId, [
                         'vendor'  => 'Bigbigads',
                         'product' => 'Bigbigads',
-                    ],
-                    storage_path('invoice')
+                    ], storage_path('invoice')
                 );
             }
         );
         Route::post('changepwd', 'UserController@changepwd');
         Route::put('/payments/{number}/refund_request', 'SubscriptionController@requestRefund');
-        Route::post('/invoices/customize', 'InvoiceController@saveInvoiceCustomer');
         Route::get('/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
     }
 );

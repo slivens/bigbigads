@@ -153,63 +153,13 @@ hr{
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-8 col-sm-4 row_left">
-                                Email
-                            </div>
-                            <div class="col-xs-4 col-sm-4 row_right">
-                                {{$data->email}}
-                            </div>
+                                <div class="col-xs-8 col-sm-4 row_left">
+                                    Email
+                                </div>
+                                <div class="col-xs-4 col-sm-4 row_right">
+                                    {{$data->email}}
+                                </div>
                         </div>
-                        @if ($data->company_name)
-                        <div class="row">
-                            <div class="col-xs-8 col-sm-4 row_left">
-                                Company
-                            </div>
-                            <div class="col-xs-4 col-sm-4 row_right">
-                                {{$data->company_name}}
-                            </div>
-                        </div>
-                        @endif
-                        @if ($data->address)
-                        <div class="row">
-                            <div class="col-xs-8 col-sm-4 row_left">
-                                Address
-                            </div>
-                            <div class="col-xs-4 col-sm-4 row_right">
-                                {{$data->address}}
-                            </div>
-                        </div>
-                        @endif
-                        @if ($data->contact_info)
-                        <div class="row">
-                            <div class="col-xs-8 col-sm-4 row_left">
-                                Contact
-                            </div>
-                            <div class="col-xs-4 col-sm-4 row_right">
-                                {{$data->contact_info}}
-                            </div>
-                        </div>
-                        @endif
-                        @if ($data->website)
-                        <div class="row">
-                            <div class="col-xs-8 col-sm-4 row_left">
-                                Website
-                            </div>
-                            <div class="col-xs-4 col-sm-4 row_right">
-                                {{$data->website}}
-                            </div>
-                        </div>
-                        @endif
-                        @if ($data->tax_no)
-                        <div class="row">
-                            <div class="col-xs-8 col-sm-4 row_left">
-                                Tax No
-                            </div>
-                            <div class="col-xs-4 col-sm-4 row_right">
-                                {{$data->tax_no}}
-                            </div>
-                        </div>
-                        @endif
                     </div>
                 </div>
             </div>

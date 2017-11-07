@@ -90,7 +90,6 @@ class UserController extends Controller
                 $res['user']['click'] = 0;
                 $res['user']['action'] = 0;
             }
-            $res['customized_invoice'] = $user->customizedInvoiceInfo();
         } else {
             $user = AnonymousUser::user($req);
             $res['login'] = false;

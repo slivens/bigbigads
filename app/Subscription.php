@@ -43,11 +43,6 @@ class Subscription extends Model
     const STATE_PENDING = "pending";
 
     /**
-     * 订阅失败时的状态，初期收款失败，远端为canceled状态，表现为订阅创建然后failed
-     */
-    const STATE_FAILED = "failed";
-
-    /**
      * 默认的tag值
      */
     const TAG_DEFAULT = "default";

@@ -5,7 +5,7 @@ import '../../components/subscription'
 import template from './profile.html'
 import changePwdTemplate from './changepwd.html'
 
-export default angular.module('profile', ['MetronicApp']).controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', '$http', 'SweetAlert', function($scope, $location, User, $uibModal, TIMESTAMP, $http, SweetAlert) {
+export default angular.module('profile', ['MetronicApp']).controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', function($scope, $location, User, $uibModal, TIMESTAMP) {
     // var vm = this
     var profile = {
         init: function() {
@@ -63,39 +63,7 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         $scope.userInfo = User.info
         $scope.User = User
         $scope.user = user
-        $scope.companyName = User.info.customized_invoice.company_name
-        $scope.address = User.info.customized_invoice.address
-        $scope.contactInfo = User.info.customized_invoice.contact_info
-        $scope.website = User.info.customized_invoice.website
-        $scope.taxNo = User.info.customized_invoice.tax_no
     })
-    $scope.customizeSubmit = function() {
-        $http({
-            method: "POST",
-            url: "/invoices/customize",
-            params: {
-                'company_name': this.companyName,
-                'address': this.address,
-                'contact_info': this.contactInfo,
-                'website': this.website,
-                'tax_no': this.taxNo
-            }
-        }).then(function(res) {
-            if (res.data.code == 0) {
-                SweetAlert.swal(
-                    "Save Done!",
-                    res.data.desc,
-                    res.data.status
-                )
-            } else {
-                SweetAlert.swal(
-                    "Error",
-                    res.data.desc,
-                    res.data.status
-                )
-            }
-        })
-    }
 }])
     .controller('ChangepwdController', ['$scope', '$uibModalInstance', '$http', 'settings', function($scope, $uibModalInstance, $http, settings) {
         var info = {

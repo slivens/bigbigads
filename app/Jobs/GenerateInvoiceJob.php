@@ -17,7 +17,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Log;
 use Illuminate\Database\Eloquent\Collection;
-
 /**
  * 票据生成Job，调用\App\Service\generateInvoice完成批量或者单个票据生成
  * 
@@ -33,7 +32,6 @@ class GenerateInvoiceJob implements ShouldQueue
     use InteractsWithQueue, Queueable, SerializesModels;
     private $payments;
     private $isForce;
-    private $extra;
     /**
      * 构造函数
      * 
@@ -42,11 +40,10 @@ class GenerateInvoiceJob implements ShouldQueue
      * 
      * @return void
      */
-    public function __construct(Collection $payments, $isForce = null, $extra = [])
+    public function __construct(Collection $payments, $isForce = null)
     {
         $this->payments = $payments;
         $this->isForce = $isForce;
-        $this->extra = $extra;
     }
 
     /**
@@ -68,7 +65,7 @@ class GenerateInvoiceJob implements ShouldQueue
         } else {
             $this->isForce = true;
             $extraMessage = ',and this is re-generate.';// 标明强制生成，与常规生成区分开来
-        }
+        }   
         foreach ($this->payments as $payment) {
             $logMessage = 'use payment number: ' . $payment->number . ' to generate invoice';
             if ($this->isForce) {
@@ -79,7 +76,7 @@ class GenerateInvoiceJob implements ShouldQueue
                 return;
             }
             Log::info($logMessage);
-                $paymentService->generateInvoice($payment->number, $this->isForce, $this->extra);
+                $paymentService->generateInvoice($payment->number, $this->isForce);// 此处入参为交易id,payment的number字段值
         }
     }
 }
