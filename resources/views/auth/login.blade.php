@@ -15,7 +15,6 @@
         <meta content="bigbigads" name="author" />
         <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
         <!-- TODO: The css should be removed in the future -->
-        <link href="./assets/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css" />
         <link rel="shortcut icon" href="favicon.ico" />
         <link href="{{bba_version('home.css')}}" rel="stylesheet">
         <link href="{{bba_version('login.css')}}" rel="stylesheet">
@@ -23,7 +22,7 @@
          </head>
     <!-- END HEAD -->
 
-    <body class=" login">
+    <body class="login" id="bba-login">
         <!-- BEGIN LOGO -->
 
 
