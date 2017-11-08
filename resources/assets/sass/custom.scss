@@ -1863,6 +1863,9 @@ body.login .content .register-form .mt-checkbox {
 
 #times_service {
     margin-bottom: 50px;
+    .font-yellow-gold {
+      color: #E87E04 !important; 
+    }
 }
 
 #times_service .big-title {
@@ -1914,10 +1917,3 @@ body.login .content .register-form .mt-checkbox {
 * 相关界面移动端适配应在相应的scss里编写
 */
 @import 'app_mobile';
-
-/*
-* 编写的scss文件应单独文件编写，在此处引入
-* 引入plan（pricing）页面的样式pricing.scss
-*/
-// @import 'plan';
-

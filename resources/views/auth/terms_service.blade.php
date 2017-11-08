@@ -38,7 +38,7 @@
 				<p>Distribute viruses or any other technologies that may harm, manipulate, extract unauthorized information from the Services, or the interests or property of users of the Services;</p>
 			</li>
 			<li>
-				<p>Copy, modify, or distribute rights or content from the Services or our copyrights and trademarks;</p>
+				<p>Crawling, copy, modify or distribute rights or content from the Services or our copyrights and trademarks-which will lead to a refuse of service without refund;</p>
 			</li>
 			<li>
 				<p>Harvest or otherwise collect information about users, including email addresses, without their consent.</p>
