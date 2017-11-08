@@ -11,6 +11,7 @@
     <title>{{ config('app.name', 'Bigbigads') }}</title>
     <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen">
     <!-- Styles -->
+    <link href="/assets/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css">
     <link href="{{bba_version('home.css')}}" rel="stylesheet">
     <!-- Scripts -->
     <script>
@@ -20,7 +21,12 @@
     </script>
 </head>
 <body>
-    @include('tpl.header')
+    <div id="app">
+        @include('tpl.header')
+
+        @yield('content')
+    </div>
+
     <!-- Scripts -->
  <!--   <script src="/js/app.js"></script> -->
 @yield('script')
