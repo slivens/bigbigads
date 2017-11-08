@@ -14,5 +14,15 @@ $("#downloadExtension").click(function() {
     /* eslint-disable no-undef */
     // 发送google统计事件
     ga('send', 'event', 'conversion', 'click', 'download_extension', 12)
-    window.open('//chrome.google.com/webstore/detail/bigbigadsfacebook-ad-exam/aeicgjbjcnodlaomefmanfbkhpcdlcbk', '_self')
+
+    if (document.getElementById('bigbigads-extension-is-installed')) {
+        window.location.href = '/login'
+    } else {
+        chrome.webstore.install(
+            'https://chrome.google.com/webstore/detail/aeicgjbjcnodlaomefmanfbkhpcdlcbk',
+            function() {
+                window.location.href = '/login'
+            }
+        )
+    }
 })
