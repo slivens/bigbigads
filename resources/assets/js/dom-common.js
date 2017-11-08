@@ -37,9 +37,9 @@ export function changeWord(item, dom, word) {
         item = 0
     }
     dom.html(word[item])
-    dom.addClass("fadeIn")
+    dom.addClass('fadeIn')
     setTimeout(function() {
-        dom.removeClass("fadeIn")
+        dom.removeClass('fadeIn')
         setTimeout(function() {
             changeWord(item + 1, dom, word)
         }, 500)

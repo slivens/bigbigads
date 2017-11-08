@@ -1,5 +1,4 @@
 /*基本样式*/
-
 @import 'base';
 
 html {
@@ -74,7 +73,7 @@ body {
     .content {
         font-size: px(16);
         .introduce-div {
-            background: url("/dist/images/mobile/bg_02.png") repeat;
+            background: url('/dist/images/mobile/bg_02.png') repeat;
             padding: px(15);
             .change-word-wrapper {
                 height: px(160);
