@@ -461,4 +461,25 @@
             }
         }
     }
+    // 服务条款
+    #times_service{
+        .big-title{
+            font-size: px(30);
+        }
+        .border-line{
+            width: 100%;
+        }
+        p{
+            font-size: px(14);
+        }
+        h3{
+            font-size: px(22);
+        }
+        .service-content{
+            margin-left: px(24);
+            ul{
+                padding-left: px(20);
+            }
+        }
+    }
 }
