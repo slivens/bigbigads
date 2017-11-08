@@ -67,9 +67,8 @@
     clear: both;
     border: 0;
     border-bottom: 1px solid #eee;
-    padding: 0 30px 25px;
-    margin-left: -30px;
-    margin-right: -30px
+    padding: 0;
+    margin: 0;
 }
 
 .login .content .forget-form .form-actions {
@@ -169,9 +168,11 @@
 }
 
 
+
 /*
 * 以下样式为删除components-md.css后不影响样式； 将相关的样式复制到这边
 */
+
 #bba-login {
     .input-icon {
         position: relative;
@@ -252,5 +253,14 @@
     }
     .visible-ie8 {
         display: none;
+    }
+    .margin-top-15 {
+        margin-top: 15px;
+    }
+    .margin-top-20 {
+        margin-top: 20px;
+    }
+    .margin-top-30 {
+        margin-top: 30px;
     }
 }

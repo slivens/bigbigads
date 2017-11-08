@@ -173,13 +173,13 @@
                 <div class="form-actions margin-top-20 button-div">
                     <button type="submit" class="btn submit-btn margin-top-30"> Submit </button>
                 </div>
-                <class class="margin-top-30">
+                <div class="margin-top-30">
                     <p>Try again to <a id="back-btn" class="grey-salsa btn-outline" >Sign in</a></p>
-                </class>
+                </div>
             </form>
             <!-- END FORGOT PASSWORD FORM -->
             <!-- BEGIN REGISTRATION FORM -->
-            <form class="register-form " action="{{url('/register')}}" method="post">
+            <form class="register-form" action="{{url('/register')}}" method="post">
                 {{ csrf_field() }}
                 <h3 class="form-title">Sign Up</h3>
                 <a href="/socialite/facebook" class="register-btn register-fb-btn btn  facebook socialite disabled" >
