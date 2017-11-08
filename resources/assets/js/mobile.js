@@ -1,12 +1,11 @@
 import moment from 'moment'
 import 'js-url'
-
 import 'animate.css/animate.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'font-awesome/css/font-awesome.min.css'
 import './../sass/demo.scss'
 import './../sass/mobile.scss'
-import {linkToUp, changeWord} from './dom-common'
+import { linkToUp, changeWord } from './dom-common'
 
 function palyVideo() {
     $('#youtubeFrame').attr('src', $('#youtubeFrame').data('url'))
@@ -15,8 +14,8 @@ function palyVideo() {
 }
 
 (function() {
-    changeWord(0, $('#change-word'), ["Ad Creatives", " Audience Targeting", "Ad Run Time", "Tracking Tool", "Eshop Platform"])
-    $('a[href="#ads-register"]').on("click", linkToUp)
+    changeWord(0, $('#change-word'), ['Ad Creatives', 'Audience Targeting', 'Ad Run Time', 'Tracking Tool', 'Eshop Platform'])
+    $('a[href="#ads-register"]').on('click', linkToUp)
 
     /* eslint-disable no-undef */
     const trackCode = url('?track')

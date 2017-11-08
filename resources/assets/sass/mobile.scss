@@ -1,4 +1,5 @@
 /*基本样式*/
+
 @import 'base';
 
 html {
@@ -14,6 +15,7 @@ body {
     width: 100%;
     border-bottom: 1px solid #eee;
 }
+
 
 /*通用橘色按钮*/
 
@@ -31,6 +33,9 @@ body {
         font-size: px(14);
         padding-left: px(4);
     }
+    &:active {
+        background: linear-gradient(to bottom, #b94a23, #FF9800);
+    }
 }
 
 .btn:active,
@@ -40,7 +45,8 @@ body {
     color: #fff !important;
 }
 
-#mobile{
+
+#mobile {
     background: #f2f2f2;
     color: #323232;
     /*居中*/
@@ -70,7 +76,7 @@ body {
         .introduce-div {
             background: url("/dist/images/mobile/bg_02.png") repeat;
             padding: px(15);
-            .change-word-wrapper{
+            .change-word-wrapper {
                 height: px(160);
                 display: flex;
                 align-items: center;
@@ -128,10 +134,10 @@ body {
             }
             .video-wrapper {
                 margin-top: px(15);
-                background:#000 url('./images/common/loading_01.gif') no-repeat center center;
+                background: #000 url('./images/common/loading_01.gif') no-repeat center center;
                 background-size: 45px 45px;
                 height: px(300);
-               .youtube-image {
+                .youtube-image {
                     height: 100%;
                     width: 100%;
                     position: relative;
@@ -196,7 +202,7 @@ body {
             .reg-with-linkedin {
                 background: #0077b5;
             }
-            .reg-policy-text{
+            .reg-policy-text {
                 margin-top: px(20);
             }
             .ads-reg-line {
@@ -217,7 +223,7 @@ body {
             }
         }
 
-        
+
         .ads-show {
             padding: px(15);
             background: #fff;
@@ -291,5 +297,3 @@ body {
         }
     }
 }
-
-

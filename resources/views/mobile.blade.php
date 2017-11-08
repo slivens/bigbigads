@@ -146,7 +146,7 @@
                 <p class="ads-font-22 show-ins-title text-center">Creative inspiration</p>
                 <p class="ads-font-16 show-ins-text text-center">Find out how to sell product with social proof, break through culture difference for the audience in a new geo, know what kind of ad resonates with the audience in a specific niche market, know your potential customer better.</p>
             </div>
-            <a href="#ads-register" class="btn ads-font-22 introduce-reg-btn reg-sub-btn">Get Started <small>It's Free</small></a>
+            <a href="#ads-register" class="btn introduce-reg-btn reg-sub-btn">Get Started <small>It's Free</small></a>
         </div>
     </div>
     @include('tpl.mobile_footer')
