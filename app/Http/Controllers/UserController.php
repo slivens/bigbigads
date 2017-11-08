@@ -430,9 +430,10 @@ class UserController extends Controller
      *
      * @return json
      */
-    public function getInvoiceCustomer(Request $request)
+    public function getInvoiceCustomer()
     {
-        $customer = CustomizedInvoice::select('company_name', 'address', 'contact_info', 'website', 'tax_no')->where('user_id', $request->user_id)->first();
+        $user = Auth::user();
+        $customer = CustomizedInvoice::select('company_name', 'address', 'contact_info', 'website', 'tax_no')->where('user_id', $user->id)->first();
         return response()->json($customer);
     }
 
@@ -443,12 +444,11 @@ class UserController extends Controller
      * 已经付款的用户，有交易订单，已经有生成过票据，存储完毕后重新生成票据，每个自然月操作1次
      * 只有保存且有订单的情况下才生成票据
      *
-     * @param array $customInfo 接收到的定制信息
      * @return json
-     * 
+     *
      * @todo 需要优化写法
      */
-    public function saveInvoiceCustomer(Request $request)
+    public function setInvoiceCustomer(Request $request)
     {
         $user = Auth::user();
         $extraData = [
@@ -470,30 +470,26 @@ class UserController extends Controller
                     if (count($user->payments) > 0) {
                         $res = [
                             'code' => 0,
-                            'desc' => 'The Invoice will be re-generate in few seconds.',
-                            'status' =>'success'
+                            'desc' => trans('messages.re-generate')
                         ];
                         //推入队列执行,有修改才执行
                         dispatch((new GenerateInvoiceJob(Payment::where('client_id', $user->id)->get(), true, $extraData)));
                     } else {
                         $res = [
                             'code' => 0,
-                            'desc' => 'Then you must payed for one time.',
-                            'status' =>'success'
+                            'desc' => trans('messages.need_to_payed')
                         ];
                     }
                 } else {
                     $res = [
                             'code' => 0,
-                            'desc' => 'But information is not changed.',
-                            'status' =>'success'
+                            'desc' => trans('messages.not_changed')
                     ];
                 }
             } else {
                 $res = [
                     'code' => -1,
-                    'desc' => 'Only change once in 1 month.',
-                    'status' =>'error'
+                    'desc' => trans('messages.change_limit')
                 ];
             }
         } else {
@@ -506,16 +502,14 @@ class UserController extends Controller
             if (count($user->payments) > 0) {
                 $res = [
                     'code' => 0,
-                    'desc' => 'The Invoice will be re-generate in few seconds.',
-                    'status' =>'success'
+                    'desc' => trans('messages.re-generate')
                 ];
                 //推入队列执行,有修改才执行
                 dispatch((new GenerateInvoiceJob(Payment::where('client_id', $user->id)->get(), true, $extraData)));
             } else {
                 $res = [
                     'code' => 0,
-                    'desc' => 'Then you must payed for one time.',
-                    'status' =>'success'
+                    'desc' => trans('messages.need_to_payed')
                 ];
             }
         }

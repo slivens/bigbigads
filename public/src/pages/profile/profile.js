@@ -42,13 +42,13 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
 
                 $http({
                     method: 'GET',
-                    url: `/users/${User.info.user.id}/customizeInvoice`
+                    url: `/users/customize_invoice`
                 }).then((res) => {
-                    $scope.companyName = res.data.company_name
-                    $scope.address = res.data.address
-                    $scope.contactInfo = res.data.contact_info
-                    $scope.website = res.data.website
-                    $scope.taxNo = res.data.tax_no
+                    profile.companyName = res.data.company_name
+                    profile.address = res.data.address
+                    profile.contactInfo = res.data.contact_info
+                    profile.website = res.data.website
+                    profile.taxNo = res.data.tax_no
                 })
             }
         }
@@ -80,29 +80,29 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         $scope.User = User
         $scope.user = user
     })
-    $scope.customizeSubmit = function() {
+    profile.customizeSubmit = function() {
         $http({
             method: 'POST',
-            url: `/users/${this.user.id}/customizeInvoice`,
+            url: `/users/customize_invoice`,
             params: {
-                'company_name': this.companyName,
-                'address': this.address,
-                'contact_info': this.contactInfo,
-                'website': this.website,
-                'tax_no': this.taxNo
+                'company_name': profile.companyName,
+                'address': profile.address,
+                'contact_info': profile.contactInfo,
+                'website': profile.website,
+                'tax_no': profile.taxNo
             }
         }).then(function(res) {
             if (res.data.code == 0) {
                 SweetAlert.swal(
                     'Save Done!',
                     res.data.desc,
-                    res.data.status
+                    'success'
                 )
             } else {
                 SweetAlert.swal(
                     'Error',
                     res.data.desc,
-                    res.data.status
+                    'error'
                 )
             }
         })

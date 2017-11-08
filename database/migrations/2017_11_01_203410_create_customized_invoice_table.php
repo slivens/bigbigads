@@ -13,7 +13,7 @@ class CreateCustomizedInvoiceTable extends Migration
      */
     public function up()
     {
-        Schema::create('customized_invoice', function (Blueprint $table) {
+        Schema::create('customized_invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
             $table->string('company_name', 200)->nullable();
@@ -22,6 +22,7 @@ class CreateCustomizedInvoiceTable extends Migration
             $table->string('website', 200)->nullable();
             $table->string('tax_no', 200)->nullable();
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -32,6 +33,6 @@ class CreateCustomizedInvoiceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customized_invoice');
+        Schema::dropIfExists('customized_invoices');
     }
 }

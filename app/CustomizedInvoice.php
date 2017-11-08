@@ -7,11 +7,10 @@ use Carbon\Carbon;
 
 class CustomizedInvoice extends Model
 {
-    protected $table = 'customized_invoice';
     protected $fillable = ['user_id', 'company_name', 'address', 'contact_info', 'website', 'tax_no'];
     public function user()
     {
-        return $this->belongsTo('\App\User');
+        return $this->belongsTo(User::class);
     }
 
     /**
