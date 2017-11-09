@@ -532,17 +532,22 @@ class User extends Authenticatable
         }
 
         // 过期时间设置为有效订单的结束时间+1天，一个时间段内只会有一个有效订单
+        // modify by chenxin 20171108, 修复了 Issue #35
+        $now_time = Carbon::now();
+        $longest_expired = $now_time;
         foreach ($baseSub->payments as $payment) {
             if ($payment->isEffective()) {
                 $expired = new Carbon($payment->end_date);
-                $expired->addDay(); 
-                if ($this->expired != $expired) {
-                    Log::info("{$this->email}'s expired is updated:{$this->expired} -> {$expired}");
-                    $this->expired = $expired;
-                    $dirty = true;
+                $expired->addDay();
+                if ($expired->gt($longest_expired)) {
+                    $longest_expired = $expired;
                 }
-                break;
             }
+        }
+        if ($longest_expired != $now_time && $this->expired != $longest_expired) {
+            Log::info("{$this->email}'s expired is updated:{$this->expired} -> {$longest_expired}");
+            $this->expired = $longest_expired;
+            $dirty = true;
         }
         if ($dirty)
             $this->save();
