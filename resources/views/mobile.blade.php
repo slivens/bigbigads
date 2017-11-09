@@ -46,7 +46,7 @@
                 <img class="ads-logo-png" src="/../assets/global/img/logo2.png" alt="">
             </a>
         </div>
-        <a href="/" class="header-login-button pull-right">Login</a>
+        <a href="/mobile" class="header-login-button pull-right">Login</a>
     </div>
     <!--content-->
     <div class="content">

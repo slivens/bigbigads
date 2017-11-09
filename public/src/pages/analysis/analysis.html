@@ -48,13 +48,16 @@
                     <p class="info-list">
                         <span class="info-list-name">Time:</span>
                         <span class="info-list-value" ng-if="card.first_see && card.last_see">{{card.first_see}}~{{card.last_see}}</span>
-                        <span class="info-list-err text-danger" ng-if="!card.first_see || !card.last_see">Not Enough Data</span>
+                        <span class="info-list-err text-danger" ng-if="!card.first_see || !card.last_see">
+                            <a href="http://support.bigbigads.com/?s=Not+enough+data">Not Enough Data</a>
+                        </span>
                     </p>
-
                     <p class="info-list">
                         <span class="info-list-name">Ad placement: </span>
                         <span class="info-list-value" ng-if="card.show_way">{{card.show_way | adsTypes}}</span>
-                        <span class="info-list-err text-danger" ng-if="!card.show_way">Not Enough Data</span>
+                        <span class="info-list-err text-danger" ng-if="!card.show_way">
+                            <a href="http://support.bigbigads.com/?s=Not+enough+data">Not Enough Data</a>
+                        </span>
                     </p>
                     <p class="info-list">
                         <span class="info-list-name">
@@ -66,12 +69,12 @@
                             <span class="">{{card.objectStr[card.objective]}}</span>
                         </span>
                         <span ng-if="!card.objective" class="text-danger info-list-err">
-                            Not Enough Data 
+                            <a href="http://support.bigbigads.com/?s=Not+enough+data">Not Enough Data</a> 
                             <a ng-href="../extension" target="_blank" class="extension-link"> <i class="fa fa-download analy-down-icon"></i> BIGBIGADS Extension</a>
                         </span>
                     </p>
                     <p class="info-list info-but" ng-if="card.show_way != 4">
-                        <a ng-href="{{ id.length == 32 ? ('//www.facebook.com/' + card.adser_username) : '//www.facebook.com/' + id}}"  class="btn btn-primary" target="_blank">See Original Post</a>
+                        <a ng-href="{{ id.length == 32 ? ('//www.facebook.com/' + card.adser_username) : '//www.facebook.com/' + id}}" class="btn btn-primary" target="_blank">See Original Post</a>
                     </p>
                     <!-- <p>
                         <span class="ads-weight-bold">Landing page:</span>
@@ -88,7 +91,9 @@
                     <p>
                         <span class="ads-weight-bold">Frequency:</span>
                         <span ng-if="card.frequency">{{card.frequency}}</span>
-                        <span class="text-danger" ng-if="!card.frequency">Not Enough Data</span>
+                        <span class="text-danger" ng-if="!card.frequency">
+                            <a href="http://support.bigbigads.com/?s=Not+enough+data">Not Enough Data</a>
+                        </span>
                     </p>
                     <p>
                         <span class="ads-weight-bold">Share Rate:</span>
@@ -96,14 +101,18 @@
                             <!-- <i class="fa fa-long-arrow-up analy-trend-up" ng-if="card.share_rate > 0"></i>
                             <i class="fa fa-long-arrow-down analy-trend-down" ng-if="card.share_rate < 0"></i> -->
                             {{(card.share_rate * 100).toFixed(2)}}%</span>
-                        <span class="text-danger" ng-if="!card.share_rate">Not Enough Data</span>
+                        <span class="text-danger" ng-if="!card.share_rate">
+                            <a href="http://support.bigbigads.com/?s=Not+enough+data">Not Enough Data</a>
+                        </span>
                     </p>
                 </div>
                 <div class="rate-wrapper">
                     <p>
                         <span class="ads-weight-bold">Reach:</span>
                         <span ng-if="card.reach">{{card.reach | adsCount}}</span>
-                        <span class="text-danger" ng-if="!card.reach">Not Enough Data</span>
+                        <span class="text-danger" ng-if="!card.reach">
+                            <a href="http://support.bigbigads.com/?s=Not+enough+data">Not Enough Data</a>
+                        </span>
                     </p>
                     <p>
                         <span class="ads-weight-bold">Like Rate:</span>
@@ -111,7 +120,9 @@
                                 <!-- <i class="fa fa-long-arrow-up analy-trend-up" ng-if="card.like_rate > 0"></i>
                                 <i class="fa fa-long-arrow-down analy-trend-dowm" ng-if="card.like_rate < 0"></i> -->
                                 {{(card.like_rate * 100).toFixed(2)}}% </span>
-                        <span class="text-danger" ng-if="!card.like_rate">Not Enough Data</span>
+                        <span class="text-danger" ng-if="!card.like_rate">
+                            <a href="http://support.bigbigads.com/?s=Not+enough+data">Not Enough Data</a>
+                        </span>
                     </p>
                 </div>
             </div>
@@ -145,7 +156,9 @@
             <div ng-if="!card.impressionCharts" class="analy-nodata">
                 <img src="/images/analysis/bg_nodata.png" alt="">
                 <br>
-                <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
+                <span class="ads-font-26 ads-weight-600 text-danger">
+                    <a href="http://support.bigbigads.com/?s=Not+enough+data">Not Enough Data</a>
+                </span>
                 <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
             </div>
         </div>
@@ -158,7 +171,9 @@
             <div class="analy-nodata" ng-if="!card.engagementsCharts">
                 <img src="/images/analysis/bg_nodata.png" alt="">
                 <br>
-                <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
+                <span class="ads-font-26 ads-weight-600 text-danger">
+                    <a href="http://support.bigbigads.com/?s=Not+enough+data">Not Enough Data</a>
+                </span>
                 <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
             </div>
         </div>
@@ -174,22 +189,23 @@
                         <highchart class="charts-pie" config="card.genderPieCharts"></highchart>
                     </div>
                     <div class="col-md-6 charts-wrapper" ng-if="card.whyseeads.gender && card.whyseeads.age">
-                        <highchart class="charts-bar" config="card.ageBarCharts"></highchart>   
+                        <highchart class="charts-bar" config="card.ageBarCharts"></highchart>
                     </div>
                 </div>
-                <a href="./plans" ng-if = "card.whyseeads.limit" target="_blank">
-                    <div class="analy-upgrade ads-font-26 ads-weight-600" >
+                <a href="./plans" ng-if="card.whyseeads.limit" target="_blank">
+                    <div class="analy-upgrade ads-font-26 ads-weight-600">
                         you need to Upgrade
                     </div>
                 </a>
             </div>
-                <div ng-if="!card.whyseeads.gender || !card.whyseeads.age" class="analy-nodata">
-                    <img src="/images/analysis/bg_nodata.png" alt="">
-                    <br>
-                    <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
-                    <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
-                </div>
-            
+            <div ng-if="!card.whyseeads.gender || !card.whyseeads.age" class="analy-nodata">
+                <img src="/images/analysis/bg_nodata.png" alt="">
+                <br>
+                <span class="ads-font-26 ads-weight-600 text-danger">
+                    <a href="http://support.bigbigads.com/?s=Not+enough+data">Not Enough Data</a>
+                </span>
+                <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
+            </div>
         </div>
         <!--interests-->
         <div class="col-md-6">
@@ -210,7 +226,7 @@
                             </div>
                         </div>
                         <div class="stat-number">{{((interstItem.value / card.interestsArr.count) * 100).toFixed(2)}}%</div>
-                        <div ng-if= "interstItem.limit" class="">
+                        <div ng-if="interstItem.limit" class="">
                             If you want see more you need to <a href="./plans" target="_blank">Upgrade</a>
                         </div>
                     </div>
@@ -224,7 +240,9 @@
             <div ng-if="!card.whyseeads.interests" class="analy-nodata">
                 <img src="/images/analysis/bg_nodata.png" alt="">
                 <br>
-                <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
+                <span class="ads-font-26 ads-weight-600 text-danger">
+                    <a href="http://support.bigbigads.com/?s=Not+enough+data">Not Enough Data</a>
+                </span>
                 <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
             </div>
         </div>
@@ -283,7 +301,6 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    
                                 </tbody>
                             </table>
                         </div>
@@ -298,7 +315,9 @@
             <div ng-if="!card.addrMapCharts" class="analy-nodata">
                 <img src="/images/analysis/bg_nodata.png" alt="">
                 <br>
-                <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
+                <span class="ads-font-26 ads-weight-600 text-danger">
+                    <a href="http://support.bigbigads.com/?s=Not+enough+data">Not Enough Data</a>
+                </span>
                 <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
             </div>
         </div>

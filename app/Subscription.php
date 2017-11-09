@@ -48,6 +48,9 @@ class Subscription extends Model
     const TAG_DEFAULT = "default";
 
 
+    const GATEWAY_STRIPE = "stripe";
+    const GATEWAY_PAYPAL = "paypal";
+
     public function user()
     {
         return $this->belongsTo('\App\User');
