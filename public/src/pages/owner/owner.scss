@@ -1,18 +1,16 @@
-#owner{
-	 // mobile
+#owner {
+    // mobile
     @media (max-width: 720px) {
         .deckgrid[deckgrid]::before {
             content: '1 .column.column-1-1';
         }
-    }
-    // ipad
+    } // ipad
     @media (min-width: 721px) and (max-width: 769px) {
         .deckgrid[deckgrid]::before {
             content: '2 .column.column-1-2';
         }
-    }
-    // 大于769之后，会出现左边的filter，会占据页面一部分
-     @media (min-width: 770px) and (max-width: 991px) {
+    } // 大于769之后，会出现左边的filter，会占据页面一部分
+    @media (min-width: 770px) and (max-width: 991px) {
         .deckgrid[deckgrid]::before {
             content: '1 .column.column-1-1';
         }
