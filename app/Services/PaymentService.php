@@ -529,6 +529,14 @@ class PaymentService implements PaymentServiceContract
     public function handlePayment(Payment $payment)
     {
         $subscription = $payment->subscription;
+
+        if ($subscription->coupon_id > 0) {
+            $newUsed = $subscription->coupon->calcUsed();
+            if ($subscription->coupon->used != $newUsed) {
+                $subscription->coupon->used = $newUsed;
+                $subscription->coupon->save();
+            }
+        }
         if ($subscription->status == Subscription::STATE_PAYED) {
             $this->log("You haved payed for the subscription, check if it's the next payment");
             return $subscription->user->fixInfoByPayments();
@@ -536,10 +544,6 @@ class PaymentService implements PaymentServiceContract
 
         // 添加payment记录和修改subscription状态
         $subscription->status = Subscription::STATE_PAYED;
-        if ($subscription->coupon_id > 0) {
-            $subscription->coupon->used++;
-            $subscription->coupon->save();
-        }
         $subscription->save();
 
         // 切换用户计划

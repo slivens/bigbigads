@@ -9,7 +9,7 @@ class Coupon extends Model
     //
     public function subscriptions()
     {
-        return $this->hasMany('\App\Subscription');
+        return $this->hasMany(Subscription::class);
     }
 
     /**
@@ -25,5 +25,16 @@ class Coupon extends Model
             $discount = $this->discount;
         }
         return $discount;
+    }
+
+    /**
+     * 扫描订单，动态计算出实际使用优惠券的数量
+     * 只有订阅有订单，就认为使用了优惠券，不论是支付失败；成功；还是退款。
+     *
+     * @return int
+     */
+    public function calcUsed() : int
+    {
+        return $this->subscriptions()->has('payments')->count();
     }
 }
