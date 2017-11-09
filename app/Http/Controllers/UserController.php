@@ -460,13 +460,13 @@ class UserController extends Controller
         ];
         if ($custom = CustomizedInvoice::where('user_id', $user->id)->first()) {
             if ($custom->canSave()) {
-                $modified_custom = CustomizedInvoice::updateOrCreate(
+                $modifiedCustom = CustomizedInvoice::updateOrCreate(
                     [
                         'user_id' => $user->id
                     ],
                     $extraData
                 );
-                if ($modified_custom != $custom) {
+                if ($modifiedCustom != $custom) {
                     if (count($user->payments) > 0) {
                         $res = [
                             'code' => 0,

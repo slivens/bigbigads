@@ -471,7 +471,7 @@ class PaymentService implements PaymentServiceContract
                 }
                 if ($payment->status == Payment::STATE_COMPLETED && is_null($payment->invoice_id)) {
                     // 如果票据未生成执行生成
-                    $this->generateInvoice($payment->number);
+                    dispatch((new \App\Jobs\GenerateInvoiceJob(Payment::where('number', $payment->number)->get())));//入参类型为Collection
                     $this->log("generate invoice(payment number: $payment->number) after payment synced", PaymentService::LOG_INFO);
                 }
             }
@@ -837,11 +837,16 @@ class PaymentService implements PaymentServiceContract
             // 该交易的invoice_id不为空，则已经生成过
             throw new GenericException($this, "cannot generate this invoice with transaction id: $transactionId because it was generated.");
         }
+        if ($plan = $payment->subscription->getPlan()) {
+            $packageName = $plan->display_name;
+        } else {
+            $packageName = $payment->subscription->plan;
+        }
         
         $data = (object)array();
         $data->referenceId = $payment->invoice_id ? : ceil(microtime(true) * 100) . mt_rand(1000, 9999);// reference ID
         $data->amount = '$ ' . $payment->amount;// amount
-        $data->package = $payment->subscription->getPlan()->display_name;// package
+        $data->package = $packageName;// $payment->subscription->getPlan()->display_name;// package
         $data->name = $payment->client->name;// name
         $data->email = $payment->client_email;// email
         $data->method = ucfirst($payment->subscription->gateway);// Paypal / Stripe;
