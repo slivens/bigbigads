@@ -102,7 +102,7 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         $http({
             method: 'POST',
             url: `/users/customize_invoice`,
-            params: {
+            data: {
                 'company_name': profile.companyName,
                 'address': profile.address,
                 'contact_info': profile.contactInfo,
