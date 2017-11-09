@@ -2,7 +2,7 @@ import './../sass/extension.scss'
 import track from './track.js'
 
 track.setTrack()
-$("#downloadExtension").click(function() {
+$('#downloadExtension').click(function() {
     // 发送bing统计事件
     window.uetq = window.uetq || []
     window.uetq.push({
@@ -16,13 +16,15 @@ $("#downloadExtension").click(function() {
     ga('send', 'event', 'conversion', 'click', 'download_extension', 12)
 
     if (document.getElementById('bigbigads-extension-is-installed')) {
-        window.location.href = '/login'
+        window.location.href = '/plan'
     } else {
-        chrome.webstore.install(
-            'https://chrome.google.com/webstore/detail/aeicgjbjcnodlaomefmanfbkhpcdlcbk',
-            function() {
-                window.location.href = '/login'
-            }
-        )
+        var url = 'https://chrome.google.com/webstore/detail/aeicgjbjcnodlaomefmanfbkhpcdlcbk'
+        if (typeof chrome === 'undefined') {
+            window.open(url)
+        } else {
+            chrome.webstore.install(url, function() {
+                window.location.href = 'https://www.facebook.com'
+            })
+        }
     }
 })
