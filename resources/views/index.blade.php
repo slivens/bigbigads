@@ -6,29 +6,27 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta http-equiv="cache-control"  content="no-cache">
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
-
     <title>Bigbigads Home | The Largest  Facebook Ad Examples to Smart Your Facebook Marketing</title>
-    <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
+    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/aeicgjbjcnodlaomefmanfbkhpcdlcbk">
+    <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" />
     <link href="{{bba_version('home.css')}}" rel="stylesheet">
-@include('tpl.script')
-@if (!is_psi_agent())
-<!-- Facebook Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    @include('tpl.script')
+    @if (!is_psi_agent())
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
 
-fbq('init', '1555915891116409'); // Insert your pixel ID here. 
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
-/></noscript>
-<!-- DO NOT MODIFY -->
-<!-- End Facebook Pixel Code -->
-@endif
+        fbq('init', '1555915891116409'); // Insert your pixel ID here. 
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"/></noscript>
+    <!-- DO NOT MODIFY -->
+    <!-- End Facebook Pixel Code -->
+    @endif
 </head>
 <body>
 @include('tpl.header')
@@ -91,8 +89,8 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
         </div>
     </div>
 </section>
-<a href="//chrome.google.com/webstore/detail/bigbigadsfacebook-ad-exam/aeicgjbjcnodlaomefmanfbkhpcdlcbk" class="btn home-getstart-btn text-center">
-        Get started now! <span class="small-word">It's free</span>
+<a class="btn home-getstart-btn text-center downloadExtension">
+    Get started now! <span class="small-word">It's free</span>
 </a>
 <!--video slider-->
 <section class="video">
@@ -111,8 +109,8 @@ src="https://www.facebook.com/tr?id=1555915891116409&ev=PageView&noscript=1"
             </div>
         </div>
     </div>
-    <a class="btn home-getstart-btn text-center" href="//chrome.google.com/webstore/detail/bigbigadsfacebook-ad-exam/aeicgjbjcnodlaomefmanfbkhpcdlcbk">
-            Get started now! <span class="small-word">It's free</span>
+    <a class="btn home-getstart-btn text-center downloadExtension">
+        Get started now! <span class="small-word">It's free</span>
     </a>
     <div class="video-ads-wrod">
         <div class="container">

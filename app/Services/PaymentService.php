@@ -405,7 +405,6 @@ class PaymentService implements PaymentServiceContract
                 } else {
                     $payment->buyer_email = $t->getPayerEmail();
                 }
-                $this->log("======start of paypalStatus: $paypalStatus , payment->status: $payment->status ===========", PaymentService::LOG_INFO);
                 // 当状态变化时要更新订单
                 if ($paypalStatus != $payment->status) {
                     $this->log("status will change:{$payment->status} -> $paypalStatus", PaymentService::LOG_INFO);
@@ -437,7 +436,6 @@ class PaymentService implements PaymentServiceContract
                 } else {
                     $this->log("payment {$payment->number} has no change", PaymentService::LOG_INFO);
                 }
-                $this->log("=====end of paypalStatus: $paypalStatus , payment->status: $payment->status ===========", PaymentService::LOG_INFO);
 
                 // 补全退款申请单和根据退款状态处理用户状态
                 if ($payment->status == Payment::STATE_REFUNDED) {
