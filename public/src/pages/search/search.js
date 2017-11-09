@@ -353,7 +353,7 @@ export default angular => {
 
                 $scope.isFreeLimitDate = false
                 if (User.user.role.plan === 'free') {
-                    if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0) || $scope.adSearcher.params.sort.field != 'last_view_date') {
+                    if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0) || $scope.adSearcher.params.sort.field != 'default') {
                         angular.forEach($scope.adSearcher.params.where, function(data) {
                             if (data.field === 'time') {
                                 $scope.adSearcher.removeFilter('time')

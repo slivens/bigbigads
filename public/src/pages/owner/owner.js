@@ -409,11 +409,11 @@ export default (angular) => {
             $scope.currSearchOption.range = range.join(',')
             $scope.filter($scope.filterOption, action)
             if (User.info.user.role.plan === 'free') {
-                if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 2 || $scope.adSearcher.params.sort.field != 'last_view_date') {
+                if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 2 || $scope.adSearcher.params.sort.field != 'default') {
                     $scope.currSearchOption.isdirty = true
                 }
             } else {
-                if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 1 || $scope.adSearcher.params.sort.field != 'last_view_date') {
+                if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 1 || $scope.adSearcher.params.sort.field != 'default') {
                     $scope.currSearchOption.isdirty = true
                 }
             }
