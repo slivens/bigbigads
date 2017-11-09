@@ -81,6 +81,24 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         $scope.user = user
     })
     profile.customizeSubmit = function() {
+        if ((profile.companyName == null || profile.companyName == '') && (profile.address == null || profile.address == '') && (profile.contactInfo == null || profile.contactInfo == '') && (profile.website == null || profile.website == '') && (profile.taxNo == null || profile.taxNo == '')) {
+            SweetAlert.swal({
+                title: 'Are you sure?',
+                text: 'This will be not saved anything.',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: "Confirm！",
+                confirmButtonColor: "#DD6B55"
+            }, function(isConfirm) {
+                if (!isConfirm)
+                    return
+                profile.customizeRequest()
+            })
+        } else {
+            profile.customizeRequest()
+        }
+    }
+    profile.customizeRequest = function() {
         $http({
             method: 'POST',
             url: `/users/customize_invoice`,
