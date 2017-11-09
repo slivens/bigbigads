@@ -15,7 +15,6 @@
         <meta content="bigbigads" name="author" />
         <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
         <!-- TODO: The css should be removed in the future -->
-        <link href="./assets/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css" />
         <link rel="shortcut icon" href="favicon.ico" />
         <link href="{{bba_version('home.css')}}" rel="stylesheet">
         <link href="{{bba_version('login.css')}}" rel="stylesheet">
@@ -23,7 +22,7 @@
          </head>
     <!-- END HEAD -->
 
-    <body class=" login">
+    <body class="login" id="bba-login">
         <!-- BEGIN LOGO -->
 
 
@@ -174,13 +173,13 @@
                 <div class="form-actions margin-top-20 button-div">
                     <button type="submit" class="btn submit-btn margin-top-30"> Submit </button>
                 </div>
-                <class class="margin-top-30">
+                <div class="margin-top-30">
                     <p>Try again to <a id="back-btn" class="grey-salsa btn-outline" >Sign in</a></p>
-                </class>
+                </div>
             </form>
             <!-- END FORGOT PASSWORD FORM -->
             <!-- BEGIN REGISTRATION FORM -->
-            <form class="register-form " action="{{url('/register')}}" method="post">
+            <form class="register-form" action="{{url('/register')}}" method="post">
                 {{ csrf_field() }}
                 <h3 class="form-title">Sign Up</h3>
                 <a href="/socialite/facebook" class="register-btn register-fb-btn btn  facebook socialite disabled" >
