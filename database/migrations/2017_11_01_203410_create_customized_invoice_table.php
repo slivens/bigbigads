@@ -15,7 +15,7 @@ class CreateCustomizedInvoiceTable extends Migration
     {
         Schema::create('customized_invoices', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned();
             $table->string('company_name', 200)->nullable();
             $table->string('address', 200)->nullable();
             $table->string('contact_info', 200)->nullable();

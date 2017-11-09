@@ -428,7 +428,7 @@ class UserController extends Controller
      * 获取用户票据自定义信息
      * 只获取表单显示的部分内容
      *
-     * @return json
+     * @return Response
      */
     public function getInvoiceCustomer()
     {
@@ -444,7 +444,7 @@ class UserController extends Controller
      * 已经付款的用户，有交易订单，已经有生成过票据，存储完毕后重新生成票据，每个自然月操作1次
      * 只有保存且有订单的情况下才生成票据
      *
-     * @return json
+     * @return Response
      *
      * @todo 需要优化写法
      */
