@@ -43,7 +43,7 @@
             <!--lite-->
             <div class="plan-card-orange plan-card" card-name="lite-card">
                 <div class="card-body card-front" turn-back="lite-card">
-                    <div class="card-header ads-font-30 ads-weight-200">Lite <span class="ads-font-12">(BATA)</span></div>
+                    <div class="card-header ads-font-30 ads-weight-200">Lite <span class="ads-font-12">(BETA)</span></div>
                     <div class="card-content">
                         <div class="ads-font-24 ads-weight-200 card-text">Start from</div>
                         <div class="text-center card-money">
@@ -162,7 +162,7 @@
                                 <td class="ads-font-24 ads-weidth-600 text-center">Free</td>
                                 <td class="ads-font-24 ads-weidth-600 text-center">
                                     Lite
-                                    <p class="plan-small">Bata</p>
+                                    <p class="plan-small">BETA</p>
                                 </td>
                                 <td class="ads-font-24 ads-weidth-600 text-center">Standard</td>
                                 <td class="ads-font-24 ads-weidth-600 text-center">
