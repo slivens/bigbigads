@@ -91,14 +91,17 @@
 
                 <div class="panel panel-bordered" style="padding-bottom:5px;">
                     <div class="panel-heading" style="border-bottom:0;">
-                        <h3 class="panel-title">已使用用户({{count($dataTypeContent->subscriptions)}})</h3>
+                        <h3 class="panel-title">已应用用户{{count($dataTypeContent->subscriptions)}}, 实际使用{{$dataTypeContent->used}}</h3>
                     </div>
                     <div class="panel-body" style="padding-top:0;">
+
+                        <div class="help-block">只有用户有产生订单，优惠券使用次数才会加1</div>
                         <table class="table table-striped table-bordered">
 <tr>
     <th>email</th>
     <th>plan</th>
-    <th>Payment ID</th>
+    <th>订阅ID</th>
+    <th>订阅状态</th>
     <th>建立费用</th>
     <th>建立时间</th>
 </tr>
@@ -106,7 +109,8 @@
 <tr>
     <td>{{$item->user->email}}</td>
     <td>{{$item->plan}}</td>
-    <td>{{$item->payment_id}}</td>
+    <td>{{$item->agreement_id}}</td>
+    <td>{{$item->status}}</td>
     <td>USD {{$item->setup_fee}}</td>
     <td>{{$item->created_at}}</td>
 </tr>
