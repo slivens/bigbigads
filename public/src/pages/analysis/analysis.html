@@ -280,10 +280,10 @@
                                     <tr ng-repeat="adsItems in card.whyseeads.addr | limitTo:(tabelePageNum * 7)" ng-if="$index+1 > (tabelePageNum * 7 - 7)">
                                         <td class="analy-td1">{{$index + 1}}</td>
                                         <td class="analy-td2">
-                                            <div class="country-name ads-text-ellipsis" title="{{adsItems.name}}" ng-if="(card.countryArr.limit ? $index < card.countryArr.limit : true)">
+                                            <div class="country-name ads-text-ellipsis" title="{{adsItems.name}}" ng-if="(userLimit.countryTableList ? $index < userLimit.countryTableList : true)">
                                                 {{adsItems.name}}
                                             </div>
-                                            <div class="country-name ads-text-ellipsis" title="Upgrade" ng-if="(card.countryArr.limit ? $index >= card.countryArr.limit : false)">
+                                            <div class="country-name ads-text-ellipsis" title="Upgrade" ng-if="(userLimit.countryTableList ? $index >= userLimit.countryTableList : false)">
                                                 <a href="./plans" target="_blank">Upgrade</a>
                                             </div>
                                         </td>
