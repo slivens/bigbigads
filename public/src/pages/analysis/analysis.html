@@ -1,4 +1,4 @@
-<div id="ad-analysis" class="ad-analysis container alert ">
+<div id="ad-analysis" class="ad-analysis container alert">
     <div class="ads-font-20 analysis-title row">Advertisement Overview:</div>
     <div class="analy-overview row">
         <div class="overview-body">
@@ -18,6 +18,10 @@
                             <p class="card-time ads-font-14">
                                 Sponsored
                             </p>
+                        </div>
+
+                        <div class="card-bookmark" uib-popover-template="'ad-bookmark-popover.html'" popover-placement="auto right-top" popover-title="Add Bookmark" popover-is-open="card.showBookmark" popover-trigger="'outsideClick'">
+                            <i class="fa ads-font-26 bookmark-icon" ng-class='{"fa-bookmark":card.hasBookmark, "fa-bookmark-o":!card.hasBookmark }'></i>
                         </div>
                     </div>
                     <div class="adscard-card">
