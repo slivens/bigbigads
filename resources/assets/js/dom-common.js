@@ -8,11 +8,12 @@
  * 创建、初版编程：余清红
  * 版本：1.0.1
  * 函数：
- *   1) linkToUp
+ *   1) linkToUp()
+ *   2) changeWord(item, dom, word)
  *
  * 修改历史：
  *   2017.10.28 创建文件，添加 linkToUp方法
- *
+ *   2017.11.01 添加动态换词方法
  ******************************************/
 // 页面内锚点连接上滑
 export function linkToUp() {
@@ -28,4 +29,19 @@ export function linkToUp() {
             return false
         }
     }
+}
+
+/* 动态换词 */
+export function changeWord(item, dom, word) {
+    if (word.length <= item) {
+        item = 0
+    }
+    dom.html(word[item])
+    dom.addClass('fadeIn')
+    setTimeout(function() {
+        dom.removeClass('fadeIn')
+        setTimeout(function() {
+            changeWord(item + 1, dom, word)
+        }, 500)
+    }, 1500)
 }
