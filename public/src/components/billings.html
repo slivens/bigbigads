@@ -26,7 +26,7 @@
             <td>{{item.status}}</td>
             <!-- <td><span ng-if="item.refund" class="text-danger">Refund Status:{{item.refund.status}}</span><span ng-if="item.refund.note"><br/>Note:{{item.refund.note}}</span></td> -->
             <td>
-                <a class="btn btn-default" ng-click="item.openDownload && $ctrl.invoiceDownload(item)" ng-disabled="!item.openDownload" ng-attr-title="{{item.invoiceMessages}}">Invoice</a>
+                <a class="btn btn-danger" ng-click="item.openDownload && $ctrl.invoiceDownload(item)" ng-disabled="!item.openDownload" ng-attr-title="{{item.invoiceMessages}}">Download Invoice</a>
                 <a class="btn btn-default" ng-click="$ctrl.refund(item)" ng-if="item.canRefund">Refund</a>
             </td>
         </tr>

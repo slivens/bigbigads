@@ -6,8 +6,9 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Subscription;
 use App\User;
 use App\Role;
-use Carbon\Carbon;
+use App\Plan;
 use App\Payment;
+use Carbon\Carbon;
 
 /**
  * 修复信息的测试,测试之前应保证系统中至少有正常付费的用户。
@@ -31,7 +32,12 @@ class FixInfoTest extends TestCase
                 continue;
 
             $user = $payment->client;
-            if ($user->role_id != $user->getEffectiveSub()->getPlan()->role_id)
+            $this->assertTrue($user instanceof User);
+            $sub = $user->getEffectiveSub();
+            $this->assertTrue($sub instanceof Subscription);
+            if (!$sub->getPlan())
+                continue;
+            if ($user->role_id != $sub->getPlan()->role_id)
                 continue;
             if ($user->expired != (new Carbon($payment->end_date))->addDay())
                 continue;

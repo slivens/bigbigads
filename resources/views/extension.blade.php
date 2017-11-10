@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bigbigads Extension | Largest Facebook Ad Examples</title>
     <meta name="description" content="A Facebook ads spy tool to help you find out the competitor marketing strategy, ad creatives, ad insight.">
+    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/aeicgjbjcnodlaomefmanfbkhpcdlcbk">
     <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" media="screen" /> 
     <!-- TODO: home.css should be removed in later version-->
     <link href="{{bba_version('home.css')}}" rel="stylesheet">
