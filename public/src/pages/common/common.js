@@ -1405,6 +1405,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                 }
             },
             checkIsPushNotification: function() {
+                // 检查是规定时间内否在推送用户通知
                 if (!User.login) return false
                 if (User.info.user.role.plan != 'free') return false
                 var userNotification

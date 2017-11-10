@@ -83,6 +83,9 @@ class BookmarkController extends Controller
             return response(["code"=>-1, "desc"=>"No Permission"], 422);
         }
         $bookmark = Bookmark::where("id", $id)->first();
+        if (!$bookmark instanceof Bookmark) {
+            return $this->responseError("No Found This bookmark list", -4495);
+        }
         /*if (!Auth::user()->can('update', $bookmark)) {
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
         }*/
@@ -111,6 +114,9 @@ class BookmarkController extends Controller
         //删除收藏夹之前需要检查是否为合法用户
         //该id是广告id
         $bookmark = Bookmark::where("id", $id)->first();
+        if (!$bookmark instanceof Bookmark) {
+            return $this->responseError("No Found This bookmark list", -4495);
+        }
         if ($bookmark->uid != Auth::user()->id) {
             return $this->responseError("No Permission", -1);
         }

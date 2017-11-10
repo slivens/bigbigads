@@ -711,6 +711,7 @@ export default angular => {
             User.getInfo().then(function() {
             // 根据search参数页面初始化
                 $scope.search('search')
+                // 用户通知，目前频率为每日一次
                 $scope.notice()
             })
         }

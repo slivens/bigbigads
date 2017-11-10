@@ -74,6 +74,9 @@ class BookmarkItemController extends Controller
     public function update(Request $req, $id)
     {
         $bookmark = Bookmark::where("id", $id)->first();
+        if (!$bookmark instanceof Bookmark) {
+            return $this->responseError("No Found This bookmark list", -4495);
+        }
         /*if (!Auth::user()->can('update', $bookmark)) {
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
         }*/
