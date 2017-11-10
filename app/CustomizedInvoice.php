@@ -23,7 +23,8 @@ class CustomizedInvoice extends Model
      */
     public function canSave()
     {
-
-        return (Carbon::parse($this->updated_at)->month < Carbon::now()->month) || (Carbon::parse($this->updated_at)->year != Carbon::now()->year);
+        $old = Carbon::parse($this->updated_at);
+        $now = Carbon::now();
+        return ($old->month < $now->month) || ($old->year != $now->year);
     }
 }
