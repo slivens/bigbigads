@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style type="text/css">
 .top{
     height: 150px;
@@ -153,13 +147,63 @@ hr{
                             </div>
                         </div>
                         <div class="row">
-                                <div class="col-xs-8 col-sm-4 row_left">
-                                    Email
-                                </div>
-                                <div class="col-xs-4 col-sm-4 row_right">
-                                    {{$data->email}}
-                                </div>
+                            <div class="col-xs-8 col-sm-4 row_left">
+                                Email
+                            </div>
+                            <div class="col-xs-4 col-sm-4 row_right">
+                                {{$data->email}}
+                            </div>
                         </div>
+                        @if ($data->company_name)
+                        <div class="row">
+                            <div class="col-xs-8 col-sm-4 row_left">
+                                Company
+                            </div>
+                            <div class="col-xs-4 col-sm-4 row_right">
+                                {{$data->company_name}}
+                            </div>
+                        </div>
+                        @endif
+                        @if ($data->address)
+                        <div class="row">
+                            <div class="col-xs-8 col-sm-4 row_left">
+                                Address
+                            </div>
+                            <div class="col-xs-4 col-sm-4 row_right">
+                                {{$data->address}}
+                            </div>
+                        </div>
+                        @endif
+                        @if ($data->contact_info)
+                        <div class="row">
+                            <div class="col-xs-8 col-sm-4 row_left">
+                                Contact
+                            </div>
+                            <div class="col-xs-4 col-sm-4 row_right">
+                                {{$data->contact_info}}
+                            </div>
+                        </div>
+                        @endif
+                        @if ($data->website)
+                        <div class="row">
+                            <div class="col-xs-8 col-sm-4 row_left">
+                                Website
+                            </div>
+                            <div class="col-xs-4 col-sm-4 row_right">
+                                {{$data->website}}
+                            </div>
+                        </div>
+                        @endif
+                        @if ($data->tax_no)
+                        <div class="row">
+                            <div class="col-xs-8 col-sm-4 row_left">
+                                Tax No.
+                            </div>
+                            <div class="col-xs-4 col-sm-4 row_right">
+                                {{$data->tax_no}}
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

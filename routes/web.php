@@ -128,27 +128,23 @@ Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
 
 Route::get('/plans', 'SubscriptionController@plans');
 
-Route::group(
-    ['middleware'=>'auth'], function () {
-        // Route::get('/pay', 'SubscriptionController@form');
-        Route::post('/pay', 'SubscriptionController@pay');
-        Route::get('/billings', 'SubscriptionController@billings');
-        Route::post('/subscription/{id}/cancel', 'SubscriptionController@cancel');
-        Route::get(
-            '/invoice/{invoice}', function (Request $request, $invoiceId) {
-                return Auth::user()->downloadInvoice(
-                    $invoiceId, [
-                        'vendor'  => 'Bigbigads',
-                        'product' => 'Bigbigads',
-                    ], storage_path('invoice')
-                );
-            }
-        );
-        Route::post('changepwd', 'UserController@changepwd');
-        Route::put('/payments/{number}/refund_request', 'SubscriptionController@requestRefund');
-        Route::get('/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
-    }
-);
+Route::group(['middleware'=>'auth'], function() {
+    //Route::get('/pay', 'SubscriptionController@form');
+    Route::post('/pay', 'SubscriptionController@pay');
+    Route::get('/billings', 'SubscriptionController@billings');
+    Route::post('/subscription/{id}/cancel', 'SubscriptionController@cancel');
+	Route::get('/invoice/{invoice}', function (Request $request, $invoiceId) {
+		return Auth::user()->downloadInvoice($invoiceId, [
+			'vendor'  => 'Bigbigads',
+			'product' => 'Bigbigads',
+		], storage_path('invoice'));
+    });
+    Route::post('changepwd', 'UserController@changepwd');
+    Route::put('/payments/{number}/refund_request', 'SubscriptionController@requestRefund');
+    Route::get('/users/customize_invoice', 'UserController@getInvoiceCustomer');
+    Route::post('/users/customize_invoice', 'UserController@setInvoiceCustomer');
+    Route::get('/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
+});
 
 //pay页面需要支持不登录可访问
 Route::get('/pay', 'SubscriptionController@form');

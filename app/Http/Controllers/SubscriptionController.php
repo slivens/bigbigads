@@ -211,13 +211,13 @@ final class SubscriptionController extends PayumController
      */
     public function onPay(Request $request)
     {
-        echo "processing...don't close the window.";
+        /* echo "processing...don't close the window."; */
         if ($request->success == 'false') {
             return redirect('/app/profile?active=0');
         }
         $subscription = Subscription::where('agreement_id', $request->token)->first();
         if (!($subscription instanceof Subscription)) {
-            abort(401, "no subscription found");
+            abort(500, "no subscription found");
         }
         $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
 
@@ -253,15 +253,18 @@ final class SubscriptionController extends PayumController
         }
 
         $this->paymentService->syncPayments([], $subscription);
-        // 完成订阅后10秒后就去同步，基本上订单都已产生；如果没有产生，3分钟后再次同步试。同时webhook如果有收到，也会去同步。
-        dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(10)));
+        // 完成订阅后的/app/profile界面，如果没有成功会自己尝试同步;同时webhook如果有收到，也会去同步。
+        /* dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(10))); */
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(30)));
 
         // 更改七日内的统计为guzzle 同步请求
-        $domain = env('APP_URL');
-        $url = $domain . 'payStatistics.html';
-        $client = new Client();
-        $client->request('GET', $url);
+        try {
+            $domain = env('APP_URL');
+            $url = $domain . 'payStatistics.html';
+            $client = new Client();
+            $client->request('GET', $url);
+        } catch (\Exception $e) {
+        }
         return redirect('/app/profile?active=0');
     }
 

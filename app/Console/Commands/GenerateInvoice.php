@@ -79,7 +79,7 @@ class GenerateInvoice extends Command
                 //不强制，如果已经生成，给予提示
                 $invoiceId = Payment::where('number', $tids)->value('invoice_id');
                 if (!empty($invoiceId)) {
-                    $this->comment("$tids has a invoice,that id is $invoiceId,file path is storage/" . $path . '/' . $invoiceId . '.pdf');
+                    $this->comment("$tids has a invoice,that id is $invoiceId,file path is storage/app/" . $path . '/' . $invoiceId . '.pdf');
                     return;
                 } else {
                     //如果没生成执行生成

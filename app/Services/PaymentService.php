@@ -299,7 +299,7 @@ class PaymentService implements PaymentServiceContract
                     if ($cancelTime) {
                         $newData['canceled_at'] = $cancelTime;
                     } else {
-                        $this->log("cannot get cancel time on {$sub->agreement_id},but subscription was cancelled", PaymentService::LOG_INFO);
+                        $this->log("cannot get cancel time on {$sub->agreement_id},but subscription in paypal was cancelled", PaymentService::LOG_INFO);
                     }
                     break;
                 case 'suspended':
@@ -403,7 +403,6 @@ class PaymentService implements PaymentServiceContract
                 } else {
                     $payment->buyer_email = $t->getPayerEmail();
                 }
-                $this->log("======start of paypalStatus: $paypalStatus , payment->status: $payment->status ===========", PaymentService::LOG_INFO);
                 // 当状态变化时要更新订单
                 if ($paypalStatus != $payment->status) {
                     $this->log("status will change:{$payment->status} -> $paypalStatus", PaymentService::LOG_INFO);
@@ -435,7 +434,6 @@ class PaymentService implements PaymentServiceContract
                 } else {
                     $this->log("payment {$payment->number} has no change", PaymentService::LOG_INFO);
                 }
-                $this->log("=====end of paypalStatus: $paypalStatus , payment->status: $payment->status ===========", PaymentService::LOG_INFO);
 
                 // 补全退款申请单和根据退款状态处理用户状态
                 if ($payment->status == Payment::STATE_REFUNDED) {
@@ -471,7 +469,7 @@ class PaymentService implements PaymentServiceContract
                 }
                 if ($payment->status == Payment::STATE_COMPLETED && is_null($payment->invoice_id)) {
                     // 如果票据未生成执行生成
-                    $this->generateInvoice($payment->number);
+                    dispatch((new \App\Jobs\GenerateInvoiceJob(Payment::where('number', $payment->number)->get())));//入参类型为Collection
                     $this->log("generate invoice(payment number: $payment->number) after payment synced", PaymentService::LOG_INFO);
                 }
             }
@@ -531,6 +529,14 @@ class PaymentService implements PaymentServiceContract
     public function handlePayment(Payment $payment)
     {
         $subscription = $payment->subscription;
+
+        if ($subscription->coupon_id > 0) {
+            $newUsed = $subscription->coupon->calcUsed();
+            if ($subscription->coupon->used != $newUsed) {
+                $subscription->coupon->used = $newUsed;
+                $subscription->coupon->save();
+            }
+        }
         if ($subscription->status == Subscription::STATE_PAYED) {
             $this->log("You haved payed for the subscription, check if it's the next payment");
             return $subscription->user->fixInfoByPayments();
@@ -538,10 +544,6 @@ class PaymentService implements PaymentServiceContract
 
         // 添加payment记录和修改subscription状态
         $subscription->status = Subscription::STATE_PAYED;
-        if ($subscription->coupon_id > 0) {
-            $subscription->coupon->used++;
-            $subscription->coupon->save();
-        }
         $subscription->save();
 
         // 切换用户计划
@@ -754,12 +756,21 @@ class PaymentService implements PaymentServiceContract
             $this->log("cannot find transaction list with $agreementId on use paypal api", PaymentService::LOG_INFO);
             return false;
         }
-        $cancelArr = end($transactions);
-        if (strtolower($cancelArr->getStatus()) != Subscription::STATE_CANCLED) {
+        foreach ($transactions as $key => $trans) {
+            $trans_status = strtolower($trans->getStatus());
+            if ($trans_status == Subscription::STATE_CANCLED) {
+                $cancelTime = Carbon::parse($trans->getTimeStamp())->timezone(Carbon::now()->tz)->toDateTimeString();
+            } elseif ($trans_status == Subscription::STATE_FAILED && $key === 1) {
+                // 如果查询到的交易列表返回数组中第二个的状态是failed,那么就是首单收款失败，订阅会被paypal退订处理(创建订阅时配置)
+                $this->log("check status in paypal,subscription(agreement id: $agreementId) has first payment failed,status is canceled(auto change by paypal)", PaymentService::LOG_INFO);
+            }
+        }
+        if (isset($cancelTime)) {
+            return $cancelTime;
+        } else {
             $this->log("check status in paypal,this subscription(agreement id: $agreementId) is not a canceled subscription", PaymentService::LOG_INFO);
             return false;
         }
-        return Carbon::parse($cancelArr->getTimeStamp())->timezone(Carbon::now()->tz)->toDateTimeString();
     }
 
     /**
@@ -796,16 +807,18 @@ class PaymentService implements PaymentServiceContract
      * Method:Paypal或者Stripe,stripe的程序要另外写或者后期补上
      * Name:users.name
      * Email:payments.client_email
+     * 重新生成时使用原来的票据id
      *
      * @param string $transactionId 交易的id，17位，payments表的number字段值
      * @param bool   $force         是否强制生成
-     *
+     * @param array  $extra         额外参数，存于customize_invoice表，每个用户一份，有就加入生成
+     * 
      * @return string $referenceId   票据id
      *
      * @todo   stripe票据生成
      * @author ChenTeng <shanda030258@hotmail.com>
      */
-    public function generateInvoice($transactionId, $force = false)
+    public function generateInvoice($transactionId, $force = false, $extra = [])
     {
         // 默认不强制生成
         if (empty($transactionId)) {
@@ -826,11 +839,16 @@ class PaymentService implements PaymentServiceContract
             // 该交易的invoice_id不为空，则已经生成过
             throw new GenericException($this, "cannot generate this invoice with transaction id: $transactionId because it was generated.");
         }
-
+        if ($plan = $payment->subscription->getPlan()) {
+            $packageName = $plan->display_name;
+        } else {
+            $packageName = $payment->subscription->plan;
+        }
+        
         $data = (object)array();
-        $data->referenceId = ceil(microtime(true) * 100) . mt_rand(1000, 9999);// reference ID
+        $data->referenceId = $payment->invoice_id ? : ceil(microtime(true) * 100) . mt_rand(1000, 9999);// reference ID
         $data->amount = '$ ' . $payment->amount;// amount
-        $data->package = $payment->subscription->getPlan()->display_name;// package
+        $data->package = $packageName;// $payment->subscription->getPlan()->display_name;// package
         $data->name = $payment->client->name;// name
         $data->email = $payment->client_email;// email
         $data->method = ucfirst($payment->subscription->gateway);// Paypal / Stripe;
@@ -862,11 +880,24 @@ class PaymentService implements PaymentServiceContract
                 break;
         }
         $data->expirationTime = $time->addMonths($months * $payment->subscription->frequency_interval)->format('j M Y');// expiration time
-
+        
         // 保存票据id到payments
         $paymentInfo = Payment::where('number', $transactionId)->first();
         $paymentInfo->invoice_id = $data->referenceId;
         $updatePayment = $paymentInfo->save();
+
+        //合并额外参数
+        if (empty($extra)) {
+            $extra = \App\CustomizedInvoice::select('company_name', 'address', 'contact_info', 'website', 'tax_no')
+            ->where('user_id', $payment->client_id)
+            ->first();
+        }
+
+        $data->company_name = $extra['company_name'] ? : false;
+        $data->address = $extra['address']? : false;
+        $data->contact_info = $extra['contact_info'] ? : false;
+        $data->website = $extra['website'] ? : false;
+        $data->tax_no = $extra['tax_no'] ? : false;
 
         // 渲染html,转换成pdf
         $dompdf = new DOMPDF(); // if you use namespaces you may use new \DOMPDF()
@@ -876,7 +907,9 @@ class PaymentService implements PaymentServiceContract
         // 如果票据id成功更新到表，那么生成文件
         // 存储路径storage/app/invoice
         if ($updatePayment) {
-            Storage::put($this->config['invoice']['save_path'] . '/' . "$data->referenceId.pdf", $dompdf->output());
+            $file = $this->config['invoice']['save_path'] . '/' . "$data->referenceId.pdf";
+            Storage::delete($file);
+            Storage::put($file, $dompdf->output());
         }
 
         // 成功
