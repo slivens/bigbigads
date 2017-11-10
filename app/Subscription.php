@@ -36,7 +36,11 @@ class Subscription extends Model
      * 挂起订阅时的状态
      */
     const STATE_SUSPENDED = "suspended";
-
+    
+    /**
+     * 订阅失败时的状态
+     */
+    const STATE_FAILED = "failed";
     /**
      * 挂起订阅时的状态
      */
