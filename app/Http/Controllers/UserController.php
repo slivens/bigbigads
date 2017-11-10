@@ -8,9 +8,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Role;
 use App\User;
+use App\Payment;
+use App\CustomizedInvoice;
 use Carbon\Carbon;
 use App\Services\AnonymousUser;
 use App\Jobs\SendRegistMail;
+use App\Jobs\GenerateInvoiceJob;
 use Log;
 use Socialite;
 use Validator;
@@ -23,6 +26,7 @@ use Jenssegers\Agent\Agent;
 use App\ActionLog;
 
 use App\AppRegistersUsers;
+
 class UserController extends Controller
 {
     use ResetsPasswords;
@@ -418,5 +422,97 @@ class UserController extends Controller
             return ['code' => -1, 'desc' => 'Unauthorised User'];
         }
         dispatch(new LogAction(ActionLog::ACTION_USER_REQUEST_FILTER, json_encode($request->params), '', $user->id, $request->ip()));
+    }
+
+    /**
+     * 获取用户票据自定义信息
+     * 只获取表单显示的部分内容
+     *
+     * @return Response
+     */
+    public function getInvoiceCustomer()
+    {
+        $user = Auth::user();
+        $customer = CustomizedInvoice::select('company_name', 'address', 'contact_info', 'website', 'tax_no')->where('user_id', $user->id)->first();
+        return response()->json($customer);
+    }
+
+    
+    /**
+     * 存储提交上来的定制信息
+     * 新创建的用户，没有交易订单但是可以存储，存储完毕后给出提示信息，没有票据生成操作
+     * 已经付款的用户，有交易订单，已经有生成过票据，存储完毕后重新生成票据，每个自然月操作1次
+     * 只有保存且有订单的情况下才生成票据
+     *
+     * @return Response
+     *
+     * @todo 需要优化写法
+     */
+    public function setInvoiceCustomer(Request $request)
+    {
+        $user = Auth::user();
+        $extraData = [
+            'company_name' => $request->company_name,
+            'address' => $request->address,
+            'contact_info' => $request->contact_info,
+            'website' => $request->website,
+            'tax_no' => $request->tax_no
+        ];
+        if ($custom = CustomizedInvoice::where('user_id', $user->id)->first()) {
+            if ($custom->canSave()) {
+                $modifiedCustom = CustomizedInvoice::updateOrCreate(
+                    [
+                        'user_id' => $user->id
+                    ],
+                    $extraData
+                );
+                if ($modifiedCustom != $custom) {
+                    if (count($user->payments) > 0) {
+                        $res = [
+                            'code' => 0,
+                            'desc' => trans('messages.re_generate')
+                        ];
+                        //推入队列执行,有修改才执行
+                        dispatch((new GenerateInvoiceJob(Payment::where('client_id', $user->id)->get(), true, $extraData)));
+                    } else {
+                        $res = [
+                            'code' => 0,
+                            'desc' => trans('messages.need_to_payed')
+                        ];
+                    }
+                } else {
+                    $res = [
+                            'code' => 0,
+                            'desc' => trans('messages.not_changed')
+                    ];
+                }
+            } else {
+                $res = [
+                    'code' => -1,
+                    'desc' => trans('messages.change_limit')
+                ];
+            }
+        } else {
+            CustomizedInvoice::updateOrCreate(
+                [
+                    'user_id' => $user->id
+                ],
+                $extraData
+            );
+            if (count($user->payments) > 0) {
+                $res = [
+                    'code' => 0,
+                    'desc' => trans('messages.re_generate')
+                ];
+                //推入队列执行,有修改才执行
+                dispatch((new GenerateInvoiceJob(Payment::where('client_id', $user->id)->get(), true, $extraData)));
+            } else {
+                $res = [
+                    'code' => 0,
+                    'desc' => trans('messages.need_to_payed')
+                ];
+            }
+        }
+        return response()->json($res);
     }
 }

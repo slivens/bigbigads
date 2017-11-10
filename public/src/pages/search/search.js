@@ -16,6 +16,7 @@ import 'bootstrap-select'
 import 'ion-rangeslider/css/ion.rangeSlider.css'
 import 'ion-rangeslider/css/ion.rangeSlider.skinModern.css'
 import 'ion-rangeslider'
+import './search.scss'
 import template from './search.html'
 
 /* adsearch js */
@@ -36,6 +37,7 @@ export default angular => {
             var adSearcher = $scope.adSearcher = new Searcher()
             // $scope.restrict用于标示用户今日内是否受限
             $scope.isRestrict = false
+            $scope.isFreeze = false
             adSearcher.checkAndGetMore = function() {
                 if (!User.done) {
                     adSearcher.getMore('search')
@@ -61,6 +63,10 @@ export default angular => {
                         case -4100:
                             $scope.isRestrict = true
                             User.openSearchResultUpgrade()
+                            break
+                        case -5000:
+                            $scope.isFreeze = true
+                            SweetAlert.swal(res.data.desc)
                             break
                         default:
                             break
@@ -347,7 +353,7 @@ export default angular => {
 
                 $scope.isFreeLimitDate = false
                 if (User.user.role.plan === 'free') {
-                    if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0) || $scope.adSearcher.params.sort.field != 'last_view_date') {
+                    if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0) || $scope.adSearcher.params.sort.field != 'default') {
                         angular.forEach($scope.adSearcher.params.where, function(data) {
                             if (data.field === 'time') {
                                 $scope.adSearcher.removeFilter('time')
@@ -389,7 +395,10 @@ export default angular => {
                             window.open('/login', "_self")
                             break
                         case -4200:
+                            SweetAlert.swal(res.data.desc)
+                            break
                         case -5000:
+                            $scope.isFreeze = true
                             SweetAlert.swal(res.data.desc)
                             break
                         }

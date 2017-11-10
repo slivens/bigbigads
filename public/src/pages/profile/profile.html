@@ -68,6 +68,52 @@
                                 <div class="col-xs-7">{{user.action}}</div>
                             </div>
                         </div>
+                        <div class="profile-title">
+                            <h3> Customize Invoice <i class="icon-wrench"></i></h3>
+                        </div>
+                        <div class="porlet-body">
+                            <div class="alert alert-info">
+                                Support English language Only.
+                                <br /> You can only modify it 1 times a month. Please be careful.
+                            </div>
+                            <form action="" class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="companyName" class="col-sm-2 control-label">Company Name</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="companyName" ng-model="profile.companyName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address" class="col-sm-2 control-label">Address</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="address" ng-model="profile.address">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactInfo" class="col-sm-2 control-label">Contact info</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="contactInfo" ng-model="profile.contactInfo">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="website" class="col-sm-2 control-label">Website</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="website" ng-model="profile.website">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="taxNo" class="col-sm-2 control-label">Tax No.</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="taxNo" ng-model="profile.taxNo">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="button" class="btn btn-primary" ng-click="profile.customizeSubmit()">Change</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                         </div>
                     </div>
                 </uib-tab>
