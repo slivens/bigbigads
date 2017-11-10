@@ -104,7 +104,7 @@
                         </tr>
                         <tr>
                             <td class="item_name">Amount of payment</td>
-                            <td class="item_value">$ {{$data->amount}}</td>
+                            <td class="item_value">{{$data->amount}}</td>
                         </tr>
                         <tr>
                             <td class="item_name">Date of payment</td>
