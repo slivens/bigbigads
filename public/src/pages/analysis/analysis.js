@@ -392,7 +392,7 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
     }
 ])
     .directive('analysis', ['$templateCache', function($templateCache) {
-        $templateCache.put("ad-bookmark-popover.html", '<bookmark-popover/>')
+        $templateCache.put("ad-bookmark-popover.html", '<bookmark-popover card="$parent.card"/>')
         return {
             restrict: 'E',
             scope: {},

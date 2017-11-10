@@ -1,5 +1,5 @@
 
-<div ng-init="card=$parent.card" cg-busy="card.queryPromise" id="bookmark-popover">
+<div  cg-busy="card.queryPromise" id="bookmark-popover">
     <div ng-show="bookmark.items.length == 0">No Bookmark Yet!</div>
     <form ng-submit="add(card)">
     <ul class="nav nav-pills nav-stacked bookmark-list-wrapper" ng-init="page = 1">

@@ -105,11 +105,14 @@ angular.module('MetronicApp').controller('BookmarkAddController', ['$scope', 'Bo
         }
     })
 }])
-    .directive('bookmarkPopover', ['$templateCache', function($templateCache) {
+    .directive('bookmarkPopover', function() {
         return {
             restrict: 'E',
+            scope: {
+                'card': '='
+            },
             template,
             replace: false,
             controller: 'BookmarkAddController'
         }
-    }])
+    })
