@@ -470,7 +470,7 @@ class UserController extends Controller
                     if (count($user->payments) > 0) {
                         $res = [
                             'code' => 0,
-                            'desc' => trans('messages.re-generate')
+                            'desc' => trans('messages.re_generate')
                         ];
                         //推入队列执行,有修改才执行
                         dispatch((new GenerateInvoiceJob(Payment::where('client_id', $user->id)->get(), true, $extraData)));
@@ -502,7 +502,7 @@ class UserController extends Controller
             if (count($user->payments) > 0) {
                 $res = [
                     'code' => 0,
-                    'desc' => trans('messages.re-generate')
+                    'desc' => trans('messages.re_generate')
                 ];
                 //推入队列执行,有修改才执行
                 dispatch((new GenerateInvoiceJob(Payment::where('client_id', $user->id)->get(), true, $extraData)));
