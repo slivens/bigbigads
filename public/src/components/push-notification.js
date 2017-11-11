@@ -1,6 +1,8 @@
 import template from './push-notification.html'
 import './push-notification.scss'
 
+const MODULE_NAME = 'bba.ui.notification'
+
 const controller = function($scope, $uibModalInstance, User) {
     $scope.close = function() {
         $uibModalInstance.dismiss('success')
@@ -59,4 +61,42 @@ const controller = function($scope, $uibModalInstance, User) {
 
 controller.$inject = ['$scope', '$uibModalInstance', 'User']
 
-export { template, controller }
+const module = angular.module(MODULE_NAME, ['bba.core'])
+
+// 从良好的分层角度考虑，factory, service管逻辑，而不管任何关于UI显示的内容。
+// 但是angular中，所有的依赖都需要通过注入完成，所以像弹出对话框这种涉及UI操作的功能，最终也必须以factory的形式导出才有办法让其他模块引用
+module.factory('Notification', ['$uibModal', 'User', '$window', function($uibModal, User, $window) {
+    let notification = {
+        open: function() {
+            return $uibModal.open({
+                template,
+                size: 'md',
+                animation: true,
+                controller
+            })
+        },
+        check: function() {
+            // 检查是规定时间内否在推送用户通知
+            if (!User.login) return false
+            if (User.info.user.role.plan != 'free') return false
+            var userNotification
+            var now = moment().format('YYYY-MM-DD')
+            // localStorage内不存在通知信息或过期,重置通知信息
+            if (!$window.localStorage.userNotification || moment(JSON.parse($window.localStorage.userNotification).expired).isBefore(now)) {
+                $window.localStorage.setItem('userNotification', JSON.stringify({"status": 'notPush', "expired": now}))
+            }
+            userNotification = JSON.parse($window.localStorage.userNotification)
+            // localStorage内通知信息status为未推送且在今天之内,表明今天未推送消息
+            if (userNotification.status === 'notPush' && moment(userNotification.expired).isSame(now)) {
+                $window.localStorage.setItem('userNotification', JSON.stringify({"status": 'pushed', "expired": userNotification.expired}))
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    return notification
+}])
+
+export { template, controller, MODULE_NAME }
+export default module
