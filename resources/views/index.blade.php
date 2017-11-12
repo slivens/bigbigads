@@ -96,7 +96,7 @@
 <section class="video">
     <div class="container">
         <p class="video-title text-center">The <span style="color: #eb6130">Best</span> Solution for</p>
-        <p class="video-text text-center">Media Buyer; Advertiser; Publisher; Ad network;<br/> Ad agency; Designer; Copywriter; Students; Teachers...
+        <p class="video-text text-center">Media Buyer; Advertiser; Publisher; Ad network;<br/> Ad agency; Facebook blueprint learners; Copywriter; Students; Teachers...
         </p>
         <div class="clearfix">
             <div class="video-content">

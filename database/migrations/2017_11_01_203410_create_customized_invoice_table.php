@@ -16,11 +16,11 @@ class CreateCustomizedInvoiceTable extends Migration
         Schema::create('customized_invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->string('company_name', 200)->nullable();
-            $table->string('address', 200)->nullable();
-            $table->string('contact_info', 200)->nullable();
-            $table->string('website', 200)->nullable();
-            $table->string('tax_no', 200)->nullable();
+            $table->string('company_name', 50)->nullable();
+            $table->string('address', 50)->nullable();
+            $table->string('contact_info', 50)->nullable();
+            $table->string('website', 50)->nullable();
+            $table->string('tax_no', 50)->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

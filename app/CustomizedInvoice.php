@@ -14,13 +14,17 @@ class CustomizedInvoice extends Model
     }
 
     /**
-     * 存储限制，一个月只能存储1次
-     * 若更新时间不在当前月内，则更新
+     * 存储限制，一个月只能存储1次,每月1号重置
+     * 条件1：非本年
+     * 条件2：<本月
+     * 符合1个就可存储
      *
      * @return boolean
      */
     public function canSave()
     {
-        return Carbon::parse($this->updated_at)->month != Carbon::now()->month;
+        $old = Carbon::parse($this->updated_at);
+        $now = Carbon::now();
+        return ($old->month < $now->month) || ($old->year != $now->year);
     }
 }
