@@ -1101,7 +1101,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                             if (a[item] > b[item]) {
                                 return n > 0 ? -1 : 1
                             } else {
-                                return n < 0 ? -1 : 1
+                                return n <= 0 ? -1 : 1
                             }
                         })
                     }

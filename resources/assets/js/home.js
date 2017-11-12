@@ -136,7 +136,11 @@ $('.downloadExtension').click(function() {
         window.location.href = '/plan'
     } else {
         var url = 'https://chrome.google.com/webstore/detail/aeicgjbjcnodlaomefmanfbkhpcdlcbk'
-        if (typeof chrome === 'undefined') {
+        if (
+            typeof chrome === 'undefined' &&
+            typeof chrome.webstore === 'undefined' &&
+            typeof chrome.webstore.install === 'undefined'
+        ) {
             window.open(url)
         } else {
             chrome.webstore.install(url, function() {
