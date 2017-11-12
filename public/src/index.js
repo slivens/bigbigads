@@ -443,8 +443,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             url: '/plans',
             template: "<plans />",
             data: {
-                pageTitle: 'Plans',
-                removeContainer: true
+                pageTitle: 'Plans'
             },
             resolve: {
                 deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
