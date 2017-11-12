@@ -62,7 +62,7 @@ final class SubscriptionController extends PayumController
         if ($req->plan || $req->name) {
             $planid = $req->plan;
             $name = $req->name;
-            $plan = Plan::where('id', $planid)->orwhere('name', $name)->first();// find($planid);
+            $plan = Plan::where('id', $planid)->orwhere('slug', $name)->first();// find($planid);
             if (is_null($plan)) {
                 return view('errors.404');
             } else {
