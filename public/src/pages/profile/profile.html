@@ -18,16 +18,13 @@
                             <label>{{profile.changeStatus}}</label>
                             <div class="row profile-row">
                                 <div class="col-xs-4 col-md-3 col-lg-2"> Member Email</div>
-                                <div class="col-xs-4 col-md-4 col-lg-2"><input type="text" ng-model="user.email" value="{{user.email}}" /></div>
-                                <div class="col-xs-4 col-md-2 col-lg-2">
-                                    <button class="btn btn-primary" ng-click="change('uEmail')">Edit</button>
-                                </div>
+                                <div class="col-xs-4 col-md-4 col-lg-2">{{user.email}}</div>
                             </div>
                             <div class="row profile-row">
                                 <div class="col-xs-4 col-md-3 col-lg-2">Member Name</div>
-                                <div class="col-xs-4 col-md-4 col-lg-2"><input type="text" ng-model="user.name" value="{{user.name}}" /></div>
+                                <div class="col-xs-4 col-md-4 col-lg-2"><input type="text" class="form-control" ng-model="user.name" value="{{user.name}}" /></div>
                                 <div class="col-xs-4 col-md-2 col-lg-2">
-                                    <button class="btn btn-primary" ng-click="change('uName')">Edit</button>
+                                    <button class="btn btn-primary" ng-click="change('name')">Edit</button>
                                 </div>
                             </div>
                             <div class="row profile-row">
@@ -52,8 +49,6 @@
                                     <span class="text-danger" ng-if="!user.affiliateUrl">No Data</span>
                                 </div>
                             </div>
-<<<<<<< HEAD
-=======
                             <div class=" profile-row">
                                 <div class="row-left">Click:</div>
                                 <div class="col-xs-7">{{user.click}}</div>
@@ -109,7 +104,6 @@
                                 </div>
                             </form>
                         </div>
->>>>>>> origin/develop
                         </div>
                     </div>
                 </uib-tab>

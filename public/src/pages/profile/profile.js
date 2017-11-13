@@ -5,17 +5,10 @@ import '../../components/subscription'
 import template from './profile.html'
 import changePwdTemplate from './changepwd.html'
 
-<<<<<<< HEAD
-export default angular.module('profile', ['MetronicApp']).controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', '$http', function($scope, $location, User, $uibModal, TIMESTAMP, $http) {
-    // var vm = this
-    var profile = {
-        init: function() {
-=======
 export default angular.module('profile', ['MetronicApp']).controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', '$http', 'SweetAlert', function($scope, $location, User, $uibModal, TIMESTAMP, $http, SweetAlert) {
     let profile = {
         isFirstInit: false,
         init() {
->>>>>>> origin/develop
             var search = $location.search()
             if (search.active && search.active != this.active) {
                 this.active = Number(search.active)
@@ -73,14 +66,20 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
     })
     $scope.change = function(type) {
         switch (type) {
-        case 'uEmail':
-            $http.post(`/users/changeProfile/email/${User.info.user.email}`).then(function(res) {
-                profile.changeStatus = res.data.desc
-            })
-            break
-        case 'uName':
-            $http.post(`/users/changeProfile/name/${User.info.user.name}`).then(function(res) {
-                profile.changeStatus = res.data.desc
+        case 'name':
+            $http({
+                method: 'patch',
+                url: `/users/change_profile`,
+                data: {
+                    'type': type,
+                    'param': User.info.user.name
+                }
+            }).then(function(res) {
+                SweetAlert.swal({
+                    title: res.data.code == 0 ? 'Success' : 'Error',
+                    text: res.data.desc,
+                    type: res.data.code == 0 ? 'success' : 'error'
+                })
             })
             break
         case 'pwd':
