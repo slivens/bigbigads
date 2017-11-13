@@ -2,7 +2,7 @@ import './../sass/extension.scss'
 import track from './track.js'
 
 track.setTrack()
-$("#downloadExtension").click(function() {
+$('#downloadExtension').click(function() {
     // 发送bing统计事件
     window.uetq = window.uetq || []
     window.uetq.push({
@@ -14,5 +14,21 @@ $("#downloadExtension").click(function() {
     /* eslint-disable no-undef */
     // 发送google统计事件
     ga('send', 'event', 'conversion', 'click', 'download_extension', 12)
-    window.open('//chrome.google.com/webstore/detail/bigbigadsfacebook-ad-exam/aeicgjbjcnodlaomefmanfbkhpcdlcbk', '_self')
+
+    if (document.getElementById('bigbigads-extension-is-installed')) {
+        window.location.href = '/plan'
+    } else {
+        var url = 'https://chrome.google.com/webstore/detail/aeicgjbjcnodlaomefmanfbkhpcdlcbk'
+        if (
+            typeof chrome === 'undefined' &&
+            typeof chrome.webstore === 'undefined' &&
+            typeof chrome.webstore.install === 'undefined'
+        ) {
+            window.open(url)
+        } else {
+            chrome.webstore.install(url, function() {
+                window.location.href = 'https://www.facebook.com'
+            })
+        }
+    }
 })
