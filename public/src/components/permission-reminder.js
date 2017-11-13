@@ -1,5 +1,5 @@
-import template from './push-notification.html'
-import './push-notification.scss'
+import template from './permission-reminder.html'
+import './permission-reminder.scss'
 
 const MODULE_NAME = 'bba.ui.notification'
 
@@ -83,12 +83,12 @@ module.factory('Notification', ['$uibModal', 'User', '$window', function($uibMod
             var now = moment().format('YYYY-MM-DD')
             // localStorage内不存在通知信息或过期,重置通知信息
             if (!$window.localStorage.userNotification || moment(JSON.parse($window.localStorage.userNotification).expired).isBefore(now)) {
-                $window.localStorage.setItem('userNotification', JSON.stringify({"status": 'notPush', "expired": now}))
+                $window.localStorage.setItem('userNotification', JSON.stringify({"status": 'false', "expired": now}))
             }
             userNotification = JSON.parse($window.localStorage.userNotification)
             // localStorage内通知信息status为未推送且在今天之内,表明今天未推送消息
-            if (userNotification.status === 'notPush' && moment(userNotification.expired).isSame(now)) {
-                $window.localStorage.setItem('userNotification', JSON.stringify({"status": 'pushed', "expired": userNotification.expired}))
+            if (userNotification.status === 'false' && moment(userNotification.expired).isSame(now)) {
+                $window.localStorage.setItem('userNotification', JSON.stringify({"status": 'true', "expired": userNotification.expired}))
                 return true
             } else {
                 return false

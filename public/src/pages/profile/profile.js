@@ -13,6 +13,19 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
             if (search.active && search.active != this.active) {
                 this.active = Number(search.active)
             }
+            if (!this.isFirstInit) {
+                this.isFirstInit = true
+                $http({
+                    method: 'GET',
+                    url: `/users/customize_invoice`
+                }).then((res) => {
+                    profile.companyName = res.data.company_name
+                    profile.address = res.data.address
+                    profile.contactInfo = res.data.contact_info
+                    profile.website = res.data.website
+                    profile.taxNo = res.data.tax_no
+                })
+            }
         }
     }
     profile.init()

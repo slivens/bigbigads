@@ -18,7 +18,7 @@ import 'ion-rangeslider/css/ion.rangeSlider.skinModern.css'
 import 'ion-rangeslider'
 import './search.scss'
 import template from './search.html'
-import '../../components/push-notification'
+import '../../components/permission-reminder'
 
 /* adsearch js */
 export default angular => {

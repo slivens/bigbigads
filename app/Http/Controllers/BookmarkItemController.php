@@ -50,7 +50,7 @@ class BookmarkItemController extends Controller
         $class = $this->class;
         $item = $class::where("uid", Auth::user()->id)->get(); 
         if (count($item) >= $saveAdCount[1]) {
-            return $this->responseError("You've reached your bookmark limits. Upgrade your account to bookmark more", -4499);
+            return $this->responseError(trans('messages.bookmark_num_limit'), -4499);
         }
         $all = $request->all();
         $all['uid'] = Auth::user()->id;
@@ -74,8 +74,8 @@ class BookmarkItemController extends Controller
     public function update(Request $req, $id)
     {
         $bookmark = Bookmark::where("id", $id)->first();
-        if (!$bookmark instanceof Bookmark) {
-            return $this->responseError("No Found This bookmark list", -4495);
+        if (!($bookmark instanceof Bookmark)) {
+            return $this->responseError(c, -4495);
         }
         /*if (!Auth::user()->can('update', $bookmark)) {
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
