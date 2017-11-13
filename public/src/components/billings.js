@@ -16,11 +16,11 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
                 const firstCompleted = billings.items[billings.items.length - 1]
 
                 billings.items.map((item, index) => {
-                    item.openDownload = true
+                    item.canDownload = true
                     if (billings.items.length - 1 === index) {
                         item.canRefund = item.status == 'completed' && moment().diff(moment(firstCompleted.start_date), 'days') < 7 && !item.refund
                     }
-                    item.openDownload = item.status == 'completed' && moment().diff(moment(firstCompleted.start_date), 'days') >= 7
+                    item.canDownload = item.status == 'completed' && moment().diff(moment(firstCompleted.start_date), 'days') >= 7
 
                     if (item.is_effective && !ctrl.effective_id) ctrl.effective_id = item.id
 
@@ -55,7 +55,7 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
         })
     }
     ctrl.invoiceDownload = function(item) {
-        item.openDownload ? window.open(`/invoices/${item.invoice_id}`) : SweetAlert.swal('Please download the invoice after 7 days.')
+        item.canDownload ? window.open(`/invoices/${item.invoice_id}`) : SweetAlert.swal('Please download the invoice after 7 days.')
     }
     ctrl.$onChanges = function(obj) {
         if (obj.shouldInit.currentValue !== "true") // || ctrl.inited)
