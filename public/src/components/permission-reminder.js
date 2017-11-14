@@ -83,12 +83,12 @@ module.factory('Reminder', ['$uibModal', 'User', '$window', function($uibModal, 
             var now = moment().format('YYYY-MM-DD')
             // localStorage内不存在通知信息或过期,重置通知信息
             if (!$window.localStorage.permissionReminder || moment(JSON.parse($window.localStorage.permissionReminder).expired).isBefore(now)) {
-                $window.localStorage.setItem('permissionReminder', JSON.stringify({"isPush": 'false', "expired": now}))
+                $window.localStorage.setItem('permissionReminder', JSON.stringify({"isPush": false, "expired": now}))
             }
             permissionReminder = JSON.parse($window.localStorage.permissionReminder)
             // localStorage内通知信息status为未推送且在今天之内,表明今天未推送消息
-            if (permissionReminder.isPush === 'false' && moment(permissionReminder.expired).isSame(now)) {
-                $window.localStorage.setItem('permissionReminder', JSON.stringify({"isPush": 'true', "expired": permissionReminder.expired}))
+            if (!permissionReminder.isPush && moment(permissionReminder.expired).isSame(now)) {
+                $window.localStorage.setItem('permissionReminder', JSON.stringify({"isPush": true, "expired": permissionReminder.expired}))
                 return true
             } else {
                 return false
