@@ -1,8 +1,9 @@
 import '../common/common'
 import './plans.scss'
 import template from './plans.html'
+import {template as feedbackTemplate, controller as feedbackController} from './feedback.js'
 
-export default angular.module('plans', ['MetronicApp']).controller('PlansController', ['$scope', 'Resource', 'User', function($scope, Resource, User) {
+export default angular.module('plans', ['MetronicApp']).controller('PlansController', ['$scope', 'Resource', 'User', '$uibModal', function($scope, Resource, User, $uibModal) {
     var plans = new Resource('plans')
     plans.getPolicy = function(item, permissionKey, groupKey) {
         var group = item.groupPermissions[groupKey]
@@ -62,6 +63,24 @@ export default angular.module('plans', ['MetronicApp']).controller('PlansControl
     })
     $scope.plans = plans
     $scope.groupPermissions = []
+
+    /* 
+    * 打开反馈信息征集模态框
+    * planName plan名称，由按钮点击时传值
+    */
+    $scope.openFeedBack = function(planName) {
+        $scope.test = planName
+        return $uibModal.open({
+            template: feedbackTemplate,
+            size: 'customer',
+            backdrop: 'static',
+            animation: true,
+            controller: feedbackController,
+            resolve: {
+                plan: function() { return planName }
+            }
+        })
+    }
     User.getInfo().then(function() {
         $scope.userInfo = User.info
         if (User.info.login) {

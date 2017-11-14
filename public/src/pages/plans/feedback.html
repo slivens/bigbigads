@@ -1,0 +1,98 @@
+<div class="modal-content" id="feedback">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+        <p class="modal-title ads-font-22 ads-weight-600">Submit to Join Waiting list
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped">
+            <tr>
+                <td>
+                    <h5>First Name <sup class="text-danger">*</sup></h5>
+                    <div class="form-input-wrapper">
+                        <input type="text" ng-modal="firstName" class="form-control" blur='ads-input-check' request="true" placeholder="First Name" request-maxlen=50>
+                        <label for="" class="control-label ads-control-label">request</label>
+                    </div>
+                </td>
+                <td>
+                    <h5>Last Name <sup class="text-danger">*</sup></h5>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="info-lastname" class="form-control" blur='ads-input-check' request="true" placeholder="Last Name" request-maxlen=50>
+                        <label for="" class="control-label ads-control-label">request</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Email <sup class="text-danger">*</sup></h5>
+                    <div class="form-input-wrapper">
+                        <input type="email" id="info-email" class="form-control" blur='ads-input-check' request="true" request-type="email" placeholder="Email" request-maxlen=100>
+                        <label for="" class="control-label ads-control-label">request</label>
+                    </div>
+                </td>
+                <td>
+                    <h5>Company Name <sup class="text-danger">*</sup></h5>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="info-company" class="form-control" blur='ads-input-check' request="true" placeholder="Company Name" request-maxlen=200>
+                        <label class="control-label ads-control-label">request</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Website</h5>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="info-website" class="form-control" blur='ads-input-check' placeholder="Website" request-maxlen=200>
+                        <label class="control-label ads-control-label">request</label>
+                    </div>
+                </td>
+                <td>
+                    <h5>Page</h5>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="info-page" class="form-control" blur='ads-input-check' placeholder="Page" request-maxlen=200>
+                        <label class="control-label ads-control-label">request</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Phone</h5>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="info-phone" class="form-control" blur='ads-input-check' request-type="phone" placeholder="Phone" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                        <label for="" class="control-label ads-control-label"></label>
+                    </div>
+                </td>
+                <td>
+                    <h5>Skype</h5>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="info-skype" class="form-control" blur='ads-input-check' placeholder="Skype" request-maxlen=64>
+                        <label for="" class="control-label ads-control-label"></label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Location</h5>
+                    <select name="" id="info-location" class="form-control selectpicker" option="locationOption" title="--Select--" data-size="10" data-live-search="true">
+                    </select>
+                </td>
+                <td>
+                    <h5 class="ads-font-14">How much would you like to pay for <span class="ads-weight-600" value="level"></span> level?</h5>
+                    <select name="" id="info-price" option="priceOption" class="form-control">
+                        <option value="" ng-repeat="items in palnPrice" value = {{items.price}}>{{items.value}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <h5>Feedback:</h5>
+                    <textarea class="form-control" id="info-feedback"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="submit-info" info-level="">Submit</button>
+    </div>
+</div>
+<!-- /.modal-content -->
