@@ -1,7 +1,7 @@
 import template from './permission-reminder.html'
 import './permission-reminder.scss'
 
-const MODULE_NAME = 'bba.ui.notification'
+const MODULE_NAME = 'bba.ui.reminder'
 
 const controller = function($scope, $uibModalInstance, User) {
     $scope.close = function() {
@@ -65,8 +65,8 @@ const module = angular.module(MODULE_NAME, ['bba.core'])
 
 // 从良好的分层角度考虑，factory, service管逻辑，而不管任何关于UI显示的内容。
 // 但是angular中，所有的依赖都需要通过注入完成，所以像弹出对话框这种涉及UI操作的功能，最终也必须以factory的形式导出才有办法让其他模块引用
-module.factory('Notification', ['$uibModal', 'User', '$window', function($uibModal, User, $window) {
-    let notification = {
+module.factory('Reminder', ['$uibModal', 'User', '$window', function($uibModal, User, $window) {
+    let reminder = {
         open: function() {
             return $uibModal.open({
                 template,
@@ -79,23 +79,23 @@ module.factory('Notification', ['$uibModal', 'User', '$window', function($uibMod
             // 检查是规定时间内否在推送用户通知
             if (!User.login) return false
             if (User.info.user.role.plan != 'free') return false
-            var userNotification
+            var permissionReminder
             var now = moment().format('YYYY-MM-DD')
             // localStorage内不存在通知信息或过期,重置通知信息
-            if (!$window.localStorage.userNotification || moment(JSON.parse($window.localStorage.userNotification).expired).isBefore(now)) {
-                $window.localStorage.setItem('userNotification', JSON.stringify({"status": 'false', "expired": now}))
+            if (!$window.localStorage.permissionReminder || moment(JSON.parse($window.localStorage.permissionReminder).expired).isBefore(now)) {
+                $window.localStorage.setItem('permissionReminder', JSON.stringify({"isPush": 'false', "expired": now}))
             }
-            userNotification = JSON.parse($window.localStorage.userNotification)
+            permissionReminder = JSON.parse($window.localStorage.permissionReminder)
             // localStorage内通知信息status为未推送且在今天之内,表明今天未推送消息
-            if (userNotification.status === 'false' && moment(userNotification.expired).isSame(now)) {
-                $window.localStorage.setItem('userNotification', JSON.stringify({"status": 'true', "expired": userNotification.expired}))
+            if (permissionReminder.isPush === 'false' && moment(permissionReminder.expired).isSame(now)) {
+                $window.localStorage.setItem('permissionReminder', JSON.stringify({"isPush": 'true', "expired": permissionReminder.expired}))
                 return true
             } else {
                 return false
             }
         }
     }
-    return notification
+    return reminder
 }])
 
 export { template, controller, MODULE_NAME }
