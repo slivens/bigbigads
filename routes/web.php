@@ -96,15 +96,6 @@ Route::get(
     }
 );
 
-
-Route::group(
-    ['prefix' => 'admin'], function () {
-        Voyager::routes();
-        Route::get('/refunds/{id}/accept', 'Admin\RefundController@acceptRefund')->name('refund_accept');
-        Route::get('/refunds/{id}/reject', 'Admin\RefundController@rejectRefund')->name('refund_reject');
-    }
-);
-
 Route::get(
     '/ranking', function (Request $req) {
         $maxCount = 100;//根据权限去判断
