@@ -502,24 +502,20 @@ class PaymentService implements PaymentServiceContract
     public function handleRefundedPayment(Payment $payment)
     {
         $user = $payment->subscription->user;
-        if ($payment->status != Payment::STATE_REFUNDED) {
+        if ($payment->status != Payment::STATE_REFUNDED){
             $this->log('=========payment->status != Payment::STATE_REFUNDED===========', PaymentService::LOG_INFO);
             return false;
         }
-        //modify by chenxin 20171026 新增一个判断，退款后台点击接受按钮时，用户已经在paypal后台退订成功了，这时候订阅的状态是Cancelled，所以要加入判断。
-        if (!$payment->subscription->isActive()) {
-            $this->log('=========!$payment->subscription->isActive()===========', PaymentService::LOG_INFO);
-            return false;
-        }
-        if ($payment->subscription->hasEffectivePayment()) {
+        if ($payment->subscription->hasEffectivePayment()){
             $this->log('=========$payment->subscription->hasEffectivePayment()===========', PaymentService::LOG_INFO);
             return false;
         }
         $this->log("reset user {$user->email} to Free because of refund:{$payment->number}", PaymentService::LOG_INFO);
-        $this->cancel($payment->subscription);
+        //modify by chenxin 20171114,修复了Issue #36
+        if ($payment->subscription->isActive()) {
+            $this->cancel($payment->subscription);
+        }
         $user->fixInfoByPayments();
-        /* $user->role()->associate(Role::where('name', 'Free')->first()); */
-        /* $user->save(); */
         return true;
     }
 

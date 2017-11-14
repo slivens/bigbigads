@@ -28,6 +28,7 @@
                                     <td>订单</td>
                                     {{--<td>买家</td>--}}
                                     <td>劣迹</td>
+                                    <td>role</td>
                                     @foreach($dataType->browseRows as $rows)
                                     <th>{{ $rows->display_name }}</th>
                                     @endforeach
@@ -41,6 +42,7 @@
                                     <td>{{$data->payment->number}}</td>
 {{--                                    <td>{{$data->payment->buyer_email}}</td>--}}
                                     <td>{{$payment_service->getRefundHistoryCount($data->payment->buyer_email)}}</td>
+                                    <td>{{$data->payment->client->role_id}}</td>
                                     @foreach($dataType->browseRows as $row)
                                         <td>
                                             <?php $options = json_decode($row->details); ?>

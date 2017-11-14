@@ -19,7 +19,7 @@ use Socialite;
 use Validator;
 use App\Jobs\LogAction;
 use Illuminate\Auth\Events\Registered;
-
+use App\Services\UserUpgradeService;
 use App\Jobs\ResendRegistMail;
 use GuzzleHttp;
 use Jenssegers\Agent\Agent;
@@ -74,6 +74,9 @@ class UserController extends Controller
             if ($user['subscription_id'] != null) {
                 $user->load('subscription');//有订阅就把订阅信息也一起加载
             }
+            //add by chenxin 20171114,修复了Issue #37
+            $userUpgrade = new UserUpgradeService($user);
+            $res['failed_recurring_payments'] = $userUpgrade->onFailedRecurringPayments();
             $res['effective_sub'] = $user->getEffectiveSub()?true:false;
             $res['permissions'] = $user->getMergedPermissions()->groupBy('key');
             $res['groupPermissions'] = $user->getMergedPermissions()->groupBy('table_name');
