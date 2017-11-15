@@ -95,9 +95,11 @@ class CheckUsage extends Command
                 return;
 
             $this->comment("checking users's usage...");
-            $users = User::paginate(5000)->toArray();
+            // 获取分页后的总数，只取usage 防止数据量太大
+            // 在memory_limit 设置为128M的情况下，取5000也太大
+            $users = User::paginate(1000, ['usage'])->toArray();
             for ($paginate = 1; $paginate <= $users['last_page']; $paginate++) {
-                foreach (User::paginate(5000, ['*'], '', $paginate) as $user) {
+                foreach (User::paginate(1000, ['*'], '', $paginate) as $user) {
                     try {
                         $user->checkUsage();
                     } catch(\App\Exceptions\GenericException $e) {
