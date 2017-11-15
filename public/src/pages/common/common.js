@@ -558,7 +558,8 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
             return output
         }
     })
-    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', 'User', '$state', 'settings', 'TIMESTAMP', '$http', function($uibModal, $stateParams, SweetAlert, User, $state, settings, TIMESTAMP, $http) {
+    // Util中的诸多功能，实际上并不是通用功能，应该移到对应的组件中
+    .factory('Util', ['$uibModal', '$stateParams', 'SweetAlert', 'User', '$state', 'settings', 'TIMESTAMP', '$http', '$window', function($uibModal, $stateParams, SweetAlert, User, $state, settings, TIMESTAMP, $http, $window) {
         return {
             matchkey: function(origstr, destArr) {
                 var orig = origstr.split(',')
@@ -1100,7 +1101,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                             if (a[item] > b[item]) {
                                 return n > 0 ? -1 : 1
                             } else {
-                                return n < 0 ? -1 : 1
+                                return n <= 0 ? -1 : 1
                             }
                         })
                     }

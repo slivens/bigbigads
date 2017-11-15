@@ -14,6 +14,7 @@ use App\Plan;
 use App\ActionLog;
 use Log;
 use App\HotWord;
+use App\Jobs\LogAbnormalAction;
 
 class SearchController extends Controller
 {
@@ -131,12 +132,16 @@ class SearchController extends Controller
      * 广告搜索前先检查参数是否有对应权限，对于无权限的将该参数清空或者通过throw抛出错误;
      * @warning 需要特别注意，参数的'field'与权限值通常不相等。
      */
-    protected function checkBeforeAdSearch($user, $params, $action)
+    protected function checkBeforeAdSearch($user, $params, $action, $req)
     {       
             $wheres = $params['where'];
             $resultPerSearch = $user->getUsage('result_per_search');
             $isCanSort = true; 
             $adsTypePermissions = ['timeline' => 'timeline_filter', 'rightcolumn' => 'rightcolumn_filter', 'phone' => 'phone_filter', 'suggested app' => 'app_filter'];
+            if (!array_key_exists('limit', $params)) {
+                dispatch(new LogAbnormalAction('', json_encode($params), 'lack of limit params', $user->id, $req->ip()));
+                throw new \Exception("Illegal limit params", -4300);
+            }
             if (($params['limit'][0] % 10 != 0) || ($params['limit'][0] >= $resultPerSearch[1])) {
                 Log::warning("<{$user->name}, {$user->email}> request legal limit params : {$params['limit'][0]}");
                 throw new \Exception("Illegal limit params", -4300);
@@ -477,6 +482,7 @@ class SearchController extends Controller
                 } catch (\Exception $e) {
                     //记录匿名用户伪造url参数的情况
                     Log::warning("{$req->ip()} : <{$user->name}, {$user->email}> Anonymous user illegal request params: $jsonData");
+                    dispatch(new LogAbnormalAction($e->getMessage(), $jsonData, 'Anonymous user illegal request', $user->id, $req->ip()));
                 }
             }else {
                 return ;
@@ -493,7 +499,7 @@ class SearchController extends Controller
                 return $this->responseError("Illegal search request", -6000);
             }
             try {
-                $jsonData = json_encode($this->checkBeforeAdSearch($user, $reqParams, $act));
+                $jsonData = json_encode($this->checkBeforeAdSearch($user, $reqParams, $act, $req));
             } catch(\Exception $e) {
                 return $this->responseError($e->getMessage(),$e->getCode());
             }
@@ -693,12 +699,17 @@ class SearchController extends Controller
 
             $result = trim($result);
             $resultJson = json_decode($result, true);
+            if (!$resultJson) {
+                dispatch(new LogAbnormalAction($result, $jsonData, 'Server no response', $user->id, $req->ip()));
+                return $this->responseError("server is busy, please refresh again", -4202);
+            }
             if (array_key_exists('error', $resultJson)) {
                 return $this->responseError("Your search term is not legal", -4200);
             }
         } catch (Exception $e) {
             //记录下当搜索结果发生错误时用户的请求参数
             Log::warning("<{$user->name}, {$user->email}> something error in search result. params:$jsonData");
+            dispatch(new LogAbnormalAction($e->getMessage(), $jsonData, 'something error happend in search', $user->id, $req->ip()));
         }
         
         if ($action == 'adsearch') {

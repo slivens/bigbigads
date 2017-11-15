@@ -25,7 +25,7 @@ $font-size-h6:            ceil(($font-size-base * 0.85)) !default; // ~12px
 $direction:                         'ltr' !default;
 
 // Header
-$header-height:             				            				75px  !default; // header height on table and desktop view. default: 42px
+$header-height:             				            				50px  !default; // header height on table and desktop view. default: 42px
 $header-height-xs:             											($header-height * 2) !default; // header height on mobile view
 $page-header-top-height:												75px;
 

@@ -50,15 +50,15 @@ class BookmarkController extends Controller
                                        ->where("uid", Auth::user()->id)
                                        ->count();
         if (count($bookmarkLists) >= $bookmarkListUsage[1]) {
-            return $this->responseError("You've reached your bookmark list limit. Upgrade your account to see more", -4498);
+            return $this->responseError(trans('messages.bookmark_num_limit'), -4498);
         }
         if ($bookmarkListCount > 0) {
-            return $this->responseError("the bookmark list name had exist", -4496);
+            return $this->responseError(trans('messages.bookmark_existed'), -4496);
         }
         $validator = Validator::make($request->all(), ['name' => 'required|between:1,25']);
         if ($validator->fails()) 
         {
-            return $this->responseError("The bookmark list name must be at least 1 characters and no more 25 characters. ", -4497);
+            return $this->responseError(trans('messages.bookmark_length_limit'), -4497);
         }
         $bookmark->uid = Auth::user()->id;
         $bookmark->name = $request->name;
@@ -83,6 +83,9 @@ class BookmarkController extends Controller
             return response(["code"=>-1, "desc"=>"No Permission"], 422);
         }
         $bookmark = Bookmark::where("id", $id)->first();
+        if (!($bookmark instanceof Bookmark)) {
+            return $this->responseError(trans('messages.bookmark_list_no_find'), -4495);
+        }
         /*if (!Auth::user()->can('update', $bookmark)) {
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
         }*/
@@ -90,7 +93,7 @@ class BookmarkController extends Controller
         $validator = Validator::make($req->all(), ['name' => 'required|between:1,25']);
         if ($validator->fails()) 
         {
-            return $this->responseError("The bookmark list name must be at least 1 characters and no more 25 characters. ", -4497);
+            return $this->responseError(trans('messages.bookmark_length_limit'), -4497);
         }
         $update = false;
         foreach($req->all() as $key=>$value) {
@@ -111,6 +114,9 @@ class BookmarkController extends Controller
         //删除收藏夹之前需要检查是否为合法用户
         //该id是广告id
         $bookmark = Bookmark::where("id", $id)->first();
+        if (!($bookmark instanceof Bookmark)) {
+            return $this->responseError(trans('messages.bookmark_list_no_find'), -4495);
+        }
         if ($bookmark->uid != Auth::user()->id) {
             return $this->responseError("No Permission", -1);
         }

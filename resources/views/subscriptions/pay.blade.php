@@ -55,7 +55,7 @@ use \Illuminate\Support\Facades\Input;
                             <div class="col-sm-5 descr-right-text">
                                 <p class="overview-cost ads-font-18">Today's Payment: 
                                     <span class="">
-                                        <span v-if="!discount">${{$plan->amount}}.00</span>
+                                        <span v-if="!discount">${{$plan->amount}}</span>
                                         <span v-cloak v-if="discount">$@{{ (amount - discount).toFixed(2) }}</span> 
                                         <span class="ads-font-12" v-cloak v-if="discount">
                                             (- $@{{discount.toFixed(2)}})

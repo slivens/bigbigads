@@ -56,13 +56,18 @@ class SessionCommand extends Command
 
         // -v 输出每个用户的session数量
         if ($this->output->isVerbose() && !$this->output->isVeryVerbose()) {
-            $headers = ['email', 'session count'];
+            $headers = ['email', 'session count', 'ip count'];
             $data = [];
             $sessionCount = 0;
 
             if ($email) {
-                if (isset($userInfos[$email]))
-                    $data[] = [$email, count($userInfos[$email] ? : [])];
+                if (isset($userInfos[$email])) {
+                    $ipCount = 0;
+                    foreach ($userInfos[$email] as $session) {
+                        $ipCount += count($session['ips']);
+                    }
+                    $data[] = [$email, count($userInfos[$email] ? : []), $ipCount];
+                }
             } else {
                 foreach ($userInfos as $email => $sessions) {
                     if (count($sessions) <= $minSessionCount)
@@ -75,7 +80,13 @@ class SessionCommand extends Command
                         if (count($filtered) == 0)
                             continue;
                     }
-                    $data[] = [$email,  count($sessions)];
+                    $ipCount = 0;
+                    foreach ($sessions as $session) {
+                        $ipCount += count($session['ips']);
+                    }
+                    if ($ipCount <= $minIpsCount)
+                        continue;
+                    $data[] = [$email,  count($sessions), $ipCount];
                     $sessionCount += count($sessions);
                 }
             }
