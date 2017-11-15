@@ -70,28 +70,28 @@ class UserController extends Controller
     {
         $user = Auth::user();
         if (empty($req->param)) {
-            $res = ['code'=>-1,'desc'=>trans('messages.not_empty')];// 字段不能为空
+            $res = ['code' => -1, 'desc' => trans('messages.not_empty')];// 字段不能为空
         } else {
             /* if ($req->type == 'email') {
                 if ($req->param == $user->email) {
-                    return response()->json(['code'=>-1,'desc'=>trans('messages.not_changed')]); // 字段没有被修改，不做数据库操作直接返回
+                    return response()->json(['code' => -1,'desc' => trans('messages.not_changed')]); // 字段没有被修改，不做数据库操作直接返回
                 } elseif (User::where('email', $req->param)->first()) {
-                    return response()->json(['code'=>-1,'desc'=>trans('profile.email_used')]); // email已被使用
+                    return response()->json(['code' => -1,'desc' => trans('profile.email_used')]); // email已被使用
                 } else {
                     $user->email = $req->param;
                 }
                 // $this->registerDispatch($user);// 发送验证邮件
             } elseif ($req->type == 'name') { */
             if ($req->param == $user->name) {
-                return response()->json(['code'=>-1,'desc'=>trans('messages.not_changed')]); // 字段没有被修改
+                return response()->json(['code' => -1, 'desc' => trans('messages.not_changed')]); // 字段没有被修改
             } else {
                 $user->name = $req->param;
             }
             /* } */
             if ($user->save()) {
-                $res = ['code'=>0,'desc'=>trans('messages.save_done')]; // 修改成功
+                $res = ['code' => 0,'desc' => trans('messages.save_done')]; // 修改成功
             } else {
-                $res = ['code'=>-1,'desc'=>trans('messages.save_failed')]; // 修改失败
+                $res = ['code' => -1,'desc' => trans('messages.save_failed')]; // 修改失败
             }
         }
         
