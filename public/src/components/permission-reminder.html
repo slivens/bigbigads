@@ -1,0 +1,27 @@
+<div id="permission-reminder">
+    <i class="fa fa-star-half-o notifi-bg-icon"></i>
+    <div class="modal-header notifi-tite">
+        <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title ads-weight-600">Permission to open this week{{test}}</h4>
+
+    </div>
+    <div class="modal-body notifi-content">
+        <h4>This week you have access to the following free filters</h4>
+        <div class="notifi-list-wrapper">
+            <div ng-repeat="item in filterArr">
+                <div class="notifi-list"  ng-if="User.can(item.name)">
+                    <div class="notifi-list-left">
+                        <i class="fa notifi-list-icon {{item.class}}"></i>
+                    </div>
+                    <div class="notifi-list-right">
+                        <span class="notifi-list-text">{{item.value}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-lg xg-subscribe-color" ng-click="close()">To Use Now</a>
+    </div>
+
+</div>

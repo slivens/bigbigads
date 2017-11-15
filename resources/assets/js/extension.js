@@ -19,16 +19,12 @@ $('#downloadExtension').click(function() {
         window.location.href = '/plan'
     } else {
         var url = 'https://chrome.google.com/webstore/detail/aeicgjbjcnodlaomefmanfbkhpcdlcbk'
-        if (
-            typeof chrome === 'undefined' &&
-            typeof chrome.webstore === 'undefined' &&
-            typeof chrome.webstore.install === 'undefined'
-        ) {
-            window.open(url)
-        } else {
+        try {
             chrome.webstore.install(url, function() {
-                window.location.href = 'https://www.facebook.com'
+                window.open('https://www.facebook.com', '_blank')
             })
+        } catch (err) {
+            window.open(url, '_blank')
         }
     }
 })

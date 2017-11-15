@@ -18,11 +18,12 @@ import 'ion-rangeslider/css/ion.rangeSlider.skinModern.css'
 import 'ion-rangeslider'
 import './search.scss'
 import template from './search.html'
+import '../../components/permission-reminder'
 
 /* adsearch js */
 export default angular => {
-    return angular.module('search', ['MetronicApp', 'daterangepicker', 'akoenig.deckgrid', 'infinite-scroll']).controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal', '$window', 'TIMESTAMP',
-        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window, TIMESTAMP) {
+    return angular.module('search', ['MetronicApp', 'daterangepicker', 'akoenig.deckgrid', 'infinite-scroll', 'bba.ui.reminder']).controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal', '$window', 'TIMESTAMP', 'Reminder',
+        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window, TIMESTAMP, Reminder) {
         // 搜索流程:location.search->searchOption->adSearcher.params
         // 将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
 
@@ -698,6 +699,11 @@ export default angular => {
                 }
                 $state.go("plans")
             }
+            $scope.notice = function() {
+                if (Reminder.check()) {
+                    Reminder.open()
+                }
+            }
             $scope.Util = Util
             $scope.User = User
             $scope.Searcher = Searcher
@@ -706,6 +712,8 @@ export default angular => {
             User.getInfo().then(function() {
             // 根据search参数页面初始化
                 $scope.search('search')
+                // 用户通知，目前频率为每日一次
+                $scope.notice()
             })
         }
     ])

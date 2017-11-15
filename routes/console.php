@@ -79,12 +79,6 @@ Artisan::command('bba:activate {email} {state}', function($email,  $state) {
     }
 })->describe("激活/反激活/冻结用户，state参数应为0,1,2。0表示待激活,1表示激活,2表示冻结");
 
-class MockReq {
-    public function ip() {
-        return '192.168.1.200';
-    }
-}
-
 Artisan::command('bba:can {email} {priv}', function($email,  $priv) {
     try {
         $user = App\User::where('email', $email)->first();

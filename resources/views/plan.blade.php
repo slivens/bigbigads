@@ -300,7 +300,7 @@
                                 <i class="plan-error"></i>
                             </td>
                             <td>
-                                <i class="plan-right"></i>
+                                <i class="plan-error"></i>
                             </td>
                             <td>
                                 <i class="plan-right"></i>
@@ -470,11 +470,11 @@
                                 <a href="/register" class="btn">Start Now</a>
                             </td>
                             <td>
-                                <a open-modal="#info-modal" modal-data = "lite"  class="btn">Join Now</a></td>
+                                <a href="#plan" class="btn" app-to-top>Start Now</a></td>
                             <td>
-                                <a href="#plan" class="btn" id="app-to-top">Start Now</a></td>
+                                <a href="#plan" class="btn" app-to-top>Start Now</a></td>
                             <td>
-                                <a open-modal="#info-modal" modal-data = "plus" class="btn">Join Now</a></td>
+                                <a open-modal="#info-modal" modal-data = "plus" class="btn">Join Waiting List</a></td>
                         </tr>
                     </tfoot>
                 </table>
