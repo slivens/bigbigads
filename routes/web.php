@@ -34,73 +34,84 @@ Route::get('/get_total_count', 'HomeController@getTotalCount');
 Route::get('/message', 'Controller@messageView');
 
 Auth::routes();
-Route::get('/forget', function() {
-    return view('auth.login');
-});
+Route::get(
+    '/forget', function () {
+        return view('auth.login');
+    }
+);
 
 Route::get('/socialite/{name}', 'UserController@socialiteRedirect');
 Route::get('/socialite/{name}/callback', 'UserController@socialiteCallback')->middleware('auth.freeze:true');
 Route::get('/socialite/{name}/bind', 'UserController@bindForm');
 Route::post('/socialite/{name}/bind', 'UserController@bind')->name('socialiteBindPost');
 
-Route::get('/blog', function () {
+Route::get(
+    '/blog', function () {
 
-    /* dd( Route::current()); */
-    //TODO:现在只做一次性加载，排版最终定版以及前端改用vue,webpack整理后再做完整修改
-    $posts = Post::orderBy('created_at', 'desc')->paginate(100);
-    return view('blog_list')->with("posts", $posts);
-});
-Route::get('/post/{id}', function($id) {
-
-    /* dd( Route::current()); */
-    $post = Post::find($id);
-    $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
-    return view('post')->with('post', $post)->with('recents', $recents);
-});
-Route::get('/product', function () {
-    return view('product');
-});
-
-Route::get('/plan', function () {
-    //暂定登录后再次点击sign up后跳转至app/plans
-    if (Auth::check()) {
-        return redirect('/app/plans');
-    } else {
-        return view('plan');
+        /* dd( Route::current()); */
+        //TODO:现在只做一次性加载，排版最终定版以及前端改用vue,webpack整理后再做完整修改
+        $posts = Post::orderBy('created_at', 'desc')->paginate(100);
+        return view('blog_list')->with("posts", $posts);
     }
-});
+);
+Route::get(
+    '/post/{id}', function ($id) {
 
-Route::get('/about', function () {
-    return view('about');
-});
-Route::get('/terms_service',function(){
-    return view('auth/terms_service');
-});
-Route::get('/privacy_policy',function(){
-    return view('auth/privacy_policy');
-});
+        /* dd( Route::current()); */
+        $post = Post::find($id);
+        $recents = Post::orderBy('created_at', 'desc')->take(5)->get();
+        return view('post')->with('post', $post)->with('recents', $recents);
+    }
+);
+Route::get(
+    '/product', function () {
+        return view('product');
+    }
+);
 
-
-Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
-    Route::get('/refunds/{id}/accept', 'Admin\RefundController@acceptRefund')->name('refund_accept');
-    Route::get('/refunds/{id}/reject', 'Admin\RefundController@rejectRefund')->name('refund_reject');
-});
-
-Route::get('/ranking', function(Request $req) {
-    $maxCount = 100;//根据权限去判断
-    $user = Auth::user();
-    if($user->can('ranking')) {
-        if (isset($req->category)) {
-            $items = App\CategoryTopAdvertiser::where('page_category', $req->category)->take($maxCount)->get();
+Route::get(
+    '/plan', function () {
+        //暂定登录后再次点击sign up后跳转至app/plans
+        if (Auth::check()) {
+            return redirect('/app/plans');
         } else {
-            $items = App\TopAdvertiser::take($maxCount)->get();
+            return view('plan');
         }
-        return json_encode($items, JSON_UNESCAPED_UNICODE);
-    }else {
-        return response(["code"=>-4201, "desc"=>"no permission of ranking"], 422);
     }
-});
+);
+
+Route::get(
+    '/about', function () {
+        return view('about');
+    }
+);
+Route::get(
+    '/terms_service', function () {
+        return view('auth/terms_service');
+    }
+);
+Route::get(
+    '/privacy_policy', function () {
+        return view('auth/privacy_policy');
+    }
+);
+
+Route::get(
+    '/ranking', function (Request $req) {
+        $maxCount = 100;//根据权限去判断
+        $user = Auth::user();
+        if ($user->can('ranking')) {
+            if (isset($req->category)) {
+                $items = App\CategoryTopAdvertiser::where('page_category', $req->category)->take($maxCount)->get();
+            } else {
+                $items = App\TopAdvertiser::take($maxCount)->get();
+            }
+            return json_encode($items, JSON_UNESCAPED_UNICODE);
+        } else {
+            return response(["code"=>-4201, "desc"=>"no permission of ranking"], 422);
+        }
+    }
+);
 // 由于移动端访问过于频繁，暂时更改路由名称并
 Route::get('/userinfo', 'UserController@logInfo');
 Route::get('/registerVerify', 'UserController@registerVerify');
@@ -148,48 +159,62 @@ Route::post('/edm/send', 'EDMController@send');
 Route::get('/edm/unsubscribe', 'EDMController@unsubscribe');
 
 Route::post('/mailgun/webhook', 'MailgunWebhookController@onWebhook');
-Route::get('/image', function(Request $request) {
-    $src = asset($request->src);
-    $width = max(8, intval($request->width));
-    try {
-        $img = Image::make(file_get_contents($src));
-    } catch (\Exception $e) {
-        return "image not found:$src";
+Route::get(
+    '/image', function (Request $request) {
+        $src = asset($request->src);
+        $width = max(8, intval($request->width));
+        try {
+            $img = Image::make(file_get_contents($src));
+        } catch (\Exception $e) {
+            return "image not found:$src";
+        }
+        $img->widen($width);
+        $response = Response::make($img->encode('jpg', 75));
+        $response->header('Content-Type', 'image/jpg');
+        return $response;
     }
-    $img->widen($width);
-    $response = Response::make($img->encode('jpg', 75));
-    $response->header('Content-Type', 'image/jpg');
-    return $response;
-});
+);
 
 /*移动端登录提示页面*/
-Route::get('/mobile_maintain', function () {
-    return view('mobile_maintain');
-});
+Route::get(
+    '/mobile_maintain', function () {
+        return view('mobile_maintain');
+    }
+);
 
-Route::get('/config', function() {
-    return Setting::select('key', 'value')->get()->groupBy('key');
-});
+Route::get(
+    '/config', function () {
+        return Setting::select('key', 'value')->get()->groupBy('key');
+    }
+);
 
 /*
     统计app的track
 */
-Route::post('/trackState', function (Request $request) {
-})->middleware('track');
+Route::post(
+    '/trackState', function (Request $request) {
+    }
+)->middleware('track');
 
 // Wordpress
 Route::get('/wordpress/get_track_id', 'WordpressController@getTrackId');
 Route::get('/wordpress/track_notice', 'WordpressController@trackNotice')->middleware('track');
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
-Route::get('/extension', function () {
-    return view('extension');
-})->middleware('track');
-Route::get('/methodology', function () {
-    return view('methodology');
-});
+Route::get(
+    '/welcome', function () {
+        return view('welcome');
+    }
+);
+Route::get(
+    '/extension', function () {
+        return view('extension');
+    }
+)->middleware('track');
+Route::get(
+    '/methodology', function () {
+        return view('methodology');
+    }
+);
 
 Route::post('/subscriptions/{sid}/sync', 'SubscriptionController@sync');
 Route::get('hotword', 'HotWordController@getHotWord');

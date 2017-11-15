@@ -29,7 +29,8 @@ class PlansSeeder extends Seeder
                     "cycles" => 0,//can't be null or 0 if type is TRIAL
                     "amount" => 0,
                     "currency" => "USD",
-                    "role"=> "Free"
+                    "role"=> "Free",
+                    "slug"=> "free"
                 ],
                 [
                     "name" => "free_monthly",
@@ -42,37 +43,54 @@ class PlansSeeder extends Seeder
                     "cycles" => 0,//can't be null or 0 if type is TRIAL
                     "amount" => 0,
                     "currency" => "USD",
-                    "role"=> "Free"
+                    "role"=> "Free",
+                    "slug"=> "free_monthly"
                 ],
                 [
-                    "name" => "start_monthly",
-                    "display_name" => "Start Level",
-                    "desc" => "Start Plan for one month",
+                    "name" => "lite_monthly",
+                    "display_name" => "Lite Monthly",
+                    "desc" => "Lite Plan for one month",
                     "display_order" => 1, 
                     "type" => "REGULAR",
                     "frequency" => "MONTH",
                     "frequency_interval" => 1,
                     "cycles" => 0,
-                    "amount" => 10,
+                    "amount" => 59.99,
                     "currency" => "USD",
-                    "role" => "Start"
+                    "role" => "Lite",
+                    "slug"=> "lite_monthly"
                 ],
                 [
-                    "name" => "start",
-                    "display_name" => "Start Level",
-                    "desc" => "Start Plan for one year",
+                    "name" => "lite_quarterly",
+                    "display_name" => "Lite Quarterly",
+                    "desc" => "Lite Plan for three month",
+                    "display_order" => 1, 
+                    "type" => "REGULAR",
+                    "frequency" => "MONTH",
+                    "frequency_interval" => 3,
+                    "cycles" => 0,
+                    "amount" => 119.97,
+                    "currency" => "USD",
+                    "role" => "Lite",
+                    "slug"=> "lite_quarterly"
+                ],
+                [
+                    "name" => "lite_annual",
+                    "display_name" => "Lite Annual",
+                    "desc" => "Lite Plan for one year",
                     "display_order" => 1, 
                     "type" => "REGULAR",
                     "frequency" => "YEAR",
                     "frequency_interval" => 1,
                     "cycles" => 0,
-                    "amount" => 100,
+                    "amount" => 299.88,
                     "currency" => "USD",
-                    "role" => "Start"
+                    "role" => "Lite",
+                    "slug"=> "lite_annual"
                 ],
                 [
                     "name" => "standard_monthly",
-                    "display_name" => "Monthly",
+                    "display_name" => "Standard Monthly",
                     "desc" => "standard  Plan for one month",
                     "display_order" => 2, 
                     "type" => "REGULAR",
@@ -81,33 +99,36 @@ class PlansSeeder extends Seeder
                     "cycles" => 0,
                     "amount" => 99,
                     "currency" => "USD",
-                    "role" => "Standard"
+                    "role" => "Standard",
+                    "slug"=> "standard_monthly"
                 ],
                 [
                     "name" => "standard_quarter_monthly",
-                    "display_name" => "Quarterly",
+                    "display_name" => "Standard Quarterly",
                     "desc" => "standard  Plan for three months",
                     "display_order" => 2, 
                     "type" => "REGULAR",
                     "frequency" => "MONTH",
                     "frequency_interval" => 3,
                     "cycles" => 0,
-                    "amount" => 207,
+                    "amount" => 237,
                     "currency" => "USD",
-                    "role" => "Standard"
+                    "role" => "Standard",
+                    "slug"=> "standard_quarterly"
                  ],
                 [
                     "name" => "standard",
-                    "display_name" => "Annual",
+                    "display_name" => "Standard Annual",
                     "desc" => "standard  Plan for one year",
                     "display_order" => 2, 
                     "type" => "REGULAR",
                     "frequency" => "YEAR",
                     "frequency_interval" => 1,
                     "cycles" => 0,
-                    "amount" => 588,
+                    "amount" => 780,
                     "currency" => "USD",
-                    "role" => "Standard"
+                    "role" => "Standard",
+                    "slug"=> "standard_annual"
                 ],
                 [
                     "name" => "advanced_monthly",
@@ -120,7 +141,8 @@ class PlansSeeder extends Seeder
                     "cycles" => 0,
                     "amount" => 169,
                     "currency" => "USD",
-                    "role" => "Advanced"
+                    "role" => "Advanced",
+                    "slug"=> "advanced_monthly"
                 ],
                 [
                     "name" => "advanced",
@@ -133,7 +155,8 @@ class PlansSeeder extends Seeder
                     "cycles" => 0,
                     "amount" => 1668,
                     "currency" => "USD",
-                    "role" => "Advanced"
+                    "role" => "Advanced",
+                    "slug"=> "advanced"
                 ],
                 [
                     "name" => "vip_monthly",
@@ -146,7 +169,8 @@ class PlansSeeder extends Seeder
                     "cycles" => 0,
                     "amount" => 299,
                     "currency" => "USD",
-                    "role" => "Pro"
+                    "role" => "Pro",
+                    "slug"=> "vip_monthly"
                 ],
                 [
                     "name" => "vip",
@@ -159,24 +183,26 @@ class PlansSeeder extends Seeder
                     "cycles" => 0,
                     "amount" => 3588,
                     "currency" => "USD",
-                    "role" => "Pro"
+                    "role" => "Pro",
+                    "slug"=> "vip"
                 ]
             ];
 
             //每次填充都会清空所有计划
             Plan::where('id', '>', 0)->delete();
-            foreach($plans as $key=>$item) {
+            foreach ($plans as $key=>$item) {
                 $role = Role::where("name", $item["role"])->first();
-                if ($role instanceof Role) 
+                if ($role instanceof Role) {
                     $item["role_id"] = $role->id;
+                }
                 unset($item["role"]);
                 Plan::create($item);
             }
             echo "insert plans\n";
 
             //将计划绑定到对应的角色上，先清空再绑定
-            Role::where('id', '>', 2)->update(['plan' => NULL]);
-            $roles = ["Free" => "free", "Standard" => "standard", "Advanced" => "advanced", "Pro" => "vip"];
+            Role::where('id', '>', 2)->update(['plan' => null]);
+            $roles = ["Free" => "free", "Lite" => "lite", "Standard" => "standard", "Advanced" => "advanced", "Pro" => "vip"];
             foreach ($roles as $key => $item) {
                 $role = Role::where('name', $key)->first();
                 $role->plan = $item;

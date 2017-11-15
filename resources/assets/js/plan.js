@@ -15,6 +15,7 @@
 import './../sass/plan.scss'
 import axios from 'axios'
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'
+import 'font-awesome/css/font-awesome.min.css'
 import 'bootstrap-select'
 import {linkToUp} from './dom-common' // 从common中导该方法
 
@@ -22,6 +23,7 @@ import {linkToUp} from './dom-common' // 从common中导该方法
 if (!window.Promise) {
     window.Promise = Promise
 }
+
 // 定义价格数组
 var princeArr = {
     'lite': [{
@@ -62,14 +64,15 @@ var princeArr = {
 // 初始化定义国家数组
 var countryData
 
-// 打开价格页面
-function turnToPricing() {
-    $("#stand-card-div").addClass("transform-rotatey")
+// 翻转到背面
+function turnToBack() {
+    var cardName = $(this).attr("turn-back") // 获取要翻转卡片的名称
+    $('[card-name=' + cardName + ']').addClass("transform-turn")
 }
-
-// 关闭价格页面
-function turnToStand() {
-    $("#stand-card-div").removeClass("transform-rotatey")
+// 翻转到正面
+function turnToFront() {
+    var cardName = $(this).attr("turn-front")
+    $('[card-name=' + cardName + ']').removeClass("transform-turn")
 }
 
 // 当上滑到某种程度的时候，向下的图标隐藏
@@ -268,9 +271,9 @@ function openResultModal(result) {
 }
 
 (function() {
-    $("#stand-card .adscard-btn").on("click", turnToPricing)
-    $("#pricingcard-back").on("click", turnToStand)
-    $("#app-to-top").on("click", linkToUp)
+    $("[turn-back]").on("click", turnToBack)
+    $("[turn-front]").on("click", turnToFront)
+    $("[app-to-top]").on("click", linkToUp)
     $("#click-to-down").on("click", linkToUp)
     hideTheDownIcon()
     $(window).on("scroll", hideTheDownIcon)
