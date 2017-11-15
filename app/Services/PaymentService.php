@@ -502,11 +502,11 @@ class PaymentService implements PaymentServiceContract
     public function handleRefundedPayment(Payment $payment)
     {
         $user = $payment->subscription->user;
-        if ($payment->status != Payment::STATE_REFUNDED){
+        if ($payment->status != Payment::STATE_REFUNDED) {
             $this->log('=========payment->status != Payment::STATE_REFUNDED===========', PaymentService::LOG_INFO);
             return false;
         }
-        if ($payment->subscription->hasEffectivePayment()){
+        if ($payment->subscription->hasEffectivePayment()) {
             $this->log('=========$payment->subscription->hasEffectivePayment()===========', PaymentService::LOG_INFO);
             return false;
         }
