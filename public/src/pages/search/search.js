@@ -404,7 +404,7 @@ export default angular => {
                             $scope.adSearcher.addFilter({
                                 field: "time",
                                 min: liteFreeMin,
-                                max: moment().format('YYYY-MM-DD').format('YYYY-MM-DD'),
+                                max: moment().format('YYYY-MM-DD'),
                                 role: "free"
                             })
                         }
