@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\User;
 
-class ManagePolicy extends Command
+class PolicyCommand extends Command
 {
     /**
      * The name and signature of the console command.
