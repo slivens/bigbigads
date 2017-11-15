@@ -382,6 +382,37 @@ export default angular => {
                         $scope.isFreeLimitDate = true
                     }
                 }
+                var liteFreeMin = '2016-01-01'
+                var liteFreeMax = moment().subtract(14, 'days').format('YYYY-MM-DD')
+                if (User.user.role.plan === 'lite') {
+                    if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0) || $scope.adSearcher.params.sort.field != 'default') {
+                        angular.forEach($scope.adSearcher.params.where, function(data) {
+                            if (data.field === 'time') {
+                                $scope.adSearcher.removeFilter('time')
+                            }
+                        })
+                        // 新增需求，对于免费用户，搜索总数不到10次的给予全部的广告结果
+                        searchTotalTimes = User.getPolicy('search_total_times')
+                        if (searchTotalTimes[2] > 10) {
+                            $scope.adSearcher.addFilter({
+                                field: "time",
+                                min: liteFreeMin,
+                                max: liteFreeMax,
+                                role: "free"
+                            })
+                        } else {
+                            $scope.adSearcher.addFilter({
+                                field: "time",
+                                min: liteFreeMin,
+                                max: moment().format('YYYY-MM-DD').format('YYYY-MM-DD'),
+                                role: "free"
+                            })
+                        }
+                        // 需求变更：
+                        // 暂时限定lite用户的所有请求都是在14天之前的数据
+                        $scope.isFreeLimitDate = true
+                    }
+                }
                 $scope.currSearchOption.filter.category = category.join(',')
                 $scope.currSearchOption.filter.format = format.join(',')
                 $scope.currSearchOption.filter.callToAction = buttondesc.join(',')
