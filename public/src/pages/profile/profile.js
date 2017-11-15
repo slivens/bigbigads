@@ -58,13 +58,13 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
             })
             break
         case 'pwd':
-        default:
-            return $uibModal.open({
+            $uibModal.open({
                 template: changePwdTemplate,
                 size: 'md',
                 animation: true,
                 controller: 'ChangepwdController'
             })
+            break
         }
     }
     /* $scope.changePwd = function() {
