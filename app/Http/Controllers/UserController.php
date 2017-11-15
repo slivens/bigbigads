@@ -89,9 +89,9 @@ class UserController extends Controller
             }
             /* } */
             if ($user->save()) {
-                $res = ['code' => 0,'desc' => trans('messages.save_done')]; // 修改成功
+                $res = ['code' => 0, 'desc' => trans('messages.save_done')]; // 修改成功
             } else {
-                $res = ['code' => -1,'desc' => trans('messages.save_failed')]; // 修改失败
+                $res = ['code' => -1, 'desc' => trans('messages.save_failed')]; // 修改失败
             }
         }
         
