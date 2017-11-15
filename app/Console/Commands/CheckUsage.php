@@ -39,6 +39,9 @@ class CheckUsage extends Command
      */
     public function handle()
     {
+        global $fixRole;
+        global $verbose;
+        global $fixUser;
         $email = $this->argument('email');
         $fixUser = $this->option('fix-user');
         $fixRole = $this->option('fix-role');
@@ -96,10 +99,8 @@ class CheckUsage extends Command
 
             $this->comment("checking users's usage...");
             // 获取分页后的总数，只取usage 防止数据量太大
-            // 在memory_limit 设置为128M的情况下，取5000也太大
-            $users = User::paginate(1000, ['usage'])->toArray();
-            for ($paginate = 1; $paginate <= $users['last_page']; $paginate++) {
-                foreach (User::paginate(1000, ['*'], '', $paginate) as $user) {
+            User::chunk(1000, function($users) use($fixUser, $verbose) {
+                foreach ($users as $user) {
                     try {
                         $user->checkUsage();
                     } catch(\App\Exceptions\GenericException $e) {
@@ -109,12 +110,13 @@ class CheckUsage extends Command
                             $user->reInitUsage();
                         }
                     }
-                    if ($verbose)
+                    if ($verbose) {
                         $user->dumpUsage(function ($msg) {
                             $this->comment($msg);
                         });
+                    }
                 }
-            }
+            });
         }
 
     }
