@@ -39,6 +39,9 @@ class CheckUsage extends Command
      */
     public function handle()
     {
+        global $fixRole;
+        global $verbose;
+        global $fixUser;
         $email = $this->argument('email');
         $fixUser = $this->option('fix-user');
         $fixRole = $this->option('fix-role');
@@ -95,21 +98,25 @@ class CheckUsage extends Command
                 return;
 
             $this->comment("checking users's usage...");
-            foreach (User::cursor() as $user) {
-                try {
-                    $user->checkUsage();
-                } catch(\App\Exceptions\GenericException $e) {
-                    $this->error($e->getMessage());
-                    if ($fixUser) {
-                        $this->comment("try fix it");
-                        $user->reInitUsage();
+            // 获取分页后的总数，只取usage 防止数据量太大
+            User::chunk(1000, function($users) use($fixUser, $verbose) {
+                foreach ($users as $user) {
+                    try {
+                        $user->checkUsage();
+                    } catch(\App\Exceptions\GenericException $e) {
+                        $this->error($e->getMessage());
+                        if ($fixUser) {
+                            $this->comment("try fix it");
+                            $user->reInitUsage();
+                        }
+                    }
+                    if ($verbose) {
+                        $user->dumpUsage(function ($msg) {
+                            $this->comment($msg);
+                        });
                     }
                 }
-                if ($verbose)
-                    $user->dumpUsage(function ($msg) {
-                        $this->comment($msg);
-                    });
-                }
+            });
         }
 
     }
