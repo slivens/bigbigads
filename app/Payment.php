@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use Payum\LaravelPackage\Model\Payment as BasePayment;
@@ -20,7 +21,7 @@ class Payment extends BasePayment
     protected $casts = [
         'details' => 'json'
     ];
-    
+
 
     public function client()
     {
@@ -51,21 +52,20 @@ class Payment extends BasePayment
     {
         $subscription = $this->subscription;
         $carbon = new Carbon($this->created_at);
-        $days = 0;
 
         switch (strtolower($subscription->frequency)) {
-        case 'day':
-            $carbon->addDays($subscription->frequency_interval);
-            break;
-        case 'week':
-            $carbon->addWeeks($subscription->frequency_interval);
-            break;
-        case 'month':
-            $carbon->addMonths($subscription->frequency_interval);
-            break;
-        case 'year':
-            $carbon->addYears($subscription->frequency_interval);
-            break;
+            case 'day':
+                $carbon->addDays($subscription->frequency_interval);
+                break;
+            case 'week':
+                $carbon->addWeeks($subscription->frequency_interval);
+                break;
+            case 'month':
+                $carbon->addMonths($subscription->frequency_interval);
+                break;
+            case 'year':
+                $carbon->addYears($subscription->frequency_interval);
+                break;
         }
         return $carbon->toDateTimeString();
     }
@@ -77,9 +77,10 @@ class Payment extends BasePayment
      */
     public function isEffective()
     {
-        if ($this->status != Payment::STATE_COMPLETED && $this->status != Payment::STATE_REFUNDING)
+        //add by chenxin 20171114,修复了Issue #37
+        if ($this->status != Payment::STATE_COMPLETED && $this->status != Payment::STATE_REFUNDING) {
             return false;
-        $start = new Carbon($this->start_date);
+        }
         $end = new Carbon($this->end_date);
         return Carbon::now()->lt($end);
     }
