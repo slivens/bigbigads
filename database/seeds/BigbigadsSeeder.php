@@ -238,7 +238,7 @@ class BigbigadsSeeder extends Seeder
             'specific_adser_limit_perday'       => [true,  true,  true,  true,  true,  true,  true],
             'specific_adser_where_perday'       => [true,  true,  true,  true,  true,  true,  true],
             'search_total_times'                => [true,  true,  true,  true,  true,  true,  true],    // 累计搜索总数
-            'country_filter'                    => [false, true,  true,  true,  true,  true,  true],    // country filter   ng-mode:state
+            'country_filter'                    => [false, true,  true,  true,  true,  true,  false],   // country filter   ng-mode:state
             'emarketing_filter'                 => [false, true,  true,  true,  true,  true,  false],   // emarketing filter
             'tracking_filter'                   => [false, true,  true,  true,  true,  true,  false],   // tracking filter
             'affiliate_filter'                  => [false, true,  true,  true,  true,  true,  false],   // affiliate filter
