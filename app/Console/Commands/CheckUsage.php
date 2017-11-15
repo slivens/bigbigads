@@ -95,21 +95,24 @@ class CheckUsage extends Command
                 return;
 
             $this->comment("checking users's usage...");
-            foreach (User::cursor() as $user) {
-                try {
-                    $user->checkUsage();
-                } catch(\App\Exceptions\GenericException $e) {
-                    $this->error($e->getMessage());
-                    if ($fixUser) {
-                        $this->comment("try fix it");
-                        $user->reInitUsage();
+            $users = User::paginate(5000)->toArray();
+            for ($paginate = 1; $paginate <= $users['last_page']; $paginate++) {
+                foreach (User::paginate(5000, ['*'], '', $paginate) as $user) {
+                    try {
+                        $user->checkUsage();
+                    } catch(\App\Exceptions\GenericException $e) {
+                        $this->error($e->getMessage());
+                        if ($fixUser) {
+                            $this->comment("try fix it");
+                            $user->reInitUsage();
+                        }
                     }
+                    if ($verbose)
+                        $user->dumpUsage(function ($msg) {
+                            $this->comment($msg);
+                        });
                 }
-                if ($verbose)
-                    $user->dumpUsage(function ($msg) {
-                        $this->comment($msg);
-                    });
-                }
+            }
         }
 
     }
