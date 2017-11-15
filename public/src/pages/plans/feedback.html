@@ -72,13 +72,15 @@
             <tr>
                 <td>
                     <h5>Location</h5>
-                    <select name="" id="info-location" class="form-control selectpicker" option="locationOption" title="--Select--" data-size="10" data-live-search="true">
+                    <select  name="" id="bsSelect" class="form-control bsSelect" title="--Select--" data-size="10" data-live-search="true" ng-model="Location">
+                        <option ng-if="locationArr" ng-repeat="items in locationArr">{{items.name}}</option>
+                        <option ng-if="!locationArr">Null</option>
                     </select>
                 </td>
                 <td>
                     <h5 class="ads-font-14">How much would you like to pay for <span class="ads-weight-600" value="level"></span> level?</h5>
                     <select name="" id="info-price" option="priceOption" class="form-control">
-                        <option value="" ng-repeat="items in palnPrice" value = {{items.price}}>{{items.value}}</option>
+                        <option value="" ng-repeat="items in planPrice" value = {{items.price}}>{{items.value}}</option>
                     </select>
                 </td>
             </tr>
@@ -91,7 +93,7 @@
         </table>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default"  ng-click="close()">Close</button>
         <button type="button" class="btn btn-primary" id="submit-info" info-level="">Submit</button>
     </div>
 </div>

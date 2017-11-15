@@ -1,4 +1,6 @@
 import template from './feedback.html'
+import countryArr from '../../data/map-country.json'
+import './feedback.scss'
 
 const controller = function($scope, $uibModalInstance, User) {
     // 定义价格数组
@@ -39,15 +41,23 @@ const controller = function($scope, $uibModalInstance, User) {
         }]
     }
     /*
-    * 相对应的价格
-    * $scope.$resolve.plan = 'plus'
-    */
+     * 相对应的价格
+     * $scope.$resolve.plan = 'plus'
+     */
     if (princeArr[$scope.$resolve.plan]) $scope.planPrice = princeArr[$scope.$resolve.plan]
     else $scope.planPrice = false
     $scope.close = function() {
         $uibModalInstance.dismiss('success')
     }
     $scope.firstName = 'test'
+    $scope.locationArr = []
+    if (countryArr) {
+        for (let key in countryArr) {
+            $scope.locationArr.push({
+                'name': countryArr[key].name
+            })
+        }
+    } else $scope.locationArr = false
 }
 
 controller.$inject = ['$scope', '$uibModalInstance', 'User']

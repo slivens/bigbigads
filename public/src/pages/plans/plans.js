@@ -1,7 +1,8 @@
-import '../common/common'
+import '../common/common.js'
 import './plans.scss'
 import template from './plans.html'
 import {template as feedbackTemplate, controller as feedbackController} from './feedback.js'
+import 'bootstrap-select'
 
 export default angular.module('plans', ['MetronicApp']).controller('PlansController', ['$scope', 'Resource', 'User', '$uibModal', function($scope, Resource, User, $uibModal) {
     var plans = new Resource('plans')

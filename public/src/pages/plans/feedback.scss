@@ -1,0 +1,31 @@
+#feedback {
+	overflow: hidden;
+    .modal-content {
+        table {
+            td {
+                width: 50%;
+            }
+        }
+    }
+    .modal-body {
+        background: #fff;
+    }
+    .modal-header {
+        background-image: linear-gradient(to top, #1D96F3 0%, #4267b2 100%);
+        color: #fff;
+    }
+    .form-input-wrapper {
+        position: relative;
+        .ads-control-label {
+            position: absolute;
+            right: 10px;
+            top: 0px;
+            display: none;
+        }
+        &.has-error {
+            .ads-control-label {
+                display: inline-block;
+            }
+        }
+    }
+}
