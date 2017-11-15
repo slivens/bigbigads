@@ -273,7 +273,7 @@ function openResultModal(result) {
 (function() {
     $("[turn-back]").on("click", turnToBack)
     $("[turn-front]").on("click", turnToFront)
-    $("#app-to-top").on("click", linkToUp)
+    $("[app-to-top]").on("click", linkToUp)
     $("#click-to-down").on("click", linkToUp)
     hideTheDownIcon()
     $(window).on("scroll", hideTheDownIcon)
