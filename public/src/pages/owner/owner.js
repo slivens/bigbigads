@@ -335,6 +335,26 @@ export default (angular) => {
                     $scope.isFreeLimitDate = true
                 }
             }
+            var liteFreeMin = '2016-01-01'
+            var liteFreeMax = moment().subtract(14, 'days').format('YYYY-MM-DD')
+            if (User.user.role.plan === 'lite') {
+                if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0) || $scope.adSearcher.params.sort.field != 'default') {
+                    angular.forEach($scope.adSearcher.params.where, function(data) {
+                        if (data.field === 'time') {
+                            $scope.adSearcher.removeFilter('time')
+                        }
+                    })
+                    // 新增需求，对于免费用户，搜索总数不到10次的给予全部的广告结果
+                    $scope.adSearcher.addFilter({
+                        field: "time",
+                        min: liteFreeMin,
+                        max: liteFreeMax,
+                        role: "free"
+                    })
+                    // 暂时限定lite用户的所有请求都是在14天之前的数据
+                    $scope.isFreeLimitDate = true
+                }
+            }
             $scope.currSearchOption.category = category.join(',')
             $scope.currSearchOption.format = format.join(',')
             $scope.currSearchOption.callToAction = buttondesc.join(',')

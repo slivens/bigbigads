@@ -32,32 +32,36 @@
                             <tbody>
                                 @foreach ($groupedPermissions as $group)
                                     @foreach ($group as $permission) 
+                                    <?php
+                                      $hasPolicy = isset($role->groupedPolicies[$permission->key])
+                                    ?>
                                     <tr>
-                                        <td>{{$permission->table_name}} - {{$permission->key}}</td>
-                                        @foreach ($roles as $role)
-                                        <td>  
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="{{$permission->key}}" name="{{$role->name}}[]" @if ($role->can($permission->key)) checked @endif/>
-                                                </label>
-                                            </div> 
-                                            @if ($groupedPolicies->has($permission->key))
-                                            <?php
-                                              $hasPolicy = isset($role->groupedPolicies[$permission->key])
-                                            ?>
-                                            <div class="small">
-                                                <div class="text-center">策略</div>
-                                                <div class="form-group">
-                                                    <label>类型:</label>
-                                                    <select name="{{$role->name . $permission->key . '_type'}}">
+                                        <td>
+                                            {{$permission->table_name}} - {{$permission->key}}
+                                            @if ($hasPolicy)
+                                                <div class="form-group text-center small">
+                                                    <label>策略类型:</label>
+                                                    <select class="form-control" name="policy[]" readonly>
                                                         @foreach ($types as $key => $type)
                                                         <option value="{{$key}}" @if ($hasPolicy && $key == $role->groupedPolicies[$permission->key][0]) selected @endif>{{$type}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                            @endif
+                                        </td>
+                                        @foreach ($roles as $role)
+                                        <td>  
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="{{$permission->id}}" name="{{$role->name . '_permission' . '[' . $permission->key . ']'}}" @if ($role->can($permission->key)) checked @endif/>
+                                                </label>
+                                            </div> 
+                                            @if ($groupedPolicies->has($permission->key))
+                                            <div class="small">
+                                                <div class="text-center">策略值</div>
                                                 <div class="form-group">
                                                     <label>数值:</label>
-                                                    <input class="form-control" type="text" name="{{$role->name . $permission->key . '_value'}}" @if (isset($role->groupedPolicies[$permission->key]))  value="{{$role->groupedPolicies[$permission->key][1]}}" @endif />
+                                                    <input class="form-control" type="text" name="{{$role->name . '_policy' . '['. $permission->key . ']' . '[value]'}}" @if (isset($role->groupedPolicies[$permission->key]))  value="{{$role->groupedPolicies[$permission->key][1]}}" @endif />
                                                 </div>
                                             </div>
                                             @endif
@@ -68,9 +72,14 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <button type="submit" class="btn btn-primary">更新权限</button>
-
-                        <button type="button" class="btn btn-success">重新生成角色缓存</button>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">更新权限</button>
+                            <span>更新权限和策略并不会生效，只有重新生成角色缓存才会实际生效</span>
+                        </div>
+                        </form>
+                        <form action="{{route('generate_permission_cache')}}" method="POST">
+                            {{ csrf_field() }}
+                            <button type="submit" class="btn btn-success">重新生成角色缓存</button>
                         </form>
                     </div>
                 </div>

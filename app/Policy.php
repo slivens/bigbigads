@@ -14,6 +14,7 @@ class Policy extends Model
     const DURATION = 5;
     const YEAR = 6;
 
+    // 未开放到前台的数据暂不要求多语言
     const TYPE_DESC = [
         self::DAY => '按日累计',
         self::PERMANENT => '永久累计',
