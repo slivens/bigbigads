@@ -40,14 +40,12 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         profile.init()
     })
     $scope.change = function(type) {
-        switch (type) {
-        case 'name':
+        if (type == 'name') {
             $http({
                 method: 'patch',
                 url: `/users/change_profile`,
                 data: {
-                    'type': type,
-                    'param': User.info.user.name
+                    'name': User.info.user.name
                 }
             }).then(function(res) {
                 SweetAlert.swal({
@@ -56,15 +54,13 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
                     type: res.data.code == 0 ? 'success' : 'error'
                 })
             })
-            break
-        case 'pwd':
+        } else {
             $uibModal.open({
                 template: changePwdTemplate,
                 size: 'md',
                 animation: true,
                 controller: 'ChangepwdController'
             })
-            break
         }
     }
     /* $scope.changePwd = function() {

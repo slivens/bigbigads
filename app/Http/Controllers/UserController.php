@@ -60,8 +60,9 @@ class UserController extends Controller
      * 修改用户名&邮箱
      * 需要做检测，尤其邮箱需要
      * 20171113 前端暂时去除email修改，后端方法先留着
+     * 20171116 修改方法，入参修改，只传输要修改的，email处理删除，后续再加
      * 
-     * @param Request $req post请求上来的数据，包含type(email/name),param(修改后的用户名或者邮箱)
+     * @param Request $req post请求上来的数据，改了什么传上来什么。
      * @return response
      * 
      * @todo 邮箱验证有现成方法，延后验证，要是没通过如何？回退的话，之前的邮箱存在什么地方
@@ -69,32 +70,18 @@ class UserController extends Controller
     public function changeProfile(Request $req)
     {
         $user = Auth::user();
-        if (empty($req->param)) {
-            $res = ['code' => -1, 'desc' => trans('messages.not_empty')];// 字段不能为空
+        if ($req->name) {
+            $req->name == $user->name ? $res = ['code' => -1, 'desc' => trans('messages.not_changed')] : $user->name = $req->name;
         } else {
-            /* if ($req->type == 'email') {
-                if ($req->param == $user->email) {
-                    return response()->json(['code' => -1,'desc' => trans('messages.not_changed')]); // 字段没有被修改，不做数据库操作直接返回
-                } elseif (User::where('email', $req->param)->first()) {
-                    return response()->json(['code' => -1,'desc' => trans('profile.email_used')]); // email已被使用
-                } else {
-                    $user->email = $req->param;
-                }
-                // $this->registerDispatch($user);// 发送验证邮件
-            } elseif ($req->type == 'name') { */
-            if ($req->param == $user->name) {
-                return response()->json(['code' => -1, 'desc' => trans('messages.not_changed')]); // 字段没有被修改
-            } else {
-                $user->name = $req->param;
-            }
-            /* } */
+            $res = ['code' => -1, 'desc' => trans('messages.not_empty')];// 字段不能为空/或者传上来其他字段，不处理直接当空返回
+        }
+        if (!isset($res)) {
             if ($user->save()) {
                 $res = ['code' => 0, 'desc' => trans('messages.save_done')]; // 修改成功
             } else {
                 $res = ['code' => -1, 'desc' => trans('messages.save_failed')]; // 修改失败
             }
         }
-        
         return response()->json($res);
     }
 
