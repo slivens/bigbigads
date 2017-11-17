@@ -135,6 +135,8 @@ Route::group(['middleware'=>'auth'], function() {
     Route::get('/users/customize_invoice', 'UserController@getInvoiceCustomer');
     Route::post('/users/customize_invoice', 'UserController@setInvoiceCustomer');
     Route::get('/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
+    Route::get('/bookmark/default', 'BookmarkController@getDefault');
+    
 });
 
 //pay页面需要支持不登录可访问

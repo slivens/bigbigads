@@ -21,5 +21,16 @@ class Bookmark extends Model
     protected $hidden = [
         'created_at', 'updated_at'
     ];
-}
 
+    protected $fillable = [
+        'uid',
+        'name',
+        'default'
+    ];
+
+    // default 值为1的收藏夹不允许修改
+    public function canModify()
+    {
+        return $this->default != 1;
+    }
+}

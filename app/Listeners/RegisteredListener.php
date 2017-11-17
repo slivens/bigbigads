@@ -43,6 +43,7 @@ class RegisteredListener
         $bookmark = new \App\Bookmark;
         $bookmark->uid = $user->id;
         $bookmark->name = "default";
+        $bookmark->default = 1;
         $bookmark->save();
         //需求变更，弃用
         /*$domain = env('APP_URL');
