@@ -133,7 +133,7 @@ function estimationThousand(num) {
 
 $('.downloadExtension').click(function() {
     if (document.getElementById('bigbigads-extension-is-installed')) {
-        window.location.href = '/plan'
+        window.location.href = '/pricing'
     } else {
         var url = 'https://chrome.google.com/webstore/detail/aeicgjbjcnodlaomefmanfbkhpcdlcbk'
         try {
