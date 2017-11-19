@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\CheckUsage::class,
         \App\Console\Commands\GenerateInvoice::class,
         \App\Console\Commands\ChangeTag::class,
-        \App\Console\Commands\ManagePolicy::class,
+        \App\Console\Commands\PolicyCommand::class,
         \App\Console\Commands\SessionCommand::class
     ];
 

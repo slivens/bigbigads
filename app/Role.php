@@ -7,6 +7,7 @@ use TCG\Voyager\Models\Permission;
 use App\Plan;
 use App\Exceptions\GenericException;
 use Illuminate\Support\Facades\Cache;
+use Artisan;
 
 class Role extends Model
 {
@@ -99,7 +100,7 @@ class Role extends Model
             $key = $policy->key;
             $right = [$policy->type, $policy->pivot->value];
             if (!isset($cache[$key]) || $cache[$key] != $right)
-                throw new GenericException($this, "{$this->name}:$key should be " . json_encode($right) . "but result is " . (isset($cache[$key]) ? $cache[$key] : " not set"));
+                throw new GenericException($this, "{$this->name}:$key should be " . json_encode($right) . "but result is " . (isset($cache[$key]) ? json_encode($cache[$key]) : " not set"));
         }   
         return true;
     }

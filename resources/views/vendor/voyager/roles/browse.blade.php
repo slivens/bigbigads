@@ -3,16 +3,18 @@
 @section('page_title','All '.$dataType->display_name_plural)
 
 @section('page_header')
-    <h1 class="page-title">
+    <h1 class="page-title container">
         <i class="{{ $dataType->icon }}"></i> {{ $dataType->display_name_plural }}
         @if (Voyager::can('add_'.$dataType->name))
             <a href="{{ route('voyager.'.$dataType->slug.'.create') }}" class="btn btn-success">
                 <i class="voyager-plus"></i> Add New
             </a>
         @endif
-            <a href="{{ route('permission_map') }}" class="btn btn-primary">
-                <i class="voyager-plus"></i> 权限视图
-            </a>
+            <div class="pull-right">
+                <a href="{{ route('permission_map') }}" class="btn btn-primary">
+                    <i class="voyager-plus"></i> 权限视图
+                </a>
+            </div>
     </h1>
 @stop
 

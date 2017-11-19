@@ -86,6 +86,7 @@ class CheckUsage extends Command
                 $this->error($e->getMessage());
                 if ($fixUser) {
                     $this->comment("try fix it");
+
                     $user->reInitUsage();
                 }
             }
@@ -107,6 +108,7 @@ class CheckUsage extends Command
                         $this->error($e->getMessage());
                         if ($fixUser) {
                             $this->comment("try fix it");
+                            $user->setCachePolicies();
                             $user->reInitUsage();
                         }
                     }
