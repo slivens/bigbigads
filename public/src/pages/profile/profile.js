@@ -39,14 +39,38 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         // console.log($location.search());
         profile.init()
     })
-    $scope.changePwd = function() {
+    $scope.change = function(type) {
+        if (type == 'name') {
+            $http({
+                method: 'patch',
+                url: `/users/change_profile`,
+                data: {
+                    'name': User.info.user.name
+                }
+            }).then(function(res) {
+                SweetAlert.swal({
+                    title: res.data.code == 0 ? 'Success' : 'Error',
+                    text: res.data.desc,
+                    type: res.data.code == 0 ? 'success' : 'error'
+                })
+            })
+        } else {
+            $uibModal.open({
+                template: changePwdTemplate,
+                size: 'md',
+                animation: true,
+                controller: 'ChangepwdController'
+            })
+        }
+    }
+    /* $scope.changePwd = function() {
         return $uibModal.open({
             template: changePwdTemplate,
             size: 'md',
             animation: true,
             controller: 'ChangepwdController'
         })
-    }
+    } */
     $scope.userPromise = User.getInfo()
     $scope.userPromise.then(function() {
         var user = User.info.user
