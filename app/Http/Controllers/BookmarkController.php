@@ -24,7 +24,7 @@ class BookmarkController extends Controller
         if (intval($req->uid) != Auth::user()->id) {
             return $this->responseError("No Permission", -1);
         }
-        return Bookmark::where("uid", $req->uid)->select('id', 'uid', 'name')->get();// 不再输出所有字段，特别是default字段
+        return Bookmark::where("uid", $req->uid)->get();
     }
 
     /**
@@ -144,7 +144,7 @@ class BookmarkController extends Controller
     public function getDefault()
     {
         if ($user = Auth::user()) {
-            return Bookmark::where('uid', $user->id)->where('default', 1)->select('id', 'uid', 'name')->first();
+            return Bookmark::where('uid', $user->id)->where('default', 1)->first();
         } else {
             return $this->responseError("No Permission", -1);
         }
