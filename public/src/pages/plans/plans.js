@@ -65,7 +65,15 @@ export default angular.module('plans', ['MetronicApp']).controller('PlansControl
     $scope.plans = plans
     $scope.groupPermissions = []
 
-    /* 
+    User.getInfo().then(function() {
+        $scope.userInfo = User.info
+        if (User.info.login) {
+            $scope.subscription = User.info.subscription
+            $scope.userPlan = User.info.user.role.plan
+        }
+    })
+
+    /*
     * 打开反馈信息征集模态框
     * planName plan名称，由按钮点击时传值
     */
@@ -82,13 +90,6 @@ export default angular.module('plans', ['MetronicApp']).controller('PlansControl
             }
         })
     }
-    User.getInfo().then(function() {
-        $scope.userInfo = User.info
-        if (User.info.login) {
-            $scope.subscription = User.info.subscription
-            $scope.userPlan = User.info.user.role.plan
-        }
-    })
 }])
     .directive('plans', function() {
         return {

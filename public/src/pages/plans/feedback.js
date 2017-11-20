@@ -40,6 +40,7 @@ const controller = function($scope, $uibModalInstance, User, $http, SweetAlert) 
             'value': 'Other'
         }]
     }
+
     // 初始化
     $scope.feedback = {
         'firstName': '',
@@ -55,20 +56,20 @@ const controller = function($scope, $uibModalInstance, User, $http, SweetAlert) 
         'feedback': '',
         'level': $scope.$resolve.plan || 'plus' // 可能会存在princeArr[$scope.$resolve.plan]为空
     }
+
     // 用于限制提交按钮是否繁忙
     $scope.isBusy = false
+
     /*
      * 相对应的价格
-     * $scope.$resolve.plan = 'plus'
+     * 1）可能数据：$scope.$resolve.plan = 'plus'
+     * 2）给$scope.feedback.price默认值，因为ng-option的第一个值是空的
      */
     if (princeArr[$scope.$resolve.plan]) {
         $scope.planPrice = princeArr[$scope.$resolve.plan]
         $scope.feedback.price = $scope.planPrice[0].price
     } else $scope.planPrice = false
-    console.log($scope.planPrice)
-    $scope.close = function() {
-        $uibModalInstance.dismiss('success')
-    }
+
     $scope.locationArr = []
     if (countryArr) {
         for (let key in countryArr) {
@@ -77,8 +78,16 @@ const controller = function($scope, $uibModalInstance, User, $http, SweetAlert) 
             })
         }
     } else $scope.locationArr = false
+
+    // 关闭模态框
+    $scope.close = function() {
+        $uibModalInstance.dismiss('success')
+    }
+
     /*
      * 点击提交按钮触发验证
+     * 该方法有传值的参数是要验证的name值
+     * 如果没有传参数，则对$scope.feedback这些字段全部验证
      */
     let toValidate = function(validata) {
         if (validata) {
@@ -93,7 +102,13 @@ const controller = function($scope, $uibModalInstance, User, $http, SweetAlert) 
             return true
         }
     }
-    $scope.toValidate = toValidate
+
+    /*
+     * 点击提交
+     * 1）点击的时候让submit按钮处于繁忙，避免重复点击
+     * 2）对数据再次进行验证，通过了便可以提交
+     * 3）提交成功后，关闭当前的模态框，并利用SweetAlert插件弹窗提示
+     */
     $scope.save = function() {
         // 点击提交的时候，让按钮禁止点击，避免重复点击
         $scope.isBusy = true
@@ -117,7 +132,7 @@ const controller = function($scope, $uibModalInstance, User, $http, SweetAlert) 
                     $scope.isBusy = false
                     SweetAlert.swal(
                         'Submit failure',
-                        '😐' + res.data.desc,
+                        `😐 ${res.data.desc}`,
                         'success'
                     )
                 }
@@ -132,6 +147,8 @@ const controller = function($scope, $uibModalInstance, User, $http, SweetAlert) 
             })
         }
     }
+
+    $scope.toValidate = toValidate
 }
 
 controller.$inject = ['$scope', '$uibModalInstance', 'User', '$http', 'SweetAlert']
