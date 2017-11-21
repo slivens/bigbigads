@@ -73,7 +73,8 @@ Route::get(
     '/plan', function () {
         //暂定登录后再次点击sign up后跳转至app/plans
         if (Auth::check()) {
-            return redirect('/app/plans');
+            //return redirect('/app/plans');
+            return view('plan');
         } else {
             return view('plan');
         }
@@ -244,3 +245,7 @@ Route::post('/filter-record', 'UserController@filterLogRecord');
 
 // 以后会在新增新的反馈收集，就统一处理反馈的控制器及其具体的反馈收集项
 Route::post('/feedback/plan', 'FeedbackController@plan')->middleware('throttle:30,60');
+
+Route::get('/advertisers', 'AdserController@getPublishers');
+Route::get('/advertisers/{facebookId}', 'AdserController@getPublisher');
+
