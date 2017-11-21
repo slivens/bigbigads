@@ -110,7 +110,7 @@ class UserController extends Controller
             }
             //add by chenxin 20171114,修复了Issue #37
             $res['failed_recurring_payments'] = $this->paymentService->onFailedRecurringPayments();
-            $res['effective_sub'] = $user->getEffectiveSub()?true:false;
+            $res['effective_sub'] = $user->getEffectiveSub($user->subscriptions)?true:false;
             $res['permissions'] = $user->getMergedPermissions()->groupBy('key');
             $res['groupPermissions'] = $user->getMergedPermissions()->groupBy('table_name');
             // 提供用户邮箱的hamc，用于intercom的用户验证

@@ -42,7 +42,7 @@
                                     <td>{{$data->payment->number}}</td>
 {{--                                    <td>{{$data->payment->buyer_email}}</td>--}}
                                     <td>{{$payment_service->getRefundHistoryCount($data->payment->buyer_email)}}</td>
-                                    <td>{{$data->payment->client->role_id}}</td>
+                                    <td>{{$data->payment->client->role->display_name}}</td>
                                     @foreach($dataType->browseRows as $row)
                                         <td>
                                             <?php $options = json_decode($row->details); ?>

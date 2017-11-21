@@ -748,14 +748,12 @@ class PaymentService implements PaymentServiceContract
     {
         if (!$subscription) {
             return false;
-        } elseif ($subscription) {
-            if (is_array($subscription) || $subscription instanceof Collection) {
-                $subs = $subscription;
-            } else {
-                $subs = new Collection([$subscription]);
-            }
         }
-        $result = false;
+        if (is_array($subscription) || $subscription instanceof Collection) {
+            $subs = $subscription;
+        } else {
+            $subs = new Collection([$subscription]);
+        }
         $nowTime = Carbon::now();
         $longestEndDate = Carbon::createFromDate(1970, 1, 1);
         foreach ($subs as $sub) {
@@ -784,7 +782,7 @@ class PaymentService implements PaymentServiceContract
                 return true;
             }
         }
-        return $result;
+        return false;
     }
 
     /**
