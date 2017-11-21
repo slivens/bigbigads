@@ -19,7 +19,7 @@ use Socialite;
 use Validator;
 use App\Jobs\LogAction;
 use Illuminate\Auth\Events\Registered;
-
+use App\Contracts\PaymentService;
 use App\Jobs\ResendRegistMail;
 use GuzzleHttp;
 use Jenssegers\Agent\Agent;
@@ -33,7 +33,12 @@ class UserController extends Controller
     use AppRegistersUsers;
 
     protected $socialiteProviders = ['github', 'facebook', 'linkedin', 'google'];
+    private $paymentService;
 
+    public function __construct(PaymentService $paymentService)
+    {
+        $this->paymentService = $paymentService;
+    }
     /**
      * 更改密码
      */
@@ -103,6 +108,8 @@ class UserController extends Controller
             if ($user['subscription_id'] != null) {
                 $user->load('subscription');//有订阅就把订阅信息也一起加载
             }
+            //add by chenxin 20171114,修复了Issue #37
+            $res['failed_recurring_payments'] = $this->paymentService->onFailedRecurringPayments($user->subscriptions);
             $res['effective_sub'] = $user->getEffectiveSub()?true:false;
             $res['permissions'] = $user->getMergedPermissions()->groupBy('key');
             $res['groupPermissions'] = $user->getMergedPermissions()->groupBy('table_name');
