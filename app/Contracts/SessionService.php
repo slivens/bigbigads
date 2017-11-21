@@ -18,7 +18,7 @@ interface SessionService {
      * ]
      * ```
      */
-    public function sessionInfos() : Collection;
+    public function sessionInfos(bool $forced = false) : Collection;
 
     /**
      * 根据session id获取指定session
@@ -40,7 +40,7 @@ interface SessionService {
      *
 
      */
-    public function userInfos() : Collection;
+    public function userInfos(bool $forced = false) : Collection;
 
     /**
      * 删除指定session id的Session

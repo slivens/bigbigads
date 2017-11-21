@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Carbon\Carbon;
+use App\User;
+use Voyager;
 
 class SessionCommand extends Command
 {
@@ -13,7 +15,7 @@ class SessionCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'bba:session {email? : 对指定的用户操作} {--session= : session数量超过指定值的用户} {--ips= : ip数量超过指定值的session} {--k|kick : 删除指定用户的session} {--reserve= : 保留指定用户session的数量} {--start= : 只查找更新时间指定时间的会话或用户}';
+    protected $signature = 'bba:session {email? : 对指定的用户操作} {--session= : session数量超过指定值的用户} {--ips= : ip数量超过指定值的session} {--k|kick : 删除指定用户的session} {--reserve= : 保留指定用户session的数量} {--start= : 只查找更新时间指定时间的会话或用户} {--save : 保存reserve的值}';
 
     /**
      * The console command description.
@@ -46,6 +48,7 @@ class SessionCommand extends Command
         $email = $this->argument('email');
         $kick = $this->option('kick');
         $reserve = $this->option('reserve') ? : 0;
+        $save = $this->option('save') ? : false;
         $start = $this->option('start') ? new Carbon($this->option('start')) : null;
 
         $service = $this->service;//app('app.service.session');
@@ -53,6 +56,8 @@ class SessionCommand extends Command
         $userInfos = $service->userInfos();
         $this->info("total session count: " . count($sessionInfos));
         $this->info("total user count: " . count($userInfos));
+        $this->info("limited session count per user: " . Voyager::setting('global_session_count'));
+        $this->info("limited ip count per session: " . Voyager::setting('global_session_ip_count'));
 
         // -v 输出每个用户的session数量
         if ($this->output->isVerbose() && !$this->output->isVeryVerbose()) {
@@ -105,9 +110,9 @@ class SessionCommand extends Command
             }
 
             foreach ($infos as $key => $session) {
-                if (count($session['ips']) <= $minIpsCount) 
+                if (count($session['ips']) <= $minIpsCount)
                     continue;
-                if ($start && (new Carbon($session['updated']))->lt($start)) 
+                if ($start && (new Carbon($session['updated']))->lt($start))
                     continue;
                 $data[] = [$session['email'], $key, json_encode($session['ips']), count($session['ips'])];
             }
@@ -120,6 +125,18 @@ class SessionCommand extends Command
             $this->info("{$email} will be kicked, reserve {$reserve} sessions");
             $result = $service->removeUserSessions($email, $reserve);
             $this->info("left sessions : $result");
-        }      
+        }
+        if ($save) {
+            if ($reserve <= 0) {
+                $this->error("reserved count should bigger than 0");
+                return;
+            }
+            $user = User::where('email', $email)->first();
+            if (!$user)
+                $this->error("$email not found");
+            $user->session_count = $reserve;
+            $user->save();
+            $this->info("$email session count reseve $reserve saved");
+        }
     }
 }
