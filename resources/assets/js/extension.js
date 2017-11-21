@@ -21,10 +21,13 @@ $('#downloadExtension').click(function() {
         var url = 'https://chrome.google.com/webstore/detail/aeicgjbjcnodlaomefmanfbkhpcdlcbk'
         try {
             chrome.webstore.install(url, function() {
-                window.open('https://www.facebook.com', '_blank')
+                window.location.href = '/plan'
+            }, function() {
+                window.location.href = '/plan'
             })
         } catch (err) {
             window.open(url, '_blank')
+            window.location.href = '/plan'
         }
     }
 })

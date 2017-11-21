@@ -582,7 +582,7 @@ class User extends Authenticatable
         // 检查用户的策略是否与数据库的一致
         $cachedPolicies = $this->getCachedPolicies();
         if ($cachedPolicies->count() != $this->policies->count()) {
-            throw new GenericException($this, "User policy count not the same:" .  $cachedPolicies->count() . " , should be " . $this->policies->count());
+            throw new GenericException($this, "User {$this->email} policy count not the same:" .  $cachedPolicies->count() . " , should be " . $this->policies->count());
         }
         for ($i = 0; $i < $this->policies->count(); ++$i) {
             $p1 = $cachedPolicies[$i];

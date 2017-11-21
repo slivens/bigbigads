@@ -144,7 +144,7 @@
                 <p class="show-title ads-font-24 text-center">Accelerate success for your facebook marketing</p>
                 <img src="static/images/home/show_03.jpg" alt="" class="show-img ads-center">
                 <p class="ads-font-22 show-ins-title text-center">Creative inspiration</p>
-                <p class="ads-font-16 show-ins-text text-center">Find out how to sell product with social proof, break through culture difference for the audience in a new geo, know what kind of ad resonates with the audience in a specific niche market, know your potential customer better.</p>
+                <p class="ads-font-16 show-ins-text text-center">Find out how to sell a product with social proof, break through culture difference for the audience in a new geo, know what kind of ad resonates with the audience in a specific niche market, know your potential customer better.</p>
             </div>
             <a href="#ads-register" class="btn introduce-reg-btn reg-sub-btn">Get Started <small>It's Free</small></a>
         </div>

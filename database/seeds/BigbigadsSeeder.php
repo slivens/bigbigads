@@ -201,7 +201,7 @@ class BigbigadsSeeder extends Seeder
             'content_search'                    => [true,  true,  true,  true,  true,  true,  true],
             'audience_search'                   => [false, true,  true,  true,  true,  true,  true],
             'date_filter'                       => [true,  true,  true,  true,  true,  true,  true],    // last see time frame
-            'format_filter'                     => [false, true,  true,  true,  true,  true,  true],    // Ad type      ng-mode:formatSelected
+            'format_filter'                     => [true,  true,  true,  true,  true,  true,  true],    // Ad type      ng-mode:formatSelected
             'call_action_filter'                => [true,  true,  true,  true,  true,  true,  true],    // call action filter   ng-mode:callToAction
             'duration_filter'                   => [false, true,  true,  true,  true,  true,  true],    // Customized Ad Run duration fliter
             'see_times_filter'                  => [false, true,  true,  true,  true,  true,  true],    // Customized Ad Run see_times
@@ -238,13 +238,13 @@ class BigbigadsSeeder extends Seeder
             'specific_adser_limit_perday'       => [true,  true,  true,  true,  true,  true,  true],
             'specific_adser_where_perday'       => [true,  true,  true,  true,  true,  true,  true],
             'search_total_times'                => [true,  true,  true,  true,  true,  true,  true],    // 累计搜索总数
-            'country_filter'                    => [false, true,  true,  true,  true,  true,  false],   // country filter   ng-mode:state
+            'country_filter'                    => [true,  true,  true,  true,  true,  true,  false],    // country filter   ng-mode:state
             'emarketing_filter'                 => [false, true,  true,  true,  true,  true,  false],   // emarketing filter
             'tracking_filter'                   => [false, true,  true,  true,  true,  true,  false],   // tracking filter
             'affiliate_filter'                  => [false, true,  true,  true,  true,  true,  false],   // affiliate filter
             'e_commerce_filter'                 => [false, true,  true,  true,  true,  true,  false],   // Eshop Platform: e_commerce filter
             'advance_filter'                    => [false, true,  true,  true,  true,  true,  true],    // advance filter
-            'objective_filter'                  => [false, true,  true,  true,  true,  true,  true],    // objective filter
+            'objective_filter'                  => [true,  true,  true,  true,  true,  true,  true],    // objective filter
             'advance_audience_search'           => [false, true,  true,  true,  true,  true,  false],   // advance audience filter
             'audience_age_filter'               => [false, true,  true,  true,  true,  true,  false],   // audience age
             'audience_gender_filter'            => [false, true,  true,  true,  true,  true,  false],   // audience gender
