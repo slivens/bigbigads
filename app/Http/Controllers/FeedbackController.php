@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\PlanFeedback;
+use Illuminate\Support\Facades\Auth;
 
 class FeedbackController extends Controller
 {
@@ -25,7 +26,7 @@ class FeedbackController extends Controller
         if ($validator->fails()) {
             return $validator->messages();
         }
-        //die($request->level);
+        $userId = Auth::user() ? Auth::user()->id : null;
         $planFeedback = PlanFeedback::create([
             'first_name'    => $request->firstName,
             'last_name'     => $request->lastName,
@@ -38,7 +39,8 @@ class FeedbackController extends Controller
             'price'         => $request->price,
             'feedback'      => $request->feedback,
             'location'      => $request->location,
-            'level'         => $request->level
+            'level'         => $request->level,
+            'user_id'       => $userId,
         ]);
         $planFeedback->save();
         return response()->json(['code' => 0, 'desc' => 'success']);
