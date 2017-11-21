@@ -20,7 +20,7 @@ use App\Jobs\SyncPaymentsJob;
 use App\Notifications\RefundRequestNotification;
 use App\Notifications\CancelSubOnSyncNotification;
 use App\Exceptions\GenericException;
-use Dompdf\Dompdf;
+use Mpdf\Mpdf;
 use Storage;
 
 class PaymentService implements PaymentServiceContract
@@ -955,16 +955,18 @@ class PaymentService implements PaymentServiceContract
         $data->tax_no = $extra['tax_no'] ? : false;
 
         // 渲染html,转换成pdf
-        $dompdf = new DOMPDF(); // if you use namespaces you may use new \DOMPDF()
-        $dompdf->loadHtml($this->getInvoicePage($data));
-        $dompdf->render();
+        $mpdf = new Mpdf(['mode'=>'utf-8']);// 指定用utf-8,就不会有乱码问题
+        $mpdf->autoScriptToLang = true;
+        $mpdf->autoLangToFont = true;
+        $mpdf->WriteHTML($this->getInvoicePage($data));
+
 
         // 如果票据id成功更新到表，那么生成文件
         // 存储路径storage/app/invoice
         if ($updatePayment) {
             $file = $this->config['invoice']['save_path'] . '/' . "$data->referenceId.pdf";
             Storage::delete($file);
-            Storage::put($file, $dompdf->output());
+            Storage::put($file, $mpdf->Output('', 'S'));
         }
 
         // 成功

@@ -1,0 +1,125 @@
+<div class="modal-content" id="feedback">
+    <form name="feedbackForm" novalidate="novalidate" ng-submit="save()">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+        <p class="modal-title ads-font-22 ads-weight-600">Submit to Join Waiting list
+    </div>
+    <div class="modal-body">
+            <table class="table table-striped">
+                <tr>
+                    <td>
+                        <h5>First Name <sup class="text-danger">*</sup></h5>
+                        <div class="form-input-wrapper" ng-class="{'has-error':feedbackForm.firstName.$dirty && feedbackForm.firstName.$invalid}">
+                            <input type="text" ng-model="feedback.firstName" name="firstName" class="form-control" placeholder="First Name" ng-maxlength="50" required ng-blur="toValidate('firstName')">
+                            <label class="control-label ads-control-label" >
+                                <span ng-if="feedbackForm.firstName.$error.required">Request</span>
+                                <span ng-if="feedbackForm.firstName.$error.maxlength">Invalid Length</span>
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <h5>Last Name <sup class="text-danger">*</sup></h5>
+                        <div class="form-input-wrapper" ng-class="{'has-error':feedbackForm.lastName.$dirty && feedbackForm.lastName.$invalid}">
+                            <input type="text" class="form-control" name="lastName" placeholder="Last Name" ng-model="feedback.lastName" ng-maxlength="50" required ng-blur="toValidate('lastName')">
+                            <label for="" class="control-label ads-control-label">
+                                <span ng-if="feedbackForm.lastName.$error.required">Request</span>
+                                <span ng-if="feedbackForm.lastName.$error.maxlength">Invalid Length</span>
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>Email <sup class="text-danger">*</sup></h5>
+                        <div class="form-input-wrapper" ng-class="{'has-error':feedbackForm.email.$dirty && feedbackForm.email.$invalid}">
+                            <input type="email" name="email" class="form-control" placeholder="Email" ng-model="feedback.email" ng-maxlength="100" required ng-blur="toValidate('email')">
+                            <label for="" class="control-label ads-control-label">
+                                <span ng-if="feedbackForm.email.$error.required">Request</span>
+                                <span ng-if="feedbackForm.email.$error.email">Invalid Email</span>
+                                <span ng-if="feedbackForm.email.$error.maxlength">Invalid Length</span>
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <h5>Company Name <sup class="text-danger">*</sup></h5>
+                        <div class="form-input-wrapper" ng-class="{'has-error': feedbackForm.company.$dirty && feedbackForm.company.$invalid}">
+                            <input type="text" name="company" class="form-control" placeholder="Company Name" ng-model="feedback.company" ng-maxlength="200" required ng-blur="toValidate('company')">
+                            <label class="control-label ads-control-label">
+                                <span ng-if="feedbackForm.company.$error.required">Request</span>
+                                <span ng-if="feedbackForm.company.$error.maxlength">Invalid Length</span>
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>Website</h5>
+                        <div class="form-input-wrapper" ng-class="{'has-error': feedbackForm.website.$dirty && feedbackForm.website.$invalid}">
+                            <input type="text" class="form-control" name="website" ng-model="feedback.website" placeholder="Website" ng-maxlength="200">
+                            <label class="control-label ads-control-label">
+                                <span ng-if="feedbackForm.website.$error.maxlength">Invalid Length</span>
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <h5>Page</h5>
+                        <div class="form-input-wrapper" ng-class="{'has-error': feedbackForm.page.$dirty && feedbackForm.page.$invalid}">
+                            <input type="text" class="form-control" name="page" ng-model="feedback.page" placeholder="Page" ng-maxlength="200">
+                            <label class="control-label ads-control-label">
+                                <span ng-if="feedbackForm.page.$error.maxlength">Invalid Length</span>
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>Phone</h5>
+                        <div class="form-input-wrapper" ng-class="{'has-error': feedbackForm.phone.$dirty && feedbackForm.phone.$invalid}">
+                            <input type="text" name="phone" class="form-control" placeholder="Phone" ng-model="feedback.phone" ng-minlength="5" ng-maxlength="20" ng-pattern="/\d$/">
+                            <label class="control-label ads-control-label">
+                                <span ng-if="feedbackForm.phone.$error.pattern">Invalid Phone</span>
+                                <span ng-if="!feedbackForm.phone.$error.pattern && feedbackForm.phone.$error.minlength || feedbackForm.phone.$error.maxlength">Invalid Length</span>
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <h5>Skype</h5>
+                        <div class="form-input-wrapper" ng-class="{'has-error': feedbackForm.skype.$dirty && feedbackForm.skype.$invalid}">
+                            <input type="text" name="skype" class="form-control" placeholder="Skype" ng-model="feedback.skype" ng-maxlength="64">
+                            <label class="control-label ads-control-label">
+                                <span ng-if="feedbackForm.skype.$error.maxlength">Invalid Length</span>
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>Location</h5>
+                        <select class="form-control bsSelect" title="--Select--" data-size="10" data-live-search="true" ng-model="feedback.location">
+                            <option ng-if="locationArr" ng-repeat="items in locationArr">{{items.name}}</option>
+                            <option ng-if="!locationArr">Null</option>
+                        </select>
+                    </td>
+                    <td>
+                        <h5 class="ads-font-14">How much would you like to pay for <span class="ads-weight-600">{{feedback.level}}</span> level?</h5>
+                        <select ng-model="feedback.price" class="form-control dropdown" ng-options="option.price as option.value for option in planPrice" ng-if="planPrice">
+                            <option ng-if="!planPrice">Null</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h5>Feedback:</h5>
+                        <textarea class="form-control" name="feedback" id="info-feedback" ng-model="feedback.feedback"></textarea>
+                    </td>
+                </tr>
+            </table>
+        
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="close()">Close</button>
+        <button type="Submit" class="btn btn-primary" ng-disabled="feedbackForm.$invalid || isBusy">Submit</button>
+    </div>
+</form>
+</div>
+<!-- /.modal-content -->
