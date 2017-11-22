@@ -422,10 +422,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
 
         })
         .state('plans', {
-            url: '/plans',
+            url: '/pricing',
             template: "<plans />",
             data: {
-                pageTitle: 'Plans'
+                pageTitle: 'Pricing'
             },
             resolve: {
                 deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {

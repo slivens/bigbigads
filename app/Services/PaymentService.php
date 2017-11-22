@@ -20,7 +20,7 @@ use App\Jobs\SyncPaymentsJob;
 use App\Notifications\RefundRequestNotification;
 use App\Notifications\CancelSubOnSyncNotification;
 use App\Exceptions\GenericException;
-use Dompdf\Dompdf;
+use Mpdf\Mpdf;
 use Storage;
 
 class PaymentService implements PaymentServiceContract
@@ -506,20 +506,16 @@ class PaymentService implements PaymentServiceContract
             $this->log('=========payment->status != Payment::STATE_REFUNDED===========', PaymentService::LOG_INFO);
             return false;
         }
-        //modify by chenxin 20171026 新增一个判断，退款后台点击接受按钮时，用户已经在paypal后台退订成功了，这时候订阅的状态是Cancelled，所以要加入判断。
-        if (!$payment->subscription->isActive()) {
-            $this->log('=========!$payment->subscription->isActive()===========', PaymentService::LOG_INFO);
-            return false;
-        }
         if ($payment->subscription->hasEffectivePayment()) {
             $this->log('=========$payment->subscription->hasEffectivePayment()===========', PaymentService::LOG_INFO);
             return false;
         }
         $this->log("reset user {$user->email} to Free because of refund:{$payment->number}", PaymentService::LOG_INFO);
-        $this->cancel($payment->subscription);
+        //modify by chenxin 20171114,修复了Issue #36
+        if ($payment->subscription->isActive()) {
+            $this->cancel($payment->subscription);
+        }
         $user->fixInfoByPayments();
-        /* $user->role()->associate(Role::where('name', 'Free')->first()); */
-        /* $user->save(); */
         return true;
     }
 
@@ -742,6 +738,52 @@ class PaymentService implements PaymentServiceContract
             ->where('status', Payment::STATE_REFUNDED)->count();
         return $count;
     }
+    /**
+     * @param 参数是指定的Subscriptions
+     * 为了防止重复订购，需要判断用户是否存在Active的订阅，且处于延迟扣款情况
+     * 是这种情况，则返回true
+     * @return bool
+     */
+    public function onFailedRecurringPayments($subscription)
+    {
+        if (!$subscription) {
+            return false;
+        }
+        if (is_array($subscription) || $subscription instanceof Collection) {
+            $subs = $subscription;
+        } else {
+            $subs = new Collection([$subscription]);
+        }
+        $nowTime = Carbon::now();
+        $longestEndDate = Carbon::createFromDate(1970, 1, 1);
+        foreach ($subs as $sub) {
+            if ($sub->status != Subscription::STATE_PAYED) {
+                continue;
+            }
+            $payments = $sub->payments;
+            //把这个订阅的所有payment循环一下，得到最新的那个payment的过期时间
+            foreach ($payments as $payment) {
+                if ($payment->status != Payment::STATE_COMPLETED) {
+                    continue;
+                }
+                $endDate = new Carbon($payment->end_date);
+                //取得最长的过期时间
+                if ($endDate->gt($longestEndDate)) {
+                    $longestEndDate = $endDate;
+                }
+            }
+            //建个新变量，存放11天后的日期，因为paypal规定，最多延迟10天，超过10天还扣款失败，会把订阅取消
+            //How reattempts on failed recurring payments work
+            //https://developer.paypal.com/docs/classic/paypal-payments-standard/integration-guide/reattempt_failed_payment/?mark=fail#how-reattempts-on-failed-recurring-payments-work
+            $longestEndDatePlus = $longestEndDate;
+            $longestEndDatePlus->addDay(11);
+            //既要已经过期，又要加11天没过期
+            if($longestEndDate->lt($nowTime) && $longestEndDatePlus->gt($nowTime)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * 获取订阅的退订时间
@@ -911,16 +953,18 @@ class PaymentService implements PaymentServiceContract
         $data->tax_no = $extra['tax_no'] ? : false;
 
         // 渲染html,转换成pdf
-        $dompdf = new DOMPDF(); // if you use namespaces you may use new \DOMPDF()
-        $dompdf->loadHtml($this->getInvoicePage($data));
-        $dompdf->render();
+        $mpdf = new Mpdf(['mode'=>'utf-8']);// 指定用utf-8,就不会有乱码问题
+        $mpdf->autoScriptToLang = true;
+        $mpdf->autoLangToFont = true;
+        $mpdf->WriteHTML($this->getInvoicePage($data));
+
 
         // 如果票据id成功更新到表，那么生成文件
         // 存储路径storage/app/invoice
         if ($updatePayment) {
             $file = $this->config['invoice']['save_path'] . '/' . "$data->referenceId.pdf";
             Storage::delete($file);
-            Storage::put($file, $dompdf->output());
+            Storage::put($file, $mpdf->Output('', 'S'));
         }
 
         // 成功

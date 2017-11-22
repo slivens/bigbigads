@@ -65,7 +65,7 @@
                     </p>
                     <p class="info-list">
                         <span class="info-list-name">
-                            Objective 
+                            Objective
                             <span class="ads-label-beta">BETA</span>:
                         </span>
                         <span ng-if="card.objective" class="info-list-value">
@@ -78,7 +78,7 @@
                         </span>
                     </p>
                     <p class="info-list info-but" ng-if="card.show_way != 4">
-                        <a ng-href="{{ id.length == 32 ? ('//www.facebook.com/' + card.adser_username) : '//www.facebook.com/' + id}}" class="btn btn-primary" target="_blank">See Original Post</a>
+                        <a ng-href="{{ id.length == 32 ? ('//www.facebook.com/' + card.adser_username) : '//www.facebook.com/' + card.adser_username + '/posts/' + id }}"  class="btn btn-primary" target="_blank">See Original Post</a>
                     </p>
                     <!-- <p>
                         <span class="ads-weight-bold">Landing page:</span>
@@ -196,7 +196,7 @@
                         <highchart class="charts-bar" config="card.ageBarCharts"></highchart>
                     </div>
                 </div>
-                <a href="./plans" ng-if = "userLimit.demographyShow" target="_blank">
+                <a href="./pricing" ng-if = "userLimit.demographyShow" target="_blank">
                     <div class="analy-upgrade ads-font-26 ads-weight-600">
                         you need to Upgrade
                     </div>
@@ -226,7 +226,7 @@
                             <span title="{{items.type}}">{{items.name}}</span>
                         </div>
                         <div class="audieces-name" ng-if="userLimit.audiencesList? $index >= userLimit.audiencesList : false">
-                            <span title="Upgrade"><a href="./plans" target="_blank">Upgrade</a></span>
+                            <span title="Upgrade"><a href="./pricing" target="_blank">Upgrade</a></span>
                         </div>
                     </div>
                 </div>
@@ -256,7 +256,7 @@
                 <div class="col-md-6">
                     <div class="charts-wrapper adsmapchart-wrapper" style="padding: 0;min-height: 350px">
                         <highchart class="charts-adsmap" config="card.addrMapCharts" ng-class="{'ads-filder-blur': userLimit.countryMapShow}"></highchart>
-                        <a href="./plans" ng-if="userLimit.countryMapShow" target="_blank">
+                        <a href="./pricing" ng-if="userLimit.countryMapShow" target="_blank">
                             <div class="analy-upgrade ads-font-26 ads-weight-600">
                                 You need to Upgrade
                             </div>
@@ -284,7 +284,7 @@
                                                 {{adsItems.name}}
                                             </div>
                                             <div class="country-name ads-text-ellipsis" title="Upgrade" ng-if="(userLimit.countryTableList ? $index >= userLimit.countryTableList : false)">
-                                                <a href="./plans" target="_blank">Upgrade</a>
+                                                <a href="./pricing" target="_blank">Upgrade</a>
                                             </div>
                                         </td>
                                         <td class="analy-td3">
@@ -309,7 +309,7 @@
                             <button class="fa fa-caret-right turnpage-button" ng-disabled="tabelePageNum >= ceil(card.countryArr.length / 7)" ng-click="tabelePageNum = tabelePageNum + 1"></button>
                         </div>
                     </div>
-                    <a href="./plans" ng-if="userLimit.countryTableShow" target="_blank">
+                    <a href="./pricing" ng-if="userLimit.countryTableShow" target="_blank">
                         <div class="analy-upgrade ads-font-26 ads-weight-600">
                             You need to Upgrade
                         </div>

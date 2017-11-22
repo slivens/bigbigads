@@ -8,7 +8,12 @@ use Carbon\Carbon;
 use Auth;
 use Log;
 /**
+ * EnhancedSession相当于redis+database同时使用，并往每个session添加一些统计信息
+ *
+ * redis用于用户实际使用场景；
+ * database用于日常管理查看在线用户和对用户执行踢出等操作，不应该影响线上系统的效率，所以所有操作都应该在队列中完成。
  * @TODO 该扩展将会被封装进bba/common包
+ * @TODO 发出event事件，将session同时写到database中，分析直接从database分析效率比较高
  */
 class EnhancedSessionHandler extends CacheBasedSessionHandler
 {
