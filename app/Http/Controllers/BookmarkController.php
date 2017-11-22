@@ -96,7 +96,11 @@ class BookmarkController extends Controller
         if (!$bookmark->canModify()) {
             return $this->responseError("No Permission", -1);
         }
-        //限制目录名称长度
+        // 同一用户名下不允许有2个同名收藏夹
+        if (Bookmark::where("name", $req->name)->where("uid", Auth::user()->id)->first()) {
+            return $this->responseError(trans('messages.bookmark_existed'), -4496);
+        }
+        // 限制目录名称长度
         $validator = Validator::make($req->all(), ['name' => 'required|between:1,25']);
         if ($validator->fails())
         {
