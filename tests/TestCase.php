@@ -12,6 +12,9 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     protected $baseUrl = 'http://localhost';
 
+    /**
+     * 创建指定角色的用户
+     */
     public function fakeUser($roleName = 'Free')
     {
         $user = factory(App\User::class)->create(['email' => 'faker@bigbigads.com']);
@@ -29,6 +32,27 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $user->setCachePolicies();
         $user->reInitUsage();
         return $user;
+    }
+
+    /**
+     * 获取有效付款的一个用户
+     *
+     * @return App\User|null
+     */
+    public function getPayedUser()
+    {
+        foreach (Payment::where('status', Payment::STATE_COMPLETED)->where('created_at', '<', Carbon::now())->inRandomOrder()->cursor() as $payment) {
+            if (!$payment->isEffective()) 
+                continue;
+
+            $user = $payment->client;
+            if ($user->role_id != $user->getEffectiveSub()->getPlan()->role_id)
+                continue;
+            if ($user->expired != (new Carbon($payment->end_date))->addDay())
+                continue;
+            return $user;
+        }
+        return null;
     }
 
     /**

@@ -1,4 +1,4 @@
-<div id="ad-analysis" class="ad-analysis container alert ">
+<div id="ad-analysis" class="ad-analysis container alert">
     <div class="ads-font-20 analysis-title row">Advertisement Overview:</div>
     <div class="analy-overview row">
         <div class="overview-body">
@@ -19,6 +19,10 @@
                                 Sponsored
                             </p>
                         </div>
+
+                        <div class="card-bookmark" uib-popover-template="'ad-bookmark-popover.html'" popover-placement="auto right-top" popover-title="Add Bookmark" popover-is-open="card.showBookmark" popover-trigger="'outsideClick'">
+                            <i class="fa ads-font-26 bookmark-icon" ng-class='{"fa-bookmark":card.hasBookmark, "fa-bookmark-o":!card.hasBookmark }'></i>
+                        </div>
                     </div>
                     <div class="adscard-card">
                         <single-image ng-if="card.type == 'SingleImage'" card="card">
@@ -34,7 +38,7 @@
                         <i class="analy-fbicon icon-surp"></i>
                         <span ng-if="card.likes" class="ads-font-14 adscard-likedata">{{card.likes | addUnit}}</span>
                         <span class="text-right adscard-comments ads-font-14">
-                            <span class="comments-text" >{{card.comments | addUnit}}&nbsp;Comments</span>
+                            <span class="comments-text">{{card.comments | addUnit}}&nbsp;Comments</span>
                         <span class="comments-text">{{card.shares | addUnit}}&nbsp;Shares</span>
                         <span class="comments-text">{{card.views | addUnit}}&nbsp;Views</span>
                         </span>
@@ -48,13 +52,16 @@
                     <p class="info-list">
                         <span class="info-list-name">Time:</span>
                         <span class="info-list-value" ng-if="card.first_see && card.last_see">{{card.first_see}}~{{card.last_see}}</span>
-                        <span class="info-list-err text-danger" ng-if="!card.first_see || !card.last_see">Not Enough Data</span>
+                        <span class="info-list-err text-danger" ng-if="!card.first_see || !card.last_see">
+                            <a href="http://support.bigbigads.com/?s=Not+enough+data" target="_blank">Not Enough Data</a>
+                        </span>
                     </p>
-
                     <p class="info-list">
                         <span class="info-list-name">Ad placement: </span>
                         <span class="info-list-value" ng-if="card.show_way">{{card.show_way | adsTypes}}</span>
-                        <span class="info-list-err text-danger" ng-if="!card.show_way">Not Enough Data</span>
+                        <span class="info-list-err text-danger" ng-if="!card.show_way">
+                            <a href="http://support.bigbigads.com/?s=Not+enough+data" target="_blank">Not Enough Data</a>
+                        </span>
                     </p>
                     <p class="info-list">
                         <span class="info-list-name">
@@ -66,7 +73,7 @@
                             <span class="">{{card.objectStr[card.objective]}}</span>
                         </span>
                         <span ng-if="!card.objective" class="text-danger info-list-err">
-                            Not Enough Data
+                            <a href="http://support.bigbigads.com/?s=Not+enough+data" target="_blank">Not Enough Data</a> 
                             <a ng-href="../extension" target="_blank" class="extension-link"> <i class="fa fa-download analy-down-icon"></i> BIGBIGADS Extension</a>
                         </span>
                     </p>
@@ -88,7 +95,9 @@
                     <p>
                         <span class="ads-weight-bold">Frequency:</span>
                         <span ng-if="card.frequency">{{card.frequency}}</span>
-                        <span class="text-danger" ng-if="!card.frequency">Not Enough Data</span>
+                        <span class="text-danger" ng-if="!card.frequency">
+                            <a href="http://support.bigbigads.com/?s=Not+enough+data" target="_blank">Not Enough Data</a>
+                        </span>
                     </p>
                     <p>
                         <span class="ads-weight-bold">Share Rate:</span>
@@ -96,14 +105,18 @@
                             <!-- <i class="fa fa-long-arrow-up analy-trend-up" ng-if="card.share_rate > 0"></i>
                             <i class="fa fa-long-arrow-down analy-trend-down" ng-if="card.share_rate < 0"></i> -->
                             {{(card.share_rate * 100).toFixed(2)}}%</span>
-                        <span class="text-danger" ng-if="!card.share_rate">Not Enough Data</span>
+                        <span class="text-danger" ng-if="!card.share_rate">
+                            <a href="http://support.bigbigads.com/?s=Not+enough+data" target="_blank">Not Enough Data</a>
+                        </span>
                     </p>
                 </div>
                 <div class="rate-wrapper">
                     <p>
                         <span class="ads-weight-bold">Reach:</span>
                         <span ng-if="card.reach">{{card.reach | adsCount}}</span>
-                        <span class="text-danger" ng-if="!card.reach">Not Enough Data</span>
+                        <span class="text-danger" ng-if="!card.reach">
+                            <a href="http://support.bigbigads.com/?s=Not+enough+data" target="_blank">Not Enough Data</a>
+                        </span>
                     </p>
                     <p>
                         <span class="ads-weight-bold">Like Rate:</span>
@@ -111,7 +124,9 @@
                                 <!-- <i class="fa fa-long-arrow-up analy-trend-up" ng-if="card.like_rate > 0"></i>
                                 <i class="fa fa-long-arrow-down analy-trend-dowm" ng-if="card.like_rate < 0"></i> -->
                                 {{(card.like_rate * 100).toFixed(2)}}% </span>
-                        <span class="text-danger" ng-if="!card.like_rate">Not Enough Data</span>
+                        <span class="text-danger" ng-if="!card.like_rate">
+                            <a href="http://support.bigbigads.com/?s=Not+enough+data" target="_blank">Not Enough Data</a>
+                        </span>
                     </p>
                 </div>
             </div>
@@ -145,7 +160,9 @@
             <div ng-if="!card.impressionCharts" class="analy-nodata">
                 <img src="/images/analysis/bg_nodata.png" alt="">
                 <br>
-                <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
+                <span class="ads-font-26 ads-weight-600 text-danger">
+                    <a href="http://support.bigbigads.com/?s=Not+enough+data" target="_blank">Not Enough Data</a>
+                </span>
                 <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
             </div>
         </div>
@@ -158,7 +175,9 @@
             <div class="analy-nodata" ng-if="!card.engagementsCharts">
                 <img src="/images/analysis/bg_nodata.png" alt="">
                 <br>
-                <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
+                <span class="ads-font-26 ads-weight-600 text-danger">
+                    <a href="http://support.bigbigads.com/?s=Not+enough+data" target="_blank">Not Enough Data</a>
+                </span>
                 <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
             </div>
         </div>
@@ -168,63 +187,61 @@
         <div class="col-md-6">
             <p class="charts-title">Demography:</p>
             <!--char pie bar -->
-            <div class="audience-wrapper">
-                <div ng-class="{'audience-charts' : card.whyseeads.limit}">
-                    <div class="col-md-6 charts-wrapper" ng-if="card.whyseeads.gender && card.whyseeads.age">
+            <div class="audience-wrapper" ng-if="card.whyseeads.gender && card.whyseeads.age">
+                <div ng-class="{'ads-filder-blur': userLimit.demographyShow}">
+                    <div class="col-md-6 charts-wrapper">
                         <highchart class="charts-pie" config="card.genderPieCharts"></highchart>
                     </div>
                     <div class="col-md-6 charts-wrapper" ng-if="card.whyseeads.gender && card.whyseeads.age">
                         <highchart class="charts-bar" config="card.ageBarCharts"></highchart>
                     </div>
                 </div>
-                <a href="./plans" ng-if = "card.whyseeads.limit" target="_blank">
-                    <div class="analy-upgrade ads-font-26 ads-weight-600" >
+                <a href="./pricing" ng-if = "userLimit.demographyShow" target="_blank">
+                    <div class="analy-upgrade ads-font-26 ads-weight-600">
                         you need to Upgrade
                     </div>
                 </a>
             </div>
-                <div ng-if="!card.whyseeads.gender || !card.whyseeads.age" class="analy-nodata">
-                    <img src="/images/analysis/bg_nodata.png" alt="">
-                    <br>
-                    <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
-                    <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
-                </div>
-
+            <div ng-if="!card.whyseeads.gender || !card.whyseeads.age" class="analy-nodata">
+                <img src="/images/analysis/bg_nodata.png" alt="">
+                <br>
+                <span class="ads-font-26 ads-weight-600 text-danger">
+                    <a href="http://support.bigbigads.com/?s=Not+enough+data" target="_blank">Not Enough Data</a>
+                </span>
+                <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
+            </div>
         </div>
         <!--interests-->
         <div class="col-md-6">
-            <P class="charts-title">Interest:</P>
+            <P class="charts-title">Audience Targeting Analysis:</P>
             <!-- <p class="charts-subtitle">&nbsp;</p> -->
-            <div class="analy-interst" ng-if="card.whyseeads.interests" ng-init="interstPageNum = 1">
-                <div class="interest-wrapper">
-                    <div class="stat-wrapper" ng-repeat="interstItem in card.interestsArr | limitTo:(interstPageNum * 6)" ng-if="$index+1 > (interstPageNum * 6 - 6)">
-                        <i class="fa fa-bookmark-o ads-font-18 stat-icon"></i>
-                        <div class="stat-name" ng-if="(card.interestsArr.limit? $index < card.interestsArr.limit : true)">
-                            <span title="{{interstItem.name}}">{{interstItem.name}}</span>
+            <div class="analy-interst" ng-if="card.audieces" ng-init="pageNum = 1">
+                <div class="audieces-list-wrapper">
+                    <div class="audieces-list" ng-repeat="items in card.audieces | limitTo:(pageNum * 6)" ng-if="$index+1 > (pageNum * 6 - 6)">
+                        <i class="fa fa-bookmark-o ads-font-18 audieces-icon"></i>
+                        <div class="audieces-type">
+                            <span title="{{items.type}}">{{items.type}}</span>
                         </div>
-                        <div class="stat-name" ng-if="(card.interestsArr.limit? $index >= card.interestsArr.limit : false)">
-                            <span title="Upgrade"><a href="./plans" target="_blank">Upgrade</a></span>
+                        <div class="audieces-name" ng-if="userLimit.audiencesList? $index < userLimit.audiencesList : true">
+                            <span title="{{items.type}}">{{items.name}}</span>
                         </div>
-                        <div class="progress stat-progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="{'width': ((interstItem.value / card.interestsArr.count) * 100) + '%'}">
-                            </div>
-                        </div>
-                        <div class="stat-number">{{((interstItem.value / card.interestsArr.count) * 100).toFixed(2)}}%</div>
-                        <div ng-if= "interstItem.limit" class="">
-                            If you want see more you need to <a href="./plans" target="_blank">Upgrade</a>
+                        <div class="audieces-name" ng-if="userLimit.audiencesList? $index >= userLimit.audiencesList : false">
+                            <span title="Upgrade"><a href="./pricing" target="_blank">Upgrade</a></span>
                         </div>
                     </div>
                 </div>
-                <div class="text-right interest-footer">
-                    <span class="page-num"> {{interstPageNum}} / {{ ceil(card.interestsArr.length / 6)}}</span>
-                    <button class="fa fa-caret-left turnpage-button" ng-disabled="interstPageNum == 1" ng-click="interstPageNum = interstPageNum - 1"></button>
-                    <button class="fa fa-caret-right turnpage-button" ng-disabled="interstPageNum == ceil(card.interestsArr.length / 6)" ng-click="interstPageNum = interstPageNum + 1"></button>
+                <div class="text-right audieces-footer">
+                    <span class="page-num"> {{pageNum}} / {{ ceil(card.audieces.length / 6)}}</span>
+                    <button class="fa fa-caret-left turnpage-button" ng-disabled="pageNum == 1" ng-click="pageNum = pageNum - 1"></button>
+                    <button class="fa fa-caret-right turnpage-button" ng-disabled="pageNum >= ceil(card.audieces.length / 6)" ng-click="pageNum = pageNum + 1"></button>
                 </div>
             </div>
-            <div ng-if="!card.whyseeads.interests" class="analy-nodata">
+            <div ng-if="!card.audieces" class="analy-nodata">
                 <img src="/images/analysis/bg_nodata.png" alt="">
                 <br>
-                <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
+                <span class="ads-font-26 ads-weight-600 text-danger">
+                    <a href="http://support.bigbigads.com/?s=Not+enough+data" target="_blank">Not Enough Data</a>
+                </span>
                 <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
             </div>
         </div>
@@ -238,8 +255,8 @@
             <div class="analy-shar-wrapper clearfix" ng-if="card.addrMapCharts">
                 <div class="col-md-6">
                     <div class="charts-wrapper adsmapchart-wrapper" style="padding: 0;min-height: 350px">
-                        <highchart class="charts-adsmap" config="card.addrMapCharts" ng-class="{'ads-filder-blur' : card.addrMapLimit}"></highchart>
-                        <a href="./plans" ng-if="card.addrMapLimit" target="_blank">
+                        <highchart class="charts-adsmap" config="card.addrMapCharts" ng-class="{'ads-filder-blur': userLimit.countryMapShow}"></highchart>
+                        <a href="./pricing" ng-if="userLimit.countryMapShow" target="_blank">
                             <div class="analy-upgrade ads-font-26 ads-weight-600">
                                 You need to Upgrade
                             </div>
@@ -248,7 +265,7 @@
                 </div>
                 <div class="col-md-6 analy-table">
                     <!--country table-->
-                    <div class="analy-map-table">
+                    <div class="analy-map-table" ng-class="{'ads-filder-blur': userLimit.countryTableShow}">
                         <div class="map-table-wrappe">
                             <table class="table table-striped analy-adstable " ng-init="tabelePageNum = 1">
                                 <thead>
@@ -263,11 +280,11 @@
                                     <tr ng-repeat="adsItems in card.whyseeads.addr | limitTo:(tabelePageNum * 7)" ng-if="$index+1 > (tabelePageNum * 7 - 7)">
                                         <td class="analy-td1">{{$index + 1}}</td>
                                         <td class="analy-td2">
-                                            <div class="country-name ads-text-ellipsis" title="{{adsItems.name}}" ng-if="(card.countryArr.limit ? $index < card.countryArr.limit : true)">
+                                            <div class="country-name ads-text-ellipsis" title="{{adsItems.name}}" ng-if="(userLimit.countryTableList ? $index < userLimit.countryTableList : true)">
                                                 {{adsItems.name}}
                                             </div>
-                                            <div class="country-name ads-text-ellipsis" title="Upgrade" ng-if="(card.countryArr.limit ? $index >= card.countryArr.limit : false)">
-                                                <a href="./plans" target="_blank">Upgrade</a>
+                                            <div class="country-name ads-text-ellipsis" title="Upgrade" ng-if="(userLimit.countryTableList ? $index >= userLimit.countryTableList : false)">
+                                                <a href="./pricing" target="_blank">Upgrade</a>
                                             </div>
                                         </td>
                                         <td class="analy-td3">
@@ -283,22 +300,28 @@
                                             </div>
                                         </td>
                                     </tr>
-
                                 </tbody>
                             </table>
                         </div>
                         <div class="map-table-footer text-right">
                             <span class="page-num"> {{tabelePageNum}} / {{ ceil(card.countryArr.length / 7)}}</span>
                             <button class="fa fa-caret-left turnpage-button" ng-disabled="tabelePageNum == 1" ng-click="tabelePageNum = tabelePageNum - 1"></button>
-                            <button class="fa fa-caret-right turnpage-button" ng-disabled="tabelePageNum == ceil(card.countryArr.length / 7)" ng-click="tabelePageNum = tabelePageNum + 1"></button>
+                            <button class="fa fa-caret-right turnpage-button" ng-disabled="tabelePageNum >= ceil(card.countryArr.length / 7)" ng-click="tabelePageNum = tabelePageNum + 1"></button>
                         </div>
                     </div>
+                    <a href="./pricing" ng-if="userLimit.countryTableShow" target="_blank">
+                        <div class="analy-upgrade ads-font-26 ads-weight-600">
+                            You need to Upgrade
+                        </div>
+                    </a>
                 </div>
             </div>
             <div ng-if="!card.addrMapCharts" class="analy-nodata">
                 <img src="/images/analysis/bg_nodata.png" alt="">
                 <br>
-                <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
+                <span class="ads-font-26 ads-weight-600 text-danger">
+                    <a href="http://support.bigbigads.com/?s=Not+enough+data" target="_blank">Not Enough Data</a>
+                </span>
                 <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
             </div>
         </div>

@@ -1858,11 +1858,39 @@ body.login .content .register-form .mt-checkbox {
     width: 100%;
 }
 
+/*
+* 忘记密码页面
+* app.blade.php中删除commponents-md.css引用后，保持样式不受影响
+* 目前仅发现忘记密码页面有相关影响
+*/
+#app {
+    .input-icon {
+        position: relative;
+        left: 0;
+        &>i {
+            color: #ccc;
+            display: block;
+            position: absolute;
+            margin: 11px 2px 4px 10px;
+            z-index: 3;
+            width: 16px;
+            font-size: 16px;
+            text-align: center;
+            left: 0;
+        }
+        &>.form-control {
+            padding-left: 33px;
+        }
+    }
+}
 
 /*服务条款*/
 
 #times_service {
     margin-bottom: 50px;
+    .font-yellow-gold {
+      color: #E87E04 !important; 
+    }
 }
 
 #times_service .big-title {
@@ -1914,10 +1942,3 @@ body.login .content .register-form .mt-checkbox {
 * 相关界面移动端适配应在相应的scss里编写
 */
 @import 'app_mobile';
-
-/*
-* 编写的scss文件应单独文件编写，在此处引入
-* 引入plan（pricing）页面的样式pricing.scss
-*/
-// @import 'plan';
-

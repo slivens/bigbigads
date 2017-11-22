@@ -532,17 +532,22 @@ class User extends Authenticatable
         }
 
         // 过期时间设置为有效订单的结束时间+1天，一个时间段内只会有一个有效订单
+        // modify by chenxin 20171108, 修复了 Issue #35
+        $nowTime = Carbon::now();
+        $longestExpired = $nowTime;
         foreach ($baseSub->payments as $payment) {
             if ($payment->isEffective()) {
                 $expired = new Carbon($payment->end_date);
-                $expired->addDay(); 
-                if ($this->expired != $expired) {
-                    Log::info("{$this->email}'s expired is updated:{$this->expired} -> {$expired}");
-                    $this->expired = $expired;
-                    $dirty = true;
+                $expired->addDay();
+                if ($expired->gt($nowTime)) {
+                    $longestExpired = $expired;
                 }
-                break;
             }
+        }
+        if ($longestExpired != $nowTime && $this->expired != $longestExpired) {
+            Log::info("{$this->email}'s expired is updated:{$this->expired} -> {$longestExpired}");
+            $this->expired = $longestExpired;
+            $dirty = true;
         }
         if ($dirty)
             $this->save();
@@ -577,7 +582,7 @@ class User extends Authenticatable
         // 检查用户的策略是否与数据库的一致
         $cachedPolicies = $this->getCachedPolicies();
         if ($cachedPolicies->count() != $this->policies->count()) {
-            throw new GenericException($this, "User policy count not the same:" .  $cachedPolicies->count() . " , should be " . $this->policies->count());
+            throw new GenericException($this, "User {$this->email} policy count not the same:" .  $cachedPolicies->count() . " , should be " . $this->policies->count());
         }
         for ($i = 0; $i < $this->policies->count(); ++$i) {
             $p1 = $cachedPolicies[$i];

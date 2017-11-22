@@ -14,6 +14,7 @@ use App\Plan;
 use App\ActionLog;
 use Log;
 use App\HotWord;
+use App\Jobs\LogAbnormalAction;
 
 class SearchController extends Controller
 {
@@ -131,12 +132,16 @@ class SearchController extends Controller
      * 广告搜索前先检查参数是否有对应权限，对于无权限的将该参数清空或者通过throw抛出错误;
      * @warning 需要特别注意，参数的'field'与权限值通常不相等。
      */
-    protected function checkBeforeAdSearch($user, $params, $action)
+    protected function checkBeforeAdSearch($user, $params, $action, $req)
     {       
             $wheres = $params['where'];
             $resultPerSearch = $user->getUsage('result_per_search');
             $isCanSort = true; 
             $adsTypePermissions = ['timeline' => 'timeline_filter', 'rightcolumn' => 'rightcolumn_filter', 'phone' => 'phone_filter', 'suggested app' => 'app_filter'];
+            if (!array_key_exists('limit', $params)) {
+                dispatch(new LogAbnormalAction('', json_encode($params), 'lack of limit params', $user->id, $req->ip()));
+                throw new \Exception("Illegal limit params", -4300);
+            }
             if (($params['limit'][0] % 10 != 0) || ($params['limit'][0] >= $resultPerSearch[1])) {
                 Log::warning("<{$user->name}, {$user->email}> request legal limit params : {$params['limit'][0]}");
                 throw new \Exception("Illegal limit params", -4300);
@@ -168,6 +173,7 @@ class SearchController extends Controller
                     //免费用户限制在三个月前的时间内的数据，设置role = free 是为了让数据端识别并在一个请求内进行两次搜索，第一次是正常的搜索流程，第二次是获取全部的广告总数，
                     //在一次请求内给出两个总数结果，total_count和all_total_count
                     $freeEndDate = Carbon::now()->subMonths(3)->format("Y-m-d");
+                    $LiteEndDate = Carbon::now()->subWeeks(2)->format("Y-m-d");
                     //后台限制没有使用postman的接口测试工具做测试无效，深刻教训：以后的后台测试会以postman测试为准，使用dd打印会漏情况和测试无效。
                     //发现会对获取广告收藏和广告分析页拦截，需要根据action来区分,已开放的功能内，只有search和adser有次限制
                     //分为两种情况：1.修改time的值
@@ -182,6 +188,23 @@ class SearchController extends Controller
                                         if ($obj['min'] != '2016-01-01' || $obj['max'] != $freeEndDate) {
                                             $params['where'][$key]['min'] = '2016-01-01';
                                             $params['where'][$key]['max'] = $freeEndDate;
+                                        }
+                                    }
+                                }
+                            }
+                            if (!$isHasTime) {
+                                throw new \Exception("illegal time", -4198);
+                            }
+                        }
+                        if ($user->hasRole('Lite')) {
+                            foreach($params['where'] as $key => $obj) {
+                                if (array_key_exists('field', $obj) && $obj['field'] === 'time' && array_key_exists('min', $obj)) {
+                                    $isHasTime = true;
+                                    if ($isLimitGetAllAds) {
+                                        // 解决bug当用户使用advance过滤时同样有min,max键值出现时被错误覆盖,
+                                        if ($obj['min'] != '2016-01-01' || $obj['max'] != $LiteEndDate) {
+                                            $params['where'][$key]['min'] = '2016-01-01';
+                                            $params['where'][$key]['max'] = $LiteEndDate;
                                         }  
                                     }        
                                 }
@@ -409,8 +432,8 @@ class SearchController extends Controller
             'specific_adser_times_perday'       => ActionLog::ACTION_SEARCH_RESTRICT_PERDAY_ADSER,
             'search_key_total_perday'           => ActionLog::ACTION_SEARCH_KEY_RESTRICT,
             'search_without_key_total_perday'   => ActionLog::ACTION_SEARCH_WITHOUT_KEY_RESTRICT,
-            'search_times_perday'               => ActionLog::ACTION_SEARCH_TIMES_PERDAY,
-            'ad_analysis_times_perday'          => ActionLog::ACTION_AD_ANALYSIS_TIMES_PERDAY
+            'search_times_perday'               => ActionLog::ACTION_SEARCH_TIMES_PERDAY_RESTRICT,
+            'ad_analysis_times_perday'          => ActionLog::ACTION_AD_ANALYSIS_TIMES_PERDAY_RESTRICT
         ];
         foreach ($searchPolicyArray as $key => $value) {
             $usage = $user->getUsage($key);
@@ -477,6 +500,7 @@ class SearchController extends Controller
                 } catch (\Exception $e) {
                     //记录匿名用户伪造url参数的情况
                     Log::warning("{$req->ip()} : <{$user->name}, {$user->email}> Anonymous user illegal request params: $jsonData");
+                    dispatch(new LogAbnormalAction($e->getMessage(), $jsonData, 'Anonymous user illegal request', $user->id, $req->ip()));
                 }
             }else {
                 return ;
@@ -493,7 +517,7 @@ class SearchController extends Controller
                 return $this->responseError("Illegal search request", -6000);
             }
             try {
-                $jsonData = json_encode($this->checkBeforeAdSearch($user, $reqParams, $act));
+                $jsonData = json_encode($this->checkBeforeAdSearch($user, $reqParams, $act, $req));
             } catch(\Exception $e) {
                 return $this->responseError($e->getMessage(),$e->getCode());
             }
@@ -693,12 +717,17 @@ class SearchController extends Controller
 
             $result = trim($result);
             $resultJson = json_decode($result, true);
+            if (!$resultJson) {
+                dispatch(new LogAbnormalAction($result, $jsonData, 'Server no response', $user->id, $req->ip()));
+                return $this->responseError("server is busy, please refresh again", -4202);
+            }
             if (array_key_exists('error', $resultJson)) {
                 return $this->responseError("Your search term is not legal", -4200);
             }
         } catch (Exception $e) {
             //记录下当搜索结果发生错误时用户的请求参数
             Log::warning("<{$user->name}, {$user->email}> something error in search result. params:$jsonData");
+            dispatch(new LogAbnormalAction($e->getMessage(), $jsonData, 'something error happend in search', $user->id, $req->ip()));
         }
         
         if ($action == 'adsearch') {

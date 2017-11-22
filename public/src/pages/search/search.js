@@ -16,12 +16,14 @@ import 'bootstrap-select'
 import 'ion-rangeslider/css/ion.rangeSlider.css'
 import 'ion-rangeslider/css/ion.rangeSlider.skinModern.css'
 import 'ion-rangeslider'
+import './search.scss'
 import template from './search.html'
+import '../../components/permission-reminder'
 
 /* adsearch js */
 export default angular => {
-    return angular.module('search', ['MetronicApp', 'daterangepicker', 'akoenig.deckgrid', 'infinite-scroll']).controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal', '$window', 'TIMESTAMP',
-        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window, TIMESTAMP) {
+    return angular.module('search', ['MetronicApp', 'daterangepicker', 'akoenig.deckgrid', 'infinite-scroll', 'bba.ui.reminder']).controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal', '$window', 'TIMESTAMP', 'Reminder',
+        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window, TIMESTAMP, Reminder) {
         // 搜索流程:location.search->searchOption->adSearcher.params
         // 将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
 
@@ -380,6 +382,37 @@ export default angular => {
                         $scope.isFreeLimitDate = true
                     }
                 }
+                var liteFreeMin = '2016-01-01'
+                var liteFreeMax = moment().subtract(14, 'days').format('YYYY-MM-DD')
+                if (User.user.role.plan === 'lite') {
+                    if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0) || $scope.adSearcher.params.sort.field != 'default') {
+                        angular.forEach($scope.adSearcher.params.where, function(data) {
+                            if (data.field === 'time') {
+                                $scope.adSearcher.removeFilter('time')
+                            }
+                        })
+                        // 新增需求，对于免费用户，搜索总数不到10次的给予全部的广告结果
+                        searchTotalTimes = User.getPolicy('search_total_times')
+                        if (searchTotalTimes[2] > 10) {
+                            $scope.adSearcher.addFilter({
+                                field: "time",
+                                min: liteFreeMin,
+                                max: liteFreeMax,
+                                role: "free"
+                            })
+                        } else {
+                            $scope.adSearcher.addFilter({
+                                field: "time",
+                                min: liteFreeMin,
+                                max: moment().format('YYYY-MM-DD'),
+                                role: "free"
+                            })
+                        }
+                        // 需求变更：
+                        // 暂时限定lite用户的所有请求都是在14天之前的数据
+                        $scope.isFreeLimitDate = true
+                    }
+                }
                 $scope.currSearchOption.filter.category = category.join(',')
                 $scope.currSearchOption.filter.format = format.join(',')
                 $scope.currSearchOption.filter.callToAction = buttondesc.join(',')
@@ -697,6 +730,11 @@ export default angular => {
                 }
                 $state.go("plans")
             }
+            $scope.notice = function() {
+                if (Reminder.check()) {
+                    Reminder.open()
+                }
+            }
             $scope.Util = Util
             $scope.User = User
             $scope.Searcher = Searcher
@@ -705,6 +743,8 @@ export default angular => {
             User.getInfo().then(function() {
             // 根据search参数页面初始化
                 $scope.search('search')
+                // 用户通知，目前频率为每日一次
+                $scope.notice()
             })
         }
     ])

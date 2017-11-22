@@ -8,28 +8,37 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Role;
 use App\User;
+use App\Payment;
+use App\CustomizedInvoice;
 use Carbon\Carbon;
 use App\Services\AnonymousUser;
 use App\Jobs\SendRegistMail;
+use App\Jobs\GenerateInvoiceJob;
 use Log;
 use Socialite;
 use Validator;
 use App\Jobs\LogAction;
 use Illuminate\Auth\Events\Registered;
-
+use App\Contracts\PaymentService;
 use App\Jobs\ResendRegistMail;
 use GuzzleHttp;
 use Jenssegers\Agent\Agent;
 use App\ActionLog;
 
 use App\AppRegistersUsers;
+
 class UserController extends Controller
 {
     use ResetsPasswords;
     use AppRegistersUsers;
 
     protected $socialiteProviders = ['github', 'facebook', 'linkedin', 'google'];
+    private $paymentService;
 
+    public function __construct(PaymentService $paymentService)
+    {
+        $this->paymentService = $paymentService;
+    }
     /**
      * 更改密码
      */
@@ -53,6 +62,35 @@ class UserController extends Controller
     }
 
     /**
+     * 修改用户名&邮箱
+     * 需要做检测，尤其邮箱需要
+     * 20171113 前端暂时去除email修改，后端方法先留着
+     * 20171116 修改方法，入参修改，只传输要修改的，email处理删除，后续再加
+     * 
+     * @param Request $req post请求上来的数据，改了什么传上来什么。
+     * @return response
+     * 
+     * @todo 邮箱验证有现成方法，延后验证，要是没通过如何？回退的话，之前的邮箱存在什么地方
+     */
+    public function changeProfile(Request $req)
+    {
+        $user = Auth::user();
+        if ($req->name) {
+            $req->name == $user->name ? $res = ['code' => -1, 'desc' => trans('messages.not_changed')] : $user->name = $req->name;
+        } else {
+            $res = ['code' => -1, 'desc' => trans('messages.not_empty')];// 字段不能为空/或者传上来其他字段，不处理直接当空返回
+        }
+        if (!isset($res)) {
+            if ($user->save()) {
+                $res = ['code' => 0, 'desc' => trans('messages.save_done')]; // 修改成功
+            } else {
+                $res = ['code' => -1, 'desc' => trans('messages.save_failed')]; // 修改失败
+            }
+        }
+        return response()->json($res);
+    }
+
+    /**
      * 返回登陆用户信息
      */
     public function logInfo(Request $req)
@@ -70,6 +108,8 @@ class UserController extends Controller
             if ($user['subscription_id'] != null) {
                 $user->load('subscription');//有订阅就把订阅信息也一起加载
             }
+            //add by chenxin 20171114,修复了Issue #37
+            $res['failed_recurring_payments'] = $this->paymentService->onFailedRecurringPayments($user->subscriptions);
             $res['effective_sub'] = $user->getEffectiveSub()?true:false;
             $res['permissions'] = $user->getMergedPermissions()->groupBy('key');
             $res['groupPermissions'] = $user->getMergedPermissions()->groupBy('table_name');
@@ -262,7 +302,7 @@ class UserController extends Controller
             $item->bind = $email;
             $item->remark = json_encode($socialiteUser);
             $item->save();
-            $agent = new Agent();     
+            $agent = new Agent();
             if ($agent->isMobile() || $agent->isTablet()) {
                 dispatch(new LogAction(ActionLog::ACTION_USER_BIND_SOCIALITE_MOBILE_BASE . strtoupper($name), json_encode(["name" => $user->name, "email" => $user->email]), $name, $user->id, Request()->ip()));
             } else {
@@ -418,5 +458,97 @@ class UserController extends Controller
             return ['code' => -1, 'desc' => 'Unauthorised User'];
         }
         dispatch(new LogAction(ActionLog::ACTION_USER_REQUEST_FILTER, json_encode($request->params), '', $user->id, $request->ip()));
+    }
+
+    /**
+     * 获取用户票据自定义信息
+     * 只获取表单显示的部分内容
+     *
+     * @return Response
+     */
+    public function getInvoiceCustomer()
+    {
+        $user = Auth::user();
+        $customer = CustomizedInvoice::select('company_name', 'address', 'contact_info', 'website', 'tax_no')->where('user_id', $user->id)->first();
+        return response()->json($customer);
+    }
+
+    
+    /**
+     * 存储提交上来的定制信息
+     * 新创建的用户，没有交易订单但是可以存储，存储完毕后给出提示信息，没有票据生成操作
+     * 已经付款的用户，有交易订单，已经有生成过票据，存储完毕后重新生成票据，每个自然月操作1次
+     * 只有保存且有订单的情况下才生成票据
+     *
+     * @return Response
+     *
+     * @todo 需要优化写法
+     */
+    public function setInvoiceCustomer(Request $request)
+    {
+        $user = Auth::user();
+        $extraData = [
+            'company_name' => $request->company_name,
+            'address' => $request->address,
+            'contact_info' => $request->contact_info,
+            'website' => $request->website,
+            'tax_no' => $request->tax_no
+        ];
+        if ($custom = CustomizedInvoice::where('user_id', $user->id)->first()) {
+            if ($custom->canSave()) {
+                $modifiedCustom = CustomizedInvoice::updateOrCreate(
+                    [
+                        'user_id' => $user->id
+                    ],
+                    $extraData
+                );
+                if ($modifiedCustom != $custom) {
+                    if (count($user->payments) > 0) {
+                        $res = [
+                            'code' => 0,
+                            'desc' => trans('profile.re_generate')
+                        ];
+                        //推入队列执行,有修改才执行
+                        dispatch((new GenerateInvoiceJob(Payment::where('client_id', $user->id)->where('status', Payment::STATE_COMPLETED)->get(), true, $extraData)));
+                    } else {
+                        $res = [
+                            'code' => 0,
+                            'desc' => trans('profile.need_to_payed')
+                        ];
+                    }
+                } else {
+                    $res = [
+                            'code' => 0,
+                            'desc' => trans('messages.not_changed')
+                    ];
+                }
+            } else {
+                $res = [
+                    'code' => -1,
+                    'desc' => trans('profile.change_limit')
+                ];
+            }
+        } else {
+            CustomizedInvoice::updateOrCreate(
+                [
+                    'user_id' => $user->id
+                ],
+                $extraData
+            );
+            if (count($user->payments) > 0) {
+                $res = [
+                    'code' => 0,
+                    'desc' => trans('profile.re_generate')
+                ];
+                //推入队列执行,有修改才执行
+                dispatch((new GenerateInvoiceJob(Payment::where('client_id', $user->id)->where('status', Payment::STATE_COMPLETED)->get(), true, $extraData)));
+            } else {
+                $res = [
+                    'code' => 0,
+                    'desc' => trans('profile.need_to_payed')
+                ];
+            }
+        }
+        return response()->json($res);
     }
 }

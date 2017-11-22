@@ -15,6 +15,7 @@ import 'bootstrap-select'
 import 'ion-rangeslider/css/ion.rangeSlider.css'
 import 'ion-rangeslider/css/ion.rangeSlider.skinModern.css'
 import 'ion-rangeslider'
+import './owner.scss'
 import template from './owner.html'
 
 export default (angular) => {
@@ -331,6 +332,26 @@ export default (angular) => {
                     })
                     // 需求变更：
                     // 暂时限定免费注册用户的所有请求都是在三个月之前的数据
+                    $scope.isFreeLimitDate = true
+                }
+            }
+            var liteFreeMin = '2016-01-01'
+            var liteFreeMax = moment().subtract(14, 'days').format('YYYY-MM-DD')
+            if (User.user.role.plan === 'lite') {
+                if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0) || $scope.adSearcher.params.sort.field != 'default') {
+                    angular.forEach($scope.adSearcher.params.where, function(data) {
+                        if (data.field === 'time') {
+                            $scope.adSearcher.removeFilter('time')
+                        }
+                    })
+                    // 新增需求，对于免费用户，搜索总数不到10次的给予全部的广告结果
+                    $scope.adSearcher.addFilter({
+                        field: "time",
+                        min: liteFreeMin,
+                        max: liteFreeMax,
+                        role: "free"
+                    })
+                    // 暂时限定lite用户的所有请求都是在14天之前的数据
                     $scope.isFreeLimitDate = true
                 }
             }
