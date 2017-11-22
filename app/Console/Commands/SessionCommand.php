@@ -69,12 +69,16 @@ EOF;
         $start = $this->option('start') ? new Carbon($this->option('start')) : null;
 
         $service = $this->service;//app('app.service.session');
-        $sessionInfos = $service->sessionInfos();
-        $userInfos = $service->userInfos();
-        $this->info("total session count: " . count($sessionInfos));
-        $this->info("total user count: " . count($userInfos));
-        $this->info("limited session count per user(0 or empty means no limit): " . Voyager::setting('global_session_count'));
-        $this->info("limited ip count per session(0 or empty means no limit): " . Voyager::setting('global_session_ip_count'));
+        if (!$email) {
+            $sessionInfos = $service->sessionInfos();
+            $userInfos = $service->userInfos();
+            $this->info("total session count: " . count($sessionInfos));
+            $this->info("total user count: " . count($userInfos));
+            $this->info("limited session count per user(0 or empty means no limit): " . Voyager::setting('global_session_count'));
+            $this->info("limited ip count per session(0 or empty means no limit): " . Voyager::setting('global_session_ip_count'));
+        } else {
+            $sessionInfos = $service->userSessions($email);
+        }
 
         // -v 输出每个用户的session数量
         if ($this->output->isVerbose() && !$this->output->isVeryVerbose()) {
@@ -83,15 +87,15 @@ EOF;
             $sessionCount = 0;
             
             if ($email) {
-                if (isset($userInfos[$email])) {
+                $sessionCount = count($sessionInfos);
+                if ($sessionCount > 0) {
                     $headers[] = 'session limit/ip limit';
                     $user = User::where('email', $email)->first();
                     $ipCount = 0;
-                    foreach ($userInfos[$email] as $session) {
+                    foreach ($sessionInfos as $session) {
                         $ipCount += count($session['ips']);
                     }
-                    $data[] = [$email, count($userInfos[$email] ? : []), $ipCount, ($user->session_count ? : 'N') . '/' . ($user->session_ip_count ? : 'N')];
-                    $sessionCount = count($userInfos[$email]);
+                    $data[] = [$email, $sessionCount, $ipCount, ($user->session_count ? : 'N') . '/' . ($user->session_ip_count ? : 'N')];
                 }
             } else {
                 foreach ($userInfos as $email => $sessions) {
@@ -126,20 +130,15 @@ EOF;
             if ($cookie) {
                 $headers[] = "cookie";
             }
-            if ($email) {
-                $infos = $userInfos[$email] ? : [];
-            } else {
-                $infos = $sessionInfos;
-            }
 
-            foreach ($infos as $key => $session) {
+            foreach ($sessionInfos as $key => $session) {
                 if (count($session['ips']) <= $minIpsCount)
                     continue;
                 if ($start && (new Carbon($session['updated']))->lt($start))
                     continue;
                 $row = [$session['email'], $key, json_encode($session['ips']), count($session['ips'])];
                 if ($cookie) {
-                    $row[] = $this->encrypter->encrypt(explode('.', $key)[1]);
+                    $row[] = $this->encrypter->encrypt($key);
                 }
                 $data[] = $row;
             }
@@ -149,6 +148,11 @@ EOF;
         }
         // -k
         if ($kick) {
+            if (!$email) {
+                $this->error("email is required");
+                return;
+            }
+                
             $this->info("{$email} will be kicked, reserve {$reserve} sessions");
             $result = $service->removeUserSessions($email, $reserve);
             $this->info("left sessions : $result");

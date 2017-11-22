@@ -9,21 +9,19 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class SessionOpenEvent
+class SessionGcEvent
 {
     use InteractsWithSockets, SerializesModels;
-    public $savePath;
-    public $sessionName;
+    private $lifetime;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($savePath, $sessionName)
+    public function __construct($lifetime)
     {
-        $this->savePath = $savePath;
-        $this->sessionName = $sessionName;
+        $this->lifetime = $lifetime;
     }
 
     /**

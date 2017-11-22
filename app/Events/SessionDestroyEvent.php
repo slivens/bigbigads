@@ -12,15 +12,16 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class SessionDestroyEvent
 {
     use InteractsWithSockets, SerializesModels;
+    public $sessionId;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($sessionId)
     {
-        //
+        $this->sessionId = $sessionId;
     }
 
     /**
