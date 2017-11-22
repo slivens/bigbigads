@@ -8,9 +8,11 @@ use Illuminate\Support\Arr;
 use Session;
 use Illuminate\Contracts\Cache\Repository as CacheContract;
 use Carbon\Carbon;
+use Log;
 
 /**
  * 用于统计在线用户的实现相对比较粗糙，需要对Laravel的框架中的服务更熟悉才能直接调用相关对象，否则就只能按照当前实现只使用文档中提供的服务，未提到的就原始实现。
+ * @todo 重写Session服务，改为从数据库读取
  */
 class SessionService implements \App\Contracts\SessionService
 {
@@ -24,9 +26,9 @@ class SessionService implements \App\Contracts\SessionService
     /**
      * @{inheritDoc}
      */
-    public function sessionInfos() : Collection
+    public function sessionInfos(bool $forced = false) : Collection
     {
-        if ($this->sessionInfo)
+        if (!$forced && $this->sessionInfo)
             return $this->sessionInfo;
         $keys = Redis::keys('laravel:session.*');
         $result = new Collection();
@@ -61,11 +63,11 @@ class SessionService implements \App\Contracts\SessionService
     /**
      * @{inheritDoc}
      */
-    public function userInfos() : Collection
+    public function userInfos(bool $forced = false) : Collection
     {
-        if ($this->userInfo)
+        if (!$forced && $this->userInfo)
             return $this->userInfo;
-        $sessionInfo = $this->sessionInfos();
+        $sessionInfo = $this->sessionInfos($forced);
         $infos = new Collection();
         foreach ($sessionInfo as $key => $statics) {
             $subSet = $infos->get($statics['email'], []);
@@ -89,9 +91,12 @@ class SessionService implements \App\Contracts\SessionService
      */
     public function removeUserSessions(string $email, int $reserved = 0) : int
     {
-        $userInfos = $this->userInfos();
-        if (!isset($userInfos[$email]))
+        if ($reserved < 0)
+            return -1;
+        $userInfos = $this->userInfos(true);
+        if (!isset($userInfos[$email])) {
             return 0;
+        }
         $sorted = Arr::sort($userInfos[$email], function($val, $key) {
             return new Carbon($val['updated']);
         });
@@ -102,4 +107,5 @@ class SessionService implements \App\Contracts\SessionService
         }
         return min($reserved, count($keys));
     }
+
 }
