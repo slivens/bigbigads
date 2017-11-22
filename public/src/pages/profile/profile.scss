@@ -227,6 +227,18 @@
         .invoice-form{
             padding: 15px;
         }
+        .profile-invoice-row{
+            display: flex;
+            padding: 0 15px;
+            align-items: center;
+            .invoice-item-name{
+                width: 180px;
+            }
+            .invoice-item-input{
+                flex: 1;
+            }
+
+        }
     }
 
     .profile-cancelplan {

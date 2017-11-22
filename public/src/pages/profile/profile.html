@@ -78,7 +78,7 @@
                                 <div class="col-xs-3 col-md-3 col-lg-2 profile-item-name">Your Plan</div>
                                 <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">
                                     <div class="profile-static-wrapper">
-                                        <div class="static-value">{{user.role.plan}}</div>
+                                        <div class="static-value text-success">{{user.role.plan}}</div>
                                         <div class="static-button-wrapper">
                                            <a class="edit-button" ng-if="!userInfo.effective_sub" href="./plans">Switch Plan</a>
                                            <span class="edit-button" ng-if="userInfo.effective_sub" disabled>Switch Plan <small class="text-warning">(Coming Soon)</small></span>
@@ -123,8 +123,11 @@
                     <billings should-init="{{profile.active == 1}}" />
                     <div class="profile-invoice"> 
                         <div class="invoice-title-wrapper">
-                            <h3>Invoice Info Edit</h3>
-                            <span class="profile-edit-btn invoice-btn" ng-click="profile.openToggle('openInvoiceEdit', true)">Edit</span><small class="text-warning">(beta)</small>
+                            <h3>Invoice Info</h3>
+                            <span class="profile-edit-btn invoice-btn" ng-click="profile.openToggle('openInvoiceEdit', true)" ng-if="!profile.openInvoiceEdit">
+                                <span class="ads-font-16">Edit</span> 
+                                <small class="text-warning">(beta)</small>
+                            </span>
                         </div>
 
                         <div class="porlet-body profile-edit-wrapper invoice-edit" ng-class="{'open': profile.openInvoiceEdit}">
@@ -134,40 +137,40 @@
 
                             <div class="invoice-form">
                                 <form name="invoiceForm" class="form-horizontal" ng-submit="profile.customizeSubmit()">
-                                    <div class="form-group profile-row">
-                                        <div class="col-xs-3 col-md-3 col-lg-3 profile-item-name">Company Name</div>
-                                        <div class="col-xs-9 col-md-5 col-lg-8 profile-item-value">
+                                    <div class="form-group profile-invoice-row">
+                                        <div class="invoice-item-name">Company Name</div>
+                                        <div class="invoice-item-input">
                                             <input type="text" class="form-control Invoice-input" ng-model="profile.companyName"
                                             ng-value="profile.companyName">
                                         </div>
                                     </div>
-                                    <div class="form-group profile-row">
-                                        <div class="col-xs-3 col-md-3 col-lg-3 profile-item-name">Address</div>
-                                        <div class="col-xs-9 col-md-5 col-lg-8 profile-item-value">
+                                    <div class="form-group profile-invoice-row">
+                                        <div class="invoice-item-name">Address</div>
+                                        <div class="invoice-item-input">
                                             <input type="text" class="form-control" id="address" ng-model="profile.address">
                                         </div>
                                     </div>
-                                    <div class="form-group profile-row">
-                                        <div for="contactInfo" class="col-xs-3 col-md-3 col-lg-3 profile-item-name">Contact info</div>
-                                        <div class="col-xs-9 col-md-5 col-lg-8 profile-item-value">
+                                    <div class="form-group profile-invoice-row">
+                                        <div for="contactInfo" class="invoice-item-name">Contact info</div>
+                                        <div class="invoice-item-input">
                                             <input type="text" class="form-control" id="contactInfo" ng-model="profile.contactInfo">
                                         </div>
                                     </div>
-                                    <div class="form-group profile-row">
-                                        <div for="website" class="col-xs-3 col-md-3 col-lg-3 profile-item-name">Website</div>
-                                        <div class="col-xs-9 col-md-5 col-lg-8 profile-item-value">
+                                    <div class="form-group profile-invoice-row">
+                                        <div for="website" class="invoice-item-name">Website</div>
+                                        <div class="invoice-item-input">
                                             <input type="text" class="form-control" id="website" ng-model="profile.website">
                                         </div>
                                     </div>
-                                    <div class="form-group profile-row">
-                                        <div for="taxNo" class="col-xs-3 col-md-3 col-lg-3 profile-item-name">Tax No.</div>
-                                        <div class="col-xs-9 col-md-5 col-lg-8 profile-item-value">
+                                    <div class="form-group profile-invoice-row">
+                                        <div for="taxNo" class="invoice-item-name">Tax No.</div>
+                                        <div class="invoice-item-input">
                                             <input type="text" class="form-control" id="taxNo" ng-model="profile.taxNo">
                                         </div>
                                     </div>
-                                    <div class="form-group profile-row">
-                                        <div for="taxNo" class="col-xs-3 col-md-3 col-lg-3"></div>
-                                        <div class="col-xs-9 col-md-5 col-lg-8 text-right">
+                                    <div class="form-group profile-invoice-row">
+                                        <div class="invoice-item-name"></div>
+                                        <div class="invoice-item-input text-right">
                                             <button type="button" class="btn profile-btn-cancel" ng-click="profile.openToggle('openInvoiceEdit', false)">Cancel</button>
                                             <button type="submit" class="btn profile-btn-save" ng-disabled="!invoiceForm.$dirty">Submit</button>
                                         </div>
@@ -177,25 +180,15 @@
                         </div>
                     </div>
 
-                    <div class="profile-cancelplan clearfix">
-                        <div class="col-md-6">
-                           <p class="cancelpaln-text">
-                            We are sorry you are considering canceling your BIGBIGADS subscription. Is there anything we can do to help you stay? 
-                            <a href="http://support.bigbigads.com" target="_blank"> Our support agents are ready and able to assist you</a> 
-                            now with any questions you may have.
-                            </p> 
-                        </div>
-                        <div class="col-md-6 cancelpaln-btn-wrapper">
-                            <subscription />
-                        </div>
-                        
+                    <div class="profile-cancelplan">
+                        <subscription />
                     </div>
                 </uib-tab>
 
                 <uib-tab index="2" heading="Support">
                     <div class="profile-support">
                         <p class="support-list">1, Contact us <a href="mailto:help@bigbigads.com">help@bigbigads.com</a></p>
-                        <p class="support-list">2, Help Center: <a href="http://support.bigbigads.com">http://support.bigbigads.com</a></p>
+                        <p class="support-list">2, Help Center: <a href="http://support.bigbigads.com" target="_blank">http://support.bigbigads.com</a></p>
                         <p class="support-list">3, <a id="serviceLauncher">Chat Online</a></p>
                     </div>
                 </uib-tab>
