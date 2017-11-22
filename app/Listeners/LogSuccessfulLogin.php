@@ -47,6 +47,6 @@ class LogSuccessfulLogin
         }
         // Session可能在一个完整的Request->Response完成时写入，而event推入队列后是同步执行的
         // 如果要精确控制Session数量，应该延迟几秒执行以保证效果
-        dispatch((new SessionControlJob($user))->delay(Carbon::now()->addSeconds(5)));
+        dispatch((new SessionControlJob($user))->delay(Carbon::now()->addSeconds(3)));
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 use Session;
 use Illuminate\Contracts\Cache\Repository as CacheContract;
 use Carbon\Carbon;
-use Log;
+/* use Log; */
 
 /**
  * 用于统计在线用户的实现相对比较粗糙，需要对Laravel的框架中的服务更熟悉才能直接调用相关对象，否则就只能按照当前实现只使用文档中提供的服务，未提到的就原始实现。
