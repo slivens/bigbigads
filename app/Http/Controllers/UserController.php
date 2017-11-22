@@ -76,7 +76,11 @@ class UserController extends Controller
     {
         $user = Auth::user();
         if ($req->name) {
-            if (strlen($req->name) > User::NAME_LENGTH) {
+            $rules = [
+                'name' => 'required|max:64'
+            ];
+            $validator = Validator::make($req->all(), $rules);
+            if ($validator->fails()) {
                 $res = ['code' => -1, 'desc' => trans('profile.name_too_long')];
             } else {
                 $req->name == $user->name ? $res = ['code' => -1, 'desc' => trans('messages.not_changed')] : $user->name = $req->name;
