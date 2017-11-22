@@ -31,6 +31,8 @@ class User extends Authenticatable
     const STATE_ACTIVATED = 1;
     const STATE_FREEZED = 2;
 
+    const NAME_LENGTH = 64;
+
     /**
      * The attributes that are mass assignable.
      *
