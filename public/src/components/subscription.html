@@ -1,46 +1,5 @@
 <div>
-    <h3>Your Plan</h3>
     <div cg-busy="$ctrl.cancelPromise">
-        <p>
-            You are currently on <span class="text-warning">{{$ctrl.userInfo.user.role.plan}}</span> Plan
-            <!-- <span ng-if="$ctrl.userInfo.user.expired">(expired time: {{$ctrl.userInfo.user.expired}})</span> -->
-            <span ng-show="$ctrl.subscription && $ctrl.subscription.status == 'payed'">
-                (You are now on a subscription {{ $ctrl.subscription.agreement_id }})
-            </span>
-            <div ng-show="$ctrl.lastSubscription && $ctrl.lastSubscription.status == 'canceled'" class="text-info">(Your last subscription {{$ctrl.lastSubscription.agreement_id}} is cancelled.<span ng-if="$ctrl.effectPayment">Billing is still effective until {{$ctrl.effectPayment.end_date}}.</span>)
-            </div>
-            <div ng-show="$ctrl.lastSubscription == 'pending'" class="text-danger">
-                <!-- (We found your subscription  <span class="text-primary"> {{$ctrl.lastSubscription.plan}}</span> is pending by Paypal, please wait for 10 minutes on this page. If waiting is not worked, please contact us.) -->
-                We are processing your order.Please wait…
-            </div>
-            <div ng-show="$ctrl.lastSubscription && $ctrl.lastSubscription.status == 'subscribed'" class="text-danger">
-                <!-- (You have upgrade your plan to <span class="text-primary"> {{$ctrl.lastSubscription.plan}}</span>, payments is detecting, please wait for 5 miniutes on this page. If waiting is not worked, please contact us.) -->
-                We are processing your order.Please wait…
-            </div>
-        </p>
-        <p>
-        <a class="btn btn-primary" ui-sref="plans">Change Plan</a>
-
-        <a class="btn btn-danger" ng-click="$ctrl.cancel()" ng-if="$ctrl.canCancel" >Cancel Plan</a>
-        </p>
+        <a class="btn profile-btn-cancel" ng-click="$ctrl.cancel()" ng-if="$ctrl.canCancel" >Cancel Plan</a>
     </div>
-    <!-- begin permssions & policies -->
-    <!-- <div id="permissions" class="container-fluid permissions margin-bottom-10">
-        <div class="row" ng-repeat-start="(key, group) in userInfo.groupPermissions">
-            <div class="col-xs-12"> 
-                <h4 class="bold">{{key}}</h4>
-            </div>
-        </div>
-        <div ng-repeat="permission in group" class="row">
-            <div class="col-xs-2" >{{permission.key}}</div>
-            <div class="col-xs-4">
-
-                <span policy-formatter value="User.getPolicy(permission.key)" key="{{permission.key}}" mode="usage"></span> -->
-                <!-- {{User.getPolicy(permission.key)}} -->
-            <!-- </div>
-        </div>
-        <div ng-repeat-end ng-if="false">
-        </div>
-    </div> -->
-    <!-- end permissions & policies -->
 </div>

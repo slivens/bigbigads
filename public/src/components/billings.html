@@ -1,34 +1,40 @@
- <div cg-busy="$ctrl.queryPromise">
-
-    <div class="alert alert-info">
-        BIGBIGADS offers a 7-days money-back guarantee to first time purchasers.Please click on the refund button below within 7 days and we'll review and refund your payment in 3-5 business days.
+<div cg-busy="$ctrl.queryPromise" id="billings">
+    <div class="alert billing-note">
+        <img src="/images/profile/google_webstore.png" class="note-icon" />
+        <div class="billing-note-wrapper">
+            <h3 class="ads-weight-600">Add BIGBIGADS Extention to Your browser</h3>
+            <h4 class="ads-weight-400">Get a report of advertiser's ads. </h4>
+            <h4 class="ads-weight-400">One-click to further enhance your Facebook advertising competitive research activity.</h4>
+            <div class="note-button-wrapper">
+                <a class="btn btn-danger" href="https://chrome.google.com/webstore/detail/bigbigadsfacebook-ad-exam/aeicgjbjcnodlaomefmanfbkhpcdlcbk" target="_blank">Install Now</a>
+            </div>
+        </div>
     </div>
-
-    <table class="table table-striped ">
-        <tr class="bg-default table-bordered">
-            <th>Type</th>
-            <th>ID</th>
-            <th>Plan</th>
-            <th>Start Date</th>
-            <th>Expire Date</th>
-            <th>Price</th>
-            <th>Status</th>
-            <!-- <th>Remark</th> -->
-            <th>Operation</th>
-        </tr>
-        <tr ng-repeat="item in $ctrl.billings.items | orderBy:'-startDate'" ng-class="{'text-success': item.id == $ctrl.effective_id}">
-            <td>{{item.gateway == 'paypal' ? 'paypal' : 'credit card'}}</td>
-            <td>{{item.number}}</td>
-            <td>{{item.subscription.plan}}</td>
-            <td>{{item.start_date}}</td>
-            <td>{{item.end_date}}</td>
-            <td>{{item.amount + " " + item.currency}}</td>
-            <td>{{item.status}}</td>
-            <!-- <td><span ng-if="item.refund" class="text-danger">Refund Status:{{item.refund.status}}</span><span ng-if="item.refund.note"><br/>Note:{{item.refund.note}}</span></td> -->
-            <td>
-                <a class="btn btn-danger" ng-click="item.canDownload && $ctrl.invoiceDownload(item)" ng-disabled="!item.canDownload" ng-attr-title="{{item.invoiceMessages}}">Download Invoice</a>
-                <a class="btn btn-default" ng-click="$ctrl.refund(item)" ng-if="item.canRefund">Refund</a>
-            </td>
-        </tr>
+    <table class="table table-striped billing-table" ng-if="$ctrl.billings.items">
+        <thead>
+            <tr class="bg-default table-bordered">
+                <th>Level</th>
+                <th>Plan</th>
+                <th>Start Date</th>
+                <th>Expire Date</th>
+                <!-- <th>Price</th> -->
+                <th colspan="2">Operation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in $ctrl.billings.items | orderBy:'-startDate'" ng-class="{'text-success': item.id == $ctrl.effective_id}">
+                <td>{{$ctrl.planArr[item.subscription.plan].level}}</td>
+                <td>{{$ctrl.planArr[item.subscription.plan].plan}}</td>
+                <td>{{item.start_date.split(' ')[0] | date:'MMM d,y' }}</td>
+                <td>{{item.end_date.split(' ')[0] | date:'MMM d,y' }}</td>
+                <!-- <td>{{item.amount + " " + item.currency}}</td> -->
+                <td>
+                    <a class="btn billing-download-btn" ng-click="item.canDownload && $ctrl.invoiceDownload(item)" ng-disabled="!item.canDownload" ng-attr-title="{{!item.canDownload? item.invoiceMessages : ''}}">Download Invoice</a>
+                </td>
+                <td>
+                    <a class="btn billing-refund-btn" ng-click="item.canRefund && $ctrl.refund(item)" ng-if="item.canRefund">Refund</a>
+                </td>
+            </tr>
+        </tbody>
     </table>
 </div>
