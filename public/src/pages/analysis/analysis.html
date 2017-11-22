@@ -58,7 +58,7 @@
                     </p>
                     <p class="info-list">
                         <span class="info-list-name">
-                            Objective 
+                            Objective
                             <span class="ads-label-beta">BETA</span>:
                         </span>
                         <span ng-if="card.objective" class="info-list-value">
@@ -66,12 +66,12 @@
                             <span class="">{{card.objectStr[card.objective]}}</span>
                         </span>
                         <span ng-if="!card.objective" class="text-danger info-list-err">
-                            Not Enough Data 
+                            Not Enough Data
                             <a ng-href="../extension" target="_blank" class="extension-link"> <i class="fa fa-download analy-down-icon"></i> BIGBIGADS Extension</a>
                         </span>
                     </p>
                     <p class="info-list info-but" ng-if="card.show_way != 4">
-                        <a ng-href="{{ id.length == 32 ? ('//www.facebook.com/' + card.adser_username) : '//www.facebook.com/' + id}}"  class="btn btn-primary" target="_blank">See Original Post</a>
+                        <a ng-href="{{ id.length == 32 ? ('//www.facebook.com/' + card.adser_username) : '//www.facebook.com/' + card.adser_username + '/posts/' + id }}"  class="btn btn-primary" target="_blank">See Original Post</a>
                     </p>
                     <!-- <p>
                         <span class="ads-weight-bold">Landing page:</span>
@@ -174,7 +174,7 @@
                         <highchart class="charts-pie" config="card.genderPieCharts"></highchart>
                     </div>
                     <div class="col-md-6 charts-wrapper" ng-if="card.whyseeads.gender && card.whyseeads.age">
-                        <highchart class="charts-bar" config="card.ageBarCharts"></highchart>   
+                        <highchart class="charts-bar" config="card.ageBarCharts"></highchart>
                     </div>
                 </div>
                 <a href="./plans" ng-if = "card.whyseeads.limit" target="_blank">
@@ -189,7 +189,7 @@
                     <span class="ads-font-26 ads-weight-600 text-danger">Not Enough Data</span>
                     <p><a ng-href="../extension" target="_blank"><i class="fa fa-download analy-down-icon"></i>Download BIGBIGADS Extension</a></p>
                 </div>
-            
+
         </div>
         <!--interests-->
         <div class="col-md-6">
@@ -283,7 +283,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    
+
                                 </tbody>
                             </table>
                         </div>
