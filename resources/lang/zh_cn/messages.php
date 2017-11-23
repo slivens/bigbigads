@@ -1,9 +1,10 @@
 <?php
 
 return [
-    're_generate'     => '票据稍后将重新生成。',
-    'need_to_payed' => '你至少需要完成1次付款。',
     'not_changed' => '内容未修改。',
-    'change_limit' => '每个自然月只能修改1次。',
+    'not_empty' => '输入不能为空!',
+    'save_done' => '保存成功!',
+    'save_failed' => '保存失败!',
+    'error_by_reason' => '请返回检查并稍后再试。',
 
 ];
