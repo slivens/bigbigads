@@ -51,10 +51,10 @@ class BigbigadsSeeder extends Seeder
             'analysis_audience'         => [false, false, true,  true,  true,  true,  false],
             'analysis_trend'            => [false, false, true,  true,  false, false, false],
             'analysis_similar'          => [false, false, true,  true,  false, true,  false],
-            'ad_analysis_times_perday'  => [true,  true,  true,  true,  true,  true,  true]
+            'ad_analysis_times_perday'  => [true,  true,  true,  true,  true,  true,  true]   
         ];
         $policies = [
-            'ad_analysis_times_perday'  => [Policy::DAY, 100, 600, 1000, 1000, 1000, 1000, 300]
+            'ad_analysis_times_perday'  => [Policy::DAY, 100, 600, 1000, 1000, 1000, 1000, 300]  // 每日获取广告分析次数
         ];
         // $this->insertPermissions('AdAnalysis', $adAnalysis, $adAnalysisPermission, $roles);
         $this->insertPermissions('AdAnalysis', $adAnalysisPermission, $roles);
