@@ -509,7 +509,7 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
                 let markedWords = '' // 复制后提示语言
                 let markedClass = '' // 复制后样式
                 let html = `<input type="text" readOnly = "true" value="${copyText}"/>
-                    <button class="btn btn-primary">
+                    <button class="btn">
                         <i class="fa fa-clipboard"></i>
                         ${buttonText}
                     </button>

@@ -1,20 +1,86 @@
-// 淡进淡出动画
-@keyframes fadeinout {
-    0% {
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    85% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
 #profile {
+    min-width: 800px;
+    width: 100%;
+    min-height: 100vh;
+    background: #f6f6f6;
+    margin-top: -25px;
+    padding-top: 25px; 
+    // 淡进淡出动画
+    @keyframes fadeinout {
+        0% {
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        85% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    } 
+    // 覆盖nav样式
+    .nav-tabs {
+        border: none;
+        border-bottom: 1px solid #ededed;
+        .nav-item {
+            .nav-link {
+                color: #e2534f;
+                font-weight: 400;
+                border: none;
+                font-size: 16px;
+                background-color: inherit;
+                &:hover {
+                    border-bottom: 3px solid rgba(226, 83, 79, .5);
+                }
+            }
+            &.active {
+                .nav-link {
+                    border-bottom: 3px solid #e2534f;
+                }
+            }
+        }
+    } 
+    //profile 下的按钮样式
+    .profile-btn-cancel {
+        border: 1px solid #e2534f;
+        color: #e2534f;
+        background: none;
+        border-radius: 50vh;
+        padding: 6px 20px;
+        margin: 0 5px;
+        &:hover {
+            border-color: rgba(226, 83, 79, .5);
+        }
+    }
+    .profile-btn-save {
+        border: 1px solid #e2534f;
+        background: #e2534f;
+        border-radius: 50vh;
+        padding: 6px 20px;
+        margin: 0 5px;
+        color: #fff;
+        background: linear-gradient(180deg, #e04f42 0, #d0352c);
+        &:hover {
+            background: linear-gradient(180deg, #ea6756 0, #d0362d);
+        }
+    }
+    .profile-edit-btn {
+        font-size: 14px;
+        font-weight: 400;
+        color: #e4524b;
+        cursor: pointer;
+        &:hover {
+            text-decoration: none;
+        }
+        &[disabled] {
+            cursor: not-allowed;
+        }
+    }
+    .profile-setting {
+        margin-top: 30px;
+    }
     .profile-title {
         border-bottom: 1px solid #eee;
         margin-bottom: 15px;
@@ -30,21 +96,27 @@
         .copy-dom-wrapper {
             input {
                 border: 0;
-                border-bottom: 1px solid rgba(0, 0, 0, .15);
                 min-width: 300px;
                 max-width: 600px;
                 margin-right: 20px;
-                padding-left: 15px;
-                background: #fff;
+                background: none;
                 color: #333;
                 min-height: 24px;
                 line-height: 24px;
             }
+            .btn {
+                color: #e4524b;
+                padding: 0;
+                background: none;
+                .fa {
+                    display: none;
+                }
+            }
             span {
-                font-size: 14px;
-                margin-left: 8px;
+                font-size: 12px;
+                margin-left: 5px;
                 vertical-align: text-bottom;
-                line-height: 0;
+                line-height: 1;
                 &.show-text {
                     animation: fadeinout 3.1s linear 1;
                 }
@@ -52,6 +124,135 @@
                     display: none;
                 }
             }
+        }
+        .profile-item-name {
+            font-size: 16px;
+            font-weight: 400;
+        }
+        .profile-item-value {
+            font-size: 16px;
+        }
+    }
+    .profile-static-wrapper {
+        display: flex;
+        align-items: center;
+        .static-value {
+            width: 305px;
+            margin-right: 20px;
+        }
+        .edit-button {
+            font-size: 14px;
+            font-weight: 400;
+            color: #e4524b;
+            cursor: pointer;
+            &:hover {
+                text-decoration: none;
+            }
+            &[disabled] {
+                cursor: not-allowed;
+            }
+        }
+    }
+    .profile-edit-wrapper {
+        width: 420px;
+        height: 0;
+        overflow: hidden;
+        transition: height .35s;
+        -webkit-transition: height .35s;
+        transition-timing-function: ease-in;
+        background: rgba(238, 238, 238, 0.18);
+        border-radius: 6px;
+        box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.38) inset;
+        padding: 0 15px;
+        &.open {
+            border: 1px solid rgba(204, 204, 204, 0.31);
+            &.name-edit {
+                height: 150px;
+            }
+            &.pwd-edit {
+                height: 390px;
+            }
+            &.invoice-edit {
+                height: 390px;
+            }
+        }
+        &.invoice-edit {
+            width: 640px;
+        }
+        .edit-input-wrapper {
+            margin-top: 20px;
+            margin-bottom: 30px;
+            position: relative;
+            .edit-error-laebl {
+                position: absolute;
+                right: 0px;
+                font-size: 12px;
+                bottom: -35px;
+                display: none;
+            }
+            &.has-error {
+                .edit-error-laebl {
+                    display: inline-block;
+                }
+            }
+        }
+    } 
+    // 自定义票据
+    .profile-invoice {
+        margin-top: 30px;
+        border-top: 1px solid #dfdfdf;
+        border-bottom: 1px solid #dfdfdf;
+        padding-top: 25px;
+        .invoice-edit {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .invoice-title-wrapper {
+            display: flex;
+            align-items: center;
+            h3 {
+                margin: 0;
+            }
+            .invoice-btn {
+                margin-left: 400px;
+            }
+        }
+        .invoice-remin {
+            margin-left: 10px;
+            margin-top: 30px;
+            padding: 0 5px;
+            border-left: 3px solid;
+        }
+        .invoice-form {
+            padding: 15px;
+        }
+        .profile-invoice-row {
+            display: flex;
+            padding: 0 15px;
+            align-items: center;
+            .invoice-item-name {
+                width: 180px;
+            }
+            .invoice-item-input {
+                flex: 1;
+            }
+        }
+    }
+
+    .profile-cancelplan {
+        margin-top: 20px;
+        .cancelpaln-btn-wrapper {
+            margin-top: 50px;
+        }
+        padding-bottom: 50px;
+    } 
+    // profile support
+    .profile-support {
+        margin-top: 20px;
+        padding: 15px;
+        .support-list {
+            font-size: 16px;
+            margin-left: 20px;
         }
     }
 }
