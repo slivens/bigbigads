@@ -80,7 +80,7 @@
                                     <div class="profile-static-wrapper">
                                         <div class="static-value text-success">{{user.role.plan}}</div>
                                         <div class="static-button-wrapper">
-                                           <a class="edit-button" ng-if="!userInfo.effective_sub" href="./plans">Switch Plan</a>
+                                           <a class="edit-button" ng-if="!userInfo.effective_sub" href="./pricing">Switch Plan</a>
                                            <span class="edit-button" ng-if="userInfo.effective_sub" disabled>Switch Plan <small class="text-warning">(Coming Soon)</small></span>
                                         </div>
                                     </div>
@@ -136,7 +136,7 @@
                             </div>
 
                             <div class="invoice-form">
-                                <form name="invoiceForm" class="form-horizontal" ng-submit="profile.customizeSubmit()">
+                                <form name="profile.invoiceForm" class="form-horizontal" ng-submit="profile.customizeSubmit()">
                                     <div class="form-group profile-invoice-row">
                                         <div class="invoice-item-name">Company Name</div>
                                         <div class="invoice-item-input">
@@ -147,32 +147,32 @@
                                     <div class="form-group profile-invoice-row">
                                         <div class="invoice-item-name">Address</div>
                                         <div class="invoice-item-input">
-                                            <input type="text" class="form-control" id="address" ng-model="profile.address">
+                                            <input type="text" class="form-control" ng-model="profile.address">
                                         </div>
                                     </div>
                                     <div class="form-group profile-invoice-row">
-                                        <div for="contactInfo" class="invoice-item-name">Contact info</div>
+                                        <div class="invoice-item-name">Contact info</div>
                                         <div class="invoice-item-input">
-                                            <input type="text" class="form-control" id="contactInfo" ng-model="profile.contactInfo">
+                                            <input type="text" class="form-control" ng-model="profile.contactInfo">
                                         </div>
                                     </div>
                                     <div class="form-group profile-invoice-row">
-                                        <div for="website" class="invoice-item-name">Website</div>
+                                        <div class="invoice-item-name">Website</div>
                                         <div class="invoice-item-input">
-                                            <input type="text" class="form-control" id="website" ng-model="profile.website">
+                                            <input type="text" class="form-control" ng-model="profile.website">
                                         </div>
                                     </div>
                                     <div class="form-group profile-invoice-row">
-                                        <div for="taxNo" class="invoice-item-name">Tax No.</div>
+                                        <div class="invoice-item-name">Tax No.</div>
                                         <div class="invoice-item-input">
-                                            <input type="text" class="form-control" id="taxNo" ng-model="profile.taxNo">
+                                            <input type="text" class="form-control" ng-model="profile.taxNo">
                                         </div>
                                     </div>
                                     <div class="form-group profile-invoice-row">
                                         <div class="invoice-item-name"></div>
                                         <div class="invoice-item-input text-right">
                                             <button type="button" class="btn profile-btn-cancel" ng-click="profile.openToggle('openInvoiceEdit', false)">Cancel</button>
-                                            <button type="submit" class="btn profile-btn-save" ng-disabled="!invoiceForm.$dirty">Submit</button>
+                                            <button type="submit" class="btn profile-btn-save" ng-disabled="!profile.invoiceForm.$dirty">Submit</button>
                                         </div>
                                     </div>
                                 </form>

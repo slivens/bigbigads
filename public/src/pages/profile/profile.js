@@ -144,6 +144,7 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
                     res.data.desc,
                     'success'
                 )
+                profile.openToggle('openInvoiceEdit', false)
             } else {
                 SweetAlert.swal(
                     'Error',
@@ -152,6 +153,8 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
                 )
             }
         })
+        // 重置校验
+        profile.invoiceFor.$setPristine()
     }
 }])
     .directive('profile', function() {

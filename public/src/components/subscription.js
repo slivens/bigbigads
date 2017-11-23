@@ -38,7 +38,6 @@ angular.module('MetronicApp').controller('SubscriptionController', ['$scope', '$
                     })
                 }, 10000)
             }
-            console.log(ctrl.cancel)
         })
     }
     ctrl.cancel = function() {
