@@ -154,7 +154,7 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
             }
         })
         // 重置校验
-        profile.invoiceFor.$setPristine()
+        profile.invoiceForm.$setPristine()
     }
 }])
     .directive('profile', function() {
