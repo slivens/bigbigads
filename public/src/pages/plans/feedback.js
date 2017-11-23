@@ -133,7 +133,7 @@ const controller = function($scope, $uibModalInstance, User, $http, SweetAlert) 
                     SweetAlert.swal(
                         'Submit failure',
                         `😐 ${res.data.desc}`,
-                        'success'
+                        'error'
                     )
                 }
             }).catch(function(res) {
@@ -142,7 +142,7 @@ const controller = function($scope, $uibModalInstance, User, $http, SweetAlert) 
                 SweetAlert.swal(
                     'Submit failure',
                     '😐 Please enter the correct information to continue.',
-                    'success'
+                    'error'
                 )
             })
         }
