@@ -76,7 +76,15 @@ class UserController extends Controller
     {
         $user = Auth::user();
         if ($req->name) {
-            $req->name == $user->name ? $res = ['code' => -1, 'desc' => trans('messages.not_changed')] : $user->name = $req->name;
+            $rules = [
+                'name' => 'required|max:64'
+            ];
+            $validator = Validator::make($req->all(), $rules);
+            if ($validator->fails()) {
+                $res = ['code' => -1, 'desc' => trans('profile.name_too_long')];
+            } else {
+                $req->name == $user->name ? $res = ['code' => -1, 'desc' => trans('messages.not_changed')] : $user->name = $req->name;
+            }
         } else {
             $res = ['code' => -1, 'desc' => trans('messages.not_empty')];// 字段不能为空/或者传上来其他字段，不处理直接当空返回
         }
