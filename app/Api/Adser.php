@@ -76,4 +76,24 @@ class Adser
             return false;
         }
     }
+
+    static public function getTopAds($descMode)
+    {
+        $select;
+        switch($descMode) {
+            case 'like_rate':
+                $select = 'event_id,';
+                break;
+            case 'comment_rate':
+                $select = '';
+                break;
+            case 'share_rate':
+                $select = '';
+                break;
+            case 'total_impression':
+                $select = '';
+                break;
+            default: break;
+        }
+    }
 }
