@@ -8,7 +8,12 @@ use Carbon\Carbon;
 use Auth;
 use Log;
 /**
+ * EnhancedSession相当于redis+database同时使用，并往每个session添加一些统计信息
+ *
+ * redis用于用户实际使用场景；
+ * database用于日常管理查看在线用户和对用户执行踢出等操作，不应该影响线上系统的效率，所以所有操作都应该在队列中完成。
  * @TODO 该扩展将会被封装进bba/common包
+ * @TODO 发出event事件，将session同时写到database中，分析直接从database分析效率比较高
  */
 class EnhancedSessionHandler extends CacheBasedSessionHandler
 {
@@ -19,6 +24,15 @@ class EnhancedSessionHandler extends CacheBasedSessionHandler
 		parent::__construct($store, $minutes);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function open($savePath, $sessionName)
+    {
+        $res = parent::open($savePath, $sessionName);
+        event(new SessionOpenEvent($savePath, $sessionName));
+        return $res;
+    }
     /**
      * 创建Session时，如果发现用户从不同的IP访问，就记录[IP => 访问时间]，需要注意的是
      * 除非有写操作，否则该IP的访问时间是不会更新的。
@@ -85,11 +99,14 @@ class EnhancedSessionHandler extends CacheBasedSessionHandler
      */
     public function write($sessionId, $data)
     {
-        $sessionId = $this->formatedSessionId($sessionId);
-        $session = $this->updateSession($sessionId, @unserialize($data));
+        $id = $this->formatedSessionId($sessionId);
+        $session = $this->updateSession($id, @unserialize($data));
         if ($session)
             $data = serialize($session);
-        return parent::write($sessionId, $data);
+        $res = parent::write($id, $data);
+        // 外部不需要知道session id已经被加工过
+        event(new \App\Events\SessionWriteEvent($sessionId, $data));
+        return ;
     }
 
     /**
@@ -97,6 +114,17 @@ class EnhancedSessionHandler extends CacheBasedSessionHandler
      */
     public function destroy($sessionId)
     {
-        return parent::destroy($this->formatedSessionId($sessionId));
+        $id = $this->formatedSessionId($sessionId);
+        $res = parent::destroy($id);
+        // 外部不需要知道session id已经被加工过
+        event(new \App\Events\SessionDestroyEvent($sessionId));
+        return $res;
+    }
+
+    public function gc($lifetime)
+    {
+        $res = parent::gc($lifetime);
+        event(new \App\Events\SessionGcEvent($lifetime));
+        return $res;
     }
 }

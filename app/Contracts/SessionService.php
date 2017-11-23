@@ -18,7 +18,7 @@ interface SessionService {
      * ]
      * ```
      */
-    public function sessionInfos() : Collection;
+    public function sessionInfos(bool $forced = false) : Collection;
 
     /**
      * 根据session id获取指定session
@@ -29,6 +29,8 @@ interface SessionService {
 
 
     /**
+     * 获取所有用户的会话信息
+     *
      * @return Illuminate\Support\Collection 返回用户的会话格式:
      * ```
      * [
@@ -40,7 +42,12 @@ interface SessionService {
      *
 
      */
-    public function userInfos() : Collection;
+    public function userInfos(bool $forced = false) : Collection;
+
+    /**
+     * 获取指定用户的会话信息
+     */
+    public function userSessions(string $email) : Collection;
 
     /**
      * 删除指定session id的Session

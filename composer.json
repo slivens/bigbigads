@@ -34,7 +34,7 @@
         "firebase/php-jwt": "^5.0",
         "phenx/php-font-lib": "0.5.*",
         "phenx/php-svg-lib": "0.3.*",
-        "dompdf/dompdf": "^0.8.1"
+        "mpdf/mpdf": "^7.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
