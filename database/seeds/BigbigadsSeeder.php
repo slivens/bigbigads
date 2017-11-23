@@ -54,7 +54,7 @@ class BigbigadsSeeder extends Seeder
             'ad_analysis_times_perday'  => [true,  true,  true,  true,  true,  true,  true]
         ];
         $policies = [
-            'ad_analysis_times_perday'  => [Policy::DAY, 100, 1000, 1000, 1000, 1000, 1000, 500]
+            'ad_analysis_times_perday'  => [Policy::DAY, 100, 600, 1000, 1000, 1000, 1000, 300]
         ];
         // $this->insertPermissions('AdAnalysis', $adAnalysis, $adAnalysisPermission, $roles);
         $this->insertPermissions('AdAnalysis', $adAnalysisPermission, $roles);
@@ -201,7 +201,7 @@ class BigbigadsSeeder extends Seeder
             'content_search'                    => [true,  true,  true,  true,  true,  true,  true],
             'audience_search'                   => [false, true,  true,  true,  true,  true,  true],
             'date_filter'                       => [true,  true,  true,  true,  true,  true,  true],    // last see time frame
-            'format_filter'                     => [true,  true,  true,  true,  true,  true,  true],    // Ad type      ng-mode:formatSelected
+            'format_filter'                     => [false, true,  true,  true,  true,  true,  true],    // Ad type      ng-mode:formatSelected
             'call_action_filter'                => [true,  true,  true,  true,  true,  true,  true],    // call action filter   ng-mode:callToAction
             'duration_filter'                   => [false, true,  true,  true,  true,  true,  true],    // Customized Ad Run duration fliter
             'see_times_filter'                  => [false, true,  true,  true,  true,  true,  true],    // Customized Ad Run see_times
@@ -238,16 +238,16 @@ class BigbigadsSeeder extends Seeder
             'specific_adser_limit_perday'       => [true,  true,  true,  true,  true,  true,  true],
             'specific_adser_where_perday'       => [true,  true,  true,  true,  true,  true,  true],
             'search_total_times'                => [true,  true,  true,  true,  true,  true,  true],    // 累计搜索总数
-            'country_filter'                    => [true,  true,  true,  true,  true,  true,  false],    // country filter   ng-mode:state
+            'country_filter'                    => [false, true,  true,  true,  true,  true,  false],    // country filter   ng-mode:state
             'emarketing_filter'                 => [false, true,  true,  true,  true,  true,  false],   // emarketing filter
             'tracking_filter'                   => [false, true,  true,  true,  true,  true,  false],   // tracking filter
             'affiliate_filter'                  => [false, true,  true,  true,  true,  true,  false],   // affiliate filter
-            'e_commerce_filter'                 => [false, true,  true,  true,  true,  true,  false],   // Eshop Platform: e_commerce filter
+            'e_commerce_filter'                 => [true,  true,  true,  true,  true,  true,  false],   // Eshop Platform: e_commerce filter
             'advance_filter'                    => [false, true,  true,  true,  true,  true,  true],    // advance filter
-            'objective_filter'                  => [true,  true,  true,  true,  true,  true,  true],    // objective filter
+            'objective_filter'                  => [false, true,  true,  true,  true,  true,  true],    // objective filter
             'advance_audience_search'           => [false, true,  true,  true,  true,  true,  false],   // advance audience filter
-            'audience_age_filter'               => [false, true,  true,  true,  true,  true,  false],   // audience age
-            'audience_gender_filter'            => [false, true,  true,  true,  true,  true,  false],   // audience gender
+            'audience_age_filter'               => [true,  true,  true,  true,  true,  true,  false],   // audience age
+            'audience_gender_filter'            => [true,  true,  true,  true,  true,  true,  false],   // audience gender
             'search_mode_filter'                => [true,  true,  true,  true,  true,  true,  true],    // search mode      ng-mode:rangeselected
             'audience_interest_filter'          => [false, true,  true,  true,  true,  true,  false],   // audience interest
             'first_time_filter'                 => [false, true,  true,  true,  true,  true,  false],   // first time
@@ -260,7 +260,7 @@ class BigbigadsSeeder extends Seeder
         ];
         //给权限指定策略，策略数组的第一个数值表示策略类型，Policy::DAY表示按天累计，Policy::VALUE表示是一个固定值，Policy::PERMANENT表示永久累计，后面数值同上。需要注意的是，只有角色有对应的权限，才会有检查策略。
         $searchPolicy = [
-            'search_times_perday'               => [Policy::DAY, 100, 500, 3000, 5000, 1000, 1000, 300],
+            'search_times_perday'               => [Policy::DAY, 50, 300, 3000, 5000, 1000, 1000, 200],    // 非空词每日搜索请求数
             'result_per_search'                 => [Policy::VALUE, 100, 300, 2000, 5000, 300, 300, 300],
             'keyword_times_perday'              => [Policy::DAY, 1000, 1000, 1000, 1000, 1000, 1000, 1000],
             'search_init_perday'                => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
@@ -271,10 +271,10 @@ class BigbigadsSeeder extends Seeder
             'specific_adser_limit_perday'       => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
             'specific_adser_where_perday'       => [Policy::DAY, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
             'search_total_times'                => [Policy::PERMANENT, 0, 0, 0, 0, 0, 0, 0],
-            'search_without_key_total_perday'   => [Policy::DAY, 200, 1000, 5000, 5000, 5000, 5000, 500],
-            'search_key_total_perday'           => [Policy::DAY, 200, 1000, 5000, 5000, 5000, 5000, 500],
+            'search_without_key_total_perday'   => [Policy::DAY, 100, 600, 5000, 5000, 5000, 5000, 300],    // 空词每日请求总数
+            'search_key_total_perday'           => [Policy::DAY, 100, 800, 5000, 5000, 5000, 5000, 500],    // 非空词每日请求总数
             'hot_search_times_perday'           => [Policy::DAY, 5000, 5000, 5000, 5000, 5000, 5000, 5000],
-            'specific_adser_times_perday'       => [Policy::DAY, 200, 1000, 5000, 5000, 5000, 5000, 500],
+            'specific_adser_times_perday'       => [Policy::DAY, 100, 600, 5000, 5000, 5000, 5000, 300],   // 广告主下所有广告请求总数
         ];
         // $this->insertPermissions('Advertisement', $search, $searchPermission,  $roles);
         $this->insertPermissions('Advertisement', $searchPermission,  $roles);
