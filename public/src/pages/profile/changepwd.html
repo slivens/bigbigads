@@ -42,7 +42,7 @@
         </div>
         <div class="text-right changepwd-btn-wrapper">
             {{$ctrl.toggle}}
-            <button type="button" class="btn profile-btn-cancel" ng-click="$ctrl.toggle('openPswEdit', false)">Cancel</button>
+            <button type="button" class="btn profile-btn-cancel" ng-click="$ctrl.toggle('openPwdEdit', false)">Cancel</button>
             <button type="submit" class="btn profile-btn-save" ng-disabled="pwdForm.$invalid || info.newpwd != info.repeatpwd || isbusy">Change password</button>
         </div>
     </form>

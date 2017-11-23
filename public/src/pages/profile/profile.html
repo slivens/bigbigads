@@ -59,13 +59,13 @@
                             <div class="profile-row">
                                 <div class="col-xs-3 col-md-3 col-lg-2 profile-item-name">Password</div>
                                 <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">
-                                    <div class="profile-edit-wrapper pwd-edit" ng-class="{'open': profile.openPswEdit}">
+                                    <div class="profile-edit-wrapper pwd-edit" ng-class="{'open': profile.openPwdEdit}">
                                         <changepwd toggle="profile.openToggle"/>
                                     </div>
-                                    <div class="profile-static-wrapper" ng-if="!profile.openPswEdit">
+                                    <div class="profile-static-wrapper" ng-if="!profile.openPwdEdit">
                                         <div class="static-value">******</div>
                                         <div class="static-button-wrapper">
-                                            <span class="edit-button" ng-click="profile.openToggle('openPswEdit', true)">
+                                            <span class="edit-button" ng-click="profile.openToggle('openPwdEdit', true)">
                                                 Edit 
                                             <small class="text-warning">(Beta)</small>
                                             </span>

@@ -35,7 +35,7 @@ angular.module('MetronicApp').controller('changepwdController', ['$scope', '$htt
                     info.repeatpwd = ''
                     // 重置校验
                     pwdForm.$setPristine()
-                    ctrl.toggle('openPswEdit', false)
+                    ctrl.toggle('openPwdEdit', false)
                 }
                 SweetAlert.swal({
                     title: data.code == 0 ? 'Success' : 'Error',

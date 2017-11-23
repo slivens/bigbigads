@@ -4,7 +4,7 @@
     min-height: 100vh;
     background: #f6f6f6;
     margin-top: -25px;
-    padding-top:25px; 
+    padding-top: 25px; 
     // 淡进淡出动画
     @keyframes fadeinout {
         0% {
@@ -19,7 +19,8 @@
         100% {
             opacity: 0;
         }
-    } // 覆盖nav样式
+    } 
+    // 覆盖nav样式
     .nav-tabs {
         border: none;
         border-bottom: 1px solid #ededed;
@@ -41,7 +42,6 @@
             }
         }
     } 
-
     //profile 下的按钮样式
     .profile-btn-cancel {
         border: 1px solid #e2534f;
@@ -66,7 +66,7 @@
             background: linear-gradient(180deg, #ea6756 0, #d0362d);
         }
     }
-    .profile-edit-btn{
+    .profile-edit-btn {
         font-size: 14px;
         font-weight: 400;
         color: #e4524b;
@@ -172,12 +172,11 @@
             &.pwd-edit {
                 height: 390px;
             }
-            &.invoice-edit{
+            &.invoice-edit {
                 height: 390px;
-                
             }
         }
-        &.invoice-edit{
+        &.invoice-edit {
             width: 640px;
         }
         .edit-input-wrapper {
@@ -197,47 +196,46 @@
                 }
             }
         }
-    }
+    } 
     // 自定义票据
     .profile-invoice {
         margin-top: 30px;
         border-top: 1px solid #dfdfdf;
         border-bottom: 1px solid #dfdfdf;
         padding-top: 25px;
-        .invoice-edit{
+        .invoice-edit {
             margin-top: 20px;
             margin-bottom: 20px;
         }
-        .invoice-title-wrapper { 
+        .invoice-title-wrapper {
             display: flex;
             align-items: center;
-            h3{
+            h3 {
                 margin: 0;
             }
             .invoice-btn {
                 margin-left: 400px;
             }
         }
-        .invoice-remin{
+        .invoice-remin {
             margin-left: 10px;
             margin-top: 30px;
-            padding:0 5px;
+            padding: 0 5px;
             border-left: 3px solid;
         }
-        .invoice-form{
+        .invoice-form {
             padding: 15px;
         }
-        .profile-invoice-row{
+        .profile-invoice-row {
             display: flex;
             padding: 0 15px;
             align-items: center;
-            .invoice-item-name{
+            .invoice-item-name {
                 width: 180px;
             }
-            .invoice-item-input{
+            .invoice-item-input {
                 flex: 1;
             }
-
         }
     }
 
@@ -247,12 +245,12 @@
             margin-top: 50px;
         }
         padding-bottom: 50px;
-    }
+    } 
     // profile support
     .profile-support {
         margin-top: 20px;
         padding: 15px;
-        .support-list{
+        .support-list {
             font-size: 16px;
             margin-left: 20px;
         }
