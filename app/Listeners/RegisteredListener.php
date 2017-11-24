@@ -42,7 +42,7 @@ class RegisteredListener
         //创建默认的收藏夹
         $bookmark = new \App\Bookmark;
         $bookmark->uid = $user->id;
-        $bookmark->name = "default";
+        $bookmark->name = \App\Bookmark::DEFAULT;
         $bookmark->default = 1;
         $bookmark->save();
         //需求变更，弃用
