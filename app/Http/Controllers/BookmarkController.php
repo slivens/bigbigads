@@ -61,7 +61,7 @@ class BookmarkController extends Controller
             return $this->responseError(trans('messages.bookmark_length_limit'), -4497);
         }
         if (!$bookmark->canModify()) {
-            return $this->responseError("No Permission", -1);
+            return $this->responseError(trans('messages.bookmark_can_not_modify'), -4500);
         }
         $bookmark->uid = Auth::user()->id;
         $bookmark->name = $request->name;
@@ -94,10 +94,10 @@ class BookmarkController extends Controller
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
         }*/
         if (!$bookmark->canModify()) {
-            return $this->responseError("No Permission", -1);
+            return $this->responseError(trans('messages.bookmark_can_not_modify'), -4500);
         }
         // 同一用户名下不允许有2个同名收藏夹
-        if (Bookmark::where("name", $req->name)->where("uid", Auth::user()->id)->first()) {
+        if (Bookmark::where("name", $req->name)->where("uid", Auth::user()->id)->where('id', '<>', $req->id)->first()) {
             return $this->responseError(trans('messages.bookmark_existed'), -4496);
         }
         // 限制目录名称长度
@@ -135,7 +135,7 @@ class BookmarkController extends Controller
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
         } */
         if (!$bookmark->canModify()) {
-            return $this->responseError("No Permission", -1);
+            return $this->responseError(trans('messages.bookmark_can_not_modify'), -4500);
         }
         $items = $bookmark->items;
         foreach ($items as $item) {

@@ -13,7 +13,7 @@ class CheckBookmark extends Command
      *
      * @var string
      */
-    protected $signature = 'bba:checkBookmark {--fix-all : 修复用户默认收藏夹,一个用户只有1个} {--check-all : 检查所有用户,列出收藏夹异常账户}';
+    protected $signature = 'bba:check-bookmark {--fix-all : 修复用户默认收藏夹,一个用户只有1个}';
 
     /**
      * The console command description.
@@ -34,59 +34,55 @@ class CheckBookmark extends Command
 
     /**
      * Execute the console command.
-     * 每个用户只有1个名称为default的收藏夹。
+     * 每个用户只有1个名称为default的收藏夹,它的default值为1,用户自行创建的收藏夹，default值为0。
      * fix-all：检查所有用户，如果已有名为default的收藏夹，修正它使default值为1。如果没有，创建一个。
-     * check-all:检查所有用户，列出有2个或者以上default值为1的用户
-     * 如果不带参数，就都检查
+     * 检查所有用户，列出有2个或者以上收藏夹default值为1的用户
      *
      * @return mixed
      */
     public function handle()
     {
         $fixAll = $this->option('fix-all');
-        $checkAll = $this->option('check-all');
-        if (!$fixAll && !$checkAll) {
-            $fixAll = true;
-            $checkAll = true;
-        }
 
         $ok = $wrong = $created = $fix = 0; // 统计，赋初值
         $this->comment("checking bookmark start");
-        foreach (User::all() as $user) {
-            $count = Bookmark::where('uid', $user->id)->where('default', 1)->count(); // 用户正常的收藏夹数量
-            if ($count > 1 && $checkAll) {
-                $wrong++;
-                // 该用户有多于1个的默认收藏夹(default值为1),并且指令要求输出
-                $this->comment($user->email . ' has ' . $count . ' default bookmarks.');
-            } elseif ($count <=1 && $fixAll) {
-                $oldBookmarkNum = Bookmark::where('uid', $user->id)->count(); //用户所有收藏夹
-                // 该用户只有1个默认收藏夹或者没有默认收藏夹，并且指令要求修复
-                Bookmark::updateOrCreate(
-                    [
-                        'uid' => $user->id,
-                        'name' => 'default'
-                    ],
-                    [
-                        'default' => '1'
-                    ]
-                );
-                // 修改完毕之后检查一下
-                // 原收藏夹数量不正确(0个)，修改完毕之后有1个
-                if ($count == 0 && Bookmark::where('uid', $user->id)->where('default', 1)->count() == 1) {
-                    if ($oldBookmarkNum == 0) {
-                        // 用户一个收藏夹都没有
-                        $created++;
-                    } else {
-                        // 有收藏夹
-                        $fix++;
+        User::chunk(1000, function ($users) use ($fixAll, $ok, $wrong, $created, $fix) {
+            foreach ($users as $user) {
+                $count = $user->bookmarks()->where('default', 1)->count(); // 用户正常的收藏夹数量
+                if ($count > 1) {
+                    $wrong++;
+                    // 该用户有多于1个的默认收藏夹(default值为1)
+                    $this->comment($user->email . ' has ' . $count . ' default bookmarks.');
+                } elseif ($count <=1 && $fixAll) {
+                    $oldBookmarkNum = Bookmark::where('uid', $user->id)->count(); //用户所有收藏夹
+                    // 该用户只有1个默认收藏夹或者没有默认收藏夹，并且指令要求修复
+                    Bookmark::updateOrCreate(
+                        [
+                            'uid' => $user->id,
+                            'name' => Bookmark::DEFAULT
+                        ],
+                        [
+                            'default' => 1
+                        ]
+                    );
+                    // 修改完毕之后检查一下
+                    // 如原收藏夹数量不正确(0个)，修改完毕之后有1个
+                    if ($count == 0 && Bookmark::where('uid', $user->id)->where('default', 1)->count() == 1) {
+                        if ($oldBookmarkNum == 0) {
+                            // 用户一个收藏夹都没有
+                            $created++;
+                        } else {
+                            // 有收藏夹
+                            $fix++;
+                        }
+                        $this->comment("$user->email's default bookmark fix upon");
                     }
-                    $this->comment("$user->email's default bookmark fix upon");
                 }
             }
-        }
-        $userCount = User::count();
-        $ok =$userCount - $wrong - $created - $fix;
+            $userCount = count($users);
+            $ok = $userCount - $wrong - $created - $fix;
+            $this->comment("$userCount users, $ok ok, $created created, $fix fix.");
+        });
         $this->comment("checking bookmark end");
-        $this->comment("$userCount users, $ok ok, $created created, $fix fix.");
     }
 }
