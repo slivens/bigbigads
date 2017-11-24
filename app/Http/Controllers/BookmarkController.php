@@ -44,10 +44,10 @@ class BookmarkController extends Controller
             按权限限制收藏夹目录数量及检测有效性
         */
         $bookmark = new Bookmark();
-        $bookmarkListUsage = Auth::user()->getUsage('bookmark_list');
-        $bookmarkLists = Bookmark::where("uid", Auth::user()->id)->get();
-        $bookmarkListCount = Bookmark::where("name", $request->name)
-                                       ->where("uid", Auth::user()->id)
+        $user = Auth::user();
+        $bookmarkListUsage = $user->getUsage('bookmark_list');
+        $bookmarkLists = Bookmark::where("uid", $user->id)->get();
+        $bookmarkListCount = $user->bookmarks()->where("name", $request->name)
                                        ->count();
         if (count($bookmarkLists) >= $bookmarkListUsage[1]) {
             return $this->responseError(trans('messages.bookmark_num_limit'), -4498);
@@ -63,7 +63,7 @@ class BookmarkController extends Controller
         if (!$bookmark->canModify()) {
             return $this->responseError(trans('messages.bookmark_can_not_modify'), -4500);
         }
-        $bookmark->uid = Auth::user()->id;
+        $bookmark->uid = $user->id;
         $bookmark->name = $request->name;
         $bookmark->default = 0; // 用户自行加入的
         $bookmark->save();
@@ -83,7 +83,8 @@ class BookmarkController extends Controller
     public function update(Request $req, $id)
     {
         //编辑收藏夹之前需要检查是否为合法用户
-        if (intval($req->uid) != Auth::user()->id) {
+        $user = Auth::user();
+        if (intval($req->uid) != $user->id) {
             return response(["code"=>-1, "desc"=>"No Permission"], 422);
         }
         $bookmark = Bookmark::where("id", $id)->first();
@@ -97,7 +98,7 @@ class BookmarkController extends Controller
             return $this->responseError(trans('messages.bookmark_can_not_modify'), -4500);
         }
         // 同一用户名下不允许有2个同名收藏夹
-        if (Bookmark::where("name", $req->name)->where("uid", Auth::user()->id)->where('id', '<>', $req->id)->first()) {
+        if ($user->bookmarks()->where("name", $req->name)->where('id', '<>', $req->id)->first()) {
             return $this->responseError(trans('messages.bookmark_existed'), -4496);
         }
         // 限制目录名称长度
@@ -148,9 +149,9 @@ class BookmarkController extends Controller
     public function getDefault()
     {
         if ($user = Auth::user()) {
-            return Bookmark::where('uid', $user->id)->where('default', 1)->first();
+            return $user->bookmarks()->where('default', 1)->first();
         } else {
-            return $this->responseError("No Permission", -1);
+            return $this->responseError(trans('messages.bookmark_list_no_find'), -4495);
         }
     }
 }
