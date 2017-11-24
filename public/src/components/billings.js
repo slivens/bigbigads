@@ -1,4 +1,5 @@
 import '../pages/common/common'
+import './billings.scss'
 import template from './billings.html'
 
 angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User', 'Resource', 'SweetAlert', '$http', function($scope, User, Resource, SweetAlert, $http) {
@@ -30,7 +31,37 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
             ctrl.inited = true
         })
     }
-
+    /*
+    * billing 中的paln与level对应关系
+    * 因为历史遗留问题，很多在billing上显示并不是很统一
+    * 这里后续会继续添加，比如plus
+    */
+    ctrl.planArr = {
+        'lite_monthly': {
+            'level': 'Lite',
+            'plan': 'Monthly'
+        },
+        'lite_annual': {
+            'level': 'Lite',
+            'plan': 'Annual'
+        },
+        'lite_quarterly': {
+            'level': 'Lite',
+            'plan': 'Quarterly'
+        },
+        'standard_monthly': {
+            'level': 'Standard',
+            'plan': 'Monthly'
+        },
+        'standard_quarter_monthly': {
+            'level': 'Standard',
+            'plan': 'Quarterly'
+        },
+        'standard': {
+            'level': 'Standard',
+            'plan': 'Annual'
+        }
+    }
     ctrl.billings = billings
 
     ctrl.beatifyDate = function(dateStr) {
