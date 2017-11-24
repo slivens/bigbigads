@@ -19,7 +19,7 @@ class BookmarkController extends Controller
      * 显示收藏目录
      */
     public function index(Request $req)
-    {   
+    {
         //显示收藏夹之前需要检查是否为合法用户
         if (intval($req->uid) != Auth::user()->id) {
             return $this->responseError("No Permission", -1);
@@ -44,10 +44,10 @@ class BookmarkController extends Controller
             按权限限制收藏夹目录数量及检测有效性
         */
         $bookmark = new Bookmark();
-        $bookmarkListUsage = Auth::user()->getUsage('bookmark_list');
-        $bookmarkLists = Bookmark::where("uid", Auth::user()->id)->get();
-        $bookmarkListCount = Bookmark::where("name", $request->name)
-                                       ->where("uid", Auth::user()->id)
+        $user = Auth::user();
+        $bookmarkListUsage = $user->getUsage('bookmark_list');
+        $bookmarkLists = Bookmark::where("uid", $user->id)->get();
+        $bookmarkListCount = $user->bookmarks()->where("name", $request->name)
                                        ->count();
         if (count($bookmarkLists) >= $bookmarkListUsage[1]) {
             return $this->responseError(trans('messages.bookmark_num_limit'), -4498);
@@ -56,12 +56,16 @@ class BookmarkController extends Controller
             return $this->responseError(trans('messages.bookmark_existed'), -4496);
         }
         $validator = Validator::make($request->all(), ['name' => 'required|between:1,25']);
-        if ($validator->fails()) 
+        if ($validator->fails())
         {
             return $this->responseError(trans('messages.bookmark_length_limit'), -4497);
         }
-        $bookmark->uid = Auth::user()->id;
+        if (!$bookmark->canModify()) {
+            return $this->responseError(trans('messages.bookmark_can_not_modify'), -4500);
+        }
+        $bookmark->uid = $user->id;
         $bookmark->name = $request->name;
+        $bookmark->default = 0; // 用户自行加入的
         $bookmark->save();
         return $bookmark;
     }
@@ -79,7 +83,8 @@ class BookmarkController extends Controller
     public function update(Request $req, $id)
     {
         //编辑收藏夹之前需要检查是否为合法用户
-        if (intval($req->uid) != Auth::user()->id) {
+        $user = Auth::user();
+        if (intval($req->uid) != $user->id) {
             return response(["code"=>-1, "desc"=>"No Permission"], 422);
         }
         $bookmark = Bookmark::where("id", $id)->first();
@@ -89,17 +94,24 @@ class BookmarkController extends Controller
         /*if (!Auth::user()->can('update', $bookmark)) {
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
         }*/
-        //限制目录名称长度
+        if (!$bookmark->canModify()) {
+            return $this->responseError(trans('messages.bookmark_can_not_modify'), -4500);
+        }
+        // 同一用户名下不允许有2个同名收藏夹
+        if ($user->bookmarks()->where("name", $req->name)->where('id', '<>', $req->id)->first()) {
+            return $this->responseError(trans('messages.bookmark_existed'), -4496);
+        }
+        // 限制目录名称长度
         $validator = Validator::make($req->all(), ['name' => 'required|between:1,25']);
-        if ($validator->fails()) 
+        if ($validator->fails())
         {
             return $this->responseError(trans('messages.bookmark_length_limit'), -4497);
         }
         $update = false;
         foreach($req->all() as $key=>$value) {
             if (isset($bookmark[$key]) && $value != $bookmark->$key) {
-               $bookmark->$key = $value;
-               $update = true;
+                $bookmark->$key = $value;
+                $update = true;
             }
         }
         $bookmark->save();
@@ -123,11 +135,23 @@ class BookmarkController extends Controller
         /*if (!Auth::user()->can('delete', $bookmark)) {
             return response(["code"=>-1, "desc"=>"No Permission"], 501);
         } */
+        if (!$bookmark->canModify()) {
+            return $this->responseError(trans('messages.bookmark_can_not_modify'), -4500);
+        }
         $items = $bookmark->items;
         foreach ($items as $item) {
             $item->delete();
         }
         $bookmark->delete();
         return ["code"=>0, "desc"=>"Success"];
+    }
+
+    public function getDefault()
+    {
+        if ($user = Auth::user()) {
+            return $user->bookmarks()->where('default', 1)->first();
+        } else {
+            return $this->responseError(trans('messages.bookmark_list_no_find'), -4495);
+        }
     }
 }
