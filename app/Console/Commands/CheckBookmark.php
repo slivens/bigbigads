@@ -48,7 +48,7 @@ class CheckBookmark extends Command
         $this->comment("checking bookmark start");
         User::chunk(1000, function ($users) use ($fixAll, $ok, $wrong, $created, $fix) {
             foreach ($users as $user) {
-                $count = $user->bookmarks()->where('default', 1)->count(); // 用户正常的收藏夹数量
+                $count = $user->bookmarks()->where('default', 1)->count(); // 用户正常的默认收藏夹数量
                 if ($count > 1) {
                     $wrong++;
                     // 该用户有多于1个的默认收藏夹(default值为1)
@@ -77,6 +77,9 @@ class CheckBookmark extends Command
                         }
                         $this->comment("$user->email's default bookmark fix upon");
                     }
+                } elseif ($count == 0) {
+                    // 默认收藏夹不正确但是不要求修复
+                    $wrong++;
                 }
             }
             $userCount = count($users);
