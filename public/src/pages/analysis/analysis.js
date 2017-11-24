@@ -26,37 +26,43 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
         * false 不限制
         * 暂时只针对free用户限制
         */
-        var permission = {
-            'free': {
+        const permission = {
+            'Free': {
                 'audiencesList': 3, // 受众数据条数，仅显示三条
                 'demographyShow': false, // 人口统计显示：不限制
-                'demographyTime': 3, // 限制时间3个月
+                'demographyTime': { // 限制时间3个月
+                    'type': 'month', // 按月份算
+                    'value': 3 // 数量 3
+                },
                 'countryMapShow': true, // 国家地图限制：不限制
                 'countryTableList': 3, // 国家国家数据条数3条
                 'countryTableShow': false // 表格显示，不限制
             },
-            'lite': {
+            'Lite': {
+                'audiencesList': 0,
+                'demographyShow': false,
+                'demographyTime': {
+                    'type': 'weeks',
+                    'value': 2
+                },
+                'countryTableList': 0,
+                'countryTableShow': false
+            },
+            'Standard': {
                 'audiencesList': 0,
                 'demographyShow': false,
                 'demographyTime': 0,
                 'countryTableList': 0,
                 'countryTableShow': false
             },
-            'standard': {
+            'Plus': {
                 'audiencesList': 0,
                 'demographyShow': false,
                 'demographyTime': 0,
                 'countryTableList': 0,
                 'countryTableShow': false
             },
-            'plus': {
-                'audiencesList': 0,
-                'demographyShow': false,
-                'demographyTime': 0,
-                'countryTableList': 0,
-                'countryTableShow': false
-            },
-            'vip': {
+            'Pro': {
                 'audiencesList': 0,
                 'demographyShow': false,
                 'demographyTime': 0,
@@ -100,7 +106,7 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
             // 只取首条消息
             var ads = res[1]
 
-            $scope.userLimit = permission[User.user.role.plan]
+            $scope.userLimit = permission[User.user.role.name]
             console.log($scope.userLimit)
             // objective 转换为正常单词
             var objectStr = {
@@ -208,7 +214,6 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
                 }
                 // 根据type进行排序
                 $scope.card.audieces = audienceArr.length && Util.arrSort(audienceArr, 'type', 0)
-                console.log('shouzhong', $scope.card.audieces)
 
                 /*
                 * $scope.userLimit.audiencesList 为限制受众的长度，free的为3 ，意思是仅显示3条数据
@@ -219,50 +224,65 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
 
                 /*
                 * 性别占比与年龄分布处理
-                * 免费用户只能见三个月前的数据，三个月内填充假数据
+                *
+                * 【需求】
+                *  1）免费用户只能见三个月前的数据
+                *  2）liet级别用户限制为两周以前的数据
+                *  3）基本付费不限制
+                *  4）超过该限制，则填充假数据
+                *
+                * 【数据说明】
+                * $scope.userLimit.demographyTime.type: weeks/month 按月份计算，按周计算
+                * $scope.userLimit.demographyTime.value：[数字]
                 */
-                let lastSeeTime = moment($scope.card.last_see || moment().format("YYYY-MM-DD")) // 如果不存在last_see 默认为现在时间
-                let nowTime = moment()
-                let timeInterval = nowTime.diff(lastSeeTime, 'month') // 相隔时间,单位为月份
-
-                // 如果为三个月内数据，且为免费用户，则填充假数据
-                if ($scope.card.whyseeads.gender) {
-                    let genderArr = [] // 性别占比 数组
+                if ($scope.card.whyseeads.gender && $scope.card.whyseeads.age) {
                     let adsGender = $scope.card.whyseeads.gender
-                    if ($scope.userLimit.demographyTime && timeInterval < $scope.userLimit.demographyTime) {
-                        genderArr = [['Male', 1], ['Female', 1]]
-                        $scope.userLimit.demographyShow = true // 限制显示
+                    let adsAge = $scope.card.whyseeads.age
+                    let genderArr = [] // 性别占比 数组
+                    let ageArr1, ageArr2 // 龄分布 数组
+
+                    // 是否对demography(人口统计)有限制
+                    if ($scope.userLimit.demographyTime) {
+                        let timeType = $scope.userLimit.demographyTime.type
+
+                        let lastSeeTime = moment($scope.card.last_see || moment().format("YYYY-MM-DD")) // 如果不存在last_see 默认为现在时间
+                        let nowTime = moment() // 现在时间
+                        let timeInterval = nowTime.diff(lastSeeTime, timeType) // 相隔时间,单位为月份/周
+
+                        // 是否在限制之内
+                        if (timeInterval < $scope.userLimit.demographyTime.value) {
+                            genderArr = [['Male', 1], ['Female', 1]]
+                            $scope.userLimit.demographyShow = true // 限制显示
+
+                            ageArr1 = [1, 1, 1, 1, 0, 0]
+                            ageArr2 = [1, 1, 1, 1, 0, 0]
+                            $scope.userLimit.demographyShow = true // 限制显示
+                        }
                     } else {
                         genderArr = [['Male', adsGender[0]], ['Female', adsGender[1]]]
-                    }
-                    $scope.card.genderPieCharts = Util.pieChartsConfig(genderArr, '60%', ['#7cb5ec', '#ee5689'])
-                } else $scope.card.genderPieCharts = false
 
-                // 广告详情-年龄分布
-                if ($scope.card.whyseeads.age) {
-                    let arr1, arr2 // 龄分布 数组
-                    if ($scope.userLimit.demographyTime && timeInterval < $scope.userLimit.demographyTime) {
-                        arr1 = [1, 1, 1, 1, 0, 0]
-                        arr2 = [1, 1, 1, 1, 0, 0]
-                        $scope.userLimit.demographyShow = true // 限制显示
-                    } else {
-                        arr1 = $scope.card.whyseeads.age.map(function(v) { return v[0] })
-                        arr2 = $scope.card.whyseeads.age.map(function(v) { return v[1] })
+                        ageArr1 = adsAge.map(function(v) { return v[0] })
+                        ageArr2 = adsAge.map(function(v) { return v[1] })
                     }
+                    // 相别占比数据
+                    $scope.card.genderPieCharts = Util.pieChartsConfig(genderArr, '60%', ['#7cb5ec', '#ee5689'])
 
                     // 堆叠分布 barChartsConfig(barXAxis[X轴数据], barData[数据*], barPercent[以百分号形式显示])
                     $scope.card.ageBarCharts = Util.barChartsConfig(
                         ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'], [{
                             name: 'Male',
-                            data: arr1
+                            data: ageArr1
                         }, {
                             name: 'Female',
-                            data: arr2
+                            data: ageArr2
                         }],
                         true, // 以百分比形式显示
                         ['#7cb5ec', '#ee5689']
                     )
-                } else $scope.card.ageBarCharts = false
+                } else {
+                    $scope.card.genderPieCharts = false
+                    $scope.card.ageBarCharts = false
+                }
 
                 /*
                 * 国家信息处理
