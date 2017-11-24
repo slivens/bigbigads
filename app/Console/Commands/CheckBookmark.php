@@ -71,11 +71,12 @@ class CheckBookmark extends Command
                         if ($oldBookmarkNum == 0) {
                             // 用户一个收藏夹都没有
                             $created++;
+                            $this->comment("$user->email's default bookmark was added");
                         } else {
                             // 有收藏夹
                             $fix++;
+                            $this->comment("$user->email's default bookmark fix upon");
                         }
-                        $this->comment("$user->email's default bookmark fix upon");
                     }
                 } elseif ($count == 0) {
                     // 默认收藏夹不正确但是不要求修复
