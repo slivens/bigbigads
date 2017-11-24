@@ -34,31 +34,34 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
                     'type': 'month', // 按月份算
                     'value': 3 // 数量 3
                 },
-                'countryMapShow': true, // 国家地图限制：不限制
+                'countryMapShow': true, // 国家地图限制：限制
                 'countryTableList': 3, // 国家国家数据条数3条
                 'countryTableShow': false // 表格显示，不限制
             },
             'Lite': {
-                'audiencesList': 0,
+                'audiencesList': 3,
                 'demographyShow': false,
                 'demographyTime': {
                     'type': 'weeks',
                     'value': 2
                 },
-                'countryTableList': 0,
+                'countryMapShow': true,
+                'countryTableList': 3,
                 'countryTableShow': false
             },
             'Standard': {
                 'audiencesList': 0,
                 'demographyShow': false,
                 'demographyTime': 0,
+                'countryMapShow': false,
                 'countryTableList': 0,
                 'countryTableShow': false
             },
-            'Plus': {
+            'Advanced': {
                 'audiencesList': 0,
                 'demographyShow': false,
                 'demographyTime': 0,
+                'countryMapShow': false,
                 'countryTableList': 0,
                 'countryTableShow': false
             },
@@ -66,6 +69,7 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
                 'audiencesList': 0,
                 'demographyShow': false,
                 'demographyTime': 0,
+                'countryMapShow': false,
                 'countryTableList': 0,
                 'countryTableShow': false
             }
@@ -257,6 +261,11 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
                             ageArr1 = [1, 1, 1, 1, 0, 0]
                             ageArr2 = [1, 1, 1, 1, 0, 0]
                             $scope.userLimit.demographyShow = true // 限制显示
+                        } else {
+                            genderArr = [['Male', adsGender[0]], ['Female', adsGender[1]]]
+
+                            ageArr1 = adsAge.map(function(v) { return v[0] })
+                            ageArr2 = adsAge.map(function(v) { return v[1] })
                         }
                     } else {
                         genderArr = [['Male', adsGender[0]], ['Female', adsGender[1]]]
@@ -344,7 +353,7 @@ export default angular.module('analysis', ['MetronicApp', 'highcharts-ng']).cont
                     */
             }
             $scope.card.devicePieCharts = Util.pieChartsConfig([['Mobile', mobileNum], ['Desktop', desktopNum]], '0%', false, pieLegend)
-            searcher.findSimilar($scope.card.watermark)
+            // searcher.findSimilar($scope.card.watermark)
         }, function(res) {
             // console.log("error res:", res);
             $scope.card.end = true
