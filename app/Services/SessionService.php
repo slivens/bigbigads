@@ -5,22 +5,73 @@ namespace App\Services;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Arr;
-use Session;
 use Illuminate\Contracts\Cache\Repository as CacheContract;
 use Carbon\Carbon;
-/* use Log; */
+use DB;
+use Log;
+use App\User;
 
 /**
- * 用于统计在线用户的实现相对比较粗糙，需要对Laravel的框架中的服务更熟悉才能直接调用相关对象，否则就只能按照当前实现只使用文档中提供的服务，未提到的就原始实现。
- * @todo 重写Session服务，改为从数据库读取
+ * 会话管理
+ *
+ * 获取当前所有在线用户
+ * 获取所有会话
  */
 class SessionService implements \App\Contracts\SessionService
 {
+    const REDIS_SESSION_PREFIX = 'laravel:session.';
     private $sessionInfo;
     private $userInfo;
 
     public function __construct()
     {
+    }
+
+    protected function getDbStore()
+    {
+        return app('session')->driver('database')->getHandler();
+    }
+
+    protected function getStore()
+    {
+        return app('session.store')->getHandler();
+    }
+
+    /**
+     * Get a fresh query builder instance for the table.
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    protected function getQuery()
+    {
+        return DB::table('sessions');
+    }
+
+    /**
+     * 获取过滤后的sessions
+     */
+    private function getFilteredSessions($where = null)
+    {
+        $result = new Collection();
+        $query = $this->getQuery()->whereNotNull('user_id');
+        if ($where)
+            $query->where($where);
+        $query->chunk(100, function($rows) use($result) {
+            foreach ($rows as $row) {
+                $session = $this->getDbStore()->read($row->id);
+
+                if (!$session) 
+                    continue;
+                $session = @unserialize($session);
+
+                if (!isset($session['session_statics']))
+                    continue;
+                if (!isset($session['session_statics']['email']))
+                    continue;
+                $result[$row->id] = $session['session_statics'];    
+            }
+        });
+        return $result;
     }
 
     /**
@@ -30,19 +81,9 @@ class SessionService implements \App\Contracts\SessionService
     {
         if (!$forced && $this->sessionInfo)
             return $this->sessionInfo;
-        $keys = Redis::keys('laravel:session.*');
-        $result = new Collection();
 
-        foreach ($keys as $key) {
-            $session = $this->session($key);
-            if (!$session || !isset($session['session_statics']))
-                continue;
-            if (!isset($session['session_statics']['email']))
-                continue;
-            $result[$key] = $session['session_statics'];    
-        }
-        $this->sessionInfo = $result;
-        return $result;
+        $this->sessionInfo = $this->getFilteredSessions();
+        return $this->sessionInfo;
     }
 
     /**
@@ -50,13 +91,10 @@ class SessionService implements \App\Contracts\SessionService
      */
     public function session(string $sessionId) : ?array
     {
-        $sessionStr = Redis::get($sessionId);
-        if (!$sessionStr)
+        $session = $this->getStore()->read($sessionId);
+        if (!$session)
             return null;
-        // Session->Handler->Cache，序列化了2次，所以反序列化也要2次
-        // 这个是通过阅读底层实现所得出的结论，正如类描述所说，依赖于实现获取数据是不好的行为
-        // 应该看下是否可以以较低代价创建Illuminate\Session\Store，然后从Store中获取数据。
-        $session = @unserialize($sessionStr);
+        // Session->Handler->Cache，序列化了2次，这里通过handler获取了session, 还需要反序列化1次才得到真正的Session
         return @unserialize($session);
     }
 
@@ -81,9 +119,19 @@ class SessionService implements \App\Contracts\SessionService
     /**
      * @{inheritDoc}
      */
+    public function userSessions(string $email) : Collection
+    {
+        $user = User::where('email', $email)->first();
+        return $this->getFilteredSessions(['user_id' => $user->id]);
+    }
+
+    /**
+     * @{inheritDoc}
+     */
     public function removeSession(string $sessionId) : void
     {
-        Redis::del($sessionId);
+        /* Log::debug("destroy:" . $sessionId); */
+        $this->getStore()->destroy($sessionId);
     }
 
     /**
@@ -93,11 +141,11 @@ class SessionService implements \App\Contracts\SessionService
     {
         if ($reserved < 0)
             return -1;
-        $userInfos = $this->userInfos(true);
-        if (!isset($userInfos[$email])) {
-            return 0;
+        $sessions = $this->userSessions($email);
+        if (count($sessions) < $reserved) {
+            return -1;
         }
-        $sorted = Arr::sort($userInfos[$email], function($val, $key) {
+        $sorted = Arr::sort($sessions, function($val, $key) {
             return new Carbon($val['updated']);
         });
         $keys = array_keys($sorted);

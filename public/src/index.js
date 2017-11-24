@@ -513,6 +513,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
             // intercom文档建议使用boot方式来启动，配合shutdown方法关闭会话，提高安全性
             window.Intercom('boot', {
                 app_id: "pv0r2p1a",
+                custom_launcher_selector: '#serviceLauncher',
                 email: User.user.email,
                 name: User.user.name,
                 created_at: User.user.created_at,
@@ -520,7 +521,8 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
             })
         } else {
             window.Intercom('boot', {
-                app_id: "pv0r2p1a"
+                app_id: "pv0r2p1a",
+                custom_launcher_selector: '#serviceLauncher'
             })
         }
         // intercom生成的代码
