@@ -69,14 +69,23 @@ Route::get(
     }
 );
 
+/*
+* 将原有的plans(plan)页面改成pricing（后台的为app/pricing）
+* 为了避免部分链接遗漏修改的，做过跳转（plan -> pricing）
+*/
 Route::get(
-    '/plan', function () {
+    '/pricing', function () {
         //暂定登录后再次点击sign up后跳转至app/plans
         if (Auth::check()) {
-            return redirect('/app/plans');
+            return redirect('/app/pricing');
         } else {
-            return view('plan');
+            return view('pricing');
         }
+    }
+);
+Route::get(
+    '/plan', function () {
+        return redirect('/pricing');
     }
 );
 
@@ -138,6 +147,7 @@ Route::group(['middleware'=>'auth'], function() {
     Route::get('/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
     Route::patch('users/change_profile', 'UserController@changeProfile');
     Route::post('/users/send-email', 'UserController@sendVerifyMailToSubEmail');
+    Route::get('/bookmark/default', 'BookmarkController@getDefault');
 });
 
 //pay页面需要支持不登录可访问

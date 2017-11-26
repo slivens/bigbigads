@@ -31,6 +31,8 @@ class User extends Authenticatable
     const STATE_ACTIVATED = 1;
     const STATE_FREEZED = 2;
 
+    const NAME_LENGTH = 64;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -51,7 +53,7 @@ class User extends Authenticatable
 
     public function bookmarks()
     {
-        return $this->hasMany('App\Bookmark');
+        return $this->hasMany('App\Bookmark', 'uid');
     }
 
     public function bookmarkItems()

@@ -19,7 +19,7 @@ use Socialite;
 use Validator;
 use App\Jobs\LogAction;
 use Illuminate\Auth\Events\Registered;
-
+use App\Contracts\PaymentService;
 use App\Jobs\ResendRegistMail;
 use GuzzleHttp;
 use Jenssegers\Agent\Agent;
@@ -34,7 +34,12 @@ class UserController extends Controller
     use AppRegistersUsers;
 
     protected $socialiteProviders = ['github', 'facebook', 'linkedin', 'google'];
+    private $paymentService;
 
+    public function __construct(PaymentService $paymentService)
+    {
+        $this->paymentService = $paymentService;
+    }
     /**
      * 更改密码
      */
@@ -72,7 +77,15 @@ class UserController extends Controller
     {
         $user = Auth::user();
         if ($req->name) {
-            $req->name == $user->name ? $res = ['code' => -1, 'desc' => trans('messages.not_changed')] : $user->name = $req->name;
+            $rules = [
+                'name' => 'required|max:64'
+            ];
+            $validator = Validator::make($req->all(), $rules);
+            if ($validator->fails()) {
+                $res = ['code' => -1, 'desc' => trans('profile.name_too_long')];
+            } else {
+                $req->name == $user->name ? $res = ['code' => -1, 'desc' => trans('messages.not_changed')] : $user->name = $req->name;
+            }
         } else {
             $res = ['code' => -1, 'desc' => trans('messages.not_empty')];// 字段不能为空/或者传上来其他字段，不处理直接当空返回
         }
@@ -104,6 +117,8 @@ class UserController extends Controller
             if ($user['subscription_id'] != null) {
                 $user->load('subscription');//有订阅就把订阅信息也一起加载
             }
+            //add by chenxin 20171114,修复了Issue #37
+            $res['failed_recurring_payments'] = $this->paymentService->onFailedRecurringPayments($user->subscriptions);
             $res['effective_sub'] = $user->getEffectiveSub()?true:false;
             $res['permissions'] = $user->getMergedPermissions()->groupBy('key');
             $res['groupPermissions'] = $user->getMergedPermissions()->groupBy('table_name');
