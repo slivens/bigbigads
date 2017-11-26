@@ -125,18 +125,26 @@ EOF;
         }
         // -vv 输出每个session的详细信息
         if ($this->output->isVeryVerbose()) {
-            $headers = ['email', 'session', 'ips', 'ip_count'];
+            $headers = ['email', 'session', 'ip_count'];
             $data = [];
+
+            if ($this->output->isDebug()) {
+                $headers[] = 'ips';
+            }
             if ($cookie) {
                 $headers[] = "cookie";
             }
+
 
             foreach ($sessionInfos as $key => $session) {
                 if (count($session['ips']) <= $minIpsCount)
                     continue;
                 if ($start && (new Carbon($session['updated']))->lt($start))
                     continue;
-                $row = [$session['email'], $key, json_encode($session['ips']), count($session['ips'])];
+                $row = [$session['email'], $key, count($session['ips'])];
+                if ($this->output->isDebug()) {
+                    $row[] = json_encode($session['ips']);
+                }
                 if ($cookie) {
                     $row[] = $this->encrypter->encrypt($key);
                 }
