@@ -156,14 +156,24 @@ EOF;
         }
         // -k
         if ($kick) {
-            if (!$email) {
-                $this->error("email is required");
+            // 踢出操作完成后不再执行后续操作
+            if (!$email && !$global) {
+                $this->error("email is required, if you want to kick all, use -g");
                 return;
             }
-                
-            $this->info("{$email} will be kicked, reserve {$reserve} sessions");
-            $result = $service->removeUserSessions($email, $reserve);
-            $this->info("left sessions : $result");
+
+            if ($email) {
+                $this->info("{$email} will be kicked, reserve {$reserve} sessions");
+                $result = $service->removeUserSessions($email, $reserve);
+                $this->info("left sessions : $result");
+            } else {
+                foreach ($userInfos as $email => $sessions) {
+                    $result = $service->removeUserSessions($email, $reserve);
+                    $this->info("$email is kicked, rserve {$reserve} sessions, left sessions: $result");
+                }
+            }
+            
+            return;
         }
         if ($save) {
             /* if ($reserve <= 0 && $reserveIp <= 0) { */
