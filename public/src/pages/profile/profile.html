@@ -42,6 +42,17 @@
                                     <button class="btn btn-primary" ng-click="change('pwd')">Edit</button>
                                 </div>
                             </div>
+                            <div class="profile-row">
+                                <div class="col-xs-4 col-md-3 col-lg-2">Subscription Email</div>
+                                <div class="col-xs-4 col-md-4 col-lg-2" ng-if = "!user.is_check">
+                                    <input type="text" class="form-control" id="contactInfo" ng-model="profile.subscriptionEmail">
+                                </div>
+                                <div class="col-xs-4 col-md-2 col-lg-2" ng-if = "!user.is_check">
+                                    <button class="btn btn-primary" ng-click="profile.sendActivationEmail()" ng-disabled="profile.clickEnable">Submit</button>
+                                    <span class="text-danger">{{profile.resendTimeMess}}</span>
+                                </div>
+                                <div class="col-xs-4 col-md-4 col-lg-2" ng-if = "user.is_check">{{user.subscription_email}}</div>
+                            </div>
                         </div>
                         <div class="profile-aff">
                             <div class="profile-title">

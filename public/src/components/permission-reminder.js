@@ -1,5 +1,6 @@
 import template from './permission-reminder.html'
 import './permission-reminder.scss'
+import { template as remindActiveEmailTemplate, controller as remindActiveEmailController } from './remind-active-email.js'
 
 const MODULE_NAME = 'bba.ui.reminder'
 
@@ -93,6 +94,14 @@ module.factory('Reminder', ['$uibModal', 'User', '$window', function($uibModal, 
             } else {
                 return false
             }
+        },
+        openRemindActiveEmail: function() {
+            return $uibModal.open({
+                template: remindActiveEmailTemplate,
+                size: 'md',
+                animation: true,
+                controller: remindActiveEmailController
+            })
         }
     }
     return reminder

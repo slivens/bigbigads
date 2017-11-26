@@ -5,7 +5,7 @@ import '../../components/subscription'
 import template from './profile.html'
 import changePwdTemplate from './changepwd.html'
 
-export default angular.module('profile', ['MetronicApp']).controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', '$http', 'SweetAlert', function($scope, $location, User, $uibModal, TIMESTAMP, $http, SweetAlert) {
+export default angular.module('profile', ['MetronicApp']).controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', '$http', 'SweetAlert', '$interval', function($scope, $location, User, $uibModal, TIMESTAMP, $http, SweetAlert, $interval) {
     let profile = {
         isFirstInit: false,
         init() {
@@ -75,6 +75,7 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
     $scope.userPromise.then(function() {
         var user = User.info.user
         // console.log(user.subscriptions);
+        console.log(User)
         $scope.userInfo = User.info
         $scope.User = User
         $scope.user = user
@@ -123,6 +124,44 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
                 )
             }
         })
+    }
+    profile.subscriptionEmail = User.info.user.email
+    profile.sendActivationEmail = function() {
+        if (!profile.subscriptionEmail) return
+        $http({
+            method: 'POST',
+            url: `/users/send-email`,
+            data: {
+                'user_email': User.info.user.email,
+                'subscription_email': profile.subscriptionEmail
+            }
+        }).then(function(res) {
+            if (res.data.time) {
+                profile.resendTime = res.data.time
+            } else {
+                profile.resendTime = -1
+            }
+        })
+        // 计时器, 60秒间隔后才能再点击
+        profile.second = 60
+        var timePromise
+        timePromise = $interval(function() {
+            if (profile.second <= 0) {
+                $interval.cancel(timePromise)
+                timePromise = undefined
+                profile.second = 60
+                if (profile.resendTime > 0) {
+                    profile.resendTimeMess = `only ${profile.resendTime} chance to resend`
+                } else {
+                    profile.resendTimeMess = `no chance to resend today`
+                }
+                profile.clickEnable = false
+            } else {
+                profile.resendTimeMess = profile.second + " seconds later try again"
+                profile.second--
+                profile.clickEnable = true
+            }
+        }, 1000, 100)
     }
 }])
     .controller('ChangepwdController', ['$scope', '$uibModalInstance', '$http', 'settings', function($scope, $uibModalInstance, $http, settings) {

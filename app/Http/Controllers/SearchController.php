@@ -469,6 +469,49 @@ class SearchController extends Controller
         free用户新增的all_total_count字段,要求过滤或者带有搜索词的请求前端必须带上time过滤,
         限制上在两个月前的时间,否则为非法搜索.
     */
+
+    /**
+     * 免费用户邮箱有效性检查, 检查未通过则限制获取广告数据
+     */
+    protected function checkEmailIsEffective($user)
+    {
+        $emailVerification = \Voyager::setting('check_email_validity');
+        $checkTime = Carbon::create(2017, 11, 31, 23, 59, 59);
+
+        // 预支持激活有效邮箱后再次修改订阅邮箱
+        $userRetryTime = 'retryTime_'.$user->id;
+        if (!Cache::get($userRetryTime)) {
+            Cache::put($userRetryTime, 3, Carbon::tomorrow()); 
+        }
+
+        // 检查用户邮箱有效性voyager后端控制开关; false 为关闭邮箱有效性检查
+        if ($emailVerification == "false") return;
+        
+        // 检查的用户对象为 2017-10-31号之前注册的免费账号
+        if (!$user->hasRole('Free')) return;
+
+        if ($user->hasRole('Free') && $user->created_at->gt($checkTime)) return;
+
+        // 社交登录用户state 为1 ，已经是激活状态，但是无有效邮箱，需要强制绑定
+        // 桌面端邮件登录用户检查state 不为 1的话, 需要强制绑定
+        
+        if (strstr($user->email, '@bigbigads.com')) {
+            if ($user->is_check === 0) {
+                // if (!Cache::get($userRetryTime)) {
+                //     Cache::put($userRetryTime, 3, Carbon::tomorrow()); 
+                // }
+                throw new \Exception("you must effective email", -4999);
+            }
+        } else {
+            if ($user->state == 0) {
+                // if (!Cache::get($userRetryTime)) {
+                //     Cache::put($userRetryTime, 3, Carbon::tomorrow()); 
+                // }
+                throw new \Exception("you must effective email", -4999);
+            }
+        }
+    }
+
     public function search(Request $req, $action) {
         $reqParams = $req->except(['action']);
         $jsonData = json_encode($reqParams);
@@ -508,6 +551,11 @@ class SearchController extends Controller
         }
         if (!$this->checkAttack($req, $user)) {
             return $this->responseError("We detect your ip has abandom behavior", -5000);
+        }
+        try {
+            $this->checkEmailIsEffective($user);
+        } catch (\Exception $e) {
+            return $this->responseError($e->getMessage(),$e->getCode());
         }
         if ($action == 'adsearch') {
             //检查权限（应该是根据GET的动作参数判断，否则客户端会出现一种情况，当查看收藏时，也会触发搜索资源统计)

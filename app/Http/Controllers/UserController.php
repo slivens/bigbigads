@@ -26,6 +26,7 @@ use Jenssegers\Agent\Agent;
 use App\ActionLog;
 
 use App\AppRegistersUsers;
+use App\Jobs\SendVerifyCodeMail;
 
 class UserController extends Controller
 {
@@ -123,6 +124,7 @@ class UserController extends Controller
                 $res['user']['click'] = 0;
                 $res['user']['action'] = 0;
             }
+
         } else {
             $user = AnonymousUser::user($req);
             $res['login'] = false;
@@ -543,5 +545,87 @@ class UserController extends Controller
             }
         }
         return response()->json($res);
+    }
+
+    /**
+     * 发送激活邮件到用户提交的email
+     *
+     * @return Response
+     */
+
+    public function sendVerifyMailToSubEmail(Request $request)
+    {
+        $user = Auth::user();
+        $email = $request->user_email;
+
+        $validator = Validator::make(
+            [
+                'subscription_email' => $request->subscription_email
+            ], [
+                'subscription_email' => 'required|email|max:255|unique:users',
+            ]
+        );
+
+        if ($validator->fails())
+        {
+            return response()->json(['code' => -1, 'desc' => $validator->messages()]);
+        }
+
+        $user->subscription_email = $request->subscription_email;
+        $user->save();
+
+        $userRetryTime = 'retryTime_'.$user->id;
+        $retryTime = Cache::get($userRetryTime);
+        if ($retryTime && $retryTime > 0) {
+            Cache::forget($userRetryTime);
+            // 覆盖无效, 删除再创建
+            Cache::put($userRetryTime, $retryTime - 1, Carbon::tomorrow());
+            dispatch(new sendVerifyCodeMail($user));
+            return response()->json(['code' => 1, 'time' => Cache::get($userRetryTime)]);
+        } else {
+            return response()->json(['code' => -1, 'desc' => 'Run out of retry time for resend email']);
+        }
+    }
+
+    /**
+     * 验证订阅邮箱
+     *
+     * @return Response
+     */
+
+    public function subEmailVerify(Request $request)
+    {
+        // 无subEmail 和 token 抛出异常
+        if (!($request->has('subEmail') && $request->has('token'))) {
+            return view('auth.verify')->with('error', "parameter error");
+        }
+
+        $user = User::where('subscription_email', $request->subEmail)->first();
+        if (!($user instanceof User)) {
+            return view('auth.verify')->with('error', "Verify failed");
+        }
+
+        // 社交登录用户检查验证 || 桌面端邮箱登录用户检查验证
+        if ((strstr($user->email, '@bigbigads.com') && $user->is_check == 1) || (!strstr($user->email, '@bigbigads.com') && $user->state == 1)) {
+            return view('auth.verify')->with('error', "You have verified, don't verify again!!!");
+        }
+
+        $userCode = 'verifyCode_'.$user->id;
+        $verifyCode = Cache::get($userCode);
+
+        // token码有效性检查，不存在即过期
+        if (!$verifyCode) {
+            return view('auth.verify')->with('error', "The verification email has expired!!!");
+        }
+
+        if ($verifyCode != $request->token) {
+            return view('auth.verify')->with('error', "parameter error");
+        }
+
+        $user->is_check = 1;
+        $user->state = 1;
+        $user->save();
+        Auth::login($user);
+        return redirect('/app');
     }
 }

@@ -116,6 +116,7 @@ Route::get(
 Route::get('/userinfo', 'UserController@logInfo');
 Route::get('/registerVerify', 'UserController@registerVerify');
 Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
+Route::get('/subEmailVerify', 'UserController@subEmailVerify');
 
 Route::get('/plans', 'SubscriptionController@plans');
 
@@ -136,6 +137,7 @@ Route::group(['middleware'=>'auth'], function() {
     Route::post('/users/customize_invoice', 'UserController@setInvoiceCustomer');
     Route::get('/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
     Route::patch('users/change_profile', 'UserController@changeProfile');
+    Route::post('/users/send-email', 'UserController@sendVerifyMailToSubEmail');
 });
 
 //pay页面需要支持不登录可访问
