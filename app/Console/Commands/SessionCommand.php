@@ -125,18 +125,26 @@ EOF;
         }
         // -vv 输出每个session的详细信息
         if ($this->output->isVeryVerbose()) {
-            $headers = ['email', 'session', 'ips', 'ip_count'];
+            $headers = ['email', 'session', 'ip_count'];
             $data = [];
+
+            if ($this->output->isDebug()) {
+                $headers[] = 'ips';
+            }
             if ($cookie) {
                 $headers[] = "cookie";
             }
+
 
             foreach ($sessionInfos as $key => $session) {
                 if (count($session['ips']) <= $minIpsCount)
                     continue;
                 if ($start && (new Carbon($session['updated']))->lt($start))
                     continue;
-                $row = [$session['email'], $key, json_encode($session['ips']), count($session['ips'])];
+                $row = [$session['email'], $key, count($session['ips'])];
+                if ($this->output->isDebug()) {
+                    $row[] = json_encode($session['ips']);
+                }
                 if ($cookie) {
                     $row[] = $this->encrypter->encrypt($key);
                 }
@@ -148,14 +156,24 @@ EOF;
         }
         // -k
         if ($kick) {
-            if (!$email) {
-                $this->error("email is required");
+            // 踢出操作完成后不再执行后续操作
+            if (!$email && !$global) {
+                $this->error("email is required, if you want to kick all, use -g");
                 return;
             }
-                
-            $this->info("{$email} will be kicked, reserve {$reserve} sessions");
-            $result = $service->removeUserSessions($email, $reserve);
-            $this->info("left sessions : $result");
+
+            if ($email) {
+                $this->info("{$email} will be kicked, reserve {$reserve} sessions");
+                $result = $service->removeUserSessions($email, $reserve);
+                $this->info("left sessions : $result");
+            } else {
+                foreach ($userInfos as $email => $sessions) {
+                    $result = $service->removeUserSessions($email, $reserve);
+                    $this->info("$email is kicked, rserve {$reserve} sessions, left sessions: $result");
+                }
+            }
+            
+            return;
         }
         if ($save) {
             /* if ($reserve <= 0 && $reserveIp <= 0) { */
