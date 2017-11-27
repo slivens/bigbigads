@@ -169,6 +169,8 @@ EOF;
             } else {
                 foreach ($userInfos as $email => $sessions) {
                     $result = $service->removeUserSessions($email, $reserve);
+                    if ($result < 0)
+                        continue;
                     $this->info("$email is kicked, rserve {$reserve} sessions, left sessions: $result");
                 }
             }
@@ -192,14 +194,14 @@ EOF;
             if ($this->option('reserve') !== null) {
                 Setting::where('key', 'global_session_count')
                     ->update(['value' => $this->option('reserve')]);
-                $this->info("Global Session Limit update");
+                $this->info("Global Session Limit update to " . $this->option('reserve'));
             }
             if ($this->option('reserve-ip') !== null) {
                 // 与实际业务产生了耦合，业务逻辑的代码都挪到Service中会更好
                 Setting::where('key', 'global_session_ip_count')
                     ->update(['value' => $this->option('reserve-ip')]);
                 Cache::forget('global_session_ip_count');
-                $this->info("Global Session IP Limit update");
+                $this->info("Global Session IP Limit update to " . $this->option('reserve-ip'));
             }
         }
     }
