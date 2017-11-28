@@ -225,20 +225,6 @@ var google_conversion_value = 0;
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>
 
-<!-- fb track -->
-<script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1555915891116409'); // Insert your pixel ID here.
-fbq('track', 'PageView');
-</script>
-<script type="text/javascript">
-fbq('track', 'CompleteRegistration');
-</script>
-
 <script>
 (function(h,o,t,j,a,r){
     h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
@@ -252,6 +238,10 @@ fbq('track', 'CompleteRegistration');
 <!-- 必应统计 -->
 <script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"5713181"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script><noscript><img src="//bat.bing.com/action/0?ti=5713181&Ver=2" height="0" width="0" style="display:none; visibility: hidden;" /></noscript>
 
+<!-- Event snippet for register_welcome conversion page -->
+<script>
+  gtag('event', 'conversion', {'send_to': 'AW-828108332/bGxTCP726nkQrNzvigM'});
+</script>
 <script type="text/javascript" src="{{bba_version('vendor.js')}}" defer></script>
 <script type="text/javascript" src="{{bba_version('welcome.js')}}" defer></script>
 </html>
