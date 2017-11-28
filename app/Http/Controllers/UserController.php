@@ -625,7 +625,7 @@ class UserController extends Controller
         }
 
         // 社交登录用户检查验证 || 桌面端邮箱登录用户检查验证
-        if ((strstr($user->email, '@bigbigads.com') && $user->is_check == 1) || (!strstr($user->email, '@bigbigads.com') && $user->state == 1)) {
+        if ($user->is_check == 1) {
             return view('auth.verify')->with('error', "You have verified, don't verify again!!!");
         }
 
