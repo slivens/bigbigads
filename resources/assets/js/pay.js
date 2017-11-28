@@ -159,7 +159,8 @@ new Vue({
                     /* eslint-disable */
                     window.uetq = window.uetq || []
                     window.uetq.push({'ec': 'conversion', 'ea': 'bba_checkout', 'el': 'pay', 'ev': 60})
-                    ga('send', 'event', 'conversion', 'payed_reg', 'pay_standard', 60);
+                    ga('send', 'event', 'conversion', 'payed_reg', 'pay_standard', 60)
+                    fbq('track', 'Purchase', {currency: 'US', value: 60.00})
                     /* eslint-disable */
                 } else {
                     that.errorMessage = "You have a subscription already. Contact help@bigbigads.com"
