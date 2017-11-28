@@ -476,7 +476,7 @@ class SearchController extends Controller
     protected function checkEmailIsEffective($user)
     {
         $emailVerification = \Voyager::setting('check_email_validity');
-        $checkTime = Carbon::create(2017, 11, 31, 23, 59, 59);
+        $checkTime = Carbon::create(2017, 7, 31, 23, 59, 59);
 
         // 检查用户邮箱有效性voyager后端控制开关; false 为关闭邮箱有效性检查
         if ($emailVerification == "false") return;

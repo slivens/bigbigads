@@ -56,7 +56,7 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         * 2）monent('xxxx-xx-xx').isBefore('xxxx-xx-xx') 可能值为 true 或则 false
         */
         profile.isShowValidate = false
-        if ($scope.user.role.name == 'Free' && moment($scope.user.created_at.split(' ')[0]).isBefore('2017-09-31')) {
+        if ($scope.user.role.name == 'Free' && moment($scope.user.created_at.split(' ')[0]).isBefore('2017-07-31')) {
             profile.isShowValidate = true
             // 打开验证邮箱的编辑框
             $scope.profile.openToggle('openSubscriptionEdit', true)

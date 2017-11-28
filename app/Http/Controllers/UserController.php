@@ -584,7 +584,7 @@ class UserController extends Controller
 
         if ($validator->fails())
         {
-            return response()->json(['code' => -1, 'desc' => $validator->messages()]);
+            return response()->json(['code' => -1, 'error' => $validator->messages()]);
         }
 
         $user->subscription_email = $request->subscription_email;
@@ -602,7 +602,7 @@ class UserController extends Controller
             dispatch(new sendVerifyCodeMail($user));
             return response()->json(['code' => 1, 'time' => Cache::get($userRetryTime)]);
         } else {
-            return response()->json(['code' => -1, 'desc' => 'Run out of retry time for resend email']);
+            return response()->json(['code' => -401, 'desc' => 'Run out of retry time for resend email']);
         }
     }
 

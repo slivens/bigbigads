@@ -80,6 +80,7 @@ module.factory('Reminder', ['$uibModal', 'User', '$window', function($uibModal, 
             // 检查是规定时间内否在推送用户通知
             if (!User.login) return false
             if (User.info.user.role.plan != 'free') return false
+            if (moment(User.info.user.created_at.split(' ')[0]).isBefore('2017-07-31') && !User.info.user.is_check) return false
             var permissionReminder
             var now = moment().format('YYYY-MM-DD')
             // localStorage内不存在通知信息或过期,重置通知信息
