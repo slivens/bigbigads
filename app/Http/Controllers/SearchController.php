@@ -486,17 +486,11 @@ class SearchController extends Controller
 
         if ($user->hasRole('Free') && $user->created_at->gt($checkTime)) return;
 
-        // 社交登录用户state 为1 ，已经是激活状态，但是无有效邮箱，需要强制绑定
-        // 桌面端邮件登录用户检查state 不为 1的话, 需要强制绑定
+        // 新增is_check字段，标记强制免费用户提供一个有效的邮箱是否验证
+        // 强制所有用户提供一个有效的邮箱
         
-        if (strstr($user->email, '@bigbigads.com')) {
-            if ($user->is_check === 0) {
-                throw new \Exception("you must effective email", -4999);
-            }
-        } else {
-            if ($user->state == 0) {
-                throw new \Exception("you must effective email", -4999);
-            }
+        if ($user->is_check === 0) {
+            throw new \Exception("you must effective email", -4999);
         }
     }
 
