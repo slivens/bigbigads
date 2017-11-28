@@ -40,10 +40,10 @@
                                 <p style="font-size: 12px;text-align: left;color: #444">
                                     171&nbsp;&nbsp;WANCHAI&nbsp;ROAD,&nbsp;WANCHAI HONG KONG</p>
                                 <p>
-                                    <a href="http://www.bigbigads.com/blog">Blog</a>
+                                    <a href="http://support.bigbigads.com/">Help Center</a>
                                     &nbsp;.&nbsp;
                                     <a href="http://www.bigbigads.com/privacy_policy" target="_blank">Privacy Policy</a>
-                                    &nbsp;.&nbsp;<a href="http://www.bigbigads.com/terms_service" target="_blank">Terms &amp; Conditions</a>
+                                    &nbsp;.&nbsp;<a href="http://www.bigbigads.com/terms_service" target="_blank">Terms of Service</a>
                                 </p>
                             </td>
                         </tr>

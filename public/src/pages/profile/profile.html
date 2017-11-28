@@ -24,7 +24,8 @@
                                 <div class="col-xs-3 col-md-3 col-lg-2 profile-item-name">Member since</div>
                                 <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">{{user.created_at}}</div>
                             </div>
-
+                            
+                            <!--Name-->
                             <div class="profile-row">
                                 <div class="col-xs-3 col-md-3 col-lg-2 profile-item-name">Name </div>
                                 <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">
@@ -34,7 +35,7 @@
                                                 <input type="text" class="form-control" name="name" ng-model="profile.username" ng-value="user.name" placeholder="Name" required ng-maxlength=64 autocomplete="off" />
                                                 <label class="control-label edit-error-laebl">
                                                     <span ng-if="profile.nameForm.name.$error.required">Required</span>
-                                                    <span ng-if="profile.nameForm.name.$error.maxlength">Error Length</span>
+                                                    <span ng-if="profile.nameForm.name.$error.maxlength">Invalid Length</span>
                                                 </label>
                                             </div>
                                             <div class="text-right">
@@ -50,12 +51,12 @@
                                                Edit 
                                                <small class="text-warning">(Beta)</small>
                                             </span>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
+                            <!--Password-->
                             <div class="profile-row">
                                 <div class="col-xs-3 col-md-3 col-lg-2 profile-item-name">Password</div>
                                 <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">
@@ -74,6 +75,7 @@
                                 </div>
                             </div>
 
+                            <!--Your Plan-->
                             <div class="profile-row">
                                 <div class="col-xs-3 col-md-3 col-lg-2 profile-item-name">Your Plan</div>
                                 <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">
@@ -86,15 +88,39 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="profile-row">
-                                <div class="col-xs-4 col-md-3 col-lg-2">Subscription Email</div>
-                                <div class="col-xs-4 col-md-4 col-lg-2" ng-if = "!user.is_check">
-                                    <input type="text" class="form-control" id="contactInfo" ng-model="profile.subscriptionEmail">
+
+                            <!--Subscription-->
+                            <div class="profile-row" ng-if="user.role.name == 'Free'">
+                                <div class="col-xs-4 col-md-3 col-lg-2  profile-item-name">Subscription Email</div>
+                                <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">
+                                    <div class="profile-edit-wrapper name-edit" ng-if = "!user.is_check" ng-class="{'open': profile.openSubscriptionEdit}">
+                                        <form name="profile.subscriptionForm" ng-submit="profile.sendActivationEmail()">
+                                            <div class="edit-input-wrapper" ng-class="{'has-error': profile.subscriptionForm.email.$dirty && profile.subscriptionForm.$invalid}">
+                                                <input type="email" class="form-control" name="email" placeholder="Email" ng-model="profile.subscriptionEmail" ng-maxlength=64 required>
+                                                <label class="control-label edit-error-laebl">
+                                                    <span ng-if="profile.subscriptionForm.email.$error.required">Required</span>
+                                                    <span ng-if="profile.subscriptionForm.email.$error.maxlength">Invalid Length</span>
+                                                    <span ng-if="profile.subscriptionForm.email.$error.email">Invalid Email</span>
+                                                </label>
+                                            </div>
+                                            <div class="text-right">
+                                                <button type="button" class="btn profile-btn-cancel" ng-click="profile.openToggle('openSubscriptionEdit', false)">Cancel</button>
+                                                <button type="submit" class="btn profile-btn-save" ng-click="" ng-disabled="profile.subscriptionForm.$invalid || !profile.subscriptionForm.name.$dirty || profile.clickEnable">Save Change</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                
+                                    <div class="profile-static-wrapper" ng-if="!profile.openSubscriptionEdit">
+                                        <div class="static-value">
+                                            <span class="text-success" ng-if="user.is_check">{{user.subscription_email}}</span>
+                                            <span class="text-warning" ng-if="!user.is_check">Unvalidated</span>
+                                        </div>
+                                        <div class="static-button-wrapper">
+                                           <span class="edit-button" ng-if = "!user.is_check" ng-disabled="profile.clickEnable" ng-click="profile.openToggle('openSubscriptionEdit', true)" >{{profile.resendTimeMess}}
+                                           </span> 
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-xs-4 col-md-2 col-lg-2" ng-if = "!user.is_check">
-                                    <button class="btn btn-primary" ng-click="profile.sendActivationEmail()" ng-disabled="profile.clickEnable">{{profile.resendTimeMess}}</button>
-                                </div>
-                                <div class="col-xs-4 col-md-4 col-lg-2" ng-if = "user.is_check">{{user.subscription_email}}</div>
                             </div>
                         </div>
 
