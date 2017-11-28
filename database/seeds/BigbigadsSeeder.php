@@ -68,11 +68,22 @@ class BigbigadsSeeder extends Seeder
     public function insertAdsersPermissions(&$roles)
     {
         $advertiserPermission = [
-            'adser_search'              => [false, false, false, true,  false, false, false],
-            'adser_search_times_perday' => [true,  true,  true,  true,  true,  true,  true]
+            'adser_search'                      => [false, false, false, true,  false, false, false],
+            'adser_search_times_perday'         => [false, true,  true,  true,  false, false, false],
+            'adser_without_key_total_perday'    => [false, true,  true,  true,  false, false, false],
+            'adser_key_total_perday'            => [false, true,  true,  true,  false, false, false],
+            'adser_limit_keys_perday'           => [false, true,  true,  true,  false, false, false],
+            'adser_limit_without_keys_perday'   => [false, true,  true,  true,  false, false, false],
+            'adser_result_per_search'           => [false, true,  true,  true,  false, false, false],
         ];
         $policies = [
-            'adser_search_times_perday' => [Policy::DAY, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+            'adser_without_key_total_perday'    => [Policy::DAY, 0, 200, 200, 200, 0, 0, 0],                // 广告主空词每日请求总数
+            'adser_key_total_perday'            => [Policy::DAY, 0, 500, 500, 500, 0, 0, 0],                // 广告主非空词每日请求总数
+            'adser_limit_keys_perday'           => [Policy::DAY, 0, 1000, 1000, 1000, 0, 0, 0],             // 广告主非空词下拉请求每日统计
+            'adser_limit_without_keys_perday'   => [Policy::DAY, 0, 1000, 1000, 1000, 0, 0, 0],             // 广告主空词下拉请求每日统计
+            'adser_result_per_search'           => [Policy::VALUE, 0, 300, 300, 300, 0, 0, 0],              // 广告主搜索单个结果最大数量
+            'adser_init_perday'                 => [Policy::VALUE, 0, 300, 300, 300, 0, 0, 0],              // 广告主页面初始化每日统计
+            'adser_search_times_perday'         => [Policy::DAY, 0, 200, 200, 200, 0, 0, 0],                // 广告主非空词每日搜索请求数
         ];
         // $this->insertPermissions("advertiser", $advertiser, $advertiserPermission, $roles);
         $this->insertPermissions("advertiser", $advertiserPermission, $roles);
@@ -257,13 +268,6 @@ class BigbigadsSeeder extends Seeder
             'search_key_total_perday'           => [true,  true,  true,  true,  true,  true,  true],    // 非空词搜索请求每日统计
             'hot_search_times_perday'           => [true,  true,  true,  true,  true,  true,  true],    // 热词搜索请求每日统计
             'specific_adser_times_perday'       => [true,  true,  true,  true,  true,  true,  true],    // 特定广告主搜索请求每日统计
-            'adser_without_key_total_perday'    => [false, true,  true,  true, false, false, false],    // 广告主空词每日请求总数
-            'adser_key_total_perday'            => [false, true,  true,  true, false, false, false],    // 广告主非空词每日请求总数
-            'adser_limit_keys_perday'           => [false, true,  true,  true, false, false, false],    // 广告主非空词下拉请求每日统计
-            'adser_limit_without_keys_perday'   => [false, true,  true,  true, false, false, false],    // 广告主空词下拉请求每日统计
-            'adser_result_per_search'           => [false, true,  true,  true, false, false, false],    // 广告主搜索单个结果最大数量
-            'adser_init_perday'                 => [false, true,  true,  true, false, false, false],    // 广告主页面初始化每日统计
-            'adser_search_times_perday'         => [false, true,  true,  true, false, false, false],    // 广告主搜索次数每日统计
         ];
         //给权限指定策略，策略数组的第一个数值表示策略类型，Policy::DAY表示按天累计，Policy::VALUE表示是一个固定值，Policy::PERMANENT表示永久累计，后面数值同上。需要注意的是，只有角色有对应的权限，才会有检查策略。
         $searchPolicy = [
@@ -282,13 +286,6 @@ class BigbigadsSeeder extends Seeder
             'search_key_total_perday'           => [Policy::DAY, 100, 800, 5000, 5000, 5000, 5000, 500],    // 非空词每日请求总数
             'hot_search_times_perday'           => [Policy::DAY, 5000, 5000, 5000, 5000, 5000, 5000, 5000],
             'specific_adser_times_perday'       => [Policy::DAY, 100, 600, 5000, 5000, 5000, 5000, 300],    // 广告主下所有广告请求总数
-            'adser_without_key_total_perday'    => [Policy::DAY, 0, 200, 200, 200, 0, 0, 0],                // 广告主空词每日请求总数
-            'adser_key_total_perday'            => [Policy::DAY, 0, 500, 500, 500, 0, 0, 0],                // 广告主非空词每日请求总数
-            'adser_limit_keys_perday'           => [Policy::DAY, 0, 1000, 1000, 1000, 0, 0, 0],             // 广告主非空词下拉请求每日统计
-            'adser_limit_without_keys_perday'   => [Policy::DAY, 0, 1000, 1000, 1000, 0, 0, 0],             // 广告主空词下拉请求每日统计
-            'adser_result_per_search'           => [Policy::VALUE, 0, 300, 300, 300, 0, 0, 0],              // 广告主搜索单个结果最大数量
-            'adser_init_perday'                 => [Policy::VALUE, 0, 300, 300, 300, 0, 0, 0],              // 广告主页面初始化每日统计
-            'adser_search_times_perday'         => [Policy::DAY, 0, 200, 200, 200, 0, 0, 0],                // 广告主非空词每日搜索请求数
         ];
         // $this->insertPermissions('Advertisement', $search, $searchPermission,  $roles);
         $this->insertPermissions('Advertisement', $searchPermission,  $roles);
