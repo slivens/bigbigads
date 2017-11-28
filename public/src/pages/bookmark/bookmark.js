@@ -68,12 +68,11 @@ angular.module('MetronicApp').factory('Bookmark', ['Resource', '$uibModal', 'Swe
     }
     bookmark.delBookmark = function(item) {
         SweetAlert.swal({
-            title: 'Are you sure?',
-            text: 'By clicking Yes you would delete the whole ' + item.name + ' folder',
+            title: `Please confirm to remove the bookmark folder ${item.name}`,
             type: 'warning',
             showCancelButton: true,
-            // confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Yes',
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Remove',
             cancelButtonText: 'Cancel',
             closeOnConfirm: true,
             closeOnCancel: true
