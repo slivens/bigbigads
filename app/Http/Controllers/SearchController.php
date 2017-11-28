@@ -478,12 +478,6 @@ class SearchController extends Controller
         $emailVerification = \Voyager::setting('check_email_validity');
         $checkTime = Carbon::create(2017, 11, 31, 23, 59, 59);
 
-        // 预支持激活有效邮箱后再次修改订阅邮箱
-        $userRetryTime = 'retryTime_'.$user->id;
-        if (!Cache::get($userRetryTime)) {
-            Cache::put($userRetryTime, 3, Carbon::tomorrow()); 
-        }
-
         // 检查用户邮箱有效性voyager后端控制开关; false 为关闭邮箱有效性检查
         if ($emailVerification == "false") return;
         
@@ -497,16 +491,10 @@ class SearchController extends Controller
         
         if (strstr($user->email, '@bigbigads.com')) {
             if ($user->is_check === 0) {
-                // if (!Cache::get($userRetryTime)) {
-                //     Cache::put($userRetryTime, 3, Carbon::tomorrow()); 
-                // }
                 throw new \Exception("you must effective email", -4999);
             }
         } else {
             if ($user->state == 0) {
-                // if (!Cache::get($userRetryTime)) {
-                //     Cache::put($userRetryTime, 3, Carbon::tomorrow()); 
-                // }
                 throw new \Exception("you must effective email", -4999);
             }
         }

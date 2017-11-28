@@ -115,6 +115,7 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         $scope.userInfo = User.info
         $scope.User = User
         $scope.user = user
+        profile.resendTime = User.info.user.retryTime
     })
 
     profile.customizeSubmit = function() {
@@ -166,8 +167,17 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         profile.invoiceForm.$setPristine()
     }
     profile.subscriptionEmail = User.info.user.email
+    profile.resendTimeMess = 'Submit'
     profile.sendActivationEmail = function() {
         if (!profile.subscriptionEmail) return
+        if (User.info.user.retryTime === 0) {
+            SweetAlert.swal({
+                title: 'Sorry',
+                text: 'Retry time has been exhausted today',
+                type: 'error'
+            })
+            return
+        }
         $http({
             method: 'POST',
             url: `/users/send-email`,
@@ -177,31 +187,36 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
             }
         }).then(function(res) {
             if (res.data.time) {
-                profile.resendTime = res.data.time
+                SweetAlert.swal({
+                    title: '',
+                    text: 'The email has send to you subscription email',
+                    type: 'success'
+                })
             } else {
-                profile.resendTime = -1
+                SweetAlert.swal({
+                    title: 'Sorry',
+                    text: 'Retry time has been exhausted today',
+                    type: 'error'
+                })
             }
         })
         // 计时器, 60秒间隔后才能再点击
-        profile.second = 60
+        profile.second = 5
         var timePromise
         timePromise = $interval(function() {
-            if (profile.second <= 0) {
+            if (profile.second === -1) profile.resendTimeMess = "Submit"
+            if (profile.second < 0) {
                 $interval.cancel(timePromise)
                 timePromise = undefined
-                profile.second = 60
-                if (profile.resendTime > 0) {
-                    profile.resendTimeMess = `only ${profile.resendTime} chance to resend`
-                } else {
-                    profile.resendTimeMess = `no chance to resend today`
-                }
+                profile.second = 5
                 profile.clickEnable = false
-            } else {
-                profile.resendTimeMess = profile.second + " seconds later try again"
+            } else if (profile.second >= 0) {
+                profile.resendTimeMess = profile.second + " seconds"
                 profile.second--
                 profile.clickEnable = true
             }
         }, 1000, 100)
+        User.getInfo()
     }
 }])
     .directive('profile', function() {

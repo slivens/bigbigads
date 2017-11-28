@@ -139,7 +139,8 @@ class UserController extends Controller
                 $res['user']['click'] = 0;
                 $res['user']['action'] = 0;
             }
-
+            $userRetryTime = 'retryTime_'.$user->id;
+            $res['user']['retryTime'] = Cache::get($userRetryTime);
         } else {
             $user = AnonymousUser::user($req);
             $res['login'] = false;
@@ -577,7 +578,7 @@ class UserController extends Controller
             [
                 'subscription_email' => $request->subscription_email
             ], [
-                'subscription_email' => 'required|email|max:255|unique:users',
+                'subscription_email' => 'required|email|max:255|unique:users,subscription_email,'.$user->id,
             ]
         );
 
@@ -590,6 +591,9 @@ class UserController extends Controller
         $user->save();
 
         $userRetryTime = 'retryTime_'.$user->id;
+        if (null === Cache::get($userRetryTime)) {
+            Cache::put($userRetryTime, 3, Carbon::tomorrow());
+        }
         $retryTime = Cache::get($userRetryTime);
         if ($retryTime && $retryTime > 0) {
             Cache::forget($userRetryTime);
