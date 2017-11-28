@@ -90,7 +90,7 @@
                             </div>
 
                             <!--Subscription-->
-                            <div class="profile-row" ng-if="user.role.name == 'Free'">
+                            <div class="profile-row" ng-if="profile.isShowValidate">
                                 <div class="col-xs-4 col-md-3 col-lg-2  profile-item-name">Subscription Email</div>
                                 <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">
                                     <div class="profile-edit-wrapper name-edit" ng-if = "!user.is_check" ng-class="{'open': profile.openSubscriptionEdit}">
@@ -105,19 +105,19 @@
                                             </div>
                                             <div class="text-right">
                                                 <button type="button" class="btn profile-btn-cancel" ng-click="profile.openToggle('openSubscriptionEdit', false)">Cancel</button>
-                                                <button type="submit" class="btn profile-btn-save" ng-click="" ng-disabled="profile.subscriptionForm.$invalid || !profile.subscriptionForm.name.$dirty || profile.clickEnable">Save Change</button>
+                                                <button type="submit" class="btn profile-btn-save" ng-disabled="profile.subscriptionForm.$invalid || profile.clickEnable">{{profile.resendTimeMess}}</button>
                                             </div>
                                         </form>
                                     </div>
                                 
-                                    <div class="profile-static-wrapper" ng-if="!profile.openSubscriptionEdit">
+                                    <div class="profile-static-wrapper" ng-if="!profile.openSubscriptionEdit || user.is_check">
                                         <div class="static-value">
                                             <span class="text-success" ng-if="user.is_check">{{user.subscription_email}}</span>
                                             <span class="text-warning" ng-if="!user.is_check">Unvalidated</span>
                                         </div>
                                         <div class="static-button-wrapper">
-                                           <span class="edit-button" ng-if = "!user.is_check" ng-disabled="profile.clickEnable" ng-click="profile.openToggle('openSubscriptionEdit', true)" >{{profile.resendTimeMess}}
-                                           </span> 
+                                           <span class="edit-button" ng-if = "!user.is_check" ng-disabled="profile.clickEnable" ng-click="profile.openToggle('openSubscriptionEdit', true)">{{profile.resendTimeMess}} <small class="text-warning">(Beta)</small>
+                                           </span>
                                         </div>
                                     </div>
                                 </div>

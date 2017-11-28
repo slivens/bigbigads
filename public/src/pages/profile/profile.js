@@ -45,6 +45,22 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         $scope.userInfo = User.info
         $scope.User = User
         $scope.user = user
+        /*
+        * 是否需要显示验证邮箱的部分
+        * 【显示条件】
+        * 1）2017年8月31日之前的用户（自定义，以后需要修改）
+        * 2）免费用户
+        *
+        * 【数据解释】
+        * 1）profile.user.created_at 可能值为 2017-09-25 19:28:44
+        * 2）monent('xxxx-xx-xx').isBefore('xxxx-xx-xx') 可能值为 true 或则 false
+        */
+        profile.isShowValidate = false
+        if ($scope.user.role.name == 'Free' && moment($scope.user.created_at.split(' ')[0]).isBefore('2017-09-31')) {
+            profile.isShowValidate = true
+            // 打开验证邮箱的编辑框
+            $scope.profile.openToggle('openSubscriptionEdit', true)
+        }
     })
     /*
     * 用户名等编辑框的开关
@@ -168,6 +184,7 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
     }
     profile.subscriptionEmail = User.info.user.email
     profile.resendTimeMess = 'Submit'
+
     profile.sendActivationEmail = function() {
         if (!profile.subscriptionEmail) return
         if (User.info.user.retryTime === 0) {
@@ -186,36 +203,56 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
                 'subscription_email': profile.subscriptionEmail
             }
         }).then(function(res) {
+            /*
+            * 返回发送结果
+            * 1）res.data.time 发送成功
+            * 2）res.data.error 邮箱已经被别人验证
+            * 3）res.data.code == '-401' 发送邮件次数超过限制
+            * 4) 其他未知状况，比如服务器错误
+            */
             if (res.data.time) {
                 SweetAlert.swal({
-                    title: '',
-                    text: 'The email has send to you subscription email',
+                    title: 'The verification email has been sent.',
                     type: 'success'
+                })
+                // 收起下拉框
+                $scope.profile.openToggle('openSubscriptionEdit', false)
+            } else if (res.data.error) {
+                SweetAlert.swal({
+                    title: 'Sorry',
+                    text: 'The email you submited has already been verified.',
+                    type: 'error'
+                })
+            } else if (res.data.code == '-401') {
+                SweetAlert.swal({
+                    title: 'Sorry',
+                    text: 'Retry time has been exhausted today.',
+                    type: 'error'
                 })
             } else {
                 SweetAlert.swal({
                     title: 'Sorry',
-                    text: 'Retry time has been exhausted today',
+                    text: 'An error occurred. Please try again later!',
                     type: 'error'
                 })
             }
         })
         // 计时器, 60秒间隔后才能再点击
-        profile.second = 5
+        profile.second = 60
         var timePromise
         timePromise = $interval(function() {
             if (profile.second === -1) profile.resendTimeMess = "Submit"
             if (profile.second < 0) {
                 $interval.cancel(timePromise)
                 timePromise = undefined
-                profile.second = 5
+                profile.second = 60
                 profile.clickEnable = false
             } else if (profile.second >= 0) {
                 profile.resendTimeMess = profile.second + " seconds"
                 profile.second--
                 profile.clickEnable = true
             }
-        }, 1000, 100)
+        }, 1000)
         User.getInfo()
     }
 }])
