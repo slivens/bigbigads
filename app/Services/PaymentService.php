@@ -311,7 +311,7 @@ class PaymentService implements PaymentServiceContract
                 $this->log("{$sub->agreement_id} is not {$sub->user->email}'s active subscrition, now send email to notify admin to cancel it", PaymentService::LOG_INFO);
                 /* if ($paypalService->suspendSubscription($sub->agreement_id)) */
                 /*     $newStatus = Subscription::STATE_SUSPENDED; */
-                $sub->user->notify(new CancelSubOnSyncNotification($sub));
+                // $sub->user->notify(new CancelSubOnSyncNotification($sub));
             }
             if (!empty($newStatus)) {
                 $newData['status'] = $newStatus;
