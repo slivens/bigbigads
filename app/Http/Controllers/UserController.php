@@ -274,6 +274,9 @@ class UserController extends Controller
             if (empty($userName)) {
                 $userName= $socialiteUser->name;
             }
+            if (empty($userName)) {
+                $userName = $email;
+            }
             $user = User::create(
                 [
                 'name' => $userName,
