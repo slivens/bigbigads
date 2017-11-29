@@ -1,20 +1,15 @@
-<div  ng-class='{"ml-sidebar":!bookmark.error}' class="bookmark" id="bookmark">
+<div  ng-if="!bookmark.error" class="bookmark ml-sidebar" id="bookmark">
 
     <!-- BEGIN PAGE BREADCRUMB -->
-    <div class="clearfix">
-        <div class="pull-right bookmark-edit" ng-show="bookmark.bid > 0">
-            <a ng-click="bookmark.editBookmarkByBid(bookmark.bid)" class="btn btn-primary"><i class="fa fa-pencil fa-fw"></i></a>
-            <a ng-click="bookmark.delBookmarkByBid(bookmark.bid)" class="btn btn-danger"><i class="fa fa-trash fa-fw"></i></a>
+    <div class="clearfix bookmark-name-wrapper">
+        <div class="pull-left bookmark-item-name">
+            <i class="fa fa-bookmark-o"></i>
+            <span>{{bookmark.currItem.name}}</span>
         </div>
-        <ul class="page-breadcrumb breadcrumb">
-            <li>
-                Bookmark
-                <i class="fa fa-circle"></i>
-            </li>
-            <li>
-                {{bookmark.currItem.name}}
-            </li>
-        </ul>
+        <div class="pull-left bookmark-edit" ng-show="bookmark.bid > 0">
+            <a ng-click="bookmark.editBookmarkByBid(bookmark.bid)" class="btn edit-btn-edit"><i class="fa fa-pencil fa-fw"></i></a>
+            <a ng-click="bookmark.delBookmarkByBid(bookmark.bid)" class="btn edit-btn-del"><i class="fa fa-trash fa-fw"></i></a>
+        </div>
     </div>
     <!-- END PAGE BREADCRUMB -->
     <!-- BEGIN MAIN CONTENT -->
@@ -23,48 +18,46 @@
             <!-- <div class="alert alert-danger" ng-if="bookmark.error">
                 You have not authroized!
             </div> -->
-            <div ng-if="!bookmark.error">
-                <uib-tabset active="bookmark.type">
-                    <uib-tab index="0" heading="Ads">
-                        <div class="alert alert-info" ng-if="!data.ads.ads_info">
-                            No ads yet!
-                        </div>
-                        <!--waring-->
-                        <div class="alert alert-warning" ng-if="data.ads.ads_info && data.ads.total_count != data.ads.wantedLength">
-                            {{data.ads.wantedLength}} ads is wanted, but only find {{data.ads.total_count}}
-                        </div>
-                    </uib-tab>
-                    <uib-tab index="1" heading="Advertisers">
-                        <div class="alert alert-info" ng-if="!User.can('advertiser_collect')">
-                            Please upgrade your account!
-                        </div>
-                        <div class="alert alert-info" ng-if="User.can('advertiser_collect') && !data.adsers.adser">
-                            No advertisers yet!
-                        </div>
-                        <div class="alert alert-warning" ng-if="data.adsers.adser && data.adsers.total_adser_count != data.adsers.wantedLength">
-                            {{data.adsers.wantedLength}} adsers is wanted, but only find {{data.adsers.total_adser_count}}
-                        </div>
-                    </uib-tab>
-                </uib-tabset>
-                <div ng-if="bookmark.type == 0">
-                    <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
-                        <div deckgrid source="data.ads.ads_info" class="deckgrid" cardTemplateString="<adsearch-card />">
-                        </div>
-                        <div class="clearfix">
-                        </div>
-                        <div class="text-center" ng-show="adSearcher.busy">
-                            <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-                            <span class="sr-only">Loading...</span>
-                        </div>
+            <uib-tabset active="bookmark.type" class="hidden">
+                <uib-tab index="0" heading="Ads">
+                    <div class="alert alert-info" ng-if="!data.ads.ads_info">
+                        No ads yet!
+                    </div>
+                    <!--waring-->
+                    <div class="alert alert-warning" ng-if="data.ads.ads_info && data.ads.total_count != data.ads.wantedLength">
+                        {{data.ads.wantedLength}} ads is wanted, but only find {{data.ads.total_count}}
+                    </div>
+                </uib-tab>
+                <uib-tab index="1" heading="Advertisers">
+                    <div class="alert alert-info" ng-if="!User.can('advertiser_collect')">
+                        Please upgrade your account!
+                    </div>
+                    <div class="alert alert-info" ng-if="User.can('advertiser_collect') && !data.adsers.adser">
+                        No advertisers yet!
+                    </div>
+                    <div class="alert alert-warning" ng-if="data.adsers.adser && data.adsers.total_adser_count != data.adsers.wantedLength">
+                        {{data.adsers.wantedLength}} adsers is wanted, but only find {{data.adsers.total_adser_count}}
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+            <div ng-if="bookmark.type == 0">
+                <div infinite-scroll="adSearcher.checkAndGetMore()" infinite-scroll-distance="0" infinite-scroll-disabled="adSearcher.busy || adSearcher.isend">
+                    <div deckgrid source="data.ads.ads_info" class="deckgrid" cardTemplateString="<adsearch-card />">
                     </div>
                     <div class="clearfix">
                     </div>
-                </div>
-
-                <div ng-if="bookmark.type == 1">
-                    <!-- TODO: should use component instead of html file -->
-                    <div deckgrid source="data.adsers.adser" class="deckgrid" cardTemplate="{{'views/adser-search-card.html'}}">
+                    <div class="text-center" ng-show="adSearcher.busy">
+                        <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                        <span class="sr-only">Loading...</span>
                     </div>
+                </div>
+                <div class="clearfix">
+                </div>
+            </div>
+
+            <div ng-if="bookmark.type == 1">
+                <!-- TODO: should use component instead of html file -->
+                <div deckgrid source="data.adsers.adser" class="deckgrid" cardTemplate="{{'views/adser-search-card.html'}}">
                 </div>
             </div>
         </div>
@@ -83,7 +76,7 @@
             <div class="portlet light">
                 <div class="portlet-body">
                     <p class="clearfix">
-                        <span class="pull-left bookmark-title">Bookmark list</span>
+                        <span class="pull-left bookmark-list-title">Bookmark list</span>
                         <span class="pull-right">({{bookmark.items.length + "/" + User.getPolicy("bookmark_list").value}})</span>
                     </p>
                     <div class="list-group bookmark-list">
@@ -95,10 +88,11 @@
                         </button>
                     </div>
                     <!--create new list button-->
-                    <button class="btn btn-block yellow-gold" ng-click="bookmark.addBookmark()">
-                        <i class="fa fa-plus"></i>
-                        Create New List
-                    </button>
+                    <div class="create-btn-wrapper">
+                        <button class="btn ads-btn-save" ng-click="bookmark.addBookmark()">
+                            Create New List
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
