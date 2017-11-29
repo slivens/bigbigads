@@ -66,7 +66,7 @@ class AdvertisersController extends Controller
 
         $result = json_decode($result->getBody(), true);
 
-        $subAction = $this->getUserAction($params);
+        //$subAction = $this->getUserAction($params);
         
         if (!array_key_exists('adser_info', $result)) return [
             'data'  => [],
@@ -76,8 +76,8 @@ class AdvertisersController extends Controller
             'next'  => 0,
             'prev'  => 0,
         ];
-        $this->logActionAndUpgradeUsage($subAction, $result['total_adser_count'], $json);
-        
+        // $this->logActionAndUpgradeUsage($subAction, $result['total_adser_count'], $json);
+
         $pagination = [];
         $pagination['pages'] = ceil($result['total_adser_count'] / $limit);
         $pagination['page']  = $page;
@@ -97,7 +97,11 @@ class AdvertisersController extends Controller
      */
     private function apiPublisher($id)
     {
-        $result = self::getPublishers(['id' => $id], 1, 1);
+        $params = [];
+        $params['id'] = $id;
+        $params['page'] = 1;
+        $params['limit'] = 1;
+        $result = $this->apiPublishers($params);
         if ($result) {
             return reset($result['data']);
         } else {
@@ -360,10 +364,10 @@ class AdvertisersController extends Controller
     {
         $user = Auth::user();
         if (!$user) return $this->responseError("You should sign in", -4199);
-        if (!$this->checkAttack($req, $user)) {
+        if (!$this->checkAttack($request, $user)) {
             return $this->responseError("We detect your ip has abandom behavior", -5000);
         }
-        $this->checkIsRestrictGetAdResource($request, $user, $jsonData);
+        //$this->checkIsRestrictGetAdResource($request, $user, $jsonData);
 
         $result = $this->apiPublisher($facebookId);
 
