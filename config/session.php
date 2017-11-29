@@ -28,8 +28,8 @@ return [
     | to immediately expire on the browser closing, set that option.
     |
     */
-    //暂时改为一个月，Bug测试成功后再改回2个小时
-    'lifetime' => 43200,
+    //暂时改为半个月，Bug测试成功后再改回2个小时
+    'lifetime' => 43200 / 2,
 
     'expire_on_close' => false,
 

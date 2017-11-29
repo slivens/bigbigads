@@ -12,6 +12,7 @@ use Payum\LaravelPackage\Storage\EloquentStorage;
 use App\Payment;
 use Payum\LaravelPackage\Model\Token;
 use Payum\Core\Storage\FilesystemStorage;
+use Illuminate\Support\Facades\Session;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,6 +45,12 @@ class AppServiceProvider extends ServiceProvider
             return true;
         });
         $this->app['view']->addNamespace('cashier', base_path() . '/vendor/laravel/cashier-braintree/resources/views');
+
+        Session::extend('enhanced', function($app) {
+            $store = $app['config']->get('session.store') ?: 'redis';          
+            $minutes = $app['config']['session.lifetime'];  
+            return new \App\Extensions\EnhancedSessionHandler(clone $app['cache']->store($store), $minutes);
+        });
     }
 
     /**
@@ -62,6 +69,18 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\App\Contracts\PaymentService::class, function() {
             // 配置应该由此处传入，以便达到解耦以及多个PaymentService实例共用的目的
             return new \App\Services\PaymentService(config('payment'));
+        });
+
+        $this->app->singleton('app.service.payment', function() {
+            return app(\App\Contracts\PaymentService::class);
+        });
+
+        $this->app->singleton(\App\Contracts\SessionService::class, function() {
+            return new \App\Services\SessionService();
+        });
+
+        $this->app->singleton('app.service.session', function() {
+            return app(\App\Contracts\SessionService::class);
         });
 
         $this->app->resolving('payum.builder', function(\Payum\Core\PayumBuilder $payumBuilder) {

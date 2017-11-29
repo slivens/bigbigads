@@ -8,8 +8,8 @@
             <a class="logo-head" href="/home" title=""></a>
         </div>
         <div class="menu-list">
-            <a href="{{url('/login')}}" class="btn login-btn ads-font-14">LOGIN</a>
-            <a href="{{url('/plan')}}" class="btn  register-btn ads-font-14 mobile-hidden">SIGN UP</a>
+            <a href="{{url('/login')}}" class="btn login-btn ads-font-14">{{ trans('auth.login') }}</a>
+            <a href="{{url('/pricing')}}" class="btn  register-btn ads-font-14 mobile-hidden">{{ trans('auth.signup') }}</a>
         </div>
     </div>
 </header>

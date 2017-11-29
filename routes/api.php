@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('auth/token', 'Api\AuthController@token');
+
 Route::group(['middleware' => ['auth']], function () {
     // 获取登录用户信息
     Route::get('users/current', 'Api\UserController@getCurrentUser');

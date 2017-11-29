@@ -1,45 +1,195 @@
-<div>
-    <div class="portlet light bordered">
+<div id="profile" class="row">
+    <div class="container">
         <div class="portlet-body" cg-busy="userPromise"> 
             <div class="alert alert-danger" ng-if="!userInfo.login">
                 Please Login First!
             </div>
             <uib-tabset active="profile.active" ng-if="userInfo.login">
-                <uib-tab index="0" heading="Subscription Plan">
-                    <subscription  />
+                <uib-tab index="0" heading="Profile Setting">
+                
+                    <!-- <subscription  /> -->
+                    <div class="portlet profile-setting">
+                        <div class="profile-title hidden">
+                            <h3> Account Settings
+                                <i class="icon-pencil"></i>
+                            </h3>
+                        </div>
+                        <div class="porlet-body">
+                            <div class="profile-row">
+                                <div class="col-xs-3 col-md-3 col-lg-2 profile-item-name">Email</div>
+                                <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">{{user.email}}</div>
+                            </div>
+
+                            <div class="profile-row hidden">
+                                <div class="col-xs-3 col-md-3 col-lg-2 profile-item-name">Member since</div>
+                                <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">{{user.created_at}}</div>
+                            </div>
+
+                            <div class="profile-row">
+                                <div class="col-xs-3 col-md-3 col-lg-2 profile-item-name">Name </div>
+                                <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">
+                                    <div class="profile-edit-wrapper name-edit" ng-class="{'open': profile.openNameEdit}">
+                                        <form name="profile.nameForm" ng-submit="!profile.nameForm.$invalid && profile.changeName()">
+                                            <div class="edit-input-wrapper" ng-class="{'has-error': profile.nameForm.name.$dirty && profile.nameForm.$invalid}">
+                                                <input type="text" class="form-control" name="name" ng-model="profile.username" ng-value="user.name" placeholder="Name" required ng-maxlength=64 autocomplete="off" />
+                                                <label class="control-label edit-error-laebl">
+                                                    <span ng-if="profile.nameForm.name.$error.required">Required</span>
+                                                    <span ng-if="profile.nameForm.name.$error.maxlength">Error Length</span>
+                                                </label>
+                                            </div>
+                                            <div class="text-right">
+                                                <button type="button" class="btn profile-btn-cancel" ng-click="profile.openToggle('openNameEdit', false)">Cancel</button>
+                                                <button type="submit" class="btn profile-btn-save" ng-disabled="profile.nameForm.$invalid || !profile.nameForm.name.$dirty || user.name == profile.username">Save Change</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="profile-static-wrapper" ng-if="!profile.openNameEdit">
+                                        <div class="static-value">{{user.name}}</div>
+                                        <div class="static-button-wrapper">
+                                            <span class="edit-button" ng-click="profile.openToggle('openNameEdit', true)">
+                                               Edit 
+                                               <small class="text-warning">(Beta)</small>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="profile-row">
+                                <div class="col-xs-3 col-md-3 col-lg-2 profile-item-name">Password</div>
+                                <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">
+                                    <div class="profile-edit-wrapper pwd-edit" ng-class="{'open': profile.openPwdEdit}">
+                                        <changepwd toggle="profile.openToggle"/>
+                                    </div>
+                                    <div class="profile-static-wrapper" ng-if="!profile.openPwdEdit">
+                                        <div class="static-value">******</div>
+                                        <div class="static-button-wrapper">
+                                            <span class="edit-button" ng-click="profile.openToggle('openPwdEdit', true)">
+                                                Edit 
+                                            <small class="text-warning">(Beta)</small>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="profile-row">
+                                <div class="col-xs-3 col-md-3 col-lg-2 profile-item-name">Your Plan</div>
+                                <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">
+                                    <div class="profile-static-wrapper">
+                                        <div class="static-value text-success">{{user.role.plan}}</div>
+                                        <div class="static-button-wrapper">
+                                           <a class="edit-button" ng-if="!userInfo.effective_sub" href="./pricing">Switch Plan</a>
+                                           <span class="edit-button" ng-if="userInfo.effective_sub" disabled>Switch Plan <small class="text-warning">(Coming Soon)</small></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-aff">
+                            <div class="profile-title hidden">
+                                <h3>Affiliate
+                                    <i class="fa fa-paper-plane-o"></i>
+                                </h3>
+                            </div>
+                            <div class="profile-row">
+                                <div class="col-xs-3 col-md-3 col-lg-2 profile-item-name">
+                                    Affiliate
+                                </div>
+                                <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">
+                                    <!--自定义的复制到剪贴板指令，具体用法详见common.js:496-->
+                                    <copy-dom value="{{user.affiliateUrl}}" button-text="Copy" success-text="Copied" ng-if="user.affiliateUrl">
+                                    </copy-dom>
+                                    <span class="text-danger" ng-if="!user.affiliateUrl">No Data</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-row">
+                                <div class="col-xs-3 col-md-3 col-lg-2 profile-item-name">Click:</div>
+                                <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">{{user.click}}</div>
+                            </div>
+                            <div class="profile-row">
+                                <div class="col-xs-3 col-md-3 col-lg-2 profile-item-name">Register:</div>
+                                <div class="col-xs-9 col-md-9 col-lg-10 profile-item-value">{{user.action}}</div>
+                            </div>
+                        </div>
+                    </div>
+
                 </uib-tab>
-                <uib-tab index="1" heading="Billings">
+
+                <uib-tab index="1" heading="Billing Setting">
                     <billings should-init="{{profile.active == 1}}" />
+                    <div class="profile-invoice"> 
+                        <div class="invoice-title-wrapper">
+                            <h3>Invoice Info</h3>
+                            <span class="profile-edit-btn invoice-btn" ng-click="profile.openToggle('openInvoiceEdit', true)" ng-if="!profile.openInvoiceEdit">
+                                <span class="ads-font-16">Edit</span> 
+                                <small class="text-warning">(beta)</small>
+                            </span>
+                        </div>
+
+                        <div class="porlet-body profile-edit-wrapper invoice-edit" ng-class="{'open': profile.openInvoiceEdit}">
+                            <div class="text-warning invoice-remin">
+                                <h5>Please noticed that we support English invoice only, you have one chance to edit it each month. </h4>
+                            </div>
+
+                            <div class="invoice-form">
+                                <form name="profile.invoiceForm" class="form-horizontal" ng-submit="profile.customizeSubmit()">
+                                    <div class="form-group profile-invoice-row">
+                                        <div class="invoice-item-name">Company Name</div>
+                                        <div class="invoice-item-input">
+                                            <input type="text" class="form-control Invoice-input" ng-model="profile.companyName"
+                                            ng-value="profile.companyName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group profile-invoice-row">
+                                        <div class="invoice-item-name">Address</div>
+                                        <div class="invoice-item-input">
+                                            <input type="text" class="form-control" ng-model="profile.address">
+                                        </div>
+                                    </div>
+                                    <div class="form-group profile-invoice-row">
+                                        <div class="invoice-item-name">Contact info</div>
+                                        <div class="invoice-item-input">
+                                            <input type="text" class="form-control" ng-model="profile.contactInfo">
+                                        </div>
+                                    </div>
+                                    <div class="form-group profile-invoice-row">
+                                        <div class="invoice-item-name">Website</div>
+                                        <div class="invoice-item-input">
+                                            <input type="text" class="form-control" ng-model="profile.website">
+                                        </div>
+                                    </div>
+                                    <div class="form-group profile-invoice-row">
+                                        <div class="invoice-item-name">Tax No.</div>
+                                        <div class="invoice-item-input">
+                                            <input type="text" class="form-control" ng-model="profile.taxNo">
+                                        </div>
+                                    </div>
+                                    <div class="form-group profile-invoice-row">
+                                        <div class="invoice-item-name"></div>
+                                        <div class="invoice-item-input text-right">
+                                            <button type="button" class="btn profile-btn-cancel" ng-click="profile.openToggle('openInvoiceEdit', false)">Cancel</button>
+                                            <button type="submit" class="btn profile-btn-save" ng-disabled="!profile.invoiceForm.$dirty">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-cancelplan">
+                        <subscription />
+                    </div>
                 </uib-tab>
-                <uib-tab index="2" heading="Account Settings">
-                    <div class="portlet">
-                    <div class="portlet-title">
-                        <h3> Account Settings <i class="icon-pencil"></i></h3>
-                    </div>
-                    <div class="porlet-body">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                Member Email
-                            </div>
-                            <div class="col-xs-4">
-                                {{user.email}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-3">Member Name</div>
-                            <div class="col-xs-4">{{user.name}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-3">Member since</div>
-                            <div class="col-xs-4">{{user.created_at}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-3">Password</div>
-                            <div class="col-xs-4">
-                                <button class="btn btn-primary" ng-click="changePwd()">Change</button>
-                            </div>
-                        </div>
-                    </div>
+
+                <uib-tab index="2" heading="Support">
+                    <div class="profile-support">
+                        <p class="support-list">1, Contact us <a href="mailto:help@bigbigads.com">help@bigbigads.com</a></p>
+                        <p class="support-list">2, Help Center: <a href="http://support.bigbigads.com" target="_blank">http://support.bigbigads.com</a></p>
+                        <p class="support-list">3, <a id="serviceLauncher">Chat Online</a></p>
                     </div>
                 </uib-tab>
             </uib-tabset>

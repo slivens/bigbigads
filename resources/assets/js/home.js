@@ -130,3 +130,21 @@ function estimationThousand(num) {
     count = count + ",000"
     return count
 }
+
+$('.downloadExtension').click(function() {
+    if (document.getElementById('bigbigads-extension-is-installed')) {
+        window.location.href = '/pricing'
+    } else {
+        var url = 'https://chrome.google.com/webstore/detail/aeicgjbjcnodlaomefmanfbkhpcdlcbk'
+        try {
+            chrome.webstore.install(url, function() {
+                window.location.href = '/plan'
+            }, function() {
+                window.location.href = '/plan'
+            })
+        } catch (err) {
+            window.open(url, '_blank')
+            window.location.href = '/plan'
+        }
+    }
+})

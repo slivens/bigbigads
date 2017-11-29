@@ -8,9 +8,12 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './../sass/demo.scss'
 import './../sass/pay.scss'
 import 'font-awesome/css/font-awesome.min.css'
-import { Card, createToken } from 'vue-stripe-elements'
+import { Card, createToken } from 'vue-stripe-elements-plus'
 
 // Vue.component('coupon', require('./components/Coupon.vue'))
+
+// Ie 不兼容 promise
+if (!window.Promise) window.Promise = Promise
 
 /* 判断邮箱 */
 function isEmail(szMail) {
@@ -31,7 +34,7 @@ new Vue({
         inited: true,
         errorMessage: "",
         email: '',
-        emailErr: false,
+        emailErr: true,
         emailMessage: "Required",
         showLoading: true, // showLoding 控制的是hidden的样式，当为true的时候，为隐藏！
         complete: false, // complete为true时，表示信用卡卡号是OK的
@@ -127,7 +130,7 @@ new Vue({
                 })
             } else {
                 that.showLoading = true
-                that.errorMessage = "Invalid"
+                that.errorMessage = 'Please enter your email to continue. Contact help@bigbigads.com if you need help.'
                 that.$refs.modal.open()
             }
         },
@@ -137,7 +140,7 @@ new Vue({
             var userEmail = that.email
             if (!isEmail(userEmail)) {
                 that.emailErr = true
-                that.emailMessage = "Invalid"
+                that.emailMessage = 'Invalid'
                 return false
             } else {
                 that.emailErr = false
@@ -153,6 +156,12 @@ new Vue({
                 if (!sub) {
                     this.showLoading = false
                     this.$refs.checkout.submit()
+                    /* eslint-disable */
+                    window.uetq = window.uetq || []
+                    window.uetq.push({'ec': 'conversion', 'ea': 'bba_checkout', 'el': 'pay', 'ev': 60})
+                    ga('send', 'event', 'conversion', 'payed_reg', 'pay_standard', 60)
+                    fbq('track', 'Purchase', {currency: 'US', value: 60.00})
+                    /* eslint-disable */
                 } else {
                     that.errorMessage = "You have a subscription already. Contact help@bigbigads.com"
                     that.$refs.modal.open()

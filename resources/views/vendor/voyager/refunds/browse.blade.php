@@ -1,5 +1,5 @@
 @extends('voyager::master')
-
+@inject('payment_service', 'App\Contracts\PaymentService')
 @section('page_title','All '.$dataType->display_name_plural)
 
 @section('page_header')
@@ -16,6 +16,7 @@
 @section('content')
     <div class="page-content container-fluid" id="app">
         @include('voyager::alerts')
+
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-bordered">
@@ -25,6 +26,9 @@
                                 <tr>
                                     <td>订阅</td>
                                     <td>订单</td>
+                                    {{--<td>买家</td>--}}
+                                    <td>劣迹</td>
+                                    <td>role</td>
                                     @foreach($dataType->browseRows as $rows)
                                     <th>{{ $rows->display_name }}</th>
                                     @endforeach
@@ -36,6 +40,9 @@
                                 <tr>
                                     <td>{{$data->payment->subscription->agreement_id}}</td>
                                     <td>{{$data->payment->number}}</td>
+{{--                                    <td>{{$data->payment->buyer_email}}</td>--}}
+                                    <td>{{$payment_service->getRefundHistoryCount($data->payment->buyer_email)}}</td>
+                                    <td>{{$data->payment->client->role->display_name}}</td>
                                     @foreach($dataType->browseRows as $row)
                                         <td>
                                             <?php $options = json_decode($row->details); ?>

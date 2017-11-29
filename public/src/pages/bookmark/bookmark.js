@@ -1,3 +1,4 @@
+import './bookmark.scss'
 import template from './bookmark.html'
 import bookmarkAddDialogTemplate from './bookmark-add-dialog.html'
 import '../../components/bookmark-popover.js'
@@ -71,15 +72,20 @@ angular.module('MetronicApp').factory('Bookmark', ['Resource', '$uibModal', 'Swe
             text: 'By clicking Yes you would delete the whole ' + item.name + ' folder',
             type: 'warning',
             showCancelButton: true,
-            // confirmButtonColor: '#DD6B55',   
+            // confirmButtonColor: '#DD6B55',
             confirmButtonText: 'Yes',
             cancelButtonText: 'Cancel',
             closeOnConfirm: true,
             closeOnCancel: true
-        }, function(isConfirm) {
+        }, async function(isConfirm) {
             if (isConfirm) {
-                bookmark.del(item)
-                $state.reload()
+                try {
+                    await bookmark.del(item)
+                    $state.reload()
+                } catch (err) {
+                    // 可能存在删除失败的情况
+                    console.error(err)
+                }
             }
         })
     }
@@ -217,7 +223,7 @@ angular.module('MetronicApp').controller('BookmarkController', ['$scope', 'setti
             text: bookFolderText + cardText,
             type: 'warning',
             showCancelButton: true,
-            // confirmButtonColor: '#DD6B55',   
+            // confirmButtonColor: '#DD6B55',
             confirmButtonText: 'Yes',
             cancelButtonText: 'Cancel',
             closeOnConfirm: true,
@@ -275,7 +281,7 @@ angular.module('MetronicApp').controller('BookmarkController', ['$scope', 'setti
     })
 
     // setTimeout(function() {
-    //     QuickSidebar.init(); // init quick sidebar        
+    //     QuickSidebar.init(); // init quick sidebar
     // }, 200);
 }])
     .directive('bookmark', function() {

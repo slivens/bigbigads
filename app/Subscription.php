@@ -36,12 +36,24 @@ class Subscription extends Model
      * 挂起订阅时的状态
      */
     const STATE_SUSPENDED = "suspended";
-
+    
+    /**
+     * 订阅失败时的状态
+     */
+    const STATE_FAILED = "failed";
     /**
      * 挂起订阅时的状态
      */
     const STATE_PENDING = "pending";
 
+    /**
+     * 默认的tag值
+     */
+    const TAG_DEFAULT = "default";
+
+
+    const GATEWAY_STRIPE = "stripe";
+    const GATEWAY_PAYPAL = "paypal";
 
     public function user()
     {

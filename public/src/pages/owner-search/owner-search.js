@@ -110,6 +110,102 @@ export default angular.module('owner-search', ['MetronicApp', 'akoenig.deckgrid'
                 $scope.searchBusy = false
                 console.log(err)
             })
+<<<<<<< HEAD
+=======
+
+            // tracking tools
+            if (option.tracking && option.tracking.length) {
+                $scope.adSearcher.addFilter({
+                    field: 'tracking',
+                    value: option.tracking.join(',')
+                })
+                $scope.currSearchOption.filter.tracking = option.tracking.join(',')
+            } else {
+                $scope.adSearcher.removeFilter("tracking")
+            }
+
+            // Affiliate
+            if (option.affiliate && option.affiliate.length) {
+                $scope.adSearcher.addFilter({
+                    field: 'affiliate',
+                    value: option.affiliate.join(',')
+                })
+                $scope.currSearchOption.filter.affiliate = option.affiliate.join(',')
+            } else {
+                $scope.adSearcher.removeFilter("affiliate")
+            }
+
+            // E_Commerce
+            if (option.ecommerce && option.ecommerce.length) {
+                $scope.adSearcher.addFilter({
+                    field: 'e_commerce',
+                    value: option.ecommerce.join(',')
+                })
+                $scope.currSearchOption.filter.ecommerce = option.ecommerce.join(',')
+            } else {
+                $scope.adSearcher.removeFilter("e_commerce")
+            }
+
+            $scope.currSearchOption.category = category.join(',')
+            $scope.currSearchOption.format = format.join(',')
+            $scope.currSearchOption.callToAction = buttondesc.join(',')
+            $scope.adSearcher.filter().then(function() {}, function(res) {
+                if (res.status != 200)
+                    Util.hint(res)
+            })
+
+            // console.log("params", $scope.adSearcher.params);
+        }
+
+        $scope.search = function() {
+            var option = $scope.adSearcher.searchOption
+            var keys
+            var range = []
+            var rangeValue = []
+            keys = $scope.adSearcher.params.keys = []
+
+            // 字符串和域
+            $scope.currSearchOption = angular.copy($scope.searchOption) // 保存搜索
+            if (option.rangeselected && option.rangeselected.length) {
+                angular.forEach(option.rangeselected, function(item) {
+                    range.push(item)
+                })
+            }
+            if (option.search.text || range.length) {
+                option.search.fields = range.length ? range.join(',') : option.search.fields
+                keys.push({
+                    string: option.search.text ? option.search.text : "",
+                    search_fields: option.search.fields,
+                    relation: "Must"
+                })
+                angular.forEach(option.range, function(item) {
+                    if (range.indexOf(item.key) > -1) rangeValue.push(item.value)
+                })
+            }
+            // 域名
+            if (option.domain.text) {
+                keys.push({
+                    string: option.domain.text ? option.domain.text : "",
+                    search_fields: 'caption,link,dest_site,buttonlink',
+                    relation: option.domain.exclude ? 'Not' : 'Must'
+                })
+            }
+            // 受众
+            if (option.audience.text) {
+                keys.push({
+                    string: option.audience.text,
+                    search_fields: 'whyseeads,whyseeads_all',
+                    relation: option.audience.exclude ? 'Not' : 'Must'
+                })
+            }
+
+            $scope.currSearchOption.range = range.join(',')
+            $scope.filter($scope.filterOption)
+            if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 0) {
+                $scope.currSearchOption.isdirty = true
+            }
+            searchToQuery(option, $scope.adSearcher)
+>>>>>>> origin/develop
         }
 
         /*

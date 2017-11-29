@@ -25,6 +25,18 @@ angular.module('bba.settings', []).factory('settings', ['$rootScope', function($
             durationRange: [0, 180],
             seeTimesRange: [0, 180],
             orderBy: [{
+                key: 'default',
+                value: 'Default',
+                last: false,
+                group: 'time',
+                permission: 'default_filter'
+            }, {
+                key: 'view_count',
+                value: 'View Count',
+                last: false,
+                group: 'time',
+                permission: 'view_count_sort'
+            }, {
                 key: 'last_view_date',
                 value: 'Last_Seen',
                 last: false,

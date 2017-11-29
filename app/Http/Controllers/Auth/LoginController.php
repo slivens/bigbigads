@@ -86,22 +86,10 @@ class LoginController extends Controller
 			// Authentication passed...
         } else if ($user->state == 2) {
             Auth::logout();
-            return view('auth.verify')->with('error', "Your account has freezed, please contact the Administrator!!!");
+            return view('auth.verify')->with('error', "Your account was temporarily banned. Please check your mail-box or contact help@bigbigads.com for more info.");
         }
-        //帐号如果过期则重置为Free角色，这一步会比较耗时，是可以推到队列中执行，但是可能出现缓存与实际保存的不同步，由于只是偶尔执行，因此不会引起性能问题
         //简化处理
-        /* if ($user->isExpired()) { */
-            $user->resetIfExpired();
-            /* $role = Role::where('name', 'Free')->first(); */
-            /* $user->role_id = $role->id; */
-            /* $user->expired = null; */
-            /* $user->initUsageByRole($role); */
-            /* $user->save(); */
-			/* /1* Artisan::queue('bigbigads:change', [ *1/ */
-			/* /1* 	'email' => $user->email, 'roleName' => 'Free' *1/ */
-            /* /1* ]); *1/ */ 
-            /* dispatch(new LogAction("USER_EXPIRED", json_encode(["name" => $user->name, "email" => $user->email, "expired" => $user->expired ]), "", $user->id, Request()->ip() )); */
-        /* } */
+        $user->resetIfExpired();
         
         if ($request->has('referer')) {
             $url = env('APP_URL');
@@ -119,4 +107,20 @@ class LoginController extends Controller
             return view('auth.login');
         }
     }
+
+    /**
+     * 默认的logout，没有删除session即重新生成，导致session大量累计
+     * 无法准确地判断在线用户。此处改写为regenerate时先删除上一个session。
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->flush();
+
+        $request->session()->regenerate(true);
+
+        return redirect('/');
+    }
+
 }

@@ -1,0 +1,38 @@
+#bookmark-popover{
+    .bookmark-list-wrapper{
+        min-height: 150px;
+        .bookmark-list-name{
+            width: 150px;
+            display: inline-block;
+        }
+        li{
+            line-height: 28px;
+            border-bottom: 1px solid #eee;
+            padding: 0 8px;
+            margin: 0;
+            label{
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                margin: 0;
+                input{
+                    margin: 0;
+                    margin-left: 5px;
+                }
+            }
+            &:hover{
+                background: #eee;
+            }
+        }
+    }
+    .list-trunpage{
+        margin: 15px 0;
+        .turn-button{
+            display: inline-block;
+            padding: 0px 8px;
+            border:1px solid #eee;
+            border-radius: 4px;
+            margin: 0 5px;
+        }
+    }
+}

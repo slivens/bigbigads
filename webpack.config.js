@@ -16,12 +16,14 @@ module.exports = {
         welcome: ['./resources/assets/js/welcome.js'],
         extension: ['./resources/assets/js/extension.js'],
         methodology: ['./resources/assets/js/methodology.js'],
+        login: ['./resources/assets/js/login.js'],
         vendor: ['jquery', 'swiper', 'bootstrap', 'moment', 'js-url']
     },
     output: {
         path: path.resolve(__dirname, './public/dist'),
+        publicPath: '/dist/',
         filename: !isProduction ? '[name].js' : '[name]-[hash].js',
-        chunkFilename: !isProduction ? '[name].js' : 'js/[name]-[hash].js',
+        chunkFilename: !isProduction ? '[name].js' : '[name]-[chunkhash].js',
     },
     module: {
         rules: [{
@@ -75,9 +77,17 @@ module.exports = {
         }, {
             test: /\.vue$/,
             loader: 'vue-loader',
+        }, {
+            test: /\.json$/,
+            loader: 'json-loader'
         }]
     },
     plugins: [
+         new webpack.DefinePlugin({
+            PRODUCTION: JSON.stringify(isProduction),
+            LOCALE: JSON.stringify('en'), // 当前Locale
+            DEFAULT_LOCALE: JSON.stringify('en') //默认Locale
+         }),
         new webpack.optimize.CommonsChunkPlugin({
             name: ['vendor']
         }),

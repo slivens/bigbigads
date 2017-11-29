@@ -15,6 +15,7 @@ import 'bootstrap-select'
 import 'ion-rangeslider/css/ion.rangeSlider.css'
 import 'ion-rangeslider/css/ion.rangeSlider.skinModern.css'
 import 'ion-rangeslider'
+import './owner.scss'
 import template from './owner.html'
 
 export default (angular) => {
@@ -23,7 +24,7 @@ export default (angular) => {
         // 搜索流程:location.search->searchOption->adSearcher.params
         // 将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
         function searchToQuery(option, searcher) {
-            $location.search(searcher.searchToQuery(option))
+            $location.search(searcher.searchToQuery(option, searcher.params.sort.field))
         }
         // 将query转化成搜索参数
         function queryToSearch(option, searcher) {
@@ -34,6 +35,7 @@ export default (angular) => {
             username: $stateParams.adser
         }
         var adSearcher = $scope.adSearcher = new Searcher()
+        $scope.isFreeze = false
         adSearcher.checkAndGetMore = function() {
             if (!User.done) {
                 adSearcher.getMore('adser')
@@ -51,7 +53,25 @@ export default (angular) => {
                 adSearcher.isend = true
                 return
             }
-            adSearcher.getMore('adser')
+            adSearcher.getMore('adser').catch(function(res) {
+                if (res.data instanceof Object) {
+                    switch (res.data.code) {
+                    case -4100:
+                        $scope.isRestrict = true
+                        User.openSearchResultUpgrade()
+                        break
+                    case -5000:
+                        $scope.isFreeze = true
+                        SweetAlert.swal(res.data.desc)
+                        break
+                    default:
+                        break
+                    }
+                    $scope.islegal = false
+                } else {
+                    SweetAlert.swal(res.statusText)
+                }
+            })
         }
         // $scope.adSearcher.search($scope.adSearcher.defparams, true);
         $scope.reverseSort = function() {
@@ -292,6 +312,10 @@ export default (angular) => {
                     max: endDate
                 })
             }
+
+            // sort by 体现在页面currSearchOption上
+            if (option.sort) $scope.currSearchOption.sort = option.sort
+
             $scope.isFreeLimitDate = false
             if (User.user.role.plan === 'free') {
                 if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0)) {
@@ -311,13 +335,45 @@ export default (angular) => {
                     $scope.isFreeLimitDate = true
                 }
             }
+            var liteFreeMin = '2016-01-01'
+            var liteFreeMax = moment().subtract(14, 'days').format('YYYY-MM-DD')
+            if (User.user.role.plan === 'lite') {
+                if (($scope.adSearcher.params.where.length > 0) || ($scope.adSearcher.params.keys.length > 0) || $scope.adSearcher.params.sort.field != 'default') {
+                    angular.forEach($scope.adSearcher.params.where, function(data) {
+                        if (data.field === 'time') {
+                            $scope.adSearcher.removeFilter('time')
+                        }
+                    })
+                    // 新增需求，对于免费用户，搜索总数不到10次的给予全部的广告结果
+                    $scope.adSearcher.addFilter({
+                        field: "time",
+                        min: liteFreeMin,
+                        max: liteFreeMax,
+                        role: "free"
+                    })
+                    // 暂时限定lite用户的所有请求都是在14天之前的数据
+                    $scope.isFreeLimitDate = true
+                }
+            }
             $scope.currSearchOption.category = category.join(',')
             $scope.currSearchOption.format = format.join(',')
             $scope.currSearchOption.callToAction = buttondesc.join(',')
             action = 'adser'
-            $scope.adSearcher.filter(action || 'adser').then(function() {}, function(res) {
+            $scope.isRestrict = false
+            $scope.adSearcher.filter(action || 'adser').catch(function(res) {
                 if (res.data instanceof Object) {
-                // SweetAlert.swal(res.data.desc);
+                    switch (res.data.code) {
+                    case -4100:
+                        $scope.isRestrict = true
+                        User.openSearchResultUpgrade()
+                        break
+                    case -5000:
+                        $scope.isFreeze = true
+                        SweetAlert.swal(res.data.desc)
+                        break
+                    default:
+                        break
+                    }
                 } else {
                     SweetAlert.swal(res.statusText)
                 }
@@ -373,11 +429,11 @@ export default (angular) => {
             $scope.currSearchOption.range = range.join(',')
             $scope.filter($scope.filterOption, action)
             if (User.info.user.role.plan === 'free') {
-                if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 2) {
+                if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 2 || $scope.adSearcher.params.sort.field != 'default') {
                     $scope.currSearchOption.isdirty = true
                 }
             } else {
-                if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 1) {
+                if ($scope.adSearcher.params.keys.length > 0 || $scope.adSearcher.params.where.length > 1 || $scope.adSearcher.params.sort.field != 'default') {
                     $scope.currSearchOption.isdirty = true
                 }
             }
@@ -520,20 +576,14 @@ export default (angular) => {
                 User.openSign()
                 return false
             }
-            var freeMin = '2016-01-01'
-            var freeMax = moment().subtract(3, 'month').format('YYYY-MM-DD')
+            // var freeMin = '2016-01-01'
+            // var freeMax = moment().subtract(3, 'month').format('YYYY-MM-DD')
             var checkBeforeSortResult
+            // var searchTotalTimes
             checkBeforeSortResult = $scope.checkBeforeSort()
             if (checkBeforeSortResult) {
-                if (User.info.user.role.name === 'Free') {
-                    $scope.adSearcher.addFilter({
-                        field: "time",
-                        min: freeMin,
-                        max: freeMax,
-                        role: "free"
-                    })
-                }
-                $scope.adSearcher.filter(action)
+                $scope.filterOption.sort = $scope.adSearcher.params.sort.field
+                $scope.search(action)
             }
         }
         $scope.upgrade = function() {

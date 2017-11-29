@@ -10,7 +10,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
             vm.defparams = {
                 "search_result": opt && opt.searchType ? opt.searchType : "ads",
                 "sort": {
-                    "field": "last_view_date",
+                    "field": "default",
                     "order": 1
                 },
                 "where": [],
@@ -246,7 +246,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                 if (vm.busy)
                     return
                 vm.params.limit[0] += settings.searchSetting.pageCount
-                vm.search(vm.params, false, action)
+                return vm.search(vm.params, false, action)
             }
             vm.filter = function(action) {
                 var promise
@@ -325,7 +325,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
             return false
         }
         // 将搜索过滤项转换成location的参数
-        searcher.searchToQuery = searcher.prototype.searchToQuery = function(option) {
+        searcher.searchToQuery = searcher.prototype.searchToQuery = function(option, sort) {
             var query = {}
 
             if (option.search.text)
@@ -399,6 +399,9 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
             if (option.filter.objective) {
                 query.objective = option.filter.objective
             }
+            if (sort) {
+                query.sort = sort
+            }
             return query
         }
         // 将location的参数转换成搜索过滤项
@@ -407,6 +410,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
             var duration
             var engagements
             var seeTimes
+            var vm = this
             option.rangeselected = []
             if (search.searchText) {
                 option.search.text = search.searchText
@@ -528,6 +532,11 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
             if (search.seeTimes) {
                 seeTimes = JSON.parse(search.seeTimes)
                 option.filter.seeTimes = angular.extend(option.filter.seeTimes, seeTimes)
+            }
+            // 解决刷新后sort by值丢失问题
+            if (search.sort) {
+                vm.params.sort.field = search.sort
+                option.sort = search.sort
             }
         }
         return searcher

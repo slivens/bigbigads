@@ -4,7 +4,7 @@
         <!-- <div class="adser-bookmark" ng-if="mother.data.adsers.bookmark" ng-click="mother.cancelBookmark(1, card)">
             <i class="fa fa-heart"></i>
         </div>
-        <i class="adser-bookmark fa"  ng-class="{'fa-heart' : card.hasBookmark, 'fa-heart-o': !card.hasBookmark}" uib-popover-template="'components/bookmark-popover.html' | nocache" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.data.adsers.bookmark && card.adser_username"  popover-trigger="'outsideClick'">
+        <i class="adser-bookmark fa"  ng-class="{'fa-heart' : card.hasBookmark, 'fa-heart-o': !card.hasBookmark}" uib-popover-template="'components/bookmark-popover.html'" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.data.adsers.bookmark && card.adser_username"  popover-trigger="'outsideClick'">
         </i> -->
         <!-- avatar and adser info -->
         <a ui-sref="adserAnalysis({username:card.facebook_id})" target="_blank">

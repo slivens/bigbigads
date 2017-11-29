@@ -15,6 +15,8 @@ use App\Jobs\SendRegistMail;
 use Voyager;
 
 use App\AppRegistersUsers;
+use App\Jobs\LogAction;
+use App\ActionLog;
 class RegisterController extends Controller
 {
     /*
@@ -78,9 +80,14 @@ class RegisterController extends Controller
         //临时新加需求,由于邮箱未送达率达到了近25%,暂时新加开关邮箱验证的功能，用户注册过后直接进入/app，对于state=0的用户
         //暂时不做任何的限制
         //后续需求会给出对这次放过的未进行邮箱验证的用户处理方式
+        //暂定注册流程 注册 -> 欢迎界面
 
-        //暂定注册流程 注册 -> 欢迎界面 
-        dispatch(new SendRegistMail($user));
+        // 对属于BBA系统测试的邮箱，不发送邮件，只记录log
+        if ($this->checkIsBBAEmail($user->email)) {
+            dispatch(new LogAction(ActionLog::ACTION_REGISTERED_BY_BIGBIGADSTEST, $user->email, "registered_by_bigbigadstest", $user->id, $request->ip()));
+        } else {
+            dispatch(new SendRegistMail($user));
+        }
         return redirect('welcome?socialite=email');
         /* 需求变更，暂时抛弃，以后流程会再更改，加入新用户引导的部分
         $emailVerification = Voyager::setting('email_verification');
@@ -130,4 +137,12 @@ class RegisterController extends Controller
         /* Mail::to($user->email)->send(new RegisterVerify($user));//发送验证邮件 */
      /*   return $user;
     }*/
+
+    protected function checkIsBBAEmail($email)
+    {
+        if (strstr($email, '@bigbigadstest.com')) {
+            return true;
+        }
+        return false;
+    }
 }

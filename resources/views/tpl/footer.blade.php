@@ -5,18 +5,21 @@
             <li class="footer-title"> ABOUT BIGBIGADS</li>
             <li><a href="{{url('/about')}}">About Us</a></li>
             <li><a href="{{url('/methodology')}}">Methodology</a></li>
-            <li><a href="{{url('/blog')}}">Blog</a></li>
+            <li class="hidden"><a href="{{url('/blog')}}">Blog</a></li>
+            <li><a href="{{url('/terms_service')}}">Terms Service</a></li>
+            <li><a href="{{url('/privacy_policy')}}">Privacy Policy</a></li>
         </ul>
         <ul class="col-md-3 col-sm-6">
             <li class="footer-title"> USING BIGBIGADS</li>
             <li><a href="{{url('./extension')}}">Extension</a></li>
             <li><a href="{{url('./product')}}">Features</a></li>
-            <li><a href="{{url('/plan')}}" >Pricing&amp;Buy</a></li>
+            <li><a href="{{url('/pricing')}}" >Pricing&amp;Buy</a></li>
         </ul>
         <ul class="col-md-3 col-sm-6">
             <li class="footer-title"> GETTING HELP</li>
             <li><a href="https://www.youtube.com/channel/UCtXk7wpkmVO7SdStR4JwX0A" target="_blank">Video Tutorial</a></li>
             <li><a href="mailto:sale@bigbigads.com">Contact Us</a></li>
+            <li><a href="http://support.bigbigads.com" target="_blank">Support</a></li>
         </ul>
         <ul class="col-md-3 col-sm-6">
             <li class="footer-title"> STAY CONNECTED</li>

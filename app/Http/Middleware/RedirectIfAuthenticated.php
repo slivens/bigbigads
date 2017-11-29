@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
-
+use Jenssegers\Agent\Agent;
 class RedirectIfAuthenticated
 {
     /**
@@ -18,7 +18,12 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/app');
+            $agent = new Agent();
+            if ($agent->isMobile()) {
+                return redirect('/mobile');
+            } else {
+                return redirect('/app');
+            }
         }
 
         return $next($request);

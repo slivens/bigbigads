@@ -1,0 +1,12 @@
+{
+    "validation": {
+        "email": "请输入有效的Email",
+        "required": "该字段不能为空"
+    },
+    "auth": {
+        "validation": {
+            "email_required": "Email不能为空",
+            "password_required": "密码不能为空"
+        }
+    }
+}

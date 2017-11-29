@@ -1,4 +1,5 @@
 import '../pages/common/common'
+import './billings.scss'
 import template from './billings.html'
 
 angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User', 'Resource', 'SweetAlert', '$http', function($scope, User, Resource, SweetAlert, $http) {
@@ -8,24 +9,59 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
         User.getInfo().then(function() {
             // $scope.userInfo = User.info;
             // $scope.subscription = User.info.subscription;
-            if (!User.login)
-                return
-            var user = User.info.user
+            if (!User.login) return
 
+            const user = User.info.user
             ctrl.subscriptionId = user.subscription_id
             ctrl.queryPromise = billings.get().then(() => {
-                billings.items.map(function(item) {
-                    // 7天以内且成功支付的订单才允许申请退款
-                    if (moment().diff(moment(item.start_date), 'days') <= 7 && item.status == 'completed' && !item.refund)
-                        item.canRefund = true
-                    if (item.is_effective && !ctrl.effective_id)
-                        ctrl.effective_id = item.id
+                const firstCompleted = billings.items[billings.items.length - 1]
+
+                billings.items.map((item, index) => {
+                    item.canDownload = true
+                    if (billings.items.length - 1 === index) {
+                        item.canRefund = item.status == 'completed' && moment().diff(moment(firstCompleted.start_date), 'days') < 7 && !item.refund
+                    }
+                    item.canDownload = item.status == 'completed' && moment().diff(moment(firstCompleted.start_date), 'days') >= 7
+
+                    if (item.is_effective && !ctrl.effective_id) ctrl.effective_id = item.id
+
+                    item.invoiceMessages = 'Please download the invoice after 7 days.'
                 })
             })
             ctrl.inited = true
         })
     }
-
+    /*
+    * billing 中的paln与level对应关系
+    * 因为历史遗留问题，很多在billing上显示并不是很统一
+    * 这里后续会继续添加，比如plus
+    */
+    ctrl.planArr = {
+        'lite_monthly': {
+            'level': 'Lite',
+            'plan': 'Monthly'
+        },
+        'lite_annual': {
+            'level': 'Lite',
+            'plan': 'Annual'
+        },
+        'lite_quarterly': {
+            'level': 'Lite',
+            'plan': 'Quarterly'
+        },
+        'standard_monthly': {
+            'level': 'Standard',
+            'plan': 'Monthly'
+        },
+        'standard_quarter_monthly': {
+            'level': 'Standard',
+            'plan': 'Quarterly'
+        },
+        'standard': {
+            'level': 'Standard',
+            'plan': 'Annual'
+        }
+    }
     ctrl.billings = billings
 
     ctrl.beatifyDate = function(dateStr) {
@@ -45,9 +81,12 @@ angular.module('MetronicApp').controller('BillingsController', ['$scope', 'User'
                     throw res
                 ctrl.init()
             }).catch(function(res) {
-                SweetAlert.swal(res.data.message)
+                SweetAlert.swal(res.data.desc)
             })
         })
+    }
+    ctrl.invoiceDownload = function(item) {
+        item.canDownload ? window.open(`/invoices/${item.invoice_id}`) : SweetAlert.swal('Please download the invoice after 7 days.')
     }
     ctrl.$onChanges = function(obj) {
         if (obj.shouldInit.currentValue !== "true") // || ctrl.inited)

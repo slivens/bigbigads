@@ -45,7 +45,7 @@ Artisan::command('bba:change {email} {roleName}', function($email, $roleName) {
         if ($user instanceof App\User) {
             $oldrole = $user->role;
             $user->role()->associate($role);
-            $user->initUsageByRole($role);
+            $user->reInitUsage();
             $user->save();
             $this->info("$email change to role:$roleName");
 
@@ -78,12 +78,6 @@ Artisan::command('bba:activate {email} {state}', function($email,  $state) {
         echo $e->getMessage();
     }
 })->describe("激活/反激活/冻结用户，state参数应为0,1,2。0表示待激活,1表示激活,2表示冻结");
-
-class MockReq {
-    public function ip() {
-        return '192.168.1.200';
-    }
-}
 
 Artisan::command('bba:can {email} {priv}', function($email,  $priv) {
     try {

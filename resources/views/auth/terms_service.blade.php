@@ -38,7 +38,7 @@
 				<p>Distribute viruses or any other technologies that may harm, manipulate, extract unauthorized information from the Services, or the interests or property of users of the Services;</p>
 			</li>
 			<li>
-				<p>Copy, modify, or distribute rights or content from the Services or our copyrights and trademarks;</p>
+				<p>Crawling, copy, modify or distribute rights or content from the Services or our copyrights and trademarks-which will lead to a refuse of service without refund;</p>
 			</li>
 			<li>
 				<p>Harvest or otherwise collect information about users, including email addresses, without their consent.</p>
@@ -64,7 +64,7 @@
  		<p>Certain marks used on our Services are our registered trademarks or service marks, owned by our suppliers or partners worldwide. Certain graphics, logos, page headers, button icons, scripts, and service names are our trademarks or service marks or owned by our suppliers, partners or affiliates. By agreeing to the terms and conditions as a Bigbigads subscriber you authorize Bigbigads to potentially list your company as a customer and to use your Company’s logo for promotional purposes. If you wish to opt-out of this pre-authorization please email <a href="mailto:sale@bigbigads.com">sale@bigbigads.com</a>. Our trademarks and service marks may not be used for any commercial or other purposes by any party without our prior written express consent. All other trademarks and service marks not owned by us that appear on this Website and Applications are the property of their respective owners, who may or may not be affiliated with, connected to, or sponsored by us.</p>
 
  		<h3 class="font-yellow-gold">Permitted use</h3>
- 		<p>We grant you a limited, revocable, non-exclusive license to access and make personal use of the Services. The Services, in whole or in part, may not be reproduced, duplicated, copied, sold, resold, visited, or otherwise exploited for any commercial purpose without our prior written express consent. You will not:</p>
+ 		<p>We grant you a limited, revocable, non-exclusive license to access and make personal use of the Services. The Services, in whole or in part, may not be reproduced, duplicated, copied, sold, resold, shared, or otherwise exploited for any commercial purpose without our prior written express consent. You will not:</p>
  		<ul>
  			<li>
  				<p>Use the Services for any purposes other than the purpose expressly allowed by us herein;</p>

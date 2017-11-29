@@ -9,20 +9,13 @@ import swal from 'sweetalert'
 import './styles/index.scss'
 import './pages/common/settings.js'
 import './components/app.js'
-import {template as upgradeDlgTemplate, controller as upgradeDlgController} from './components/upgrade-dlg.js'
-import {template as signTemplate, controller as signController} from './components/sign.js'
-import {template as searchResultUpgradeDlgTemplate, controller as searchResultUpgradeDlgController} from './components/search-result-upgrade-dlg.js'
-import {template as filterDataLimitDlgTemplate, controller as filterDataLimitDlgController} from './components/filter-data-limit-dlg.js'
+import './lib/core.js'
+// import tr from './lib/intl.js'
 
 window.moment = require('moment')
+// 见 Issue #31 为了让babel的promise垫片可以工作，否则在IE下会提示Promise not defined错误
 window.Promise = Promise
-// function checkAdblock() {
-//     if (typeof checkAdblockValue === 'undefined') {
-//         swal({title: "Warning", text: "If you're not seeing any ads, it's possible you're running an Ad Blocking plugin on your browser. To view our ads, you'll need to disable it while you're here... ;-)", type: "warning"})
-//     } else {
-//         //          console.log('adblock is disabled');
-//     }
-// }
+
 import('./lib/fuckadblock.js' /* webpackChunkName:"fuckadblock" */).catch(() => {
     swal({title: "Warning", text: "If you're not seeing any ads, it's possible you're running an Ad Blocking plugin on your browser. To view our ads, you'll need to disable it while you're here... ;-)", type: "warning"})
 })
@@ -37,29 +30,15 @@ var MetronicApp = angular.module("MetronicApp", [
     'ngResource',
     'cgBusy',
     'bba.settings',
+    'bba.core',
     'bba.app'
 ])
 
-/* Setup global settings */
-MetronicApp.constant('TIMESTAMP', Date.parse(new Date()))
-MetronicApp.constant('ADS_TYPE', {
-    timeline: 1,
-    rightcolumn: 4,
-    mobile: 2,
-    phone: 2
-})
-MetronicApp.constant('ADS_CONT_TYPE', {
-    SINGLE_IMAGE: "SingleImage",
-    CANVAS: "Canvas",
-    CAROUSEL: "Carousel",
-    SINGLE_VIDEO: "SingleVideo"
-})
-MetronicApp.constant('POLICY_TYPE', {PERMANENT: 0, MONTH: 1, DAY: 2, HOUR: 3, VALUE: 4, DURATION: 5, YEAR: 6})
-MetronicApp.filter('nocache', ['TIMESTAMP', function(TIMESTAMP) {
-    return function(url) {
-        return url + '?t=' + TIMESTAMP
-    }
-}])
+// MetronicApp.filter('nocache', ['TIMESTAMP', function(TIMESTAMP) {
+//     return function(url) {
+//         return url + '?t=' + TIMESTAMP
+//     }
+// }])
 MetronicApp.filter('toHtml', ['$sce', function($sce) {
     return function(text) {
         return $sce.trustAsHtml(text)
@@ -189,6 +168,18 @@ MetronicApp.filter('toHtml', ['$sce', function($sce) {
             return showString
         }
     })
+    .filter('SortTypes', ['settings', function(settings) {
+        // Sort by 搜索项名称转换
+        return function(sortItem) {
+            if (!sortItem) return
+            angular.forEach(settings.searchSetting.orderBy, function(item) {
+                if (item.key === sortItem) {
+                    sortItem = item.value
+                }
+            })
+            return sortItem
+        }
+    }])
 MetronicApp.factory('loader', ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
     return (name) => {
         let d = $q.defer()
@@ -209,31 +200,9 @@ MetronicApp.factory('loader', ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
             return d.promise
     }
 }])
-MetronicApp.controller('TabMenuController', ['$scope', '$location', 'User', '$state', function($scope, $location, User, $state) {
-    var tabmenu = {
-        name: $location.path()
-    }
-    $scope.tabmenu = tabmenu
-    $scope.User = User
-    $scope.checkAccount = function() {
-        if ((User.info.user.role.name != 'Free') && (User.info.user.role.name != 'Standard')) return
-        User.openUpgrade()
-    }
-    $scope.goBookMark = function() {
-        if (!User.login) {
-            User.openSign()
-        } else {
-            $state.go("bookmark")
-        }
-    }
-    $scope.$on('$locationChangeSuccess', function() {
-        tabmenu.name = $location.path()
-    })
-}])
 
 /* Setup Rounting For All Pages */
-MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', 'TIMESTAMP', function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider, TIMESTAMP) {
-    // var ts = TIMESTAMP
+MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
     // Redirect any unmatched url
     $urlMatcherFactoryProvider.strictMode(false)
     // $urlRouterProvider.when("/", "/adsearch");
@@ -453,10 +422,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
 
         })
         .state('plans', {
-            url: '/plans',
+            url: '/pricing',
             template: "<plans />",
             data: {
-                pageTitle: 'Plans'
+                pageTitle: 'Pricing'
             },
             resolve: {
                 deps: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
@@ -527,10 +496,12 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
     }
     $rootScope.$state = $state // state to be accessed from view
     $rootScope.$settings = settings // state to be accessed from view
+    $rootScope.User = User
+    // $rootScope.tr = tr
     // 使用boot方法启动是另一套js
     var APP_ID = "pv0r2p1a"
     var w = window; var ic = w.Intercom; if (typeof ic === "function") { ic('reattach_activator'); ic('update', intercomSettings) } else {
-        /* eslint-disable no-inner-declarations */ 
+        /* eslint-disable no-inner-declarations */
         var d = document; var i = function() { i.c(arguments) }; i.q = []; i.c = function(args) { i.q.push(args) }; w.Intercom = i; function l() {
             var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true
             s.src = 'https://widget.intercom.io/widget/' + APP_ID
@@ -542,6 +513,7 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
             // intercom文档建议使用boot方式来启动，配合shutdown方法关闭会话，提高安全性
             window.Intercom('boot', {
                 app_id: "pv0r2p1a",
+                custom_launcher_selector: '#serviceLauncher',
                 email: User.user.email,
                 name: User.user.name,
                 created_at: User.user.created_at,
@@ -549,10 +521,11 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
             })
         } else {
             window.Intercom('boot', {
-                app_id: "pv0r2p1a"
+                app_id: "pv0r2p1a",
+                custom_launcher_selector: '#serviceLauncher'
             })
         }
-        // intercom生成的代码 
+        // intercom生成的代码
         // var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function (){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pv0r2p1a';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}
     })
     setInterval(function() {
@@ -579,139 +552,6 @@ MetronicApp.run(["$rootScope", "settings", "$state", 'User', 'SweetAlert', '$loc
     User.getInfo(true)
 }])
 
-MetronicApp.factory('User', ['$window', '$http', '$q', '$location', '$rootScope', 'settings', 'ADS_TYPE', '$uibModal', 'TIMESTAMP', function($window, $http, $q, $location, $rootScope, settings, ADS_TYPE, $uibModal, TIMESTAMP) {
-    // 获取信息完成后应该广播消息，然后其他需要在获取用户信息才能继续的操作就放到接收到广播后处理
-    var infourl = settings.remoteurl + "/userinfo"
-    var user = {
-        retreived: false,
-        done: false,
-        info: {},
-        getInfo: function(refresh) {
-            if (!refresh && user.retreived) return user.promise
-
-            user.promise = $http.get(infourl)
-            user.promise.then(function(res) {
-                // Issue #10 User 获取用户信息时，与 localStorage 比对，发现不一致就更新
-                if (JSON.stringify(res.data) != $window.localStorage.user) {
-                    user.info = res.data
-
-                    // Issue #10 更新会话存储的用户信息
-                    $window.localStorage.user = JSON.stringify(user.info)
-
-                    angular.extend(user, user.info)
-                }
-            }, function(res) {
-                // user.info = {};
-            }).finally(function() {
-                user.done = true
-                $rootScope.$broadcast('userChanged', user.info)
-            })
-            user.retreived = true
-            return user.promise
-        },
-        // goLoginPage:function() {
-        //     $location.url("/login");
-        // },
-        can: function(key) {
-            var keyArr = key.split('|')
-            var i
-            // 无登陆时的策略与有登陆需要做策略区分(只在服务器端区分是更好的做法)
-            if (!user.info.permissions)
-                return false
-            for (i = 0; i < keyArr.length; ++i)
-                if (!user.info.permissions[keyArr[i]])
-                    return false
-            return true
-        },
-        usable: function(key, val) {
-            // 是否满足策略要求
-            var policy = user.getPolicy(key)
-            var type
-            if (typeof (policy) == 'boolean')
-                return policy
-            // 根据不同情况返回不同的权限值
-            if (key == "platform") {
-                if (!val)
-                    return true
-                type = ADS_TYPE[val]
-                // console.log("policy:", policy.value, type, val);
-                if ((Number(policy.value) & type) > 0)
-                    return true
-                return false
-            }
-            if (policy.used < policy.value)
-                return true
-            return false
-        },
-        getPolicy: function(key) {
-            var usage
-            if (!user.can(key)) // 没有权限一定没有策略
-                return false
-            if (!user.info.user.usage[key])// 没有策略不需要策略，组合权限不支持策略，所以也返回true
-                return true
-            usage = user.info.user.usage[key]
-            if (usage.length > 2)
-                return {type: usage[0], value: usage[1], used: usage[2]}
-            return {type: usage[0], value: usage[1], used: 0}
-        },
-        openUpgrade: function(currIlleageOption) {
-            return $uibModal.open({
-                template: upgradeDlgTemplate,
-                size: 'md',
-                animation: true,
-                controller: upgradeDlgController,
-                resolve: {
-                    data: function() {
-                        return {
-                            currIlleageOption: currIlleageOption
-                        }
-                    }
-                }
-            })
-        },
-        openSign: function() {
-            return $uibModal.open({
-                template: signTemplate,
-                size: 'customer',
-                backdrop: false,
-                animation: true,
-                controller: signController
-            })
-        },
-        openSearchResultUpgrade: function() {
-            return $uibModal.open({
-                template: searchResultUpgradeDlgTemplate,
-                size: 'md',
-                animation: true,
-                controller: searchResultUpgradeDlgController
-            })
-        },
-        openFreeDateLimit: function() {
-            return $uibModal.open({
-                template: filterDataLimitDlgTemplate,
-                size: 'md',
-                animation: true,
-                controller: filterDataLimitDlgController
-            })
-        }
-    }
-
-    // Issue #10 User factory 初始化时，从 localStorage 获取用户信息，获取得到就设置 done 和 retreived
-    if ($window.localStorage.user) {
-        user.info = JSON.parse($window.localStorage.user)
-
-        angular.extend(user, user.info)
-
-        user.done = true
-        user.retreived = true
-
-        var defer = $q.defer()
-        user.promise = defer.promise
-        defer.resolve()
-    }
-
-    return user
-}])
 MetronicApp.controller('UserController', ['$scope', '$http', '$window', 'User', function($scope, $http, $window, User) {
     $scope.User = User
     $scope.isShow = false

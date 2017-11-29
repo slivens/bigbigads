@@ -19,15 +19,35 @@ class SettingsTableSeeder extends Seeder
         \DB::table('settings')->insert(array (
             0 => 
             array (
-                'id' => 3,
-                'key' => 'captcha',
-                'display_name' => '验证码启用',
-                'value' => 'pay',
+                'id' => 1,
+                'key' => 'email_verification',
+                'display_name' => 'Email Verification',
+                'value' => 'false',
                 'details' => '',
                 'type' => 'text',
                 'order' => 0,
             ),
             1 => 
+            array (
+                'id' => 2,
+                'key' => 'free_role_get_all_ads',
+                'display_name' => 'Free Role Get All Ads',
+                'value' => 'true',
+                'details' => '',
+                'type' => 'text',
+                'order' => 1,
+            ),
+            2 => 
+            array (
+                'id' => 3,
+                'key' => 'captcha',
+                'display_name' => '验证码启用',
+                'value' => '',
+                'details' => '',
+                'type' => 'text',
+                'order' => 0,
+            ),
+            3 => 
             array (
                 'id' => 4,
                 'key' => 'title',
@@ -37,7 +57,7 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'text',
                 'order' => 1,
             ),
-            2 => 
+            4 => 
             array (
                 'id' => 5,
                 'key' => 'description',
@@ -47,7 +67,7 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'text',
                 'order' => 2,
             ),
-            3 => 
+            5 => 
             array (
                 'id' => 6,
                 'key' => 'logo',
@@ -57,7 +77,7 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'image',
                 'order' => 3,
             ),
-            4 => 
+            6 => 
             array (
                 'id' => 7,
                 'key' => 'admin_bg_image',
@@ -67,7 +87,7 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'image',
                 'order' => 9,
             ),
-            5 => 
+            7 => 
             array (
                 'id' => 8,
                 'key' => 'admin_title',
@@ -77,7 +97,7 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'text',
                 'order' => 4,
             ),
-            6 => 
+            8 => 
             array (
                 'id' => 9,
                 'key' => 'admin_description',
@@ -87,7 +107,7 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'text',
                 'order' => 5,
             ),
-            7 => 
+            9 => 
             array (
                 'id' => 10,
                 'key' => 'admin_loader',
@@ -97,7 +117,7 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'image',
                 'order' => 6,
             ),
-            8 => 
+            10 => 
             array (
                 'id' => 11,
                 'key' => 'admin_icon_image',
@@ -107,7 +127,7 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'image',
                 'order' => 7,
             ),
-            9 => 
+            11 => 
             array (
                 'id' => 12,
                 'key' => 'google_analytics_client_id',
@@ -116,6 +136,36 @@ class SettingsTableSeeder extends Seeder
                 'details' => '',
                 'type' => 'text',
                 'order' => 9,
+            ),
+            12 => 
+            array (
+                'id' => 15,
+                'key' => 'captcha_type',
+                'display_name' => '验证码类型',
+                'value' => '',
+                'details' => '',
+                'type' => 'text',
+                'order' => 10,
+            ),
+            13 => 
+            array (
+                'id' => 17,
+                'key' => 'global_session_count',
+                'display_name' => '全局Session限制数量',
+                'value' => '10',
+                'details' => '',
+                'type' => 'text',
+                'order' => 12,
+            ),
+            14 => 
+            array (
+                'id' => 18,
+                'key' => 'global_session_ip_count',
+                'display_name' => '全局单Session的IP数量',
+                'value' => '5',
+                'details' => '',
+                'type' => 'text',
+                'order' => 13,
             ),
         ));
         

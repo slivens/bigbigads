@@ -1,4 +1,4 @@
-<div  ng-class='{"ml-sidebar":!bookmark.error}' class="bookmark">
+<div  ng-class='{"ml-sidebar":!bookmark.error}' class="bookmark" id="bookmark">
 
     <!-- BEGIN PAGE BREADCRUMB -->
     <div class="clearfix">
@@ -62,7 +62,8 @@
                 </div>
 
                 <div ng-if="bookmark.type == 1">
-                    <div deckgrid source="data.adsers.adser" class="deckgrid" cardTemplate="{{'views/adser-search-card.html' | nocache}}">
+                    <!-- TODO: should use component instead of html file -->
+                    <div deckgrid source="data.adsers.adser" class="deckgrid" cardTemplate="{{'views/adser-search-card.html'}}">
                     </div>
                 </div>
             </div>
