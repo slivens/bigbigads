@@ -6,6 +6,9 @@ const controller = function($scope, $uibModalInstance, $state) {
         $state.go('profile')
         $uibModalInstance.dismiss('success')
     }
+    $scope.close = function() {
+        $uibModalInstance.dismiss('success')
+    }
 }
 controller.$inject = ['$scope', '$uibModalInstance', '$state']
 export {template, controller}

@@ -101,6 +101,7 @@ module.factory('Reminder', ['$uibModal', 'User', '$window', function($uibModal, 
                 template: remindActiveEmailTemplate,
                 size: 'md',
                 animation: true,
+                backdrop: false,
                 controller: remindActiveEmailController
             })
         }
