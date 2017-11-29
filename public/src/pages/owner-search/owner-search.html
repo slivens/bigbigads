@@ -28,7 +28,7 @@
             <span>About <span class="font-yellow-gold">{{adSearcher.ads.total_adser_count | adsCount}}</span> results(Total <span class="font-yellow-gold">{{adSearcher.ads.total_ads_count | adsCount}}</span> ads)</span>
         </div>
         <!-- ture 禁用；false 不禁用-->
-        <div infinite-scroll="getMore()" class="clearfix" infinite-scroll-distance="0" infinite-scroll-disabled="searchBusy || getMoreBusy || isEnd">
+        <div infinite-scroll="getMore()" class="clearfix" infinite-scroll-distance="1" infinite-scroll-disabled="searchBusy || getMoreBusy || isEnd">
             <!-- <div deckgrid source="adSearcher.ads.adser_info" class="deckgrid clearfix" cardTemplateString="<adser-search-card />">
             </div> -->
 

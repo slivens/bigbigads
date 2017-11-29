@@ -26,6 +26,7 @@
 *
 * 历史修改：
 * 2017.10.16  创建，初始版本，完成基本功能  负责人：余清红
+* 2017.11.29  修改接口
 */
 
 import './owner-search.scss'
@@ -40,7 +41,7 @@ export default angular.module('owner-search', ['MetronicApp', 'akoenig.deckgrid'
     function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, $http) {
         var vm = this
         $scope.settings = settings
-
+        console.log('test')
         // 获取当前url的参数的序列化json对象
         function toUrlText(searchText) {
             searchText ? $location.search({"searchText": searchText}) : $location.search({})
@@ -90,18 +91,17 @@ export default angular.module('owner-search', ['MetronicApp', 'akoenig.deckgrid'
             $http.get(`/advertisers?keywords=${searchText}&page=${$scope.searchPage}`).success(function(res) {
                 $scope.getMoreBusy = false
                 $scope.searchBusy = false
-                if (res.data) {
-                    if (res.last && res.last > $scope.searchPage) {
+                if (res.data.length) {
+                    if (res.pagination && res.pagination.pages > $scope.searchPage) {
                         $scope.isEnd = false
                     } else {
                         $scope.isEnd = true
                     }
-                    for (var key in res.data) {
-                        $scope.ownerCardData.push(res.data[key])
-                    }
-                    $scope.total = res.total
+                    $scope.ownerCardData = $scope.ownerCardData.concat(res.data)
+                    $scope.total = res.pagination.pages
                 } else {
                     $scope.ownerCardData = false
+                    $scope.isEnd = true
                 }
             }).error(function(err) {
                 // 如果报错的话，页面减一，可以重新访问

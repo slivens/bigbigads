@@ -7,7 +7,7 @@
         <i class="adser-bookmark fa"  ng-class="{'fa-heart' : card.hasBookmark, 'fa-heart-o': !card.hasBookmark}" uib-popover-template="'components/bookmark-popover.html'" popover-placement="left" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.data.adsers.bookmark && card.adser_username"  popover-trigger="'outsideClick'">
         </i> -->
         <!-- avatar and adser info -->
-        <a ui-sref="adserAnalysis({username:card.facebook_id})" target="_blank">
+        <a ui-sref="adserAnalysis({username:card.adser_username})" target="_blank">
             <div class="adser-img">
                 <img src="../../images/input-spinner.gif" lazy-img="{{card.large_photo}}" alt="" class="avatar" type="bba">
             </div>
@@ -16,7 +16,7 @@
         
     </div>
     <div class="adser-name">
-        <a ui-sref="adser({name:card.name, adser:card.facebook_id})" ng-bind-html="card.name | toHtml" ng-show="card.name" class="adser-name"></a>
+        <a ui-sref="adser({name:card.adser_name, adser:card.adser_username})" ng-bind-html="card.adser_name | toHtml" ng-show="card.adser_name" class="adser-name"></a>
         <i class="fa fa-check-circle text-info" ng-if="card.page_verified == 'blue_verified'"></i>
         <i class="fa fa-check-circle text-muted" ng-if="card.page_verified == 'gray_verified'"></i>
     </div>
