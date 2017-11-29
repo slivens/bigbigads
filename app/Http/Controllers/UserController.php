@@ -274,6 +274,9 @@ class UserController extends Controller
             if (empty($userName)) {
                 $userName= $socialiteUser->name;
             }
+            if (empty($userName)) {
+                $userName = $email;
+            }
             $user = User::create(
                 [
                 'name' => $userName,
@@ -502,6 +505,7 @@ class UserController extends Controller
             'website' => $request->website,
             'tax_no' => $request->tax_no
         ];
+        $extraData = self::filterEmojiDeep($extraData); // 删掉emoji
         if ($custom = CustomizedInvoice::where('user_id', $user->id)->first()) {
             if ($custom->canSave()) {
                 $modifiedCustom = CustomizedInvoice::updateOrCreate(
@@ -558,5 +562,54 @@ class UserController extends Controller
             }
         }
         return response()->json($res);
+    }
+
+    /**
+     * 替换掉emoji表情，并且删除头尾的空格
+     * @param $text 待处理字符串
+     * @param string $replaceTo 替换成
+     * @return mixed|string
+     */
+    public static function filterEmoji($text, $replaceTo = '')
+    {
+        $clean_text = "";
+        // Match Emoticons
+        $regexEmoticons = '/[\x{1F600}-\x{1F64F}]/u';
+        $clean_text = preg_replace($regexEmoticons, $replaceTo, $text);
+        // Match Miscellaneous Symbols and Pictographs
+        $regexSymbols = '/[\x{1F300}-\x{1F5FF}]/u';
+        $clean_text = preg_replace($regexSymbols, $replaceTo, $clean_text);
+        // Match Transport And Map Symbols
+        $regexTransport = '/[\x{1F680}-\x{1F6FF}]/u';
+        $clean_text = preg_replace($regexTransport, $replaceTo, $clean_text);
+        // Match Miscellaneous Symbols
+        $regexMisc = '/[\x{2600}-\x{26FF}]/u';
+        $clean_text = preg_replace($regexMisc, $replaceTo, $clean_text);
+        // Match Dingbats
+        $regexDingbats = '/[\x{2700}-\x{27BF}]/u';
+        $clean_text = preg_replace($regexDingbats, $replaceTo, $clean_text);
+        return trim($clean_text);
+    }
+
+    /**
+     * 替换掉数组中的emoji表情
+     * @param $arrayString 待处理字符串/字符串组
+     * @param string $replaceTo 替换到
+     * @return mixed|string
+     */
+    public static function filterEmojiDeep($arrayString, $replaceTo = '')
+    {
+        if (is_string($arrayString)) {
+            return self::filterEmoji($arrayString, $replaceTo);
+        } elseif (is_array($arrayString)) {
+            foreach ($arrayString as &$array) {
+                if (is_array($array) || is_string($array)) {
+                    $array = self::filterEmojiDeep($array, $replaceTo);
+                } else {
+                    $array = $array;
+                }
+            }
+        }
+        return $arrayString;
     }
 }

@@ -41,8 +41,8 @@ class SessionControlJob implements ShouldQueue
             $globalSessionCount = -1;
         $sessionService = app('app.service.session');        
 
-        $userSessions = $sessionService->userInfos()->has($user->email) ? $sessionService->userInfos()[$user->email] : null;
-        if (!$userSessions)
+        $userSessions = $sessionService->userSessions($user->email);
+        if (count($userSessions) == 0)
             return;
         $left = $sessionService->removeUserSessions($user->email, $user->session_count !== null ? $user->session_count : $globalSessionCount);
         if ($left < 0)
