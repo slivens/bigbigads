@@ -122,6 +122,8 @@ class SessionService implements \App\Contracts\SessionService
     public function userSessions(string $email) : Collection
     {
         $user = User::where('email', $email)->first();
+        if (!$user)
+            return new Collection();
         return $this->getFilteredSessions(['user_id' => $user->id]);
     }
 
