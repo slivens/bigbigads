@@ -77,10 +77,15 @@ angular.module('MetronicApp').factory('Bookmark', ['Resource', '$uibModal', 'Swe
             cancelButtonText: 'Cancel',
             closeOnConfirm: true,
             closeOnCancel: true
-        }, function(isConfirm) {
+        }, async function(isConfirm) {
             if (isConfirm) {
-                bookmark.del(item)
-                $state.reload()
+                try {
+                    await bookmark.del(item)
+                    $state.reload()
+                } catch (err) {
+                    // 可能存在删除失败的情况
+                    console.error(err)
+                }
             }
         })
     }

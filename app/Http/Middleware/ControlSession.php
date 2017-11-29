@@ -8,6 +8,7 @@ use Voyager;
 use Auth;
 use Illuminate\Support\Facades\Redis;
 use Carbon\Carbon;
+use Log;
 
 class ControlSession
 {
@@ -41,10 +42,12 @@ class ControlSession
             // 因此直接让锁自动过期即可
             $ok = Redis::set($request->session()->getId() . '.lock', 1, 'EX','30', 'NX');
             if ($ok) {
+                $old = count($statics['ips']);
                 $statics['ips'] = [];
                 $statics['ips'][$request->ip()] = Carbon::now()->toIso8601String();
                 $request->session()->set('session_statics', $statics);
                 $request->session()->migrate(true);
+                Log::info("limit {$user['email']} ip count", ['from' => $old, 'to' => $limitIpCount, 'now' => 1]);
             }
         }
 

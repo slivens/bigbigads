@@ -566,7 +566,7 @@ class SearchController extends Controller
                     }
 
                     //search 页面初始化                   
-                    if (count($req->keys) === 0 && count($req->where) === 0 && $req->limit['0'] === 0) {
+                    if (count($req->keys) === 0 && count($req->where) === 0 && $req->limit['0'] === 0 && $req->sort['field'] === 'default') {
                         $subAction = 'init';
                     }
                     //search 页面下拉滚动条
@@ -576,9 +576,9 @@ class SearchController extends Controller
                         //search 页面使用过滤,由于search mode后参数情况不一样，是添加在了keys里面，所以有两种情况
                         //1.keys长度不为0，但是string为0，where长度大于等于0，说明是仅使用了search mode过滤或者包含search mode的组合过滤。
                         //2.keys长度为0，where长度不为0，说明是使用了除search mode以外的过滤。
-                        if (count($req->keys) > 0 && array_key_exists('string', $req->keys[0]) && !$req->keys[0]['string'] && count($req->where) >= 0 && $req->sort['field'] != 'default') {
+                        if (count($req->keys) > 0 && array_key_exists('string', $req->keys[0]) && !$req->keys[0]['string'] && count($req->where) >= 0 || ($lastParamsArray['sort'] != $req->sort && $req->sort['field'] != 'default')) {
                             $subAction = 'where';
-                        } else if (count($req->keys) === 0 && count($req->where) > 0 && $req->sort['field'] != 'default') {
+                        } else if (count($req->keys) === 0 && count($req->where) > 0 || ($lastParamsArray['sort'] != $req->sort && $req->sort['field'] != 'default')) {
                             $subAction = 'where';
                         }
                     }
@@ -710,7 +710,7 @@ class SearchController extends Controller
             /* Log::debug("time cost:" . round($t2 - $t1, 3)); */
             //执行时间超过0.5S的添加到日志中
             if (($t2 - $t1) > 0.5) {
-                Log::warning("<{$user->name}, {$user->email}> params:$jsonData, time cost:" . round($t2 - $t1, 3));
+                Log::info("<{$user->name}, {$user->email}> params:$jsonData, time cost:" . round($t2 - $t1, 3));
                 if (isset($header))
                     Log::info($header);
             }
