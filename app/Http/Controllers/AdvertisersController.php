@@ -58,7 +58,7 @@ class AdvertisersController extends Controller
                 'field' => 'ads_number',
                 'order' => 1
             ],
-            'select'        => 'adser_username,large_photo,ads_number,adser_name',
+            'select'        => 'adser_username,large_photo,ads_number,adser_name,page_verified',
         ];
         $result = $client->request('POST', env('MOBILE_ADSER_SEARCH'), [
             'json' => $json
@@ -66,7 +66,7 @@ class AdvertisersController extends Controller
 
         $result = json_decode($result->getBody(), true);
 
-        //$subAction = $this->getUserAction($params);
+        $subAction = $this->getUserAction($params);
         
         if (!array_key_exists('adser_info', $result)) return [
             'data'  => [],
@@ -76,7 +76,7 @@ class AdvertisersController extends Controller
             'next'  => 0,
             'prev'  => 0,
         ];
-        // $this->logActionAndUpgradeUsage($subAction, $result['total_adser_count'], $json);
+        $this->logActionAndUpgradeUsage($subAction, $result['total_adser_count'], $json);
 
         $pagination = [];
         $pagination['pages'] = ceil($result['total_adser_count'] / $limit);
@@ -271,7 +271,7 @@ class AdvertisersController extends Controller
      */
     protected function logActionAndUpgradeUsage($subAction, $resultTotal, $params)
     {
-        $user = $this->user;
+        $user = Auth::user();
         $searchResult = $resultTotal;
         $jsonData = json_encode($params);
         $resultPerSearchUsage = $user->getUsage('adser_result_per_search');

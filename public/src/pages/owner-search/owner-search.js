@@ -2,7 +2,7 @@
 * 广告主搜索页
 * 版本：2017_10_16(1.0.1)
 * 编写：余清红
-* 
+*
 * 需求：
 * 1）单词搜索，搜索后出现loding(屏幕居中)
 * 2）下拉加载更多，出现loading动画（下边）
@@ -10,7 +10,7 @@
 * 4）带url参数的，根据参数搜索
 * 5）显示所有结果后，禁止下拉加载
 * 6）每次加载显示十个结果
-* 
+*
 * 相关权限：
 * 1）游客，进入login页面
 * 2）免费用户，提示无相关权限，要求升级
@@ -87,7 +87,7 @@ export default angular.module('owner-search', ['MetronicApp', 'akoenig.deckgrid'
         */
         vm.getOwner = function() {
             let searchText = $scope.searchText || ''
-            $http.get(`/api/owners?keywords=${searchText}&page=${$scope.searchPage}`).success(function(res) {
+            $http.get(`/advertisers?keywords=${searchText}&page=${$scope.searchPage}`).success(function(res) {
                 $scope.getMoreBusy = false
                 $scope.searchBusy = false
                 if (res.data) {
