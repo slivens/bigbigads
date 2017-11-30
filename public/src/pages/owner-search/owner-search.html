@@ -41,12 +41,21 @@
             <div class="text-center " ng-if="getMoreBusy">
                 <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
             </div>
-            <div class="text-center owber-search-loding" ng-if="searchBusy">
+            <div class="text-center adser-search-loding" ng-if="searchBusy">
                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
             </div>
-            <div class="text-center" ng-if="isEnd">
+            <div class="text-center" ng-if="isEnd && searchErrTime < 3">
                 <img src="/assets/global/img/the_end.png">
             </div>
+            <!--搜索错误次数大于三次的时候显示-->
+            <div class="adser-err alert" ng-if="searchErrTime >= 3">
+                <i class="fa fa-unlink adser-err__bg"></i>
+                <div class="adser-err__content text-center">
+                    <h2 class="text-danger">Sorry! The Server is Busy.</h2>
+                    <p class="ads-font-20 ads-weight-200">Please try again later, or please click <a ng-click="searchRefresh()">refresh</a> </p>
+                </div>
+                
+            </div> 
         </div>
     </div>
 </div>

@@ -91,7 +91,7 @@ export default angular.module('owner-search', ['MetronicApp', 'akoenig.deckgrid'
             $http.get(`/advertisers?keywords=${searchText}&page=${$scope.searchPage}`).success(function(res) {
                 $scope.getMoreBusy = false
                 $scope.searchBusy = false
-                if (res.data.length) {
+                if (res.data && res.data.length) {
                     if (res.pagination && res.pagination.pages > $scope.searchPage) {
                         $scope.isEnd = false
                     } else {
@@ -99,6 +99,7 @@ export default angular.module('owner-search', ['MetronicApp', 'akoenig.deckgrid'
                     }
                     $scope.ownerCardData = $scope.ownerCardData.concat(res.data)
                     $scope.total = res.pagination.pages
+                    $scope.searchErrTime = 0
                 } else {
                     $scope.ownerCardData = false
                     $scope.isEnd = true
@@ -108,6 +109,11 @@ export default angular.module('owner-search', ['MetronicApp', 'akoenig.deckgrid'
                 $scope.searchPage -= 1
                 $scope.getMoreBusy = false
                 $scope.searchBusy = false
+                // 出现错误，就 + 1，当错误次数达到三次的时候，就停止加载，这个bug会出现在初次加载错误后，会一直加载
+                $scope.searchErrTime += 1
+                if ($scope.searchErrTime > 3) {
+                    $scope.isEnd = true
+                }
                 console.log(err)
             })
         }
@@ -122,6 +128,16 @@ export default angular.module('owner-search', ['MetronicApp', 'akoenig.deckgrid'
             $scope.getMoreBusy = true
             $scope.searchPage += 1
             if (!$scope.isEnd) vm.getOwner()
+        }
+        /*
+        * 点击刷新
+        */
+        $scope.searchRefresh = function() {
+            $scope.searchBusy = true
+            $scope.canGetMore = false
+            $scope.isEnd = false
+            $scope.searchErrTime = 0 // 搜索的错误次数
+            vm.getOwner()
         }
 
         // 用户登录状态
@@ -140,6 +156,7 @@ export default angular.module('owner-search', ['MetronicApp', 'akoenig.deckgrid'
         $scope.canGetMore = false
         $scope.isEnd = false
         $scope.searchPage = 1
+        $scope.searchErrTime = 0 // 搜索的错误次数
         toSeachText("searchText")
     }
 ])

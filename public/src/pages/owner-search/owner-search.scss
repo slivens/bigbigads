@@ -46,7 +46,7 @@
 
     }
 
-    .owber-search-loding{
+    .adser-search-loding{
         position: fixed;
         width: 100vw;
         height: 100vh;
@@ -57,6 +57,21 @@
         justify-content: center;
         align-items:center;
         z-index: 99;
+    }
+    .adser-err {
+        position: relative;
+        margin-top: 30px;
+        border-top:3px dashed #ccc;
+        padding-top: 30px;
+        .adser-err__bg {
+            position: absolute;
+            font-size: 200px;
+            color: rgba(158, 158, 158, 0.25);
+        }
+        .adser-err__content {
+            position: relative;
+            margin-top: 50px;
+        }
     }
 }
 
