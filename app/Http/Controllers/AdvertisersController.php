@@ -42,10 +42,9 @@ class AdvertisersController extends Controller
         $client = new Client();
 
         /**
-         * search_result判断
          */ 
-        $searchResult = $this->getSearchResultParams($params);
-
+        // $searchResult = $this->getSearchResultParams($params);
+        $searchResult = 'mobile_adser';
         $json = [
             'search_result' => $searchResult,
             'limit'         => [($page - 1) * $limit, $limit],
@@ -57,6 +56,7 @@ class AdvertisersController extends Controller
             ],
             'select'        => 'adser_username,large_photo,ads_number,adser_name,page_verified',
         ];
+
         $result = $client->request('POST', env('MOBILE_ADSER_SEARCH'), [
             'json' => $json
         ]);
@@ -64,7 +64,7 @@ class AdvertisersController extends Controller
         $result = json_decode($result->getBody(), true);
 
         $subAction = $this->getUserAction($params);
-
+        
         if (!array_key_exists('adser_info', $result)) return [
             'data'  => [],
             'page'  => 0,
@@ -92,7 +92,7 @@ class AdvertisersController extends Controller
     /**
      *  搜索单个广告主
      */
-    private function apiPublisher($id)
+    private function apiGetAnalysis($id)
     {
         $json = [
             'search_result' => 'mobile_adser',
@@ -138,21 +138,21 @@ class AdvertisersController extends Controller
     /**
      *  得到排序后的广告主名下Top广告
      */
-    static public function getTopAds($id, $descMode)
+    public function getTopAds($id, $descMode)
     {
         $select = '';
         switch($descMode) {
             case 'like_rate':
-                $select = 'event_id,likes_per_30d,likes,last_see,like_rate,local_picture';
+                $select = 'event_id,likes_per_30d,likes,last_see,like_rate,watermark,type';
                 break;
             case 'comment_rate':
-                $select = 'event_id,comment_per_30d,comment,last_see,comment_rate,local_picture';
+                $select = 'event_id,comment_per_30d,comment,last_see,comment_rate,watermark,type';
                 break;
             case 'share_rate':
-                $select = 'event_id,share_per_30d,share,last_see,share_rate,local_picture';
+                $select = 'event_id,share_per_30d,share,last_see,share_rate,watermark,type';
                 break;
             case 'total_impression':
-                $select = 'event_id,likes_per_30d,likes,last_see,like_rate,local_picture';
+                $select = 'event_id,likes_per_30d,likes,last_see,like_rate,watermark,type';
                 break;
             default: break;
         }
@@ -174,24 +174,48 @@ class AdvertisersController extends Controller
         ];
 
         $result = $client->request('POST', env('AD_SEARCH_URL'), [
-            'json' => [
-                'search_result' => 'ads',
-                'sort'          => [
-                    'field' => $descMode,
-                    'order' => 1
-                ],
-                'limit'         => [0, 10],
-                'adser_detail'  => 1,
-                'where'         => [[
-                    'field'     =>  'adser_username',
-                    'value'     =>  $id,
-                ]],
-                'select'        => $select,
-            ]
+            'json' => $json
         ]);
         $result = json_decode($result->getBody(), true);
+        $ads = $result['ads_info'];
 
-        return $result;
+        foreach($ads as $key => $ad)
+        {
+            switch($ad['type']) {
+                case 'SingleVideo': {
+                    $result['ads_info'][$key]['image'] = $this->switchAdsImageUri($ad['watermark']);
+                    break;
+                }
+                case 'Carousel': {
+                    $watermark = json_decode($ad['watermark'], true);
+                    if (array_key_exists('source', $watermark[0])) {
+                        $result['ads_info'][$key]['image'] = $this->switchAdsImageUri($watermark[0]['source']);
+                    }
+                    break;
+                }
+                case 'Canvas': {
+                    $watermark = json_decode($ad['watermark'], true);
+                    $result['ads_info'][$key]['image'] = $this->switchAdsImageUri($watermark[0]);
+                    break;
+                }
+                case 'SingleImage': {
+                    $result['ads_info'][$key]['image'] = $this->switchAdsImageUri($ad['watermark']);
+                    break;
+                }
+            }
+        }
+
+        return response()->json($result, 200);
+    }
+
+    /**
+     * Top 广告使用独立的image, 并未专门提供字段, 需要自己转化
+     */
+    protected function switchAdsImageUri($imageUrl)
+    {
+        if (!$imageUrl) return;
+        $imageUrl = str_replace("watermark", "mobile_phone_image", $imageUrl);
+        return $imageUrl; 
     }
 
     /**
@@ -387,12 +411,14 @@ class AdvertisersController extends Controller
     }
 
     /**
-     * 判断用户提交参数是否合法
+     * 广告主搜索前参数检查
      */
-    protected function checkParamsIsLegal($req, $params)
+    protected function checkBeforeAdserSearch($req, $params)
     {
-        $user = $this->user;
-        $isLegal = true;
+        $user = Auth::user();
+        if (!$user->can('adser_search_times_perday')) {
+            throw new \Exception("you not permission of adser search", -4600);
+        }
         $resultPerSearch = $user->getUsage('adser_result_per_search');
         $limit = ($params['page'] - 1) * $params['limit'];
 
@@ -400,8 +426,54 @@ class AdvertisersController extends Controller
             dispatch(new LogAbnormalAction('', $req, 'Illegal limit params', $user->id, $req->ip()));
             $isLegal = false;
         }
+    }
 
-        return $isLegal; 
+    /**
+     * 请求广告主搜索后结果检查
+     * todo 暂时未给出对应需求，待完善
+     */
+    protected function checkAfterAdserSearch($req, $result)
+    {
+        $user = Auth::user();
+        if (!$user->can('adser_search_times_perday')) {
+            throw new \Exception("you not permission of adser search", -4600);
+        }
+    }
+
+    /**
+     * 请求广告主分析前参数检查
+     * todo 暂时未给出对应需求，待完善
+     */
+    protected function checkBeforeAdserAnalysis($req, $id)
+    {
+        $user = Auth::user();
+        if (!$id) {
+            throw new \Exception("lack of adser id", -4602);
+        }
+
+        if (!$user->can('adser_analysis_perday')) {
+            throw new \Exception("you not permission of adser analysis", -4601);
+        }
+    }
+
+    /**
+     * 请求广告主分析后结果检查
+     * todo 暂时未给出对应角色权限需求，待完善
+     */
+    protected function checkAfterAdserAnalysis($req, $result)
+    {
+        $user = Auth::user();
+        $adserAnalysisPerday = $user->getUsage('adser_analysis_perday');
+
+        if (!$user->can('adser_analysis_perday')) {
+            throw new \Exception("you not permission of adser analysis", -4601);
+        }
+
+        if ($adserAnalysisPerday[2] >= intval($adserAnalysisPerday[1])) {
+            throw new \Exception("you reached search times today, default result will show", -4100);
+        } else {
+            $this->checkAndUpdateUsagePerday($user, 'adser_analysis_perday');
+        }
     }
 
     /**
@@ -417,6 +489,9 @@ class AdvertisersController extends Controller
         return $searchResult;
     }
 
+    /**
+     * 获取广告主数据
+     */
     public function getPublishers(Request $request)
     {
         /**
@@ -438,6 +513,11 @@ class AdvertisersController extends Controller
         $params['limit']    = $limit;
 
         try {
+            /**
+             * 广告主搜索前参数检查
+             */
+            $this->checkBeforeAdserSearch($request, $params);
+
             /**
              * 更新请求广告主资源次数
              * 只区分空词和非空词情况
@@ -469,6 +549,9 @@ class AdvertisersController extends Controller
         return response()->json($result, 200);
     }
 
+    /**
+     * 获取广告主分析数据
+     */
     public function getPublisherAnalysis(Request $request, $facebookId)
     {
         $user = Auth::user();
@@ -476,11 +559,17 @@ class AdvertisersController extends Controller
         if (!$this->checkAttack($request, $user)) {
             return $this->responseError("We detect your ip has abandom behavior", -5000);
         }
-        //$this->checkIsRestrictGetAdResource($request, $user, $jsonData);
+        try {
+            $this->checkBeforeAdserAnalysis($request, $facebookId);
+            $this->checkIsRestrictGetAdResource($request, $user, ['facebookId' => $facebookId]);
 
-        $result = $this->apiPublisher($facebookId);
+            $result = $this->apiGetAnalysis($facebookId);
+
+            $this->checkAfterAdserAnalysis($request, $result);
+        } catch (\Exception $e) {
+            return $this->responseError($e->getMessage(),$e->getCode());
+        }
         
-        // $this->checkAndUpdateUsagePerday($user, 'search_key_total_perday');
         return response()->json($result, 200);
     }
 }

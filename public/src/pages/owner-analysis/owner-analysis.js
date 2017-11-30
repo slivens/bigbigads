@@ -48,7 +48,7 @@ export default angular.module('owner-analysis', ['MetronicApp', 'highcharts-ng']
             //     "select": select
             // }
             // console.log("params", params)
-            return $http.get(settings.remoteurl + `/api/adserAnalysis/${username}`)
+            return $http.get(settings.remoteurl + `/advertisers/${username}`)
         }
         $scope.ceil = Math.ceil
         var competitorQuery = []
@@ -64,7 +64,7 @@ export default angular.module('owner-analysis', ['MetronicApp', 'highcharts-ng']
         promises[0] = getAdserAnalysis($scope.username)
         promises[0].then(function(res) {
             if (res.data) {
-                $scope.card.info = res.data[0]
+                $scope.card.info = res.data.adser_info[0]
             }
 
             // 获取不到数据，可认为存在问题，直接跳往404页面
@@ -331,10 +331,11 @@ export default angular.module('owner-analysis', ['MetronicApp', 'highcharts-ng']
         */
         var getRateData = function(userId, paramater) {
             let resArr = []
-            $http.get(`/api/topAds/${userId}/${paramater}`, {}).success(
+            $http.get(`/advertisers/${userId}/${paramater}`, {}).success(
                 function(data) {
-                    if (data.ads) {
-                        data.ads.forEach(function(items) {
+                    console.log(data)
+                    if (data.ads_info) {
+                        data.ads_info.forEach(function(items) {
                             if (items && items.forEach) {
                                 items.forEach(function(item) {
                                     resArr.push(item)
