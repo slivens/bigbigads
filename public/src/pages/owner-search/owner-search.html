@@ -28,7 +28,7 @@
             <span>About <span class="font-yellow-gold">{{adSearcher.ads.total_adser_count | adsCount}}</span> results(Total <span class="font-yellow-gold">{{adSearcher.ads.total_ads_count | adsCount}}</span> ads)</span>
         </div>
         <!-- ture 禁用；false 不禁用-->
-        <div infinite-scroll="getMore()" class="clearfix" infinite-scroll-distance="1" infinite-scroll-disabled="searchBusy || getMoreBusy || isEnd">
+        <div infinite-scroll="getMore()" class="clearfix" infinite-scroll-distance="1" infinite-scroll-disabled="searchBusy || getMoreBusy || searchErr">
             <!-- <div deckgrid source="adSearcher.ads.adser_info" class="deckgrid clearfix" cardTemplateString="<adser-search-card />">
             </div> -->
 
@@ -44,17 +44,38 @@
             <div class="text-center adser-search-loding" ng-if="searchBusy">
                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
             </div>
-            <div class="text-center" ng-if="isEnd && searchErrTime < 3">
-                <img src="/assets/global/img/the_end.png">
-            </div>
-            <!--搜索错误次数大于三次的时候显示-->
-            <div class="adser-err alert" ng-if="searchErrTime >= 3">
-                <i class="fa fa-unlink adser-err__bg"></i>
+            
+            <!--搜索出现错误-->
+            <div class="adser-err alert" ng-if="searchErr">
+                <i class="fa adser-err__bg"
+                    ng-class="{
+                    'fa-unlink': searchErr.errTime,
+                    'fa-eye-slash': searchErr.searchTime,
+                    'fa-ban fa-spin': searchErr.end,
+                    'fa-exclamation-circle': searchErr.noResult || searchErr.loadMore
+                }"></i>
                 <div class="adser-err__content text-center">
-                    <h2 class="text-danger">Sorry! The Server is Busy.</h2>
-                    <p class="ads-font-20 ads-weight-200">Please try again later, or please click <a ng-click="searchRefresh()">refresh</a> </p>
+                    <h2 >
+                        <span ng-if="searchErr.errTime" class="text-danger">Sorry! The Server is Busy.</span>
+                        <span ng-if="searchErr.searchTime" class="text-warning">You search more than the daily limit</span>
+                        <span ng-if="searchErr.end">There's no more</span>
+                        <span ng-if="searchErr.noResult"></span>
+                        <span ng-if="searchErr.noResult" class="text-warning">No results were found</span>
+                        <span ng-if="searchErr.loadMore">Loading more results is limited</span>
+                    </h2>
+                    <p class="ads-font-20 ads-weight-200">
+                        <span ng-if="searchErr.errTime">Please try again later, or please click <a ng-click="searchRefresh()">refresh</a>.</span>
+                        <span ng-if="searchErr.searchTime || searchErr.end || searchErr.noResult">You can download the <a href="/extension">extension</a> to see more.</span>
+                        <span ng-if="searchErr.loadMore">You can download the <a href="/extension">extension</a> to see more.</span>
+                    </p>
                 </div>
-                
+                <div class="text-center hidden" ng-if="searchErr.end">
+                    <img src="/assets/global/img/the_end.png">
+                </div>
+                <div  class="text-center">
+                    <h2 ></h2>
+                    <p class=""></p>
+                </div>
             </div> 
         </div>
     </div>

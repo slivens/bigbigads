@@ -20,13 +20,14 @@
 * 1）$scope.searchText       搜索的关键词、url参数
 * 2）$scope.ownerCardData    搜索后的结果集，数组
 * 3）$scope.searchBusy       搜索繁忙，用于显示loading动画，禁用下拉继续加载
-* 4）$scope.isEnd            是否已经加载完，用于显示结束标志，禁用继续下载加载
+* 4）$scope.searchErr        错误结果集，其中报错未搜索到结果，搜索次数已满等
 * 5）$scope.searchPage       搜索的当前页面，默认从第一页开始，没下拉加载一次，页数增加一次，同时也用于判断是否已经加载完全部结果
 * 6）$scope.getMoreBusy      加载更多繁忙，用于显示loading动画，禁用下拉继续加载
 *
 * 历史修改：
 * 2017.10.16  创建，初始版本，完成基本功能  负责人：余清红
 * 2017.11.29  修改接口
+* 2017.11.30  添加当出现错误时的提示
 */
 
 import './owner-search.scss'
@@ -70,6 +71,7 @@ export default angular.module('owner-search', ['MetronicApp', 'akoenig.deckgrid'
                 $scope.searchText = $scope.searchWord
                 $scope.ownerCardData = [] // 清空结果
                 $scope.searchPage = 1
+                $scope.searchErr = false
                 vm.getOwner()
                 toUrlText($scope.searchText)
             } else {
@@ -84,50 +86,79 @@ export default angular.module('owner-search', ['MetronicApp', 'akoenig.deckgrid'
         }
 
         /*
-        * 广告主搜索
+        * 获取广告主数据
+        *  1）如果存在错误，比如搜索超过限制，下拉超过限制 即 $scope.searchErr = true 禁用获取功能
+        *  2）当返回的数据data的长度为0的时候：未搜索到结果
+        *  3）返回的数据累加到 $scope.ownerCardData
+        *  【错误数据】
+        *  1）-4100 日搜索被限制
+        *  2）-4400 下拉加载次数被限制
+        *  3）其他 比如服务器问题
         */
         vm.getOwner = function() {
+            // 如果出错了，就禁用搜索
+            if ($scope.searchErr) return
             let searchText = $scope.searchText || ''
             $http.get(`/advertisers?keywords=${searchText}&page=${$scope.searchPage}`).success(function(res) {
                 $scope.getMoreBusy = false
                 $scope.searchBusy = false
                 if (res.data && res.data.length) {
                     if (res.pagination && res.pagination.pages > $scope.searchPage) {
-                        $scope.isEnd = false
+                        // 如果有正常返回数据
+                        $scope.searchErr = false
                     } else {
-                        $scope.isEnd = true
+                        $scope.searchErr = {}
+                        $scope.searchErr.end = true
                     }
                     $scope.ownerCardData = $scope.ownerCardData.concat(res.data)
                     $scope.total = res.pagination.pages
                     $scope.searchErrTime = 0
-                } else {
-                    $scope.ownerCardData = false
-                    $scope.isEnd = true
+                } else if (res.data && res.data.length == 0) {
+                    // 未搜索到结果
+                    $scope.searchErr = {}
+                    $scope.searchErr.noResult = true
                 }
             }).error(function(err) {
+                if (err.code == '-4100') {
+                    $scope.searchErr = {}
+                    $scope.searchErr.searchTime = true
+                } else if (err.code == '-4400') {
+                    // 下拉加载 限制
+                    $scope.searchErr = {}
+                    $scope.searchErr.loadMore = true
+                } else {
+                    /*
+                    * 其他错误，连续错三次，可能时服务器错误或则网络问题
+                    * 尝试继续加载，如果连续出现三次错误，就停止加载
+                    */
+                    $scope.searchErrTime += 1
+                    if ($scope.searchErrTime >= 3) {
+                        $scope.searchErr = {}
+                        $scope.searchErr.errTime = true
+                    } else {
+                        vm.getOwner()
+                    }
+                }
                 // 如果报错的话，页面减一，可以重新访问
-                $scope.searchPage -= 1
                 $scope.getMoreBusy = false
                 $scope.searchBusy = false
-                // 出现错误，就 + 1，当错误次数达到三次的时候，就停止加载，这个bug会出现在初次加载错误后，会一直加载
-                $scope.searchErrTime += 1
-                if ($scope.searchErrTime > 3) {
-                    $scope.isEnd = true
-                }
                 console.log(err)
             })
         }
 
         /*
         * 下来加载更多
-        * 加载的页数 + 1
-        * 如果已经加载完全部，禁用继续加载
+        *  1）加载的页数 + 1
+        *  2）禁用继续下拉 $scope.getMoreBusy = true
+        * 【加载条件】
+        *  1）不存在错误的情况，即$scope.searchErr = false
         */
         $scope.getMore = function() {
-            // $scope.searchBusy = true
-            $scope.getMoreBusy = true
-            $scope.searchPage += 1
-            if (!$scope.isEnd) vm.getOwner()
+            if (!$scope.searchErr) {
+                $scope.getMoreBusy = true
+                $scope.searchPage += 1
+                vm.getOwner()
+            }
         }
         /*
         * 点击刷新
@@ -135,8 +166,8 @@ export default angular.module('owner-search', ['MetronicApp', 'akoenig.deckgrid'
         $scope.searchRefresh = function() {
             $scope.searchBusy = true
             $scope.canGetMore = false
-            $scope.isEnd = false
             $scope.searchErrTime = 0 // 搜索的错误次数
+            $scope.searchErr = false
             vm.getOwner()
         }
 
@@ -154,8 +185,8 @@ export default angular.module('owner-search', ['MetronicApp', 'akoenig.deckgrid'
         $scope.ownerCardData = []
         $scope.searchBusy = true
         $scope.canGetMore = false
-        $scope.isEnd = false
         $scope.searchPage = 1
+        $scope.searchErr = false
         $scope.searchErrTime = 0 // 搜索的错误次数
         toSeachText("searchText")
     }
