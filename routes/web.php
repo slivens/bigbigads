@@ -256,5 +256,5 @@ Route::post('/filter-record', 'UserController@filterLogRecord');
 Route::post('/feedback/plan', 'FeedbackController@plan')->middleware('throttle:30,60');
 
 Route::get('/advertisers', 'AdvertisersController@getPublishers');
-Route::get('/advertisers/{facebookId}', 'AdvertisersController@getPublisher');
-Route::get('/advertisers/{facebookId}/ad-rank', 'AdvertisersController@getTopAds');
+Route::get('/advertisers/{facebookId}', 'AdvertisersController@getPublisherAnalysis');
+Route::get('/advertisers/{facebookId}/{adRank}', 'AdvertisersController@getTopAds');

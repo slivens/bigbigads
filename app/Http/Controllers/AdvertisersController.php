@@ -64,7 +64,7 @@ class AdvertisersController extends Controller
         $result = json_decode($result->getBody(), true);
 
         $subAction = $this->getUserAction($params);
-        
+
         if (!array_key_exists('adser_info', $result)) return [
             'data'  => [],
             'page'  => 0,
@@ -94,13 +94,42 @@ class AdvertisersController extends Controller
      */
     private function apiPublisher($id)
     {
-        $params = [];
-        $params['id'] = $id;
-        $params['page'] = 1;
-        $params['limit'] = 1;
-        $result = $this->apiPublishers($request, $params);
+        $json = [
+            'search_result' => 'mobile_adser',
+            'sort'          => [
+                'field' => 'ads_number',
+                'order' => 1
+            ],
+            'limit'         => [0, 1],
+            'adser_detail'  => 1,
+            'where'         => [[
+                'field'     =>  'adser_username',
+                'value'     =>  $id,
+            ]],
+        ];
+
+        $client = new Client();
+        
+        $result = $client->request('POST', env('MOBILE_ADSER_SEARCH'), [
+            'json' => [
+                'search_result' => 'mobile_adser',
+                'sort'          => [
+                    'field' => 'ads_number',
+                    'order' => 1
+                ],
+                'limit'         => [0, 1],
+                'adser_detail'  => 1,
+                'where'         => [[
+                    'field'     =>  'adser_username',
+                    'value'     =>  $id,
+                ]],
+            ]
+        ]);
+
+        $result = json_decode($result->getBody(), true);
+
         if ($result) {
-            return reset($result['data']);
+            return $result;
         } else {
             return false;
         }
@@ -109,24 +138,60 @@ class AdvertisersController extends Controller
     /**
      *  得到排序后的广告主名下Top广告
      */
-    static public function getTopAds($descMode)
+    static public function getTopAds($id, $descMode)
     {
-        $select;
+        $select = '';
         switch($descMode) {
             case 'like_rate':
-                $select = 'event_id,';
+                $select = 'event_id,likes_per_30d,likes,last_see,like_rate,local_picture';
                 break;
             case 'comment_rate':
-                $select = '';
+                $select = 'event_id,comment_per_30d,comment,last_see,comment_rate,local_picture';
                 break;
             case 'share_rate':
-                $select = '';
+                $select = 'event_id,share_per_30d,share,last_see,share_rate,local_picture';
                 break;
             case 'total_impression':
-                $select = '';
+                $select = 'event_id,likes_per_30d,likes,last_see,like_rate,local_picture';
                 break;
             default: break;
         }
+        $client = new Client();
+        
+        $json = [
+            'search_result' => 'ads',
+            'sort'          => [
+                'field' => $descMode,
+                'order' => 1
+            ],
+            'limit'         => [0, 10],
+            'adser_detail'  => 1,
+            'where'         => [[
+                'field'     =>  'adser_username',
+                'value'     =>  $id,
+            ]],
+            'select'        => $select,
+        ];
+
+        $result = $client->request('POST', env('AD_SEARCH_URL'), [
+            'json' => [
+                'search_result' => 'ads',
+                'sort'          => [
+                    'field' => $descMode,
+                    'order' => 1
+                ],
+                'limit'         => [0, 10],
+                'adser_detail'  => 1,
+                'where'         => [[
+                    'field'     =>  'adser_username',
+                    'value'     =>  $id,
+                ]],
+                'select'        => $select,
+            ]
+        ]);
+        $result = json_decode($result->getBody(), true);
+
+        return $result;
     }
 
     /**
@@ -404,7 +469,7 @@ class AdvertisersController extends Controller
         return response()->json($result, 200);
     }
 
-    public function getPublisher(Request $request, $facebookId)
+    public function getPublisherAnalysis(Request $request, $facebookId)
     {
         $user = Auth::user();
         if (!$user) return $this->responseError("You should sign in", -4199);
@@ -414,13 +479,7 @@ class AdvertisersController extends Controller
         //$this->checkIsRestrictGetAdResource($request, $user, $jsonData);
 
         $result = $this->apiPublisher($facebookId);
-
-        if (!$result) {
-            return response()->json([
-                'code'    => -1,
-                'message' => 'The adser does not exist'
-            ]);
-        }
+        
         // $this->checkAndUpdateUsagePerday($user, 'search_key_total_perday');
         return response()->json($result, 200);
     }
