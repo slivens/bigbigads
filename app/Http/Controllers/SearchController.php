@@ -473,7 +473,7 @@ class SearchController extends Controller
     /**
      * 免费用户邮箱有效性检查, 检查未通过则限制获取广告数据
      */
-    protected function checkEmailIsEffective($user)
+    protected function checkEmailIsEffective($req, $user)
     {
         $emailVerification = \Voyager::setting('check_email_validity');
         $checkTime = Carbon::create(2017, 7, 31, 23, 59, 59);
@@ -490,6 +490,7 @@ class SearchController extends Controller
         // 强制所有用户提供一个有效的邮箱
         
         if ($user->is_check === 0) {
+            dispatch(new LogAction(ActionLog::ACTION_CHECK_EMAIL_EFFECTIVE, '', 'check user email effective', $user->id, $req->ip()));
             throw new \Exception("you must effective email", -4999);
         }
     }
@@ -535,7 +536,7 @@ class SearchController extends Controller
             return $this->responseError("We detect your ip has abandom behavior", -5000);
         }
         try {
-            $this->checkEmailIsEffective($user);
+            $this->checkEmailIsEffective($req, $user);
         } catch (\Exception $e) {
             return $this->responseError($e->getMessage(),$e->getCode());
         }
