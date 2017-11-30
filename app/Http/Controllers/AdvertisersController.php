@@ -111,19 +111,7 @@ class AdvertisersController extends Controller
         $client = new Client();
         
         $result = $client->request('POST', env('MOBILE_ADSER_SEARCH'), [
-            'json' => [
-                'search_result' => 'mobile_adser',
-                'sort'          => [
-                    'field' => 'ads_number',
-                    'order' => 1
-                ],
-                'limit'         => [0, 1],
-                'adser_detail'  => 1,
-                'where'         => [[
-                    'field'     =>  'adser_username',
-                    'value'     =>  $id,
-                ]],
-            ]
+            'json' => $json
         ]);
 
         $result = json_decode($result->getBody(), true);
@@ -138,7 +126,7 @@ class AdvertisersController extends Controller
     /**
      *  得到排序后的广告主名下Top广告
      */
-    public function getTopAds($id, $descMode)
+    private function apiGetTopAds($id, $descMode)
     {
         $select = '';
         switch($descMode) {
@@ -205,7 +193,7 @@ class AdvertisersController extends Controller
             }
         }
 
-        return response()->json($result, 200);
+        return $result;
     }
 
     /**
@@ -216,6 +204,33 @@ class AdvertisersController extends Controller
         if (!$imageUrl) return;
         $imageUrl = str_replace("watermark", "mobile_phone_image", $imageUrl);
         return $imageUrl; 
+    }
+
+    /**
+     * 获取广告top排序前检查
+     */
+    protected function checkBeforeGetTopAds($id, $descMode)
+    {
+        $user = Auth::user();
+        if (!$id || !$descMode) {
+            throw new \Exception("Lack of necessary id or sequencing parameters", -4602);
+        }
+
+        if (!$user->can('adser_search')) {
+            throw new \Exception("you not permission of adser search", -4600);
+        }
+    }
+
+    /**
+     * 获取广告top排序后结果检查
+     * todo 删除无权限的结果字段(需求未给出, 待完善)
+     */
+    protected function checkAfterGetTopAds($result)
+    {
+        $user = Auth::user();
+        if (!$user->can('adser_search')) {
+            throw new \Exception("you not permission of adser search", -4600);
+        }
     }
 
     /**
@@ -566,6 +581,24 @@ class AdvertisersController extends Controller
             $result = $this->apiGetAnalysis($facebookId);
 
             $this->checkAfterAdserAnalysis($request, $result);
+        } catch (\Exception $e) {
+            return $this->responseError($e->getMessage(),$e->getCode());
+        }
+        
+        return response()->json($result, 200);
+    }
+
+    /**
+     * 获取广告主Top 广告排序广告
+     */
+    public function getTopAds($id, $descMode)
+    {
+        try {
+            $this->checkBeforeGetTopAds($id, $descMode);
+
+            $result = $this->apiGetTopAds($id, $descMode);
+
+            $this->checkAfterGetTopAds($result);
         } catch (\Exception $e) {
             return $this->responseError($e->getMessage(),$e->getCode());
         }
