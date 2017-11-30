@@ -15,18 +15,10 @@ use GuzzleHttp\Client;
 
 class AdvertisersController extends Controller
 {
-    private $user;
-
-    // public function __construct()
-    // {
-    //     if (!Auth::user()) return $this->responseError("You should sign in", -4199);
-    //     $this->user = Auth::user();
-    // }
-
     /**
      *  获取一组广告主
      */
-    private function apiPublishers($params)
+    private function apiPublishers($request, $params)
     {
         $where = [];
         $keys  = [];
@@ -49,8 +41,13 @@ class AdvertisersController extends Controller
 
         $client = new Client();
 
+        /**
+         * search_result判断
+         */ 
+        $searchResult = $this->getSearchResultParams($params);
+
         $json = [
-            'search_result' => 'mobile_adser',
+            'search_result' => $searchResult,
             'limit'         => [($page - 1) * $limit, $limit],
             'where'         => $where,
             'keys'          => $keys,
@@ -67,7 +64,7 @@ class AdvertisersController extends Controller
         $result = json_decode($result->getBody(), true);
 
         $subAction = $this->getUserAction($params);
-        
+
         if (!array_key_exists('adser_info', $result)) return [
             'data'  => [],
             'page'  => 0,
@@ -76,7 +73,7 @@ class AdvertisersController extends Controller
             'next'  => 0,
             'prev'  => 0,
         ];
-        $this->logActionAndUpgradeUsage($subAction, $result['total_adser_count'], $json);
+        $this->logActionAndUpgradeUsage($subAction, $result['total_adser_count'], $json, $request);
 
         $pagination = [];
         $pagination['pages'] = ceil($result['total_adser_count'] / $limit);
@@ -97,13 +94,42 @@ class AdvertisersController extends Controller
      */
     private function apiPublisher($id)
     {
-        $params = [];
-        $params['id'] = $id;
-        $params['page'] = 1;
-        $params['limit'] = 1;
-        $result = $this->apiPublishers($params);
+        $json = [
+            'search_result' => 'mobile_adser',
+            'sort'          => [
+                'field' => 'ads_number',
+                'order' => 1
+            ],
+            'limit'         => [0, 1],
+            'adser_detail'  => 1,
+            'where'         => [[
+                'field'     =>  'adser_username',
+                'value'     =>  $id,
+            ]],
+        ];
+
+        $client = new Client();
+        
+        $result = $client->request('POST', env('MOBILE_ADSER_SEARCH'), [
+            'json' => [
+                'search_result' => 'mobile_adser',
+                'sort'          => [
+                    'field' => 'ads_number',
+                    'order' => 1
+                ],
+                'limit'         => [0, 1],
+                'adser_detail'  => 1,
+                'where'         => [[
+                    'field'     =>  'adser_username',
+                    'value'     =>  $id,
+                ]],
+            ]
+        ]);
+
+        $result = json_decode($result->getBody(), true);
+
         if ($result) {
-            return reset($result['data']);
+            return $result;
         } else {
             return false;
         }
@@ -112,24 +138,60 @@ class AdvertisersController extends Controller
     /**
      *  得到排序后的广告主名下Top广告
      */
-    static public function getTopAds($descMode)
+    static public function getTopAds($id, $descMode)
     {
-        $select;
+        $select = '';
         switch($descMode) {
             case 'like_rate':
-                $select = 'event_id,';
+                $select = 'event_id,likes_per_30d,likes,last_see,like_rate,local_picture';
                 break;
             case 'comment_rate':
-                $select = '';
+                $select = 'event_id,comment_per_30d,comment,last_see,comment_rate,local_picture';
                 break;
             case 'share_rate':
-                $select = '';
+                $select = 'event_id,share_per_30d,share,last_see,share_rate,local_picture';
                 break;
             case 'total_impression':
-                $select = '';
+                $select = 'event_id,likes_per_30d,likes,last_see,like_rate,local_picture';
                 break;
             default: break;
         }
+        $client = new Client();
+        
+        $json = [
+            'search_result' => 'ads',
+            'sort'          => [
+                'field' => $descMode,
+                'order' => 1
+            ],
+            'limit'         => [0, 10],
+            'adser_detail'  => 1,
+            'where'         => [[
+                'field'     =>  'adser_username',
+                'value'     =>  $id,
+            ]],
+            'select'        => $select,
+        ];
+
+        $result = $client->request('POST', env('AD_SEARCH_URL'), [
+            'json' => [
+                'search_result' => 'ads',
+                'sort'          => [
+                    'field' => $descMode,
+                    'order' => 1
+                ],
+                'limit'         => [0, 10],
+                'adser_detail'  => 1,
+                'where'         => [[
+                    'field'     =>  'adser_username',
+                    'value'     =>  $id,
+                ]],
+                'select'        => $select,
+            ]
+        ]);
+        $result = json_decode($result->getBody(), true);
+
+        return $result;
     }
 
     /**
@@ -207,14 +269,17 @@ class AdvertisersController extends Controller
      * 广告搜索资源轮询, 当某一个资源消耗尽, 其余资源全部不可使用
      * Todo 与 SearchController 有重复代码应该抽出
      */
-    protected function checkIsRestrictGetAdResource($req, $user, $jsonData)
+    protected function checkIsRestrictGetAdResource($request, $user, $jsonData)
     {
         $searchPolicyArray = [
             'specific_adser_times_perday'       => ActionLog::ACTION_SEARCH_RESTRICT_PERDAY_ADSER,
             'search_key_total_perday'           => ActionLog::ACTION_SEARCH_KEY_RESTRICT,
             'search_without_key_total_perday'   => ActionLog::ACTION_SEARCH_WITHOUT_KEY_RESTRICT,
             'search_times_perday'               => ActionLog::ACTION_SEARCH_TIMES_PERDAY_RESTRICT,
-            'ad_analysis_times_perday'          => ActionLog::ACTION_AD_ANALYSIS_TIMES_PERDAY_RESTRICT
+            'ad_analysis_times_perday'          => ActionLog::ACTION_AD_ANALYSIS_TIMES_PERDAY_RESTRICT,
+            'adser_without_key_total_perday'    => ActionLog::ACTION_ADSER_SEARCH_WITHOUT_KEY_RESTRICT,
+            'adser_key_total_perday'            => ActionLog::ACTION_ADSER_SEARCH_KEY_RESTRICT,
+            'adser_search_times_perday'         => ActionLog::ACTION_ADSER_SEARCH_TIMES_PERDAY_RESTRICT,
         ];
 
         foreach ($searchPolicyArray as $key => $value) {
@@ -228,7 +293,7 @@ class AdvertisersController extends Controller
                     $carbon = new Carbon($usage[3]['date'], $usage[3]['timezone']);
             }
             if ($usage[2] >= intval($usage[1]) && $carbon->isToday()) {
-                dispatch(new LogAction($value, $jsonData, $key . ': RESTRICT', $user->id, $req->ip()));
+                dispatch(new LogAction($value, $jsonData, $key . ': RESTRICT', $user->id, $request->ip()));
                 throw new \Exception("you reached search times today, default result will show", -4100);
             }
         }
@@ -253,9 +318,9 @@ class AdvertisersController extends Controller
             $subAction = 'init';
         }
         // 与上次缓存的参数比较仅page不同，说明是下拉操作，此处区分空词与非空词下拉
-        if ($params['keywords'] && $params['keywords'] == $lastParamsArr['keywords'] && $params['page'] != $lastParamsArr['page']) {
+        if ($params['keywords'] && $params['keywords'] == $lastParamsArr['keywords'] && $params['page'] != $lastParamsArr['page'] && $params['page'] != 1) {
             $subAction = 'keyScroll';
-        } else if (!$params['keywords'] && $params['keywords'] == $lastParamsArr['keywords'] && $params['page'] != $lastParamsArr['page']) {
+        } else if (!$params['keywords'] && $params['keywords'] == $lastParamsArr['keywords'] && $params['page'] != $lastParamsArr['page'] && $params['page'] != 1) {
             $subAction = 'scroll';
         }
         // 与上次缓存的参数比较仅keywords不同，且keywords存在，则用户操作为搜索
@@ -269,18 +334,19 @@ class AdvertisersController extends Controller
     /**
      * 用户行为log记录并且更新资源使用情况
      */
-    protected function logActionAndUpgradeUsage($subAction, $resultTotal, $params)
+    protected function logActionAndUpgradeUsage($subAction, $resultTotal, $params, $request)
     {
         $user = Auth::user();
         $searchResult = $resultTotal;
         $jsonData = json_encode($params);
         $resultPerSearchUsage = $user->getUsage('adser_result_per_search');
+        $adserSearchTimesPerday = $user->getUsage('adser_search_times_perday');
         switch ($subAction) {
             case 'init': {
                 //页面初始化，应该重置adser_result_per_search 已使用的次数
                 $user->updateUsage('adser_result_per_search', 10, Carbon::now());
                 $adserInitPerday = $this->checkAndUpdateUsagePerday($user, 'adser_init_perday');
-                dispatch(new LogAction(ActionLog::ACTION_ADSER_INIT_PERDAY, $jsonData, "adser_init_perday : " . $adserInitPerday.",cache_total_count: " . $searchResult, $user->id, $req->ip()));
+                dispatch(new LogAction(ActionLog::ACTION_ADSER_INIT_PERDAY, $jsonData, "adser_init_perday : " . $adserInitPerday.",cache_total_count: " . $searchResult, $user->id, $request->ip()));
                 break;
             }
             case 'keyScroll': {
@@ -288,10 +354,10 @@ class AdvertisersController extends Controller
                     $user->updateUsage('adser_result_per_search', $resultPerSearchUsage[2] + 10, Carbon::now());
                 } else {
                     Log::warning("{$req->ip()} : <{$user->name}, {$user->email}> Illegal request limit: {$params['limit']}");
-                    return $this->responseError("beyond result limit", -4400);
+                    throw new \Exception("beyond result limit", -4400);
                 }
                 $adserLimitKeysPerday = $this->checkAndUpdateUsagePerday($user, 'adser_limit_keys_perday');
-                dispatch(new LogAction(ActionLog::ACTION_ADSER_LIMIT_KEYS_PERDAY, $jsonData, "adser_limit_keys_perday: " . $adserLimitKeysPerday, $user->id, $req->ip()));
+                dispatch(new LogAction(ActionLog::ACTION_ADSER_LIMIT_KEYS_PERDAY, $jsonData, "adser_limit_keys_perday: " . $adserLimitKeysPerday, $user->id, $request->ip()));
                 break;
             }
             case 'scroll': {
@@ -299,21 +365,25 @@ class AdvertisersController extends Controller
                 if (intval($resultPerSearchUsage[2]) < intval($resultPerSearchUsage[1])) {
                     $user->updateUsage('adser_result_per_search', $resultPerSearchUsage[2] + 10, Carbon::now());
                 } else {
-                    Log::warning("{$req->ip()} : <{$user->name}, {$user->email}> Illegal request limit: {$req->limit['0']}");
-                    return $this->responseError("beyond result limit", -4400);
+                    Log::warning("{$request->ip()} : <{$user->name}, {$user->email}> Illegal request limit: {$jsonData}");
+                    throw new \Exception("beyond result limit", -4400);
                 }
                 $adserLimitWithoutKeysPerday = $this->checkAndUpdateUsagePerday($user, 'adser_limit_without_keys_perday');
-                dispatch(new LogAction(ActionLog::ACTION_ADSER_LIMIT_WITHOUT_KEYS_PERDAY, $jsonData, "adser_limit_without_keys_perday: " . $adserLimitWithoutKeysPerday, $user->id, $req->ip()));
+                dispatch(new LogAction(ActionLog::ACTION_ADSER_LIMIT_WITHOUT_KEYS_PERDAY, $jsonData, "adser_limit_without_keys_perday: " . $adserLimitWithoutKeysPerday, $user->id, $request->ip()));
                 break;
             }
             case 'search': {
                 //搜索条件改变，应该重置adser_result_per_search 已使用的次数
-                $user->updateUsage('adser_result_per_search', 10, Carbon::now());
-                $adserSearchTimesPerday = $this->checkAndUpdateUsagePerday($user, 'adser_search_times_perday');
-                dispatch(new LogAction(ActionLog::ACTION_ADSER_SEARCH_TIMES_PERDAY, $jsonData, "adser_search_times_perday: " . $adserSearchTimesPerday . "," .$searchResult , $user->id, $req->ip()));
+                if (intval($adserSearchTimesPerday[2]) < intval($adserSearchTimesPerday[1])) {
+                    $adserSearchTimesPerday = $this->checkAndUpdateUsagePerday($user, 'adser_search_times_perday');
+                    dispatch(new LogAction(ActionLog::ACTION_ADSER_SEARCH_TIMES_PERDAY, $jsonData, "adser_search_times_perday: " . $adserSearchTimesPerday . ", adser_total_count: " .$searchResult , $user->id, $request->ip()));
+                } else {
+                    throw new \Exception("you reached search times today, default result will show", -4100);
                 }
+                $user->updateUsage('adser_result_per_search', 10, Carbon::now());
                 break;
             }
+        }
     }
 
     /**
@@ -334,8 +404,25 @@ class AdvertisersController extends Controller
         return $isLegal; 
     }
 
+    /**
+     * 判断search result的参数
+     * 用户无过滤条件和空词请求,则访问cache文件
+     */
+    private function getSearchResultParams($params)
+    {
+        $searchResult = 'cache_adser';
+        if ($params['keywords']) {
+            $searchResult = 'mobile_adser';
+        }
+        return $searchResult;
+    }
+
     public function getPublishers(Request $request)
     {
+        /**
+         * 用户登录检查
+         * 访问速率检查
+         */
         $user = Auth::user();
         if (!$user) return $this->responseError("You should sign in", -4199);
         if (!$this->checkAttack($request, $user)) {
@@ -350,17 +437,39 @@ class AdvertisersController extends Controller
         $params['page']     = $page;
         $params['limit']    = $limit;
 
-        $this->checkIsRestrictGetAdResource($request, $user, json_encode($params));
+        try {
+            /**
+             * 更新请求广告主资源次数
+             * 只区分空词和非空词情况
+             */
+            if ($params['keywords']) {
+                $this->checkAndUpdateUsagePerday($user, 'adser_key_total_perday');
+            } else {
+                $this->checkAndUpdateUsagePerday($user, 'adser_without_key_total_perday');
+            }
 
+            /**
+             * 轮询全部广告资源使用情况
+             */
+            $this->checkIsRestrictGetAdResource($request, $user, json_encode($params));
+
+            /**
+             * 获取广告主结果
+             */
+            $result = $this->apiPublishers($request, $params);
+
+            /**
+             * 缓存用户提交的搜索参数
+             */
+        } catch (\Exception $e) {
+            return $this->responseError($e->getMessage(),$e->getCode());
+        }
         $user->setCache('adserSearch.params', json_encode($params));
-
-        $result = $this->apiPublishers($params);
-
-        // $this->checkAndUpdateUsagePerday($user, 'search_key_total_perday');
+        
         return response()->json($result, 200);
     }
 
-    public function getPublisher(Request $request, $facebookId)
+    public function getPublisherAnalysis(Request $request, $facebookId)
     {
         $user = Auth::user();
         if (!$user) return $this->responseError("You should sign in", -4199);
@@ -370,13 +479,7 @@ class AdvertisersController extends Controller
         //$this->checkIsRestrictGetAdResource($request, $user, $jsonData);
 
         $result = $this->apiPublisher($facebookId);
-
-        if (!$result) {
-            return response()->json([
-                'code'    => -1,
-                'message' => 'The adser does not exist'
-            ]);
-        }
+        
         // $this->checkAndUpdateUsagePerday($user, 'search_key_total_perday');
         return response()->json($result, 200);
     }
