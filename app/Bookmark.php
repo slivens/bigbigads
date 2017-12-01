@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bookmark extends Model
 {
-    const DEFAULT = 'default';
+    const DEFAULT = 'Favorite';
     //
     protected $appends = ['item_count'];
     public function items()
