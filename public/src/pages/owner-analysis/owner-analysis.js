@@ -330,28 +330,29 @@ export default angular.module('owner-analysis', ['MetronicApp', 'highcharts-ng']
         * 3）返回的数据格式类似，故写成方法
         */
         var getRateData = function(userId, paramater) {
-            let resArr = []
+            // let resArr = []
             $http.get(`/advertisers/${userId}/${paramater}`, {}).success(
                 function(data) {
                     console.log(data)
-                    if (data.ads_info) {
-                        data.ads_info.forEach(function(items) {
-                            if (items && items.forEach) {
-                                items.forEach(function(item) {
-                                    resArr.push(item)
-                                })
-                            } else {
-                                Object.keys(items).forEach(function(key) {
-                                    resArr.push(items[key])
-                                })
-                            }
-                        })
-                    } else resArr = false
-                    console.log(paramater, resArr)
-                    if (paramater == 'like_rate') $scope.card.like_rate = resArr
-                    if (paramater == 'share_rate') $scope.card.share_rate = resArr
-                    if (paramater == 'comment_rate') $scope.card.comment_rate = resArr
-                    if (paramater == 'total_impression') $scope.card.total_impression = resArr
+                    // if (data.ads_info) {
+                    //     console.log(data)
+                    //     data.ads_info.forEach(function(items) {
+                    //         if (items && items.forEach) {
+                    //             items.forEach(function(item) {
+                    //                 resArr.push(item)
+                    //             })
+                    //         } else {
+                    //             Object.keys(items).forEach(function(key) {
+                    //                 resArr.push(items[key])
+                    //             })
+                    //         }
+                    //     })
+                    // } else resArr = false
+                    // console.log(paramater, resArr)
+                    if (paramater == 'like_rate') $scope.card.like_rate = data.ads_info
+                    if (paramater == 'share_rate') $scope.card.share_rate = data.ads_info
+                    if (paramater == 'comment_rate') $scope.card.comment_rate = data.ads_info
+                    if (paramater == 'total_impression') $scope.card.total_impression = data.ads_info
                 }).error(function(data) {
                 console.log(data)
             })
