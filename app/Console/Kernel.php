@@ -40,12 +40,13 @@ class Kernel extends ConsoleKernel
         $schedule->command('bba:scan-users')
             ->daily()
             ->withoutOverlapping();
-        $schedule->command('bba:sync-subscriptions')
-            ->saturdays()
-            ->withoutOverlapping();
-        $schedule->command('bba:sync-payments')
-            ->saturdays()
-            ->withoutOverlapping();
+        // 后续换成laravel 的crontab 任务
+        // $schedule->command('bba:sync-subscriptions')
+        //     ->saturdays()
+        //     ->withoutOverlapping();
+        // $schedule->command('bba:sync-payments')
+        //     ->saturdays()
+        //     ->withoutOverlapping();
     }
 
     /**
