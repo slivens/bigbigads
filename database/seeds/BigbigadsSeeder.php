@@ -84,7 +84,7 @@ class BigbigadsSeeder extends Seeder
             'adser_limit_keys_perday'           => [Policy::DAY, 0, 1000, 1000, 1000, 0, 0, 0],             // 广告主非空词下拉请求每日统计
             'adser_limit_without_keys_perday'   => [Policy::DAY, 0, 1000, 1000, 1000, 0, 0, 0],             // 广告主空词下拉请求每日统计
             'adser_result_per_search'           => [Policy::DAY, 0, 300, 300, 300, 0, 0, 0],                // 广告主搜索单个结果最大数量
-            'adser_init_perday'                 => [Policy::DAY, 0, 300, 300, 300, 0, 0, 0],                // 广告主页面初始化每日统计
+            'adser_init_perday'                 => [Policy::DAY, 0, 1000, 1000, 1000, 0, 0, 0],             // 广告主页面初始化每日统计
             'adser_search_times_perday'         => [Policy::DAY, 0, 200, 200, 200, 0, 0, 0],                // 广告主非空词每日搜索请求数
             'adser_analysis_perday'             => [Policy::DAY, 0, 200, 200, 200, 0, 0, 0],                // 广告主分析每日请求数
         ];

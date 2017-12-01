@@ -41,9 +41,7 @@ class AdvertisersController extends Controller
 
         $client = new Client();
 
-        /**
-         */ 
-        // $searchResult = $this->getSearchResultParams($params);
+        // $searchResult = $this->getSearchResultParams($params); 访问无法接收到数据,暂不启用
         $searchResult = 'mobile_adser';
         $json = [
             'search_result' => $searchResult,
@@ -63,6 +61,9 @@ class AdvertisersController extends Controller
 
         $result = json_decode($result->getBody(), true);
 
+        /*
+         * 解析用户页面行为
+         */
         $subAction = $this->getUserAction($params);
         
         if (!array_key_exists('adser_info', $result)) return [
@@ -73,6 +74,10 @@ class AdvertisersController extends Controller
             'next'  => 0,
             'prev'  => 0,
         ];
+
+        /*
+         * 根据用户行为和请求结果记录log; 更新对应权限
+         */
         $this->logActionAndUpgradeUsage($subAction, $result['total_adser_count'], $json, $request);
 
         $pagination = [];
@@ -198,11 +203,12 @@ class AdvertisersController extends Controller
 
     /**
      * Top 广告使用独立的image, 并未专门提供字段, 需要自己转化
+     * 暂不启用
      */
     protected function switchAdsImageUri($imageUrl)
     {
-        if (!$imageUrl) return;
-        $imageUrl = str_replace("watermark", "mobile_phone_image", $imageUrl);
+        // if (!$imageUrl) return;
+        // $imageUrl = str_replace("watermark", "mobile_phone_image", $imageUrl);
         return $imageUrl; 
     }
 
@@ -212,6 +218,11 @@ class AdvertisersController extends Controller
     protected function checkBeforeGetTopAds($id, $descMode)
     {
         $user = Auth::user();
+
+        if (!$this->checkAttack($request, $user)) {
+            throw new \Exception("We detect your ip has abandom behavior", -5000);
+        }
+
         if (!$id || !$descMode) {
             throw new \Exception("Lack of necessary id or sequencing parameters", -4602);
         }
@@ -306,7 +317,6 @@ class AdvertisersController extends Controller
 
     /**
      * 广告搜索资源轮询, 当某一个资源消耗尽, 其余资源全部不可使用
-     * Todo 与 SearchController 有重复代码应该抽出
      */
     protected function checkIsRestrictGetAdResource($request, $user, $jsonData)
     {
@@ -319,6 +329,7 @@ class AdvertisersController extends Controller
             'adser_without_key_total_perday'    => ActionLog::ACTION_ADSER_SEARCH_WITHOUT_KEY_RESTRICT,
             'adser_key_total_perday'            => ActionLog::ACTION_ADSER_SEARCH_KEY_RESTRICT,
             'adser_search_times_perday'         => ActionLog::ACTION_ADSER_SEARCH_TIMES_PERDAY_RESTRICT,
+            'adser_analysis_perday'             => ActionLog::ACTION_ADSER_ANALYSIS_PERDAY_RESTRICT,
         ];
 
         foreach ($searchPolicyArray as $key => $value) {
@@ -357,9 +368,7 @@ class AdvertisersController extends Controller
             $subAction = 'init';
         }
         // 与上次缓存的参数比较仅page不同，说明是下拉操作，此处区分空词与非空词下拉
-        if ($params['keywords'] && $params['keywords'] == $lastParamsArr['keywords'] && $params['page'] != $lastParamsArr['page'] && $params['page'] != 1) {
-            $subAction = 'keyScroll';
-        } else if (!$params['keywords'] && $params['keywords'] == $lastParamsArr['keywords'] && $params['page'] != $lastParamsArr['page'] && $params['page'] != 1) {
+        if ($params['keywords'] == $lastParamsArr['keywords'] && $params['page'] != $lastParamsArr['page'] && $params['page'] != 1) {
             $subAction = 'scroll';
         }
         // 与上次缓存的参数比较仅keywords不同，且keywords存在，则用户操作为搜索
@@ -388,27 +397,21 @@ class AdvertisersController extends Controller
                 dispatch(new LogAction(ActionLog::ACTION_ADSER_INIT_PERDAY, $jsonData, "adser_init_perday : " . $adserInitPerday.",cache_total_count: " . $searchResult, $user->id, $request->ip()));
                 break;
             }
-            case 'keyScroll': {
-                if (intval($resultPerSearchUsage[2]) < intval($resultPerSearchUsage[1])) {
-                    $user->updateUsage('adser_result_per_search', $resultPerSearchUsage[2] + 10, Carbon::now());
-                } else {
-                    Log::warning("{$req->ip()} : <{$user->name}, {$user->email}> Illegal request limit: {$params['limit']}");
-                    throw new \Exception("beyond result limit", -4400);
-                }
-                $adserLimitKeysPerday = $this->checkAndUpdateUsagePerday($user, 'adser_limit_keys_perday');
-                dispatch(new LogAction(ActionLog::ACTION_ADSER_LIMIT_KEYS_PERDAY, $jsonData, "adser_limit_keys_perday: " . $adserLimitKeysPerday, $user->id, $request->ip()));
-                break;
-            }
             case 'scroll': {
-                //某个请求的获取到的最大结果总数不能超过权限设置的总数，否则抛出异常，防止postman获取超出权限的数据
                 if (intval($resultPerSearchUsage[2]) < intval($resultPerSearchUsage[1])) {
                     $user->updateUsage('adser_result_per_search', $resultPerSearchUsage[2] + 10, Carbon::now());
                 } else {
-                    Log::warning("{$request->ip()} : <{$user->name}, {$user->email}> Illegal request limit: {$jsonData}");
+                    Log::warning("{$request->ip()} : <{$user->name}, {$user->email}> Illegal request limit: {$params['limit'][0]}");
                     throw new \Exception("beyond result limit", -4400);
                 }
-                $adserLimitWithoutKeysPerday = $this->checkAndUpdateUsagePerday($user, 'adser_limit_without_keys_perday');
-                dispatch(new LogAction(ActionLog::ACTION_ADSER_LIMIT_WITHOUT_KEYS_PERDAY, $jsonData, "adser_limit_without_keys_perday: " . $adserLimitWithoutKeysPerday, $user->id, $request->ip()));
+                
+                if ($params['keys'][0]['string']) {
+                    $adserLimitKeysPerday = $this->checkAndUpdateUsagePerday($user, 'adser_limit_keys_perday');
+                    dispatch(new LogAction(ActionLog::ACTION_ADSER_LIMIT_KEYS_PERDAY, $jsonData, "adser_limit_keys_perday: " . $adserLimitKeysPerday, $user->id, $request->ip()));
+                } else {
+                    $adserLimitWithoutKeysPerday = $this->checkAndUpdateUsagePerday($user, 'adser_limit_without_keys_perday');
+                    dispatch(new LogAction(ActionLog::ACTION_ADSER_LIMIT_WITHOUT_KEYS_PERDAY, $jsonData, "adser_limit_without_keys_perday: " . $adserLimitWithoutKeysPerday, $user->id, $request->ip()));
+                }
                 break;
             }
             case 'search': {
@@ -430,16 +433,22 @@ class AdvertisersController extends Controller
      */
     protected function checkBeforeAdserSearch($req, $params)
     {
+        /**
+         * 用户登录检查
+         * 访问速率检查
+         * limit 参数检查
+         */
         $user = Auth::user();
-        if (!$user->can('adser_search_times_perday')) {
+        if (!$user) throw new \Exception("You should sign in", -4199);
+        if (!$user->can('adser_search')) {
             throw new \Exception("you not permission of adser search", -4600);
         }
         $resultPerSearch = $user->getUsage('adser_result_per_search');
         $limit = ($params['page'] - 1) * $params['limit'];
 
         if ($params['limit'] % 10 != 0 || $limit >= $resultPerSearch[1]) {
-            dispatch(new LogAbnormalAction('', $req, 'Illegal limit params', $user->id, $req->ip()));
-            $isLegal = false;
+            dispatch(new LogAbnormalAction('', json_encode($params), 'Illegal limit params', $user->id, $req->ip()));
+            throw new \Exception("Illegal limit params", -4300);
         }
     }
 
@@ -447,11 +456,22 @@ class AdvertisersController extends Controller
      * 请求广告主搜索后结果检查
      * todo 暂时未给出对应需求，待完善
      */
-    protected function checkAfterAdserSearch($req, $result)
+    protected function checkAfterAdserSearch($req, $result, $params)
     {
         $user = Auth::user();
-        if (!$user->can('adser_search_times_perday')) {
+        if (!$user->can('adser_search')) {
             throw new \Exception("you not permission of adser search", -4600);
+        }
+
+        /**
+         * 更新请求广告主资源次数
+         * 只区分空词和非空词情况
+         * 在获取到数据之后更新,否则会出现服务器异常进而不断更新这两个权限导致用户当日无法使用
+         */
+        if ($params['keywords'] && $result) {
+            $this->checkAndUpdateUsagePerday($user, 'adser_key_total_perday');
+        } else {
+            $this->checkAndUpdateUsagePerday($user, 'adser_without_key_total_perday');
         }
     }
 
@@ -461,12 +481,22 @@ class AdvertisersController extends Controller
      */
     protected function checkBeforeAdserAnalysis($req, $id)
     {
+        /**
+         * 用户登录检查
+         * 访问速率检查
+         */
         $user = Auth::user();
+        if (!$user) throw new \Exception("You should sign in", -4199);
+
+        if (!$this->checkAttack($request, $user)) {
+            throw new \Exception("We detect your ip has abandom behavior", -5000);
+        }
+
         if (!$id) {
             throw new \Exception("lack of adser id", -4602);
         }
 
-        if (!$user->can('adser_analysis_perday')) {
+        if (!$user->can('adser_search')) {
             throw new \Exception("you not permission of adser analysis", -4601);
         }
     }
@@ -480,7 +510,7 @@ class AdvertisersController extends Controller
         $user = Auth::user();
         $adserAnalysisPerday = $user->getUsage('adser_analysis_perday');
 
-        if (!$user->can('adser_analysis_perday')) {
+        if (!$user->can('adser_search')) {
             throw new \Exception("you not permission of adser analysis", -4601);
         }
 
@@ -509,16 +539,7 @@ class AdvertisersController extends Controller
      */
     public function getPublishers(Request $request)
     {
-        /**
-         * 用户登录检查
-         * 访问速率检查
-         */
         $user = Auth::user();
-        if (!$user) return $this->responseError("You should sign in", -4199);
-        if (!$this->checkAttack($request, $user)) {
-            return $this->responseError("We detect your ip has abandom behavior", -5000);
-        }
-
         $keywords = $request->input('keywords');
         $page = $request->input('page') ? $request->input('page') : 1;
         $limit = $request->input('limit') ? $request->input('limit') : 10;
@@ -529,19 +550,9 @@ class AdvertisersController extends Controller
 
         try {
             /**
-             * 广告主搜索前参数检查
+             * 广告主搜索前合法性检查
              */
             $this->checkBeforeAdserSearch($request, $params);
-
-            /**
-             * 更新请求广告主资源次数
-             * 只区分空词和非空词情况
-             */
-            if ($params['keywords']) {
-                $this->checkAndUpdateUsagePerday($user, 'adser_key_total_perday');
-            } else {
-                $this->checkAndUpdateUsagePerday($user, 'adser_without_key_total_perday');
-            }
 
             /**
              * 轮询全部广告资源使用情况
@@ -549,16 +560,21 @@ class AdvertisersController extends Controller
             $this->checkIsRestrictGetAdResource($request, $user, json_encode($params));
 
             /**
-             * 获取广告主结果
+             * 获取广告主搜索结果
              */
             $result = $this->apiPublishers($request, $params);
 
             /**
-             * 缓存用户提交的搜索参数
+             * 广告主搜索后结果合法性检查
              */
+            $this->checkAfterAdserSearch($request, $result, $params);
+            
         } catch (\Exception $e) {
             return $this->responseError($e->getMessage(),$e->getCode());
         }
+        /**
+         * 缓存用户提交的搜索参数
+         */
         $user->setCache('adserSearch.params', json_encode($params));
         
         return response()->json($result, 200);
@@ -570,16 +586,26 @@ class AdvertisersController extends Controller
     public function getPublisherAnalysis(Request $request, $facebookId)
     {
         $user = Auth::user();
-        if (!$user) return $this->responseError("You should sign in", -4199);
-        if (!$this->checkAttack($request, $user)) {
-            return $this->responseError("We detect your ip has abandom behavior", -5000);
-        }
+        
         try {
+            /**
+             * 广告主分析前合法性检查
+             */
             $this->checkBeforeAdserAnalysis($request, $facebookId);
-            $this->checkIsRestrictGetAdResource($request, $user, ['facebookId' => $facebookId]);
 
+            /**
+             * 轮询全部广告资源使用情况
+             */
+            $this->checkIsRestrictGetAdResource($request, $user, json_encode(['facebookId' => $facebookId]));
+
+            /**
+             * 获取广告主分析结果
+             */
             $result = $this->apiGetAnalysis($facebookId);
 
+            /**
+             * 广告主分析后结果合法性检查
+             */
             $this->checkAfterAdserAnalysis($request, $result);
         } catch (\Exception $e) {
             return $this->responseError($e->getMessage(),$e->getCode());
@@ -591,10 +617,14 @@ class AdvertisersController extends Controller
     /**
      * 获取广告主Top 广告排序广告
      */
-    public function getTopAds($id, $descMode)
+    public function getTopAds(Request $request,$id, $descMode)
     {
+        $user = Auth::user();
+
         try {
-            $this->checkBeforeGetTopAds($id, $descMode);
+            $this->checkBeforeGetTopAds($request, $id, $descMode);
+
+            $this->checkIsRestrictGetAdResource($request, $user, json_encode(['facebookId' => $id, 'descMode' => $descMode]));
 
             $result = $this->apiGetTopAds($id, $descMode);
 
