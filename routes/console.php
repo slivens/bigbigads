@@ -160,7 +160,8 @@ Artisan::command('bba:email {op : 子命令,add批量添加,del批量删除,disp
             $this->error("$className is not found");
             return;
         }
-        Mail::to($email)->send(new $className($email));
+        /* Mail::to($email)->send(new $className($email)); */
+        app('app.service.user')->sendMail($email, new $className($email));
         $this->info("send to $email successfully");
     }
 })->describe("从文件中批量添加/删除邮件，以及测试邮件的发送(测试邮件阻塞直到发送出去方便测试)");

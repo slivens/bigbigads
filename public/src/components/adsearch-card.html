@@ -6,11 +6,11 @@
             <span class="time-time">{{card.last_see  | date: "yyyy.MM.dd"}}</span>
         </div>
         <a analysis-opener userid="{{card.event_id}}" class="card-insight-btn btn">Ad Insight</a>
-        <div class="card-bookmark" uib-popover-template="'ad-bookmark-popover.html'" popover-placement="auto right-top" popover-title="Add Bookmark" popover-is-open="card.showBookmark" ng-if="!mother.data.ads.bookmark" popover-trigger="'outsideClick'">
+        <div class="card-bookmark" uib-popover-template="'ad-bookmark-popover.html'" popover-placement="auto right-top" popover-is-open="card.showBookmark" ng-if="!mother.data.ads.bookmark" popover-trigger="'outsideClick'">
             <i class="bookmark-icon" ng-class='{"has-bookmark":card.hasBookmark, "no-bookmark":!card.hasBookmark }'></i>
         </div>
         <div class="card-bookmark" ng-if="mother.data.ads.bookmark" ng-click="mother.cancelBookmark(0, card)">
-            <i class="bookmark-icon has-bookmark"></i>
+            <i class="fa fa-trash-o bookmark-icon del-bookmark"></i>
         </div>
     </div>
         <div class="portlet-title xg-cardcontent-bbmn">

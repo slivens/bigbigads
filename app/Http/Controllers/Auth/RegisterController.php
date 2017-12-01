@@ -134,7 +134,6 @@ class RegisterController extends Controller
             }
         }
         $user->save();*/
-        /* Mail::to($user->email)->send(new RegisterVerify($user));//发送验证邮件 */
      /*   return $user;
     }*/
 

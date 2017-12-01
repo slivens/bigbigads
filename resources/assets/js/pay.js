@@ -160,7 +160,7 @@ new Vue({
                     window.uetq = window.uetq || []
                     window.uetq.push({'ec': 'conversion', 'ea': 'bba_checkout', 'el': 'pay', 'ev': 60})
                     ga('send', 'event', 'conversion', 'payed_reg', 'pay_standard', 60)
-                    fbq('track', 'Purchase', {currency: 'US', value: 60.00})
+                    fbq('track', 'Purchase', {currency: 'USD', value: '60.00'})
                     /* eslint-disable */
                 } else {
                     that.errorMessage = "You have a subscription already. Contact help@bigbigads.com"
@@ -178,8 +178,8 @@ new Vue({
                 this.$refs.modal.open()
                 return false
             }
-            if (this.amount < obj.total) {
-                this.errorMessage = `Your order price should be more than ${obj.total}`
+            if (this.amount < obj.discount) {
+                this.errorMessage = `Your order price should be more than ${obj.discount}`
                 this.$refs.modal.open()
                 return false
             }

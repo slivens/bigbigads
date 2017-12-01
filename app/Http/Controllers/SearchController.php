@@ -741,7 +741,7 @@ class SearchController extends Controller
             /* Log::debug("time cost:" . round($t2 - $t1, 3)); */
             //执行时间超过0.5S的添加到日志中
             if (($t2 - $t1) > 0.5) {
-                Log::warning("<{$user->name}, {$user->email}> params:$jsonData, time cost:" . round($t2 - $t1, 3));
+                Log::info("<{$user->name}, {$user->email}> params:$jsonData, time cost:" . round($t2 - $t1, 3));
                 if (isset($header))
                     Log::info($header);
             }

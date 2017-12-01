@@ -12,8 +12,7 @@ class RegisterVerify extends Mailable
 {
     use Queueable, SerializesModels;
     public $user;
-    public $viewName = 'emails.register_verify';
-    public $subject = "Bigbigads:Please Verify Your Password";
+
     /**
      * Create a new message instance.
      *
@@ -24,7 +23,7 @@ class RegisterVerify extends Mailable
         $this->user = $user;
     }
 
-    public function params()
+    protected function params()
     {
         $user = $this->user;
         $host = config('app.url');
@@ -39,7 +38,7 @@ class RegisterVerify extends Mailable
      */
     public function build()
     {
-        return $this->view($this->viewName)
-            ->with($this->params())->subject($this->subject);
+        return $this->view('emails.registerVerify')
+            ->with($this->params())->subject("Bigbigads:Please Verify Your Password");
     }
 }
