@@ -178,8 +178,8 @@ new Vue({
                 this.$refs.modal.open()
                 return false
             }
-            if (this.amount < obj.total) {
-                this.errorMessage = `Your order price should be more than ${obj.total}`
+            if (this.amount < obj.discount) {
+                this.errorMessage = `Your order price should be more than ${obj.discount}`
                 this.$refs.modal.open()
                 return false
             }

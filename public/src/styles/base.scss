@@ -133,6 +133,32 @@
 .analy-fbicon.icon-surp {
     background-position: -51px -54px;
 }
+
+// 取消按钮，保存按钮
+.ads-btn-cancel {
+    border: 1px solid #e2534f;
+    color: #e2534f;
+    background: none;
+    border-radius: 50vh;
+    padding: 6px 20px;
+    margin: 0 5px;
+    &:hover {
+        border-color: rgba(226, 83, 79, .5);
+    }
+}
+.ads-btn-save {
+    border: 1px solid #e2534f;
+    background: #e2534f;
+    border-radius: 50vh;
+    padding: 6px 20px;
+    margin: 0 5px;
+    color: #fff;
+    background: linear-gradient(180deg, #e04f42 0, #d0352c);
+    &:hover {
+        background: linear-gradient(180deg, #ea6756 0, #d0362d);
+        color: #fff;
+    }
+}
 /*
 * 移动端字体适配
 * 移动端参考iphone 6 画稿

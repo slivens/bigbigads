@@ -83,7 +83,7 @@ final class SubscriptionController extends PayumController
         if (!$coupon) {
             return false;
         }
-        if ($price < $coupon->total) {
+        if ($price < $coupon->discount) {
             return false;
         }
         if ($coupon->used >= $coupon->uses) {

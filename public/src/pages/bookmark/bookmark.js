@@ -68,12 +68,11 @@ angular.module('MetronicApp').factory('Bookmark', ['Resource', '$uibModal', 'Swe
     }
     bookmark.delBookmark = function(item) {
         SweetAlert.swal({
-            title: 'Are you sure?',
-            text: 'By clicking Yes you would delete the whole ' + item.name + ' folder',
+            title: `Please confirm to remove the bookmark folder ${item.name}`,
             type: 'warning',
             showCancelButton: true,
-            // confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Yes',
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Remove',
             cancelButtonText: 'Cancel',
             closeOnConfirm: true,
             closeOnCancel: true
@@ -215,16 +214,13 @@ angular.module('MetronicApp').controller('BookmarkController', ['$scope', 'setti
     $scope.load = load
     $scope.data = {ads: {}, adsers: {}} // 广告列表
     $scope.cancelBookmark = function(type, card) {
-        var cardText = 'Cancel the ' + type > 0 ? card.adser_username : card.event_id
-        var bookFolderText = '<h5>By clicking Yes you would remove the ad from ' + Bookmark.currItem.name + ' folder</h5><br>'
         SweetAlert.swal({
-            title: 'Are you sure?',
+            title: 'Remove ad from the bookmark?',
             html: true,
-            text: bookFolderText + cardText,
             type: 'warning',
             showCancelButton: true,
-            // confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Yes',
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Remove',
             cancelButtonText: 'Cancel',
             closeOnConfirm: true,
             closeOnCancel: true
