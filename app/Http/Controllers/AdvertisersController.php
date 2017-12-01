@@ -73,6 +73,7 @@ class AdvertisersController extends Controller
             'limit' => 0,
             'next'  => 0,
             'prev'  => 0,
+            'total' => 0,
         ];
 
         /*
