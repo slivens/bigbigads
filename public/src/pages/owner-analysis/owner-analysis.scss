@@ -563,6 +563,7 @@
                 height: 70px;
                 overflow: hidden;
                 text-decoration: none;
+
                 .rate-sort{
                     padding: 5px 5px;
                     width: 30px;
@@ -570,10 +571,13 @@
                     align-items:flex-start;
                     height: 100%;
                 }
+
                 .rate-ads-img {
                     width: 120px;
-                    height: auto;
+                    height: 100%;
+                    background: #ccc url('/static/images/common/loading_01.gif') no-repeat center center;
                 }
+
                 .rate-info {
                     flex: 1;
                     display: block;
