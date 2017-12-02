@@ -38,7 +38,7 @@ class RegisterVerify extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.registerVerify')
+        return $this->view('emails.register_verify')
             ->with($this->params())->subject("Bigbigads:Please Verify Your Password");
     }
 }
