@@ -48,7 +48,8 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         /*
         * 是否需要显示验证邮箱的部分
         * 【显示条件】
-        * 1）2017年8月31日之前的用户（自定义，以后需要修改）
+        * 1）2017年7月31日之前的用户（自定义，以后需要修改）
+        * todo:此处应和后端SearchCtroller与permission-reminder.js一起修改
         * 2）免费用户
         *
         * 【数据解释】

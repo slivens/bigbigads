@@ -14,8 +14,6 @@ class VerifyCodeMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $user;
-    public $viewName = 'emails.verify_mail';
-    public $subject = "Bigbigads:Please Verify Your email";
     /**
      * Create a new message instance.
      *
@@ -50,7 +48,7 @@ class VerifyCodeMail extends Mailable
      */
     public function build()
     {
-        return $this->view($this->viewName)
-            ->with($this->params())->subject($this->subject);
+        return $this->view('emails.verify_mail')
+            ->with($this->params())->subject('Bigbigads:Please Verify Your email');
     }
 }

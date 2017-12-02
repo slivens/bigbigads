@@ -39,17 +39,22 @@ class SendVerifyCodeMail implements ShouldQueue
             return;
         // 发送到用户的订阅邮件
         $email = $this->user->subscription_email;
-        $useMailgun = false;
-        if (!empty(env('MAILGUN_USERNAME'))) {
-            $useMailgun = true;
-        }
-        if ($useMailgun && !$this->forceDefault) {
-            $verifyCodeMail = new VerifyCodeMail($this->user);
-            Mailgun::send($verifyCodeEmail->viewName, $verifyCodeMail->params(), function($message) use($email) {
-                $message->to($email)->subject("Bigbigads:Please verify your email address")->tag(['registerVerify']);// todo tag的作用
-            });
-        } else {
-            Mail::to($email)->send(new VerifyCodeMail($this->user));
-        }
+        // $useMailgun = false;
+        // if (!empty(env('MAILGUN_USERNAME'))) {
+        //     $useMailgun = true;
+        // }
+        // if ($useMailgun && !$this->forceDefault) {
+        //     $verifyCodeMail = new VerifyCodeMail($this->user);
+        //     Mailgun::send($verifyCodeEmail->viewName, $verifyCodeMail->params(), function($message) use($email) {
+        //         $message->to($email)->subject("Bigbigads:Please verify your email address")->tag(['registerVerify']);// todo tag的作用
+        //     });
+        // } else {
+        //     Mail::to($email)->send(new VerifyCodeMail($this->user));
+        // }
+        $res = app('app.service.user')->sendMail($email, new VerifyCodeMail($this->user), [
+            'tags' => [
+                'registerVerify'
+            ]
+        ]);
     }
 }

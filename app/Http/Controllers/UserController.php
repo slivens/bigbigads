@@ -578,17 +578,14 @@ class UserController extends Controller
         $user = Auth::user();
         $email = $request->user_email;
 
-        $validator = Validator::make(
-            [
-                'subscription_email' => $request->subscription_email
-            ], [
+        $validator = Validator::make($request->only('subscription_email'), [
                 'subscription_email' => 'required|email|max:255|unique:users,subscription_email,'.$user->id,
             ]
         );
 
         if ($validator->fails())
         {
-            return response()->json(['code' => -1, 'error' => $validator->messages()]);
+            return $this->responseError($validator->messages(), -1);
         }
 
         $user->subscription_email = $request->subscription_email;

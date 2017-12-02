@@ -472,25 +472,26 @@ class SearchController extends Controller
 
     /**
      * 免费用户邮箱有效性检查, 检查未通过则限制获取广告数据
+     * 目前只检查2017-7-31 23:59:59之前的用户
      */
     protected function checkEmailIsEffective($req, $user)
     {
         $emailVerification = \Voyager::setting('check_email_validity');
         $checkTime = Carbon::create(2017, 7, 31, 23, 59, 59);
 
-        // 检查用户邮箱有效性voyager后端控制开关; false 为关闭邮箱有效性检查
-        if ($emailVerification == "false") return;
+        // 检查用户邮箱有效性voyager后端控制开关; 0 为关闭邮箱有效性检查
+        if (!$emailVerification) return;
         
-        // 检查的用户对象为 2017-10-31号之前注册的免费账号
-        if (!$user->hasRole('Free')) return;
+        // 检查的用户对象为 2017-07-31号之前注册的免费账号
+        if (!$user->isFree()) return;
 
-        if ($user->hasRole('Free') && $user->created_at->gt($checkTime)) return;
+        if ($user->isFree() && $user->created_at->gt($checkTime)) return;
 
         // 新增is_check字段，标记强制免费用户提供一个有效的邮箱是否验证
         // 强制所有用户提供一个有效的邮箱
         
-        if ($user->is_check === 0) {
-            dispatch(new LogAction(ActionLog::ACTION_CHECK_EMAIL_EFFECTIVE, '', 'check user email effective', $user->id, $req->ip()));
+        if ($user->is_check == 0) {
+            dispatch(new LogAction(ActionLog::ACTION_CHECK_EMAIL_EFFECTIVE, '', trans('messages.effective_email'), $user->id, $req->ip()));
             throw new \Exception("you must effective email", -4999);
         }
     }

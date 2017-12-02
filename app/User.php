@@ -613,4 +613,9 @@ class User extends Authenticatable
             call_user_func($print, "$key:" . json_encode($this->getUsage($key)));
         }
     }
+
+    public function isFree()
+    {
+        return $this->hasRole('Free');
+    }
 }
