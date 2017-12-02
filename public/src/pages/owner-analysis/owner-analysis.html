@@ -353,7 +353,7 @@
             </div>
         </div>
 
-        <div class="row adser-analy-rate" ng-if="analyMenu3">
+        <div ng-if="analyMenu3" class="row adser-analy-rate">
             <div class="col-xs-12 col-md-6 col-lg-4">
                 <div class="panel panel-info" >
                     <div class="panel-heading">
@@ -361,11 +361,11 @@
                     </div>
                     <div  ng-if="card.like_rate"  ng-init="likeRatePage = 1">
                         <div class="panel-body rate-items-wrapper" >
-                            <div class="rate-weapper" ng-repeat="items in card.like_rate | limitTo:(likeRatePage * 5)" ng-if="$index+1 > (likeRatePage * 5 - 5)">
+                            <div class="rate-weapper" ng-repeat="items in card.like_rate | limitTo:(likeRatePage * 5) track by $index" ng-if="$index+1 > (likeRatePage * 5 - 5)">
                                 <a ng-href="./adAnalysis/{{items.event_id}}" target="_blank" ng-if="!items.fullDataFlag" class="rate-link">
                                     <div class="rate-body">
                                         <span class="rate-sort ads-font-16">{{$index + 1}}</span>
-                                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" lazy-img="{{items.image}}" alt="" class="rate-ads-img">
+                                        <img ng-src="http://oxbyxox7o.bkt.gdipper.com{{items.image.split('#')[0]}}?imageView2/1/w/120/h/70" alt="" class="rate-ads-img">
                                         <div class="rate-info text-right">
                                             <div class="ads-font-18 ads-weight-600 text-info">{{items.type}}</div>
                                             <div>
@@ -405,11 +405,11 @@
                     </div>
                     <div  ng-if="card.share_rate"  ng-init="likeRatePage = 1">
                         <div class="panel-body rate-items-wrapper" >
-                            <div class="rate-weapper" ng-repeat="items in card.share_rate | limitTo:(likeRatePage * 5)" ng-if="$index+1 > (likeRatePage * 5 - 5)">
+                            <div class="rate-weapper" ng-repeat="items in card.share_rate | limitTo:(likeRatePage * 5) track by $index" ng-if="$index+1 > (likeRatePage * 5 - 5)">
                                 <a ng-href="./adAnalysis/{{items.event_id}}" target="_blank" ng-if="!items.fullDataFlag" class="rate-link">
                                     <div class="rate-body">
                                         <span class="rate-sort ads-font-16">{{$index + 1}}</span>
-                                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" lazy-img="{{items.image}}" alt="" class="rate-ads-img">
+                                        <img ng-src="http://oxbyxox7o.bkt.gdipper.com{{items.image.split('#')[0]}}?imageView2/1/w/120/h/70" alt="" class="rate-ads-img">
                                         <div class="rate-info text-right">
                                             <div class="">
                                                 <span class="ads-font-18">{{(items.share_rate * 1000).toFixed(2)}}‰</span>
@@ -417,7 +417,7 @@
                                                     <i class="fa fa-long-arrow-up" ng-if="items.shares_per_30d > 0"></i>
                                                 {{((items.shares_per_30d  / (items.shares - items.shares_per_30d)) * 100).toFixed(2)}}%</span>)</div>
                                             <div class="text-muted ads-font-12">
-                                                Last See: {{items.last_see | date: "yyyy.MM.dd"}}
+                                                {{items.last_see | date: "yyyy.MM.dd"}}
                                             </div>
                                         </div>
                                     </div>
@@ -448,11 +448,11 @@
                     </div>
                     <div  ng-if="card.comment_rate"  ng-init="likeRatePage = 1">
                         <div class="panel-body rate-items-wrapper" >
-                            <div class="rate-weapper" ng-repeat="items in card.comment_rate | limitTo:(likeRatePage * 5)" ng-if="$index+1 > (likeRatePage * 5 - 5)">
+                            <div class="rate-weapper" ng-repeat="items in card.comment_rate | limitTo:(likeRatePage * 5) track by $index" ng-if="$index+1 > (likeRatePage * 5 - 5)">
                                 <a ng-href="./adAnalysis/{{items.event_id}}" target="_blank" ng-if="!items.fullDataFlag" class="rate-link">
                                     <div class="rate-body">
                                         <span class="rate-sort ads-font-16">{{$index + 1}}</span>
-                                        <img ng-src="{{items.image}}" alt="" class="rate-ads-img">
+                                        <img ng-src="http://oxbyxox7o.bkt.gdipper.com{{items.image.split('#')[0]}}?imageView2/1/w/120/h/70" class="rate-ads-img">
                                         <div class="rate-info text-right">
                                             <div class="ads-font-18">{{items.comments}}</div>
                                             <div>
@@ -487,11 +487,11 @@
                     </div>
                     <div  ng-if="card.total_impression"  ng-init="likeRatePage = 1">
                         <div class="panel-body rate-items-wrapper" >
-                            <div class="rate-weapper" ng-repeat="items in card.total_impression | limitTo:(likeRatePage * 5)" ng-if="$index+1 > (likeRatePage * 5 - 5)">
+                            <div class="rate-weapper" ng-repeat="items in card.total_impression | limitTo:(likeRatePage * 5) track by $index" ng-if="$index+1 > (likeRatePage * 5 - 5)">
                                 <a ng-href="./adAnalysis/{{items.event_id}}" target="_blank" ng-if="!items.fullDataFlag" class="rate-link">
                                     <div class="rate-body">
                                         <span class="rate-sort ads-font-16">{{$index + 1}}</span>
-                                        <img ng-src="{{items.image}}" alt="" class="rate-ads-img">
+                                        <img src="http://oxbyxox7o.bkt.gdipper.com{{items.image.split('#')[0]}}?imageView2/1/w/120/h/70" class="rate-ads-img">
                                         <div class="rate-info text-right">
                                             <div class="ads-font-18">{{items.total_impression | number:0}}</div>
                                             <div>
