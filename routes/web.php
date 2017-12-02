@@ -256,3 +256,7 @@ Route::post('/filter-record', 'UserController@filterLogRecord');
 
 // 以后会在新增新的反馈收集，就统一处理反馈的控制器及其具体的反馈收集项
 Route::post('/feedback/plan', 'FeedbackController@plan')->middleware('throttle:30,60');
+
+Route::get('/advertisers', 'AdvertisersController@getPublishers');
+Route::get('/advertisers/{facebookId}', 'AdvertisersController@getPublisherAnalysis');
+Route::get('/advertisers/{facebookId}/{adRank}', 'AdvertisersController@getTopAds');
