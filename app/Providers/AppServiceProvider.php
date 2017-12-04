@@ -35,7 +35,8 @@ class AppServiceProvider extends ServiceProvider
 		\Braintree_Configuration::publicKey(config('services.braintree.public_key'));
 		\Braintree_Configuration::privateKey(config('services.braintree.private_key'));
 
-        //收藏夹不允许重复记录，会影响到权限统计，因此在创建的时候就要检查
+        // 收藏夹不允许重复记录，会影响到权限统计，因此在创建的时候就要检查
+        // TODO: 应该移到别的地方去
         BookmarkItem::creating(function($newItem) {
             $count = BookmarkItem::where('bid', $newItem->bid)->where('type', $newItem->type)->where('ident', $newItem->ident)->count();
             if ($count > 0) {
@@ -81,6 +82,13 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton('app.service.session', function() {
             return app(\App\Contracts\SessionService::class);
+        });
+
+        $this->app->bind(\App\Contracts\UserService::class, function($app) {
+            return new \App\Services\UserService(['useMailgun' => !empty(env('MAILGUN_USERNAME'))]);
+        });
+        $this->app->singleton('app.service.user', function() {
+            return app(\App\Contracts\UserService::class);
         });
 
         $this->app->resolving('payum.builder', function(\Payum\Core\PayumBuilder $payumBuilder) {

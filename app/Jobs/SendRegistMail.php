@@ -38,7 +38,7 @@ class SendRegistMail implements ShouldQueue
         if (!$this->user)
             return;
         $email = $this->user->email;
-        $useMailgun = false;
+        /* $useMailgun = false; */
         /* $useMail2 = false; */
         //暂不启用
         /* if (preg_match('/qq\.com$/', $email)) { */
@@ -55,17 +55,12 @@ class SendRegistMail implements ShouldQueue
         /*     Mail::setSwiftMailer($mail2); */
         /* } */
 
-        if (!empty(env('MAILGUN_USERNAME'))) {
-            $useMailgun = true;
-        }
-        if ($useMailgun && !$this->forceDefault) {
-            $verifyMail = new RegisterVerify($this->user);
-            Mailgun::send($verifyMail->viewName, $verifyMail->params(), function($message) use($email) {
-                $message->to($email)->subject("Bigbigads:Please verify your email address")->tag(['registerVerify']);
-            });
-        } else {
-            Mail::to($email)->send(new RegisterVerify($this->user));//发送验证邮件
-        }
+        $res = app('app.service.user')->sendMail($email, new RegisterVerify($this->user), [
+            'tags' => [
+                'registerVerify'
+            ]
+        ]);
+        return $res;
         /* if ($useMail2) { */
         /*     Mail::setSwiftMailer($backup); */
         /* } */
