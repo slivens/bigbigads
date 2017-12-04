@@ -15,6 +15,7 @@ use Psy\Exception\ErrorException;
 use Log;
 use Illuminate\Support\Collection;
 use App\Exceptions\GenericException;
+use App\Jobs\SendPayHelpMail;
 
 /**
  * @warning Model中使用Log等服务是错误的用法
@@ -531,6 +532,9 @@ class User extends Authenticatable
             $this->reInitUsage();
             $dirty = true;
             Log::info("{$this->email} role change to {$role->name}, reset usage");
+            if ($this->role > 3) {
+                dispatch(new SendPayHelpMail($this));
+            }
         }
 
         // 过期时间设置为有效订单的结束时间+1天，一个时间段内只会有一个有效订单

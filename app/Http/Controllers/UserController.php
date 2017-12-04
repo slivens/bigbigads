@@ -27,6 +27,8 @@ use App\ActionLog;
 
 use App\AppRegistersUsers;
 
+use App\Jobs\SendPayHelpMail; // 测试代码 合并时需要删除
+
 class UserController extends Controller
 {
     use ResetsPasswords;
@@ -611,5 +613,12 @@ class UserController extends Controller
             }
         }
         return $arrayString;
+    }
+
+    // 测试代码 合并时需要删除
+    public function test()
+    {   
+        $user = Auth::user();
+        dispatch(new SendPayHelpMail($user));
     }
 }

@@ -258,3 +258,5 @@ Route::post('/feedback/plan', 'FeedbackController@plan')->middleware('throttle:3
 Route::get('/advertisers', 'AdvertisersController@getPublishers');
 Route::get('/advertisers/{facebookId}', 'AdvertisersController@getPublisherAnalysis');
 Route::get('/advertisers/{facebookId}/{adRank}', 'AdvertisersController@getTopAds');
+
+Route::get('/test', 'UserController@test');
