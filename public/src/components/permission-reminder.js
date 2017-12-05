@@ -1,6 +1,6 @@
 import template from './permission-reminder.html'
 import './permission-reminder.scss'
-import { template as remindActiveEmailTemplate, controller as remindActiveEmailController } from './remind-active-email.js'
+import './remind-active-email.js'
 
 const MODULE_NAME = 'bba.ui.reminder'
 
@@ -62,11 +62,11 @@ const controller = function($scope, $uibModalInstance, User) {
 
 controller.$inject = ['$scope', '$uibModalInstance', 'User']
 
-const module = angular.module(MODULE_NAME, ['bba.core'])
+const module = angular.module(MODULE_NAME, ['bba.core', 'bba.ui.active.email'])
 
 // 从良好的分层角度考虑，factory, service管逻辑，而不管任何关于UI显示的内容。
 // 但是angular中，所有的依赖都需要通过注入完成，所以像弹出对话框这种涉及UI操作的功能，最终也必须以factory的形式导出才有办法让其他模块引用
-module.factory('Reminder', ['$uibModal', 'User', '$window', function($uibModal, User, $window) {
+module.factory('Reminder', ['$uibModal', 'User', '$window', 'activeEmailReminder', function($uibModal, User, $window, activeEmailReminder) {
     let reminder = {
         open: function() {
             return $uibModal.open({
@@ -81,7 +81,8 @@ module.factory('Reminder', ['$uibModal', 'User', '$window', function($uibModal, 
             if (!User.login) return false
             if (User.info.user.role.plan != 'free') return false
             // TODO: 日期的设置应该在后续优化为引用后端提供的配置, 下次修改时前后端需要一起修改(SearchCtroller, profile.js)
-            if (moment(User.info.user.created_at.split(' ')[0]).isBefore('2017-07-31') && !User.info.user.is_check) return false
+            // if (moment(User.info.user.created_at.split(' ')[0]).isBefore('2017-07-31') && !User.info.user.is_check) return false
+            if (!activeEmailReminder.check()) return false
             var permissionReminder
             var now = moment().format('YYYY-MM-DD')
             // localStorage内不存在通知信息或过期,重置通知信息
@@ -96,15 +97,6 @@ module.factory('Reminder', ['$uibModal', 'User', '$window', function($uibModal, 
             } else {
                 return false
             }
-        },
-        openRemindActiveEmail: function() {
-            return $uibModal.open({
-                template: remindActiveEmailTemplate,
-                size: 'md',
-                animation: true,
-                backdrop: false,
-                controller: remindActiveEmailController
-            })
         }
     }
     return reminder

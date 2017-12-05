@@ -125,7 +125,8 @@ Route::get(
 Route::get('/userinfo', 'UserController@logInfo');
 Route::get('/registerVerify', 'UserController@registerVerify');
 Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
-Route::get('/subEmailVerify', 'UserController@subEmailVerify');
+// 有效邮箱激活路由
+Route::get('/subscription_email/verify', 'UserController@subEmailVerify');
 
 Route::get('/plans', 'SubscriptionController@plans');
 

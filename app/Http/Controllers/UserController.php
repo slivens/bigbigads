@@ -576,7 +576,6 @@ class UserController extends Controller
     public function sendVerifyMailToSubEmail(Request $request)
     {
         $user = Auth::user();
-        $email = $request->user_email;
 
         $validator = Validator::make($request->only('subscription_email'), [
                 'subscription_email' => 'required|email|max:255|unique:users,subscription_email,'.$user->id,
@@ -601,9 +600,9 @@ class UserController extends Controller
             // 覆盖无效, 删除再创建
             Cache::put($userRetryTime, $retryTime - 1, Carbon::tomorrow());
             dispatch(new sendVerifyCodeMail($user));
-            return response()->json(['code' => 1, 'time' => Cache::get($userRetryTime)]);
+            return response()->json(['code' => 0, 'time' => Cache::get($userRetryTime)]);
         } else {
-            return response()->json(['code' => -401, 'desc' => 'Run out of retry time for resend email']);
+            return response()->json(['code' => 200, 'desc' => 'Run out of retry time for resend email']);
         }
     }
 

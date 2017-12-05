@@ -38,7 +38,7 @@ class VerifyCodeMail extends Mailable
         }
         Cache::put($userCode, $verifyCode, $expiresAt);
         return ['name' => $user->name,
-                'link' => "{$host}subEmailVerify?token={$verifyCode}&subEmail={$user->subscription_email}"
+                'link' => "{$host}subscription_email/verify?token={$verifyCode}&subEmail={$user->subscription_email}"
                ];
     }
     /**

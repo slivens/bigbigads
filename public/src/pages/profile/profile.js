@@ -4,8 +4,9 @@ import '../../components/billings'
 import '../../components/subscription'
 import './changepwd'
 import template from './profile.html'
+import '../../components/remind-active-email'
 
-export default angular.module('profile', ['MetronicApp']).controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', '$http', 'SweetAlert', '$interval', function($scope, $location, User, $uibModal, TIMESTAMP, $http, SweetAlert, $interval) {
+export default angular.module('profile', ['MetronicApp', 'bba.ui.active.email']).controller('ProfileController', ['$scope', '$location', 'User', '$uibModal', 'TIMESTAMP', '$http', 'SweetAlert', '$interval', 'activeEmailReminder', function($scope, $location, User, $uibModal, TIMESTAMP, $http, SweetAlert, $interval, activeEmailReminder) {
     let profile = {
         isFirstInit: false,
         init() {
@@ -57,7 +58,7 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         * 2）monent('xxxx-xx-xx').isBefore('xxxx-xx-xx') 可能值为 true 或则 false
         */
         profile.isShowValidate = false
-        if ($scope.user.role.name == 'Free' && moment($scope.user.created_at.split(' ')[0]).isBefore('2017-07-31')) {
+        if (!activeEmailReminder.check()) {
             profile.isShowValidate = true
             // 打开验证邮箱的编辑框
             $scope.profile.openToggle('openSubscriptionEdit', true)
@@ -124,16 +125,6 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
         // 重置校验
         nameForm.$setPristine()
     }
-
-    $scope.userPromise = User.getInfo()
-    $scope.userPromise.then(function() {
-        var user = User.info.user
-        // console.log(user.subscriptions);
-        $scope.userInfo = User.info
-        $scope.User = User
-        $scope.user = user
-        profile.resendTime = User.info.user.retryTime
-    })
 
     profile.customizeSubmit = function() {
         if ((profile.companyName == null || profile.companyName == '') && (profile.address == null || profile.address == '') && (profile.contactInfo == null || profile.contactInfo == '') && (profile.website == null || profile.website == '') && (profile.taxNo == null || profile.taxNo == '')) {
@@ -208,7 +199,7 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
             * 返回发送结果
             * 1）res.data.time 发送成功
             * 2）res.data.error 邮箱已经被别人验证
-            * 3）res.data.code == '-401' 发送邮件次数超过限制
+            * 3）res.data.code === 200 发送邮件次数超过限制
             * 4) 其他未知状况，比如服务器错误
             */
             if (res.data.time) {
@@ -224,7 +215,7 @@ export default angular.module('profile', ['MetronicApp']).controller('ProfileCon
                     text: 'The email you submited has already been verified.',
                     type: 'error'
                 })
-            } else if (res.data.code == '-401') {
+            } else if (res.data.code === 200) {
                 SweetAlert.swal({
                     title: 'Sorry',
                     text: 'Retry time has been exhausted today.',
