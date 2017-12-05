@@ -15,3 +15,4 @@ bower_components/
 node_modules/
 *.map
 backup
+database/seeds/PolicyUserTableSeeder.php
