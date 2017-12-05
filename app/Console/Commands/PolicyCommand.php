@@ -33,14 +33,24 @@ class PolicyCommand extends Command
 
     private function dump($user)
     {
-        if ($user->getCachedPolicies()->count() == 0) {
-            /* $this->info("{$user->email} has no user policies"); */
-            return;
-        }
+        /* if ($user->getCachedPolicies()->count() == 0) { */
+        /*     return; */
+        /* } */
         $this->info("{$user->email} user policies:");
-        foreach ($user->getCachedPolicies() as $policy) {
+        if ($user->policies->count() != $user->getCachedPolicies()->count()) {
+            $this->error("user policies is not cachced, you should use --rebuild option to fix it");
+        }
+        foreach ($user->policies as $policy) {
             $this->comment("{$policy->key} : {$policy->pivot->value}");
         }
+
+        if ($this->output->isVerbose()) {
+            $this->info("{$user->email} total policies:");
+            $user->dumpUsage(function($msg) {
+                $this->comment($msg);
+            });
+        }
+
     }
     /**
      * Execute the console command.

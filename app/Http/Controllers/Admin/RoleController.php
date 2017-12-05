@@ -97,6 +97,10 @@ class RoleController extends Controller
             $role->save();
         }
 
+        foreach ($roles as $role) {
+            $role->policies = $role->policies()->get();
+            $role->generateCache();
+        }
         return redirect()->back();
     }
 
