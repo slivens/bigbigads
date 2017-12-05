@@ -18,13 +18,14 @@ class BookmarkController extends Controller
     /*
      * 显示收藏目录
      */
-    public function index(Request $req)
+    public function index()
     {
         //显示收藏夹之前需要检查是否为合法用户
-        if (intval($req->uid) != Auth::user()->id) {
-            return $this->responseError("No Permission", -1);
+        if ($user = Auth::user()) {
+            return Bookmark::where("uid", $user->id)->get();
         }
-        return Bookmark::where("uid", $req->uid)->get();
+        return $this->responseError("No Permission", -1);
+        
     }
 
     /**
