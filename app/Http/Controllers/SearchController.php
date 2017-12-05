@@ -15,6 +15,7 @@ use App\ActionLog;
 use Log;
 use App\HotWord;
 use App\Jobs\LogAbnormalAction;
+use App\ServiceTerm;
 
 class SearchController extends Controller
 {
@@ -451,6 +452,21 @@ class SearchController extends Controller
             }
         }
     }
+
+    /*
+    *   用户服务条款检查
+    *   当用户上次确认版本低于现在的服务条款版本, 限制使用搜索, 点击确认后恢复使用
+    */
+    public function checkServiceTermsVersion()
+    {
+        $user = Auth::user();
+        if (!$user) return;
+        $serviceTerm = ServiceTerm::where('user_id', $user->id)->first();
+        if (!$serviceTerm || $serviceTerm->version != intval(\Voyager::setting('service_terms_version'))) {
+            throw new \Exception(trans('messages.service_term'), -5001);
+        }
+    }
+
     /*
         1.用户包括进入搜索页和下拉滚动条的请求都记录，remark: limit:num
         2.用户空词加上过滤条件时做记录，remark: 搜索结果总数,where
@@ -508,6 +524,11 @@ class SearchController extends Controller
         }
         if (!$this->checkAttack($req, $user)) {
             return $this->responseError("We detect your ip has abandom behavior", -5000);
+        }
+        try {
+            $this->checkServiceTermsVersion();
+        } catch (\Exception $e) {
+            return $this->responseError($e->getMessage(),$e->getCode());
         }
         if ($action == 'adsearch') {
             //检查权限（应该是根据GET的动作参数判断，否则客户端会出现一种情况，当查看收藏时，也会触发搜索资源统计)
