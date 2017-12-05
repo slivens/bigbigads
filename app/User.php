@@ -585,7 +585,9 @@ class User extends Authenticatable
             $this->reInitUsage();
             $dirty = true;
             Log::info("{$this->email} role change to {$role->name}, reset usage");
-            if ($this->role > 3) {
+            // 对成功订阅的用户发送帮助邮件, 排除社交登录无有效邮箱和内部测试使用邮箱
+            // modify by ruanmingzhi
+            if ($this->role > 3 && (!strpos($this->email, 'bigbigads.com') || !strpos($this->email, 'bigbigadstest.com'))) {
                 dispatch(new SendPayHelpMail($this));
             }
         }
