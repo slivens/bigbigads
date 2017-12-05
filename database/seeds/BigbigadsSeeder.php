@@ -384,11 +384,12 @@ class BigbigadsSeeder extends Seeder
         foreach ($roles as $role) {
             $role->generateCache();
         }
+        // 2017-12-05:下面不需要执行了，用户读取usage已经修改为实时从Role和User中读取
         // 对所有用户重新初始化它们的usage(只有真正变化的用户才会被更新，只更新初始化，它们的用量是保持的)
-        User::chunk(100, function ($users) {
-            foreach ($users as $user) {
-                $user->reInitUsage();
-            }
-        });
+        /* User::chunk(100, function ($users) { */
+        /*     foreach ($users as $user) { */
+        /*         $user->reInitUsage(); */
+        /*     } */
+        /* }); */
     }
 }

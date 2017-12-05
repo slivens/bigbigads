@@ -124,17 +124,46 @@ class User extends Authenticatable
     }
 
     /**
+     * User自身的Policies的缓存键，按key组织
+     * 才能够在实际系统中高效使用
+     */
+    private function groupedCacheKey()
+    {
+        return $this->cacheKey() . '.grouped';
+    }
+
+    /**
      * 从缓存中读取User Policy
+     * @return  Policy
      */
     public function getCachedPolicies()
     {
         return Cache::get($this->cacheKey(), new Collection([]));
     }
 
+    /**
+     * 从缓存中读取分组的用户策略，按如下方式组织
+     * [key => [type, value]]
+     */
+    public function groupedPolicies()
+    {
+        return Cache::get($this->groupedCacheKey(), new Collection([]));
+    }
+
+    /**
+     * 生成用户Policy缓存
+     * $this->cacheKey的缓存其实可以删除了，当前由于有引用暂时保留，后续可以考虑优化掉。
+     */
     public function setCachePolicies()
     {
-        if ($this->policies->count() > 0)
+        if ($this->policies->count() > 0) {
             Cache::forever($this->cacheKey(), $this->policies);
+            $grouped = [];
+            foreach($this->policies as $key => $policy) {
+                $grouped[$policy->key] =  [$policy->type, $policy->pivot->value];//user会以该结果作参考写入数据库，故使用数组节省空间
+            }
+            Cache::forever($this->groupedCacheKey(), $grouped);
+        }
         return $this;
     }
 
@@ -249,6 +278,7 @@ class User extends Authenticatable
 
     /**
      * 获取指定key的策略使用情况
+     * @warning 这是最重要的一个接口，所有修改都必须经过测试
      */
     public function getUsage($key)
     {
@@ -268,6 +298,23 @@ class User extends Authenticatable
             //测试的时候发现，新加入的权限和策略是直接进入到这个else分支，导致$item[2]没有初始化为0，会导致出现
             //下标2未出现的错误。
             $item = $this->usage[$key];
+            // user的usage的类型和默认值总是实时从用户缓存或者角色缓存中读取
+            // 当角色和用户的策略改变时，只要保证缓存是最新的，用户就能正确读取
+            // 到策略值，不用重新修改用户的usage;
+            // 在更新过程（重新生成角色缓存）时，用户读取不到策略，于是仍然从usage
+            // 自身读取，它保证了在更新过程中(100ms以内）的瞬间，用户的访问仍然能够
+            // 正常运作。
+            // TODO:当删除策略时，用户其实仍然能访问到策略，目前对删除策略的处理其实是
+            // 通过权限控制的（没有对应权限也就没有访问策略的必要了），所以残留的策略值
+            // 并不会有影响，后续考虑是否优化掉无关值以免引起误会
+            $grouped = $this->groupedPolicies();
+            if (!isset($grouped[$key])) {
+                $grouped = $this->role->groupedPolicies();
+            }
+            if (isset($grouped[$key])) {
+                $item[0] = $grouped[$key][0];
+                $item[1] = $grouped[$key][1];
+            }
             if(count($item) < 3) {
                 $item[2] = 0;
             }
@@ -290,7 +337,14 @@ class User extends Authenticatable
         }
         $this->policies()->detach($policy->id);
         $this->policies()->attach($policy->id, ['value' =>  $value]);
-        Cache::forever($this->cacheKey(), $this->policies()->get());//直接使用$this->policies在单元测试环境中会发现没更新过来
+
+        $policies = $this->policies()->get();
+        $grouped = [];
+        foreach($policies as $key => $policy) {
+            $grouped[$policy->key] =  [$policy->type, $policy->pivot->value];//user会以该结果作参考写入数据库，故使用数组节省空间
+        }
+        Cache::forever($this->cacheKey(), $policies);//直接使用$this->policies在单元测试环境中会发现没更新过来
+        Cache::forever($this->groupedCacheKey(), $grouped);//直接使用$this->policies在单元测试环境中会发现没更新过来
         $this->reInitUsage();
         return true;
     }
@@ -305,7 +359,13 @@ class User extends Authenticatable
             return false;
         }
         $this->policies()->detach($policy->id);
-        Cache::forever($this->cacheKey(), $this->policies);
+        $policies = $this->policies;
+        $grouped = [];
+        foreach($policies as $key => $policy) {
+            $grouped[$policy->key] =  [$policy->type, $policy->pivot->value];//user会以该结果作参考写入数据库，故使用数组节省空间
+        }
+        Cache::forever($this->cacheKey(), $policies);
+        Cache::forever($this->groupedCacheKey(), $grouped);
         $this->reInitUsage();
         return true;
     }
@@ -320,13 +380,6 @@ class User extends Authenticatable
             if ($policy->key == $key)
                 return $policy;
         }
-        /* $policy = Policy::where('key', $key)->first(); */
-        /* if (!($policy instanceof Policy)) { */
-        /*     return false; */
-        /* } */
-        /* $policy = $this->policies()->find($policy->id); */
-        /* if (!$policy) */
-        /*     return false; */
         return false;
     }
 
@@ -603,7 +656,7 @@ class User extends Authenticatable
             $userPolicy = $this->getPolicy($key);
             if ($userPolicy)
                 $policy[1] = $userPolicy->pivot->value;
-            $usage = $rawUsage->get($key);
+            $usage = $this->getUsage($key);
             if (!$usage || $usage[0] != $policy[0] || $usage[1] != $policy[1]) {
                 throw new GenericException($this, "({$this->email})should be: $key-" . json_encode($policy) . ", but now is : " . ($usage ? json_encode($usage) : "no usage"), 1000);
             }
