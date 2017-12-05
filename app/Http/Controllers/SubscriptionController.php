@@ -513,6 +513,7 @@ final class SubscriptionController extends PayumController
             return $this->responseError("you have request refunding before", -1);
         }
         $refund = $this->paymentService->requestRefund($payment);
+        // 用户申请退订后发送退订邮件到用户邮箱
         dispatch(new SendUnsubscribeMail($user));
         return ['code' => 0, 'desc' => 'success'];
     }
