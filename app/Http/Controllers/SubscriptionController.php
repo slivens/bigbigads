@@ -27,6 +27,7 @@ use App\Jobs\SyncPaymentsJob;
 use App\Jobs\SyncSubscriptionsJob;
 use App\Jobs\LogAction;
 use GuzzleHttp\Client;
+use App\Jobs\SendUnsubscribeMail;
 
 final class SubscriptionController extends PayumController
 {
@@ -503,6 +504,7 @@ final class SubscriptionController extends PayumController
 
     public function requestRefund($no)
     {
+        $user = Auth::user();
         $payment = OurPayment::where('number', $no)->first();
         if (!$payment) {
             return $this->responseError("no such payment $no", -1);
@@ -511,6 +513,7 @@ final class SubscriptionController extends PayumController
             return $this->responseError("you have request refunding before", -1);
         }
         $refund = $this->paymentService->requestRefund($payment);
+        dispatch(new SendUnsubscribeMail($user));
         return ['code' => 0, 'desc' => 'success'];
     }
 }
