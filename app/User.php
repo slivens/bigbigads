@@ -587,7 +587,7 @@ class User extends Authenticatable
             Log::info("{$this->email} role change to {$role->name}, reset usage");
             // 对成功订阅的用户发送帮助邮件, 排除社交登录无有效邮箱和内部测试使用邮箱
             // modify by ruanmingzhi
-            if ($this->role > 3 && (!strpos($this->email, 'bigbigads.com') || !strpos($this->email, 'bigbigadstest.com'))) {
+            if ($this->role > 3 && $this->checkEmailValidity($this->email)) {
                 dispatch(new SendPayHelpMail($this));
             }
         }
@@ -671,5 +671,14 @@ class User extends Authenticatable
         foreach ($this->usage as $key => $value) {
             call_user_func($print, "$key:" . json_encode($this->getUsage($key)));
         }
+    }
+
+    public function checkEmailValidity($email)
+    {
+        if (!$email) return;
+        if (!strpos($email, 'bigbigads.com') || !strpos($email, 'bigbigadstest.com')) {
+            return false;
+        }
+        return true;
     }
 }
