@@ -316,25 +316,27 @@ class BigbigadsSeeder extends Seeder
             //创建角色,有几档权限（未登陆与第一档合用Free权限)就有几个角色，如果要增加角色。就扩展该数组即可。
             //需要注意的是，数组是[key=>value]形式。一旦执行填充命令，key部分就不能改，否则用户已经绑定的角色将失效。因此下面的Free,Standard,Advanced,Pro的key部分都不应该改动。
             $roleNames = [
-                "Free"                  => "Free",
-                "Standard"              => "Standard",
-                "Advanced"              => "Plus",
-                "Pro"                   => "Premium",
-                "OuterTester"           => "OuterTester",
-                "OuterTester_feishu"    => "OuterTester_feishu",
-                "Lite"                  => "Lite"
+                "Free"                  => [3, "Free"],
+                "Standard"              => [4, "Standard"],
+                "Advanced"              => [5, "Plus"],
+                "Pro"                   => [6, "Premium"],
+                "OuterTester"           => [7, "OuterTester"],
+                "OuterTester_feishu"    => [8, "OuterTester_feishu"],
+                "Lite"                  => [10, "Lite"]
             ];
             $roles = [];
             foreach($roleNames as $key=>$item) {
                 if (Role::where('name', $key)->count() > 0) {
                     $role = Role::where('name', $key)->first();
-                    $role->update(['display_name' => $item]);
+                    // 所有该role的用户的role_id应该跟着变成新的role id
+                    $role->update(['id' => $item[0], 'display_name' => $item[1]]);
                     /* $role->cleanCache(); */
                     array_push($roles, $role);
                 } else {
                     array_push($roles, Role::create([
+                        'id' => $item[0],
                         'name' => $key,
-                        'display_name' => $item
+                        'display_name' => $item[1]
                     ]));
                 }
             }
@@ -379,16 +381,17 @@ class BigbigadsSeeder extends Seeder
             }
         }
 
-        $this->command->getOutput()->writeln("<info>Generate cache for Roles and fix Users's usage</info>");
+        $this->command->getOutput()->writeln("<info>Generate cache for Roles</info>");
         // 重新为所有角色生成cache(必需的操作，用户只从缓存中读取权限数据)
         foreach ($roles as $role) {
             $role->generateCache();
         }
+        // 2017-12-05:下面不需要执行了，用户读取usage已经修改为实时从Role和User中读取
         // 对所有用户重新初始化它们的usage(只有真正变化的用户才会被更新，只更新初始化，它们的用量是保持的)
-        User::chunk(100, function ($users) {
-            foreach ($users as $user) {
-                $user->reInitUsage();
-            }
-        });
+        /* User::chunk(100, function ($users) { */
+        /*     foreach ($users as $user) { */
+        /*         $user->reInitUsage(); */
+        /*     } */
+        /* }); */
     }
 }

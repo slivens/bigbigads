@@ -74,13 +74,12 @@
                         </table>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">更新权限</button>
-                            <span>更新权限和策略并不会生效，只有重新生成角色缓存才会实际生效</span>
                         </div>
                         </form>
-                        <form action="{{route('generate_permission_cache')}}" method="POST">
-                            {{ csrf_field() }}
-                            <button type="submit" class="btn btn-success">重新生成角色缓存</button>
-                        </form>
+                        <!-- <form action="{{route('generate_permission_cache')}}" method="POST"> -->
+                        <!--     {{ csrf_field() }} -->
+                        <!--     <button type="submit" class="btn btn-success">重新生成角色缓存</button> -->
+                        <!-- </form> -->
                     </div>
                 </div>
             </div>
