@@ -66,8 +66,10 @@ class UpgradeCommand extends Command
                 $this->seed(\PolicyRoleTableSeeder::class);
                 $this->seed(\PolicyUserTableSeeder::class);
                 DB::commit();
+                $this->comment("completed");
             } catch(\Exception $e) {
                 DB::rollBack();
+                $this->comment("something goes wrong, rollback");
             }
         } else {
             $this->error("no operation");
