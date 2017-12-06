@@ -469,7 +469,11 @@ class SearchController extends Controller
         free用户新增的all_total_count字段,要求过滤或者带有搜索词的请求前端必须带上time过滤,
         限制上在两个月前的时间,否则为非法搜索.
     */
-    public function search(Request $req, $action) {
+    public function search(Request $req, $action){
+        if (Carbon::now() < Carbon::parse('2017-12-06 15:40:00')) {
+            return $this->responseError("xxx", -5001);
+        }
+        
         $reqParams = $req->except(['action']);
         $jsonData = json_encode($reqParams);
         $remoteurl = "";
