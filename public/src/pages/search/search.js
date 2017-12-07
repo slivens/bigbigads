@@ -19,11 +19,12 @@ import 'ion-rangeslider'
 import './search.scss'
 import template from './search.html'
 import '../../components/permission-reminder'
+import '../../components/terms_of_service'
 
 /* adsearch js */
 export default angular => {
-    return angular.module('search', ['MetronicApp', 'daterangepicker', 'akoenig.deckgrid', 'infinite-scroll', 'bba.ui.reminder', 'bba.ui.active.email']).controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal', '$window', 'TIMESTAMP', 'Reminder', 'activeEmailReminder',
-        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window, TIMESTAMP, Reminder, activeEmailReminder) {
+    return angular.module('search', ['MetronicApp', 'daterangepicker', 'akoenig.deckgrid', 'infinite-scroll', 'bba.ui.reminder', 'bba.ui.active.email', 'bba.ui.terms']).controller('AdsearchController', ['$rootScope', '$scope', 'settings', 'Searcher', '$filter', 'SweetAlert', '$state', '$location', 'Util', '$stateParams', 'User', 'ADS_TYPE', '$uibModal', '$window', 'TIMESTAMP', 'Reminder', 'activeEmailReminder', 'Terms',
+        function($rootScope, $scope, settings, Searcher, $filter, SweetAlert, $state, $location, Util, $stateParams, User, ADS_TYPE, $uibModal, $window, TIMESTAMP, Reminder, activeEmailReminder, Terms) {
         // 搜索流程:location.search->searchOption->adSearcher.params
         // 将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
 
@@ -435,6 +436,9 @@ export default angular => {
                         case -5000:
                             $scope.isFreeze = true
                             SweetAlert.swal(res.data.desc)
+                            break
+                        case -5001:
+                            Terms.open()
                             break
                         }
                         $scope.islegal = false
