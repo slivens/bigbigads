@@ -510,7 +510,7 @@ class PaymentService implements PaymentServiceContract
             $this->log('=========$payment->subscription->hasEffectivePayment()===========', PaymentService::LOG_INFO);
             return false;
         }
-        $this->log("reset user {$user->email} to Free because of refund:{$payment->number}", PaymentService::LOG_INFO);
+        $this->log("{$user->email}'s subscription is refunded:{$payment->number} . User's fixInfoByPayments will executed, please check this user's role is correct by checking the log file or database.", PaymentService::LOG_INFO);
         //modify by chenxin 20171114,修复了Issue #36
         if ($payment->subscription->isActive()) {
             $this->cancel($payment->subscription);
