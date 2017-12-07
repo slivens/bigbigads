@@ -242,6 +242,10 @@ var google_conversion_value = 0;
 <script>
   gtag('event', 'conversion', {'send_to': 'AW-828108332/bGxTCP726nkQrNzvigM'});
 </script>
+<!-- fb Event for register_welcome -->
+<script type="text/javascript">
+  fbq('track', 'CompleteRegistration');
+</script>
 <script type="text/javascript" src="{{bba_version('vendor.js')}}" defer></script>
 <script type="text/javascript" src="{{bba_version('welcome.js')}}" defer></script>
 </html>

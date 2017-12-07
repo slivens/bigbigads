@@ -15,6 +15,7 @@ class Role extends Model
     protected $guarded = [];
     protected $hidden = ['created_at', 'updated_at'];
     protected $permissionKeys = null;
+    const ROLE_FREE = "Free";
 
     public function users()
     {
