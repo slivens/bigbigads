@@ -125,6 +125,8 @@ Route::get(
 Route::get('/userinfo', 'UserController@logInfo');
 Route::get('/registerVerify', 'UserController@registerVerify');
 Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
+// 有效邮箱激活路由
+Route::get('/subscription_email/verify', 'UserController@subEmailVerify');
 
 Route::get('/plans', 'SubscriptionController@plans');
 
@@ -145,6 +147,7 @@ Route::group(['middleware'=>'auth'], function() {
     Route::post('/users/customize_invoice', 'UserController@setInvoiceCustomer');
     Route::get('/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
     Route::patch('users/change_profile', 'UserController@changeProfile');
+    Route::post('/users/send-email', 'UserController@sendVerifyMailToSubEmail');
     Route::get('/bookmark/default', 'BookmarkController@getDefault');
 });
 
