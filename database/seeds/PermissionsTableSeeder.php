@@ -1,47 +1,1960 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use TCG\Voyager\Models\Permission;
 
 class PermissionsTableSeeder extends Seeder
 {
+
     /**
-     * Auto generated seed file.
+     * Auto generated seed file
      *
      * @return void
      */
     public function run()
     {
-        Permission::firstOrCreate([
-            'key'        => 'browse_admin',
-            'table_name' => 'admin',
-        ]);
+        
 
-        Permission::firstOrCreate([
-            'key'        => 'browse_database',
-            'table_name' => 'admin',
-        ]);
-
-        Permission::firstOrCreate([
-            'key'        => 'browse_media',
-            'table_name' => 'admin',
-        ]);
-
-        Permission::firstOrCreate([
-            'key'        => 'browse_settings',
-            'table_name' => 'admin',
-        ]);
-
-        Permission::generateFor('menus');
-
-        Permission::generateFor('pages');
-
-        Permission::generateFor('roles');
-
-        Permission::generateFor('users');
-
-        Permission::generateFor('posts');
-
-        Permission::generateFor('categories');
+        \DB::table('permissions')->delete();
+        
+        \DB::table('permissions')->insert(array (
+            0 => 
+            array (
+                'id' => 99,
+                'key' => 'search_times_perday',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:18',
+                'updated_at' => '2017-03-06 09:08:18',
+            ),
+            1 => 
+            array (
+                'id' => 100,
+                'key' => 'result_per_search',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:18',
+                'updated_at' => '2017-03-06 09:08:18',
+            ),
+            2 => 
+            array (
+                'id' => 101,
+                'key' => 'search_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:18',
+                'updated_at' => '2017-03-06 09:08:18',
+            ),
+            3 => 
+            array (
+                'id' => 102,
+                'key' => 'search_sortby',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:18',
+                'updated_at' => '2017-03-06 09:08:18',
+            ),
+            4 => 
+            array (
+                'id' => 103,
+                'key' => 'advanced_search',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            5 => 
+            array (
+                'id' => 104,
+                'key' => 'save_search',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            6 => 
+            array (
+                'id' => 105,
+                'key' => 'advertiser_search',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            7 => 
+            array (
+                'id' => 106,
+                'key' => 'dest_site_search',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            8 => 
+            array (
+                'id' => 107,
+                'key' => 'content_search',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            9 => 
+            array (
+                'id' => 108,
+                'key' => 'audience_search',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            10 => 
+            array (
+                'id' => 109,
+                'key' => 'date_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            11 => 
+            array (
+                'id' => 110,
+                'key' => 'format_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            12 => 
+            array (
+                'id' => 111,
+                'key' => 'duration_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            13 => 
+            array (
+                'id' => 112,
+                'key' => 'see_times_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            14 => 
+            array (
+                'id' => 113,
+                'key' => 'lang_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            15 => 
+            array (
+                'id' => 114,
+                'key' => 'engagement_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            16 => 
+            array (
+                'id' => 115,
+                'key' => 'date_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            17 => 
+            array (
+                'id' => 116,
+                'key' => 'likes_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            18 => 
+            array (
+                'id' => 117,
+                'key' => 'shares_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:19',
+                'updated_at' => '2017-03-06 09:08:19',
+            ),
+            19 => 
+            array (
+                'id' => 118,
+                'key' => 'video_views_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:20',
+                'updated_at' => '2017-03-06 09:08:20',
+            ),
+            20 => 
+            array (
+                'id' => 119,
+                'key' => 'comment_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:20',
+                'updated_at' => '2017-03-06 09:08:20',
+            ),
+            21 => 
+            array (
+                'id' => 120,
+                'key' => 'duration_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:20',
+                'updated_at' => '2017-03-06 09:08:20',
+            ),
+            22 => 
+            array (
+                'id' => 121,
+                'key' => 'views_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:20',
+                'updated_at' => '2017-03-06 09:08:20',
+            ),
+            23 => 
+            array (
+                'id' => 122,
+                'key' => 'engagement_total_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:20',
+                'updated_at' => '2017-03-06 09:08:20',
+            ),
+            24 => 
+            array (
+                'id' => 123,
+                'key' => 'engagement_inc_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:20',
+                'updated_at' => '2017-03-06 09:08:20',
+            ),
+            25 => 
+            array (
+                'id' => 124,
+                'key' => 'likes_inc_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:20',
+                'updated_at' => '2017-03-06 09:08:20',
+            ),
+            26 => 
+            array (
+                'id' => 125,
+                'key' => 'video_views_inc_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:20',
+                'updated_at' => '2017-03-06 09:08:20',
+            ),
+            27 => 
+            array (
+                'id' => 126,
+                'key' => 'image_download',
+                'table_name' => 'export',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:20',
+                'updated_at' => '2017-03-06 09:08:20',
+            ),
+            28 => 
+            array (
+                'id' => 127,
+                'key' => 'video_download',
+                'table_name' => 'export',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:20',
+                'updated_at' => '2017-03-06 09:08:20',
+            ),
+            29 => 
+            array (
+                'id' => 128,
+                'key' => 'HD_video_download',
+                'table_name' => 'export',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:20',
+                'updated_at' => '2017-03-06 09:08:20',
+            ),
+            30 => 
+            array (
+                'id' => 129,
+                'key' => 'Export',
+                'table_name' => 'export',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:20',
+                'updated_at' => '2017-03-06 09:08:20',
+            ),
+            31 => 
+            array (
+                'id' => 130,
+                'key' => 'search_statics',
+                'table_name' => 'statics',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:20',
+                'updated_at' => '2017-03-06 09:08:20',
+            ),
+            32 => 
+            array (
+                'id' => 131,
+                'key' => 'ad_analysis',
+                'table_name' => 'statics',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:21',
+                'updated_at' => '2017-03-06 09:08:21',
+            ),
+            33 => 
+            array (
+                'id' => 132,
+                'key' => 'adser_analysis',
+                'table_name' => 'statics',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:21',
+                'updated_at' => '2017-03-06 09:08:21',
+            ),
+            34 => 
+            array (
+                'id' => 133,
+                'key' => 'Realtime_AD_analysis',
+                'table_name' => 'statics',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:21',
+                'updated_at' => '2017-03-06 09:08:21',
+            ),
+            35 => 
+            array (
+                'id' => 134,
+                'key' => 'ranking',
+                'table_name' => 'ranking',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:21',
+                'updated_at' => '2017-03-06 09:08:21',
+            ),
+            36 => 
+            array (
+                'id' => 135,
+                'key' => 'ranking_export',
+                'table_name' => 'ranking',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:21',
+                'updated_at' => '2017-03-06 09:08:21',
+            ),
+            37 => 
+            array (
+                'id' => 136,
+                'key' => 'ranking_by_category',
+                'table_name' => 'ranking',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:21',
+                'updated_at' => '2017-03-06 09:08:21',
+            ),
+            38 => 
+            array (
+                'id' => 137,
+                'key' => 'bookmark_support',
+                'table_name' => 'bookmark',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:21',
+                'updated_at' => '2017-03-06 09:08:21',
+            ),
+            39 => 
+            array (
+                'id' => 138,
+                'key' => 'bookmark_list',
+                'table_name' => 'bookmark',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:21',
+                'updated_at' => '2017-03-06 09:08:21',
+            ),
+            40 => 
+            array (
+                'id' => 139,
+                'key' => 'bookmark_adser_support',
+                'table_name' => 'bookmark',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:21',
+                'updated_at' => '2017-03-06 09:08:21',
+            ),
+            41 => 
+            array (
+                'id' => 140,
+                'key' => 'save_count',
+                'table_name' => 'bookmark',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:21',
+                'updated_at' => '2017-03-06 09:08:21',
+            ),
+            42 => 
+            array (
+                'id' => 141,
+                'key' => 'monitor_support',
+                'table_name' => 'monitor',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:21',
+                'updated_at' => '2017-03-06 09:08:21',
+            ),
+            43 => 
+            array (
+                'id' => 142,
+                'key' => 'monitor_ad_keyword',
+                'table_name' => 'monitor',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:21',
+                'updated_at' => '2017-03-06 09:08:21',
+            ),
+            44 => 
+            array (
+                'id' => 143,
+                'key' => 'monitor_advertiser',
+                'table_name' => 'monitor',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:08:21',
+                'updated_at' => '2017-03-06 09:08:21',
+            ),
+            45 => 
+            array (
+                'id' => 144,
+                'key' => 'call_action_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 09:22:39',
+                'updated_at' => '2017-03-06 09:22:39',
+            ),
+            46 => 
+            array (
+                'id' => 145,
+                'key' => 'advertiser_search',
+                'table_name' => 'advertiser',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 11:20:53',
+                'updated_at' => '2017-03-06 11:20:53',
+            ),
+            47 => 
+            array (
+                'id' => 146,
+                'key' => 'domain_search',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 14:07:21',
+                'updated_at' => '2017-03-06 14:07:21',
+            ),
+            48 => 
+            array (
+                'id' => 147,
+                'key' => 'engagements_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 21:05:13',
+                'updated_at' => '2017-03-06 21:05:13',
+            ),
+            49 => 
+            array (
+                'id' => 148,
+                'key' => 'views_inc_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 21:05:13',
+                'updated_at' => '2017-03-06 21:05:13',
+            ),
+            50 => 
+            array (
+                'id' => 149,
+                'key' => 'shares_inc_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 21:12:34',
+                'updated_at' => '2017-03-06 21:12:34',
+            ),
+            51 => 
+            array (
+                'id' => 150,
+                'key' => 'comments_inc_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 21:12:35',
+                'updated_at' => '2017-03-06 21:12:35',
+            ),
+            52 => 
+            array (
+                'id' => 151,
+                'key' => 'analysis_overview',
+                'table_name' => 'AdAnalysis',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 21:20:59',
+                'updated_at' => '2017-03-06 21:20:59',
+            ),
+            53 => 
+            array (
+                'id' => 152,
+                'key' => 'analysis_link',
+                'table_name' => 'AdAnalysis',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 21:20:59',
+                'updated_at' => '2017-03-06 21:20:59',
+            ),
+            54 => 
+            array (
+                'id' => 153,
+                'key' => 'analysis_audience',
+                'table_name' => 'AdAnalysis',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 21:20:59',
+                'updated_at' => '2017-03-06 21:20:59',
+            ),
+            55 => 
+            array (
+                'id' => 154,
+                'key' => 'analysis_trend',
+                'table_name' => 'AdAnalysis',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 21:20:59',
+                'updated_at' => '2017-03-06 21:20:59',
+            ),
+            56 => 
+            array (
+                'id' => 155,
+                'key' => 'analysis_similar',
+                'table_name' => 'AdAnalysis',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 21:21:25',
+                'updated_at' => '2017-03-06 21:21:25',
+            ),
+            57 => 
+            array (
+                'id' => 156,
+                'key' => 'statics_overview',
+                'table_name' => 'Keyword Statics',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 22:32:43',
+                'updated_at' => '2017-03-06 22:32:43',
+            ),
+            58 => 
+            array (
+                'id' => 157,
+                'key' => 'statics_link',
+                'table_name' => 'Keyword Statics',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 22:32:43',
+                'updated_at' => '2017-03-06 22:32:43',
+            ),
+            59 => 
+            array (
+                'id' => 158,
+                'key' => 'statics_audience',
+                'table_name' => 'Keyword Statics',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 22:32:43',
+                'updated_at' => '2017-03-06 22:32:43',
+            ),
+            60 => 
+            array (
+                'id' => 159,
+                'key' => 'statics_trend',
+                'table_name' => 'Keyword Statics',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 22:32:43',
+                'updated_at' => '2017-03-06 22:32:43',
+            ),
+            61 => 
+            array (
+                'id' => 160,
+                'key' => 'statics_all',
+                'table_name' => 'Keyword Statics',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 22:32:43',
+                'updated_at' => '2017-03-06 22:32:43',
+            ),
+            62 => 
+            array (
+                'id' => 161,
+                'key' => 'adser_search',
+                'table_name' => 'advertiser',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-06 23:13:12',
+                'updated_at' => '2017-03-06 23:13:12',
+            ),
+            63 => 
+            array (
+                'id' => 162,
+                'key' => 'keyword_times_perday',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-07 15:04:38',
+                'updated_at' => '2017-03-07 15:04:38',
+            ),
+            64 => 
+            array (
+                'id' => 163,
+                'key' => 'ad_analysis_times_perday',
+                'table_name' => 'AdAnalysis',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-07 15:05:05',
+                'updated_at' => '2017-03-07 15:05:05',
+            ),
+            65 => 
+            array (
+                'id' => 164,
+                'key' => 'adser_search_times_perday',
+                'table_name' => 'advertiser',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-07 21:05:24',
+                'updated_at' => '2017-03-07 21:05:24',
+            ),
+            66 => 
+            array (
+                'id' => 165,
+                'key' => 'advertiser_collect',
+                'table_name' => 'bookmark',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            67 => 
+            array (
+                'id' => 166,
+                'key' => 'browse_admin',
+                'table_name' => 'admin',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            68 => 
+            array (
+                'id' => 167,
+                'key' => 'browse_database',
+                'table_name' => 'admin',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            69 => 
+            array (
+                'id' => 168,
+                'key' => 'browse_media',
+                'table_name' => 'admin',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            70 => 
+            array (
+                'id' => 169,
+                'key' => 'browse_settings',
+                'table_name' => 'admin',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            71 => 
+            array (
+                'id' => 170,
+                'key' => 'browse_menus',
+                'table_name' => 'menus',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            72 => 
+            array (
+                'id' => 171,
+                'key' => 'read_menus',
+                'table_name' => 'menus',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            73 => 
+            array (
+                'id' => 172,
+                'key' => 'edit_menus',
+                'table_name' => 'menus',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            74 => 
+            array (
+                'id' => 173,
+                'key' => 'add_menus',
+                'table_name' => 'menus',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            75 => 
+            array (
+                'id' => 174,
+                'key' => 'delete_menus',
+                'table_name' => 'menus',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            76 => 
+            array (
+                'id' => 175,
+                'key' => 'browse_pages',
+                'table_name' => 'pages',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            77 => 
+            array (
+                'id' => 176,
+                'key' => 'read_pages',
+                'table_name' => 'pages',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            78 => 
+            array (
+                'id' => 177,
+                'key' => 'edit_pages',
+                'table_name' => 'pages',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            79 => 
+            array (
+                'id' => 178,
+                'key' => 'add_pages',
+                'table_name' => 'pages',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            80 => 
+            array (
+                'id' => 179,
+                'key' => 'delete_pages',
+                'table_name' => 'pages',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            81 => 
+            array (
+                'id' => 180,
+                'key' => 'browse_roles',
+                'table_name' => 'roles',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            82 => 
+            array (
+                'id' => 181,
+                'key' => 'read_roles',
+                'table_name' => 'roles',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            83 => 
+            array (
+                'id' => 182,
+                'key' => 'edit_roles',
+                'table_name' => 'roles',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            84 => 
+            array (
+                'id' => 183,
+                'key' => 'add_roles',
+                'table_name' => 'roles',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            85 => 
+            array (
+                'id' => 184,
+                'key' => 'delete_roles',
+                'table_name' => 'roles',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            86 => 
+            array (
+                'id' => 185,
+                'key' => 'browse_users',
+                'table_name' => 'users',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            87 => 
+            array (
+                'id' => 186,
+                'key' => 'read_users',
+                'table_name' => 'users',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            88 => 
+            array (
+                'id' => 187,
+                'key' => 'edit_users',
+                'table_name' => 'users',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            89 => 
+            array (
+                'id' => 188,
+                'key' => 'add_users',
+                'table_name' => 'users',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:46',
+                'updated_at' => '2017-03-24 10:42:46',
+            ),
+            90 => 
+            array (
+                'id' => 189,
+                'key' => 'delete_users',
+                'table_name' => 'users',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:47',
+                'updated_at' => '2017-03-24 10:42:47',
+            ),
+            91 => 
+            array (
+                'id' => 190,
+                'key' => 'browse_posts',
+                'table_name' => 'posts',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:47',
+                'updated_at' => '2017-03-24 10:42:47',
+            ),
+            92 => 
+            array (
+                'id' => 191,
+                'key' => 'read_posts',
+                'table_name' => 'posts',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:47',
+                'updated_at' => '2017-03-24 10:42:47',
+            ),
+            93 => 
+            array (
+                'id' => 192,
+                'key' => 'edit_posts',
+                'table_name' => 'posts',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:47',
+                'updated_at' => '2017-03-24 10:42:47',
+            ),
+            94 => 
+            array (
+                'id' => 193,
+                'key' => 'add_posts',
+                'table_name' => 'posts',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:47',
+                'updated_at' => '2017-03-24 10:42:47',
+            ),
+            95 => 
+            array (
+                'id' => 194,
+                'key' => 'delete_posts',
+                'table_name' => 'posts',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:47',
+                'updated_at' => '2017-03-24 10:42:47',
+            ),
+            96 => 
+            array (
+                'id' => 195,
+                'key' => 'browse_categories',
+                'table_name' => 'categories',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:47',
+                'updated_at' => '2017-03-24 10:42:47',
+            ),
+            97 => 
+            array (
+                'id' => 196,
+                'key' => 'read_categories',
+                'table_name' => 'categories',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:47',
+                'updated_at' => '2017-03-24 10:42:47',
+            ),
+            98 => 
+            array (
+                'id' => 197,
+                'key' => 'edit_categories',
+                'table_name' => 'categories',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:47',
+                'updated_at' => '2017-03-24 10:42:47',
+            ),
+            99 => 
+            array (
+                'id' => 198,
+                'key' => 'add_categories',
+                'table_name' => 'categories',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:47',
+                'updated_at' => '2017-03-24 10:42:47',
+            ),
+            100 => 
+            array (
+                'id' => 199,
+                'key' => 'delete_categories',
+                'table_name' => 'categories',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-03-24 10:42:47',
+                'updated_at' => '2017-03-24 10:42:47',
+            ),
+            101 => 
+            array (
+                'id' => 200,
+                'key' => 'timeline_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-04-09 19:52:52',
+                'updated_at' => '2017-04-09 19:52:52',
+            ),
+            102 => 
+            array (
+                'id' => 201,
+                'key' => 'phone_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-04-09 19:52:52',
+                'updated_at' => '2017-04-09 19:52:52',
+            ),
+            103 => 
+            array (
+                'id' => 202,
+                'key' => 'rightcolumn_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-04-09 19:52:52',
+                'updated_at' => '2017-04-09 19:52:52',
+            ),
+            104 => 
+            array (
+                'id' => 203,
+                'key' => 'advance_likes_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-04-18 16:30:25',
+                'updated_at' => '2017-04-18 16:30:25',
+            ),
+            105 => 
+            array (
+                'id' => 204,
+                'key' => 'advance_shares_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-04-18 16:30:25',
+                'updated_at' => '2017-04-18 16:30:25',
+            ),
+            106 => 
+            array (
+                'id' => 205,
+                'key' => 'advance_comments_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-04-18 16:30:25',
+                'updated_at' => '2017-04-18 16:30:25',
+            ),
+            107 => 
+            array (
+                'id' => 206,
+                'key' => 'advance_video_views_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-04-18 16:30:26',
+                'updated_at' => '2017-04-18 16:30:26',
+            ),
+            108 => 
+            array (
+                'id' => 207,
+                'key' => 'advance_engagement_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-04-18 16:30:26',
+                'updated_at' => '2017-04-18 16:30:26',
+            ),
+            109 => 
+            array (
+                'id' => 208,
+                'key' => 'browse_maillist',
+                'table_name' => 'maillist',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-05-08 11:21:35',
+                'updated_at' => '2017-05-08 11:21:35',
+            ),
+            110 => 
+            array (
+                'id' => 209,
+                'key' => 'read_maillist',
+                'table_name' => 'maillist',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-05-08 11:21:35',
+                'updated_at' => '2017-05-08 11:21:35',
+            ),
+            111 => 
+            array (
+                'id' => 210,
+                'key' => 'edit_maillist',
+                'table_name' => 'maillist',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-05-08 11:21:35',
+                'updated_at' => '2017-05-08 11:21:35',
+            ),
+            112 => 
+            array (
+                'id' => 211,
+                'key' => 'add_maillist',
+                'table_name' => 'maillist',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-05-08 11:21:35',
+                'updated_at' => '2017-05-08 11:21:35',
+            ),
+            113 => 
+            array (
+                'id' => 212,
+                'key' => 'delete_maillist',
+                'table_name' => 'maillist',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-05-08 11:21:35',
+                'updated_at' => '2017-05-08 11:21:35',
+            ),
+            114 => 
+            array (
+                'id' => 213,
+                'key' => 'browse_affiliates',
+                'table_name' => 'affiliates',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-05-30 22:58:36',
+                'updated_at' => '2017-05-30 22:58:36',
+            ),
+            115 => 
+            array (
+                'id' => 214,
+                'key' => 'read_affiliates',
+                'table_name' => 'affiliates',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-05-30 22:58:36',
+                'updated_at' => '2017-05-30 22:58:36',
+            ),
+            116 => 
+            array (
+                'id' => 215,
+                'key' => 'edit_affiliates',
+                'table_name' => 'affiliates',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-05-30 22:58:36',
+                'updated_at' => '2017-05-30 22:58:36',
+            ),
+            117 => 
+            array (
+                'id' => 216,
+                'key' => 'add_affiliates',
+                'table_name' => 'affiliates',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-05-30 22:58:36',
+                'updated_at' => '2017-05-30 22:58:36',
+            ),
+            118 => 
+            array (
+                'id' => 217,
+                'key' => 'delete_affiliates',
+                'table_name' => 'affiliates',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-05-30 22:58:36',
+                'updated_at' => '2017-05-30 22:58:36',
+            ),
+            119 => 
+            array (
+                'id' => 223,
+                'key' => 'browse_coupons',
+                'table_name' => 'coupons',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-06-14 10:19:49',
+                'updated_at' => '2017-06-14 10:19:49',
+            ),
+            120 => 
+            array (
+                'id' => 224,
+                'key' => 'read_coupons',
+                'table_name' => 'coupons',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-06-14 10:19:49',
+                'updated_at' => '2017-06-14 10:19:49',
+            ),
+            121 => 
+            array (
+                'id' => 225,
+                'key' => 'edit_coupons',
+                'table_name' => 'coupons',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-06-14 10:19:49',
+                'updated_at' => '2017-06-14 10:19:49',
+            ),
+            122 => 
+            array (
+                'id' => 226,
+                'key' => 'add_coupons',
+                'table_name' => 'coupons',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-06-14 10:19:49',
+                'updated_at' => '2017-06-14 10:19:49',
+            ),
+            123 => 
+            array (
+                'id' => 227,
+                'key' => 'delete_coupons',
+                'table_name' => 'coupons',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-06-14 10:19:49',
+                'updated_at' => '2017-06-14 10:19:49',
+            ),
+            124 => 
+            array (
+                'id' => 228,
+                'key' => 'search_init_perday',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:44',
+                'updated_at' => '2017-08-07 20:42:44',
+            ),
+            125 => 
+            array (
+                'id' => 229,
+                'key' => 'search_limit_perday',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:44',
+                'updated_at' => '2017-08-07 20:42:44',
+            ),
+            126 => 
+            array (
+                'id' => 230,
+                'key' => 'search_where_perday',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:44',
+                'updated_at' => '2017-08-07 20:42:44',
+            ),
+            127 => 
+            array (
+                'id' => 231,
+                'key' => 'specific_adser_init_perday',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:44',
+                'updated_at' => '2017-08-07 20:42:44',
+            ),
+            128 => 
+            array (
+                'id' => 232,
+                'key' => 'specific_adser_limit_perday',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:44',
+                'updated_at' => '2017-08-07 20:42:44',
+            ),
+            129 => 
+            array (
+                'id' => 233,
+                'key' => 'specific_adser_where_perday',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:44',
+                'updated_at' => '2017-08-07 20:42:44',
+            ),
+            130 => 
+            array (
+                'id' => 234,
+                'key' => 'app_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:44',
+                'updated_at' => '2017-08-07 20:42:44',
+            ),
+            131 => 
+            array (
+                'id' => 235,
+                'key' => 'search_total_times',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:44',
+                'updated_at' => '2017-08-07 20:42:44',
+            ),
+            132 => 
+            array (
+                'id' => 236,
+                'key' => 'country_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:45',
+                'updated_at' => '2017-08-07 20:42:45',
+            ),
+            133 => 
+            array (
+                'id' => 237,
+                'key' => 'emarketing_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:45',
+                'updated_at' => '2017-08-07 20:42:45',
+            ),
+            134 => 
+            array (
+                'id' => 238,
+                'key' => 'tracking_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:45',
+                'updated_at' => '2017-08-07 20:42:45',
+            ),
+            135 => 
+            array (
+                'id' => 239,
+                'key' => 'affiliate_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:45',
+                'updated_at' => '2017-08-07 20:42:45',
+            ),
+            136 => 
+            array (
+                'id' => 240,
+                'key' => 'e_commerceList_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:45',
+                'updated_at' => '2017-08-07 20:42:45',
+            ),
+            137 => 
+            array (
+                'id' => 241,
+                'key' => 'advance_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:45',
+                'updated_at' => '2017-08-07 20:42:45',
+            ),
+            138 => 
+            array (
+                'id' => 242,
+                'key' => 'bookmark_init_perday',
+                'table_name' => 'bookmark',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:49',
+                'updated_at' => '2017-08-07 20:42:49',
+            ),
+            139 => 
+            array (
+                'id' => 243,
+                'key' => 'bookmark_limit_perday',
+                'table_name' => 'bookmark',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 20:42:49',
+                'updated_at' => '2017-08-07 20:42:49',
+            ),
+            140 => 
+            array (
+                'id' => 244,
+                'key' => 'e_commerce_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-07 21:54:43',
+                'updated_at' => '2017-08-07 21:54:43',
+            ),
+            141 => 
+            array (
+                'id' => 245,
+                'key' => 'objective_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-14 10:37:21',
+                'updated_at' => '2017-08-14 10:37:21',
+            ),
+            142 => 
+            array (
+                'id' => 246,
+                'key' => 'advance_audience_search',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-14 10:37:21',
+                'updated_at' => '2017-08-14 10:37:21',
+            ),
+            143 => 
+            array (
+                'id' => 247,
+                'key' => 'audience_age_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-14 10:37:21',
+                'updated_at' => '2017-08-14 10:37:21',
+            ),
+            144 => 
+            array (
+                'id' => 248,
+                'key' => 'audience_gender_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-14 10:37:21',
+                'updated_at' => '2017-08-14 10:37:21',
+            ),
+            145 => 
+            array (
+                'id' => 249,
+                'key' => 'browse_refunds',
+                'table_name' => 'refunds',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-26 12:08:59',
+                'updated_at' => '2017-08-26 12:08:59',
+            ),
+            146 => 
+            array (
+                'id' => 250,
+                'key' => 'read_refunds',
+                'table_name' => 'refunds',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-26 12:08:59',
+                'updated_at' => '2017-08-26 12:08:59',
+            ),
+            147 => 
+            array (
+                'id' => 251,
+                'key' => 'edit_refunds',
+                'table_name' => 'refunds',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-26 12:08:59',
+                'updated_at' => '2017-08-26 12:08:59',
+            ),
+            148 => 
+            array (
+                'id' => 252,
+                'key' => 'add_refunds',
+                'table_name' => 'refunds',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-26 12:08:59',
+                'updated_at' => '2017-08-26 12:08:59',
+            ),
+            149 => 
+            array (
+                'id' => 253,
+                'key' => 'delete_refunds',
+                'table_name' => 'refunds',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-08-26 12:08:59',
+                'updated_at' => '2017-08-26 12:08:59',
+            ),
+            150 => 
+            array (
+                'id' => 254,
+                'key' => 'audience_interest_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-10-10 22:51:27',
+                'updated_at' => '2017-10-10 22:51:27',
+            ),
+            151 => 
+            array (
+                'id' => 255,
+                'key' => 'search_mode_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-10-10 22:51:27',
+                'updated_at' => '2017-10-10 22:51:27',
+            ),
+            152 => 
+            array (
+                'id' => 256,
+                'key' => 'first_time_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-10-10 22:51:27',
+                'updated_at' => '2017-10-10 22:51:27',
+            ),
+            153 => 
+            array (
+                'id' => 257,
+                'key' => 'last_time_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-10-10 22:51:27',
+                'updated_at' => '2017-11-16 10:01:13',
+            ),
+            154 => 
+            array (
+                'id' => 258,
+                'key' => 'rang_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-10-10 22:51:27',
+                'updated_at' => '2017-10-10 22:51:27',
+            ),
+            155 => 
+            array (
+                'id' => 259,
+                'key' => 'save_ad_count',
+                'table_name' => 'bookmark',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-10-10 22:51:31',
+                'updated_at' => '2017-10-10 22:51:31',
+            ),
+            156 => 
+            array (
+                'id' => 260,
+                'key' => 'search_limit_keys_perday',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-10-31 10:46:04',
+                'updated_at' => '2017-10-31 10:46:04',
+            ),
+            157 => 
+            array (
+                'id' => 261,
+                'key' => 'search_limit_without_keys_perday',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-10-31 10:46:04',
+                'updated_at' => '2017-10-31 10:46:04',
+            ),
+            158 => 
+            array (
+                'id' => 262,
+                'key' => 'search_without_key_total_perday',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-10-31 10:46:06',
+                'updated_at' => '2017-10-31 10:46:06',
+            ),
+            159 => 
+            array (
+                'id' => 263,
+                'key' => 'search_key_total_perday',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-10-31 10:46:06',
+                'updated_at' => '2017-10-31 10:46:06',
+            ),
+            160 => 
+            array (
+                'id' => 264,
+                'key' => 'hot_search_times_perday',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-10-31 10:46:06',
+                'updated_at' => '2017-10-31 10:46:06',
+            ),
+            161 => 
+            array (
+                'id' => 265,
+                'key' => 'specific_adser_times_perday',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-10-31 10:46:07',
+                'updated_at' => '2017-10-31 10:46:07',
+            ),
+            162 => 
+            array (
+                'id' => 266,
+                'key' => 'view_count_sort',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-11-01 23:23:14',
+                'updated_at' => '2017-11-01 23:23:14',
+            ),
+            163 => 
+            array (
+                'id' => 267,
+                'key' => 'default_filter',
+                'table_name' => 'Advertisement',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-11-06 23:08:20',
+                'updated_at' => '2017-11-06 23:08:20',
+            ),
+            164 => 
+            array (
+                'id' => 268,
+                'key' => 'browse_permissions',
+                'table_name' => 'permissions',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-11-16 09:57:32',
+                'updated_at' => '2017-11-16 09:57:32',
+            ),
+            165 => 
+            array (
+                'id' => 269,
+                'key' => 'read_permissions',
+                'table_name' => 'permissions',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-11-16 09:57:32',
+                'updated_at' => '2017-11-16 09:57:32',
+            ),
+            166 => 
+            array (
+                'id' => 270,
+                'key' => 'edit_permissions',
+                'table_name' => 'permissions',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-11-16 09:57:32',
+                'updated_at' => '2017-11-16 09:57:32',
+            ),
+            167 => 
+            array (
+                'id' => 271,
+                'key' => 'add_permissions',
+                'table_name' => 'permissions',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-11-16 09:57:32',
+                'updated_at' => '2017-11-16 09:57:32',
+            ),
+            168 => 
+            array (
+                'id' => 272,
+                'key' => 'delete_permissions',
+                'table_name' => 'permissions',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-11-16 09:57:32',
+                'updated_at' => '2017-11-16 09:57:32',
+            ),
+            169 => 
+            array (
+                'id' => 273,
+                'key' => 'adser_without_key_total_perday',
+                'table_name' => 'advertiser',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-12-02 18:04:37',
+                'updated_at' => '2017-12-02 18:04:37',
+            ),
+            170 => 
+            array (
+                'id' => 274,
+                'key' => 'adser_key_total_perday',
+                'table_name' => 'advertiser',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-12-02 18:04:37',
+                'updated_at' => '2017-12-02 18:04:37',
+            ),
+            171 => 
+            array (
+                'id' => 275,
+                'key' => 'adser_limit_keys_perday',
+                'table_name' => 'advertiser',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-12-02 18:04:37',
+                'updated_at' => '2017-12-02 18:04:37',
+            ),
+            172 => 
+            array (
+                'id' => 276,
+                'key' => 'adser_limit_without_keys_perday',
+                'table_name' => 'advertiser',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-12-02 18:04:37',
+                'updated_at' => '2017-12-02 18:04:37',
+            ),
+            173 => 
+            array (
+                'id' => 277,
+                'key' => 'adser_result_per_search',
+                'table_name' => 'advertiser',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-12-02 18:04:37',
+                'updated_at' => '2017-12-02 18:04:37',
+            ),
+            174 => 
+            array (
+                'id' => 278,
+                'key' => 'adser_init_perday',
+                'table_name' => 'advertiser',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-12-02 18:04:37',
+                'updated_at' => '2017-12-02 18:04:37',
+            ),
+            175 => 
+            array (
+                'id' => 279,
+                'key' => 'adser_analysis_perday',
+                'table_name' => 'advertiser',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2017-12-02 18:04:37',
+                'updated_at' => '2017-12-02 18:04:37',
+            ),
+        ));
+        
+        
     }
 }

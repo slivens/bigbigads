@@ -13,4 +13,5 @@ return [
     'bookmark_existed' => 'the bookmark list name had exist',
     'bookmark_can_not_modify' => 'Can not modify this bookmark.',
     'service_term' => 'You need agree terms of service',
+    'effective_email' => 'check user email effective',
 ];

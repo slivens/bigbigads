@@ -58,9 +58,9 @@ class DataTypesTableSeeder extends Seeder
                 'model_name' => 'TCG\\Voyager\\Models\\User',
                 'description' => '',
                 'generate_permissions' => 1,
-                'server_side' => 0,
+                'server_side' => 1,
                 'created_at' => '2017-01-22 16:55:07',
-                'updated_at' => '2017-04-25 15:03:58',
+                'updated_at' => '2017-11-14 21:23:50',
             ),
             3 => 
             array (
@@ -166,6 +166,36 @@ class DataTypesTableSeeder extends Seeder
                 'server_side' => 1,
                 'created_at' => '2017-08-26 12:08:59',
                 'updated_at' => '2017-08-26 22:57:51',
+            ),
+            10 => 
+            array (
+                'id' => 15,
+                'name' => 'permissions',
+                'slug' => 'permissions',
+                'display_name_singular' => '权限',
+                'display_name_plural' => '权限',
+                'icon' => '',
+                'model_name' => 'App\\Permission',
+                'description' => '权限管理',
+                'generate_permissions' => 1,
+                'server_side' => 1,
+                'created_at' => '2017-11-16 09:57:32',
+                'updated_at' => '2017-11-16 09:58:48',
+            ),
+            11 => 
+            array (
+                'id' => 16,
+                'name' => 'policies',
+                'slug' => 'policies',
+                'display_name_singular' => '策略',
+                'display_name_plural' => '策略',
+                'icon' => '',
+                'model_name' => 'App\\Policy',
+                'description' => '',
+                'generate_permissions' => 1,
+                'server_side' => 1,
+                'created_at' => '2017-12-05 18:57:12',
+                'updated_at' => '2017-12-05 18:57:12',
             ),
         ));
         
