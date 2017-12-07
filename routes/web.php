@@ -146,9 +146,6 @@ Route::group(['middleware'=>'auth'], function() {
     Route::get('/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
     Route::patch('users/change_profile', 'UserController@changeProfile');
     Route::get('/bookmark/default', 'BookmarkController@getDefault');
-    Route::get('/service_term/update_version', function () {
-        return date('Y-m-d H:i:s');
-    });
 });
 
 //pay页面需要支持不登录可访问

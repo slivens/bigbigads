@@ -14,21 +14,19 @@ controller.$inject = ['$scope', '$uibModalInstance', 'User']
 
 const module = angular.module(MODULE_NAME, ['bba.core'])
 
-// 从良好的分层角度考虑，factory, service管逻辑，而不管任何关于UI显示的内容。
-// 但是angular中，所有的依赖都需要通过注入完成，所以像弹出对话框这种涉及UI操作的功能，最终也必须以factory的形式导出才有办法让其他模块引用
-module.factory('Terms', ['$uibModal', 'User', function($uibModal, User) {
+// 服务协议弹出框体,如果点击确认，get一个路由，然后重置整个页面
+module.factory('Terms', ['$uibModal', function($uibModal) {
     let terms = {
         open: function() {
             return $uibModal.open({
                 template,
                 size: 'xs',
                 animation: true,
-                controller: ['$scope', '$http', 'SweetAlert', '$uibModalInstance', '$location', function($scope, $http, SweetAlert, $uibModalInstance, $location) {
+                controller: ['$scope', '$http', '$uibModalInstance', function($scope, $http, $uibModalInstance) {
                     $scope.enter = function() {
-                        SweetAlert.swal('您同意了条款')
                         $uibModalInstance.dismiss("cancel")
                         $http.get('/service_term/update_version').then(function() {
-                            $location.search({})
+                            window.location.reload()
                         })
                     }
                 }]
