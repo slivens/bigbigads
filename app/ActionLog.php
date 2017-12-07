@@ -106,6 +106,11 @@ class ActionLog extends Model
     const ACTION_AD_ANALYSIS_TIMES_PERDAY = "AD_ANALYSIS_TIMES_PERDAY";
 
     /*
+     * 记录用户触发无有效邮箱导致的搜索限制
+     */
+    const ACTION_CHECK_EMAIL_EFFECTIVE = 'CHECK_EMAIL_EFFECTIVE';
+    
+    /*
      * 广告主搜索页行为记录
      */
     const ACTION_ADSER_WITHOUT_KEY_RESTRICT       = 'ADSER_WITHOUT_KEY_RESTRICT';

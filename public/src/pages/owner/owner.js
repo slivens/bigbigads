@@ -17,9 +17,10 @@ import 'ion-rangeslider/css/ion.rangeSlider.skinModern.css'
 import 'ion-rangeslider'
 import './owner.scss'
 import template from './owner.html'
+import '../../components/permission-reminder'
 
 export default (angular) => {
-    return angular.module('owner', ['MetronicApp', 'daterangepicker', 'akoenig.deckgrid', 'infinite-scroll']).controller('AdserController', ['$rootScope', '$scope', 'settings', '$http', 'Searcher', '$filter', 'SweetAlert', '$state', 'Util', '$stateParams', 'User', '$location', function($rootScope, $scope, settings, $http, Searcher, $filter, SweetAlert, $state, Util, $stateParams, User, $location) {
+    return angular.module('owner', ['MetronicApp', 'daterangepicker', 'akoenig.deckgrid', 'infinite-scroll', 'bba.ui.reminder']).controller('AdserController', ['$rootScope', '$scope', 'settings', '$http', 'Searcher', '$filter', 'SweetAlert', '$state', 'Util', '$stateParams', 'User', '$location', 'Reminder', function($rootScope, $scope, settings, $http, Searcher, $filter, SweetAlert, $state, Util, $stateParams, User, $location, Reminder) {
         $scope.settings = settings
         // 搜索流程:location.search->searchOption->adSearcher.params
         // 将搜索参数转换成url的query，受限于url的长度，不允许直接将参数json化
@@ -366,6 +367,9 @@ export default (angular) => {
                     case -4100:
                         $scope.isRestrict = true
                         User.openSearchResultUpgrade()
+                        break
+                    case -4999:
+                        Reminder.openRemindActiveEmail()
                         break
                     case -5000:
                         $scope.isFreeze = true

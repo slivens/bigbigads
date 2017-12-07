@@ -12,4 +12,5 @@ return [
     'bookmark_length_limit' => 'The bookmark list name must be at least 1 characters and no more 25 characters.',
     'bookmark_existed' => 'the bookmark list name had exist',
     'bookmark_can_not_modify' => 'Can not modify this bookmark.',
+    'effective_email' => 'check user email effective',
 ];

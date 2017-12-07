@@ -673,6 +673,11 @@ class User extends Authenticatable
         }
     }
 
+    public function isFree()
+    {
+        return $this->hasRole('Free');
+    }
+
     public function checkEmailValidity($email)
     {
         if (!$email) return;
