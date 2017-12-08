@@ -28,9 +28,9 @@ class VerifyCodeMail extends Mailable
     {
         $user = $this->user;
         $host = config('app.url');
-        // 不新增字段，改为存入缓存中，过期时间暂定为10分钟
+        // 不新增字段，改为存入缓存中，过期时间改为2天
         $verifyCode = str_random(40);
-        $expiresAt = Carbon::now()->addMinutes(10);
+        $expiresAt = Carbon::now()->addDays(2);
         $userCode = 'verifyCode_'.$user->id;
         // 重新发起发送验证邮箱邮件,上一次的验证码即时未过期也强制删除,重新创建
         if (Cache::get($userCode)) {
