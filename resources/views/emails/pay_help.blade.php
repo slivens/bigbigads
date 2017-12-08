@@ -14,29 +14,37 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2" style="padding-top: 20px">
+                                <td colspan="2" style="padding-top: 20px, line-height: 24px; font-size: 16px; color: #444">
                                 
-                                    <p style="font-size: 22px;line-height: 26px;color: #444">Hi, </p>
+                                    <p>Hi, </p>
 
-                                    <p style="font-size: 22px;line-height: 26px;color: #444">Thank you for your support.</p>
+                                    <p>Thank you for your support.</p>
 
-                                    <p style="font-size: 22px;line-height: 26px;color: #444">Please kindly edit your business info on the billing page and download your invoice 7-days later.</p>
+                                    <p>Please kindly edit your business info on the billing page and download your invoice 7-days later.</p>
+                                    <ul style="margin: 20px 0;">
+                                        <li style="list-style-type: disc;">
+                                            <p>Check help center: 
+                                                <a href="http://support.bigbigads.com/" target="_blank">http://support.bigbigads.com/</a>
+                                            </p>
+                                        </li>
+                                        <li style="list-style-type: disc;">
+                                            <p>Download extension: 
+                                                <a href="https://www.bigbigads.com/extension" target="_blank">https://www.bigbigads.com/extension</a></p></li>
+                                        <li style="list-style-type: disc;">
+                                            <p>Check review video: 
+                                                <a href="https://www.youtube.com/watch?v=nW55vvBPlOw" target="_blank">https://www.youtube.com/watch?v=nW55vvBPlOw</a>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                    <p>Make sure you turn off the ad blocker so you won't have any difficulty when using the service.</p>
 
-                                    <p style="font-size: 22px;line-height: 26px;color: #444">Check help center: http://support.bigbigads.com/ </p>
+                                    <p>Also, turn off the "show sponsored post only" button on the extension once you finish your marketing research so you can see the nomal post on your newsfeed. </p>
 
-                                    <p style="font-size: 22px;line-height: 26px;color: #444">Download extension: https://www.bigbigads.com/extension</p>
+                                    <p>Let us know if you have any difficulty using the service.</p>
 
-                                    <p style="font-size: 22px;line-height: 26px;color: #444">Check review video: https://www.youtube.com/watch?v=nW55vvBPlOw </p>
-
-                                    <p style="font-size: 22px;line-height: 26px;color: #444">Make sure you turn off the ad blocker so you won't have any difficulty when using the service.</p>
-
-                                    <p style="font-size: 22px;line-height: 26px;color: #444">Also, turn off the "show sponsored post only" button on the extension once you finish your marketing research so you can see the nomal post on your newsfeed. </p>
-
-                                    <p style="font-size: 22px;line-height: 26px;color: #444">Let us know if you have any difficulty using the service.</p>
-
-                                    <p style="font-size: 22px;line-height: 26px;color: #444">Best,</p>
+                                    <p>Best,</p>
                                     
-                                    <p style="font-size: 22px;line-height: 26px;color: #444">BIGBIGADS TEAM</p>
+                                    <p style="font-size: 18px; color: #555; font-weight: 600">BIGBIGADS TEAM</p>
                                 </td>
                             </tr>
                         </table>
@@ -59,10 +67,10 @@
                                     <p style="font-size: 12px;text-align: left;color: #444">
                                         171&nbsp;&nbsp;WANCHAI&nbsp;ROAD,&nbsp;WANCHAI HONG KONG</p>
                                     <p>
-                                        <a href="http://www.bigbigads.com/blog">Blog</a>
+                                        <a href="http://support.bigbigads.com/" target="_blank">Help Center</a>
                                         &nbsp;.&nbsp;
                                         <a href="http://www.bigbigads.com/privacy_policy" target="_blank">Privacy Policy</a>
-                                        &nbsp;.&nbsp;<a href="http://www.bigbigads.com/terms_service" target="_blank">Terms &amp; Conditions</a>
+                                        &nbsp;.&nbsp;<a href="http://www.bigbigads.com/terms_service" target="_blank">Terms of Service</a>
                                     </p>
                                 </td>
                             </tr>
