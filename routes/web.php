@@ -125,6 +125,8 @@ Route::get(
 Route::get('/userinfo', 'UserController@logInfo');
 Route::get('/registerVerify', 'UserController@registerVerify');
 Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
+// 有效邮箱激活路由
+Route::get('/subscription_email/verify', 'UserController@subEmailVerify');
 
 Route::get('/plans', 'SubscriptionController@plans');
 
@@ -145,6 +147,7 @@ Route::group(['middleware'=>'auth'], function() {
     Route::post('/users/customize_invoice', 'UserController@setInvoiceCustomer');
     Route::get('/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
     Route::patch('users/change_profile', 'UserController@changeProfile');
+    Route::post('/users/send-email', 'UserController@sendVerifyMailToSubEmail');
     Route::get('/bookmark/default', 'BookmarkController@getDefault');
 });
 
@@ -254,3 +257,7 @@ Route::post('/filter-record', 'UserController@filterLogRecord');
 
 // 以后会在新增新的反馈收集，就统一处理反馈的控制器及其具体的反馈收集项
 Route::post('/feedback/plan', 'FeedbackController@plan')->middleware('throttle:30,60');
+
+Route::get('/advertisers', 'AdvertisersController@getPublishers');
+Route::get('/advertisers/{facebookId}', 'AdvertisersController@getPublisherAnalysis');
+Route::get('/advertisers/{facebookId}/{adRank}', 'AdvertisersController@getTopAds');

@@ -4,6 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\ActionLog;
+use App\Jobs\SendRegistMail;
 
 /**
  * 注册单元测试：
@@ -35,6 +36,8 @@ class SignupTest extends TestCase
      */
     public function testBasic()
     {
+        // 正常注册测试不希望触发发送邮件的Job，发送注册邮件Job由SendRegistMailJobTest单独测试
+        $this->expectsJobs(SendRegistMail::class);
         $faker = app('Faker\Generator');
         $this->signup($faker->unique()->safeEmail, $faker->username);
     }

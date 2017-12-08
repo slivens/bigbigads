@@ -12,12 +12,18 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     protected $baseUrl = 'http://localhost';
 
+    public function __construct()
+    {
+        $dotenv = new Dotenv\Dotenv(__DIR__ . '/../', '.' . getenv('APP_ENV') . '.env'); 
+        $dotenv->load();
+    }
+
     /**
      * 创建指定角色的用户
      */
-    public function fakeUser($roleName = 'Free')
+    public function fakeUser($roleName = 'Free', $fields = [])
     {
-        $user = factory(App\User::class)->create(['email' => 'faker@bigbigads.com']);
+        $user = factory(App\User::class)->create($fields);
         if (!($user instanceof User)) {
            $this->assertTrue(false);
            return; 

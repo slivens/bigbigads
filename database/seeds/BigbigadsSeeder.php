@@ -68,11 +68,25 @@ class BigbigadsSeeder extends Seeder
     public function insertAdsersPermissions(&$roles)
     {
         $advertiserPermission = [
-            'adser_search'              => [false, false, false, true,  false, false, false],
-            'adser_search_times_perday' => [true,  true,  true,  true,  true,  true,  true]
+            'adser_search'                      => [false, true,  true,  true,  false, false, false],
+            'adser_search_times_perday'         => [true,  true,  true,  true,  true,  true,  true],
+            'adser_without_key_total_perday'    => [true,  true,  true,  true,  true,  true,  true],
+            'adser_key_total_perday'            => [true,  true,  true,  true,  true,  true,  true],
+            'adser_limit_keys_perday'           => [true,  true,  true,  true,  true,  true,  true],
+            'adser_limit_without_keys_perday'   => [true,  true,  true,  true,  true,  true,  true],
+            'adser_result_per_search'           => [true,  true,  true,  true,  true,  true,  true],
+            'adser_init_perday'                 => [true,  true,  true,  true,  true,  true,  true],
+            'adser_analysis_perday'             => [true,  true,  true,  true,  true,  true,  true],
         ];
         $policies = [
-            'adser_search_times_perday' => [Policy::DAY, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+            'adser_without_key_total_perday'    => [Policy::DAY, 0, 200, 200, 200, 0, 0, 0],                // 广告主空词每日请求总数
+            'adser_key_total_perday'            => [Policy::DAY, 0, 500, 500, 500, 0, 0, 0],                // 广告主非空词每日请求总数
+            'adser_limit_keys_perday'           => [Policy::DAY, 0, 1000, 1000, 1000, 0, 0, 0],             // 广告主非空词下拉请求每日统计
+            'adser_limit_without_keys_perday'   => [Policy::DAY, 0, 1000, 1000, 1000, 0, 0, 0],             // 广告主空词下拉请求每日统计
+            'adser_result_per_search'           => [Policy::DAY, 0, 300, 300, 300, 0, 0, 0],                // 广告主搜索单个结果最大数量
+            'adser_init_perday'                 => [Policy::DAY, 0, 1000, 1000, 1000, 0, 0, 0],             // 广告主页面初始化每日统计
+            'adser_search_times_perday'         => [Policy::DAY, 0, 200, 200, 200, 0, 0, 0],                // 广告主非空词每日搜索请求数
+            'adser_analysis_perday'             => [Policy::DAY, 0, 200, 200, 200, 0, 0, 0],                // 广告主分析每日请求数
         ];
         // $this->insertPermissions("advertiser", $advertiser, $advertiserPermission, $roles);
         $this->insertPermissions("advertiser", $advertiserPermission, $roles);
@@ -256,7 +270,7 @@ class BigbigadsSeeder extends Seeder
             'search_without_key_total_perday'   => [true,  true,  true,  true,  true,  true,  true],    // 空词搜索请求每日统计
             'search_key_total_perday'           => [true,  true,  true,  true,  true,  true,  true],    // 非空词搜索请求每日统计
             'hot_search_times_perday'           => [true,  true,  true,  true,  true,  true,  true],    // 热词搜索请求每日统计
-            'specific_adser_times_perday'       => [true,  true,  true,  true,  true,  true,  true],    // 热词搜索请求每日统计
+            'specific_adser_times_perday'       => [true,  true,  true,  true,  true,  true,  true],    // 特定广告主搜索请求每日统计
         ];
         //给权限指定策略，策略数组的第一个数值表示策略类型，Policy::DAY表示按天累计，Policy::VALUE表示是一个固定值，Policy::PERMANENT表示永久累计，后面数值同上。需要注意的是，只有角色有对应的权限，才会有检查策略。
         $searchPolicy = [
@@ -274,7 +288,7 @@ class BigbigadsSeeder extends Seeder
             'search_without_key_total_perday'   => [Policy::DAY, 100, 600, 5000, 5000, 5000, 5000, 300],    // 空词每日请求总数
             'search_key_total_perday'           => [Policy::DAY, 100, 800, 5000, 5000, 5000, 5000, 500],    // 非空词每日请求总数
             'hot_search_times_perday'           => [Policy::DAY, 5000, 5000, 5000, 5000, 5000, 5000, 5000],
-            'specific_adser_times_perday'       => [Policy::DAY, 100, 600, 5000, 5000, 5000, 5000, 300],   // 广告主下所有广告请求总数
+            'specific_adser_times_perday'       => [Policy::DAY, 100, 600, 5000, 5000, 5000, 5000, 300],    // 广告主下所有广告请求总数
         ];
         // $this->insertPermissions('Advertisement', $search, $searchPermission,  $roles);
         $this->insertPermissions('Advertisement', $searchPermission,  $roles);
@@ -302,25 +316,27 @@ class BigbigadsSeeder extends Seeder
             //创建角色,有几档权限（未登陆与第一档合用Free权限)就有几个角色，如果要增加角色。就扩展该数组即可。
             //需要注意的是，数组是[key=>value]形式。一旦执行填充命令，key部分就不能改，否则用户已经绑定的角色将失效。因此下面的Free,Standard,Advanced,Pro的key部分都不应该改动。
             $roleNames = [
-                "Free"                  => "Free",
-                "Standard"              => "Standard",
-                "Advanced"              => "Plus",
-                "Pro"                   => "Premium",
-                "OuterTester"           => "OuterTester",
-                "OuterTester_feishu"    => "OuterTester_feishu",
-                "Lite"                  => "Lite"
+                "Free"                  => [3, "Free"],
+                "Standard"              => [4, "Standard"],
+                "Advanced"              => [5, "Plus"],
+                "Pro"                   => [6, "Premium"],
+                "OuterTester"           => [7, "OuterTester"],
+                "OuterTester_feishu"    => [8, "OuterTester_feishu"],
+                "Lite"                  => [10, "Lite"]
             ];
             $roles = [];
             foreach($roleNames as $key=>$item) {
                 if (Role::where('name', $key)->count() > 0) {
                     $role = Role::where('name', $key)->first();
-                    $role->update(['display_name' => $item]);
+                    // 所有该role的用户的role_id应该跟着变成新的role id
+                    $role->update(['id' => $item[0], 'display_name' => $item[1]]);
                     /* $role->cleanCache(); */
                     array_push($roles, $role);
                 } else {
                     array_push($roles, Role::create([
+                        'id' => $item[0],
                         'name' => $key,
-                        'display_name' => $item
+                        'display_name' => $item[1]
                     ]));
                 }
             }
@@ -365,16 +381,17 @@ class BigbigadsSeeder extends Seeder
             }
         }
 
-        $this->command->getOutput()->writeln("<info>Generate cache for Roles and fix Users's usage</info>");
+        $this->command->getOutput()->writeln("<info>Generate cache for Roles</info>");
         // 重新为所有角色生成cache(必需的操作，用户只从缓存中读取权限数据)
         foreach ($roles as $role) {
             $role->generateCache();
         }
+        // 2017-12-05:下面不需要执行了，用户读取usage已经修改为实时从Role和User中读取
         // 对所有用户重新初始化它们的usage(只有真正变化的用户才会被更新，只更新初始化，它们的用量是保持的)
-        User::chunk(100, function ($users) {
-            foreach ($users as $user) {
-                $user->reInitUsage();
-            }
-        });
+        /* User::chunk(100, function ($users) { */
+        /*     foreach ($users as $user) { */
+        /*         $user->reInitUsage(); */
+        /*     } */
+        /* }); */
     }
 }
