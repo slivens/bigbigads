@@ -9,6 +9,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\User;
 use Cache;
 use Carbon\Carbon;
+use App\Jobs\LogAction;
+use App\ActionLog;
 
 class VerifyCodeMail extends Mailable
 {
@@ -37,8 +39,11 @@ class VerifyCodeMail extends Mailable
             Cache::forget($userCode);
         }
         Cache::put($userCode, $verifyCode, $expiresAt);
+        // 由于采用缓存无法采用其他方式获知激活链接，存入action_log，当用户接收不到邮件时用于补救激活邮件
+        $link = "{$host}subscription_email/verify?token={$verifyCode}&subEmail={$user->subscription_email}";
+        dispatch(new LogAction(ActionLog::ACTION_EMAIL_EFFECTIVE_URL, $link, '', $user->id, ''));
         return ['name' => $user->name,
-                'link' => "{$host}subscription_email/verify?token={$verifyCode}&subEmail={$user->subscription_email}"
+                'link' => $link
                ];
     }
     /**
