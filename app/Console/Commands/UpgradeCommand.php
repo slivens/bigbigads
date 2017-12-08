@@ -44,7 +44,20 @@ class UpgradeCommand extends Command
      */
     public function handle()
     {
-        if ($this->option('generate')) {
+        if ($this->option('menus')) {
+            if ($this->option('recovery')) {
+                $this->seed(\DataTypesTableSeeder::class);
+                $this->seed(\DataRowsTableSeeder::class);
+                $this->seed(\MenusTableSeeder::class);
+                $this->seed(\MenuItemsTableSeeder::class);
+                $this->comment('menu recoveried');
+            } else {
+                $this->call('iseed', [
+                    'tables' => 'data_types,data_rows,menus,menu_items',
+                    '--force' => true
+                ]);
+            }
+        } else if ($this->option('generate')) {
             $this->call('iseed', [
                 'tables' => 'roles,permissions,permission_role,policies,policy_role,policy_user,data_types,data_rows,menus,menu_items',
                 '--force' => true
@@ -72,11 +85,6 @@ class UpgradeCommand extends Command
                 DB::rollBack();
                 $this->comment("something goes wrong, rollback");
             }
-        } else if ($this->option('menus')) {
-            $this->call('iseed', [
-                'tables' => 'data_types,data_rows,menus,menu_items',
-                '--force' => true
-            ]);
         } else {
             $this->error("no operation");
         }

@@ -216,7 +216,7 @@ class AdvertisersController extends Controller
     /**
      * 获取广告top排序前检查
      */
-    protected function checkBeforeGetTopAds($id, $descMode)
+    protected function checkBeforeGetTopAds($request, $id, $descMode)
     {
         $user = Auth::user();
 
@@ -489,7 +489,7 @@ class AdvertisersController extends Controller
         $user = Auth::user();
         if (!$user) throw new \Exception("You should sign in", -4199);
 
-        if (!$this->checkAttack($request, $user)) {
+        if (!$this->checkAttack($req, $user)) {
             throw new \Exception("We detect your ip has abandom behavior", -5000);
         }
 

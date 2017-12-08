@@ -167,6 +167,16 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'text',
                 'order' => 13,
             ),
+            15 => 
+            array (
+                'id' => 19,
+                'key' => 'check_email_validity',
+                'display_name' => '用户邮箱有效性检查',
+                'value' => '1',
+                'details' => '',
+                'type' => 'text',
+                'order' => 14,
+            ),
         ));
         
         
