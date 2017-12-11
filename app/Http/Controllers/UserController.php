@@ -696,4 +696,15 @@ class UserController extends Controller
         }
         return $arrayString;
     }
+
+    /**
+     * 记录前端弹出达到搜索数量最大结果限制的提示语
+     * 便于销售工作
+     */
+    public function resultLogRecord(Request $req)
+    {
+        $user = Auth::user();
+        $jsonData = json_encode($req->except(['action']));
+        dispatch(new LogAction(ActionLog::ACTION_SEARCH_RESULT_NUM_LIMIT, $jsonData, $user->email, $user->id, $req->ip()));
+    }
 }
