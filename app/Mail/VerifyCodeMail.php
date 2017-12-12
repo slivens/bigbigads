@@ -9,6 +9,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\User;
 use Cache;
 use Carbon\Carbon;
+use App\Jobs\LogAction;
+use App\ActionLog;
 
 class VerifyCodeMail extends Mailable
 {
@@ -28,17 +30,20 @@ class VerifyCodeMail extends Mailable
     {
         $user = $this->user;
         $host = config('app.url');
-        // 不新增字段，改为存入缓存中，过期时间暂定为10分钟
+        // 不新增字段，改为存入缓存中，过期时间改为2天
         $verifyCode = str_random(40);
-        $expiresAt = Carbon::now()->addMinutes(10);
+        $expiresAt = Carbon::now()->addDays(2);
         $userCode = 'verifyCode_'.$user->id;
         // 重新发起发送验证邮箱邮件,上一次的验证码即时未过期也强制删除,重新创建
         if (Cache::get($userCode)) {
             Cache::forget($userCode);
         }
         Cache::put($userCode, $verifyCode, $expiresAt);
+        // 由于采用缓存无法采用其他方式获知激活链接，存入action_log，当用户接收不到邮件时用于补救激活邮件
+        $link = "{$host}subscription_email/verify?token={$verifyCode}&subEmail={$user->subscription_email}";
+        dispatch(new LogAction(ActionLog::ACTION_EMAIL_EFFECTIVE_URL, $link, '', $user->id, ''));
         return ['name' => $user->name,
-                'link' => "{$host}subscription_email/verify?token={$verifyCode}&subEmail={$user->subscription_email}"
+                'link' => $link
                ];
     }
     /**
