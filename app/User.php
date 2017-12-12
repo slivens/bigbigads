@@ -15,7 +15,6 @@ use Psy\Exception\ErrorException;
 use Log;
 use Illuminate\Support\Collection;
 use App\Exceptions\GenericException;
-use App\Jobs\SendPayHelpMail;
 
 /**
  * @warning Model中使用Log等服务是错误的用法
@@ -585,11 +584,6 @@ class User extends Authenticatable
             $this->reInitUsage();
             $dirty = true;
             Log::info("{$this->email} role change to {$role->name}, reset usage");
-            // 对成功订阅的用户发送帮助邮件, 排除社交登录无有效邮箱和内部测试使用邮箱
-            // modify by ruanmingzhi
-            if ($this->role > 3 && $this->checkEmailValidity($this->email)) {
-                dispatch(new SendPayHelpMail($this));
-            }
         }
 
         // 过期时间设置为有效订单的结束时间+1天，一个时间段内只会有一个有效订单
@@ -676,14 +670,5 @@ class User extends Authenticatable
     public function isFree()
     {
         return $this->hasRole('Free');
-    }
-
-    public function checkEmailValidity($email)
-    {
-        if (!$email) return;
-        if (!strpos($email, 'bigbigads.com') || !strpos($email, 'bigbigadstest.com')) {
-            return false;
-        }
-        return true;
     }
 }
