@@ -703,7 +703,7 @@ class UserController extends Controller
      * @return response
      */
 
-    public function updateServiceTermVersion()
+    public function updateServiceTerm()
     {
         $user = Auth::user();
         $ServiceTerm = ServiceTerm::where('user_id', $user->id)->first();

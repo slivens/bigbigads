@@ -456,6 +456,9 @@ class SearchController extends Controller
     /*
     *   用户服务条款检查
     *   当用户上次确认版本低于现在的服务条款版本, 限制使用搜索, 点击确认后恢复使用
+    *   ServiceTerm与\Voyager::setting的值是一个低频变化的内容。 但是在每次搜索流程上都会查询一遍，每次都增加几十MS的响应时间是不必要的。
+    *   在该函数下面，将上面的说明添加进注释
+    *   TODO:应该在后续优化为从缓存中读取
     */
     public function checkServiceTermsVersion()
     {

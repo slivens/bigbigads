@@ -14,7 +14,7 @@ controller.$inject = ['$scope', '$uibModalInstance', 'User']
 
 const module = angular.module(MODULE_NAME, ['bba.core'])
 
-// 服务协议弹出框体,如果点击确认，get一个路由，然后重置整个页面
+// 服务协议弹出框体,如果点击确认，post一个路由，然后重置整个页面
 module.factory('Terms', ['$uibModal', function($uibModal) {
     let terms = {
         open: function() {
@@ -25,7 +25,7 @@ module.factory('Terms', ['$uibModal', function($uibModal) {
                 controller: ['$scope', '$http', '$uibModalInstance', function($scope, $http, $uibModalInstance) {
                     $scope.enter = function() {
                         $uibModalInstance.dismiss("cancel")
-                        $http.get('/service_term/update_version').then(function() {
+                        $http.post('/service_term').then(function() {
                             window.location.reload()
                         })
                     }
