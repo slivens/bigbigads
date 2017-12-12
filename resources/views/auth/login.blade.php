@@ -125,7 +125,7 @@
                 </div>
                 <div class="form-group text-center">
                     <!-- <a href="/socialite/github" class="github"><i class="fa fa-github fa-3x"></i></a> -->
-                    <a  data-target="#facebook-err-modal"  data-toggle="modal" class="register-btn register-fb-btn btn  socialite disabled">
+                    <a data-target="#facebook-err-modal" data-toggle="modal" class="register-btn register-fb-btn btn disabled">
                         <i class="fa fa-facebook-square reg-btn-icon"></i>
                         <span class=" reg-btn-text">Log In With Facebook</span>
                     </a>
