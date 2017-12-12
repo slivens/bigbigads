@@ -1,10 +1,10 @@
 <form name="registerForm" id="register-form" class="register-form form-horizontal" ng-submit="processForm(registerForm.$valid)" novalidate>
     <h3 class="form-title">Get the ad intelligence for free!</h3>
     <div class="reg-shortcut-div" ng-show="shortcutReg">
-        <a class="register-fbbtn btn register-btn" ng-href="/socialite/facebook{{trackCode != null ? '?track='+trackCode : ''}}">
+        <!-- <a title="Functional maintenance" class="register-fbbtn btn register-btn" ng-disabled="true">
             <i class="fa fa-facebook-square reg-btn-icon"></i>
-            <span class=" reg-btn-text">Sign Up With Facebook</span>
-        </a>
+            <span class="reg-btn-text">Sign Up With Facebook</span>
+        </a> -->
         <a class="register-inbtn btn register-btn" ng-href="/socialite/linkedin{{trackCode != null ? '?track='+trackCode : ''}}">
             <i class="fa fa-linkedin-square reg-btn-icon"></i>
             <span class=" reg-btn-text">Sign Up With Linkedin</span>
