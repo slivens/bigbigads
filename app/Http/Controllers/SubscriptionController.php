@@ -27,6 +27,7 @@ use App\Jobs\SyncPaymentsJob;
 use App\Jobs\SyncSubscriptionsJob;
 use App\Jobs\LogAction;
 use GuzzleHttp\Client;
+use App\Jobs\SendUserMail;
 
 final class SubscriptionController extends PayumController
 {
