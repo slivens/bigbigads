@@ -228,6 +228,22 @@ export default angular.module('profile', ['MetronicApp', 'bba.ui.active.email'])
                     type: 'error'
                 })
             }
+        }).catch(function(res) {
+            // 422错误，邮箱已经别验证过
+            if (res.data && res.data.code === -1) {
+                SweetAlert.swal({
+                    title: 'Sorry',
+                    text: 'The email you submited has already been verified.',
+                    type: 'error'
+                })
+            } else {
+                // 其他可能的错误
+                SweetAlert.swal({
+                    title: 'Sorry',
+                    text: 'An error occurred. Please try again later!',
+                    type: 'error'
+                })
+            }
         })
         // 计时器, 60秒间隔后才能再点击
         profile.second = 60

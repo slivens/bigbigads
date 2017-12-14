@@ -109,6 +109,7 @@ class ActionLog extends Model
      * 记录用户触发无有效邮箱导致的搜索限制
      */
     const ACTION_CHECK_EMAIL_EFFECTIVE = 'CHECK_EMAIL_EFFECTIVE';
+    const ACTION_EMAIL_EFFECTIVE_URL = 'EMAIL_EFFECTIVE_URL';
     
     /*
      * 广告主搜索页行为记录

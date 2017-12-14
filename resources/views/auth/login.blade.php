@@ -125,7 +125,7 @@
                 </div>
                 <div class="form-group text-center">
                     <!-- <a href="/socialite/github" class="github"><i class="fa fa-github fa-3x"></i></a> -->
-                    <a href="/socialite/facebook" class="register-btn register-fb-btn btn  socialite disabled">
+                    <a data-target="#facebook-err-modal" data-toggle="modal" class="register-btn register-fb-btn btn">
                         <i class="fa fa-facebook-square reg-btn-icon"></i>
                         <span class=" reg-btn-text">Log In With Facebook</span>
                     </a>
@@ -182,10 +182,10 @@
             <form class="register-form" action="{{url('/register')}}" method="post">
                 {{ csrf_field() }}
                 <h3 class="form-title">Sign Up</h3>
-                <a href="/socialite/facebook" class="register-btn register-fb-btn btn  facebook socialite disabled" >
+                <!-- <a title="Functional maintenance" class="register-btn register-fb-btn btn facebook hidden" disabled="disabled">
                     <i class="fa fa-facebook-square reg-btn-icon"></i>
                     <span class=" reg-btn-text">Sign Up With Facebook</span>
-                </a>
+                </a> -->
                 <a href="/socialite/linkedin" class="register-btn register-linkedin-btn btn  socialite disabled">
                     <i class="fa fa-linkedin-square reg-btn-icon"></i>
                     <span class=" reg-btn-text">Sign Up With Linknedin</span>
@@ -277,6 +277,32 @@
 
         <div class="submit-background hidden" id="submit-background">
             <img src="/assets/global/img/ajax-modal-loading.gif" class="img-loading">
+        </div>
+        
+        <!--modal of facebook error-->
+        <div class="modal fade" tabindex="-1" role="dialog" id="facebook-err-modal" data-backdrop="static">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <i class="fa fa-cog fa-spin modal-icon-bg"></i>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-envelope-o modal-title-icon"></i>Announcement</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4 class="ads-weight-600">Dear BIGBIGADS users,</h4>
+                        <br>
+                        <p class="ads-font-16">We are temporarily out of use Facebook to registration or login. We apologize for the short notice and please check <a href="http://support.bigbigads.com/article/why-cant-i-use-my-facebook-account-to-log-in/" target="_blank">http://support.bigbigads.com/article/why-cant-i-use-my-facebook-account-to-log-in/</a> for more information.</p>
+                        <br>
+                        <h4>Thank you,</h4>
+                        <h4>BIGBIGADS TEAM</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn close-btn" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
 
         <script src="{{bba_version('vendor.js')}}" type="text/javascript" defer ></script>
