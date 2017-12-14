@@ -214,13 +214,13 @@ export default (angular) => {
             }
             // engagementsFilter
             angular.forEach(option.engagements, function(item, key) {
-                if ((item.min === "" || item.min === null) || (item.max === "" || item.max === null)) {
-                    $scope.adSearcher.removeFilter(item)
+                if (!item.min && !item.max) {
+                    $scope.adSearcher.removeFilter(key)
                 } else {
                     $scope.adSearcher.addFilter({
-                        field: item,
-                        min: key.min,
-                        max: key.max
+                        field: key,
+                        min: item.min,
+                        max: item.max
                     })
                 }
             })
