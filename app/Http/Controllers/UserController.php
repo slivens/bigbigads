@@ -468,7 +468,7 @@ class UserController extends Controller
     public function filterLogRecord(Request $request)
     {
         $user = Auth::user();
-        if ($user->id != $request->userId) {
+        if (!$user || !$request->userId || $user->id != $request->userId) {
             return ['code' => -1, 'desc' => 'Unauthorised User'];
         }
         dispatch(new LogAction(ActionLog::ACTION_USER_REQUEST_FILTER, json_encode($request->params), '', $user->id, $request->ip()));
