@@ -72,10 +72,10 @@
             <p class="ads-font-28 text-center ads-reg-title">Your online advertising,
                 <br/> at its best. </p>
             <p class="ads-reg-text ads-font-16 text-center">Bigbigads' facebook ad examples make sure you to create your Low-Cost, High-Performance ad campaign. </p>
-            <a class="ads-reg-btn btn socialite reg-with-fb" href="/socialite/facebook">
+            <!-- <a class="ads-reg-btn btn socialite reg-with-fb" href="/socialite/facebook">
                 <i class="fa fa-facebook-square reg-btn-icon"></i>
                 <span class="ads-font-18 reg-btn-text">Sign Up With Facebook</span>
-            </a>
+            </a> -->
             <a class="ads-reg-btn btn socialite reg-with-linkedin" href="/socialite/linkedin">
                 <i class="fa fa-linkedin-square reg-btn-icon"></i>
                 <span class="ads-font-18 reg-btn-text">Sign Up With Linkedin</span>

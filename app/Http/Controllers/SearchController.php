@@ -471,6 +471,7 @@ class SearchController extends Controller
         if (!$emailVerification) return;
         
         // 检查的用户对象为 2017-07-31号之前注册的免费账号
+        if ($user instanceof AnonymousUser) return;
         if (!$user->isFree()) return;
 
         if ($user->isFree() && $user->created_at->gt($checkTime)) return;

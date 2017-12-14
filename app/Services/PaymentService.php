@@ -470,7 +470,6 @@ class PaymentService implements PaymentServiceContract
                 if ($payment->status == Payment::STATE_COMPLETED && is_null($payment->invoice_id)) {
                     // 如果票据未生成执行生成
                     dispatch((new \App\Jobs\GenerateInvoiceJob(Payment::where('number', $payment->number)->get())));//入参类型为Collection
-                    $this->log("generate invoice(payment number: $payment->number) after payment synced", PaymentService::LOG_INFO);
                 }
             }
             // 根据用户过期时间规划是否在指定时间同步该订阅的订单

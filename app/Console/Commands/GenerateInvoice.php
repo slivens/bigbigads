@@ -54,7 +54,6 @@ class GenerateInvoice extends Command
                 10, function ($payments) {
                     $service = app(\App\Contracts\PaymentService::class);
                     foreach ($payments as $p) {
-                        $this->comment("generate $p->number's invoice...");
                         try{
                             $generateResult = $service->generateInvoice($p->number, true);
                             $this->comment("payment(id: $p->number) invoice was generated,invoice id is " . $generateResult);
@@ -68,7 +67,6 @@ class GenerateInvoice extends Command
             $paymentService = app(\App\Contracts\PaymentService::class);
             if ($isForce) {
                 //强制更新，重新生成一个票据
-                $this->comment("the invoice was re-generate");
                 try{
                     $generateResult = $paymentService->generateInvoice($tids, true);
                     $this->comment("payment(id: $tids) invoice was generated,invoice id is " . $generateResult);
