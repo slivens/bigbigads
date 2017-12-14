@@ -41,8 +41,14 @@ class AdvertisersController extends Controller
 
         $client = new Client();
 
-        // $searchResult = $this->getSearchResultParams($params); 访问无法接收到数据,暂不启用
-        $searchResult = 'mobile_adser';
+        $searchResult = $this->getSearchResultParams($params);
+        // $searchResult = 'mobile_adser';
+        // cache_adser 并没有large_photo字段，分情况处理
+        if ($searchResult == 'cache_adser') {
+            $select = 'adser_username,small_photo,ads_number,adser_name,page_verified';
+        } else {
+            $select = 'adser_username,large_photo,ads_number,adser_name,page_verified';
+        }
         $json = [
             'search_result' => $searchResult,
             'limit'         => [($page - 1) * $limit, $limit],
@@ -52,14 +58,14 @@ class AdvertisersController extends Controller
                 'field' => 'ads_number',
                 'order' => 1
             ],
-            'select'        => 'adser_username,large_photo,ads_number,adser_name,page_verified',
+            'select'        => $select,
         ];
 
         $result = $client->request('POST', env('MOBILE_ADSER_SEARCH'), [
             'json' => $json
         ]);
-
-        $result = json_decode($result->getBody(), true);
+        // cache_adser接口返回会带有不可见字符，需要先处理再进行json_decode
+        $result = json_decode(trim($result->getBody()), true);
 
         /*
          * 解析用户页面行为
