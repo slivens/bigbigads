@@ -15,17 +15,15 @@ class SendUserMail implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
     protected $user;
-    protected $forceDefault;
     protected $mailable;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user, $forceDefault = false, $mailable)
+    public function __construct($user, $mailable)
     {
         $this->user = $user;
-        $this->forceDefault = $forceDefault;
         $this->mailable = $mailable;
     }
 

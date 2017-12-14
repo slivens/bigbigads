@@ -22,8 +22,6 @@ use App\Notifications\CancelSubOnSyncNotification;
 use App\Exceptions\GenericException;
 use Mpdf\Mpdf;
 use Storage;
-use App\Jobs\SendUserMail;
-use Illuminate\Support\Facades\Auth;
 
 class PaymentService implements PaymentServiceContract
 {
@@ -546,13 +544,6 @@ class PaymentService implements PaymentServiceContract
         // 切换用户计划
         $subscription->user->fixInfoByPayments();
         $this->log("handle user {$subscription->user->email} payments,fixInfoByPayments() exec finish", PaymentService::LOG_INFO);
-
-        // 对成功订阅的用户发送帮助邮件, 排除社交登录无有效邮箱和内部测试使用邮箱
-        // modify by ruanmingzhi 2017-12-13
-        $user = Auth::user();
-        if ($user &&  $user->role_id > 3 && $this->checkEmailValidity($user->email)) {
-            dispatch(new SendUserMail($user, false, new \App\Mail\PayHelpMail($user)));
-        }
     }
 
 
@@ -1042,14 +1033,5 @@ class PaymentService implements PaymentServiceContract
         $url = storage_path() . '/app/' . $savePath;
         $this->log("download invoice file ,file name is $fileName,download url is $url", PaymentService::LOG_INFO);
         return response()->download($url, $fileName);
-    }
-
-    public function checkEmailValidity($email)
-    {
-        if (!$email) return;
-        if (!strpos($email, 'bigbigads.com') || !strpos($email, 'bigbigadstest.com')) {
-            return false;
-        }
-        return true;
     }
 }

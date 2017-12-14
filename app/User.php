@@ -671,4 +671,13 @@ class User extends Authenticatable
     {
         return $this->hasRole('Free');
     }
+
+    public static function isTestEmail($email)
+    {
+        if (!$email) return false;
+        if (strpos($email, 'bigbigads.com') || strpos($email, 'bigbigadstest.com')) {
+            return false;
+        }
+        return true;
+    }
 }

@@ -27,6 +27,7 @@ use App\Jobs\SyncPaymentsJob;
 use App\Jobs\SyncSubscriptionsJob;
 use App\Jobs\LogAction;
 use GuzzleHttp\Client;
+use App\Jobs\SendUserMail;
 
 final class SubscriptionController extends PayumController
 {
@@ -253,6 +254,12 @@ final class SubscriptionController extends PayumController
         }
 
         $this->paymentService->syncPayments([], $subscription);
+        // 对成功订阅的用户发送帮助邮件, 排除社交登录无有效邮箱和内部测试使用邮箱
+        // modify by ruanmingzhi 2017-12-14
+        $user = Auth::user();
+        if ($user && $user >3 && User::isTestEmail($user->email)) {
+            dispatch(new SendUserMail($user, new \App\Mail\PayHelpMail($user)));
+        }
         // 完成订阅后的/app/profile界面，如果没有成功会自己尝试同步;同时webhook如果有收到，也会去同步。
         /* dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(10))); */
         dispatch((new SyncPaymentsJob($subscription))->delay(Carbon::now()->addSeconds(30)));

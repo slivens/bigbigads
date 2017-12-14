@@ -696,5 +696,4 @@ class UserController extends Controller
         }
         return $arrayString;
     }
-
 }
