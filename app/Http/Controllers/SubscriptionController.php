@@ -28,6 +28,7 @@ use App\Jobs\SyncSubscriptionsJob;
 use App\Jobs\LogAction;
 use GuzzleHttp\Client;
 use App\Jobs\SendUserMail;
+use App\Jobs\SendUnsubscribeMail;
 
 final class SubscriptionController extends PayumController
 {
@@ -486,6 +487,9 @@ final class SubscriptionController extends PayumController
             return ['code' => -1, 'desc' => "cancel failed"];
         }
         dispatch(new LogAction(ActionLog::ACTION_USER_CANCEL, $sub->toJson(), "", $user->id));
+        // 用户申请退订后发送退订邮件到用户邮箱
+        // Todo 通用邮件模板合并进去后需要使用通用jOb发送邮件，并删除该多余的job
+        dispatch(new SendUnsubscribeMail($user));
         return ['code' => 0, 'desc' => 'success'];
     }
 
@@ -510,6 +514,7 @@ final class SubscriptionController extends PayumController
 
     public function requestRefund($no)
     {
+        $user = Auth::user();
         $payment = OurPayment::where('number', $no)->first();
         if (!$payment) {
             return $this->responseError("no such payment $no", -1);
@@ -518,6 +523,7 @@ final class SubscriptionController extends PayumController
             return $this->responseError("you have request refunding before", -1);
         }
         $refund = $this->paymentService->requestRefund($payment);
+        
         return ['code' => 0, 'desc' => 'success'];
     }
 }

@@ -147,6 +147,38 @@
     color: #999;
     font-size: 13px
 }
+// facebook 错误的弹窗
+#facebook-err-modal {
+    .modal-content {
+        position: relative;
+        overflow: hidden;
+        .modal-title-icon {
+            color: #ccc;
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        .modal-icon-bg {
+            position: absolute;
+            font-size: 300px;
+            left: -50px;
+            bottom: -50px;
+            color: rgba(153, 153, 153, 0.23);
+            z-index: 0;
+            -webkit-animation: fa-spin 60s infinite linear;
+            animation: fa-spin 60s infinite linear;
+        }
+        .modal-header, .modal-body, .modal-footer {
+            position: relative;
+        }
+        .close-btn {
+            border-radius: 50vh;
+            border:1px solid #eb6130;
+            background: none;
+            color: #eb6130;
+            padding: 6px 20px;
+        }
+    }
+}
 
 @media (max-width:480px) {
     .login .logo {
