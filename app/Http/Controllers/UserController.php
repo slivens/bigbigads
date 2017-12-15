@@ -27,6 +27,7 @@ use App\ActionLog;
 
 use App\AppRegistersUsers;
 use App\Jobs\SendVerifyCodeMail;
+use App\Subscription;
 
 class UserController extends Controller
 {
@@ -695,5 +696,58 @@ class UserController extends Controller
             }
         }
         return $arrayString;
+    }
+
+    /**
+     * 列表显示被推荐用户的购买情况，包括但不限于用户ID,用户名,plan,购买时间，购买价格。
+     * 用户名对半开，后半截把头5个字符变成*,不够长就后半截全部变*。plan取display name。
+     */
+    public function getPaymentsByAffiliateTrack($track)
+    {
+        $aff = new \App\Affiliate;
+        $user_arr = [
+            'id' => '',
+            'name' => '',
+            'plan' => '',
+            'price' => '',
+            'time' => '',
+        ];
+        $aff_users_arr = [];
+        //$aff_id = $aff::where('track', $track)->value('id');
+        //$aff_user = User::where('affiliate_id', $aff_id)->get();
+        $aff_users = $aff::where('track', $track)->first()->users;
+        if (!$aff_users) {
+            return response()->json([]);
+        }
+        foreach ($aff_users as $user) {
+            $user_arr['id' ] = $user->id;
+            $user_arr['name'] = substr_replace($user->name, '****', 1); // 需要根据用户名最小长度调整
+            $subs = $user->subscriptions;
+            $subs_count = count($subs);
+            if ($subs_count > 0) {
+                foreach ($subs as $sub) {
+                    if ($sub->status != Subscription::STATE_CREATED && $sub->status != Subscription::STATE_SUBSCRIBED) {
+                        /** 非付款状态的订阅不算在内
+                        *  @todo 有一种订阅是首期收款失败就变成cancelled，实际并没有成交金额，要去除
+                        */
+                        $user_arr['plan'] = $sub->getPlan()->display_name;
+                        $user_arr['price'] = $sub->getTotalPaid();
+                        $user_arr['time'] = Carbon::parse($sub->created_at)->toDateTimeString();
+
+                        // 到这里为止单条组装完成
+                        $aff_users_arr[] = $user_arr;
+                    }
+                }
+            } else {
+                // 从未下订阅的用户
+                $user_arr['plan'] = 'Free Level';
+                $user_arr['price'] = 0;
+                $user_arr['time'] = Carbon::parse($user->created_at)->toDateTimeString();
+                $aff_users_arr[] = $user_arr;
+            }
+        }
+        return response()->json(
+            $aff_users_arr
+        );
     }
 }
