@@ -123,4 +123,9 @@ class ActionLog extends Model
     const ACTION_ADSER_SEARCH_TIMES_PERDAY        = 'ADSER_SEARCH_TIMES_PERDAY';
     const ACTION_ADSER_INIT_PERDAY                = 'ADSER_INIT_PERDAY';
     const ACTION_ADSER_ANALYSIS_PERDAY            = 'ADSER_ANALYSIS_PERDAY';
+
+    /*
+     * 记录用户到达搜索词的最大结果限制
+     */
+    const ACTION_SEARCH_RESULT_NUM_LIMIT = 'SEARCH_RESULT_NUM_LIMIT';
 }

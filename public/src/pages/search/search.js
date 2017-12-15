@@ -55,6 +55,7 @@ export default angular => {
                 // SweetAlert.swal("you reached search result limit(" + policy.value + ")");
                 // User.openSearchResultUpgrade();
                     adSearcher.isend = true
+                    User.logReachResultLimit(adSearcher.params)
                     return
                 }
                 adSearcher.getMore('search').catch(function(res) {
@@ -248,7 +249,7 @@ export default angular => {
                 // engagementsFilter
                 angular.forEach(option.engagements, function(item, key) {
                 // 还要排除null值
-                    if ((item.min === "" || item.min === null) || (item.max === "" || item.max === null)) {
+                    if (!item.min && !item.max) {
                         $scope.adSearcher.removeFilter(key)
                     } else {
                         $scope.adSearcher.addFilter({
