@@ -139,6 +139,13 @@ module.factory('User', ['$window', '$http', '$q', '$location', '$rootScope', 'se
                 animation: true,
                 controller: filterDataLimitDlgController
             })
+        },
+        logReachResultLimit: function(params) {
+            $http({
+                method: 'post',
+                url: '/result_record',
+                data: params
+            })
         }
     }
 

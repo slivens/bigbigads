@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Contracts\Bus\Dispatcher;
-use App\Jobs\SendVerifyCodeMail;
+use App\Jobs\SendUnsubscribeMail;
 use App\User;
 
 /**
@@ -17,7 +17,7 @@ use App\User;
  * 如果使用了mailgun，则可通过mailgun自动检查邮件是否送到mailgun;
  * 如果使用的是smtp，则需要自己手动确认邮件发送情况;
  */
-class SendVerifyCodeMailTest extends TestCase
+class SendRegistMailJobTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -29,12 +29,8 @@ class SendVerifyCodeMailTest extends TestCase
         }
         $user = User::where('email', env('USER_EMAIL'))->first();
         $this->assertTrue($user instanceof User);
-        if (!$user->subscription_email) {
-            $this->assertTrue(true);
-            return;
-        }
         // dispatch在测试环境下是sync，可以获取得到返回值
-        $res = app(Dispatcher::class)->dispatchNow(new SendVerifyCodeMail($user));
+        $res = app(Dispatcher::class)->dispatchNow(new SendUnsubscribeMail($user));
         // 这步只能手动测试，如果是Mailgun发送，是否可以自动测试邮件已经送到mailgun？
         if (app('app.service.user')->mailDriver() == 'mailgun') {
             // 200表示邮件已经送到mailgun，而mailgun是否能正确地发送到指定地址，则不属于单元测试的范围

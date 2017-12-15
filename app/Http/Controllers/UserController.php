@@ -469,7 +469,7 @@ class UserController extends Controller
     public function filterLogRecord(Request $request)
     {
         $user = Auth::user();
-        if ($user->id != $request->userId) {
+        if (!$user || !$request->userId || $user->id != $request->userId) {
             return ['code' => -1, 'desc' => 'Unauthorised User'];
         }
         dispatch(new LogAction(ActionLog::ACTION_USER_REQUEST_FILTER, json_encode($request->params), '', $user->id, $request->ip()));
@@ -726,5 +726,16 @@ class UserController extends Controller
         } else {
             return response()->json(['code' => -1, 'desc' => 'error']);
         }
+    }
+    
+    /*
+     * 记录前端弹出达到搜索数量最大结果限制的提示语
+     * 便于销售工作
+     */
+    public function resultLogRecord(Request $req)
+    {
+        $user = Auth::user();
+        $jsonData = json_encode($req->except(['action']));
+        dispatch(new LogAction(ActionLog::ACTION_SEARCH_RESULT_NUM_LIMIT, $jsonData, $user->email, $user->id, $req->ip()));
     }
 }

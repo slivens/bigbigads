@@ -139,6 +139,7 @@ class SearchController extends Controller
             $resultPerSearch = $user->getUsage('result_per_search');
             $isCanSort = true; 
             $adsTypePermissions = ['timeline' => 'timeline_filter', 'rightcolumn' => 'rightcolumn_filter', 'phone' => 'phone_filter', 'suggested app' => 'app_filter'];
+            
             if (!array_key_exists('limit', $params)) {
                 dispatch(new LogAbnormalAction('', json_encode($params), 'lack of limit params', $user->id, $req->ip()));
                 throw new \Exception("Illegal limit params", -4300);
@@ -226,21 +227,7 @@ class SearchController extends Controller
                     if ($obj['field'] == "see_times" && !$user->can('see_times_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
-                    if ($obj['field'] == "likes" && !$user->can('advance_likes_filter')) {
-                        throw new \Exception("no permission of filter", -4001);
-                    }
-                    if ($obj['field'] == "shares" && !$user->can('advance_shares_filter')) {
-                        throw new \Exception("no permission of filter", -4001);
-                    }
-                    if ($obj['field'] == "comments" && !$user->can('advance_comments_filter')) {
-                        throw new \Exception("no permission of filter", -4001);
-                    }
-                    if ($obj['field'] == "views" && !$user->can('advance_video_views_filter')) {
-                        throw new \Exception("no permission of filter", -4001);
-                    }
-                    if ($obj['field'] == "engagements" && !$user->can('advance_engagement_filter')) {
-                        throw new \Exception("no permission of filter", -4001);
-                    }
+                    // todo 新增功能不做优化, 减小审核难度，下次另外提交优化
                     if ($obj['field'] == "tracking" && !$user->can('tracking_filter')) {
                         throw new \Exception("no permission of filter", -4001);
                     }
@@ -285,6 +272,7 @@ class SearchController extends Controller
                             throw new \Exception("no permission of ads type", -4003);
                         }  
                     }
+                    $params['where'][$key] = $this->AutoComplementedAdvanceFilter($key, $obj, $user, $params['where'][$key]);
             }
             //使用数组来处理过滤参数和权限名称不一致的情况比使用switch更优雅。
             $sortPermissions = ['last_view_date' => 'date_sort', 'duration_days' => 'duration_sort', 'engagements' => 'engagements_sort', 'views' => 'views_sort', 'engagements_per_7d' => 'engagement_inc_sort',
@@ -514,6 +502,29 @@ class SearchController extends Controller
             dispatch(new LogAction(ActionLog::ACTION_CHECK_EMAIL_EFFECTIVE, '', trans('messages.effective_email'), $user->id, $req->ip()));
             throw new \Exception("you must effective email", -4999);
         }
+    }
+
+    /**
+     * 支持用户engagement 选项只填入最大值或者最小值，自动填充缺失项
+     * 目前max默认设置为10亿,min默认设置为0
+     */
+    public function AutoComplementedAdvanceFilter($key, $obj, $user, $params) {
+        $advanceFilter = [
+            'likes'         => 'advance_likes_filter',
+            'shares'        => 'advance_shares_filter',
+            'comments'      => 'advance_comments_filter',
+            'views'         => 'advance_video_views_filter',
+            'engagements'   => 'advance_engagement_filter',
+        ];
+        foreach($advanceFilter as $item => $permission) {
+            if ($obj['field'] == $item && !$user->can($permission)) {
+                throw new \Exception("no permission of filter", -4001);
+            } else if ($obj['field'] == $item && $user->can($permission)) {
+                if (!$obj['min'] && $obj['max']) $params['min'] = 0;
+                if ($obj['min'] && !$obj['max']) $params['max'] = 100000000;
+            }
+        }
+        return $params;
     }
 
     public function search(Request $req, $action) {
