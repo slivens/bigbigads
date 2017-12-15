@@ -17,7 +17,7 @@ use App\User;
  * 如果使用了mailgun，则可通过mailgun自动检查邮件是否送到mailgun;
  * 如果使用的是smtp，则需要自己手动确认邮件发送情况;
  */
-class SendRegistMailJobTest extends TestCase
+class SendUnsubscribeMailTest extends TestCase
 {
     use DatabaseTransactions;
 
