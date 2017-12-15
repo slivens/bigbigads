@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Contracts\Bus\Dispatcher;
-use App\Jobs\SendPayHelpMail;
+use App\Jobs\SendUserMail;
 use App\User;
 
 /**
@@ -17,7 +17,7 @@ use App\User;
  * 如果使用了mailgun，则可通过mailgun自动检查邮件是否送到mailgun;
  * 如果使用的是smtp，则需要自己手动确认邮件发送情况;
  */
-class SendPayHelpMailJobTest extends TestCase
+class SendUserMailJobTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -29,7 +29,8 @@ class SendPayHelpMailJobTest extends TestCase
         }
         $user = User::where('email', env('USER_EMAIL'))->first();
         $this->assertTrue($user instanceof User);
-        $res = app(Dispatcher::class)->dispatchNow(new SendPayHelpMail($user));
+        // Todo::该处应该改为可以传参或者测试数据导入的方式
+        $res = app(Dispatcher::class)->dispatchNow(new SendUserMail($user, new \App\Mail\PayHelpMail($user)));
         if (app('app.service.user')->mailDriver() == 'mailgun') {
             $this->assertTrue($res->status == 200);
         }
