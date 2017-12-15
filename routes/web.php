@@ -149,6 +149,7 @@ Route::group(['middleware'=>'auth'], function() {
     Route::patch('users/change_profile', 'UserController@changeProfile');
     Route::post('/users/send-email', 'UserController@sendVerifyMailToSubEmail');
     Route::get('/bookmark/default', 'BookmarkController@getDefault');
+    Route::post('/result_record', 'UserController@resultLogRecord');
 });
 
 //pay页面需要支持不登录可访问

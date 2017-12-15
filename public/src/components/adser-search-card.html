@@ -8,8 +8,11 @@
         </i> -->
         <!-- avatar and adser info -->
         <a ui-sref="adserAnalysis({username:card.adser_username})" target="_blank">
-            <div class="adser-img">
+            <div class="adser-img" ng-if = "card.large_photo">
                 <img src="../../images/input-spinner.gif" lazy-img="{{card.large_photo}}" alt="" class="avatar" type="bba">
+            </div>
+            <div class="adser-img" ng-if = "card.small_photo">
+                <img src="../../images/input-spinner.gif" lazy-img="{{card.small_photo}}" alt="" class="avatar" type="bba">
             </div>
         </a>
         <!-- end avatar and adser info -->
