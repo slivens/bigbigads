@@ -76,7 +76,7 @@ angular.module('MetronicApp').factory('Searcher', ['$http', '$timeout', 'setting
                     var isDirty = false
                     // #issues 11 修复选择0 - 180 无效问题
                     angular.forEach(this.engagements, function(item, index) {
-                        if (((item.min && (item.min != searcher.defFilterOption.engagements[index].min)) && (item.max && (item.max != searcher.defFilterOption.engagements[index].max))) || (item.min === 0 || item.max === 180))
+                        if (((item.min && (item.min != searcher.defFilterOption.engagements[index].min)) || (item.max && (item.max != searcher.defFilterOption.engagements[index].max))) || (item.min === 0 || item.max === 180))
                             isDirty = true
                     })
                     return isDirty
