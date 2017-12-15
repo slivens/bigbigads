@@ -132,13 +132,27 @@ class UserController extends Controller
             // 可能存在affiliate不存在的情况
             if ($affiliate = $user->affiliates()->first()) {
                 // track/click/action三个数据只从第一条affiliate记录取（暂行）
-                $res['user']['affiliateUrl'] = env('APP_URL') . '?track=' . $affiliate->track;
+                /* $res['user']['affiliateUrl'] = env('APP_URL') . '?track=' . $affiliate->track;
                 $res['user']['click'] = $affiliate->click;
-                $res['user']['action'] = $affiliate->action;
+                $res['user']['action'] = $affiliate->action; */
+                $res['user']['affiliate'] = [
+                    'id' => $affiliate->id,
+                    'affiliateUrl' => env('APP_URL') . '?track=' . $affiliate->track,
+                    'track' => $affiliate->track,
+                    'click' => $affiliate->click,
+                    'action' => $affiliate->action,
+                ];
             } else {
-                $res['user']['affiliateUrl'] = false;
+                /* $res['user']['affiliateUrl'] = false;
                 $res['user']['click'] = 0;
-                $res['user']['action'] = 0;
+                $res['user']['action'] = 0; */
+                $res['user']['affiliate'] = [
+                    'id' => false,
+                    'affiliateUrl' => false,
+                    'track' => false,
+                    'click' => 0,
+                    'action' => 0,
+                ];
             }
             $userRetryTime = 'retryTime_'.$user->id;
             $res['user']['retryTime'] = Cache::get($userRetryTime);
@@ -699,10 +713,15 @@ class UserController extends Controller
     }
 
     /**
-     * 列表显示被推荐用户的购买情况，包括但不限于用户ID,用户名,plan,购买时间，购买价格。
-     * 用户名对半开，后半截把头5个字符变成*,不够长就后半截全部变*。plan取display name。
+     * 列表显示被推荐用户的购买情况，包括但不限于用户名,plan,支付金额，购买时间。
+     * 用户名对半开，替换部分字符为*。plan取display name。支付金额为单订阅支付总金额
+     * 前端分页，每页10个。
+     *
+     * @param string $track affiliates表的track字段值，由前端发起请求，作为参数传入
+     * @return response 被推广用户列表或者空数组
+     * @todo 没有推广用户时返回什么?暂时返回空数组，前端欠缺没有推广用户时显示的文案。
      */
-    public function getPaymentsByAffiliateTrack($track)
+    public function getUserListByAffiliateTrack($track)
     {
         $aff = new \App\Affiliate;
         $user_arr = [
@@ -713,15 +732,12 @@ class UserController extends Controller
             'time' => '',
         ];
         $aff_users_arr = [];
-        //$aff_id = $aff::where('track', $track)->value('id');
-        //$aff_user = User::where('affiliate_id', $aff_id)->get();
         $aff_users = $aff::where('track', $track)->first()->users;
         if (!$aff_users) {
             return response()->json([]);
         }
         foreach ($aff_users as $user) {
-            $user_arr['id' ] = $user->id;
-            $user_arr['name'] = substr_replace($user->name, '****', 1); // 需要根据用户名最小长度调整
+            $user_arr['name'] = substr_replace($user->name, '****', 1, 4); // 需要根据用户名最小长度调整
             $subs = $user->subscriptions;
             $subs_count = count($subs);
             if ($subs_count > 0) {
@@ -742,7 +758,7 @@ class UserController extends Controller
                 // 从未下订阅的用户
                 $user_arr['plan'] = 'Free Level';
                 $user_arr['price'] = 0;
-                $user_arr['time'] = Carbon::parse($user->created_at)->toDateTimeString();
+                $user_arr['time'] = '-';
                 $aff_users_arr[] = $user_arr;
             }
         }

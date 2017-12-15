@@ -31,6 +31,7 @@ export default angular.module('profile', ['MetronicApp', 'bba.ui.active.email'])
     }
     profile.init()
     $scope.profile = profile
+    $scope.ceil = Math.ceil
     $scope.$watch('profile.active', function(newValue, oldValue) {
         if (newValue == oldValue)
             return
@@ -63,6 +64,14 @@ export default angular.module('profile', ['MetronicApp', 'bba.ui.active.email'])
             // 打开验证邮箱的编辑框
             $scope.profile.openToggle('openSubscriptionEdit', true)
         }
+
+        // 显示被推广用户的订购详情
+        // 显示用户名(部分隐藏)\plan\累计支付金额\购买时间
+        if (User.info.user.affiliate.track) {
+            $http.get('/affialites/' + User.info.user.affiliate.track + '/payments').then(function(res) {
+                profile.affiliateUsers = res.data.length > 0 ? res.data : false
+            })
+        }
     })
     /*
     * 用户名等编辑框的开关
@@ -72,7 +81,6 @@ export default angular.module('profile', ['MetronicApp', 'bba.ui.active.email'])
     profile.openToggle = function(itme, bool) {
         $scope.profile[itme] = bool
     }
-
     /*
     * 修改用户名
     *
