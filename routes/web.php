@@ -150,8 +150,9 @@ Route::group(['middleware'=>'auth'], function() {
     Route::post('/users/send-email', 'UserController@sendVerifyMailToSubEmail');
     Route::get('/bookmark/default', 'BookmarkController@getDefault');
     Route::post('/result_record', 'UserController@resultLogRecord');
+    Route::get('/affialites/{track}/payments', 'UserController@getUserListByAffiliateTrack');
 });
-Route::get('/affialites/{track}/payments', 'UserController@getUserListByAffiliateTrack');
+
 
 //pay页面需要支持不登录可访问
 Route::get('/pay', 'SubscriptionController@form');

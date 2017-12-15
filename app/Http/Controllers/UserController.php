@@ -724,7 +724,7 @@ class UserController extends Controller
 
     /**
      * 列表显示被推荐用户的购买情况，包括但不限于用户名,plan,支付金额，购买时间。
-     * 用户名对半开，替换部分字符为*。plan取display name。支付金额为单订阅支付总金额
+     * 用户名替换部分字符为*。plan取display name。支付金额为单订阅支付总金额
      * 前端分页，每页10个。
      *
      * @param string $track affiliates表的track字段值，由前端发起请求，作为参数传入
@@ -733,7 +733,7 @@ class UserController extends Controller
      */
     public function getUserListByAffiliateTrack($track)
     {
-        $aff = new \App\Affiliate;
+        //$aff = new \App\Affiliate;
         $user_arr = [
             'id' => '',
             'name' => '',
@@ -742,38 +742,49 @@ class UserController extends Controller
             'time' => '',
         ];
         $aff_users_arr = [];
-        $aff_users = $aff::where('track', $track)->first()->users;
-        if (!$aff_users) {
-            return response()->json([]);
-        }
-        foreach ($aff_users as $user) {
-            $user_arr['name'] = substr_replace($user->name, '****', 1, 4); // 需要根据用户名最小长度调整
-            $subs = $user->subscriptions;
-            $subs_count = count($subs);
-            if ($subs_count > 0) {
-                foreach ($subs as $sub) {
-                    if ($sub->status != Subscription::STATE_CREATED && $sub->status != Subscription::STATE_SUBSCRIBED) {
-                        /** 非付款状态的订阅不算在内
-                        *  @todo 有一种订阅是首期收款失败就变成cancelled，实际并没有成交金额，要去除
-                        */
-                        $user_arr['plan'] = $sub->getPlan()->display_name;
-                        $user_arr['price'] = $sub->getTotalPaid();
-                        $user_arr['time'] = Carbon::parse($sub->created_at)->toDateTimeString();
-
-                        // 到这里为止单条组装完成
-                        $aff_users_arr[] = $user_arr;
-                    }
-                }
-            } else {
-                // 从未下订阅的用户
-                $user_arr['plan'] = 'Free Level';
-                $user_arr['price'] = 0;
-                $user_arr['time'] = '-';
-                $aff_users_arr[] = $user_arr;
+        $aff_info = \App\Affiliate::where('track', $track)->first();
+        // 检查是否为当前用户的affiliate
+        if (!$aff_info || $aff_info->email !== Auth::user()->email) {
+            return response()->json(
+                [
+                    'code' => -1,
+                    'desc' => 'Permission Denied'
+                ]
+            );
+        } else {
+            $aff_users =$aff_info->users;
+            if (!$aff_users) {
+                return response()->json([]);
             }
+            foreach ($aff_users as $user) {
+                $user_arr['name'] = substr_replace($user->name, '****', 1, 4); // 需要根据用户名最小长度调整
+                $subs = $user->subscriptions;
+                $subs_count = count($subs);
+                if ($subs_count > 0) {
+                    foreach ($subs as $sub) {
+                        if ($sub->status != Subscription::STATE_CREATED && $sub->status != Subscription::STATE_SUBSCRIBED) {
+                            /** 非付款状态的订阅不算在内
+                            *  @todo 有一种订阅是首期收款失败就变成cancelled，实际并没有成交金额，要去除
+                            */
+                            $user_arr['plan'] = $sub->getPlan()->display_name;
+                            $user_arr['price'] = '$ ' . $sub->getTotalPaid(); //使用其他货币结算？
+                            $user_arr['time'] = Carbon::parse($sub->created_at)->toDateTimeString();
+
+                            // 到这里为止单条组装完成
+                            $aff_users_arr[] = $user_arr;
+                        }
+                    }
+                } else {
+                    // 从未下订阅的用户
+                    $user_arr['plan'] = 'Free Level';
+                    $user_arr['price'] = 0;
+                    $user_arr['time'] = '-';
+                    $aff_users_arr[] = $user_arr;
+                }
+            }
+            return response()->json(
+                $aff_users_arr
+            );
         }
-        return response()->json(
-            $aff_users_arr
-        );
     }
 }

@@ -66,7 +66,6 @@ export default angular.module('profile', ['MetronicApp', 'bba.ui.active.email'])
         }
 
         // 显示被推广用户的订购详情
-        // 显示用户名(部分隐藏)\plan\累计支付金额\购买时间
         if (User.info.user.affiliate.track) {
             $http.get('/affialites/' + User.info.user.affiliate.track + '/payments').then(function(res) {
                 profile.affiliateUsers = res.data.length > 0 ? res.data : false
