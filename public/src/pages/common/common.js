@@ -1173,15 +1173,8 @@ angular.module('MetronicApp').directive('fancybox', ['$compile', '$timeout', fun
             googleSuggestQueries: function(value) {
                 var query = encodeURI(value)
                 var myUrl = "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&q=" + query + "&callback=JSON_CALLBACK"
-                // var result
                 // 调用谷歌搜索接口,需要使用jsonp方式请求
-                return $http.jsonp(myUrl).success(
-                    function(data) {
-                        return data
-                    }
-                ).error(function(date) {
-                    console.log(date)
-                })
+                return $http.jsonp(myUrl)
             },
             /*
             * 定义的charts配置
