@@ -101,7 +101,8 @@ class LoginController extends Controller
 
     public function showLoginForm(Request $request)
     {
-        if ($request->server('HTTP_REFERER') && $request->server('HTTP_REFERER') != env('APP_URL')) {
+        $httpReferer = $request->server('HTTP_REFERER');
+        if ($httpReferer && $httpReferer != env('APP_URL') && !$this->ignorePath($httpReferer)) {
             return view('auth.login')->with('referer', $request->server('HTTP_REFERER'));
         } else {
             return view('auth.login');
@@ -123,4 +124,28 @@ class LoginController extends Controller
         return redirect('/');
     }
 
+    /**
+     * 记住未登录时的访问页面排除网站自身的静态页面
+     * Todo: 当有新的静态页面新加时需要添加
+     */
+    public function ignorePath($path)
+    {
+        $isWebPath = false;
+        $webPath = [
+            'privacy_policy',
+            'terms_service',
+            'about',
+            'plan',
+            'pricing',
+            'product',
+            'post',
+            'blog',
+        ];
+        foreach($webPath as $key) {
+            if (strpos($path, $key)) {
+                $isWebPath = true;
+            }
+        }
+        return $isWebPath;
+    }
 }
