@@ -15,6 +15,7 @@ use App\ActionLog;
 use Log;
 use App\HotWord;
 use App\Jobs\LogAbnormalAction;
+use App\ServiceTerm;
 
 class SearchController extends Controller
 {
@@ -439,6 +440,24 @@ class SearchController extends Controller
             }
         }
     }
+
+    /*
+    *   用户服务条款检查
+    *   当用户上次确认版本低于现在的服务条款版本, 限制使用搜索, 点击确认后恢复使用
+    *   ServiceTerm与\Voyager::setting的值是一个低频变化的内容。 但是在每次搜索流程上都会查询一遍，每次都增加几十MS的响应时间是不必要的。
+    *   在该函数下面，将上面的说明添加进注释
+    *   TODO:应该在后续优化为从缓存中读取
+    */
+    public function checkServiceTermsVersion()
+    {
+        $user = Auth::user();
+        if (!$user) return;
+        $serviceTerm = ServiceTerm::where('user_id', $user->id)->first();
+        if (!$serviceTerm || $serviceTerm->version != intval(\Voyager::setting('service_terms_version'))) {
+            throw new \Exception(trans('messages.service_term'), -5001);
+        }
+    }
+
     /*
         1.用户包括进入搜索页和下拉滚动条的请求都记录，remark: limit:num
         2.用户空词加上过滤条件时做记录，remark: 搜索结果总数,where
@@ -549,6 +568,7 @@ class SearchController extends Controller
             return $this->responseError("We detect your ip has abandom behavior", -5000);
         }
         try {
+            $this->checkServiceTermsVersion();
             $this->checkEmailIsEffective($req, $user);
         } catch (\Exception $e) {
             return $this->responseError($e->getMessage(),$e->getCode());
