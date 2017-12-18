@@ -26,6 +26,7 @@ use Jenssegers\Agent\Agent;
 use App\ActionLog;
 
 use App\AppRegistersUsers;
+use App\ServiceTerm;
 use App\Jobs\SendVerifyCodeMail;
 
 class UserController extends Controller
@@ -698,6 +699,36 @@ class UserController extends Controller
     }
 
     /**
+     * 更新用户同意的服务条款版本
+     * @return response
+     */
+
+    public function updateServiceTerm()
+    {
+        $user = Auth::user();
+        $ServiceTerm = ServiceTerm::where('user_id', $user->id)->first();
+        $serviceTermsVersion = intval(\Voyager::setting('service_terms_version'));
+
+        // 不存在说明未曾记录同意过服务条款, 创建一条记录
+        if (!($ServiceTerm instanceof ServiceTerm)) {
+            $serviceTerm = ServiceTerm::create();
+            $serviceTerm->user_id = $user->id;
+            $serviceTerm->version = $serviceTermsVersion;
+            $serviceTerm->save();
+            return response()->json(['code' => 0, 'desc' => 'success']);
+        }
+
+        // 小与当前服务条款版本号就更新
+        if ($serviceTermsVersion > $serviceTerm->version) {
+            $serviceTerm->version = $serviceTermsVersion;
+            $serviceTerm->save();
+            return response()->json(['code' => 0, 'desc' => 'success']);
+        } else {
+            return response()->json(['code' => -1, 'desc' => 'error']);
+        }
+    }
+    
+    /*
      * 记录前端弹出达到搜索数量最大结果限制的提示语
      * 便于销售工作
      */

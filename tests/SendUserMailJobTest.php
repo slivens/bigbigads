@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Contracts\Bus\Dispatcher;
-use App\Jobs\SendUnsubscribeMail;
+use App\Jobs\SendUserMail;
 use App\User;
 
 /**
@@ -17,7 +17,7 @@ use App\User;
  * 如果使用了mailgun，则可通过mailgun自动检查邮件是否送到mailgun;
  * 如果使用的是smtp，则需要自己手动确认邮件发送情况;
  */
-class SendUnsubscribeMailTest extends TestCase
+class SendUserMailJobTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -29,11 +29,9 @@ class SendUnsubscribeMailTest extends TestCase
         }
         $user = User::where('email', env('USER_EMAIL'))->first();
         $this->assertTrue($user instanceof User);
-        // dispatch在测试环境下是sync，可以获取得到返回值
-        $res = app(Dispatcher::class)->dispatchNow(new SendUnsubscribeMail($user));
-        // 这步只能手动测试，如果是Mailgun发送，是否可以自动测试邮件已经送到mailgun？
+        // Todo::该处应该改为可以传参或者测试数据导入的方式
+        $res = app(Dispatcher::class)->dispatchNow(new SendUserMail($user, new \App\Mail\PayHelpMail($user)));
         if (app('app.service.user')->mailDriver() == 'mailgun') {
-            // 200表示邮件已经送到mailgun，而mailgun是否能正确地发送到指定地址，则不属于单元测试的范围
             $this->assertTrue($res->status == 200);
         }
     }
