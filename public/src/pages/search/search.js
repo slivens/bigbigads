@@ -743,6 +743,11 @@ export default angular => {
                     Reminder.open()
                 }
             }
+            $scope.getGoogleSuggestQueries = function(val) {
+                return Util.googleSuggestQueries(val).then(function(data) {
+                    return data.data[1]
+                })
+            }
             $scope.Util = Util
             $scope.User = User
             $scope.Searcher = Searcher

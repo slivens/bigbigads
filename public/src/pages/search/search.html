@@ -17,8 +17,9 @@
                                         </option>
                                     </select>
                                 </span>
-                                <input type="search" class="form-control input-lg" placeholder="Enter a keyword, page name or domain name" ng-model="adSearcher.searchOption.search.text
-                                ">
+                                <!-- <input type="search" class="form-control input-lg" placeholder="Enter a keyword, page name or domain name" ng-model="adSearcher.searchOption.search.text
+                                "> -->
+                                <input type="search" ng-model="adSearcher.searchOption.search.text" placeholder="Enter a keyword, page name or domain name" uib-typeahead="query for query in getGoogleSuggestQueries($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control input-lg">
                                 <div class="input-group-btn">
                                     <button type="submit" class="btn yellow-gold btn-lg " ng-disabled="adSearcher.busy" ng-click="searchCheck(true)">
                                         <span class="search-btn-text mobile-hidden">Search</span>
