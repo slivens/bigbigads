@@ -151,7 +151,9 @@ Route::group(['middleware'=>'auth'], function() {
     Route::get('/bookmark/default', 'BookmarkController@getDefault');
     Route::post('/service_term', 'UserController@updateServiceTerm');
     Route::post('/result_record', 'UserController@resultLogRecord');
+    Route::get('/affialites/{track}/payments', 'UserController@getUserListByAffiliateTrack');
 });
+
 
 //pay页面需要支持不登录可访问
 Route::get('/pay', 'SubscriptionController@form');

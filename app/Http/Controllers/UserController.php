@@ -28,6 +28,7 @@ use App\ActionLog;
 use App\AppRegistersUsers;
 use App\ServiceTerm;
 use App\Jobs\SendVerifyCodeMail;
+use App\Subscription;
 
 class UserController extends Controller
 {
@@ -132,13 +133,27 @@ class UserController extends Controller
             // 可能存在affiliate不存在的情况
             if ($affiliate = $user->affiliates()->first()) {
                 // track/click/action三个数据只从第一条affiliate记录取（暂行）
-                $res['user']['affiliateUrl'] = env('APP_URL') . '?track=' . $affiliate->track;
+                /* $res['user']['affiliateUrl'] = env('APP_URL') . '?track=' . $affiliate->track;
                 $res['user']['click'] = $affiliate->click;
-                $res['user']['action'] = $affiliate->action;
+                $res['user']['action'] = $affiliate->action; */
+                $res['user']['affiliate'] = [
+                    'id' => $affiliate->id,
+                    'affiliateUrl' => env('APP_URL') . '?track=' . $affiliate->track,
+                    'track' => $affiliate->track,
+                    'click' => $affiliate->click,
+                    'action' => $affiliate->action,
+                ];
             } else {
-                $res['user']['affiliateUrl'] = false;
+                /* $res['user']['affiliateUrl'] = false;
                 $res['user']['click'] = 0;
-                $res['user']['action'] = 0;
+                $res['user']['action'] = 0; */
+                $res['user']['affiliate'] = [
+                    'id' => false,
+                    'affiliateUrl' => false,
+                    'track' => false,
+                    'click' => 0,
+                    'action' => 0,
+                ];
             }
             $userRetryTime = 'retryTime_'.$user->id;
             $res['user']['retryTime'] = Cache::get($userRetryTime);
@@ -697,7 +712,6 @@ class UserController extends Controller
         }
         return $arrayString;
     }
-
     /**
      * 更新用户同意的服务条款版本
      * @return response
@@ -737,5 +751,70 @@ class UserController extends Controller
         $user = Auth::user();
         $jsonData = json_encode($req->except(['action']));
         dispatch(new LogAction(ActionLog::ACTION_SEARCH_RESULT_NUM_LIMIT, $jsonData, $user->email, $user->id, $req->ip()));
+    }
+
+    /**
+     * 列表显示被推荐用户的购买情况，包括但不限于用户名,plan,支付金额，购买时间。
+     * 用户名替换部分字符为*。plan取display name。支付金额为单订阅支付总金额
+     * 前端分页，每页10个。
+     *
+     * @param string $track affiliates表的track字段值，由前端发起请求，作为参数传入
+     * @return response 被推广用户列表或者空数组
+     * @todo 没有推广用户时返回什么?暂时返回空数组，前端欠缺没有推广用户时显示的文案。
+     */
+    public function getUserListByAffiliateTrack($track)
+    {
+        $userArr = [
+            'id' => '',
+            'name' => '',
+            'plan' => '',
+            'price' => '',
+            'time' => '',
+        ];
+        $affUsersArr = [];
+        $affInfo = \App\Affiliate::where('track', $track)->first();
+        // 检查是否为当前用户的affiliate
+        if (!$affInfo || $affInfo->email !== Auth::user()->email) {
+            return response()->json(
+                [
+                    'code' => -1,
+                    'desc' => 'Permission Denied'
+                ]
+            );
+        } else {
+            $affUsers =$affInfo->users;
+            if (!$affUsers) {
+                return response()->json([]);
+            }
+            foreach ($affUsers as $user) {
+                $userArr['name'] = substr_replace($user->name, '****', 1, 4); // 需要根据用户名最小长度调整
+                $subs = $user->subscriptions;
+                $subsCount = count($subs);
+                if ($subsCount > 0) {
+                    foreach ($subs as $sub) {
+                        if ($sub->status != Subscription::STATE_CREATED && $sub->status != Subscription::STATE_SUBSCRIBED) {
+                            /** 非付款状态的订阅不算在内
+                            *  @todo 有一种订阅是首期收款失败就变成cancelled，实际并没有成交金额，要去除
+                            */
+                            $userArr['plan'] = $sub->getPlan()->display_name;
+                            $userArr['price'] = '$ ' . $sub->getTotalPaid(); //使用其他货币结算？
+                            $userArr['time'] = Carbon::parse($sub->created_at)->toDateTimeString();
+
+                            // 到这里为止单条组装完成
+                            $affUsersArr[] = $userArr;
+                        }
+                    }
+                } else {
+                    // 从未下订阅的用户
+                    $userArr['plan'] = 'Free Level';
+                    $userArr['price'] = 0;
+                    $userArr['time'] = '-';
+                    $affUsersArr[] = $userArr;
+                }
+            }
+            return response()->json(
+                $affUsersArr
+            );
+        }
     }
 }

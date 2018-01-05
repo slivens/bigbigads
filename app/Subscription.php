@@ -134,4 +134,17 @@ class Subscription extends Model
     {
         
     }
+
+    /**
+     * 获取该订阅总付款额
+     * 统计所有订单金额
+     */
+    public function getTotalPaid()
+    {
+        $total = 0;
+        foreach ($this->payments as $payment) {
+            $total += $payment->amount;
+        }
+        return $total;
+    }
 }
