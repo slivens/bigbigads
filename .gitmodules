@@ -1,0 +1,3 @@
+[submodule "modules/vue-cms-mercury"]
+	path = modules/vue-cms-mercury
+	url = git@git.papamk.com:bigbigads/vue-cms-mercury.git
