@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,18 +12,3 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('auth/token', 'Api\AuthController@token');
-
-Route::group(['middleware' => ['auth']], function () {
-    // 获取登录用户信息
-    Route::get('users/current', 'Api\UserController@getCurrentUser');
-
-    // 获取广告主列表
-    Route::get('owners', 'Api\OwnerController@getOwners');
-
-    // 获取广告主信息
-    Route::get('owners/{facebook_id}', 'Api\OwnerController@getOwner')->middleware('throttle:30');
-
-    // 获取广告详情
-    Route::get('ads/{event_id}', 'Api\AdController@getAd')->middleware('throttle:30');
-});

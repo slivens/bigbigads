@@ -35,6 +35,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        $this->mapAppRoutes();
+
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
@@ -63,6 +65,24 @@ class RouteServiceProvider extends ServiceProvider
         if ($this->app->environment('local')) {
             Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
         }
+    }
+
+    /**
+     * Define the "app" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapAppRoutes()
+    {
+        Route::group([
+            'middleware' => 'app',
+            'namespace' => $this->namespace,
+            'prefix' => 'app',
+        ], function ($router) {
+            require base_path('routes/app.php');
+        });
     }
 
     /**
