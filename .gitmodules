@@ -1,3 +1,9 @@
 [submodule "modules/vue-cms-mercury"]
 	path = modules/vue-cms-mercury
 	url = git@git.papamk.com:bigbigads/vue-cms-mercury.git
+[submodule "modules/angular-webapp-legacy"]
+	path = modules/angular-webapp-legacy
+	url = git@git.papamk.com:xgrit/angular-webapp-legacy.git
+[submodule "modules/vue-webapp-mercury"]
+	path = modules/vue-webapp-mercury
+	url = git@git.papamk.com:xgrit/vue-webapp-mercury.git
