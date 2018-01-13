@@ -12,8 +12,9 @@ use Artisan;
 use App\Jobs\LogAction;
 use App\Role;
 use Voyager;
-
+use Response;
 use Jenssegers\Agent\Agent;
+
 class LoginController extends Controller
 {
     /*
@@ -121,6 +122,9 @@ class LoginController extends Controller
 
         $request->session()->regenerate(true);
 
+        if ($request->expectsJson()) {
+            return Response::success('logout successfully', ['redirect' => '/']);
+        }
         return redirect('/');
     }
 

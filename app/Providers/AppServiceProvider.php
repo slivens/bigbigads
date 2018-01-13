@@ -13,6 +13,7 @@ use App\Payment;
 use Payum\LaravelPackage\Model\Token;
 use Payum\Core\Storage\FilesystemStorage;
 use Illuminate\Support\Facades\Session;
+use Response;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -51,6 +52,15 @@ class AppServiceProvider extends ServiceProvider
             $store = $app['config']->get('session.store') ?: 'redis';          
             $minutes = $app['config']['session.lifetime'];  
             return new \App\Extensions\EnhancedSessionHandler(clone $app['cache']->store($store), $minutes);
+        });
+
+        Response::macro('success', function($desc, $extra = []) {
+            return Response::json(array_merge(['code' => 0, 'desc' => $desc], $extra));
+        });
+        Response::macro('fail', function($code, $desc) {
+            if (request()->expectsJson())
+                return Response::json(["code" => $code, "desc" => $desc], 422);
+            return abort(500, "Code $code: $desc");
         });
     }
 
