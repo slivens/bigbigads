@@ -12,3 +12,8 @@
 |
 */
 
+Route::get('/userinfo', 'UserController@logInfo');
+
+Auth::routes();
+
+Route::any('/forward/{action}', 'SearchController@search')->middleware('auth.freeze');

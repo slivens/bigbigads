@@ -7,3 +7,6 @@
 [submodule "modules/vue-webapp-mercury"]
 	path = modules/vue-webapp-mercury
 	url = git@git.papamk.com:xgrit/vue-webapp-mercury.git
+[submodule "modules/dockers"]
+	path = modules/dockers
+	url = git@git.papamk.com:xgrit/docker-env-mercury.git
