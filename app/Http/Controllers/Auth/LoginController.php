@@ -123,7 +123,7 @@ class LoginController extends Controller
         $request->session()->regenerate(true);
 
         if ($request->expectsJson()) {
-            return Response::success('logout successfully', ['redirect' => '/']);
+            return Response::json(['redirect' => '/']);
         }
         return redirect('/');
     }
