@@ -447,15 +447,16 @@ class SearchController extends Controller
     *   ServiceTerm与\Voyager::setting的值是一个低频变化的内容。 但是在每次搜索流程上都会查询一遍，每次都增加几十MS的响应时间是不必要的。
     *   在该函数下面，将上面的说明添加进注释
     *   TODO:应该在后续优化为从缓存中读取
+    *   TODO:出于调试目的，暂时屏蔽
     */
     public function checkServiceTermsVersion()
     {
-        $user = Auth::user();
-        if (!$user) return;
-        $serviceTerm = ServiceTerm::where('user_id', $user->id)->first();
-        if (!$serviceTerm || $serviceTerm->version != intval(\Voyager::setting('service_terms_version'))) {
-            throw new \Exception(trans('messages.service_term'), -5001);
-        }
+        /* $user = Auth::user(); */
+        /* if (!$user) return; */
+        /* $serviceTerm = ServiceTerm::where('user_id', $user->id)->first(); */
+        /* if (!$serviceTerm || $serviceTerm->version != intval(\Voyager::setting('service_terms_version'))) { */
+        /*     throw new \Exception(trans('messages.service_term'), -5001); */
+        /* } */
     }
 
     /*
@@ -497,11 +498,12 @@ class SearchController extends Controller
 
         // 新增is_check字段，标记强制免费用户提供一个有效的邮箱是否验证
         // 强制所有用户提供一个有效的邮箱
+        // TODO:出于调试目的，暂时屏蔽
         
-        if ($user->is_check == 0) {
-            dispatch(new LogAction(ActionLog::ACTION_CHECK_EMAIL_EFFECTIVE, '', trans('messages.effective_email'), $user->id, $req->ip()));
-            throw new \Exception("you must effective email", -4999);
-        }
+        /* if ($user->is_check == 0) { */
+        /*     dispatch(new LogAction(ActionLog::ACTION_CHECK_EMAIL_EFFECTIVE, '', trans('messages.effective_email'), $user->id, $req->ip())); */
+        /*     throw new \Exception("you must effective email", -4999); */
+        /* } */
     }
 
     /**

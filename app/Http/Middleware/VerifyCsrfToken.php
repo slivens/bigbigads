@@ -12,6 +12,7 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
+        "*", // TODO:调试阶段全放开，后续再关
         "/forward/*",
         '/onPayment',
         '/onPayWebhooks',
