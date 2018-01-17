@@ -16,6 +16,7 @@ use Log;
 use App\HotWord;
 use App\Jobs\LogAbnormalAction;
 use App\ServiceTerm;
+use App\Exceptions\GenericException;
 
 class SearchController extends Controller
 {
@@ -455,7 +456,7 @@ class SearchController extends Controller
         /* if (!$user) return; */
         /* $serviceTerm = ServiceTerm::where('user_id', $user->id)->first(); */
         /* if (!$serviceTerm || $serviceTerm->version != intval(\Voyager::setting('service_terms_version'))) { */
-        /*     throw new \Exception(trans('messages.service_term'), -5001); */
+        /*     throw new \Exception(trans('messages.service_term'), GenericException::ERROR_CODE_SHOULD_AGREE_TERM); */
         /* } */
     }
 
@@ -552,7 +553,7 @@ class SearchController extends Controller
                             }
                         }
                         if(!$isGetAdAnalysis){
-                            return $this->responseError("You should sign in", -4199);
+                            return response()->fail(GenericException::ERROR_CODE_SHOULD_SIGNIN, "You should sign in");
                         }
                     }
                     if(false === (($reqParams['limit'][0] % 10 === 0) && ($reqParams['limit'][0] < 300) && (intval($reqParams['limit'][1]) === 10)))
