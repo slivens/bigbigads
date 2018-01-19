@@ -180,7 +180,29 @@ final class SubscriptionController extends PayumController
     public function billings()
     {
         $user = Auth::user();
-        return $user->payments()->with('refund')->orderBy('created_at', 'desc')->get();
+        $payment = $user->payments()->with('refund')->orderBy('created_at', 'desc')->get();
+        // 后续新增的plan 需要往$level数组内按 des, level, plan添加直接让前端使用
+        $levels = [
+            ['des'  =>  'lite_monthly'              , 'level' => 'Lite',       'plan' => 'Monthly'],
+            ['des'  =>  'lite_annual'               , 'level' => 'Lite',       'plan' => 'Annual'],
+            ['des'  =>  'lite_quarterly'            , 'level' => 'Lite',       'plan' => 'Quarterly'],
+            ['des'  =>  'standard_monthly'          , 'level' => 'Standard',   'plan' => 'Monthly'],
+            ['des'  =>  'standard_quarter_monthly'  , 'level' => 'Standard',   'plan' => 'Quarterly'],
+            ['des'  =>  'standard'                  , 'level' => 'Standard',   'plan' => 'Annual'],
+        ];
+        foreach ($payment as $index => $key) {
+            $endDate = new Carbon($key->end_date);
+            $startDate = new Carbon($key->start_date);
+            foreach ($levels as $level) {
+                if ($level['des'] == $key->description) {
+                    $payment[$index]['level'] = $level['level'];
+                    $payment[$index]['plan'] = $level['plan'];
+                }          
+            }
+            $payment[$index]['expireDate'] = $endDate->toFormattedDateString();
+            $payment[$index]['startDate'] = $startDate->toFormattedDateString();
+        }
+        return $payment;
     }
 
     /**
