@@ -39,7 +39,7 @@ Route::group(['middleware'=>'auth'], function() {
     Route::resource('/me/bookmarks', 'BookmarkController');
     Route::resource('/me/bookmark_items', 'BookmarkItemController');
     Route::post('/changepwd', 'UserController@changepwd');
-    Route::put('/payments/{number}/refund_request', 'SubscriptionController@requestRefund');
+    Route::put('/me/payments/{number}/refund_request', 'SubscriptionController@requestRefund');
     Route::patch('/me/profile', 'UserController@changeProfile');
     Route::post('/me/send_email', 'UserController@sendVerifyMailToSubEmail');
     Route::post('/service_term', 'UserController@updateServiceTerm');

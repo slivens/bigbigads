@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -48,6 +49,11 @@ class Handler extends ExceptionHandler
             if ($request->expectsJson()) {
                 $errors = $exception->validator->errors()->getMessages();
                 return response()->fail(-2, "validation fail", $errors);
+            }
+        }
+        if ($exception instanceof NotFoundHttpException) {
+            if ($request->expectsJson()) {
+                return response()->fail(-1, "Route Not Found", [], [], 404);
             }
         }
         return parent::render($request, $exception);
