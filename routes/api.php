@@ -42,8 +42,24 @@ Route::group(['middleware'=>'auth'], function() {
     Route::put('/me/payments/{number}/refund_request', 'SubscriptionController@requestRefund');
     Route::patch('/me/profile', 'UserController@changeProfile');
     Route::post('/me/send_email', 'UserController@sendVerifyMailToSubEmail');
+    Route::get('/me/affialites/{track}/payments', 'UserController@getUserListByAffiliateTrack');
+
+    // TODO:下面2个应该移到secure_api
     Route::post('/service_term', 'UserController@updateServiceTerm');
     Route::post('/result_record', 'UserController@resultLogRecord');
-    Route::get('/affialites/{track}/payments', 'UserController@getUserListByAffiliateTrack');
+
 });
 
+
+Route::get('hotword', 'HotWordController@getHotWord');
+Route::get('audience_interest', 'AudienceInterestController@getAudienceInterest');
+Route::post('/subscriptions/{sid}/sync', 'SubscriptionController@sync');
+
+Route::post('/quick_register', 'UserController@quickRegister');//快速注册表单提交位置
+Route::get('/payment/{method}/prepare', 'SubscriptionController@prepareCheckout');
+
+Route::post('/feedback/plan', 'FeedbackController@plan')->middleware('throttle:30,60');
+
+Route::get('/advertisers', 'AdvertisersController@getPublishers');
+Route::get('/advertisers/{facebookId}', 'AdvertisersController@getPublisherAnalysis');
+Route::get('/advertisers/{facebookId}/{adRank}', 'AdvertisersController@getTopAds');
