@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -56,6 +57,12 @@ class Handler extends ExceptionHandler
                 return response()->fail(-1, "Route Not Found", [], [], 404);
             }
         }
+		if ($request->is('api/*')) {
+            if ($exception instanceof  HttpException) {
+                return response()->fail(-1, 'STATUS '. $exception->getStatusCode() . ':' . $exception->getMessage(), [], [], $exception->getStatusCode());
+            }
+			return response()->fail(-1, $exception->getMessage(), [], [], 500);
+		}
         return parent::render($request, $exception);
     }
 

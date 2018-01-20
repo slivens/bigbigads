@@ -137,8 +137,8 @@ Route::group(['middleware'=>'auth'], function() {
     Route::post('/subscription/{id}/cancel', 'SubscriptionController@cancel');
 	Route::get('/invoice/{invoice}', function (Request $request, $invoiceId) {
 		return Auth::user()->downloadInvoice($invoiceId, [
-			'vendor'  => 'Bigbigads',
-			'product' => 'Bigbigads',
+			'vendor'  => 'Adminer',
+			'product' => 'Adminer',
 		], storage_path('invoice'));
     });
     Route::post('changepwd', 'UserController@changepwd');

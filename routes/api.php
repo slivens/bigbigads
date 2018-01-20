@@ -24,14 +24,13 @@ Route::group(['middleware'=>'auth'], function() {
     //Route::get('/pay', 'SubscriptionController@form');
     Route::post('/pay', 'SubscriptionController@pay');
     Route::get('/me/billings', 'SubscriptionController@billings');
-    Route::post('/me/subscription/{id}/cancel', 'SubscriptionController@cancel');
+    Route::post('/me/subscriptions/{id}/cancel', 'SubscriptionController@cancel');
 	Route::get('/me/invoice/{invoice}', function (Request $request, $invoiceId) {
 		return Auth::user()->downloadInvoice($invoiceId, [
 			'vendor'  => 'xggg',
 			'product' => 'Adminer',
 		], storage_path('invoice'));
     });
-    Route::get('/me/invoices/{invoice_id}', 'InvoiceController@downloadInvoice');
     Route::get('/me/customize_invoice', 'UserController@getInvoiceCustomer');
     Route::post('/me/customize_invoice', 'UserController@setInvoiceCustomer');
 
