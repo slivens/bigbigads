@@ -19,10 +19,17 @@ class RedirectIfAuthenticated
     {
         if (Auth::guard($guard)->check()) {
             $agent = new Agent();
+            $redirectUrl = '/app';
             if ($agent->isMobile()) {
-                return redirect('/mobile');
+                $redirectUrl = '/mobile';
             } else {
-                return redirect('/app');
+                $redirectUrl = '/app';
+            }
+
+            if ($request->expectsJson()) {
+                return response()->json(['redirectTo' => $redirectUrl]);
+            } else {
+                return redirect($redirectUrl);
             }
         }
 
