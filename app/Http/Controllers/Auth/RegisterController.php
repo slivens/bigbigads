@@ -90,8 +90,12 @@ class RegisterController extends Controller
         } else {
             dispatch(new SendRegistMail($user));
         }
-        // return redirect('welcome?socialite=email');
-        return Response::json(['redirectTo' => '/app']);
+        //
+        if ($request->expectsJson()) {
+            return Response::json(['redirectTo' => '/app']);
+        } else {
+            return redirect('welcome?socialite=email');
+        }
         /* 需求变更，暂时抛弃，以后流程会再更改，加入新用户引导的部分
         $emailVerification = Voyager::setting('email_verification');
         if ($emailVerification != "false") {
