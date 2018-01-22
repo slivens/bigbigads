@@ -13,7 +13,7 @@ class BookmarkItemController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->name = explode(".", Route::currentRouteName())[0];
+        $this->name = str_singular(studly_case(explode(".", Route::currentRouteName())[0]));
         $this->class = "App\\" . $this->name;
     }
 
@@ -26,7 +26,10 @@ class BookmarkItemController extends Controller
         $obj = new $class;
 
         if (isset($req->where)) {
-            $obj = $obj->where(json_decode($req->where));
+            if (is_string($req->where))
+                $obj = $obj->where(json_decode($req->where));
+            else
+                $obj = $obj->where($req->where);
         }
         $obj = $obj->where('uid', '=', Auth::user()->id);
         $items = $obj->get();

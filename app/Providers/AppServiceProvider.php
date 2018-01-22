@@ -57,9 +57,9 @@ class AppServiceProvider extends ServiceProvider
         Response::macro('success', function($desc, $extra = []) {
             return Response::json(array_merge(['code' => 0, 'desc' => $desc], $extra));
         });
-        Response::macro('fail', function($code, $desc, $errors = [], $extra = []) {
+        Response::macro('fail', function($code, $desc, $errors = [], $extra = [], $statusCode = 422) {
             if (request()->expectsJson())
-                return Response::json(array_merge(["code" => $code, "desc" => $desc, "errors" => $errors], $extra), 422);
+                return Response::json(array_merge(["code" => $code, "desc" => $desc, "errors" => $errors], $extra), $statusCode);
             return abort(500, "Code $code: $desc");
         });
     }
