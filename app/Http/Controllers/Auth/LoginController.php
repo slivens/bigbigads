@@ -14,6 +14,7 @@ use App\Role;
 use Voyager;
 use Response;
 use Jenssegers\Agent\Agent;
+use Lang;
 
 class LoginController extends Controller
 {
@@ -114,6 +115,19 @@ class LoginController extends Controller
             return Response::json(['redirectTo' => '/app']);
         }
     }
+
+    protected function sendFailedLoginResponse(Request $request)                          
+    {    
+        if ($request->expectsJson()) {        
+            return response()->fail(-1, "validation fail",[$this->username() => Lang::get('auth.failed')]);
+        } else {
+            return redirect()->back()
+                ->withInput($request->only($this->username(), 'remember'))
+                ->withErrors([
+                    $this->username() => Lang::get('auth.failed'),
+                ]);
+        }
+    }  
 
     public function showLoginForm(Request $request)
     {
