@@ -20,6 +20,8 @@ Route::any('/forward/{action}', 'SearchController@search')->middleware('auth.fre
 
 Route::get('/plans', 'SubscriptionController@plans');
 
+Route::resource('/coupons', 'CouponController');//后面将改成统一由ReourceController+Hooks的方式控制
+
 Route::group(['middleware'=>'auth'], function() {
     //Route::get('/pay', 'SubscriptionController@form');
     Route::post('/pay', 'SubscriptionController@pay');

@@ -16,7 +16,7 @@ class ResourceController extends Controller
 
     public function __construct(Request $request)
     {
-        $this->name = ucfirst(basename($request->path()));
+        $this->name = str_singular(studly_case(basename($request->path())));
         $this->class = "App\\" . $this->name;
         if ($request->has('where'))
             $this->where = json_decode($request->where, true);
