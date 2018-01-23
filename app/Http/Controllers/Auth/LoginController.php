@@ -73,7 +73,9 @@ class LoginController extends Controller
     protected function authenticated($request, $user)
     {
         $agent = new Agent();
-        if ($agent->isMobile()) return redirect('/mobile');
+        if ($agent->isMobile()) {
+            return redirect('/mobile');
+        }
 
         //没审核通过或被冻结就不允许登陆
         if ($user->state == 0) {
@@ -82,12 +84,19 @@ class LoginController extends Controller
             $emailVerification = Voyager::setting('email_verification');
             if ($emailVerification != "false") {
                 Auth::logout();
+                if ($request->expectsJson()) {
+                    return Response::json(['redirectTo' => "/sendVerifyMail?email={$user->email}"], 422);
+                }
                 $this->redirectTo = "/sendVerifyMail?email={$user->email}";
             }           
 			// Authentication passed...
         } else if ($user->state == 2) {
             Auth::logout();
-            return view('auth.verify')->with('error', "Your account was temporarily banned. Please check your mail-box or contact help@bigbigads.com for more info.");
+            $messages = 'Your account was temporarily banned. Please check your mail-box or contact help@bigbigads.com for more info.';
+            if ($request->expectsJson()) {
+                return Response::json(['redirectTo' => '/error', 'message' => $messages], 422);
+            }
+            return view('auth.verify')->with('error', $messages);
         }
         //简化处理
         $user->resetIfExpired();
@@ -95,8 +104,14 @@ class LoginController extends Controller
         if ($request->has('referer')) {
             $url = env('APP_URL');
             if (strstr($request->referer, $url)) {
+                if ($request->expectsJson()) {
+                    return Response::json(['redirectTo' => $request->referer]);
+                }
                 return redirect($request->referer);
             }
+        }
+        if ($request->expectsJson()) {
+            return Response::json(['redirectTo' => '/app']);
         }
     }
 
