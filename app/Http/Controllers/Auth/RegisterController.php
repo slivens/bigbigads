@@ -18,6 +18,7 @@ use App\AppRegistersUsers;
 use App\Jobs\LogAction;
 use App\ActionLog;
 use Response;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -77,6 +78,22 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        if ($request->expectsJson()) {
+            return $this->registered($request, $user)
+            ?: Response::json(['code' => -1, 'message' => 'The email was registered.']);
+        }
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
+    }
+
     protected function registered($request, $user)
     {
         //临时新加需求,由于邮箱未送达率达到了近25%,暂时新加开关邮箱验证的功能，用户注册过后直接进入/app，对于state=0的用户
@@ -92,7 +109,7 @@ class RegisterController extends Controller
         }
         //
         if ($request->expectsJson()) {
-            return Response::json(['redirectTo' => '/app']);
+            return Response::json(['code' => 0, 'redirectTo' => '/app']);
         } else {
             return redirect('welcome?socialite=email');
         }
