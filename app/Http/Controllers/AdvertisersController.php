@@ -72,28 +72,41 @@ class AdvertisersController extends Controller
          */
         $subAction = $this->getUserAction($params);
         
-        if (!array_key_exists('adser_info', $result)) return [
-            'data'  => [],
-            'page'  => 0,
-            'pages' => 0,
-            'limit' => 0,
-            'next'  => 0,
-            'prev'  => 0,
-            'total' => 0,
-        ];
+        if (!array_key_exists('adser_info', $result)) {
+            $pagination['page']  = 0;
+            $pagination['pages'] = 0;
+            $pagination['limit'] = 0;
+            $pagination['next']  = false;
+            $pagination['prev']  = false;
+            $pagination['total'] = 0;
+            $pagination['isEnd'] = true;
+
+            return [
+                'data'         => [],
+                'pagination'   => $pagination
+            ];
+        }
 
         /*
          * 根据用户行为和请求结果记录log; 更新对应权限
          */
         $this->logActionAndUpgradeUsage($subAction, $result['total_adser_count'], $json, $request);
 
+        foreach ($result['adser_info'] as $index => $key) {
+            if (array_key_exists('small_photo', $key)) 
+                $result['adser_info'][$index]['avator'] = $key['small_photo'];
+            if (array_key_exists('large_photo', $key)) 
+                $result['adser_info'][$index]['avator'] = $key['large_photo'];
+        }
+
         $pagination = [];
         $pagination['pages'] = ceil($result['total_adser_count'] / $limit);
-        $pagination['page']  = $page;
+        $pagination['page']  = (int)$page;
         $pagination['limit'] = $limit;
         $pagination['total'] = $result['total_adser_count'];    
         $pagination['next']  = $page + 1;
         $pagination['prev']  = $page > 1 ? ($page - 1) : null;
+        $pagination['isEnd'] = $pagination['page'] >= $pagination['pages'] ? true : false;
 
         return [
             'data'          => $result['adser_info'],
