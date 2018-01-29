@@ -86,16 +86,16 @@ class LoginController extends Controller
             if ($emailVerification != "false") {
                 Auth::logout();
                 if ($request->expectsJson()) {
-                    return Response::json(['code' => -1, 'redirectTo' => "/sendVerifyMail?email={$user->email}"], 422);
+                    return response()->fail(-1, 'email was unverify', Lang::get('auth.failed_email_verify'));
                 }
                 $this->redirectTo = "/sendVerifyMail?email={$user->email}";
             }           
 			// Authentication passed...
         } else if ($user->state == 2) {
             Auth::logout();
-            $messages = 'Your account was temporarily banned. Please check your mail-box or contact help@bigbigads.com for more info.';
+            $messages = Lang::get('auth.freezed');
             if ($request->expectsJson()) {
-                return Response::json(['code' => -1, 'redirectTo' => '/error', 'message' => $messages], 422);
+                return response()->fail(-1, 'account was temporarily banned', $messages);
             }
             return view('auth.verify')->with('error', $messages);
         }
@@ -106,13 +106,13 @@ class LoginController extends Controller
             $url = env('APP_URL');
             if (strstr($request->referer, $url)) {
                 if ($request->expectsJson()) {
-                    return Response::json(['code' => 0, 'redirectTo' => $request->referer]);
+                    return Response::json(['redirectTo' => $request->referer]);
                 }
                 return redirect($request->referer);
             }
         }
         if ($request->expectsJson()) {
-            return Response::json(['code' => 0, 'redirectTo' => '/app']);
+            return Response::json(['redirectTo' => '/app']);
         }
     }
 
