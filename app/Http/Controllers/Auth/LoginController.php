@@ -86,7 +86,7 @@ class LoginController extends Controller
             if ($emailVerification != "false") {
                 Auth::logout();
                 if ($request->expectsJson()) {
-                    return response()->fail(-1, 'email was unverify', Lang::get('auth.failed_email_verify'));
+                    return response()->fail(-1, Lang::get('auth.failed_email_verify'));
                 }
                 $this->redirectTo = "/sendVerifyMail?email={$user->email}";
             }           
@@ -95,7 +95,7 @@ class LoginController extends Controller
             Auth::logout();
             $messages = Lang::get('auth.freezed');
             if ($request->expectsJson()) {
-                return response()->fail(-1, 'account was temporarily banned', $messages);
+                return response()->fail(-1, $messages);
             }
             return view('auth.verify')->with('error', $messages);
         }

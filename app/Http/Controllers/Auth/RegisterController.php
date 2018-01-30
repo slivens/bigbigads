@@ -92,7 +92,6 @@ class RegisterController extends Controller
         }
 
         // 前端需求json返回时
-        // response()->fail(-1, 'email was registered', Lang::get('The email was registered.'));
         if ($request->expectsJson()) {
             return Response::json(['redirectTo' => '/app']);
         } else {
