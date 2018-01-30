@@ -48,7 +48,7 @@ class ResetPasswordController extends Controller
     protected function sendResetFailedResponse(Request $request, $response)
     {
         if ($request->expectsJson()) {
-            return response()->fail(-1, 'validation fail', 'The email was wrong,please check it and try again later');
+            return response()->fail(-1, 'The email was wrong,please check it and try again later');
         }
         return redirect()->back()
                     ->withInput($request->only('email'))
