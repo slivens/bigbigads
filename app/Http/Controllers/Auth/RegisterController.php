@@ -90,7 +90,8 @@ class RegisterController extends Controller
         } else {
             dispatch(new SendRegistMail($user));
         }
-        //
+
+        // 前端需求json返回时
         if ($request->expectsJson()) {
             return Response::json(['redirectTo' => '/app']);
         } else {
