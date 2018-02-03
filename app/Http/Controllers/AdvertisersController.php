@@ -94,9 +94,9 @@ class AdvertisersController extends Controller
 
         foreach ($result['adser_info'] as $index => $key) {
             if (array_key_exists('small_photo', $key)) 
-                $result['adser_info'][$index]['avator'] = $key['small_photo'];
+                $result['adser_info'][$index]['avatar'] = $key['small_photo'];
             if (array_key_exists('large_photo', $key)) 
-                $result['adser_info'][$index]['avator'] = $key['large_photo'];
+                $result['adser_info'][$index]['avatar'] = $key['large_photo'];
         }
 
         $pagination = [];
