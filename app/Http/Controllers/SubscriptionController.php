@@ -208,13 +208,16 @@ final class SubscriptionController extends PayumController
     /**
      * 获取所有计划
      *
+     * 默认禁止返回权限相关信息，只有必要时才允许返回
      * @return Role $items 计划列表
      */
     public function plans()
     {
-        $items = Role::with('permissions', 'policies')->where('plan', '<>', null)->get();
+        $items = Role::where('plan', '<>', null)->get();
+        /* $items = Role::with('permissions', 'policies')->where('plan', '<>', null)->get(); */
+        
         foreach ($items as $key => $item) {
-            $item->groupPermissions = $item->permissions->groupBy('table_name');
+            /* $item->groupPermissions = $item->permissions->groupBy('table_name'); */
             $item->append('plans');
         }
         return $items;

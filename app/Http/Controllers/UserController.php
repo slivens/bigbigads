@@ -157,6 +157,7 @@ class UserController extends Controller
             }
             $userRetryTime = 'retryTime_'.$user->id;
             $res['user']['retryTime'] = Cache::get($userRetryTime);
+            $res['expires_at'] = Carbon::now()->addSeconds(config('session.lifetime'))->toDateTimeString();
         } else {
             $user = AnonymousUser::user($req);
             $res['login'] = false;
