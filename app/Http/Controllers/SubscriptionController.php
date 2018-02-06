@@ -235,6 +235,7 @@ final class SubscriptionController extends PayumController
 
     /**
      * 客户同意支付后的回调
+     * TODO: onPay这一步，应该考虑支持API请求会比较灵活
      */
     public function onPay(Request $request)
     {

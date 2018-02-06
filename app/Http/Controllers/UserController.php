@@ -165,7 +165,7 @@ class UserController extends Controller
             $res['permissions'] = $user->role->permissions->groupBy('key');
             $res['groupPermissions'] = $user->role->permissions->groupBy('table_name');
         }
-        return json_encode($res, JSON_UNESCAPED_UNICODE);
+        return response()->json($res);
     }
 
     /**
