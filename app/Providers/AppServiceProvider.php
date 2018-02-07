@@ -54,10 +54,10 @@ class AppServiceProvider extends ServiceProvider
             return new \App\Extensions\EnhancedSessionHandler(clone $app['cache']->store($store), $minutes);
         });
 
-        Response::macro('success', function($desc, $extra = []) {
+        Response::macro('success', function(string $desc, array $extra = []) {
             return Response::json(array_merge(['code' => 0, 'desc' => $desc], $extra));
         });
-        Response::macro('fail', function($code, $desc, array $errors = [], array $extra = [], int $statusCode = 422) {
+        Response::macro('fail', function($code, string $desc, array $errors = [], array $extra = [], int $statusCode = 422) {
             if (request()->expectsJson())
                 return Response::json(array_merge(["code" => $code, "desc" => $desc, "errors" => $errors], $extra), $statusCode);
             return abort(500, "Code $code: $desc");
