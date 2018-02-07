@@ -147,7 +147,7 @@ final class SubscriptionController extends PayumController
         $subscription->gateway = PaymentService::GATEWAY_STRIPE;
         $subscription->status = Subscription::STATE_CREATED;
         $subscription->tag = Subscription::TAG_DEFAULT;
-	$subscription->skype = $req->input('skype'); // 获取skype字段
+	$subscription->skype = $req->input('skype', ''); // 获取skype字段
 	$subscription->save();
 
         if ($req->has('payType') && $req->payType == 'stripe') {
