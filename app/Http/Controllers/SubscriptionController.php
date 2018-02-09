@@ -147,7 +147,8 @@ final class SubscriptionController extends PayumController
         $subscription->gateway = PaymentService::GATEWAY_STRIPE;
         $subscription->status = Subscription::STATE_CREATED;
         $subscription->tag = Subscription::TAG_DEFAULT;
-        $subscription->save();
+	$subscription->skype = $req->input('skype', ''); // 获取skype字段
+	$subscription->save();
 
         if ($req->has('payType') && $req->payType == 'stripe') {
             return $this->payByStripe($req, $plan, $user, $coupon);
@@ -208,13 +209,16 @@ final class SubscriptionController extends PayumController
     /**
      * 获取所有计划
      *
+     * 默认禁止返回权限相关信息，只有必要时才允许返回
      * @return Role $items 计划列表
      */
     public function plans()
     {
-        $items = Role::with('permissions', 'policies')->where('plan', '<>', null)->get();
+        $items = Role::where('plan', '<>', null)->get();
+        /* $items = Role::with('permissions', 'policies')->where('plan', '<>', null)->get(); */
+        
         foreach ($items as $key => $item) {
-            $item->groupPermissions = $item->permissions->groupBy('table_name');
+            /* $item->groupPermissions = $item->permissions->groupBy('table_name'); */
             $item->append('plans');
         }
         return $items;
@@ -232,6 +236,7 @@ final class SubscriptionController extends PayumController
 
     /**
      * 客户同意支付后的回调
+     * TODO: onPay这一步，应该考虑支持API请求会比较灵活
      */
     public function onPay(Request $request)
     {
@@ -468,7 +473,7 @@ final class SubscriptionController extends PayumController
             $subscription->agreement_id = $details['local']['customer']['subscriptions']['data'][0]['id'];
             $subscription->quantity = 1;
             /* $subscription->setup_fee = $details['amount'] / 100; */
-            $subscription->save();
+	    $subscription->save();
 
 
             $ourPayment = new OurPayment();
