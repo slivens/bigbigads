@@ -826,9 +826,7 @@ class UserController extends Controller
         $user = Auth::user();
         $data = $req->all();
         if (!array_key_exists('customOption', $data)) {
-            if ($req->expectsJson()) {
-                return response()->fail(-1, ['msg' => 'param error']);
-            }
+            return response()->fail(['code' => '-1', 'desc' => 'param error']);
         } else {
             $user->custom_option = json_encode($req->customOption);
             if ($user->save()) {
