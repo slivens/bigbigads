@@ -44,6 +44,7 @@ Route::group(['middleware'=>'auth'], function() {
     Route::patch('/me/profile', 'UserController@changeProfile');
     Route::post('/me/send_email', 'UserController@sendVerifyMailToSubEmail');
     Route::get('/me/affialites/{track}/payments', 'UserController@getUserListByAffiliateTrack');
+    Route::post('/me/custom_option', 'UserController@updateCustomOption')->middleware('throttle:30,60');
 
     // TODO:下面2个应该移到secure_api
     Route::post('/service_term', 'UserController@updateServiceTerm');
@@ -64,3 +65,5 @@ Route::post('/feedback/plan', 'FeedbackController@plan')->middleware('throttle:3
 Route::get('/advertisers', 'AdvertisersController@getPublishers');
 Route::get('/advertisers/{facebookId}', 'AdvertisersController@getPublisherAnalysis');
 Route::get('/advertisers/{facebookId}/{adRank}', 'AdvertisersController@getTopAds');
+
+
