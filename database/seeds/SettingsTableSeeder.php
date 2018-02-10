@@ -187,6 +187,26 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'text',
                 'order' => 15,
             ),
+            17 => 
+            array (
+                'id' => 21,
+                'key' => 'current_gateway',
+                'display_name' => '当前支付网关',
+                'value' => 'paypal_ec',
+                'details' => '',
+                'type' => 'text',
+                'order' => 16,
+            ),
+            18 => 
+            array (
+                'id' => 23,
+                'key' => 'payed_redirect',
+                'display_name' => '完成支付后跳转地址',
+                'value' => '/app/',
+                'details' => '',
+                'type' => 'text',
+                'order' => 17,
+            ),
         ));
         
         

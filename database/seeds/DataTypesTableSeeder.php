@@ -212,6 +212,21 @@ class DataTypesTableSeeder extends Seeder
                 'created_at' => '2018-02-10 17:22:42',
                 'updated_at' => '2018-02-10 17:22:42',
             ),
+            13 => 
+            array (
+                'id' => 18,
+                'name' => 'gateway_configs',
+                'slug' => 'gateway-configs',
+                'display_name_singular' => 'Gateway Config',
+                'display_name_plural' => 'Gateway Configs',
+                'icon' => '',
+                'model_name' => 'App\\GatewayConfig',
+                'description' => '',
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'created_at' => '2018-02-11 00:13:41',
+                'updated_at' => '2018-02-11 00:13:41',
+            ),
         ));
         
         

@@ -2008,6 +2008,61 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2018-02-10 17:22:42',
                 'updated_at' => '2018-02-10 17:22:42',
             ),
+            181 => 
+            array (
+                'id' => 285,
+                'key' => 'browse_gateway_configs',
+                'table_name' => 'gateway_configs',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2018-02-11 00:13:41',
+                'updated_at' => '2018-02-11 00:13:41',
+            ),
+            182 => 
+            array (
+                'id' => 286,
+                'key' => 'read_gateway_configs',
+                'table_name' => 'gateway_configs',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2018-02-11 00:13:41',
+                'updated_at' => '2018-02-11 00:13:41',
+            ),
+            183 => 
+            array (
+                'id' => 287,
+                'key' => 'edit_gateway_configs',
+                'table_name' => 'gateway_configs',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2018-02-11 00:13:41',
+                'updated_at' => '2018-02-11 00:13:41',
+            ),
+            184 => 
+            array (
+                'id' => 288,
+                'key' => 'add_gateway_configs',
+                'table_name' => 'gateway_configs',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2018-02-11 00:13:41',
+                'updated_at' => '2018-02-11 00:13:41',
+            ),
+            185 => 
+            array (
+                'id' => 289,
+                'key' => 'delete_gateway_configs',
+                'table_name' => 'gateway_configs',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2018-02-11 00:13:41',
+                'updated_at' => '2018-02-11 00:13:41',
+            ),
         ));
         
         

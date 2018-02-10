@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesTableSeeder::class);
         $this->call(PolicyUserTableSeeder::class);
         $this->call(PlansTableSeeder::class);
+        $this->call(GatewayConfigsTableSeeder::class);
     }
 }
