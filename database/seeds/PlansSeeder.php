@@ -4,6 +4,10 @@ use Illuminate\Database\Seeder;
 use App\Plan;
 use App\Role;
 
+/**
+ * 全部通过Voyager后台操作，禁止再使用该Seeder文件导入
+ * @deprecated
+ */
 class PlansSeeder extends Seeder
 {
     /**

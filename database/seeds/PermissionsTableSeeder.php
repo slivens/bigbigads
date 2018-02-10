@@ -25,8 +25,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:18',
-                'updated_at' => '2017-03-06 09:08:18',
+                'created_at' => '2017-03-06 01:08:18',
+                'updated_at' => '2017-03-06 01:08:18',
             ),
             1 => 
             array (
@@ -36,8 +36,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:18',
-                'updated_at' => '2017-03-06 09:08:18',
+                'created_at' => '2017-03-06 01:08:18',
+                'updated_at' => '2017-03-06 01:08:18',
             ),
             2 => 
             array (
@@ -47,8 +47,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:18',
-                'updated_at' => '2017-03-06 09:08:18',
+                'created_at' => '2017-03-06 01:08:18',
+                'updated_at' => '2017-03-06 01:08:18',
             ),
             3 => 
             array (
@@ -58,8 +58,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:18',
-                'updated_at' => '2017-03-06 09:08:18',
+                'created_at' => '2017-03-06 01:08:18',
+                'updated_at' => '2017-03-06 01:08:18',
             ),
             4 => 
             array (
@@ -69,8 +69,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             5 => 
             array (
@@ -80,8 +80,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             6 => 
             array (
@@ -91,8 +91,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             7 => 
             array (
@@ -102,8 +102,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             8 => 
             array (
@@ -113,8 +113,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             9 => 
             array (
@@ -124,8 +124,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             10 => 
             array (
@@ -135,8 +135,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             11 => 
             array (
@@ -146,8 +146,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             12 => 
             array (
@@ -157,8 +157,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             13 => 
             array (
@@ -168,8 +168,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             14 => 
             array (
@@ -179,8 +179,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             15 => 
             array (
@@ -190,8 +190,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             16 => 
             array (
@@ -201,8 +201,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             17 => 
             array (
@@ -212,8 +212,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             18 => 
             array (
@@ -223,8 +223,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:19',
-                'updated_at' => '2017-03-06 09:08:19',
+                'created_at' => '2017-03-06 01:08:19',
+                'updated_at' => '2017-03-06 01:08:19',
             ),
             19 => 
             array (
@@ -234,8 +234,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:20',
-                'updated_at' => '2017-03-06 09:08:20',
+                'created_at' => '2017-03-06 01:08:20',
+                'updated_at' => '2017-03-06 01:08:20',
             ),
             20 => 
             array (
@@ -245,8 +245,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:20',
-                'updated_at' => '2017-03-06 09:08:20',
+                'created_at' => '2017-03-06 01:08:20',
+                'updated_at' => '2017-03-06 01:08:20',
             ),
             21 => 
             array (
@@ -256,8 +256,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:20',
-                'updated_at' => '2017-03-06 09:08:20',
+                'created_at' => '2017-03-06 01:08:20',
+                'updated_at' => '2017-03-06 01:08:20',
             ),
             22 => 
             array (
@@ -267,8 +267,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:20',
-                'updated_at' => '2017-03-06 09:08:20',
+                'created_at' => '2017-03-06 01:08:20',
+                'updated_at' => '2017-03-06 01:08:20',
             ),
             23 => 
             array (
@@ -278,8 +278,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:20',
-                'updated_at' => '2017-03-06 09:08:20',
+                'created_at' => '2017-03-06 01:08:20',
+                'updated_at' => '2017-03-06 01:08:20',
             ),
             24 => 
             array (
@@ -289,8 +289,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:20',
-                'updated_at' => '2017-03-06 09:08:20',
+                'created_at' => '2017-03-06 01:08:20',
+                'updated_at' => '2017-03-06 01:08:20',
             ),
             25 => 
             array (
@@ -300,8 +300,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:20',
-                'updated_at' => '2017-03-06 09:08:20',
+                'created_at' => '2017-03-06 01:08:20',
+                'updated_at' => '2017-03-06 01:08:20',
             ),
             26 => 
             array (
@@ -311,8 +311,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:20',
-                'updated_at' => '2017-03-06 09:08:20',
+                'created_at' => '2017-03-06 01:08:20',
+                'updated_at' => '2017-03-06 01:08:20',
             ),
             27 => 
             array (
@@ -322,8 +322,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:20',
-                'updated_at' => '2017-03-06 09:08:20',
+                'created_at' => '2017-03-06 01:08:20',
+                'updated_at' => '2017-03-06 01:08:20',
             ),
             28 => 
             array (
@@ -333,8 +333,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:20',
-                'updated_at' => '2017-03-06 09:08:20',
+                'created_at' => '2017-03-06 01:08:20',
+                'updated_at' => '2017-03-06 01:08:20',
             ),
             29 => 
             array (
@@ -344,8 +344,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:20',
-                'updated_at' => '2017-03-06 09:08:20',
+                'created_at' => '2017-03-06 01:08:20',
+                'updated_at' => '2017-03-06 01:08:20',
             ),
             30 => 
             array (
@@ -355,8 +355,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:20',
-                'updated_at' => '2017-03-06 09:08:20',
+                'created_at' => '2017-03-06 01:08:20',
+                'updated_at' => '2017-03-06 01:08:20',
             ),
             31 => 
             array (
@@ -366,8 +366,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:20',
-                'updated_at' => '2017-03-06 09:08:20',
+                'created_at' => '2017-03-06 01:08:20',
+                'updated_at' => '2017-03-06 01:08:20',
             ),
             32 => 
             array (
@@ -377,8 +377,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:21',
-                'updated_at' => '2017-03-06 09:08:21',
+                'created_at' => '2017-03-06 01:08:21',
+                'updated_at' => '2017-03-06 01:08:21',
             ),
             33 => 
             array (
@@ -388,8 +388,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:21',
-                'updated_at' => '2017-03-06 09:08:21',
+                'created_at' => '2017-03-06 01:08:21',
+                'updated_at' => '2017-03-06 01:08:21',
             ),
             34 => 
             array (
@@ -399,8 +399,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:21',
-                'updated_at' => '2017-03-06 09:08:21',
+                'created_at' => '2017-03-06 01:08:21',
+                'updated_at' => '2017-03-06 01:08:21',
             ),
             35 => 
             array (
@@ -410,8 +410,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:21',
-                'updated_at' => '2017-03-06 09:08:21',
+                'created_at' => '2017-03-06 01:08:21',
+                'updated_at' => '2017-03-06 01:08:21',
             ),
             36 => 
             array (
@@ -421,8 +421,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:21',
-                'updated_at' => '2017-03-06 09:08:21',
+                'created_at' => '2017-03-06 01:08:21',
+                'updated_at' => '2017-03-06 01:08:21',
             ),
             37 => 
             array (
@@ -432,8 +432,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:21',
-                'updated_at' => '2017-03-06 09:08:21',
+                'created_at' => '2017-03-06 01:08:21',
+                'updated_at' => '2017-03-06 01:08:21',
             ),
             38 => 
             array (
@@ -443,8 +443,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:21',
-                'updated_at' => '2017-03-06 09:08:21',
+                'created_at' => '2017-03-06 01:08:21',
+                'updated_at' => '2017-03-06 01:08:21',
             ),
             39 => 
             array (
@@ -454,8 +454,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:21',
-                'updated_at' => '2017-03-06 09:08:21',
+                'created_at' => '2017-03-06 01:08:21',
+                'updated_at' => '2017-03-06 01:08:21',
             ),
             40 => 
             array (
@@ -465,8 +465,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:21',
-                'updated_at' => '2017-03-06 09:08:21',
+                'created_at' => '2017-03-06 01:08:21',
+                'updated_at' => '2017-03-06 01:08:21',
             ),
             41 => 
             array (
@@ -476,8 +476,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:21',
-                'updated_at' => '2017-03-06 09:08:21',
+                'created_at' => '2017-03-06 01:08:21',
+                'updated_at' => '2017-03-06 01:08:21',
             ),
             42 => 
             array (
@@ -487,8 +487,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:21',
-                'updated_at' => '2017-03-06 09:08:21',
+                'created_at' => '2017-03-06 01:08:21',
+                'updated_at' => '2017-03-06 01:08:21',
             ),
             43 => 
             array (
@@ -498,8 +498,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:21',
-                'updated_at' => '2017-03-06 09:08:21',
+                'created_at' => '2017-03-06 01:08:21',
+                'updated_at' => '2017-03-06 01:08:21',
             ),
             44 => 
             array (
@@ -509,8 +509,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:08:21',
-                'updated_at' => '2017-03-06 09:08:21',
+                'created_at' => '2017-03-06 01:08:21',
+                'updated_at' => '2017-03-06 01:08:21',
             ),
             45 => 
             array (
@@ -520,8 +520,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 09:22:39',
-                'updated_at' => '2017-03-06 09:22:39',
+                'created_at' => '2017-03-06 01:22:39',
+                'updated_at' => '2017-03-06 01:22:39',
             ),
             46 => 
             array (
@@ -531,8 +531,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 11:20:53',
-                'updated_at' => '2017-03-06 11:20:53',
+                'created_at' => '2017-03-06 03:20:53',
+                'updated_at' => '2017-03-06 03:20:53',
             ),
             47 => 
             array (
@@ -542,8 +542,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 14:07:21',
-                'updated_at' => '2017-03-06 14:07:21',
+                'created_at' => '2017-03-06 06:07:21',
+                'updated_at' => '2017-03-06 06:07:21',
             ),
             48 => 
             array (
@@ -553,8 +553,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 21:05:13',
-                'updated_at' => '2017-03-06 21:05:13',
+                'created_at' => '2017-03-06 13:05:13',
+                'updated_at' => '2017-03-06 13:05:13',
             ),
             49 => 
             array (
@@ -564,8 +564,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 21:05:13',
-                'updated_at' => '2017-03-06 21:05:13',
+                'created_at' => '2017-03-06 13:05:13',
+                'updated_at' => '2017-03-06 13:05:13',
             ),
             50 => 
             array (
@@ -575,8 +575,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 21:12:34',
-                'updated_at' => '2017-03-06 21:12:34',
+                'created_at' => '2017-03-06 13:12:34',
+                'updated_at' => '2017-03-06 13:12:34',
             ),
             51 => 
             array (
@@ -586,8 +586,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 21:12:35',
-                'updated_at' => '2017-03-06 21:12:35',
+                'created_at' => '2017-03-06 13:12:35',
+                'updated_at' => '2017-03-06 13:12:35',
             ),
             52 => 
             array (
@@ -597,8 +597,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 21:20:59',
-                'updated_at' => '2017-03-06 21:20:59',
+                'created_at' => '2017-03-06 13:20:59',
+                'updated_at' => '2017-03-06 13:20:59',
             ),
             53 => 
             array (
@@ -608,8 +608,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 21:20:59',
-                'updated_at' => '2017-03-06 21:20:59',
+                'created_at' => '2017-03-06 13:20:59',
+                'updated_at' => '2017-03-06 13:20:59',
             ),
             54 => 
             array (
@@ -619,8 +619,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 21:20:59',
-                'updated_at' => '2017-03-06 21:20:59',
+                'created_at' => '2017-03-06 13:20:59',
+                'updated_at' => '2017-03-06 13:20:59',
             ),
             55 => 
             array (
@@ -630,8 +630,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 21:20:59',
-                'updated_at' => '2017-03-06 21:20:59',
+                'created_at' => '2017-03-06 13:20:59',
+                'updated_at' => '2017-03-06 13:20:59',
             ),
             56 => 
             array (
@@ -641,8 +641,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 21:21:25',
-                'updated_at' => '2017-03-06 21:21:25',
+                'created_at' => '2017-03-06 13:21:25',
+                'updated_at' => '2017-03-06 13:21:25',
             ),
             57 => 
             array (
@@ -652,8 +652,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 22:32:43',
-                'updated_at' => '2017-03-06 22:32:43',
+                'created_at' => '2017-03-06 14:32:43',
+                'updated_at' => '2017-03-06 14:32:43',
             ),
             58 => 
             array (
@@ -663,8 +663,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 22:32:43',
-                'updated_at' => '2017-03-06 22:32:43',
+                'created_at' => '2017-03-06 14:32:43',
+                'updated_at' => '2017-03-06 14:32:43',
             ),
             59 => 
             array (
@@ -674,8 +674,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 22:32:43',
-                'updated_at' => '2017-03-06 22:32:43',
+                'created_at' => '2017-03-06 14:32:43',
+                'updated_at' => '2017-03-06 14:32:43',
             ),
             60 => 
             array (
@@ -685,8 +685,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 22:32:43',
-                'updated_at' => '2017-03-06 22:32:43',
+                'created_at' => '2017-03-06 14:32:43',
+                'updated_at' => '2017-03-06 14:32:43',
             ),
             61 => 
             array (
@@ -696,8 +696,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 22:32:43',
-                'updated_at' => '2017-03-06 22:32:43',
+                'created_at' => '2017-03-06 14:32:43',
+                'updated_at' => '2017-03-06 14:32:43',
             ),
             62 => 
             array (
@@ -707,8 +707,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-06 23:13:12',
-                'updated_at' => '2017-03-06 23:13:12',
+                'created_at' => '2017-03-06 15:13:12',
+                'updated_at' => '2017-03-06 15:13:12',
             ),
             63 => 
             array (
@@ -718,8 +718,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-07 15:04:38',
-                'updated_at' => '2017-03-07 15:04:38',
+                'created_at' => '2017-03-07 07:04:38',
+                'updated_at' => '2017-03-07 07:04:38',
             ),
             64 => 
             array (
@@ -729,8 +729,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-07 15:05:05',
-                'updated_at' => '2017-03-07 15:05:05',
+                'created_at' => '2017-03-07 07:05:05',
+                'updated_at' => '2017-03-07 07:05:05',
             ),
             65 => 
             array (
@@ -740,8 +740,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-07 21:05:24',
-                'updated_at' => '2017-03-07 21:05:24',
+                'created_at' => '2017-03-07 13:05:24',
+                'updated_at' => '2017-03-07 13:05:24',
             ),
             66 => 
             array (
@@ -751,8 +751,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             67 => 
             array (
@@ -762,8 +762,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             68 => 
             array (
@@ -773,8 +773,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             69 => 
             array (
@@ -784,8 +784,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             70 => 
             array (
@@ -795,8 +795,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             71 => 
             array (
@@ -806,8 +806,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             72 => 
             array (
@@ -817,8 +817,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             73 => 
             array (
@@ -828,8 +828,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             74 => 
             array (
@@ -839,8 +839,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             75 => 
             array (
@@ -850,8 +850,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             76 => 
             array (
@@ -861,8 +861,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             77 => 
             array (
@@ -872,8 +872,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             78 => 
             array (
@@ -883,8 +883,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             79 => 
             array (
@@ -894,8 +894,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             80 => 
             array (
@@ -905,8 +905,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             81 => 
             array (
@@ -916,8 +916,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             82 => 
             array (
@@ -927,8 +927,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             83 => 
             array (
@@ -938,8 +938,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             84 => 
             array (
@@ -949,8 +949,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             85 => 
             array (
@@ -960,8 +960,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             86 => 
             array (
@@ -971,8 +971,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             87 => 
             array (
@@ -982,8 +982,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             88 => 
             array (
@@ -993,8 +993,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             89 => 
             array (
@@ -1004,8 +1004,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:46',
-                'updated_at' => '2017-03-24 10:42:46',
+                'created_at' => '2017-03-24 02:42:46',
+                'updated_at' => '2017-03-24 02:42:46',
             ),
             90 => 
             array (
@@ -1015,8 +1015,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:47',
-                'updated_at' => '2017-03-24 10:42:47',
+                'created_at' => '2017-03-24 02:42:47',
+                'updated_at' => '2017-03-24 02:42:47',
             ),
             91 => 
             array (
@@ -1026,8 +1026,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:47',
-                'updated_at' => '2017-03-24 10:42:47',
+                'created_at' => '2017-03-24 02:42:47',
+                'updated_at' => '2017-03-24 02:42:47',
             ),
             92 => 
             array (
@@ -1037,8 +1037,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:47',
-                'updated_at' => '2017-03-24 10:42:47',
+                'created_at' => '2017-03-24 02:42:47',
+                'updated_at' => '2017-03-24 02:42:47',
             ),
             93 => 
             array (
@@ -1048,8 +1048,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:47',
-                'updated_at' => '2017-03-24 10:42:47',
+                'created_at' => '2017-03-24 02:42:47',
+                'updated_at' => '2017-03-24 02:42:47',
             ),
             94 => 
             array (
@@ -1059,8 +1059,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:47',
-                'updated_at' => '2017-03-24 10:42:47',
+                'created_at' => '2017-03-24 02:42:47',
+                'updated_at' => '2017-03-24 02:42:47',
             ),
             95 => 
             array (
@@ -1070,8 +1070,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:47',
-                'updated_at' => '2017-03-24 10:42:47',
+                'created_at' => '2017-03-24 02:42:47',
+                'updated_at' => '2017-03-24 02:42:47',
             ),
             96 => 
             array (
@@ -1081,8 +1081,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:47',
-                'updated_at' => '2017-03-24 10:42:47',
+                'created_at' => '2017-03-24 02:42:47',
+                'updated_at' => '2017-03-24 02:42:47',
             ),
             97 => 
             array (
@@ -1092,8 +1092,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:47',
-                'updated_at' => '2017-03-24 10:42:47',
+                'created_at' => '2017-03-24 02:42:47',
+                'updated_at' => '2017-03-24 02:42:47',
             ),
             98 => 
             array (
@@ -1103,8 +1103,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:47',
-                'updated_at' => '2017-03-24 10:42:47',
+                'created_at' => '2017-03-24 02:42:47',
+                'updated_at' => '2017-03-24 02:42:47',
             ),
             99 => 
             array (
@@ -1114,8 +1114,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:47',
-                'updated_at' => '2017-03-24 10:42:47',
+                'created_at' => '2017-03-24 02:42:47',
+                'updated_at' => '2017-03-24 02:42:47',
             ),
             100 => 
             array (
@@ -1125,8 +1125,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-03-24 10:42:47',
-                'updated_at' => '2017-03-24 10:42:47',
+                'created_at' => '2017-03-24 02:42:47',
+                'updated_at' => '2017-03-24 02:42:47',
             ),
             101 => 
             array (
@@ -1136,8 +1136,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-04-09 19:52:52',
-                'updated_at' => '2017-04-09 19:52:52',
+                'created_at' => '2017-04-09 11:52:52',
+                'updated_at' => '2017-04-09 11:52:52',
             ),
             102 => 
             array (
@@ -1147,8 +1147,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-04-09 19:52:52',
-                'updated_at' => '2017-04-09 19:52:52',
+                'created_at' => '2017-04-09 11:52:52',
+                'updated_at' => '2017-04-09 11:52:52',
             ),
             103 => 
             array (
@@ -1158,8 +1158,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-04-09 19:52:52',
-                'updated_at' => '2017-04-09 19:52:52',
+                'created_at' => '2017-04-09 11:52:52',
+                'updated_at' => '2017-04-09 11:52:52',
             ),
             104 => 
             array (
@@ -1169,8 +1169,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-04-18 16:30:25',
-                'updated_at' => '2017-04-18 16:30:25',
+                'created_at' => '2017-04-18 08:30:25',
+                'updated_at' => '2017-04-18 08:30:25',
             ),
             105 => 
             array (
@@ -1180,8 +1180,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-04-18 16:30:25',
-                'updated_at' => '2017-04-18 16:30:25',
+                'created_at' => '2017-04-18 08:30:25',
+                'updated_at' => '2017-04-18 08:30:25',
             ),
             106 => 
             array (
@@ -1191,8 +1191,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-04-18 16:30:25',
-                'updated_at' => '2017-04-18 16:30:25',
+                'created_at' => '2017-04-18 08:30:25',
+                'updated_at' => '2017-04-18 08:30:25',
             ),
             107 => 
             array (
@@ -1202,8 +1202,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-04-18 16:30:26',
-                'updated_at' => '2017-04-18 16:30:26',
+                'created_at' => '2017-04-18 08:30:26',
+                'updated_at' => '2017-04-18 08:30:26',
             ),
             108 => 
             array (
@@ -1213,8 +1213,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-04-18 16:30:26',
-                'updated_at' => '2017-04-18 16:30:26',
+                'created_at' => '2017-04-18 08:30:26',
+                'updated_at' => '2017-04-18 08:30:26',
             ),
             109 => 
             array (
@@ -1224,8 +1224,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-05-08 11:21:35',
-                'updated_at' => '2017-05-08 11:21:35',
+                'created_at' => '2017-05-08 03:21:35',
+                'updated_at' => '2017-05-08 03:21:35',
             ),
             110 => 
             array (
@@ -1235,8 +1235,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-05-08 11:21:35',
-                'updated_at' => '2017-05-08 11:21:35',
+                'created_at' => '2017-05-08 03:21:35',
+                'updated_at' => '2017-05-08 03:21:35',
             ),
             111 => 
             array (
@@ -1246,8 +1246,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-05-08 11:21:35',
-                'updated_at' => '2017-05-08 11:21:35',
+                'created_at' => '2017-05-08 03:21:35',
+                'updated_at' => '2017-05-08 03:21:35',
             ),
             112 => 
             array (
@@ -1257,8 +1257,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-05-08 11:21:35',
-                'updated_at' => '2017-05-08 11:21:35',
+                'created_at' => '2017-05-08 03:21:35',
+                'updated_at' => '2017-05-08 03:21:35',
             ),
             113 => 
             array (
@@ -1268,8 +1268,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-05-08 11:21:35',
-                'updated_at' => '2017-05-08 11:21:35',
+                'created_at' => '2017-05-08 03:21:35',
+                'updated_at' => '2017-05-08 03:21:35',
             ),
             114 => 
             array (
@@ -1279,8 +1279,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-05-30 22:58:36',
-                'updated_at' => '2017-05-30 22:58:36',
+                'created_at' => '2017-05-30 14:58:36',
+                'updated_at' => '2017-05-30 14:58:36',
             ),
             115 => 
             array (
@@ -1290,8 +1290,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-05-30 22:58:36',
-                'updated_at' => '2017-05-30 22:58:36',
+                'created_at' => '2017-05-30 14:58:36',
+                'updated_at' => '2017-05-30 14:58:36',
             ),
             116 => 
             array (
@@ -1301,8 +1301,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-05-30 22:58:36',
-                'updated_at' => '2017-05-30 22:58:36',
+                'created_at' => '2017-05-30 14:58:36',
+                'updated_at' => '2017-05-30 14:58:36',
             ),
             117 => 
             array (
@@ -1312,8 +1312,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-05-30 22:58:36',
-                'updated_at' => '2017-05-30 22:58:36',
+                'created_at' => '2017-05-30 14:58:36',
+                'updated_at' => '2017-05-30 14:58:36',
             ),
             118 => 
             array (
@@ -1323,8 +1323,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-05-30 22:58:36',
-                'updated_at' => '2017-05-30 22:58:36',
+                'created_at' => '2017-05-30 14:58:36',
+                'updated_at' => '2017-05-30 14:58:36',
             ),
             119 => 
             array (
@@ -1334,8 +1334,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-06-14 10:19:49',
-                'updated_at' => '2017-06-14 10:19:49',
+                'created_at' => '2017-06-14 02:19:49',
+                'updated_at' => '2017-06-14 02:19:49',
             ),
             120 => 
             array (
@@ -1345,8 +1345,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-06-14 10:19:49',
-                'updated_at' => '2017-06-14 10:19:49',
+                'created_at' => '2017-06-14 02:19:49',
+                'updated_at' => '2017-06-14 02:19:49',
             ),
             121 => 
             array (
@@ -1356,8 +1356,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-06-14 10:19:49',
-                'updated_at' => '2017-06-14 10:19:49',
+                'created_at' => '2017-06-14 02:19:49',
+                'updated_at' => '2017-06-14 02:19:49',
             ),
             122 => 
             array (
@@ -1367,8 +1367,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-06-14 10:19:49',
-                'updated_at' => '2017-06-14 10:19:49',
+                'created_at' => '2017-06-14 02:19:49',
+                'updated_at' => '2017-06-14 02:19:49',
             ),
             123 => 
             array (
@@ -1378,8 +1378,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-06-14 10:19:49',
-                'updated_at' => '2017-06-14 10:19:49',
+                'created_at' => '2017-06-14 02:19:49',
+                'updated_at' => '2017-06-14 02:19:49',
             ),
             124 => 
             array (
@@ -1389,8 +1389,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:44',
-                'updated_at' => '2017-08-07 20:42:44',
+                'created_at' => '2017-08-07 12:42:44',
+                'updated_at' => '2017-08-07 12:42:44',
             ),
             125 => 
             array (
@@ -1400,8 +1400,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:44',
-                'updated_at' => '2017-08-07 20:42:44',
+                'created_at' => '2017-08-07 12:42:44',
+                'updated_at' => '2017-08-07 12:42:44',
             ),
             126 => 
             array (
@@ -1411,8 +1411,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:44',
-                'updated_at' => '2017-08-07 20:42:44',
+                'created_at' => '2017-08-07 12:42:44',
+                'updated_at' => '2017-08-07 12:42:44',
             ),
             127 => 
             array (
@@ -1422,8 +1422,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:44',
-                'updated_at' => '2017-08-07 20:42:44',
+                'created_at' => '2017-08-07 12:42:44',
+                'updated_at' => '2017-08-07 12:42:44',
             ),
             128 => 
             array (
@@ -1433,8 +1433,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:44',
-                'updated_at' => '2017-08-07 20:42:44',
+                'created_at' => '2017-08-07 12:42:44',
+                'updated_at' => '2017-08-07 12:42:44',
             ),
             129 => 
             array (
@@ -1444,8 +1444,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:44',
-                'updated_at' => '2017-08-07 20:42:44',
+                'created_at' => '2017-08-07 12:42:44',
+                'updated_at' => '2017-08-07 12:42:44',
             ),
             130 => 
             array (
@@ -1455,8 +1455,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:44',
-                'updated_at' => '2017-08-07 20:42:44',
+                'created_at' => '2017-08-07 12:42:44',
+                'updated_at' => '2017-08-07 12:42:44',
             ),
             131 => 
             array (
@@ -1466,8 +1466,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:44',
-                'updated_at' => '2017-08-07 20:42:44',
+                'created_at' => '2017-08-07 12:42:44',
+                'updated_at' => '2017-08-07 12:42:44',
             ),
             132 => 
             array (
@@ -1477,8 +1477,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:45',
-                'updated_at' => '2017-08-07 20:42:45',
+                'created_at' => '2017-08-07 12:42:45',
+                'updated_at' => '2017-08-07 12:42:45',
             ),
             133 => 
             array (
@@ -1488,8 +1488,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:45',
-                'updated_at' => '2017-08-07 20:42:45',
+                'created_at' => '2017-08-07 12:42:45',
+                'updated_at' => '2017-08-07 12:42:45',
             ),
             134 => 
             array (
@@ -1499,8 +1499,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:45',
-                'updated_at' => '2017-08-07 20:42:45',
+                'created_at' => '2017-08-07 12:42:45',
+                'updated_at' => '2017-08-07 12:42:45',
             ),
             135 => 
             array (
@@ -1510,8 +1510,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:45',
-                'updated_at' => '2017-08-07 20:42:45',
+                'created_at' => '2017-08-07 12:42:45',
+                'updated_at' => '2017-08-07 12:42:45',
             ),
             136 => 
             array (
@@ -1521,8 +1521,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:45',
-                'updated_at' => '2017-08-07 20:42:45',
+                'created_at' => '2017-08-07 12:42:45',
+                'updated_at' => '2017-08-07 12:42:45',
             ),
             137 => 
             array (
@@ -1532,8 +1532,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:45',
-                'updated_at' => '2017-08-07 20:42:45',
+                'created_at' => '2017-08-07 12:42:45',
+                'updated_at' => '2017-08-07 12:42:45',
             ),
             138 => 
             array (
@@ -1543,8 +1543,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:49',
-                'updated_at' => '2017-08-07 20:42:49',
+                'created_at' => '2017-08-07 12:42:49',
+                'updated_at' => '2017-08-07 12:42:49',
             ),
             139 => 
             array (
@@ -1554,8 +1554,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 20:42:49',
-                'updated_at' => '2017-08-07 20:42:49',
+                'created_at' => '2017-08-07 12:42:49',
+                'updated_at' => '2017-08-07 12:42:49',
             ),
             140 => 
             array (
@@ -1565,8 +1565,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-07 21:54:43',
-                'updated_at' => '2017-08-07 21:54:43',
+                'created_at' => '2017-08-07 13:54:43',
+                'updated_at' => '2017-08-07 13:54:43',
             ),
             141 => 
             array (
@@ -1576,8 +1576,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-14 10:37:21',
-                'updated_at' => '2017-08-14 10:37:21',
+                'created_at' => '2017-08-14 02:37:21',
+                'updated_at' => '2017-08-14 02:37:21',
             ),
             142 => 
             array (
@@ -1587,8 +1587,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-14 10:37:21',
-                'updated_at' => '2017-08-14 10:37:21',
+                'created_at' => '2017-08-14 02:37:21',
+                'updated_at' => '2017-08-14 02:37:21',
             ),
             143 => 
             array (
@@ -1598,8 +1598,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-14 10:37:21',
-                'updated_at' => '2017-08-14 10:37:21',
+                'created_at' => '2017-08-14 02:37:21',
+                'updated_at' => '2017-08-14 02:37:21',
             ),
             144 => 
             array (
@@ -1609,8 +1609,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-14 10:37:21',
-                'updated_at' => '2017-08-14 10:37:21',
+                'created_at' => '2017-08-14 02:37:21',
+                'updated_at' => '2017-08-14 02:37:21',
             ),
             145 => 
             array (
@@ -1620,8 +1620,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-26 12:08:59',
-                'updated_at' => '2017-08-26 12:08:59',
+                'created_at' => '2017-08-26 04:08:59',
+                'updated_at' => '2017-08-26 04:08:59',
             ),
             146 => 
             array (
@@ -1631,8 +1631,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-26 12:08:59',
-                'updated_at' => '2017-08-26 12:08:59',
+                'created_at' => '2017-08-26 04:08:59',
+                'updated_at' => '2017-08-26 04:08:59',
             ),
             147 => 
             array (
@@ -1642,8 +1642,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-26 12:08:59',
-                'updated_at' => '2017-08-26 12:08:59',
+                'created_at' => '2017-08-26 04:08:59',
+                'updated_at' => '2017-08-26 04:08:59',
             ),
             148 => 
             array (
@@ -1653,8 +1653,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-26 12:08:59',
-                'updated_at' => '2017-08-26 12:08:59',
+                'created_at' => '2017-08-26 04:08:59',
+                'updated_at' => '2017-08-26 04:08:59',
             ),
             149 => 
             array (
@@ -1664,8 +1664,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-08-26 12:08:59',
-                'updated_at' => '2017-08-26 12:08:59',
+                'created_at' => '2017-08-26 04:08:59',
+                'updated_at' => '2017-08-26 04:08:59',
             ),
             150 => 
             array (
@@ -1675,8 +1675,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-10-10 22:51:27',
-                'updated_at' => '2017-10-10 22:51:27',
+                'created_at' => '2017-10-10 14:51:27',
+                'updated_at' => '2017-10-10 14:51:27',
             ),
             151 => 
             array (
@@ -1686,8 +1686,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-10-10 22:51:27',
-                'updated_at' => '2017-10-10 22:51:27',
+                'created_at' => '2017-10-10 14:51:27',
+                'updated_at' => '2017-10-10 14:51:27',
             ),
             152 => 
             array (
@@ -1697,8 +1697,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-10-10 22:51:27',
-                'updated_at' => '2017-10-10 22:51:27',
+                'created_at' => '2017-10-10 14:51:27',
+                'updated_at' => '2017-10-10 14:51:27',
             ),
             153 => 
             array (
@@ -1708,8 +1708,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-10-10 22:51:27',
-                'updated_at' => '2017-11-16 10:01:13',
+                'created_at' => '2017-10-10 14:51:27',
+                'updated_at' => '2017-11-16 02:01:13',
             ),
             154 => 
             array (
@@ -1719,8 +1719,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-10-10 22:51:27',
-                'updated_at' => '2017-10-10 22:51:27',
+                'created_at' => '2017-10-10 14:51:27',
+                'updated_at' => '2017-10-10 14:51:27',
             ),
             155 => 
             array (
@@ -1730,8 +1730,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-10-10 22:51:31',
-                'updated_at' => '2017-10-10 22:51:31',
+                'created_at' => '2017-10-10 14:51:31',
+                'updated_at' => '2017-10-10 14:51:31',
             ),
             156 => 
             array (
@@ -1741,8 +1741,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-10-31 10:46:04',
-                'updated_at' => '2017-10-31 10:46:04',
+                'created_at' => '2017-10-31 02:46:04',
+                'updated_at' => '2017-10-31 02:46:04',
             ),
             157 => 
             array (
@@ -1752,8 +1752,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-10-31 10:46:04',
-                'updated_at' => '2017-10-31 10:46:04',
+                'created_at' => '2017-10-31 02:46:04',
+                'updated_at' => '2017-10-31 02:46:04',
             ),
             158 => 
             array (
@@ -1763,8 +1763,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-10-31 10:46:06',
-                'updated_at' => '2017-10-31 10:46:06',
+                'created_at' => '2017-10-31 02:46:06',
+                'updated_at' => '2017-10-31 02:46:06',
             ),
             159 => 
             array (
@@ -1774,8 +1774,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-10-31 10:46:06',
-                'updated_at' => '2017-10-31 10:46:06',
+                'created_at' => '2017-10-31 02:46:06',
+                'updated_at' => '2017-10-31 02:46:06',
             ),
             160 => 
             array (
@@ -1785,8 +1785,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-10-31 10:46:06',
-                'updated_at' => '2017-10-31 10:46:06',
+                'created_at' => '2017-10-31 02:46:06',
+                'updated_at' => '2017-10-31 02:46:06',
             ),
             161 => 
             array (
@@ -1796,8 +1796,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-10-31 10:46:07',
-                'updated_at' => '2017-10-31 10:46:07',
+                'created_at' => '2017-10-31 02:46:07',
+                'updated_at' => '2017-10-31 02:46:07',
             ),
             162 => 
             array (
@@ -1807,8 +1807,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-11-01 23:23:14',
-                'updated_at' => '2017-11-01 23:23:14',
+                'created_at' => '2017-11-01 15:23:14',
+                'updated_at' => '2017-11-01 15:23:14',
             ),
             163 => 
             array (
@@ -1818,8 +1818,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-11-06 23:08:20',
-                'updated_at' => '2017-11-06 23:08:20',
+                'created_at' => '2017-11-06 15:08:20',
+                'updated_at' => '2017-11-06 15:08:20',
             ),
             164 => 
             array (
@@ -1829,8 +1829,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-11-16 09:57:32',
-                'updated_at' => '2017-11-16 09:57:32',
+                'created_at' => '2017-11-16 01:57:32',
+                'updated_at' => '2017-11-16 01:57:32',
             ),
             165 => 
             array (
@@ -1840,8 +1840,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-11-16 09:57:32',
-                'updated_at' => '2017-11-16 09:57:32',
+                'created_at' => '2017-11-16 01:57:32',
+                'updated_at' => '2017-11-16 01:57:32',
             ),
             166 => 
             array (
@@ -1851,8 +1851,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-11-16 09:57:32',
-                'updated_at' => '2017-11-16 09:57:32',
+                'created_at' => '2017-11-16 01:57:32',
+                'updated_at' => '2017-11-16 01:57:32',
             ),
             167 => 
             array (
@@ -1862,8 +1862,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-11-16 09:57:32',
-                'updated_at' => '2017-11-16 09:57:32',
+                'created_at' => '2017-11-16 01:57:32',
+                'updated_at' => '2017-11-16 01:57:32',
             ),
             168 => 
             array (
@@ -1873,8 +1873,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-11-16 09:57:32',
-                'updated_at' => '2017-11-16 09:57:32',
+                'created_at' => '2017-11-16 01:57:32',
+                'updated_at' => '2017-11-16 01:57:32',
             ),
             169 => 
             array (
@@ -1884,8 +1884,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-12-02 18:04:37',
-                'updated_at' => '2017-12-02 18:04:37',
+                'created_at' => '2017-12-02 10:04:37',
+                'updated_at' => '2017-12-02 10:04:37',
             ),
             170 => 
             array (
@@ -1895,8 +1895,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-12-02 18:04:37',
-                'updated_at' => '2017-12-02 18:04:37',
+                'created_at' => '2017-12-02 10:04:37',
+                'updated_at' => '2017-12-02 10:04:37',
             ),
             171 => 
             array (
@@ -1906,8 +1906,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-12-02 18:04:37',
-                'updated_at' => '2017-12-02 18:04:37',
+                'created_at' => '2017-12-02 10:04:37',
+                'updated_at' => '2017-12-02 10:04:37',
             ),
             172 => 
             array (
@@ -1917,8 +1917,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-12-02 18:04:37',
-                'updated_at' => '2017-12-02 18:04:37',
+                'created_at' => '2017-12-02 10:04:37',
+                'updated_at' => '2017-12-02 10:04:37',
             ),
             173 => 
             array (
@@ -1928,8 +1928,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-12-02 18:04:37',
-                'updated_at' => '2017-12-02 18:04:37',
+                'created_at' => '2017-12-02 10:04:37',
+                'updated_at' => '2017-12-02 10:04:37',
             ),
             174 => 
             array (
@@ -1939,8 +1939,8 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-12-02 18:04:37',
-                'updated_at' => '2017-12-02 18:04:37',
+                'created_at' => '2017-12-02 10:04:37',
+                'updated_at' => '2017-12-02 10:04:37',
             ),
             175 => 
             array (
@@ -1950,8 +1950,63 @@ class PermissionsTableSeeder extends Seeder
                 'desc' => NULL,
                 'order' => 0,
                 'type' => 0,
-                'created_at' => '2017-12-02 18:04:37',
-                'updated_at' => '2017-12-02 18:04:37',
+                'created_at' => '2017-12-02 10:04:37',
+                'updated_at' => '2017-12-02 10:04:37',
+            ),
+            176 => 
+            array (
+                'id' => 280,
+                'key' => 'browse_plans',
+                'table_name' => 'plans',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2018-02-10 17:22:42',
+                'updated_at' => '2018-02-10 17:22:42',
+            ),
+            177 => 
+            array (
+                'id' => 281,
+                'key' => 'read_plans',
+                'table_name' => 'plans',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2018-02-10 17:22:42',
+                'updated_at' => '2018-02-10 17:22:42',
+            ),
+            178 => 
+            array (
+                'id' => 282,
+                'key' => 'edit_plans',
+                'table_name' => 'plans',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2018-02-10 17:22:42',
+                'updated_at' => '2018-02-10 17:22:42',
+            ),
+            179 => 
+            array (
+                'id' => 283,
+                'key' => 'add_plans',
+                'table_name' => 'plans',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2018-02-10 17:22:42',
+                'updated_at' => '2018-02-10 17:22:42',
+            ),
+            180 => 
+            array (
+                'id' => 284,
+                'key' => 'delete_plans',
+                'table_name' => 'plans',
+                'desc' => NULL,
+                'order' => 0,
+                'type' => 0,
+                'created_at' => '2018-02-10 17:22:42',
+                'updated_at' => '2018-02-10 17:22:42',
             ),
         ));
         

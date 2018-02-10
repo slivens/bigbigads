@@ -177,6 +177,16 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'text',
                 'order' => 14,
             ),
+            16 => 
+            array (
+                'id' => 20,
+                'key' => 'registered_redirect',
+                'display_name' => '注册成功后跳转地址',
+                'value' => '/pricing',
+                'details' => '',
+                'type' => 'text',
+                'order' => 15,
+            ),
         ));
         
         
