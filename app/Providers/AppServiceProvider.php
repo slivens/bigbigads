@@ -30,11 +30,11 @@ class AppServiceProvider extends ServiceProvider
         \App\Refund::observe(\App\Observers\RefundObserver::class);
 
 
-		//Braintree支付注册
-		\Braintree_Configuration::environment(config('services.braintree.environment'));
-		\Braintree_Configuration::merchantId(config('services.braintree.merchant_id'));
-		\Braintree_Configuration::publicKey(config('services.braintree.public_key'));
-		\Braintree_Configuration::privateKey(config('services.braintree.private_key'));
+        //Braintree支付注册
+        \Braintree_Configuration::environment(config('services.braintree.environment'));
+        \Braintree_Configuration::merchantId(config('services.braintree.merchant_id'));
+        \Braintree_Configuration::publicKey(config('services.braintree.public_key'));
+        \Braintree_Configuration::privateKey(config('services.braintree.private_key'));
 
         // 收藏夹不允许重复记录，会影响到权限统计，因此在创建的时候就要检查
         // TODO: 应该移到别的地方去
@@ -103,7 +103,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->resolving('payum.builder', function(\Payum\Core\PayumBuilder $payumBuilder) {
             $payumBuilder
-				// this method registers filesystem storages, consider to change them to something more
+                // this method registers filesystem storages, consider to change them to something more
                 // sophisticated, like eloquent storage
                 /* ->setTokenStorage(new FilesystemStorage(sys_get_temp_dir(), Token::class, 'hash')) */
                 /* ->addStorage(Payment::class, new EloquentStorage(Payment::class)) */
@@ -122,14 +122,14 @@ class AppServiceProvider extends ServiceProvider
                     ]);
             }
             $payumBuilder->addGateway('stripe',[
-					'factory' => 'stripe_js',
-					'publishable_key' => env('STRIPE_PUBLISHABLE_KEY'),
-					'secret_key' => env('STRIPE_SECRET_KEY')
-				]);
+                    'factory' => 'stripe_js',
+                    'publishable_key' => env('STRIPE_PUBLISHABLE_KEY'),
+                    'secret_key' => env('STRIPE_SECRET_KEY')
+                ]);
         });
 
         if ($this->app->environment('local')) {
             $this->app->register(\Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class);
         }
-	}
+    }
 }

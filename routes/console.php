@@ -16,11 +16,6 @@ use App\Jobs\LogAction;
 |
 */
 
-Artisan::command('inspire {project}', function ($project) {
-    $this->info("Ltest" . $project);
-})->describe('Display an inspiring quote');
-
-
 Artisan::command('bba:resetpwd {email}', function($email) {
     $user = App\User::where('email', $email)->first();
     if ($user instanceof App\User) {
