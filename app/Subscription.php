@@ -57,17 +57,22 @@ class Subscription extends Model
 
     public function user()
     {
-        return $this->belongsTo('\App\User');
+        return $this->belongsTo(User::class);
     }
 
     public function coupon()
     {
-        return $this->belongsTo('\App\Coupon');
+        return $this->belongsTo(Coupon::class);
     }
 
     public function payments()
     {
-        return $this->hasMany('\App\Payment');
+        return $this->hasMany(Payment::class);
+    }
+
+    public function gatewayConfig()
+    {
+        return $this->hasOne(GatewayConfig::class, 'id', 'gateway_id');
     }
 
     public function isActive()
@@ -89,6 +94,7 @@ class Subscription extends Model
         }
         return Subscription::STATE_SUBSCRIBED;
     }
+
 
     public function canCancel()
     {

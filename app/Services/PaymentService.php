@@ -9,6 +9,7 @@ use App\Role;
 use App\Payment;
 use App\Subscription;
 use App\Refund;
+use App\GatewayConfig;
 use Payum\Stripe\Request\Api\CreatePlan;
 use Stripe\Error;
 use Stripe\Plan as StripePlan;
@@ -695,7 +696,14 @@ class PaymentService implements PaymentServiceContract
         // TODO:stripe情况
         $this->log("handle refunding {$payment->number}...", PaymentService::LOG_INFO);
         $paypalService = $this->getPaypalService();
-        if ($payment->subscription->gateway == PaymentService::GATEWAY_PAYPAL) {
+        $gatewayConfig = $payment->subscription->gatewayConfig;
+        if ($gatewayConfig->factory_name === GatewayConfig::FACTORY_PAYPAL_EXPRESS_CHECKOUT) {
+            // TODO:应该做到自动调用API完成退款
+            Log::info('Paypal EC直接返回退款成功，请到控制台去完成退款');
+            $refund->status = Refund::STATE_ACCEPTED;
+            $refund->save();
+            return true;
+        } else if ($gatewayConfig->factory_name === GatewayConfig::FACTORY_PAYPAL_REST) {
             // 退款成功后，应该同步该订单的状态，同时及时修正用户权限
             $paypalRefund= $paypalService->refund($payment->number, $payment->currency, $amount);
             if (!$paypalRefund) {

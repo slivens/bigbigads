@@ -38,7 +38,7 @@
                             <tbody>
                                 @foreach($dataTypeContent as $data)
                                 <tr>
-                                    <td>{{$data->payment->subscription->agreement_id}}</td>
+                                    <td>{{$data->payment->subscription->gatewayConfig->gateway_name . ':' . $data->payment->subscription->agreement_id}}</td>
                                     <td>{{$data->payment->number}}</td>
 {{--                                    <td>{{$data->payment->buyer_email}}</td>--}}
                                     <td>{{$payment_service->getRefundHistoryCount($data->payment->buyer_email)}}</td>
