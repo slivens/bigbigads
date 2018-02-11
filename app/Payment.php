@@ -16,7 +16,7 @@ class Payment extends BasePayment
 
     protected $table = "payments";
     protected $fillable = ['number'];
-    protected $appends = ['gateway', 'start_date', 'end_date', 'is_effective'];
+    protected $appends = ['gateway', 'start_date', 'end_date', 'is_effective', 'plan'];
     protected $hidden = ['details'];
     protected $casts = [
         'details' => 'json'
@@ -88,5 +88,10 @@ class Payment extends BasePayment
     public function getIsEffectiveAttribute()
     {
         return $this->isEffective();
+    }
+
+    public function getPlanAttribute()
+    {
+        return str_replace('_', ' ', $this->subscription->plan);
     }
 }

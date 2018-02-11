@@ -199,6 +199,7 @@ final class SubscriptionController extends PayumController
         $user = Auth::user();
         $payment = $user->payments()->with('refund')->orderBy('created_at', 'desc')->get();
         // 后续新增的plan 需要往$level数组内按 des, level, plan添加直接让前端使用
+        // TODO: 前后端都应该修改，错误的使用方式
         $levels = [
             ['des'  =>  'lite_monthly'              , 'level' => 'Lite',       'plan' => 'Monthly'],
             ['des'  =>  'lite_annual'               , 'level' => 'Lite',       'plan' => 'Annual'],
