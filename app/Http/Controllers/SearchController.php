@@ -789,6 +789,7 @@ class SearchController extends Controller
                 return $this->responseError("server is busy, please refresh again", -4202);
             }
             if (array_key_exists('error', $resultJson)) {
+                Log::warning('search fail:', ['result' => $resultJson]);
                 return $this->responseError("Your search term is not legal", -4200);
             }
         } catch (Exception $e) {

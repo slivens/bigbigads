@@ -53,7 +53,7 @@ class SessionService implements \App\Contracts\SessionService
     private function getFilteredSessions($where = null)
     {
         $result = new Collection();
-        $query = $this->getQuery()->whereNotNull('user_id');
+        $query = $this->getQuery()->whereNotNull('user_id')->orderBy('id');
         if ($where)
             $query->where($where);
         $query->chunk(100, function($rows) use($result) {
