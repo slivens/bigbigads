@@ -187,7 +187,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Orangehill\Iseed\IseedServiceProvider::class,
-        Jenssegers\Agent\AgentServiceProvider::class
+        Jenssegers\Agent\AgentServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class
     ],
 
     /*

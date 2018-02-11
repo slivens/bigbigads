@@ -57,12 +57,12 @@ class User extends Authenticatable
 
     public function bookmarks()
     {
-        return $this->hasMany('App\Bookmark', 'uid');
+        return $this->hasMany(Bookmark::class, 'uid');
     }
 
     public function bookmarkItems()
     {
-        return $this->hasMany('App\BookmarkItem', 'uid');
+        return $this->hasMany(BookmarkItem::class, 'uid');
     }
 
     public function role()
