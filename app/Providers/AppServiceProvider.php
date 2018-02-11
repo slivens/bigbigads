@@ -7,9 +7,10 @@ use TCG\Voyager\Models\User as VoyagerUser;
 use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
-use App\BookmarkItem;
 use Payum\LaravelPackage\Storage\EloquentStorage;
+use App\BookmarkItem;
 use App\Payment;
+use App\GatewayConfig;
 use Payum\LaravelPackage\Model\Token;
 use Payum\Core\Storage\FilesystemStorage;
 use Illuminate\Support\Facades\Session;
@@ -111,14 +112,15 @@ class AppServiceProvider extends ServiceProvider
                 /* ->addStorage(\ArrayObject::class, new FilesystemStorage(sys_get_temp_dir(), ArrayObject::class)) */
                 /* ->addStorage(Payout::class, new FilesystemStorage(sys_get_temp_dir(), Payout::class)) */
                 ->addDefaultStorages();
-            // 如果PAYPAL_EC_USERNAME没有设置就不初始化Paypal
-            if (env('PAYPAL_EC_USERNAME')) {
-                $payumBuilder->addGateway('paypal_ec', [
+            // Paypal配置全部从数据库中读取
+            $configs = GatewayConfig::where('factory_name', GatewayConfig::FACTORY_PAYPAL_EXPRESS_CHECKOUT)->get();
+            foreach ($configs as $config) {
+                $payumBuilder->addGateway($config->gateway_name, [
                         'factory' => 'paypal_express_checkout',
-                        'username' => env('PAYPAL_EC_USERNAME'),
-                        'password' => env('PAYPAL_EC_PASSWORD'),
-                        'signature' => env('PAYPAL_EC_SIGNATURE'),
-                        'sandbox' => env('PAYPAL_EC_ENV') === 'sandbox'
+                        'username' => $config->config['username'],
+                        'password' => $config->config['password'],
+                        'signature' => $config->config['signature'],
+                        'sandbox' => $config->sandbox
                     ]);
             }
             $payumBuilder->addGateway('stripe',[
