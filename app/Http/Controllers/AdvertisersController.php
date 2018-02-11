@@ -240,15 +240,15 @@ class AdvertisersController extends Controller
         $user = Auth::user();
 
         if (!$this->checkAttack($request, $user)) {
-            throw new \Exception("We detect your ip has abandom behavior", -5000);
+            throw new \Exception(trans('messages.detect_behavior'), -5000);
         }
 
         if (!$id || !$descMode) {
-            throw new \Exception("Lack of necessary id or sequencing parameters", -4602);
+            throw new \Exception(trans('messages.lack_parameters'), -4602);
         }
 
         if (!$user->can('adser_search')) {
-            throw new \Exception("you not permission of adser search", -4600);
+            throw new \Exception(trans('messages.no_adser_search_permisson'), -4600);
         }
     }
 
@@ -260,7 +260,7 @@ class AdvertisersController extends Controller
     {
         $user = Auth::user();
         if (!$user->can('adser_search')) {
-            throw new \Exception("you not permission of adser search", -4600);
+            throw new \Exception(trans('messages.no_adser_search_permisson'), -4600);
         }
     }
 
@@ -272,7 +272,7 @@ class AdvertisersController extends Controller
     {
         $logActionUsage = $user->getUsage($logAction);
         if (!$logActionUsage) {
-            return $this->responseError("no search permission");
+            return $this->responseError(trans('messages.no_search_permission'));
         }
 
         if (count($logActionUsage) < 4) {
@@ -364,7 +364,7 @@ class AdvertisersController extends Controller
             }
             if ($usage[2] >= intval($usage[1]) && $carbon->isToday()) {
                 dispatch(new LogAction($value, $jsonData, $key . ': RESTRICT', $user->id, $request->ip()));
-                throw new \Exception("you reached search times today, default result will show", -4100);
+                throw new \Exception(trans('messages.reached_search_times'), -4100);
             }
         }
     }
@@ -422,7 +422,7 @@ class AdvertisersController extends Controller
                     $user->updateUsage('adser_result_per_search', $resultPerSearchUsage[2] + 10, Carbon::now());
                 } else {
                     Log::warning("{$request->ip()} : <{$user->name}, {$user->email}> Illegal request limit: {$params['limit'][0]}");
-                    throw new \Exception("beyond result limit", -4400);
+                    throw new \Exception(trans('messages.beyond_result_limit'), -4400);
                 }
                 
                 if ($params['keys'][0]['string']) {
@@ -440,7 +440,7 @@ class AdvertisersController extends Controller
                     $adserSearchTimesPerday = $this->checkAndUpdateUsagePerday($user, 'adser_search_times_perday');
                     dispatch(new LogAction(ActionLog::ACTION_ADSER_SEARCH_TIMES_PERDAY, $jsonData, "adser_search_times_perday: " . $adserSearchTimesPerday . ", adser_total_count: " .$searchResult , $user->id, $request->ip()));
                 } else {
-                    throw new \Exception("you reached search times today, default result will show", -4100);
+                    throw new \Exception(trans('messages.reached_search_times'), -4100);
                 }
                 $user->updateUsage('adser_result_per_search', 10, Carbon::now());
                 break;
@@ -459,16 +459,16 @@ class AdvertisersController extends Controller
          * limit 参数检查
          */
         $user = Auth::user();
-        if (!$user) throw new \Exception("You should sign in", -4199);
+        if (!$user) throw new \Exception(trans('messages.should_sign_in'), -4199);
         if (!$user->can('adser_search')) {
-            throw new \Exception("you not permission of adser search", -4600);
+            throw new \Exception(trans('messages.no_adser_search_permisson'), -4600);
         }
         $resultPerSearch = $user->getUsage('adser_result_per_search');
         $limit = ($params['page'] - 1) * $params['limit'];
 
         if ($params['limit'] % 10 != 0 || $limit >= $resultPerSearch[1]) {
             dispatch(new LogAbnormalAction('', json_encode($params), 'Illegal limit params', $user->id, $req->ip()));
-            throw new \Exception("Illegal limit params", -4300);
+            throw new \Exception(trans('messages.Illegal_limit_params'), -4300);
         }
     }
 
@@ -480,7 +480,7 @@ class AdvertisersController extends Controller
     {
         $user = Auth::user();
         if (!$user->can('adser_search')) {
-            throw new \Exception("you not permission of adser search", -4600);
+            throw new \Exception(trans('messages.no_adser_search_permisson'), -4600);
         }
 
         /**
@@ -509,15 +509,15 @@ class AdvertisersController extends Controller
         if (!$user) throw new \Exception("You should sign in", -4199);
 
         if (!$this->checkAttack($req, $user)) {
-            throw new \Exception("We detect your ip has abandom behavior", -5000);
+            throw new \Exception(trans('messages.detect_behavior'), -5000);
         }
 
         if (!$id) {
-            throw new \Exception("lack of adser id", -4602);
+            throw new \Exception(trans('messages.lack_adser_id'), -4602);
         }
 
         if (!$user->can('adser_search')) {
-            throw new \Exception("you not permission of adser analysis", -4601);
+            throw new \Exception(trans('messages.no_permission_adser_analysis'), -4601);
         }
     }
 
@@ -531,11 +531,11 @@ class AdvertisersController extends Controller
         $adserAnalysisPerday = $user->getUsage('adser_analysis_perday');
 
         if (!$user->can('adser_search')) {
-            throw new \Exception("you not permission of adser analysis", -4601);
+            throw new \Exception(trans('messages.no_permission_adser_analysis'), -4601);
         }
 
         if ($adserAnalysisPerday[2] >= intval($adserAnalysisPerday[1])) {
-            throw new \Exception("you reached search times today, default result will show", -4100);
+            throw new \Exception(trans('messages.reached_search_times'), -4100);
         } else {
             $this->checkAndUpdateUsagePerday($user, 'adser_analysis_perday');
         }
