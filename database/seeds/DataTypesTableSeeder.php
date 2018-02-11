@@ -29,8 +29,8 @@ class DataTypesTableSeeder extends Seeder
                 'description' => '',
                 'generate_permissions' => 1,
                 'server_side' => 0,
-                'created_at' => '2017-01-22 16:55:07',
-                'updated_at' => '2017-01-22 16:55:07',
+                'created_at' => '2017-01-22 08:55:07',
+                'updated_at' => '2017-01-22 08:55:07',
             ),
             1 => 
             array (
@@ -44,8 +44,8 @@ class DataTypesTableSeeder extends Seeder
                 'description' => '',
                 'generate_permissions' => 1,
                 'server_side' => 0,
-                'created_at' => '2017-01-22 16:55:07',
-                'updated_at' => '2017-01-22 16:55:07',
+                'created_at' => '2017-01-22 08:55:07',
+                'updated_at' => '2017-01-22 08:55:07',
             ),
             2 => 
             array (
@@ -59,8 +59,8 @@ class DataTypesTableSeeder extends Seeder
                 'description' => '',
                 'generate_permissions' => 1,
                 'server_side' => 1,
-                'created_at' => '2017-01-22 16:55:07',
-                'updated_at' => '2017-11-14 21:23:50',
+                'created_at' => '2017-01-22 08:55:07',
+                'updated_at' => '2017-11-14 13:23:50',
             ),
             3 => 
             array (
@@ -74,8 +74,8 @@ class DataTypesTableSeeder extends Seeder
                 'description' => '',
                 'generate_permissions' => 1,
                 'server_side' => 0,
-                'created_at' => '2017-01-22 16:55:07',
-                'updated_at' => '2017-01-22 16:55:07',
+                'created_at' => '2017-01-22 08:55:07',
+                'updated_at' => '2017-01-22 08:55:07',
             ),
             4 => 
             array (
@@ -89,8 +89,8 @@ class DataTypesTableSeeder extends Seeder
                 'description' => '',
                 'generate_permissions' => 1,
                 'server_side' => 0,
-                'created_at' => '2017-01-22 16:55:07',
-                'updated_at' => '2017-01-22 16:55:07',
+                'created_at' => '2017-01-22 08:55:07',
+                'updated_at' => '2017-01-22 08:55:07',
             ),
             5 => 
             array (
@@ -104,8 +104,8 @@ class DataTypesTableSeeder extends Seeder
                 'description' => '',
                 'generate_permissions' => 1,
                 'server_side' => 0,
-                'created_at' => '2017-01-22 16:55:07',
-                'updated_at' => '2017-01-22 16:55:07',
+                'created_at' => '2017-01-22 08:55:07',
+                'updated_at' => '2017-01-22 08:55:07',
             ),
             6 => 
             array (
@@ -119,8 +119,8 @@ class DataTypesTableSeeder extends Seeder
                 'description' => '营销发送的自定义邮件列表',
                 'generate_permissions' => 1,
                 'server_side' => 0,
-                'created_at' => '2017-05-08 11:21:35',
-                'updated_at' => '2017-05-08 11:23:11',
+                'created_at' => '2017-05-08 03:21:35',
+                'updated_at' => '2017-05-08 03:23:11',
             ),
             7 => 
             array (
@@ -134,8 +134,8 @@ class DataTypesTableSeeder extends Seeder
                 'description' => '',
                 'generate_permissions' => 1,
                 'server_side' => 1,
-                'created_at' => '2017-05-30 22:58:36',
-                'updated_at' => '2017-08-26 23:00:50',
+                'created_at' => '2017-05-30 14:58:36',
+                'updated_at' => '2017-08-26 15:00:50',
             ),
             8 => 
             array (
@@ -149,8 +149,8 @@ class DataTypesTableSeeder extends Seeder
                 'description' => '优惠券功能',
                 'generate_permissions' => 1,
                 'server_side' => 0,
-                'created_at' => '2017-06-12 14:31:07',
-                'updated_at' => '2017-06-12 14:38:06',
+                'created_at' => '2017-06-12 06:31:07',
+                'updated_at' => '2017-06-12 06:38:06',
             ),
             9 => 
             array (
@@ -164,8 +164,8 @@ class DataTypesTableSeeder extends Seeder
                 'description' => 'AAA',
                 'generate_permissions' => 1,
                 'server_side' => 1,
-                'created_at' => '2017-08-26 12:08:59',
-                'updated_at' => '2017-08-26 22:57:51',
+                'created_at' => '2017-08-26 04:08:59',
+                'updated_at' => '2017-08-26 14:57:51',
             ),
             10 => 
             array (
@@ -179,8 +179,8 @@ class DataTypesTableSeeder extends Seeder
                 'description' => '权限管理',
                 'generate_permissions' => 1,
                 'server_side' => 1,
-                'created_at' => '2017-11-16 09:57:32',
-                'updated_at' => '2017-11-16 09:58:48',
+                'created_at' => '2017-11-16 01:57:32',
+                'updated_at' => '2017-11-16 01:58:48',
             ),
             11 => 
             array (
@@ -194,8 +194,38 @@ class DataTypesTableSeeder extends Seeder
                 'description' => '',
                 'generate_permissions' => 1,
                 'server_side' => 1,
-                'created_at' => '2017-12-05 18:57:12',
-                'updated_at' => '2017-12-05 18:57:12',
+                'created_at' => '2017-12-05 10:57:12',
+                'updated_at' => '2017-12-05 10:57:12',
+            ),
+            12 => 
+            array (
+                'id' => 17,
+                'name' => 'plans',
+                'slug' => 'plans',
+                'display_name_singular' => '价格计划',
+                'display_name_plural' => '价格计划',
+                'icon' => '',
+                'model_name' => 'App\\Plan',
+                'description' => '',
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'created_at' => '2018-02-10 17:22:42',
+                'updated_at' => '2018-02-10 17:22:42',
+            ),
+            13 => 
+            array (
+                'id' => 18,
+                'name' => 'gateway_configs',
+                'slug' => 'gateway-configs',
+                'display_name_singular' => 'Gateway Config',
+                'display_name_plural' => 'Gateway Configs',
+                'icon' => '',
+                'model_name' => 'App\\GatewayConfig',
+                'description' => '',
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'created_at' => '2018-02-11 00:13:41',
+                'updated_at' => '2018-02-11 00:13:41',
             ),
         ));
         

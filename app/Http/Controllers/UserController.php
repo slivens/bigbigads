@@ -157,6 +157,7 @@ class UserController extends Controller
             }
             $userRetryTime = 'retryTime_'.$user->id;
             $res['user']['retryTime'] = Cache::get($userRetryTime);
+            $res['expires_at'] = Carbon::now()->addSeconds(config('session.lifetime'))->toDateTimeString();
         } else {
             $user = AnonymousUser::user($req);
             $res['login'] = false;
@@ -164,7 +165,7 @@ class UserController extends Controller
             $res['permissions'] = $user->role->permissions->groupBy('key');
             $res['groupPermissions'] = $user->role->permissions->groupBy('table_name');
         }
-        return json_encode($res, JSON_UNESCAPED_UNICODE);
+        return response()->json($res);
     }
 
     /**
@@ -817,4 +818,23 @@ class UserController extends Controller
             );
         }
     }
+
+    /**
+     * 用户新增filter区域自定义配置项
+     */
+     public function updateCustomOption(Request $req)
+     {
+        $user = Auth::user();
+        $data = $req->all();
+        if (!array_key_exists('customOption', $data)) {
+            return response()->fail(-1, 'param error');
+        } else {
+            $user->custom_option = json_encode($req->customOption);
+            if ($user->save()) {
+                return response()->success('success');
+            } else {
+                return response()->fail(-1, 'fail');
+            }
+        }
+     }
 }

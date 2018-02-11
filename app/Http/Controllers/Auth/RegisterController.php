@@ -93,7 +93,8 @@ class RegisterController extends Controller
 
         // 前端需求json返回时
         if ($request->expectsJson()) {
-            return Response::json(['redirectTo' => '/app']);
+            // 应该改为配置的方式(Voyager的配置需要增强和做得更方便些)
+            return Response::json(['redirectTo' => Voyager::setting('registered_redirect')]);
         } else {
             return redirect('welcome?socialite=email');
         }

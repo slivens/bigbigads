@@ -29,6 +29,8 @@ use App\Jobs\LogAction;
 use GuzzleHttp\Client;
 use App\Jobs\SendUserMail;
 use App\Jobs\SendUnsubscribeMail;
+use App\GatewayConfig;
+use Voyager;
 
 final class SubscriptionController extends PayumController
 {
@@ -103,16 +105,22 @@ final class SubscriptionController extends PayumController
     /**
      * 支付表单提示的处理
      *
+     * 如果没有指明支付类型，就使用默认网关
      * @warning 如果用户已经订阅了，不允许创建同样的订阅
      */
     public function pay(Request $req)
     {
         // check that we have nonce and plan in the incoming HTTP request
-        if (empty($req->input('planid'))) {
-            return redirect()->back()->withErrors(['message' => 'Invalid request']);
+        if (!$req->has('planid') && !$req->has('plan_name')) {
+            // TODO:统一处理
+            return "invalid request";
+            /* return redirect()->back()->withErrors(['desc' => 'Invalid request']); */
         }
-
-        $plan = Plan::find(intval($req->input('planid')));
+        if ($req->has('planid')) {
+            $plan = Plan::find(intval($req->input('planid')));
+        } else {
+            $plan = Plan::where('name', $req->input('plan_name'))->first();
+        }
         $user = Auth::user();
         $coupon = null;
         $discount = 0;
@@ -132,7 +140,11 @@ final class SubscriptionController extends PayumController
                 return redirect()->back()->withErrors(['message' => 'You have used the coupon']);
             }
         }
-
+        $gatewayConfig = GatewayConfig::where('gateway_name', Voyager::setting('current_gateway'))->first();
+        if (!$gatewayConfig) {
+            // TODO: 统一定向到某个错误页面或者前端需要知道如何读取Flash数据
+            return 'No Gateway Config';
+        }
         // 创建一个新的订阅(是否要清除已有的未支付订阅呢？需要的，防止数据库被填满，由于Paypal的token可能还在生效，所以在onPay时要确保不能支付成功)
         Subscription::where('user_id', $user->id)->where('status', Subscription::STATE_CREATED)->delete();
         $subscription = new Subscription();
@@ -144,13 +156,18 @@ final class SubscriptionController extends PayumController
         $subscription->setup_fee = $plan->amount - $discount;
         $subscription->frequency = $plan->frequency;
         $subscription->frequency_interval = $plan->frequency_interval;
-        $subscription->gateway = PaymentService::GATEWAY_STRIPE;
+        $subscription->gateway = PaymentService::GATEWAY_STRIPE;// TODO:删除，将用gateway_id，以支持多网关
+        $subscription->gateway_id = $gatewayConfig->id;
         $subscription->status = Subscription::STATE_CREATED;
         $subscription->tag = Subscription::TAG_DEFAULT;
+        $subscription->skype = $req->input('skype', ''); // 获取skype字段
         $subscription->save();
 
         if ($req->has('payType') && $req->payType == 'stripe') {
             return $this->payByStripe($req, $plan, $user, $coupon);
+        }
+        if ($gatewayConfig->factory_name == GatewayConfig::FACTORY_PAYPAL_EXPRESS_CHECKOUT) {
+            return $this->preparePaypalCheckout($req, $subscription->setup_fee);    
         }
         $service = $this->paymentService->getRawService(PaymentService::GATEWAY_PAYPAL);
         $approvalUrl = $service->createPayment($plan, $coupon ? ['setup_fee' => $plan->amount - $discount] : null);
@@ -208,13 +225,16 @@ final class SubscriptionController extends PayumController
     /**
      * 获取所有计划
      *
+     * 默认禁止返回权限相关信息，只有必要时才允许返回
      * @return Role $items 计划列表
      */
     public function plans()
     {
-        $items = Role::with('permissions', 'policies')->where('plan', '<>', null)->get();
+        $items = Role::where('plan', '<>', null)->get();
+        /* $items = Role::with('permissions', 'policies')->where('plan', '<>', null)->get(); */
+        
         foreach ($items as $key => $item) {
-            $item->groupPermissions = $item->permissions->groupBy('table_name');
+            /* $item->groupPermissions = $item->permissions->groupBy('table_name'); */
             $item->append('plans');
         }
         return $items;
@@ -232,12 +252,13 @@ final class SubscriptionController extends PayumController
 
     /**
      * 客户同意支付后的回调
+     * TODO: onPay这一步，应该考虑支持API请求会比较灵活
      */
     public function onPay(Request $request)
     {
         /* echo "processing...don't close the window."; */
         if ($request->success == 'false') {
-            return redirect('/app/profile?active=0');
+            return redirect(Voyager::setting('payed_redirect'));
         }
         $subscription = Subscription::where('agreement_id', $request->token)->first();
         if (!($subscription instanceof Subscription)) {
@@ -255,7 +276,7 @@ final class SubscriptionController extends PayumController
         $info = $payer->getPayerInfo();
         // 中途取消的情况下返回profile页面
         if ($agreement == null) {
-            return redirect('/app/profile?active=0');
+            return redirect(Voyager::setting('payed_redirect'));
         }
         $detail = $agreement->getAgreementDetails();
         // abort(401, "error on agreement");
@@ -296,7 +317,7 @@ final class SubscriptionController extends PayumController
             $client->request('GET', $url);
         } catch (\Exception $e) {
         }
-        return redirect('/app/profile?active=0');
+        return redirect(Voyager::setting('payed_redirect'));
     }
 
     /**
@@ -366,15 +387,18 @@ final class SubscriptionController extends PayumController
         }
     }
 
-    protected function preparePaypalCheckout(Request $request)
+    protected function preparePaypalCheckout(Request $request, $amount = null)
     {
-        if (!$request->has('amount')) {
+        if (!$request->has('amount') && !$amount) {
             return "amount parameter is required";
+        }
+        if (!$amount) {
+            $amount = $request->amount;
         }
         $storage = $this->getPayum()->getStorage('Payum\Core\Model\ArrayObject');
         $details = $storage->create();
         $details['PAYMENTREQUEST_0_CURRENCYCODE'] = 'USD';
-        $details['PAYMENTREQUEST_0_AMT'] = $request->amount;
+        $details['PAYMENTREQUEST_0_AMT'] = $amount;
         $storage->update($details);
         $captureToken = $this->getPayum()->getTokenFactory()->createCaptureToken('paypal_ec', $details, 'paypal_done');
         return redirect($captureToken->getTargetUrl());
@@ -441,13 +465,55 @@ final class SubscriptionController extends PayumController
         $gateway = $this->getPayum()->getGateway($token->getGatewayName());
 
         $gateway->execute($status = new GetHumanStatus($token));
+        if (!($status->getValue() == 'captured')) {
+            return 'pay failed, please try again <a href="/pricing">Back</a>';
+        }
+        $detail = iterator_to_array($status->getFirstModel());
 
-        return \Response::json(
-            array(
-                'status' => $status->getValue(),
-                'details' => iterator_to_array($status->getFirstModel())
-            )
-        );
+        if (!Auth::user()) {
+            return 'pay failed, if you have completed payment, please contact us';
+        }
+        if (\App\Payment::where('number', $detail['TRANSACTIONID'])->count() > 0) {
+            return redirect(Voyager::setting('payed_redirect'));
+        }
+        $user = Auth::user();
+        $subscription = $user->subscriptions()->where('status', Subscription::STATE_CREATED)->first();
+        $subscription->agreement_id = '';
+        $subscription->quantity = 1;
+        $subscription->status = Subscription::STATE_PAYED;
+        $subscription->remote_status = '';
+        $subscription->buyer_email = $detail['EMAIL'];
+        // TODO:总是按月，应该做得更细致些
+        $subscription->next_billing_date = Carbon::now()->addMonth();
+        $subscription->save();
+        $subscription->user->subscription_id = $subscription->id;
+        $subscription->user->save();
+
+        $payment = new \App\Payment();
+        $payment->number = $detail['TRANSACTIONID'];
+        $payment->description = '';
+        $payment->client_id = $user->id;
+        $payment->client_email = $user->email;
+        $payment->amount = $detail['AMT'];
+        $payment->currency = $detail['PAYMENTINFO_0_CURRENCYCODE'];
+        $payment->details = $detail;
+        $payment->buyer_email = $detail['EMAIL'];
+        $payment->status = \App\Payment::STATE_COMPLETED;
+        $payment->created_at = Carbon::now();
+
+        $payment->subscription()->associate($subscription);
+        $payment->save();
+
+        $subscription->user->fixInfoByPayments();
+        Log::info('pay detail:', ['detail' => $detail]);
+        /* return \Response::json( */
+        /*     array( */
+        /*         'status' => $status->getValue(), */
+        /*         'details' => iterator_to_array($status->getFirstModel()) */
+        /*     ) */
+        /* ); */
+
+        return redirect(Voyager::setting('payed_redirect'));
     }
 
     public function onStripeDone(Request $request)
@@ -468,7 +534,7 @@ final class SubscriptionController extends PayumController
             $subscription->agreement_id = $details['local']['customer']['subscriptions']['data'][0]['id'];
             $subscription->quantity = 1;
             /* $subscription->setup_fee = $details['amount'] / 100; */
-            $subscription->save();
+	    $subscription->save();
 
 
             $ourPayment = new OurPayment();
