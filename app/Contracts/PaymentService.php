@@ -38,6 +38,12 @@ interface PaymentService
     public function setParameter($key, $val);
     public function getParameter($key);
 
+
+    /**
+     * 一次性付款
+     */
+    public function checkout();
+
     /**
      * 同步计划
      * @param Array $gateways 为空值时表示同步所有计划;否则同步指定的计划。每个数组项应从GATEWAY_*中取值。

@@ -113,6 +113,7 @@ class AppServiceProvider extends ServiceProvider
                 /* ->addStorage(Payout::class, new FilesystemStorage(sys_get_temp_dir(), Payout::class)) */
                 ->addDefaultStorages();
             // Paypal配置全部从数据库中读取
+            // Paypal Express Checkout
             $configs = GatewayConfig::where('factory_name', GatewayConfig::FACTORY_PAYPAL_EXPRESS_CHECKOUT)->get();
             foreach ($configs as $config) {
                 $payumBuilder->addGateway($config->gateway_name, [
@@ -121,6 +122,17 @@ class AppServiceProvider extends ServiceProvider
                         'password' => $config->config['password'],
                         'signature' => $config->config['signature'],
                         'sandbox' => $config->config['sandbox']
+                    ]);
+            }
+
+            // Paypal REST API
+            $configs = GatewayConfig::where('factory_name', GatewayConfig::FACTORY_PAYPAL_REST)->get();
+            foreach ($configs as $config) {
+                $payumBuilder->addGateway($config->gateway_name, [
+                        'factory' => 'paypal_rest',
+                        'client_id' => $config->config['client_id'],
+                        'client_secret' => $config->config['client_secret'],
+                        'config_path' => $config->config['config_path']
                     ]);
             }
             $payumBuilder->addGateway('stripe',[

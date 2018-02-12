@@ -18,6 +18,12 @@ use PayPal\Api\Amount;
 use PayPal\Api\Refund;
 use PayPal\Api\RefundRequest;
 use PayPal\Api\Sale;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
+use PayPal\Api\Details;
+use PayPal\Api\Transaction;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\Payment;
 use Carbon\Carbon;
 use Log;
 
@@ -62,6 +68,58 @@ final class PaypalService
             ) 
         ); 
         return $this->apiContext;
+    }
+
+    /**
+     * TODO: 这只是测试代码，要用于生产还需要调整
+     */
+    public function checkout()
+    {
+        $payer = new Payer();
+        $payer->setPaymentMethod("paypal");
+        $item1 = new Item();
+        $item1->setName('Ground Coffee 40 oz')
+            ->setCurrency('USD')
+            ->setQuantity(1)
+            ->setSku("123123") // Similar to `item_number` in Classic API
+            ->setPrice(20);
+        $itemList = new ItemList();
+        $itemList->setItems(array($item1));
+        $details = new Details();
+        $details->setShipping(0)
+            ->setTax(0)
+            ->setSubtotal(20);
+        $amount = new Amount();
+        $amount->setCurrency("USD")
+            ->setTotal(20)
+            ->setDetails($details);
+
+        $transaction = new Transaction();
+        $transaction->setAmount($amount)
+            ->setItemList($itemList)
+            ->setDescription("Payment description")
+            ->setInvoiceNumber(uniqid());
+
+        $baseUrl = env('APP_URL');
+        $redirectUrls = new RedirectUrls();
+        $redirectUrls->setReturnUrl("$baseUrl/app/profile?success=true")
+            ->setCancelUrl("$baseUrl/app/profile.php?success=false");
+
+        $payment = new Payment();
+        $payment->setIntent("sale")
+            ->setPayer($payer)
+            ->setRedirectUrls($redirectUrls)
+            ->setTransactions(array($transaction));
+
+        $request = clone $payment;
+        try {
+            $payment->create($this->getApiContext());
+        } catch (Exception $ex) {
+            return false;
+        }
+        $approvalUrl = $payment->getApprovalLink();
+
+        return $payment;
     }
 
     /**

@@ -113,6 +113,12 @@ class PaymentService implements PaymentServiceContract
         }
     }
 
+    public function checkout()
+    {
+        $payment = $this->getPaypalService()->checkout();
+        return $payment;
+    }
+
     /**
      * {@inheritDoc}
      * @remark 同步计划没有考虑到试用期, 建立费用，延迟时间
@@ -703,7 +709,7 @@ class PaymentService implements PaymentServiceContract
             $refund->status = Refund::STATE_ACCEPTED;
             $refund->save();
             return true;
-        } else if ($gatewayConfig->factory_name === GatewayConfig::FACTORY_PAYPAL_REST) {
+        } else if ($gatewayConfig->factory_name === GatewayConfig::FACTORY_PAYPAL_REST && !$gatewayConfig->config['checkout']) {
             // 退款成功后，应该同步该订单的状态，同时及时修正用户权限
             $paypalRefund= $paypalService->refund($payment->number, $payment->currency, $amount);
             if (!$paypalRefund) {
