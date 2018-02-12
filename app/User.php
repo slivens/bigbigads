@@ -52,7 +52,7 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'custom_option' => 'object'   //将原本以字符串形式存储在数据库中的值转换为对象
+        'custom_option' => 'array',//将原本以字符串形式存储在数据库中的值转换为json
     ];
 
     public function bookmarks()
