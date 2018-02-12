@@ -477,14 +477,15 @@ final class SubscriptionController extends PayumController
         $gateway = $this->getPayum()->getGateway($token->getGatewayName());
 
         $gateway->execute($status = new GetHumanStatus($token));
-        if (!($status->getValue() == 'captured')) {
-            return 'pay failed, please try again <a href="/pricing">Back</a>';
-        }
         $detail = iterator_to_array($status->getFirstModel());
-
         if (!Auth::user()) {
             return 'pay failed, if you have completed payment, please contact us';
         }
+        if (!($status->getValue() == 'captured')) {
+            Log::warning('pay failed', ['user' => Auth::user()->email, 'detail' => $detail]);
+            return 'pay failed, please try again <a href="/pricing">Back</a>';
+        }
+
         if (\App\Payment::where('number', $detail['TRANSACTIONID'])->count() > 0) {
             return redirect(Voyager::setting('payed_redirect'));
         }
