@@ -401,7 +401,7 @@ final class SubscriptionController extends PayumController
         $details['PAYMENTREQUEST_0_CURRENCYCODE'] = 'USD';
         $details['PAYMENTREQUEST_0_AMT'] = $amount;
         $storage->update($details);
-        $captureToken = $this->getPayum()->getTokenFactory()->createCaptureToken('paypal_ec', $details, 'paypal_done');
+        $captureToken = $this->getPayum()->getTokenFactory()->createCaptureToken(Voyager::setting('current_gateway'), $details, 'paypal_done');
         return redirect($captureToken->getTargetUrl());
     }
 
