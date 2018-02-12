@@ -30,6 +30,7 @@ use GuzzleHttp\Client;
 use App\Jobs\SendUserMail;
 use App\Jobs\SendUnsubscribeMail;
 use App\GatewayConfig;
+use App\Exceptions\BusinessErrorException;
 use Voyager;
 
 final class SubscriptionController extends PayumController
@@ -479,11 +480,11 @@ final class SubscriptionController extends PayumController
         $gateway->execute($status = new GetHumanStatus($token));
         $detail = iterator_to_array($status->getFirstModel());
         if (!Auth::user()) {
-            return 'pay failed, if you have completed payment, please contact us';
+            throw new BusinessErrorException('pay failed, if you have completed payment, please contact us: support@onlineadspyer.com');
         }
         if (!($status->getValue() == 'captured')) {
             Log::warning('pay failed', ['user' => Auth::user()->email, 'detail' => $detail]);
-            return 'pay failed, please try again <a href="/pricing">Back</a>';
+            throw new BusinessErrorException('pay failed, please try again <a href="/pricing">Back</a>, or mail to support@onlineadspyer.com');
         }
 
         if (\App\Payment::where('number', $detail['TRANSACTIONID'])->count() > 0) {
@@ -519,14 +520,11 @@ final class SubscriptionController extends PayumController
 
         $subscription->user->fixInfoByPayments();
         Log::info('pay detail:', ['detail' => $detail]);
-        /* return \Response::json( */
-        /*     array( */
-        /*         'status' => $status->getValue(), */
-        /*         'details' => iterator_to_array($status->getFirstModel()) */
-        /*     ) */
-        /* ); */
-
-        return redirect(Voyager::setting('payed_redirect'));
+        $redirectUrl = Voyager::setting('payed_redirect');
+        if ($request->expectsJson()) {
+            return response()->json(['redirect' => $redirectUrl]);
+        }
+        return redirect($redirectUrl);
     }
 
     public function onStripeDone(Request $request)
