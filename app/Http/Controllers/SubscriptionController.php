@@ -388,6 +388,9 @@ final class SubscriptionController extends PayumController
         }
     }
 
+    /**
+     * Paypal Express Checkout
+     */
     protected function preparePaypalCheckout(Request $request, $amount = null)
     {
         if (!$request->has('amount') && !$amount) {
@@ -403,6 +406,12 @@ final class SubscriptionController extends PayumController
         $storage->update($details);
         $captureToken = $this->getPayum()->getTokenFactory()->createCaptureToken(Voyager::setting('current_gateway'), $details, 'paypal_done');
         return redirect($captureToken->getTargetUrl());
+    }
+
+    protected function preparePaypalRestCheckout(Request $request, $amount = null)
+    {
+        $payment = $this->paymentService->checkout();           
+        return redirect($payment->getApprovalLink());
     }
 
     protected function payByStripe(Request &$req, Plan &$plan, &$user, $coupon)
@@ -453,6 +462,8 @@ final class SubscriptionController extends PayumController
         switch ($method) {
             case 'paypal':
                 return $this->preparePaypalCheckout($request);
+            case 'paypal_rest':
+                return $this->preparePaypalRestCheckout($request);
             case 'stripe':
                 return $this->prepareStripeCheckout($request);
         }
