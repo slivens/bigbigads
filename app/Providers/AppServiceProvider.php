@@ -120,7 +120,7 @@ class AppServiceProvider extends ServiceProvider
                         'username' => $config->config['username'],
                         'password' => $config->config['password'],
                         'signature' => $config->config['signature'],
-                        'sandbox' => $config->sandbox
+                        'sandbox' => $config->config['sandbox']
                     ]);
             }
             $payumBuilder->addGateway('stripe',[
