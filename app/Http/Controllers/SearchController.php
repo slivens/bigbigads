@@ -130,6 +130,23 @@ class SearchController extends Controller
         /* return true; */
     }
 
+    private function changeTimeRange(&$params, ?string $min = null, ?string $max = null)
+    {
+        $isHasTime = false;
+        foreach($params['where'] as $key => $obj) {
+            if (array_key_exists('field', $obj) && $obj['field'] === 'time' && array_key_exists('min', $obj)) {
+                // 解决bug当用户使用advance过滤时同样有min,max键值出现时被错误覆盖,
+                $isHasTime = true;
+                if ($min) {
+                    $params['where'][$key]['min'] = max($min, $obj['min']);
+                }
+                if ($max) {
+                    $params['where'][$key]['max'] = min($max, $obj['max']);
+                }
+            }
+        }
+        return $isHasTime;
+    }
     /**
      * 广告搜索前先检查参数是否有对应权限，对于无权限的将该参数清空或者通过throw抛出错误;
      * @warning 需要特别注意，参数的'field'与权限值通常不相等。
@@ -166,13 +183,16 @@ class SearchController extends Controller
                 if (array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0 || (array_key_exists('sort', $params) && $params['sort']['field'] != 'default')) {
                     $params['search_result'] = 'ads';
                     $isHasTime = false;
+                    $usage = $user->getUsage('search_filter_recent_days');
+                    $recentDays = intval($usage[1]);
+                    $minDate = '2016-01-01';
+                    if ($recentDays > 0) {
+                        $minDate = Carbon::now()->subDays($recentDays)->toDateString();
+                    }
+                    $maxDate = Carbon::now()->toDateString();
                     //新增free用户在总搜索次数在没有超过10次(暂定)的情况下，结合voyager setting
                     //来控制是否强制在三个月内的数据
-                    $isLimitGetAllAds = true;
                     $searchTotalTimes = $user->getUsage('search_total_times');
-                    if ($searchTotalTimes[2] < 10 && \Voyager::setting('free_role_get_all_ads') == "true") {
-                        $isLimitGetAllAds = false;
-                    }
                     //免费用户限制在三个月前的时间内的数据，设置role = free 是为了让数据端识别并在一个请求内进行两次搜索，第一次是正常的搜索流程，第二次是获取全部的广告总数，
                     //在一次请求内给出两个总数结果，total_count和all_total_count
                     $freeEndDate = Carbon::now()->subMonths(3)->format("Y-m-d");
@@ -182,40 +202,10 @@ class SearchController extends Controller
                     //分为两种情况：1.修改time的值
                     //              2.直接删除where的time选项
                     if ($action['action'] == 'search' || $action['action'] == 'adser') {
-                        if ($user->hasRole('Free')) {
-                            foreach($params['where'] as $key => $obj) {
-                                if (array_key_exists('field', $obj) && $obj['field'] === 'time' && array_key_exists('min', $obj)) {
-                                    $isHasTime = true;
-                                    if ($isLimitGetAllAds) {
-                                        // 解决bug当用户使用advance过滤时同样有min,max键值出现时被错误覆盖,
-                                        if ($obj['min'] != '2016-01-01' || $obj['max'] != $freeEndDate) {
-                                            $params['where'][$key]['min'] = '2016-01-01';
-                                            $params['where'][$key]['max'] = $freeEndDate;
-                                        }
-                                    }
-                                }
-                            }
+                            $isHasTime = $this->changeTimeRange($params, $minDate, $maxDate);
                             if (!$isHasTime) {
                                 throw new \Exception("illegal time", -4198);
                             }
-                        }
-                        if ($user->hasRole('Lite')) {
-                            foreach($params['where'] as $key => $obj) {
-                                if (array_key_exists('field', $obj) && $obj['field'] === 'time' && array_key_exists('min', $obj)) {
-                                    $isHasTime = true;
-                                    if ($isLimitGetAllAds) {
-                                        // 解决bug当用户使用advance过滤时同样有min,max键值出现时被错误覆盖,
-                                        if ($obj['min'] != '2016-01-01' || $obj['max'] != $LiteEndDate) {
-                                            $params['where'][$key]['min'] = '2016-01-01';
-                                            $params['where'][$key]['max'] = $LiteEndDate;
-                                        }  
-                                    }        
-                                }
-                            }
-                            if (!$isHasTime) {
-                                throw new \Exception("illegal time", -4198);
-                            }
-                        }
                     }
                 } else {
                     $params['search_result'] = 'cache_ads';
