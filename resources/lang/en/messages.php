@@ -15,7 +15,7 @@ return [
     'service_term' => 'You need agree terms of service',
     'effective_email' => 'check user email effective',
     'no_adser_search_permisson' => 'you not permission of adser search',
-    'detect_behavior' = 'We detect your ip has abandom behavior',
+    'detect_behavior' => 'We detect your ip has abandom behavior',
     'lack_parameters' => 'Lack of necessary id or sequencing parameters',
     'reached_search_times' => 'you reached search times today, default result will show',
     'beyond_result_limit' => 'beyond result limit',
@@ -24,4 +24,4 @@ return [
     'no_search_permission' => 'no search permission',
     'Illegal_limit_params' => 'Illegal limit params',
     'should_sign_in' => 'You should sign in',
-]
+];
