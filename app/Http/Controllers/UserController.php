@@ -829,7 +829,7 @@ class UserController extends Controller
         if (!array_key_exists('customOption', $data)) {
             return response()->fail(-1, 'param error');
         } else {
-            $user->custom_option = json_encode($req->customOption);
+            $user->custom_option = $req->customOption;
             if ($user->save()) {
                 return response()->success('success');
             } else {
