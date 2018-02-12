@@ -51,6 +51,10 @@ class User extends Authenticatable
         'password', 'remember_token', 'regip'
     ];
 
+    protected $casts = [
+        'custom_option' => 'array',//将原本以字符串形式存储在数据库中的值转换为json
+    ];
+
     public function bookmarks()
     {
         return $this->hasMany(Bookmark::class, 'uid');
