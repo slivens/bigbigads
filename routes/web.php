@@ -123,7 +123,7 @@ Route::get(
 );
 // 由于移动端访问过于频繁，暂时更改路由名称并
 Route::get('/userinfo', 'UserController@logInfo');
-Route::get('/registerVerify', 'UserController@registerVerify');
+Route::get('/register_verify', 'UserController@registerVerify');
 Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
 // 有效邮箱激活路由
 Route::get('/subscription_email/verify', 'UserController@subEmailVerify');
@@ -135,11 +135,11 @@ Route::group(['middleware'=>'auth'], function() {
     Route::post('/pay', 'SubscriptionController@pay');
     Route::get('/billings', 'SubscriptionController@billings');
     Route::post('/subscription/{id}/cancel', 'SubscriptionController@cancel');
-	Route::get('/invoice/{invoice}', function (Request $request, $invoiceId) {
-		return Auth::user()->downloadInvoice($invoiceId, [
-			'vendor'  => 'Adminer',
-			'product' => 'Adminer',
-		], storage_path('invoice'));
+    Route::get('/invoice/{invoice}', function (Request $request, $invoiceId) {
+        return Auth::user()->downloadInvoice($invoiceId, [
+            'vendor'  => env('app.name'),
+            'product' => env('app.name'),
+        ], storage_path('invoice'));
     });
     Route::post('changepwd', 'UserController@changepwd');
     Route::put('/payments/{number}/refund_request', 'SubscriptionController@requestRefund');

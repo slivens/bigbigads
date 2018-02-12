@@ -28,7 +28,7 @@ class RegisterVerify extends Mailable
         $user = $this->user;
         $host = config('app.url');
         return ['name' => $user->name,
-                'link' => "{$host}registerVerify?token={$user->verify_token}&email={$user->email}"
+                'link' => "{$host}/register_verify?token={$user->verify_token}&email={$user->email}"
                ];
     }
     /**
@@ -39,6 +39,6 @@ class RegisterVerify extends Mailable
     public function build()
     {
         return $this->view('emails.register_verify')
-            ->with($this->params())->subject("Bigbigads:Please Verify Your Password");
+            ->with($this->params())->subject(config('app.name') . ":Please Verify Your Password");
     }
 }

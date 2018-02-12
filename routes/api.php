@@ -57,7 +57,6 @@ Route::get('hotword', 'HotWordController@getHotWord');
 Route::get('audience_interest', 'AudienceInterestController@getAudienceInterest');
 Route::post('/subscriptions/{sid}/sync', 'SubscriptionController@sync');
 
-Route::post('/quick_register', 'UserController@quickRegister');//快速注册表单提交位置
 Route::get('/payment/{method}/prepare', 'SubscriptionController@prepareCheckout');
 
 Route::post('/feedback/plan', 'FeedbackController@plan')->middleware('throttle:30,60');

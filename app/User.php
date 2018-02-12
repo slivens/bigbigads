@@ -185,7 +185,7 @@ class User extends Authenticatable
      */
     public function subscriptions()
     {
-        return $this->hasMany('App\Subscription');
+        return $this->hasMany(Subscription::class);
     }
 
     /**
@@ -193,7 +193,7 @@ class User extends Authenticatable
      */
     public function payments()
     {
-        return $this->hasMany('App\Payment', 'client_id');
+        return $this->hasMany(Payment::class, 'client_id');
     }
 
     public function getUsageAttribute($value)
