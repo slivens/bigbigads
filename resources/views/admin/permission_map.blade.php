@@ -38,6 +38,7 @@
                                     <tr>
                                         <td>
                                             {{$permission->table_name}} - {{$permission->key}}
+                                            <br/><small class="text-info">{{$permission->desc}}</small><br/>
                                             @if ($hasPolicy)
                                                 <div class="form-group text-center small">
                                                     <label>策略类型:</label>

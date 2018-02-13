@@ -123,7 +123,7 @@ Route::get(
 );
 // 由于移动端访问过于频繁，暂时更改路由名称并
 Route::get('/userinfo', 'UserController@logInfo');
-Route::get('/registerVerify', 'UserController@registerVerify');
+Route::get('/register_verify', 'UserController@registerVerify');
 Route::get('/sendVerifyMail', 'UserController@sendVerifyMail');
 // 有效邮箱激活路由
 Route::get('/subscription_email/verify', 'UserController@subEmailVerify');
@@ -135,11 +135,11 @@ Route::group(['middleware'=>'auth'], function() {
     Route::post('/pay', 'SubscriptionController@pay');
     Route::get('/billings', 'SubscriptionController@billings');
     Route::post('/subscription/{id}/cancel', 'SubscriptionController@cancel');
-	Route::get('/invoice/{invoice}', function (Request $request, $invoiceId) {
-		return Auth::user()->downloadInvoice($invoiceId, [
-			'vendor'  => 'Adminer',
-			'product' => 'Adminer',
-		], storage_path('invoice'));
+    Route::get('/invoice/{invoice}', function (Request $request, $invoiceId) {
+        return Auth::user()->downloadInvoice($invoiceId, [
+            'vendor'  => env('app.name'),
+            'product' => env('app.name'),
+        ], storage_path('invoice'));
     });
     Route::post('changepwd', 'UserController@changepwd');
     Route::put('/payments/{number}/refund_request', 'SubscriptionController@requestRefund');
@@ -238,9 +238,12 @@ Route::post('/subscriptions/{sid}/sync', 'SubscriptionController@sync');
 Route::get('hotword', 'HotWordController@getHotWord');
 Route::get('audience-interest', 'AudienceInterestController@getAudienceInterest');
 
-Route::post('/quick_register', 'UserController@quickRegister');//快速注册表单提交位置
+// @deprecated
+/* Route::post('/quick_register', 'UserController@quickRegister');//快速注册表单提交位置 */
 Route::get('/payment/{method}/prepare', 'SubscriptionController@prepareCheckout');
-Route::any('/payment/paypal/done', 'SubscriptionController@onPaypalDone')->name('paypal_done');
+Route::get('/payment/paypal/done', 'SubscriptionController@onPaypalDone')->name('paypal_done');
+// 该post是由nuxt访问的，实际上应该访问的secure_api，但由于payum会检查return url，所以目前只能该开放该路由
+Route::post('/payment/paypal/done', 'SubscriptionController@onPaypalDone');
 Route::any('/payment/stripe/done', 'SubscriptionController@onStripeDone')->name('stripe_done');
 
 /*

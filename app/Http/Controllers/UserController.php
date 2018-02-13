@@ -29,6 +29,8 @@ use App\AppRegistersUsers;
 use App\ServiceTerm;
 use App\Jobs\SendVerifyCodeMail;
 use App\Subscription;
+use App\Exceptions\BusinessErrorException;
+use Voyager;
 
 class UserController extends Controller
 {
@@ -173,26 +175,39 @@ class UserController extends Controller
      */
     public function registerVerify(Request $request)
     {
-        if (!($request->has('email') && $request->has('token'))) {
-            return view('auth.verify')->with('error', "parameter error");
+        if (!$request->has('token')) {
+            throw new BusinessErrorException("parameter error");
         }
-        $user = User::where('email', $request->email)->where('verify_token', $request->token)->first();
+        $user = User::where('verify_token', $request->token)->first();
         if (!($user instanceof User)) {
-            return view('auth.verify')->with('error', "Verify failed");
+            throw new BusinessErrorException("Verify failed");
         }
         if ($user->state == 1) {
-            return view('auth.verify')->with('error', "You have verified, don't verify again!!!");
+            throw new BusinessErrorException("You have verified, don't verify again!!!");
         }
         $user->state = 1;
         $user->save();
         Auth::login($user);
-        $agent = new Agent();
-        if ($agent->isMobile()) {
-            return redirect('/mobile');
+        if ($user->payments()->count() > 0) {
+            // 有付款记录跳到支付后页面
+            $redirectUrl = Voyager::setting('payed_redirect');
         } else {
-            return redirect('/app');
+            // 无付款记录跳到注册后页面
+            $redirectUrl = Voyager::setting('registered_redirect');
         }
-        // return view('auth.verify')->with("user", $user);
+        if ($request->expectsJson()) {
+            // TODO: Mobile是在后端判断，还是由前端判断
+            // 目前前端判断，后端考虑多返回一个mobile字段，以供前端判断
+            return response()->json(['redirect' => $redirectUrl]);
+        } else {
+            $agent = new Agent();
+            // 判断Mobile这一步，将改由客户端自己去做判断
+            if ($agent->isMobile()) {
+                return redirect('/mobile');
+            } else {
+                return redirect($redirectUrl);
+            }
+        }
     }
 
 

@@ -39,9 +39,12 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapApiRoutes();
 
+        $this->mapSecureApiRoutes();
+
         $this->mapWebRoutes();
 
         $this->mapAdminRoutes();
+
     }
 
     /**
@@ -103,6 +106,23 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapSecureApiRoutes()
+    {
+        Route::group([
+            'middleware' => 'api',
+            'namespace' => $this->namespace,
+            'prefix' => 'secure_api',
+        ], function ($router) {
+            require base_path('routes/secure_api.php');
+        });
+    }
     /**
      * 定义管理员后台的路由，所有的路由都以/admin为前缀
      *

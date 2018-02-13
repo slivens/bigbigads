@@ -2007,6 +2007,21 @@ class PermissionRoleTableSeeder extends Seeder
                 'permission_id' => 289,
                 'role_id' => 1,
             ),
+            398 => 
+            array (
+                'permission_id' => 290,
+                'role_id' => 4,
+            ),
+            399 => 
+            array (
+                'permission_id' => 290,
+                'role_id' => 5,
+            ),
+            400 => 
+            array (
+                'permission_id' => 290,
+                'role_id' => 10,
+            ),
         ));
         
         
