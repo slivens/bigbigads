@@ -19,57 +19,57 @@ class RolesTableSeeder extends Seeder
         \DB::table('roles')->insert(array (
             0 => 
             array (
-                'created_at' => '2017-01-22 08:55:08',
-                'display_name' => 'Administrator',
                 'id' => 1,
                 'name' => 'admin',
-                'plan' => NULL,
+                'display_name' => 'Administrator',
+                'created_at' => '2017-01-22 08:55:08',
                 'updated_at' => '2017-01-22 08:55:08',
+                'plan' => NULL,
             ),
             1 => 
             array (
-                'created_at' => '2017-01-22 08:55:08',
-                'display_name' => 'Normal User',
                 'id' => 2,
                 'name' => 'user',
-                'plan' => NULL,
+                'display_name' => 'Normal User',
+                'created_at' => '2017-01-22 08:55:08',
                 'updated_at' => '2017-01-22 08:55:08',
+                'plan' => NULL,
             ),
             2 => 
             array (
-                'created_at' => '2017-01-28 05:19:31',
-                'display_name' => 'Free',
                 'id' => 3,
                 'name' => 'Free',
-                'plan' => 'free',
+                'display_name' => 'Free',
+                'created_at' => '2017-01-28 05:19:31',
                 'updated_at' => '2018-02-10 10:37:05',
+                'plan' => 'free',
             ),
             3 => 
             array (
-                'created_at' => '2017-01-28 05:19:31',
-                'display_name' => 'Standard',
                 'id' => 4,
                 'name' => 'Standard',
-                'plan' => 'standard',
+                'display_name' => 'Standard',
+                'created_at' => '2017-01-28 05:19:31',
                 'updated_at' => '2017-12-15 03:08:59',
+                'plan' => 'standard',
             ),
             4 => 
             array (
-                'created_at' => '2017-01-28 05:19:31',
-                'display_name' => 'Advanced',
                 'id' => 5,
                 'name' => 'Advanced',
-                'plan' => 'advanced',
+                'display_name' => 'Advanced',
+                'created_at' => '2017-01-28 05:19:31',
                 'updated_at' => '2018-02-10 10:42:09',
+                'plan' => 'advanced',
             ),
             5 => 
             array (
-                'created_at' => '2017-10-21 13:56:25',
-                'display_name' => 'Lite',
                 'id' => 10,
                 'name' => 'Lite',
-                'plan' => 'lite',
+                'display_name' => 'Lite',
+                'created_at' => '2017-10-21 13:56:25',
                 'updated_at' => '2017-12-15 03:08:59',
+                'plan' => 'lite',
             ),
         ));
         
