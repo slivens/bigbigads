@@ -39,16 +39,25 @@ class SessionControlJob implements ShouldQueue
         $globalSessionCount = intval(Voyager::setting('global_session_count') ? : -1); 
         if ($globalSessionCount == 0)
             $globalSessionCount = -1;
-        $sessionService = app('app.service.session');        
+        $sessionService = app('app.service.session');
 
         $userSessions = $sessionService->userSessions($user->email);
         if (count($userSessions) == 0)
             return;
-        $left = $sessionService->removeUserSessions($user->email, $user->session_count !== null ? $user->session_count : $globalSessionCount);
+        $sessionCount = $globalSessionCount;
+        $usage = $user->getUsage('session_limit');
+        if ($usage && $usage[1] > 0) {
+            $sessionCount = intval($usage[1]);
+        }
+        /* Log::debug('session usage:', ['usage' => $usage, 'email' => $user->email, 'sessionCount' => $sessionCount]); */
+        if ($user->session_count !== null) {
+            $sessionCount = $user->session_count;
+        }
+        $left = $sessionService->removeUserSessions($user->email, $sessionCount);
         if ($left < 0)
             return;
         if (count($userSessions) != $left) {
-            Log::info("limit {$user->email} session count:", ['from' => count($userSessions), 'to' => $left]);
+            Log::info("limit {$user->email} session count:", ['from' => count($userSessions), 'to' => $left, 'usage' => $usage]);
         }
     }
 }

@@ -20,6 +20,11 @@ use App\Exceptions\GenericException;
 
 class SearchController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('throttle:20,1');
+    }
+
     /**
      * @$req Reqeust 
      * @$name 权限名称
