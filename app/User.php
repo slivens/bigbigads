@@ -297,6 +297,7 @@ class User extends Authenticatable
             }
             $item = $items[$key];
             $item[2] = 0;
+            $item[4] = true;
         } else {
             //测试的时候发现，新加入的权限和策略是直接进入到这个else分支，导致$item[2]没有初始化为0，会导致出现
             //下标2未出现的错误。
@@ -657,7 +658,7 @@ class User extends Authenticatable
             if ($userPolicy)
                 $policy[1] = $userPolicy->pivot->value;
             $usage = $this->getUsage($key);
-            if (!$usage || $usage[0] != $policy[0] || $usage[1] != $policy[1]) {
+            if (!$usage || $usage[0] != $policy[0] || $usage[1] != $policy[1] || isset($usage[4])) {
                 throw new GenericException($this, "({$this->email})should be: $key-" . json_encode($policy) . ", but now is : " . ($usage ? json_encode($usage) : "no usage"), 1000);
             }
         }

@@ -50,6 +50,7 @@ class SessionControlJob implements ShouldQueue
             $sessionCount = intval($usage[1]);
         }
         /* Log::debug('session usage:', ['usage' => $usage, 'email' => $user->email, 'sessionCount' => $sessionCount]); */
+        // TODO:既然角色有session_limit，用户也有session_limit，则session_count的独立字段其实就是没必要的
         if ($user->session_count !== null) {
             $sessionCount = $user->session_count;
         }
