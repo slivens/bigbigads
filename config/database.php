@@ -119,6 +119,11 @@ return [
     */
 
     'redis' => [
+        /* 
+         * 测试发现在系统均安装predis包和ext-redis扩展的情况下，有的环境下的客户端会使predis,
+         * 有的则使用phpredis，它们在配置上有些不同，为保证统一，统一使用性能更高的ext-redis。
+         */
+        'client' => 'phpredis', 
 
         'cluster' => false,
 
