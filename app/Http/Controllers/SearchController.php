@@ -184,7 +184,7 @@ class SearchController extends Controller
                     $params['sort']['field'] = 'default';
                 }        
                 return $params;
-            }else if(Auth::check() && ($user->hasRole('Free') || $user->hasRole('Standard') || $user->hasRole('Lite'))) {
+            }else if(Auth::check()) {
                 if (array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0 || (array_key_exists('sort', $params) && $params['sort']['field'] != 'default')) {
                     $params['search_result'] = 'ads';
                     $isHasTime = false;
