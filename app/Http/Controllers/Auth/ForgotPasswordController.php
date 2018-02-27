@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Response;
+use Lang;
 
 class ForgotPasswordController extends Controller
 {
@@ -46,7 +47,7 @@ class ForgotPasswordController extends Controller
     protected function sendResetLinkResponse($response)
     {
         if (request()->expectsJson()) {
-            return response()->success();
+            return response()->success(Lang::get('profile.email_send_success'));
         }
         return back()->with('status', trans($response));
     }
