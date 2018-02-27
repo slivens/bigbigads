@@ -377,6 +377,14 @@ class PoliciesTableSeeder extends Seeder
                 'type' => 4,
                 'updated_at' => '2018-02-13 01:00:09',
             ),
+            45 => 
+            array (
+                'created_at' => '2018-02-13 01:54:02',
+                'id' => 48,
+                'key' => 'session_limit',
+                'type' => 4,
+                'updated_at' => '2018-02-13 01:54:02',
+            ),
         ));
         
         

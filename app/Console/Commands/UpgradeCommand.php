@@ -54,13 +54,15 @@ class UpgradeCommand extends Command
             } else {
                 $this->call('iseed', [
                     'tables' => 'data_types,data_rows,menus,menu_items',
-                    '--force' => true
+                    '--force' => true,
+                    '--exclude' => 'created_at, updated_at'
                 ]);
             }
         } else if ($this->option('generate')) {
             $this->call('iseed', [
                 'tables' => 'roles,permissions,permission_role,policies,policy_role,policy_user,data_types,data_rows,menus,menu_items',
-                '--force' => true
+                '--force' => true,
+                '--exclude' => 'created_at, updated_at'
             ]);
         } else if ($this->option('recovery')) {
             // 临时禁止外键以便重建表，高危操作，只有明确自己操作的影响才能使用该功能
@@ -72,7 +74,8 @@ class UpgradeCommand extends Command
 
                 $this->call('iseed', [
                     'tables' => 'policy_user',
-                    '--force' => true
+                    '--force' => true,
+                    '--exclude' => 'created_at, updated_at'
                 ]);
                 $this->seed(\PermissionsTableSeeder::class);
                 $this->seed(\PermissionRoleTableSeeder::class);

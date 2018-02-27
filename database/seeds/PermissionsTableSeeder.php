@@ -2074,6 +2074,17 @@ class PermissionsTableSeeder extends Seeder
                 'type' => 0,
                 'updated_at' => '2018-02-13 01:02:08',
             ),
+            187 => 
+            array (
+                'created_at' => '2018-02-13 01:54:45',
+                'desc' => '会话数量控制',
+                'id' => 291,
+                'key' => 'session_limit',
+                'order' => 1,
+                'table_name' => 'sessions',
+                'type' => 0,
+                'updated_at' => '2018-02-13 01:54:45',
+            ),
         ));
         
         

@@ -20,6 +20,11 @@ use App\Exceptions\GenericException;
 
 class SearchController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('throttle:20,1');
+    }
+
     /**
      * @$req Reqeust 
      * @$name 权限名称
@@ -130,11 +135,11 @@ class SearchController extends Controller
         /* return true; */
     }
 
-    private function changeTimeRange(&$params, ?string $min = null, ?string $max = null)
+    private function changeTimeRange(&$params, ?string $min = null, ?string $max = null, $field = 'time')
     {
         $isHasTime = false;
         foreach($params['where'] as $key => $obj) {
-            if (array_key_exists('field', $obj) && $obj['field'] === 'time' && array_key_exists('min', $obj)) {
+            if (array_key_exists('field', $obj) && $obj['field'] === $field && array_key_exists('min', $obj)) {
                 // 解决bug当用户使用advance过滤时同样有min,max键值出现时被错误覆盖,
                 $isHasTime = true;
                 if ($min) {
@@ -144,6 +149,15 @@ class SearchController extends Controller
                     $params['where'][$key]['max'] = min($max, $obj['max']);
                 }
             }
+        }
+        // 如果没有选项，就创建默认选项
+        if (!$isHasTime) {
+            $isHasTime = true;
+            $params['where'][]  = [
+                'field' => $field,
+                'min' => $min,
+                'max' => $max
+            ];
         }
         return $isHasTime;
     }
@@ -179,7 +193,7 @@ class SearchController extends Controller
                     $params['sort']['field'] = 'default';
                 }        
                 return $params;
-            }else if(Auth::check() && ($user->hasRole('Free') || $user->hasRole('Standard') || $user->hasRole('Lite'))) {
+            }else if(Auth::check()) {
                 if (array_key_exists('keys', $params) && (count($params['keys']) > 0) || count($wheres) > 0 || (array_key_exists('sort', $params) && $params['sort']['field'] != 'default')) {
                     $params['search_result'] = 'ads';
                     $isHasTime = false;
@@ -202,7 +216,7 @@ class SearchController extends Controller
                     //分为两种情况：1.修改time的值
                     //              2.直接删除where的time选项
                     if ($action['action'] == 'search' || $action['action'] == 'adser') {
-                            $isHasTime = $this->changeTimeRange($params, $minDate, $maxDate);
+                            $isHasTime = $this->changeTimeRange($params, $minDate, $maxDate, 'first_see');
                             if (!$isHasTime) {
                                 throw new \Exception("illegal time", -4198);
                             }

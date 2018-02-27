@@ -15,6 +15,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        'Fideloper\Proxy\TrustProxies',
     ];
 
     /**
@@ -44,7 +45,8 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
-            'throttle:60,1',
+            \App\Http\Middleware\ControlSession::class,
+            'throttle:30,1',
             'bindings',
         ],
     ];

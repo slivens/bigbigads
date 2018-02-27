@@ -31,7 +31,7 @@ class AnonymousUser
             $user = new AnonymousUser();
             $user->id = 0;
             $user->name = "anonymous user";
-            $user->email = "{$ip}@bigbigads.com";
+            $user->email = "anonymous@{$ip}";
             $user->role = $role;
             $user->usage = $role->groupedPolicies();
             $user->date  = Carbon::now();

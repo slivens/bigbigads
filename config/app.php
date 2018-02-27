@@ -188,7 +188,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Orangehill\Iseed\IseedServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
-        Laravel\Tinker\TinkerServiceProvider::class
+        Laravel\Tinker\TinkerServiceProvider::class,
+        Fideloper\Proxy\TrustedProxyServiceProvider::class
     ],
 
     /*

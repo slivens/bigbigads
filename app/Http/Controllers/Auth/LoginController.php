@@ -15,6 +15,7 @@ use Voyager;
 use Response;
 use Jenssegers\Agent\Agent;
 use Lang;
+use App\Traits\Redirectable;
 
 class LoginController extends Controller
 {
@@ -29,7 +30,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers, Redirectable;
 
     /**
      * Where to redirect users after login.
@@ -75,7 +76,8 @@ class LoginController extends Controller
     {
         $agent = new Agent();
         if ($agent->isMobile()) {
-            return redirect('/mobile');
+            // TODO: 改为从配置中读取，同时这里的判断是有问题的，再推敲下逻辑
+            return $this->handleRedirect('/app');
         }
 
         //没审核通过或被冻结就不允许登陆
@@ -111,9 +113,7 @@ class LoginController extends Controller
                 return redirect($request->referer);
             }
         }
-        if ($request->expectsJson()) {
-            return Response::json(['redirectTo' => '/app']);
-        }
+        return $this->handleRedirect('/app');
     }
 
     protected function sendFailedLoginResponse(Request $request)                          
