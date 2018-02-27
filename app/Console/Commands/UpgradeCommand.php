@@ -84,6 +84,7 @@ class UpgradeCommand extends Command
             } catch(\Exception $e) {
                 DB::rollBack();
                 $this->comment("something goes wrong, rollback");
+                throw $e;
             }
         } else {
             $this->error("no operation");
