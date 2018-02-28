@@ -19,2579 +19,2257 @@ class PolicyRoleTableSeeder extends Seeder
         \DB::table('policy_role')->insert(array (
             0 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 7,
-                'value' => '1',
-                'created_at' => '2018-02-10 04:16:32',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1',
             ),
             1 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 8,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             2 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 9,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             3 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 10,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             4 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 11,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             5 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 12,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             6 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 13,
-                'value' => '50',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '50',
             ),
             7 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 14,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             8 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 15,
-                'value' => '1',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1',
             ),
             9 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 16,
-                'value' => '50',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '50',
             ),
             10 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 18,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             11 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 19,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             12 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 20,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             13 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 21,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             14 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 22,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:01',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             15 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 23,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             16 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 24,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             17 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 25,
-                'value' => '',
-                'created_at' => '2018-02-10 02:41:43',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             18 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 26,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             19 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 27,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             20 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 28,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             21 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 29,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             22 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 30,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             23 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 31,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             24 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 32,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             25 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 34,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             26 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 35,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             27 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 36,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             28 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 37,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             29 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 38,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             30 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 39,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             31 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 40,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             32 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 41,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             33 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 42,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             34 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 43,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             35 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 44,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             36 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 45,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             37 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 46,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             38 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 47,
-                'value' => '1',
-                'created_at' => '2018-02-12 17:37:29',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1',
             ),
             39 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 48,
-                'value' => '1',
-                'created_at' => '2018-02-12 17:58:36',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1',
             ),
             40 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 50,
-                'value' => '3',
-                'created_at' => '2018-02-27 01:35:23',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '3',
             ),
             41 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 51,
-                'value' => '3',
-                'created_at' => '2018-02-27 01:35:24',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '3',
             ),
             42 => 
             array (
-                'role_id' => 3,
                 'policy_id' => 52,
-                'value' => '3_month',
-                'created_at' => '2018-02-27 01:35:24',
+                'role_id' => 3,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '3_month',
             ),
             43 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 7,
-                'value' => '1000',
-                'created_at' => '2018-02-10 04:16:32',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             44 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 8,
-                'value' => '300',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '300',
             ),
             45 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 9,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             46 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 10,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             47 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 11,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             48 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 12,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             49 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 13,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             50 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 14,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             51 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 15,
-                'value' => '10',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10',
             ),
             52 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 16,
-                'value' => '500',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '500',
             ),
             53 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 18,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             54 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 19,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             55 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 20,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             56 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 21,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             57 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 22,
-                'value' => '600',
-                'created_at' => '2017-12-05 15:46:01',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '600',
             ),
             58 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 23,
-                'value' => '200',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '200',
             ),
             59 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 24,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             60 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 25,
-                'value' => '1000',
-                'created_at' => '2018-02-10 04:15:03',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             61 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 26,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             62 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 27,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             63 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 28,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             64 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 29,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             65 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 30,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             66 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 31,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             67 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 32,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             68 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 34,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             69 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 35,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             70 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 36,
-                'value' => '600',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '600',
             ),
             71 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 37,
-                'value' => '800',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '800',
             ),
             72 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 38,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             73 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 39,
-                'value' => '600',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '600',
             ),
             74 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 40,
-                'value' => '200',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '200',
             ),
             75 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 41,
-                'value' => '500',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '500',
             ),
             76 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 42,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             77 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 43,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             78 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 44,
-                'value' => '300',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '300',
             ),
             79 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 45,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             80 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 46,
-                'value' => '200',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '200',
             ),
             81 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 47,
-                'value' => '60',
-                'created_at' => '2018-02-26 09:22:14',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '60',
             ),
             82 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 48,
-                'value' => '2',
-                'created_at' => '2018-02-12 17:58:36',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '2',
             ),
             83 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 50,
-                'value' => '0',
-                'created_at' => '2018-02-27 01:35:24',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             84 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 51,
-                'value' => '0',
-                'created_at' => '2018-02-27 01:35:24',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             85 => 
             array (
-                'role_id' => 4,
                 'policy_id' => 52,
-                'value' => '0',
-                'created_at' => '2018-02-27 01:35:24',
+                'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             86 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 7,
-                'value' => '1000',
-                'created_at' => '2018-02-10 04:16:32',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             87 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 8,
-                'value' => '300',
-                'created_at' => '2018-02-10 04:16:32',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '300',
             ),
             88 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 9,
-                'value' => '500',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '500',
             ),
             89 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 10,
-                'value' => '500',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '500',
             ),
             90 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 11,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             91 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 12,
-                'value' => '10',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10',
             ),
             92 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 13,
-                'value' => '500',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '500',
             ),
             93 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 14,
-                'value' => '500',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '500',
             ),
             94 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 15,
-                'value' => '5',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5',
             ),
             95 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 16,
-                'value' => '150',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '150',
             ),
             96 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 18,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             97 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 19,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             98 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 20,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             99 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 21,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             100 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 22,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:01',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             101 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 23,
-                'value' => '200',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '200',
             ),
             102 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 24,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             103 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 25,
-                'value' => '1000',
-                'created_at' => '2018-02-10 04:15:03',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             104 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 26,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             105 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 27,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             106 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 28,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             107 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 29,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             108 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 30,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             109 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 31,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             110 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 32,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             111 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 34,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             112 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 35,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             113 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 36,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             114 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 37,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             115 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 38,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             116 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 39,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             117 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 40,
-                'value' => '200',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '200',
             ),
             118 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 41,
-                'value' => '500',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '500',
             ),
             119 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 42,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             120 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 43,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             121 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 44,
-                'value' => '300',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '300',
             ),
             122 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 45,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             123 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 46,
-                'value' => '200',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '200',
             ),
             124 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 47,
-                'value' => '90',
-                'created_at' => '2018-02-26 09:22:14',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '90',
             ),
             125 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 48,
-                'value' => '2',
-                'created_at' => '2018-02-12 17:58:36',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '2',
             ),
             126 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 50,
-                'value' => '0',
-                'created_at' => '2018-02-27 01:35:24',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             127 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 51,
-                'value' => '0',
-                'created_at' => '2018-02-27 01:35:24',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             128 => 
             array (
-                'role_id' => 5,
                 'policy_id' => 52,
-                'value' => '0',
-                'created_at' => '2018-02-27 01:35:24',
+                'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             129 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 7,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             130 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 8,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             131 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 9,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             132 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 10,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             133 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 11,
-                'value' => '500',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '500',
             ),
             134 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 12,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             135 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 13,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             136 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 14,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             137 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 15,
-                'value' => '10',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10',
             ),
             138 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 16,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             139 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 18,
-                'value' => '20',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '20',
             ),
             140 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 19,
-                'value' => '20',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '20',
             ),
             141 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 20,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             142 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 21,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             143 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 22,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:01',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             144 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 23,
-                'value' => '200',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '200',
             ),
             145 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 24,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             146 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 25,
-                'value' => '',
-                'created_at' => '2018-02-10 02:41:43',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             147 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 26,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             148 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 27,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             149 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 28,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             150 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 29,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             151 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 30,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             152 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 31,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             153 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 32,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             154 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 34,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             155 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 35,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             156 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 36,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             157 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 37,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             158 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 38,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             159 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 39,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             160 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 40,
-                'value' => '200',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '200',
             ),
             161 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 41,
-                'value' => '500',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '500',
             ),
             162 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 42,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             163 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 43,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             164 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 44,
-                'value' => '300',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '300',
             ),
             165 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 45,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             166 => 
             array (
-                'role_id' => 6,
                 'policy_id' => 46,
-                'value' => '200',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 6,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '200',
             ),
             167 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 7,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             168 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 8,
-                'value' => '300',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '300',
             ),
             169 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 9,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             170 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 10,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             171 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 11,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             172 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 12,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             173 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 13,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             174 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 14,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             175 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 15,
-                'value' => '10',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10',
             ),
             176 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 16,
-                'value' => '500',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '500',
             ),
             177 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 18,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             178 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 19,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             179 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 20,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             180 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 21,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             181 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 22,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:01',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             182 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 23,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             183 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 24,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             184 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 26,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             185 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 27,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             186 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 28,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             187 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 29,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             188 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 30,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             189 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 31,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             190 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 32,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             191 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 34,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             192 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 35,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             193 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 36,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             194 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 37,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             195 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 38,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             196 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 39,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             197 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 40,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             198 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 41,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             199 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 42,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             200 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 43,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             201 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 44,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             202 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 45,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             203 => 
             array (
-                'role_id' => 7,
                 'policy_id' => 46,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 7,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             204 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 7,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             205 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 8,
-                'value' => '300',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '300',
             ),
             206 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 9,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             207 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 10,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             208 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 11,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             209 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 12,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             210 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 13,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             211 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 14,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             212 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 15,
-                'value' => '1',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1',
             ),
             213 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 16,
-                'value' => '30',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '30',
             ),
             214 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 18,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             215 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 19,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             216 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 20,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             217 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 21,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             218 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 22,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:46:01',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             219 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 23,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             220 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 24,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             221 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 26,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             222 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 27,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             223 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 28,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             224 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 29,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             225 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 30,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             226 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 31,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             227 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 32,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             228 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 34,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             229 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 35,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             230 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 36,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             231 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 37,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             232 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 38,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             233 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 39,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             234 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 40,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             235 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 41,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             236 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 42,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             237 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 43,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             238 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 44,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             239 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 45,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             240 => 
             array (
-                'role_id' => 8,
                 'policy_id' => 46,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 8,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             241 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 7,
-                'value' => '1000',
-                'created_at' => '2017-10-10 14:51:28',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             242 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 8,
-                'value' => '300',
-                'created_at' => '2017-10-10 14:51:28',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '300',
             ),
             243 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 9,
-                'value' => '100',
-                'created_at' => '2017-10-10 14:51:30',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             244 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 10,
-                'value' => '100',
-                'created_at' => '2017-10-10 14:51:30',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             245 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 11,
-                'value' => '0',
-                'created_at' => '2017-10-10 14:51:30',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             246 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 12,
-                'value' => '0',
-                'created_at' => '2017-10-10 14:51:30',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             247 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 13,
-                'value' => '100',
-                'created_at' => '2017-10-10 14:51:31',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             248 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 14,
-                'value' => '100',
-                'created_at' => '2017-10-10 14:51:31',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             249 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 15,
-                'value' => '3',
-                'created_at' => '2017-10-10 14:51:31',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '3',
             ),
             250 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 16,
-                'value' => '150',
-                'created_at' => '2017-10-10 14:51:32',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '150',
             ),
             251 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 18,
-                'value' => '0',
-                'created_at' => '2017-10-10 14:51:32',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             252 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 19,
-                'value' => '0',
-                'created_at' => '2017-10-10 14:51:32',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             253 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 20,
-                'value' => '100',
-                'created_at' => '2017-10-10 14:51:32',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             254 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 21,
-                'value' => '1000',
-                'created_at' => '2017-10-10 14:51:28',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             255 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 22,
-                'value' => '1000',
-                'created_at' => '2017-10-10 14:51:29',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             256 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 23,
-                'value' => '1000',
-                'created_at' => '2017-10-10 14:51:30',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             257 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 24,
-                'value' => '10000',
-                'created_at' => '2017-10-10 14:51:28',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             258 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 25,
-                'value' => '10000',
-                'created_at' => '2017-10-10 14:51:28',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             259 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 26,
-                'value' => '10000',
-                'created_at' => '2017-10-10 14:51:28',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             260 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 27,
-                'value' => '10000',
-                'created_at' => '2017-10-10 14:51:28',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             261 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 28,
-                'value' => '10000',
-                'created_at' => '2017-10-10 14:51:28',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             262 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 29,
-                'value' => '10000',
-                'created_at' => '2017-10-10 14:51:28',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             263 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 30,
-                'value' => '0',
-                'created_at' => '2017-10-10 14:51:29',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             264 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 31,
-                'value' => '10000',
-                'created_at' => '2017-10-10 14:51:32',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             265 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 32,
-                'value' => '10000',
-                'created_at' => '2017-10-10 14:51:32',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             266 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 34,
-                'value' => '',
-                'created_at' => '2017-11-15 14:50:55',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             267 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 35,
-                'value' => '',
-                'created_at' => '2017-11-15 14:50:55',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             268 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 36,
-                'value' => '',
-                'created_at' => '2017-11-15 14:50:55',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             269 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 37,
-                'value' => '',
-                'created_at' => '2017-11-15 14:50:55',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             270 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 38,
-                'value' => '',
-                'created_at' => '2017-11-15 14:50:55',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             271 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 39,
-                'value' => '',
-                'created_at' => '2017-11-15 14:50:55',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             272 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 40,
-                'value' => '',
-                'created_at' => '2017-12-05 03:07:00',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             273 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 41,
-                'value' => '',
-                'created_at' => '2017-12-05 03:07:00',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             274 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 42,
-                'value' => '',
-                'created_at' => '2017-12-05 03:07:00',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             275 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 43,
-                'value' => '',
-                'created_at' => '2017-12-05 03:07:00',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             276 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 44,
-                'value' => '',
-                'created_at' => '2017-12-05 03:07:00',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             277 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 45,
-                'value' => '',
-                'created_at' => '2017-12-05 03:07:00',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             278 => 
             array (
-                'role_id' => 9,
                 'policy_id' => 46,
-                'value' => '',
-                'created_at' => '2017-12-05 03:07:00',
+                'role_id' => 9,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '',
             ),
             279 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 7,
-                'value' => '1000',
-                'created_at' => '2018-02-10 04:16:32',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             280 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 8,
-                'value' => '300',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '300',
             ),
             281 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 9,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             282 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 10,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             283 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 11,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             284 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 12,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             285 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 13,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             286 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 14,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:04',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             287 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 15,
-                'value' => '5',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5',
             ),
             288 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 16,
-                'value' => '250',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '250',
             ),
             289 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 18,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             290 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 19,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:06',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             291 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 20,
-                'value' => '100',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '100',
             ),
             292 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 21,
-                'value' => '1000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             293 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 22,
-                'value' => '300',
-                'created_at' => '2017-12-05 15:46:01',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '300',
             ),
             294 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 23,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             295 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 24,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             296 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 25,
-                'value' => '1000',
-                'created_at' => '2018-02-10 04:15:03',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1000',
             ),
             297 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 26,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             298 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 27,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             299 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 28,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             300 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 29,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             301 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 30,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             302 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 31,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             303 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 32,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:46:05',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             304 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 34,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             305 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 35,
-                'value' => '10000',
-                'created_at' => '2017-12-05 15:45:59',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '10000',
             ),
             306 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 36,
-                'value' => '300',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '300',
             ),
             307 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 37,
-                'value' => '500',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '500',
             ),
             308 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 38,
-                'value' => '5000',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '5000',
             ),
             309 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 39,
-                'value' => '300',
-                'created_at' => '2017-12-05 15:46:00',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '300',
             ),
             310 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 40,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             311 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 41,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             312 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 42,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             313 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 43,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:02',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             314 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 44,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             315 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 45,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             316 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 46,
-                'value' => '0',
-                'created_at' => '2017-12-05 15:46:03',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '0',
             ),
             317 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 47,
-                'value' => '30',
-                'created_at' => '2018-02-12 17:06:51',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '30',
             ),
             318 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 48,
-                'value' => '1',
-                'created_at' => '2018-02-12 17:58:36',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '1',
             ),
             319 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 50,
-                'value' => '3',
-                'created_at' => '2018-02-27 01:35:24',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '3',
             ),
             320 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 51,
-                'value' => '3',
-                'created_at' => '2018-02-27 01:35:24',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '3',
             ),
             321 => 
             array (
-                'role_id' => 10,
                 'policy_id' => 52,
-                'value' => '2_week',
-                'created_at' => '2018-02-27 01:35:24',
+                'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
+                'value' => '2_week',
             ),
         ));
         
