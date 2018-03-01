@@ -1899,43 +1899,43 @@ class PermissionsTableSeeder extends Seeder
             ),
             188 => 
             array (
-                'desc' => '',
+                'desc' => '广告详情页用户能看到的Audience Targeting Analysis显示行数，策略值为0表示没有限制，有策略值表示限制',
                 'id' => 294,
                 'key' => 'analysis_audience_list',
                 'order' => 0,
                 'table_name' => 'AdAnalysis',
                 'type' => 0,
-                'updated_at' => '2018-02-27 09:32:15',
+                'updated_at' => '2018-03-01 21:15:04',
             ),
             189 => 
             array (
-                'desc' => '',
+                'desc' => '广告详情页用户能看到的Top countries显示行数，策略值为0表示没有限制，有策略值表示限制',
                 'id' => 295,
                 'key' => 'analysis_country_list',
                 'order' => 0,
                 'table_name' => 'AdAnalysis',
                 'type' => 0,
-                'updated_at' => '2018-02-27 09:32:26',
+                'updated_at' => '2018-03-01 21:14:47',
             ),
             190 => 
             array (
-                'desc' => '',
+                'desc' => '广告详情页Demography能看到的显示时间限制，格式为2_week，即2周之前的数据，为0表示没有限制',
                 'id' => 296,
                 'key' => 'analysis_demography_time',
                 'order' => 0,
                 'table_name' => 'AdAnalysis',
                 'type' => 0,
-                'updated_at' => '2018-02-27 09:33:05',
+                'updated_at' => '2018-03-01 21:14:20',
             ),
             191 => 
             array (
-                'desc' => '',
+                'desc' => '广告详情页地图图表显示权限',
                 'id' => 297,
                 'key' => 'analysis_countrymap_show',
                 'order' => 0,
                 'table_name' => 'AdAnalysis',
                 'type' => 0,
-                'updated_at' => '2018-02-27 09:33:18',
+                'updated_at' => '2018-03-01 21:15:24',
             ),
         ));
         
