@@ -2262,14 +2262,14 @@ class PolicyRoleTableSeeder extends Seeder
                 'policy_id' => 51,
                 'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '3',
+                'value' => '0',
             ),
             321 => 
             array (
                 'policy_id' => 52,
                 'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '2_week',
+                'value' => '0',
             ),
         ));
         
