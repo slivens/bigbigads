@@ -19,7 +19,6 @@ class PermissionsTableSeeder extends Seeder
         \DB::table('permissions')->insert(array (
             0 => 
             array (
-                'created_at' => '2017-03-06 01:08:18',
                 'desc' => NULL,
                 'id' => 99,
                 'key' => 'search_times_perday',
@@ -30,7 +29,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             1 => 
             array (
-                'created_at' => '2017-03-06 01:08:18',
                 'desc' => NULL,
                 'id' => 100,
                 'key' => 'result_per_search',
@@ -41,7 +39,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             2 => 
             array (
-                'created_at' => '2017-03-06 01:08:18',
                 'desc' => NULL,
                 'id' => 101,
                 'key' => 'search_filter',
@@ -52,7 +49,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             3 => 
             array (
-                'created_at' => '2017-03-06 01:08:18',
                 'desc' => NULL,
                 'id' => 102,
                 'key' => 'search_sortby',
@@ -63,7 +59,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             4 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 103,
                 'key' => 'advanced_search',
@@ -74,7 +69,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             5 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 104,
                 'key' => 'save_search',
@@ -85,7 +79,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             6 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 105,
                 'key' => 'advertiser_search',
@@ -96,7 +89,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             7 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 106,
                 'key' => 'dest_site_search',
@@ -107,7 +99,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             8 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 107,
                 'key' => 'content_search',
@@ -118,7 +109,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             9 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 108,
                 'key' => 'audience_search',
@@ -129,7 +119,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             10 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 109,
                 'key' => 'date_filter',
@@ -140,7 +129,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             11 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 110,
                 'key' => 'format_filter',
@@ -151,7 +139,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             12 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 111,
                 'key' => 'duration_filter',
@@ -162,7 +149,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             13 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 112,
                 'key' => 'see_times_filter',
@@ -173,7 +159,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             14 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 113,
                 'key' => 'lang_filter',
@@ -184,7 +169,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             15 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 114,
                 'key' => 'engagement_filter',
@@ -195,7 +179,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             16 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 115,
                 'key' => 'date_sort',
@@ -206,7 +189,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             17 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 116,
                 'key' => 'likes_sort',
@@ -217,7 +199,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             18 => 
             array (
-                'created_at' => '2017-03-06 01:08:19',
                 'desc' => NULL,
                 'id' => 117,
                 'key' => 'shares_sort',
@@ -228,7 +209,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             19 => 
             array (
-                'created_at' => '2017-03-06 01:08:20',
                 'desc' => NULL,
                 'id' => 118,
                 'key' => 'video_views_sort',
@@ -239,7 +219,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             20 => 
             array (
-                'created_at' => '2017-03-06 01:08:20',
                 'desc' => NULL,
                 'id' => 119,
                 'key' => 'comment_sort',
@@ -250,7 +229,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             21 => 
             array (
-                'created_at' => '2017-03-06 01:08:20',
                 'desc' => NULL,
                 'id' => 120,
                 'key' => 'duration_sort',
@@ -261,7 +239,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             22 => 
             array (
-                'created_at' => '2017-03-06 01:08:20',
                 'desc' => NULL,
                 'id' => 121,
                 'key' => 'views_sort',
@@ -272,7 +249,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             23 => 
             array (
-                'created_at' => '2017-03-06 01:08:20',
                 'desc' => NULL,
                 'id' => 122,
                 'key' => 'engagement_total_sort',
@@ -283,7 +259,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             24 => 
             array (
-                'created_at' => '2017-03-06 01:08:20',
                 'desc' => NULL,
                 'id' => 123,
                 'key' => 'engagement_inc_sort',
@@ -294,7 +269,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             25 => 
             array (
-                'created_at' => '2017-03-06 01:08:20',
                 'desc' => NULL,
                 'id' => 124,
                 'key' => 'likes_inc_sort',
@@ -305,7 +279,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             26 => 
             array (
-                'created_at' => '2017-03-06 01:08:20',
                 'desc' => NULL,
                 'id' => 125,
                 'key' => 'video_views_inc_sort',
@@ -316,7 +289,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             27 => 
             array (
-                'created_at' => '2017-03-06 01:08:20',
                 'desc' => NULL,
                 'id' => 126,
                 'key' => 'image_download',
@@ -327,7 +299,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             28 => 
             array (
-                'created_at' => '2017-03-06 01:08:20',
                 'desc' => NULL,
                 'id' => 127,
                 'key' => 'video_download',
@@ -338,7 +309,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             29 => 
             array (
-                'created_at' => '2017-03-06 01:08:20',
                 'desc' => NULL,
                 'id' => 128,
                 'key' => 'HD_video_download',
@@ -349,7 +319,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             30 => 
             array (
-                'created_at' => '2017-03-06 01:08:20',
                 'desc' => NULL,
                 'id' => 129,
                 'key' => 'Export',
@@ -360,7 +329,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             31 => 
             array (
-                'created_at' => '2017-03-06 01:08:20',
                 'desc' => NULL,
                 'id' => 130,
                 'key' => 'search_statics',
@@ -371,7 +339,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             32 => 
             array (
-                'created_at' => '2017-03-06 01:08:21',
                 'desc' => NULL,
                 'id' => 131,
                 'key' => 'ad_analysis',
@@ -382,7 +349,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             33 => 
             array (
-                'created_at' => '2017-03-06 01:08:21',
                 'desc' => NULL,
                 'id' => 132,
                 'key' => 'adser_analysis',
@@ -393,7 +359,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             34 => 
             array (
-                'created_at' => '2017-03-06 01:08:21',
                 'desc' => NULL,
                 'id' => 133,
                 'key' => 'Realtime_AD_analysis',
@@ -404,7 +369,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             35 => 
             array (
-                'created_at' => '2017-03-06 01:08:21',
                 'desc' => NULL,
                 'id' => 134,
                 'key' => 'ranking',
@@ -415,7 +379,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             36 => 
             array (
-                'created_at' => '2017-03-06 01:08:21',
                 'desc' => NULL,
                 'id' => 135,
                 'key' => 'ranking_export',
@@ -426,7 +389,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             37 => 
             array (
-                'created_at' => '2017-03-06 01:08:21',
                 'desc' => NULL,
                 'id' => 136,
                 'key' => 'ranking_by_category',
@@ -437,7 +399,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             38 => 
             array (
-                'created_at' => '2017-03-06 01:08:21',
                 'desc' => NULL,
                 'id' => 137,
                 'key' => 'bookmark_support',
@@ -448,7 +409,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             39 => 
             array (
-                'created_at' => '2017-03-06 01:08:21',
                 'desc' => NULL,
                 'id' => 138,
                 'key' => 'bookmark_list',
@@ -459,7 +419,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             40 => 
             array (
-                'created_at' => '2017-03-06 01:08:21',
                 'desc' => NULL,
                 'id' => 139,
                 'key' => 'bookmark_adser_support',
@@ -470,7 +429,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             41 => 
             array (
-                'created_at' => '2017-03-06 01:08:21',
                 'desc' => NULL,
                 'id' => 140,
                 'key' => 'save_count',
@@ -481,7 +439,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             42 => 
             array (
-                'created_at' => '2017-03-06 01:08:21',
                 'desc' => NULL,
                 'id' => 141,
                 'key' => 'monitor_support',
@@ -492,7 +449,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             43 => 
             array (
-                'created_at' => '2017-03-06 01:08:21',
                 'desc' => NULL,
                 'id' => 142,
                 'key' => 'monitor_ad_keyword',
@@ -503,7 +459,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             44 => 
             array (
-                'created_at' => '2017-03-06 01:08:21',
                 'desc' => NULL,
                 'id' => 143,
                 'key' => 'monitor_advertiser',
@@ -514,7 +469,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             45 => 
             array (
-                'created_at' => '2017-03-06 01:22:39',
                 'desc' => NULL,
                 'id' => 144,
                 'key' => 'call_action_filter',
@@ -525,7 +479,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             46 => 
             array (
-                'created_at' => '2017-03-06 03:20:53',
                 'desc' => NULL,
                 'id' => 145,
                 'key' => 'advertiser_search',
@@ -536,7 +489,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             47 => 
             array (
-                'created_at' => '2017-03-06 06:07:21',
                 'desc' => NULL,
                 'id' => 146,
                 'key' => 'domain_search',
@@ -547,7 +499,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             48 => 
             array (
-                'created_at' => '2017-03-06 13:05:13',
                 'desc' => NULL,
                 'id' => 147,
                 'key' => 'engagements_sort',
@@ -558,7 +509,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             49 => 
             array (
-                'created_at' => '2017-03-06 13:05:13',
                 'desc' => NULL,
                 'id' => 148,
                 'key' => 'views_inc_sort',
@@ -569,7 +519,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             50 => 
             array (
-                'created_at' => '2017-03-06 13:12:34',
                 'desc' => NULL,
                 'id' => 149,
                 'key' => 'shares_inc_sort',
@@ -580,7 +529,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             51 => 
             array (
-                'created_at' => '2017-03-06 13:12:35',
                 'desc' => NULL,
                 'id' => 150,
                 'key' => 'comments_inc_sort',
@@ -591,7 +539,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             52 => 
             array (
-                'created_at' => '2017-03-06 13:20:59',
                 'desc' => NULL,
                 'id' => 151,
                 'key' => 'analysis_overview',
@@ -602,7 +549,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             53 => 
             array (
-                'created_at' => '2017-03-06 13:20:59',
                 'desc' => NULL,
                 'id' => 152,
                 'key' => 'analysis_link',
@@ -613,7 +559,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             54 => 
             array (
-                'created_at' => '2017-03-06 13:20:59',
                 'desc' => NULL,
                 'id' => 153,
                 'key' => 'analysis_audience',
@@ -624,7 +569,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             55 => 
             array (
-                'created_at' => '2017-03-06 13:20:59',
                 'desc' => NULL,
                 'id' => 154,
                 'key' => 'analysis_trend',
@@ -635,7 +579,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             56 => 
             array (
-                'created_at' => '2017-03-06 13:21:25',
                 'desc' => NULL,
                 'id' => 155,
                 'key' => 'analysis_similar',
@@ -646,7 +589,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             57 => 
             array (
-                'created_at' => '2017-03-06 14:32:43',
                 'desc' => NULL,
                 'id' => 156,
                 'key' => 'statics_overview',
@@ -657,7 +599,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             58 => 
             array (
-                'created_at' => '2017-03-06 14:32:43',
                 'desc' => NULL,
                 'id' => 157,
                 'key' => 'statics_link',
@@ -668,7 +609,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             59 => 
             array (
-                'created_at' => '2017-03-06 14:32:43',
                 'desc' => NULL,
                 'id' => 158,
                 'key' => 'statics_audience',
@@ -679,7 +619,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             60 => 
             array (
-                'created_at' => '2017-03-06 14:32:43',
                 'desc' => NULL,
                 'id' => 159,
                 'key' => 'statics_trend',
@@ -690,7 +629,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             61 => 
             array (
-                'created_at' => '2017-03-06 14:32:43',
                 'desc' => NULL,
                 'id' => 160,
                 'key' => 'statics_all',
@@ -701,7 +639,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             62 => 
             array (
-                'created_at' => '2017-03-06 15:13:12',
                 'desc' => NULL,
                 'id' => 161,
                 'key' => 'adser_search',
@@ -712,7 +649,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             63 => 
             array (
-                'created_at' => '2017-03-07 07:04:38',
                 'desc' => NULL,
                 'id' => 162,
                 'key' => 'keyword_times_perday',
@@ -723,7 +659,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             64 => 
             array (
-                'created_at' => '2017-03-07 07:05:05',
                 'desc' => NULL,
                 'id' => 163,
                 'key' => 'ad_analysis_times_perday',
@@ -734,7 +669,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             65 => 
             array (
-                'created_at' => '2017-03-07 13:05:24',
                 'desc' => NULL,
                 'id' => 164,
                 'key' => 'adser_search_times_perday',
@@ -745,7 +679,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             66 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 165,
                 'key' => 'advertiser_collect',
@@ -756,7 +689,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             67 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 166,
                 'key' => 'browse_admin',
@@ -767,7 +699,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             68 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 167,
                 'key' => 'browse_database',
@@ -778,7 +709,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             69 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 168,
                 'key' => 'browse_media',
@@ -789,7 +719,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             70 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 169,
                 'key' => 'browse_settings',
@@ -800,7 +729,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             71 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 170,
                 'key' => 'browse_menus',
@@ -811,7 +739,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             72 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 171,
                 'key' => 'read_menus',
@@ -822,7 +749,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             73 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 172,
                 'key' => 'edit_menus',
@@ -833,7 +759,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             74 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 173,
                 'key' => 'add_menus',
@@ -844,7 +769,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             75 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 174,
                 'key' => 'delete_menus',
@@ -855,7 +779,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             76 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 175,
                 'key' => 'browse_pages',
@@ -866,7 +789,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             77 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 176,
                 'key' => 'read_pages',
@@ -877,7 +799,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             78 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 177,
                 'key' => 'edit_pages',
@@ -888,7 +809,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             79 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 178,
                 'key' => 'add_pages',
@@ -899,7 +819,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             80 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 179,
                 'key' => 'delete_pages',
@@ -910,7 +829,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             81 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 180,
                 'key' => 'browse_roles',
@@ -921,7 +839,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             82 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 181,
                 'key' => 'read_roles',
@@ -932,7 +849,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             83 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 182,
                 'key' => 'edit_roles',
@@ -943,7 +859,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             84 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 183,
                 'key' => 'add_roles',
@@ -954,7 +869,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             85 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 184,
                 'key' => 'delete_roles',
@@ -965,7 +879,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             86 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 185,
                 'key' => 'browse_users',
@@ -976,7 +889,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             87 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 186,
                 'key' => 'read_users',
@@ -987,7 +899,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             88 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 187,
                 'key' => 'edit_users',
@@ -998,7 +909,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             89 => 
             array (
-                'created_at' => '2017-03-24 02:42:46',
                 'desc' => NULL,
                 'id' => 188,
                 'key' => 'add_users',
@@ -1009,7 +919,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             90 => 
             array (
-                'created_at' => '2017-03-24 02:42:47',
                 'desc' => NULL,
                 'id' => 189,
                 'key' => 'delete_users',
@@ -1020,7 +929,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             91 => 
             array (
-                'created_at' => '2017-03-24 02:42:47',
                 'desc' => NULL,
                 'id' => 190,
                 'key' => 'browse_posts',
@@ -1031,7 +939,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             92 => 
             array (
-                'created_at' => '2017-03-24 02:42:47',
                 'desc' => NULL,
                 'id' => 191,
                 'key' => 'read_posts',
@@ -1042,7 +949,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             93 => 
             array (
-                'created_at' => '2017-03-24 02:42:47',
                 'desc' => NULL,
                 'id' => 192,
                 'key' => 'edit_posts',
@@ -1053,7 +959,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             94 => 
             array (
-                'created_at' => '2017-03-24 02:42:47',
                 'desc' => NULL,
                 'id' => 193,
                 'key' => 'add_posts',
@@ -1064,7 +969,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             95 => 
             array (
-                'created_at' => '2017-03-24 02:42:47',
                 'desc' => NULL,
                 'id' => 194,
                 'key' => 'delete_posts',
@@ -1075,7 +979,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             96 => 
             array (
-                'created_at' => '2017-03-24 02:42:47',
                 'desc' => NULL,
                 'id' => 195,
                 'key' => 'browse_categories',
@@ -1086,7 +989,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             97 => 
             array (
-                'created_at' => '2017-03-24 02:42:47',
                 'desc' => NULL,
                 'id' => 196,
                 'key' => 'read_categories',
@@ -1097,7 +999,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             98 => 
             array (
-                'created_at' => '2017-03-24 02:42:47',
                 'desc' => NULL,
                 'id' => 197,
                 'key' => 'edit_categories',
@@ -1108,7 +1009,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             99 => 
             array (
-                'created_at' => '2017-03-24 02:42:47',
                 'desc' => NULL,
                 'id' => 198,
                 'key' => 'add_categories',
@@ -1119,7 +1019,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             100 => 
             array (
-                'created_at' => '2017-03-24 02:42:47',
                 'desc' => NULL,
                 'id' => 199,
                 'key' => 'delete_categories',
@@ -1130,7 +1029,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             101 => 
             array (
-                'created_at' => '2017-04-09 11:52:52',
                 'desc' => NULL,
                 'id' => 200,
                 'key' => 'timeline_filter',
@@ -1141,7 +1039,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             102 => 
             array (
-                'created_at' => '2017-04-09 11:52:52',
                 'desc' => NULL,
                 'id' => 201,
                 'key' => 'phone_filter',
@@ -1152,7 +1049,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             103 => 
             array (
-                'created_at' => '2017-04-09 11:52:52',
                 'desc' => NULL,
                 'id' => 202,
                 'key' => 'rightcolumn_filter',
@@ -1163,7 +1059,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             104 => 
             array (
-                'created_at' => '2017-04-18 08:30:25',
                 'desc' => NULL,
                 'id' => 203,
                 'key' => 'advance_likes_filter',
@@ -1174,7 +1069,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             105 => 
             array (
-                'created_at' => '2017-04-18 08:30:25',
                 'desc' => NULL,
                 'id' => 204,
                 'key' => 'advance_shares_filter',
@@ -1185,7 +1079,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             106 => 
             array (
-                'created_at' => '2017-04-18 08:30:25',
                 'desc' => NULL,
                 'id' => 205,
                 'key' => 'advance_comments_filter',
@@ -1196,7 +1089,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             107 => 
             array (
-                'created_at' => '2017-04-18 08:30:26',
                 'desc' => NULL,
                 'id' => 206,
                 'key' => 'advance_video_views_filter',
@@ -1207,7 +1099,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             108 => 
             array (
-                'created_at' => '2017-04-18 08:30:26',
                 'desc' => NULL,
                 'id' => 207,
                 'key' => 'advance_engagement_filter',
@@ -1218,7 +1109,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             109 => 
             array (
-                'created_at' => '2017-05-08 03:21:35',
                 'desc' => NULL,
                 'id' => 208,
                 'key' => 'browse_maillist',
@@ -1229,7 +1119,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             110 => 
             array (
-                'created_at' => '2017-05-08 03:21:35',
                 'desc' => NULL,
                 'id' => 209,
                 'key' => 'read_maillist',
@@ -1240,7 +1129,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             111 => 
             array (
-                'created_at' => '2017-05-08 03:21:35',
                 'desc' => NULL,
                 'id' => 210,
                 'key' => 'edit_maillist',
@@ -1251,7 +1139,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             112 => 
             array (
-                'created_at' => '2017-05-08 03:21:35',
                 'desc' => NULL,
                 'id' => 211,
                 'key' => 'add_maillist',
@@ -1262,7 +1149,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             113 => 
             array (
-                'created_at' => '2017-05-08 03:21:35',
                 'desc' => NULL,
                 'id' => 212,
                 'key' => 'delete_maillist',
@@ -1273,7 +1159,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             114 => 
             array (
-                'created_at' => '2017-05-30 14:58:36',
                 'desc' => NULL,
                 'id' => 213,
                 'key' => 'browse_affiliates',
@@ -1284,7 +1169,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             115 => 
             array (
-                'created_at' => '2017-05-30 14:58:36',
                 'desc' => NULL,
                 'id' => 214,
                 'key' => 'read_affiliates',
@@ -1295,7 +1179,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             116 => 
             array (
-                'created_at' => '2017-05-30 14:58:36',
                 'desc' => NULL,
                 'id' => 215,
                 'key' => 'edit_affiliates',
@@ -1306,7 +1189,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             117 => 
             array (
-                'created_at' => '2017-05-30 14:58:36',
                 'desc' => NULL,
                 'id' => 216,
                 'key' => 'add_affiliates',
@@ -1317,7 +1199,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             118 => 
             array (
-                'created_at' => '2017-05-30 14:58:36',
                 'desc' => NULL,
                 'id' => 217,
                 'key' => 'delete_affiliates',
@@ -1328,7 +1209,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             119 => 
             array (
-                'created_at' => '2017-06-14 02:19:49',
                 'desc' => NULL,
                 'id' => 223,
                 'key' => 'browse_coupons',
@@ -1339,7 +1219,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             120 => 
             array (
-                'created_at' => '2017-06-14 02:19:49',
                 'desc' => NULL,
                 'id' => 224,
                 'key' => 'read_coupons',
@@ -1350,7 +1229,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             121 => 
             array (
-                'created_at' => '2017-06-14 02:19:49',
                 'desc' => NULL,
                 'id' => 225,
                 'key' => 'edit_coupons',
@@ -1361,7 +1239,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             122 => 
             array (
-                'created_at' => '2017-06-14 02:19:49',
                 'desc' => NULL,
                 'id' => 226,
                 'key' => 'add_coupons',
@@ -1372,7 +1249,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             123 => 
             array (
-                'created_at' => '2017-06-14 02:19:49',
                 'desc' => NULL,
                 'id' => 227,
                 'key' => 'delete_coupons',
@@ -1383,7 +1259,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             124 => 
             array (
-                'created_at' => '2017-08-07 12:42:44',
                 'desc' => NULL,
                 'id' => 228,
                 'key' => 'search_init_perday',
@@ -1394,7 +1269,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             125 => 
             array (
-                'created_at' => '2017-08-07 12:42:44',
                 'desc' => NULL,
                 'id' => 229,
                 'key' => 'search_limit_perday',
@@ -1405,7 +1279,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             126 => 
             array (
-                'created_at' => '2017-08-07 12:42:44',
                 'desc' => NULL,
                 'id' => 230,
                 'key' => 'search_where_perday',
@@ -1416,7 +1289,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             127 => 
             array (
-                'created_at' => '2017-08-07 12:42:44',
                 'desc' => NULL,
                 'id' => 231,
                 'key' => 'specific_adser_init_perday',
@@ -1427,7 +1299,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             128 => 
             array (
-                'created_at' => '2017-08-07 12:42:44',
                 'desc' => NULL,
                 'id' => 232,
                 'key' => 'specific_adser_limit_perday',
@@ -1438,7 +1309,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             129 => 
             array (
-                'created_at' => '2017-08-07 12:42:44',
                 'desc' => NULL,
                 'id' => 233,
                 'key' => 'specific_adser_where_perday',
@@ -1449,7 +1319,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             130 => 
             array (
-                'created_at' => '2017-08-07 12:42:44',
                 'desc' => NULL,
                 'id' => 234,
                 'key' => 'app_filter',
@@ -1460,7 +1329,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             131 => 
             array (
-                'created_at' => '2017-08-07 12:42:44',
                 'desc' => NULL,
                 'id' => 235,
                 'key' => 'search_total_times',
@@ -1471,7 +1339,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             132 => 
             array (
-                'created_at' => '2017-08-07 12:42:45',
                 'desc' => NULL,
                 'id' => 236,
                 'key' => 'country_filter',
@@ -1482,7 +1349,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             133 => 
             array (
-                'created_at' => '2017-08-07 12:42:45',
                 'desc' => NULL,
                 'id' => 237,
                 'key' => 'emarketing_filter',
@@ -1493,7 +1359,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             134 => 
             array (
-                'created_at' => '2017-08-07 12:42:45',
                 'desc' => NULL,
                 'id' => 238,
                 'key' => 'tracking_filter',
@@ -1504,7 +1369,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             135 => 
             array (
-                'created_at' => '2017-08-07 12:42:45',
                 'desc' => NULL,
                 'id' => 239,
                 'key' => 'affiliate_filter',
@@ -1515,7 +1379,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             136 => 
             array (
-                'created_at' => '2017-08-07 12:42:45',
                 'desc' => NULL,
                 'id' => 240,
                 'key' => 'e_commerceList_filter',
@@ -1526,7 +1389,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             137 => 
             array (
-                'created_at' => '2017-08-07 12:42:45',
                 'desc' => NULL,
                 'id' => 241,
                 'key' => 'advance_filter',
@@ -1537,7 +1399,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             138 => 
             array (
-                'created_at' => '2017-08-07 12:42:49',
                 'desc' => NULL,
                 'id' => 242,
                 'key' => 'bookmark_init_perday',
@@ -1548,7 +1409,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             139 => 
             array (
-                'created_at' => '2017-08-07 12:42:49',
                 'desc' => NULL,
                 'id' => 243,
                 'key' => 'bookmark_limit_perday',
@@ -1559,7 +1419,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             140 => 
             array (
-                'created_at' => '2017-08-07 13:54:43',
                 'desc' => NULL,
                 'id' => 244,
                 'key' => 'e_commerce_filter',
@@ -1570,7 +1429,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             141 => 
             array (
-                'created_at' => '2017-08-14 02:37:21',
                 'desc' => NULL,
                 'id' => 245,
                 'key' => 'objective_filter',
@@ -1581,7 +1439,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             142 => 
             array (
-                'created_at' => '2017-08-14 02:37:21',
                 'desc' => NULL,
                 'id' => 246,
                 'key' => 'advance_audience_search',
@@ -1592,7 +1449,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             143 => 
             array (
-                'created_at' => '2017-08-14 02:37:21',
                 'desc' => NULL,
                 'id' => 247,
                 'key' => 'audience_age_filter',
@@ -1603,7 +1459,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             144 => 
             array (
-                'created_at' => '2017-08-14 02:37:21',
                 'desc' => NULL,
                 'id' => 248,
                 'key' => 'audience_gender_filter',
@@ -1614,7 +1469,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             145 => 
             array (
-                'created_at' => '2017-08-26 04:08:59',
                 'desc' => NULL,
                 'id' => 249,
                 'key' => 'browse_refunds',
@@ -1625,7 +1479,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             146 => 
             array (
-                'created_at' => '2017-08-26 04:08:59',
                 'desc' => NULL,
                 'id' => 250,
                 'key' => 'read_refunds',
@@ -1636,7 +1489,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             147 => 
             array (
-                'created_at' => '2017-08-26 04:08:59',
                 'desc' => NULL,
                 'id' => 251,
                 'key' => 'edit_refunds',
@@ -1647,7 +1499,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             148 => 
             array (
-                'created_at' => '2017-08-26 04:08:59',
                 'desc' => NULL,
                 'id' => 252,
                 'key' => 'add_refunds',
@@ -1658,7 +1509,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             149 => 
             array (
-                'created_at' => '2017-08-26 04:08:59',
                 'desc' => NULL,
                 'id' => 253,
                 'key' => 'delete_refunds',
@@ -1669,7 +1519,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             150 => 
             array (
-                'created_at' => '2017-10-10 14:51:27',
                 'desc' => NULL,
                 'id' => 254,
                 'key' => 'audience_interest_filter',
@@ -1680,7 +1529,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             151 => 
             array (
-                'created_at' => '2017-10-10 14:51:27',
                 'desc' => NULL,
                 'id' => 255,
                 'key' => 'search_mode_filter',
@@ -1691,7 +1539,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             152 => 
             array (
-                'created_at' => '2017-10-10 14:51:27',
                 'desc' => NULL,
                 'id' => 256,
                 'key' => 'first_time_filter',
@@ -1702,7 +1549,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             153 => 
             array (
-                'created_at' => '2017-10-10 14:51:27',
                 'desc' => NULL,
                 'id' => 257,
                 'key' => 'last_time_filter',
@@ -1713,7 +1559,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             154 => 
             array (
-                'created_at' => '2017-10-10 14:51:27',
                 'desc' => NULL,
                 'id' => 258,
                 'key' => 'rang_filter',
@@ -1724,7 +1569,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             155 => 
             array (
-                'created_at' => '2017-10-10 14:51:31',
                 'desc' => NULL,
                 'id' => 259,
                 'key' => 'save_ad_count',
@@ -1735,7 +1579,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             156 => 
             array (
-                'created_at' => '2017-10-31 02:46:04',
                 'desc' => NULL,
                 'id' => 260,
                 'key' => 'search_limit_keys_perday',
@@ -1746,7 +1589,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             157 => 
             array (
-                'created_at' => '2017-10-31 02:46:04',
                 'desc' => NULL,
                 'id' => 261,
                 'key' => 'search_limit_without_keys_perday',
@@ -1757,7 +1599,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             158 => 
             array (
-                'created_at' => '2017-10-31 02:46:06',
                 'desc' => NULL,
                 'id' => 262,
                 'key' => 'search_without_key_total_perday',
@@ -1768,7 +1609,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             159 => 
             array (
-                'created_at' => '2017-10-31 02:46:06',
                 'desc' => NULL,
                 'id' => 263,
                 'key' => 'search_key_total_perday',
@@ -1779,7 +1619,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             160 => 
             array (
-                'created_at' => '2017-10-31 02:46:06',
                 'desc' => NULL,
                 'id' => 264,
                 'key' => 'hot_search_times_perday',
@@ -1790,7 +1629,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             161 => 
             array (
-                'created_at' => '2017-10-31 02:46:07',
                 'desc' => NULL,
                 'id' => 265,
                 'key' => 'specific_adser_times_perday',
@@ -1801,7 +1639,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             162 => 
             array (
-                'created_at' => '2017-11-01 15:23:14',
                 'desc' => NULL,
                 'id' => 266,
                 'key' => 'view_count_sort',
@@ -1812,7 +1649,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             163 => 
             array (
-                'created_at' => '2017-11-06 15:08:20',
                 'desc' => NULL,
                 'id' => 267,
                 'key' => 'default_filter',
@@ -1823,7 +1659,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             164 => 
             array (
-                'created_at' => '2017-11-16 01:57:32',
                 'desc' => NULL,
                 'id' => 268,
                 'key' => 'browse_permissions',
@@ -1834,7 +1669,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             165 => 
             array (
-                'created_at' => '2017-11-16 01:57:32',
                 'desc' => NULL,
                 'id' => 269,
                 'key' => 'read_permissions',
@@ -1845,7 +1679,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             166 => 
             array (
-                'created_at' => '2017-11-16 01:57:32',
                 'desc' => NULL,
                 'id' => 270,
                 'key' => 'edit_permissions',
@@ -1856,7 +1689,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             167 => 
             array (
-                'created_at' => '2017-11-16 01:57:32',
                 'desc' => NULL,
                 'id' => 271,
                 'key' => 'add_permissions',
@@ -1867,7 +1699,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             168 => 
             array (
-                'created_at' => '2017-11-16 01:57:32',
                 'desc' => NULL,
                 'id' => 272,
                 'key' => 'delete_permissions',
@@ -1878,7 +1709,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             169 => 
             array (
-                'created_at' => '2017-12-02 10:04:37',
                 'desc' => NULL,
                 'id' => 273,
                 'key' => 'adser_without_key_total_perday',
@@ -1889,7 +1719,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             170 => 
             array (
-                'created_at' => '2017-12-02 10:04:37',
                 'desc' => NULL,
                 'id' => 274,
                 'key' => 'adser_key_total_perday',
@@ -1900,7 +1729,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             171 => 
             array (
-                'created_at' => '2017-12-02 10:04:37',
                 'desc' => NULL,
                 'id' => 275,
                 'key' => 'adser_limit_keys_perday',
@@ -1911,7 +1739,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             172 => 
             array (
-                'created_at' => '2017-12-02 10:04:37',
                 'desc' => NULL,
                 'id' => 276,
                 'key' => 'adser_limit_without_keys_perday',
@@ -1922,7 +1749,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             173 => 
             array (
-                'created_at' => '2017-12-02 10:04:37',
                 'desc' => NULL,
                 'id' => 277,
                 'key' => 'adser_result_per_search',
@@ -1933,7 +1759,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             174 => 
             array (
-                'created_at' => '2017-12-02 10:04:37',
                 'desc' => NULL,
                 'id' => 278,
                 'key' => 'adser_init_perday',
@@ -1944,7 +1769,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             175 => 
             array (
-                'created_at' => '2017-12-02 10:04:37',
                 'desc' => NULL,
                 'id' => 279,
                 'key' => 'adser_analysis_perday',
@@ -1955,7 +1779,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             176 => 
             array (
-                'created_at' => '2018-02-10 17:22:42',
                 'desc' => NULL,
                 'id' => 280,
                 'key' => 'browse_plans',
@@ -1966,7 +1789,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             177 => 
             array (
-                'created_at' => '2018-02-10 17:22:42',
                 'desc' => NULL,
                 'id' => 281,
                 'key' => 'read_plans',
@@ -1977,7 +1799,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             178 => 
             array (
-                'created_at' => '2018-02-10 17:22:42',
                 'desc' => NULL,
                 'id' => 282,
                 'key' => 'edit_plans',
@@ -1988,7 +1809,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             179 => 
             array (
-                'created_at' => '2018-02-10 17:22:42',
                 'desc' => NULL,
                 'id' => 283,
                 'key' => 'add_plans',
@@ -1999,7 +1819,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             180 => 
             array (
-                'created_at' => '2018-02-10 17:22:42',
                 'desc' => NULL,
                 'id' => 284,
                 'key' => 'delete_plans',
@@ -2010,7 +1829,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             181 => 
             array (
-                'created_at' => '2018-02-11 00:13:41',
                 'desc' => NULL,
                 'id' => 285,
                 'key' => 'browse_gateway_configs',
@@ -2021,7 +1839,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             182 => 
             array (
-                'created_at' => '2018-02-11 00:13:41',
                 'desc' => NULL,
                 'id' => 286,
                 'key' => 'read_gateway_configs',
@@ -2032,7 +1849,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             183 => 
             array (
-                'created_at' => '2018-02-11 00:13:41',
                 'desc' => NULL,
                 'id' => 287,
                 'key' => 'edit_gateway_configs',
@@ -2043,7 +1859,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             184 => 
             array (
-                'created_at' => '2018-02-11 00:13:41',
                 'desc' => NULL,
                 'id' => 288,
                 'key' => 'add_gateway_configs',
@@ -2054,7 +1869,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             185 => 
             array (
-                'created_at' => '2018-02-11 00:13:41',
                 'desc' => NULL,
                 'id' => 289,
                 'key' => 'delete_gateway_configs',
@@ -2065,7 +1879,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             186 => 
             array (
-                'created_at' => '2018-02-13 01:02:08',
                 'desc' => '只显示最近天数的数据，0表示不限制',
                 'id' => 290,
                 'key' => 'search_filter_recent_days',
@@ -2076,7 +1889,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             187 => 
             array (
-                'created_at' => '2018-02-13 01:54:45',
                 'desc' => '会话数量控制',
                 'id' => 291,
                 'key' => 'session_limit',
@@ -2084,6 +1896,46 @@ class PermissionsTableSeeder extends Seeder
                 'table_name' => 'sessions',
                 'type' => 0,
                 'updated_at' => '2018-02-13 01:54:45',
+            ),
+            188 => 
+            array (
+                'desc' => '广告详情页用户能看到的Audience Targeting Analysis显示行数，策略值为0表示没有限制，有策略值表示限制',
+                'id' => 294,
+                'key' => 'analysis_audience_list',
+                'order' => 0,
+                'table_name' => 'AdAnalysis',
+                'type' => 0,
+                'updated_at' => '2018-03-01 21:15:04',
+            ),
+            189 => 
+            array (
+                'desc' => '广告详情页用户能看到的Top countries显示行数，策略值为0表示没有限制，有策略值表示限制',
+                'id' => 295,
+                'key' => 'analysis_country_list',
+                'order' => 0,
+                'table_name' => 'AdAnalysis',
+                'type' => 0,
+                'updated_at' => '2018-03-01 21:14:47',
+            ),
+            190 => 
+            array (
+                'desc' => '广告详情页Demography能看到的显示时间限制，格式为2_week，即2周之前的数据，为0表示没有限制',
+                'id' => 296,
+                'key' => 'analysis_demography_time',
+                'order' => 0,
+                'table_name' => 'AdAnalysis',
+                'type' => 0,
+                'updated_at' => '2018-03-01 21:14:20',
+            ),
+            191 => 
+            array (
+                'desc' => '广告详情页地图图表显示权限',
+                'id' => 297,
+                'key' => 'analysis_countrymap_show',
+                'order' => 0,
+                'table_name' => 'AdAnalysis',
+                'type' => 0,
+                'updated_at' => '2018-03-01 21:15:24',
             ),
         ));
         
