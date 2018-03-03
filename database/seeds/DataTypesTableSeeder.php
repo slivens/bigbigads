@@ -19,7 +19,6 @@ class DataTypesTableSeeder extends Seeder
         \DB::table('data_types')->insert(array (
             0 => 
             array (
-                'created_at' => '2017-01-22 08:55:07',
                 'description' => '',
                 'display_name_plural' => 'Posts',
                 'display_name_singular' => 'Post',
@@ -34,7 +33,6 @@ class DataTypesTableSeeder extends Seeder
             ),
             1 => 
             array (
-                'created_at' => '2017-01-22 08:55:07',
                 'description' => '',
                 'display_name_plural' => 'Pages',
                 'display_name_singular' => 'Page',
@@ -49,7 +47,6 @@ class DataTypesTableSeeder extends Seeder
             ),
             2 => 
             array (
-                'created_at' => '2017-01-22 08:55:07',
                 'description' => '',
                 'display_name_plural' => 'Users',
                 'display_name_singular' => 'User',
@@ -64,7 +61,6 @@ class DataTypesTableSeeder extends Seeder
             ),
             3 => 
             array (
-                'created_at' => '2017-01-22 08:55:07',
                 'description' => '',
                 'display_name_plural' => 'Categories',
                 'display_name_singular' => 'Category',
@@ -79,7 +75,6 @@ class DataTypesTableSeeder extends Seeder
             ),
             4 => 
             array (
-                'created_at' => '2017-01-22 08:55:07',
                 'description' => '',
                 'display_name_plural' => 'Menus',
                 'display_name_singular' => 'Menu',
@@ -94,7 +89,6 @@ class DataTypesTableSeeder extends Seeder
             ),
             5 => 
             array (
-                'created_at' => '2017-01-22 08:55:07',
                 'description' => '',
                 'display_name_plural' => 'Roles',
                 'display_name_singular' => 'Role',
@@ -109,7 +103,6 @@ class DataTypesTableSeeder extends Seeder
             ),
             6 => 
             array (
-                'created_at' => '2017-05-08 03:21:35',
                 'description' => '营销发送的自定义邮件列表',
                 'display_name_plural' => '邮件列表',
                 'display_name_singular' => '邮件',
@@ -124,7 +117,6 @@ class DataTypesTableSeeder extends Seeder
             ),
             7 => 
             array (
-                'created_at' => '2017-05-30 14:58:36',
                 'description' => '',
                 'display_name_plural' => '联盟会员',
                 'display_name_singular' => '联盟会员',
@@ -139,7 +131,6 @@ class DataTypesTableSeeder extends Seeder
             ),
             8 => 
             array (
-                'created_at' => '2017-06-12 06:31:07',
                 'description' => '优惠券功能',
                 'display_name_plural' => '优惠券',
                 'display_name_singular' => '优惠券',
@@ -154,7 +145,6 @@ class DataTypesTableSeeder extends Seeder
             ),
             9 => 
             array (
-                'created_at' => '2017-08-26 04:08:59',
                 'description' => 'AAA',
                 'display_name_plural' => '退款申请单',
                 'display_name_singular' => '退款申请单',
@@ -169,7 +159,6 @@ class DataTypesTableSeeder extends Seeder
             ),
             10 => 
             array (
-                'created_at' => '2017-11-16 01:57:32',
                 'description' => '权限管理',
                 'display_name_plural' => '权限',
                 'display_name_singular' => '权限',
@@ -184,7 +173,6 @@ class DataTypesTableSeeder extends Seeder
             ),
             11 => 
             array (
-                'created_at' => '2017-12-05 10:57:12',
                 'description' => '',
                 'display_name_plural' => '策略',
                 'display_name_singular' => '策略',
@@ -199,7 +187,6 @@ class DataTypesTableSeeder extends Seeder
             ),
             12 => 
             array (
-                'created_at' => '2018-02-10 17:22:42',
                 'description' => '',
                 'display_name_plural' => '价格计划',
                 'display_name_singular' => '价格计划',
@@ -214,7 +201,6 @@ class DataTypesTableSeeder extends Seeder
             ),
             13 => 
             array (
-                'created_at' => '2018-02-11 00:13:41',
                 'description' => '',
                 'display_name_plural' => 'Gateway Configs',
                 'display_name_singular' => 'Gateway Config',
@@ -226,6 +212,20 @@ class DataTypesTableSeeder extends Seeder
                 'server_side' => 0,
                 'slug' => 'gateway-configs',
                 'updated_at' => '2018-02-11 00:13:41',
+            ),
+            14 => 
+            array (
+                'description' => '',
+                'display_name_plural' => 'Payments',
+                'display_name_singular' => 'Payment',
+                'generate_permissions' => 1,
+                'icon' => '',
+                'id' => 19,
+                'model_name' => 'App\\Payment',
+                'name' => 'payments',
+                'server_side' => 1,
+                'slug' => 'payments',
+                'updated_at' => '2018-02-27 15:25:28',
             ),
         ));
         

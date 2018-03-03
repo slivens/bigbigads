@@ -19,7 +19,6 @@ class MenusTableSeeder extends Seeder
         \DB::table('menus')->insert(array (
             0 => 
             array (
-                'created_at' => '2017-01-22 08:55:08',
                 'id' => 1,
                 'name' => 'admin',
                 'updated_at' => '2017-01-22 08:55:08',

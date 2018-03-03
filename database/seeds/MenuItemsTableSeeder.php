@@ -20,7 +20,6 @@ class MenuItemsTableSeeder extends Seeder
             0 => 
             array (
                 'color' => NULL,
-                'created_at' => '2017-01-22 08:55:08',
                 'icon_class' => 'voyager-boat',
                 'id' => 1,
                 'menu_id' => 1,
@@ -36,7 +35,6 @@ class MenuItemsTableSeeder extends Seeder
             1 => 
             array (
                 'color' => NULL,
-                'created_at' => '2017-01-22 08:55:08',
                 'icon_class' => 'voyager-images',
                 'id' => 2,
                 'menu_id' => 1,
@@ -52,7 +50,6 @@ class MenuItemsTableSeeder extends Seeder
             2 => 
             array (
                 'color' => NULL,
-                'created_at' => '2017-01-22 08:55:08',
                 'icon_class' => 'voyager-news',
                 'id' => 3,
                 'menu_id' => 1,
@@ -68,7 +65,6 @@ class MenuItemsTableSeeder extends Seeder
             3 => 
             array (
                 'color' => '#000000',
-                'created_at' => '2017-01-22 08:55:08',
                 'icon_class' => 'voyager-person',
                 'id' => 4,
                 'menu_id' => 1,
@@ -84,7 +80,6 @@ class MenuItemsTableSeeder extends Seeder
             4 => 
             array (
                 'color' => NULL,
-                'created_at' => '2017-01-22 08:55:08',
                 'icon_class' => 'voyager-categories',
                 'id' => 5,
                 'menu_id' => 1,
@@ -100,7 +95,6 @@ class MenuItemsTableSeeder extends Seeder
             5 => 
             array (
                 'color' => NULL,
-                'created_at' => '2017-01-22 08:55:08',
                 'icon_class' => 'voyager-file-text',
                 'id' => 6,
                 'menu_id' => 1,
@@ -116,7 +110,6 @@ class MenuItemsTableSeeder extends Seeder
             6 => 
             array (
                 'color' => '#000000',
-                'created_at' => '2017-01-22 08:55:08',
                 'icon_class' => 'voyager-lock',
                 'id' => 7,
                 'menu_id' => 1,
@@ -132,7 +125,6 @@ class MenuItemsTableSeeder extends Seeder
             7 => 
             array (
                 'color' => NULL,
-                'created_at' => '2017-01-22 08:55:08',
                 'icon_class' => 'voyager-tools',
                 'id' => 8,
                 'menu_id' => 1,
@@ -148,7 +140,6 @@ class MenuItemsTableSeeder extends Seeder
             8 => 
             array (
                 'color' => NULL,
-                'created_at' => '2017-01-22 08:55:08',
                 'icon_class' => 'voyager-list',
                 'id' => 9,
                 'menu_id' => 1,
@@ -164,7 +155,6 @@ class MenuItemsTableSeeder extends Seeder
             9 => 
             array (
                 'color' => NULL,
-                'created_at' => '2017-01-22 08:55:08',
                 'icon_class' => 'voyager-data',
                 'id' => 10,
                 'menu_id' => 1,
@@ -180,7 +170,6 @@ class MenuItemsTableSeeder extends Seeder
             10 => 
             array (
                 'color' => NULL,
-                'created_at' => '2017-01-22 08:55:08',
                 'icon_class' => 'voyager-settings',
                 'id' => 11,
                 'menu_id' => 1,
@@ -196,7 +185,6 @@ class MenuItemsTableSeeder extends Seeder
             11 => 
             array (
                 'color' => '#ff0000',
-                'created_at' => '2017-05-08 04:09:18',
                 'icon_class' => 'voyager-mail',
                 'id' => 12,
                 'menu_id' => 1,
@@ -212,7 +200,6 @@ class MenuItemsTableSeeder extends Seeder
             12 => 
             array (
                 'color' => '#000000',
-                'created_at' => '2017-05-08 04:24:36',
                 'icon_class' => 'voyager-mail',
                 'id' => 13,
                 'menu_id' => 1,
@@ -228,7 +215,6 @@ class MenuItemsTableSeeder extends Seeder
             13 => 
             array (
                 'color' => '#000000',
-                'created_at' => '2017-05-08 04:25:31',
                 'icon_class' => 'voyager-play',
                 'id' => 14,
                 'menu_id' => 1,
@@ -244,7 +230,6 @@ class MenuItemsTableSeeder extends Seeder
             14 => 
             array (
                 'color' => '#000000',
-                'created_at' => '2017-05-30 15:00:40',
                 'icon_class' => 'voyager-people',
                 'id' => 15,
                 'menu_id' => 1,
@@ -260,7 +245,6 @@ class MenuItemsTableSeeder extends Seeder
             15 => 
             array (
                 'color' => '#000000',
-                'created_at' => '2017-06-12 06:39:03',
                 'icon_class' => 'voyager-ticket',
                 'id' => 16,
                 'menu_id' => 1,
@@ -276,7 +260,6 @@ class MenuItemsTableSeeder extends Seeder
             16 => 
             array (
                 'color' => '',
-                'created_at' => '2017-08-26 04:39:27',
                 'icon_class' => 'voyager-hotdog',
                 'id' => 17,
                 'menu_id' => 1,
@@ -292,7 +275,6 @@ class MenuItemsTableSeeder extends Seeder
             17 => 
             array (
                 'color' => '#000000',
-                'created_at' => '2017-11-16 01:59:46',
                 'icon_class' => 'voyager-bulb',
                 'id' => 18,
                 'menu_id' => 1,
@@ -308,7 +290,6 @@ class MenuItemsTableSeeder extends Seeder
             18 => 
             array (
                 'color' => '#000000',
-                'created_at' => '2017-12-05 11:01:57',
                 'icon_class' => 'voyager-key',
                 'id' => 19,
                 'menu_id' => 1,
@@ -324,7 +305,6 @@ class MenuItemsTableSeeder extends Seeder
             19 => 
             array (
                 'color' => '#000000',
-                'created_at' => '2018-02-10 17:24:14',
                 'icon_class' => 'voyager-receipt',
                 'id' => 20,
                 'menu_id' => 1,
@@ -340,7 +320,6 @@ class MenuItemsTableSeeder extends Seeder
             20 => 
             array (
                 'color' => '#000000',
-                'created_at' => '2018-02-11 00:15:00',
                 'icon_class' => 'voyager-dollar',
                 'id' => 21,
                 'menu_id' => 1,
