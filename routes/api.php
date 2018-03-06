@@ -65,4 +65,12 @@ Route::get('/advertisers', 'AdvertisersController@getPublishers');
 Route::get('/advertisers/{facebookId}', 'AdvertisersController@getPublisherAnalysis');
 Route::get('/advertisers/{facebookId}/{adRank}', 'AdvertisersController@getTopAds');
 
+/*
+    统计app的track
+*/
+Route::post(
+    '/track_state', function (Request $request) {
+    }
+)->middleware('track');
+
 
