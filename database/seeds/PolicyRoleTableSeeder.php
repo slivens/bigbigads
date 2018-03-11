@@ -386,7 +386,7 @@ class PolicyRoleTableSeeder extends Seeder
                 'policy_id' => 16,
                 'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '500',
+                'value' => '250',
             ),
             53 => 
             array (
@@ -407,7 +407,7 @@ class PolicyRoleTableSeeder extends Seeder
                 'policy_id' => 20,
                 'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '100',
+                'value' => '1000',
             ),
             56 => 
             array (
@@ -421,7 +421,7 @@ class PolicyRoleTableSeeder extends Seeder
                 'policy_id' => 22,
                 'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '600',
+                'value' => '500',
             ),
             58 => 
             array (
@@ -512,14 +512,14 @@ class PolicyRoleTableSeeder extends Seeder
                 'policy_id' => 36,
                 'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '600',
+                'value' => '300',
             ),
             71 => 
             array (
                 'policy_id' => 37,
                 'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '800',
+                'value' => '500',
             ),
             72 => 
             array (
@@ -533,7 +533,7 @@ class PolicyRoleTableSeeder extends Seeder
                 'policy_id' => 39,
                 'role_id' => 4,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '600',
+                'value' => '300',
             ),
             74 => 
             array (
@@ -638,14 +638,14 @@ class PolicyRoleTableSeeder extends Seeder
                 'policy_id' => 9,
                 'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '500',
+                'value' => '100',
             ),
             89 => 
             array (
                 'policy_id' => 10,
                 'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '500',
+                'value' => '100',
             ),
             90 => 
             array (
@@ -687,7 +687,7 @@ class PolicyRoleTableSeeder extends Seeder
                 'policy_id' => 16,
                 'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '150',
+                'value' => '250',
             ),
             96 => 
             array (
@@ -722,7 +722,7 @@ class PolicyRoleTableSeeder extends Seeder
                 'policy_id' => 22,
                 'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '1000',
+                'value' => '500',
             ),
             101 => 
             array (
@@ -813,14 +813,14 @@ class PolicyRoleTableSeeder extends Seeder
                 'policy_id' => 36,
                 'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '5000',
+                'value' => '300',
             ),
             114 => 
             array (
                 'policy_id' => 37,
                 'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '5000',
+                'value' => '500',
             ),
             115 => 
             array (
@@ -834,7 +834,7 @@ class PolicyRoleTableSeeder extends Seeder
                 'policy_id' => 39,
                 'role_id' => 5,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '5000',
+                'value' => '300',
             ),
             117 => 
             array (
@@ -2059,7 +2059,7 @@ class PolicyRoleTableSeeder extends Seeder
                 'policy_id' => 20,
                 'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '100',
+                'value' => '1000',
             ),
             292 => 
             array (
@@ -2073,7 +2073,7 @@ class PolicyRoleTableSeeder extends Seeder
                 'policy_id' => 22,
                 'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '300',
+                'value' => '500',
             ),
             294 => 
             array (
@@ -2255,7 +2255,7 @@ class PolicyRoleTableSeeder extends Seeder
                 'policy_id' => 50,
                 'role_id' => 10,
                 'updated_at' => '0000-00-00 00:00:00',
-                'value' => '3',
+                'value' => '0',
             ),
             320 => 
             array (
